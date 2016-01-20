@@ -1,5 +1,6 @@
 call plug#begin('~/.config/nvim/bundle')
 
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'ryanoasis/vim-webdevicons'
 Plug 'benekastah/neomake'
 Plug 'tpope/vim-commentary'
