@@ -36,6 +36,8 @@ Plug 'cakebaker/scss-syntax.vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'mhinz/vim-startify'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'benjie/neomake-local-eslint.vim'
 
 call plug#end()                                                               "Finish Vundle initialization
 
