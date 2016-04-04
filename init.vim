@@ -6,7 +6,7 @@ Plug 'benekastah/neomake'
 Plug 'tpope/vim-commentary'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'mileszs/ack.vim'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'd11wtq/ctrlp_bdelete.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'mattn/emmet-vim'
@@ -113,6 +113,7 @@ autocmd vimrc InsertLeave * NeoSnippetClearMarkers                              
 autocmd vimrc VimEnter * if !argc() | Startify | endif                          "If no file is selected, execute Startify
 autocmd vimrc FileType html,javascript,coffee,cucumber setlocal sw=2 sts=2 ts=2 "Set 2 indent for html
 autocmd vimrc FileType php,javascript setlocal cc=80                            "Set right margin only for php and js
+autocmd vimrc VimEnter,BufNewFile,BufReadPost * call s:LoadLocalVimrc()         "Load per project vimrc (Used for custom test mappings, etc.)
 
 autocmd vimrc VimEnter * set vb t_vb=
 
@@ -163,6 +164,12 @@ function! s:StripTrailingWhitespaces()
     let l:c = col(".")
     %s/\s\+$//e
     call cursor(l:l, l:c)
+endfunction
+
+function! s:LoadLocalVimrc()
+    if filereadable(glob(getcwd() . '/.vimrc.local'))
+        :execute 'source '.fnameescape(glob(getcwd(). '/.vimrc.local'))
+    endif
 endfunction
 
 " Initialize ctrlp plugin for deleting buffers from list
