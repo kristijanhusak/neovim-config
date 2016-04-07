@@ -19,39 +19,43 @@ Instalation
 Plugins
 ----------------
 
-* NERDTree
-* Visual star search
-* Startify
-* CtrlP
-* CtrlP bdelete
-* CtrlP Funky
-* Ack
-* Surround
-* Repeat
-* DelimitMate
-* Airline
-* Deoplete
-* Neosnippets
-* vim-snippets
-* Fugitive
-* Emmet
-* Neomake
-* Commentary
-* Gitgutter
-* BufOnly
-* Match Tag
-* Matchit
-* HTML5 syntax
-* Blade syntax
-* Json syntax
-* Twig syntax
-* Php syntax
-* Yaml syntax
-* Mustache handlebars
-* Javascript syntax
-* Scss syntax
-* CoffeeScript syntax
-* Hybrid material theme
+* [christoomey/vim-tmux-navigator](christoomey/vim-tmux-navigator)
+* [ryanoasis/vim-webdevicons](ryanoasis/vim-webdevicons)
+* [benekastah/neomake](benekastah/neomake)
+* [tpope/vim-commentary](tpope/vim-commentary)
+* [nelstrom/vim-visual-star-search](nelstrom/vim-visual-star-search)
+* [mileszs/ack.vim](mileszs/ack.vim)
+* [ctrlpvim/ctrlp.vim](ctrlpvim/ctrlp.vim)
+* [Raimondi/delimitMate](Raimondi/delimitMate)
+* [mattn/emmet-vim](mattn/emmet-vim)
+* [tpope/vim-surround](tpope/vim-surround)
+* [tpope/vim-repeat](tpope/vim-repeat)
+* [tpope/vim-fugitive](tpope/vim-fugitive)
+* [scrooloose/nerdtree](scrooloose/nerdtree)
+* [airblade/vim-gitgutter](airblade/vim-gitgutter)
+* [bling/vim-airline](bling/vim-airline)
+* [duff/vim-bufonly](duff/vim-bufonly)
+* [tmhedberg/matchit](tmhedberg/matchit)
+* [gregsexton/MatchTag](gregsexton/MatchTag)
+* [kristijanhusak/vim-hybrid-material](kristijanhusak/vim-hybrid-material)
+* [Shougo/deoplete.nvim](Shougo/deoplete.nvim)
+* [Shougo/neosnippet](Shougo/neosnippet)
+* [honza/vim-snippets](honza/vim-snippets)
+* [othree/html5.vim](othree/html5.vim)
+* [xsbeats/vim-blade](xsbeats/vim-blade)
+* [elzr/vim-json](elzr/vim-json)
+* [evidens/vim-twig](evidens/vim-twig)
+* [majutsushi/tagbar](majutsushi/tagbar)
+* [jelera/vim-javascript-syntax](jelera/vim-javascript-syntax)
+* [pangloss/vim-javascript](pangloss/vim-javascript)
+* [StanAngeloff/php.vim](StanAngeloff/php.vim)
+* [stephpy/vim-yaml](stephpy/vim-yaml)
+* [cakebaker/scss-syntax.vim](cakebaker/scss-syntax.vim)
+* [kchmck/vim-coffee-script](kchmck/vim-coffee-script)
+* [mustache/vim-mustache-handlebars](mustache/vim-mustache-handlebars)
+* [mhinz/vim-startify](mhinz/vim-startify)
+* [vim-airline/vim-airline-themes](vim-airline/vim-airline-themes)
+* [benjie/neomake-local-eslint.vim](benjie/neomake-local-eslint.vim)
 
 License
 -------

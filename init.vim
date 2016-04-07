@@ -7,7 +7,6 @@ Plug 'tpope/vim-commentary'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'mileszs/ack.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'd11wtq/ctrlp_bdelete.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-surround'
@@ -172,9 +171,6 @@ function! s:LoadLocalVimrc()
     endif
 endfunction
 
-" Initialize ctrlp plugin for deleting buffers from list
-call ctrlp_bdelete#init()
-
 " ================ Custom mappings ========================
 
 " Comment map
@@ -279,6 +275,7 @@ nnoremap N Nzz
 
 let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:25,results:25'           "Ctrlp window setup
 let g:ctrlp_custom_ignore = {'dir':  '\v[\/]\.(meteor)$'}                       "Ignore .meteor folder
+let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['<c-@>']}                     "Map delete buffer in ctrlp
 
 let g:airline_powerline_fonts = 1                                               "Enable powerline fonts
 let g:airline_theme = "hybrid"                                                  "Set theme to powerline default theme
