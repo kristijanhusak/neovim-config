@@ -280,8 +280,7 @@ let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['<c-@>']}                     
 
 let g:airline_powerline_fonts = 1                                               "Enable powerline fonts
 let g:airline_theme = "hybrid"                                                  "Set theme to powerline default theme
-let g:airline_section_y = '%{(&fenc == "" ? &enc : &fenc)}'                     "set encoding type info
-let g:airline_section_z = '%{substitute(getcwd(), expand("$HOME"), "~", "g")}'  "Set relative path
+let g:airline_section_y = '%{substitute(getcwd(), expand("$HOME"), "~", "g")}'  "Set relative path
 let g:airline#extensions#whitespace#enabled = 0                                 "Disable whitespace extension
 let g:airline#extensions#tabline#enabled = 1                                    "Enable tabline extension
 let g:airline#extensions#tabline#left_sep = ' '                                 "Left separator for tabline
