@@ -58,5 +58,5 @@ AUTOSUGGESTION_HIGHLIGHT_CURSOR=0
 
 export NVM_DIR="/home/kristijan/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-[[ $TERM != "xterm-256color" ]] && exec tmux -2
+[[ $TERM != "screen-256color" ]] && exec tmux -2
 

@@ -110,6 +110,8 @@ augroup END
 autocmd vimrc BufWritePost * Neomake
 autocmd vimrc BufWritePre * :call s:StripTrailingWhitespaces()                  "Auto-remove trailing spaces
 autocmd vimrc InsertLeave * NeoSnippetClearMarkers                              "Remove unused markers for snippets
+autocmd vimrc InsertEnter * :set nocul                                          "Remove cursorline highlight
+autocmd vimrc InsertLeave * :set cul                                            "Add cursorline highlight in normal mode
 autocmd vimrc VimEnter * if !argc() | Startify | endif                          "If no file is selected, execute Startify
 autocmd vimrc FileType html,javascript,coffee,cucumber setlocal sw=2 sts=2 ts=2 "Set 2 indent for html
 autocmd vimrc FileType php,javascript setlocal cc=80                            "Set right margin only for php and js
