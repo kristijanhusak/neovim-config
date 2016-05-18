@@ -30,6 +30,7 @@ Plug 'evidens/vim-twig'
 Plug 'majutsushi/tagbar'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 Plug 'StanAngeloff/php.vim'
 Plug 'stephpy/vim-yaml'
 Plug 'cakebaker/scss-syntax.vim'
@@ -320,3 +321,5 @@ let g:vim_json_syntax_conceal = 0                                               
 let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
 
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                "Set up spacing for sidebar icons
+
+let g:jsx_ext_required = 0                                                      "Allow .js extension for React
