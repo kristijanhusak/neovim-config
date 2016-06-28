@@ -33,7 +33,8 @@ Plugins
 * [tpope/vim-fugitive](tpope/vim-fugitive)
 * [scrooloose/nerdtree](scrooloose/nerdtree)
 * [airblade/vim-gitgutter](airblade/vim-gitgutter)
-* [bling/vim-airline](bling/vim-airline)
+* [vim-airline/vim-airline](vim-airline/vim-airline)
+* [vim-airline/vim-airline-themes](vim-airline/vim-airline-themes)
 * [duff/vim-bufonly](duff/vim-bufonly)
 * [tmhedberg/matchit](tmhedberg/matchit)
 * [gregsexton/MatchTag](gregsexton/MatchTag)
@@ -48,6 +49,7 @@ Plugins
 * [majutsushi/tagbar](majutsushi/tagbar)
 * [jelera/vim-javascript-syntax](jelera/vim-javascript-syntax)
 * [pangloss/vim-javascript](pangloss/vim-javascript)
+* [mxw/vim-jsx](mxw/vim-jsx)
 * [StanAngeloff/php.vim](StanAngeloff/php.vim)
 * [stephpy/vim-yaml](stephpy/vim-yaml)
 * [cakebaker/scss-syntax.vim](cakebaker/scss-syntax.vim)
@@ -56,6 +58,7 @@ Plugins
 * [mhinz/vim-startify](mhinz/vim-startify)
 * [vim-airline/vim-airline-themes](vim-airline/vim-airline-themes)
 * [benjie/neomake-local-eslint.vim](benjie/neomake-local-eslint.vim)
+* [dkprice/vim-easygrep](dkprice/vim-easygrep)
 
 License
 -------

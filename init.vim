@@ -39,6 +39,7 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'benjie/neomake-local-eslint.vim'
+Plug 'dkprice/vim-easygrep'
 
 call plug#end()                                                               "Finish Vundle initialization
 
