@@ -2,3 +2,16 @@ snippet iife
     (function(${2}) {
         ${0}
     })(${1});
+
+snippet creact
+    import React, { Component } from 'react'
+
+    export default class ${1} extends Component {
+      constructor(props) {
+        super(props)
+      }
+
+      render() {
+        return (${2})
+      }
+    }
