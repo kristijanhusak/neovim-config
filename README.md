@@ -25,7 +25,7 @@ Plugins
 * [tpope/vim-commentary](tpope/vim-commentary)
 * [nelstrom/vim-visual-star-search](nelstrom/vim-visual-star-search)
 * [mileszs/ack.vim](mileszs/ack.vim)
-* [ctrlpvim/ctrlp.vim](ctrlpvim/ctrlp.vim)
+* [junegunn/fzf.vim](junegunn/fzf.vim)
 * [Raimondi/delimitMate](Raimondi/delimitMate)
 * [mattn/emmet-vim](mattn/emmet-vim)
 * [tpope/vim-surround](tpope/vim-surround)
