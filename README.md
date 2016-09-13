@@ -8,7 +8,7 @@ and submit a pull request if you found any bug.
 Instalation
 -----------
 
-    $ git clone https://github.com/kris89/neovim-config.git ~/neovim-config
+    $ git clone https://github.com/kristijanhusak/neovim-config.git ~/neovim-config
     $ cd ~/neovim-config
     $ chmod +x ./install.sh
     $ ./install.sh
