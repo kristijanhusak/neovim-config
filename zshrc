@@ -42,19 +42,12 @@ alias stv="vboxmanage list runningvms | sed -r 's/.*\{(.*)\}/\1/' | xargs -L1 -I
 alias str="vboxmanage list runningvms | sed -r 's/.*\{(.*)\}/\1/' | xargs -L1 -I {} VBoxManage controlvm {} savestate && sudo shutdown -r now"
 
 #setup zsh-autosuggestions
-source ~/.zsh-autosuggestions/autosuggestions.zsh
-
-# Enable autosuggestions automatically
-zle-line-init() {
-    zle autosuggest-start
-}
-zle -N zle-line-init
+source ~/.zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
 # zsh-autosuggestions is designed to be unobtrusive)
 bindkey '^T' autosuggest-toggle
-AUTOSUGGESTION_HIGHLIGHT_COLOR='fg=6'
-AUTOSUGGESTION_HIGHLIGHT_CURSOR=0
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
 
 export NVM_DIR="/home/kristijan/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
