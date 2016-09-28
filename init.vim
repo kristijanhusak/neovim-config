@@ -17,20 +17,17 @@ Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'duff/vim-bufonly'
-Plug 'tmhedberg/matchit'
 Plug 'gregsexton/MatchTag'
 Plug 'sheerun/vim-polyglot'
 Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet'
 Plug 'honza/vim-snippets'
-Plug 'majutsushi/tagbar'
 Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'benjie/neomake-local-eslint.vim'
 Plug 'dkprice/vim-easygrep'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 
 call plug#end()                                                               "Finish Vundle initialization
 
@@ -246,9 +243,8 @@ nnoremap <Leader>dc :cd %:p:h<CR>:pwd<CR>
 nnoremap <Leader>f :Ack
 
 " Toggle buffer list
-nnoremap <C-p> :Files<CR>
-nnoremap <Leader>b :Buffers<CR>
-nnoremap <Leader>T :TagbarToggle<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>t :CtrlPBufTag<CR>
 
 " Maps for indentation in normal mode
 nnoremap <tab> >>
@@ -268,6 +264,10 @@ nnoremap N Nzz
 
 " ================ plugins setups ========================
 
+let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:25,results:25'           "Ctrlp window setup
+let g:ctrlp_custom_ignore = {'dir':  '\v[\/]\.(meteor)$'}                       "Ignore .meteor folder
+let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['<c-@>']}                     "Map delete buffer in ctrlp
+
 let g:airline_powerline_fonts = 1                                               "Enable powerline fonts
 let g:airline_theme = "hybrid"                                                  "Set theme to powerline default theme
 let g:airline_section_y = '%{substitute(getcwd(), expand("$HOME"), "~", "g")}'  "Set relative path
@@ -281,8 +281,6 @@ let g:gitgutter_eager = 0                                                       
 
 let g:user_emmet_expandabbr_key = '<c-e>'                                       "Change trigger emmet key
 let g:user_emmet_next_key = '<c-n>'                                             "Change trigger jump to next for emmet
-
-let g:tagbar_autofocus = 1                                                      "Focus tagbar when opened
 
 let g:NERDTreeChDirMode = 2                                                     "Always change the root directory
 let g:NERDTreeMinimalUI = 1                                                     "Disable help text and bookmark title
@@ -298,15 +296,7 @@ let g:deoplete#enable_at_startup = 1                                            
 
 let g:ackhighlight = 1                                                          "Highlight current search
 
-
-
 let g:neomake_php_phpcs_args_standard = 'PSR2'                                  "Set phpcs to use PSR2 standard
 let g:neomake_javascript_enabled_makers = ['eslint']                            "Enable these linters for js
 
-let g:vim_json_syntax_conceal = 0                                               "Disable setting quotes for json syntax
-
-let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
-
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                "Set up spacing for sidebar icons
-
-let g:jsx_ext_required = 0                                                      "Allow .js extension for React
