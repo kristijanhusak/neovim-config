@@ -26,7 +26,7 @@ Plugins
 * [nelstrom/vim-visual-star-search](https://github.com/nelstrom/vim-visual-star-search)
 * [mileszs/ack.vim](https://github.com/mileszs/ack.vim)
 * [ctrlpvim/ctrlp.vim](https://github.com/ctrlpvim/ctrlp.vim)
-* [cohama/lexima.vim](https://github.com/cohama/lexima.vim)
+* [jiangmiao/auto-pairs](https://github.com/jiangmiao/auto-pairs)
 * [mattn/emmet-vim](https://github.com/mattn/emmet-vim)
 * [tpope/vim-surround](https://github.com/tpope/vim-surround)
 * [tpope/vim-repeat](https://github.com/tpope/vim-repeat)
