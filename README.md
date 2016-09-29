@@ -20,7 +20,7 @@ Plugins
 ----------------
 
 * [christoomey/vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator)
-* [ryanoasis/vim-webdevicons](https://github.com/ryanoasis/vim-webdevicons)
+* [ryanoasis/vim-devicons](https://github.com/ryanoasis/vim-devicons)
 * [benekastah/neomake](https://github.com/benekastah/neomake)
 * [tpope/vim-commentary](https://github.com/tpope/vim-commentary)
 * [nelstrom/vim-visual-star-search](https://github.com/nelstrom/vim-visual-star-search)
@@ -42,7 +42,6 @@ Plugins
 * [Shougo/neosnippet](https://github.com/Shougo/neosnippet)
 * [honza/vim-snippets](https://github.com/honza/vim-snippets)
 * [sheerun/vim-polyglot](https://github.com/sheerun/vim-polyglot)
-* [mhinz/vim-startify](https://github.com/mhinz/vim-startify)
 * [vim-airline/vim-airline-themes](https://github.com/vim-airline/vim-airline-themes)
 * [benjie/neomake-local-eslint.vim](https://github.com/benjie/neomake-local-eslint.vim)
 * [dkprice/vim-easygrep](https://github.com/dkprice/vim-easygrep)
