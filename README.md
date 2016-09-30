@@ -32,7 +32,6 @@ Plugins
 * [tpope/vim-repeat](https://github.com/tpope/vim-repeat)
 * [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
 * [scrooloose/nerdtree](https://github.com/scrooloose/nerdtree)
-* [tiagofumo/vim-nerdtree-syntax-highlight](https://github.com/tiagofumo/vim-nerdtree-syntax-highlight)
 * [airblade/vim-gitgutter](https://github.com/airblade/vim-gitgutter)
 * [vim-airline/vim-airline](https://github.com/vim-airline/vim-airline)
 * [vim-airline/vim-airline-themes](https://github.com/vim-airline/vim-airline-themes)

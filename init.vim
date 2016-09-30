@@ -2,7 +2,6 @@ call plug#begin('~/.config/nvim/bundle')
 
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ryanoasis/vim-devicons'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'benekastah/neomake'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'mileszs/ack.vim'
