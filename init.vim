@@ -6,7 +6,7 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'benekastah/neomake'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'mileszs/ack.vim'
-Plug 'jiangmiao/auto-pairs'
+Plug 'Raimondi/delimitMate'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -106,7 +106,6 @@ autocmd vimrc VimEnter,BufNewFile,BufReadPost * call s:LoadLocalVimrc()         
 
 autocmd vimrc VimEnter * set vb t_vb=
 
-autocmd vimrc BufNewFile,BufReadPost *.md set filetype=markdown                 "Set *.md extension to markdown filetype
 autocmd vimrc FileType nerdtree syntax match hideBracketsInNerdTree
             \ "\]" contained conceal containedin=ALL
 
@@ -292,6 +291,8 @@ let g:neosnippet#snippets_directory = [
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
 
 let g:ackhighlight = 1                                                          "Highlight current search
+
+let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
 
 let g:neomake_php_phpcs_args_standard = 'PSR2'                                  "Set phpcs to use PSR2 standard
 let g:neomake_javascript_enabled_makers = ['eslint']                            "Enable these linters for js
