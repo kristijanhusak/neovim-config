@@ -5,7 +5,7 @@ This is my Neovim editor setup.
 Feel free to fork it
 and submit a pull request if you found any bug.
 
-Instalation
+Installation
 -----------
 
     $ git clone https://github.com/kristijanhusak/neovim-config.git ~/neovim-config
@@ -13,7 +13,7 @@ Instalation
     $ chmod +x ./install.sh
     $ ./install.sh
     $ nvim
-    $ :PlugInstall
+    $ :call dein#install()
     $ :UpdateRemotePlugins
 
 Plugins
