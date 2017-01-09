@@ -1,32 +1,39 @@
-call plug#begin('~/.config/nvim/bundle')
+set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
+let s:bundle_dir = expand('~/.config/nvim/bundle')
 
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'ryanoasis/vim-devicons'
-Plug 'benekastah/neomake'
-Plug 'nelstrom/vim-visual-star-search'
-Plug 'mileszs/ack.vim'
-Plug 'Raimondi/delimitMate'
-Plug 'mattn/emmet-vim'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/nerdtree'
-Plug 'airblade/vim-gitgutter'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'duff/vim-bufonly'
-Plug 'gregsexton/MatchTag'
-Plug 'sheerun/vim-polyglot'
-Plug 'kristijanhusak/vim-hybrid-material'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/neosnippet'
-Plug 'honza/vim-snippets'
-Plug 'benjie/neomake-local-eslint.vim'
-Plug 'dkprice/vim-easygrep'
-Plug 'ctrlpvim/ctrlp.vim'
+if dein#load_state(s:bundle_dir)
+    call dein#begin(s:bundle_dir)
 
-call plug#end()                                                               "Finish Vundle initialization
+    call dein#add(expand('~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim'))
+    call dein#add('christoomey/vim-tmux-navigator')
+    call dein#add('ryanoasis/vim-devicons')
+    call dein#add('benekastah/neomake')
+    call dein#add('nelstrom/vim-visual-star-search')
+    call dein#add('mileszs/ack.vim')
+    call dein#add('Raimondi/delimitMate')
+    call dein#add('mattn/emmet-vim')
+    call dein#add('tpope/vim-commentary')
+    call dein#add('tpope/vim-surround')
+    call dein#add('tpope/vim-repeat')
+    call dein#add('tpope/vim-fugitive')
+    call dein#add('scrooloose/nerdtree')
+    call dein#add('airblade/vim-gitgutter')
+    call dein#add('vim-airline/vim-airline')
+    call dein#add('vim-airline/vim-airline-themes')
+    call dein#add('duff/vim-bufonly')
+    call dein#add('gregsexton/MatchTag')
+    call dein#add('sheerun/vim-polyglot')
+    call dein#add('kristijanhusak/vim-hybrid-material')
+    call dein#add('Shougo/deoplete.nvim')
+    call dein#add('Shougo/neosnippet')
+    call dein#add('honza/vim-snippets')
+    call dein#add('benjie/neomake-local-eslint.vim')
+    call dein#add('dkprice/vim-easygrep')
+    call dein#add('ctrlpvim/ctrlp.vim')
+
+    call dein#end()
+    call dein#save_state()
+endif
 
 filetype plugin indent on                                                       "Enable plugins and indents by filetype
 
@@ -64,7 +71,7 @@ set splitright                                                                  
 
 syntax on                                                                       "turn on syntax highlighting
 
-colorscheme hybrid_material
+silent! colorscheme hybrid_material
 
 " ================ Turn Off Swap Files ==============
 
@@ -75,8 +82,8 @@ set nowb
 " ================ Persistent Undo ==================
 
 " Keep undo history across sessions, by storing in file.
-silent !mkdir ~/.vim/backups > /dev/null 2>&1
-set undodir=~/.vim/backups
+silent !mkdir ~/.config/nvim/backups > /dev/null 2>&1
+set undodir=~/.config/nvim/backups
 set undofile
 
 " ================ Indentation ======================
