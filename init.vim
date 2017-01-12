@@ -1,10 +1,11 @@
 set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
 let s:bundle_dir = expand('~/.config/nvim/bundle')
+let s:plugin_dir = s:bundle_dir . '/repos/github.com'
 
 if dein#load_state(s:bundle_dir)
     call dein#begin(s:bundle_dir)
 
-    call dein#add(expand('~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim'))
+    call dein#add(s:plugin_dir . '/Shougo/dein.vim')
     call dein#add('christoomey/vim-tmux-navigator')
     call dein#add('ryanoasis/vim-devicons')
     call dein#add('benekastah/neomake')
@@ -291,7 +292,7 @@ let g:NERDTreeIgnore=['\.git$', '\.sass-cache$', '\.vagrant', '\.idea']
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
 let g:neosnippet#snippets_directory = [
-            \ '~/.config/nvim/bundle/vim-snippets/snippets',
+            \ s:plugin_dir . '/honza/vim-snippets/snippets',
             \ '~/.config/nvim/snippets']
 
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
