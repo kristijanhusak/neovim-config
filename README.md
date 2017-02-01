@@ -45,6 +45,9 @@ Plugins
 * [benjie/neomake-local-eslint.vim](https://github.com/benjie/neomake-local-eslint.vim)
 * [dkprice/vim-easygrep](https://github.com/dkprice/vim-easygrep)
 
+Font used:
+[Inconsolata for powerline](https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20for%20Powerline%20Nerd%20Font%20Complete.otf)
+
 License
 -------
 
