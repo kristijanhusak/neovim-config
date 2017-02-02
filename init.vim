@@ -55,6 +55,7 @@ set gcr=a:blinkon500-blinkwait500-blinkoff500                                   
 set cursorline                                                                  "Highlight current line
 set smartcase                                                                   "Smart case search if there is uppercase
 set ignorecase                                                                  "case insensitive search
+set mouse=a                                                                     "Enable mouse usage
 set showmatch                                                                   "Highlight matching bracket
 set nostartofline                                                               "Jump to first non-blank character
 set timeoutlen=1000 ttimeoutlen=200                                             "Reduce Command timeout for faster escape and O
