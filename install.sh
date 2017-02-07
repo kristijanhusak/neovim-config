@@ -7,4 +7,6 @@ rm -rf ~/.config/nvim ~/.ackrc ~/.tmux.conf ~/.zshrc \
 && ln -s $(pwd)/zshrc ~/.zshrc \
 && ln -s $(pwd)/tmux.conf ~/.tmux.conf \
 && ln -s $(pwd)/snippets ~/.config/nvim/snippets \
-&& rm ./dein_installer.sh
+&& rm ./dein_installer.sh \
+&& sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" \
+&& git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
