@@ -8,7 +8,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add(s:plugin_dir . '/Shougo/dein.vim')
     call dein#add('christoomey/vim-tmux-navigator')
     call dein#add('ryanoasis/vim-devicons')
-    call dein#add('benekastah/neomake')
+    call dein#add('w0rp/ale')
     call dein#add('nelstrom/vim-visual-star-search')
     call dein#add('mileszs/ack.vim')
     call dein#add('Raimondi/delimitMate')
@@ -28,7 +28,6 @@ if dein#load_state(s:bundle_dir)
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neosnippet')
     call dein#add('honza/vim-snippets')
-    call dein#add('benjie/neomake-local-eslint.vim')
     call dein#add('dkprice/vim-easygrep')
     call dein#add('ctrlpvim/ctrlp.vim')
 
@@ -103,7 +102,6 @@ augroup vimrc
     autocmd!
 augroup END
 
-autocmd vimrc BufWritePost * Neomake
 autocmd vimrc BufWritePre * :call s:StripTrailingWhitespaces()                  "Auto-remove trailing spaces
 autocmd vimrc InsertLeave * NeoSnippetClearMarkers                              "Remove unused markers for snippets
 autocmd vimrc InsertEnter * :set nocul                                          "Remove cursorline highlight
@@ -180,6 +178,8 @@ map <c-s> :w<CR>
 imap <c-s> <C-o>:w<CR>
 " Also save with ,w
 nnoremap <Leader>w :w<CR>
+nmap <Leader>k <Plug>(ale_previous_wrap)
+nmap <Leader>j <Plug>(ale_next_wrap)
 
 " Easier window navigation
 nmap <C-h> <C-w>h
@@ -303,7 +303,9 @@ let g:ackhighlight = 1                                                          
 
 let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
 
-let g:neomake_php_phpcs_args_standard = 'PSR2'                                  "Set phpcs to use PSR2 standard
-let g:neomake_javascript_enabled_makers = ['eslint']                            "Enable these linters for js
+let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
+let g:ale_lint_on_save = 1                                                      "Lint when saving a file
+let g:ale_sign_error = '✖'                                                      "Lint error sign
+let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
 
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                "Set up spacing for sidebar icons
