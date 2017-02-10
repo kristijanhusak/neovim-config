@@ -4,6 +4,8 @@ This is my Neovim editor setup, with zsh and tmux configurations.
 Feel free to fork it
 and submit a pull request if you found any bug.
 
+**Warning**: Install script removes all previous configuration (zshrc, oh-my-zsh, nvim, tmux)
+
 Installation
 -----------
 
