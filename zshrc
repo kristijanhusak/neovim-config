@@ -3,7 +3,7 @@ ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="cloud_kris"
 
-plugins=(git laravel4 composer symfony2 zshmarks zsh-autosuggestions)
+plugins=(git laravel4 composer symfony2 zshmarks zsh-autosuggestions docker-compose)
 
 source $ZSH/oh-my-zsh.sh
 
