@@ -44,6 +44,7 @@ Plugins
 * [honza/vim-snippets](http://github.com/honza/vim-snippets)
 * [dkprice/vim-easygrep](http://github.com/dkprice/vim-easygrep)
 * [ctrlpvim/ctrlp.vim](http://github.com/ctrlpvim/ctrlp.vim)
+* [junegunn/goyo.vim](http://github.com/junegunn/goyo.vim)
 
 Font used:
 [Inconsolata for powerline](https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20for%20Powerline%20Nerd%20Font%20Complete.otf)
