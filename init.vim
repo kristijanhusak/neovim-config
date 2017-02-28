@@ -249,7 +249,7 @@ nnoremap <leader><tab> <c-^>
 nnoremap <Leader>dc :cd %:p:h<CR>:pwd<CR>
 
 " Filesearch plugin map for searching in whole folder
-nnoremap <Leader>f :Ack
+nnoremap <Leader>f :Ack -Q "
 
 " Toggle buffer list
 nnoremap <Leader>b :CtrlPBuffer<CR>
