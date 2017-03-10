@@ -167,6 +167,14 @@ function! s:LoadLocalVimrc()
     endif
 endfunction
 
+function! Search()
+    let term = input('Search for: ', '')
+    let path = input('Path: ', '')
+    if term != ''
+        :execute 'Ack -Q "'.term.'" '.path
+    endif
+endfunction
+
 " ================ Custom mappings ========================
 
 " Comment map
@@ -249,7 +257,7 @@ nnoremap <leader><tab> <c-^>
 nnoremap <Leader>dc :cd %:p:h<CR>:pwd<CR>
 
 " Filesearch plugin map for searching in whole folder
-nnoremap <Leader>f :Ack -Q "
+nnoremap <Leader>f :call Search()<CR>
 
 " Toggle buffer list
 nnoremap <Leader>b :CtrlPBuffer<CR>
