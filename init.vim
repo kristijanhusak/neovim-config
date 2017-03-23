@@ -28,7 +28,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neosnippet')
     call dein#add('honza/vim-snippets')
-    call dein#add('dkprice/vim-easygrep')
+    call dein#add('dyng/ctrlsf.vim')
     call dein#add('ctrlpvim/ctrlp.vim')
     call dein#add('junegunn/goyo.vim')
 
@@ -169,8 +169,8 @@ endfunction
 
 function! Search()
     let term = input('Search for: ', '')
-    let path = input('Path: ', '')
     if term != ''
+        let path = input('Path: ', '')
         :execute 'Ack -Q "'.term.'" '.path
     endif
 endfunction
@@ -258,6 +258,7 @@ nnoremap <Leader>dc :cd %:p:h<CR>:pwd<CR>
 
 " Filesearch plugin map for searching in whole folder
 nnoremap <Leader>f :call Search()<CR>
+nnoremap <Leader>af :CtrlSF
 
 " Toggle buffer list
 nnoremap <Leader>b :CtrlPBuffer<CR>

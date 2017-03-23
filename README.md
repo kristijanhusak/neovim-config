@@ -42,7 +42,7 @@ Plugins
 * [Shougo/deoplete.nvim](http://github.com/Shougo/deoplete.nvim)
 * [Shougo/neosnippet](http://github.com/Shougo/neosnippet)
 * [honza/vim-snippets](http://github.com/honza/vim-snippets)
-* [dkprice/vim-easygrep](http://github.com/dkprice/vim-easygrep)
+* [dyng/ctrlsf.vim](http://github.com/dyng/ctrlsf.vim)
 * [ctrlpvim/ctrlp.vim](http://github.com/ctrlpvim/ctrlp.vim)
 * [junegunn/goyo.vim](http://github.com/junegunn/goyo.vim)
 
