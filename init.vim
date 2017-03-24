@@ -170,7 +170,7 @@ endfunction
 function! Search()
     let term = input('Search for: ', '')
     if term != ''
-        let path = input('Path: ', '')
+        let path = input('Path: ', '', 'file')
         :execute 'Ack -Q "'.term.'" '.path
     endif
 endfunction
