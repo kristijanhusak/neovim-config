@@ -312,6 +312,7 @@ let g:neosnippet#snippets_directory = [
             \ '~/.config/nvim/snippets']
 
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
+let g:deoplete#file#enable_buffer_path = 1                                      "Autocomplete files relative to current buffer
 
 let g:ackhighlight = 1                                                          "Highlight current search
 
