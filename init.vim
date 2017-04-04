@@ -70,6 +70,7 @@ set background=dark                                                             
 set hidden                                                                      "Hide buffers in background
 set conceallevel=2 concealcursor=i                                              "neosnippets conceal marker
 set splitright                                                                  "Set up new splits positions
+set path+=**                                                                    "Allow recursive search
 
 syntax on                                                                       "turn on syntax highlighting
 

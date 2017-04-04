@@ -47,7 +47,8 @@ Plugins
 * [junegunn/goyo.vim](http://github.com/junegunn/goyo.vim)
 
 Font used:
-[Inconsolata for powerline](https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20for%20Powerline%20Nerd%20Font%20Complete.otf)
+* current - [Iosevka](https://github.com/be5invis/Iosevka)
+* previous (and on screeshots) - [Inconsolata for powerline](https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20for%20Powerline%20Nerd%20Font%20Complete.otf)
 
 License
 -------
