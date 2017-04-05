@@ -286,6 +286,7 @@ nnoremap N Nzz
 let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:25,results:25'           "Ctrlp window setup
 let g:ctrlp_custom_ignore = {'dir':  '\v[\/]\.(meteor)$'}                       "Ignore .meteor folder
 let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['@']}                         "Map delete buffer in ctrlp
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'                           "Use ag for searching
 
 let g:airline_powerline_fonts = 1                                               "Enable powerline fonts
 let g:airline_theme = "hybrid"                                                  "Set theme to powerline default theme
@@ -315,6 +316,7 @@ let g:deoplete#enable_at_startup = 1                                            
 let g:deoplete#file#enable_buffer_path = 1                                      "Autocomplete files relative to current buffer
 
 let g:ackhighlight = 1                                                          "Highlight current search
+let g:ackprg = 'ag --vimgrep'                                                   "Use ag instead of ack for searching
 
 let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
 
