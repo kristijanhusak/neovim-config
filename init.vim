@@ -329,3 +329,5 @@ let g:goyo_width = 100                                                          
 let g:goyo_height = 100                                                         "100% height
 
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                "Set up spacing for sidebar icons
+
+let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
