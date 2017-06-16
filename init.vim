@@ -176,6 +176,14 @@ function! Search()
     endif
 endfunction
 
+function! SearchAndReplace() range
+    let search = input('Search: ', '')
+    if search != ''
+        let replace = input('Replace: ', '')
+        :execute "'<,'>s/".search."/".replace
+    endif
+endfunction
+
 " ================ Custom mappings ========================
 
 " Comment map
@@ -280,6 +288,9 @@ nnoremap _ <c-w>5<
 " Center highlighted search
 nnoremap n nzz
 nnoremap N Nzz
+
+" Search and replace in visual highlight
+vnoremap <Leader>r :call SearchAndReplace()<CR>
 
 " ================ plugins setups ========================
 
