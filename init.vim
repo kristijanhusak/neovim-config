@@ -72,6 +72,7 @@ set hidden                                                                      
 set conceallevel=2 concealcursor=i                                              "neosnippets conceal marker
 set splitright                                                                  "Set up new splits positions
 set path+=**                                                                    "Allow recursive search
+set inccommand=split                                                            "Show substitute changes immidiately in separate split
 
 syntax on                                                                       "turn on syntax highlighting
 
