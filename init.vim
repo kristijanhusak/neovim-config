@@ -178,11 +178,13 @@ function! Search()
     endif
 endfunction
 
-function! SearchAndReplace() range
+function! SearchAndReplace(...) range
     let search = input('Search: ', '')
     if search != ''
+        let isVisualMode = a:0
         let replace = input('Replace: ', '')
-        :execute "'<,'>s/".search."/".replace
+        let range = isVisualMode ? "'<,'>s/" : ":%s/"
+        :execute range.search."/".replace
     endif
 endfunction
 
@@ -292,7 +294,8 @@ nnoremap n nzz
 nnoremap N Nzz
 
 " Search and replace in visual highlight
-vnoremap <Leader>r :call SearchAndReplace()<CR>
+vnoremap <Leader>r :call SearchAndReplace(1)<CR>
+nnoremap <Leader>r :call SearchAndReplace()<CR>
 
 " ================ plugins setups ========================
 
