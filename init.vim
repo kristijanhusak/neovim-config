@@ -238,6 +238,7 @@ vnoremap <C-c> "+y
 inoremap <C-v> <Esc>"+p
 nnoremap <Leader>p "0p
 vnoremap <Leader>p "0p
+nnoremap <Leader>h viw"0p
 
 " Move to the end of yanked text after yank and paste
 nnoremap p p`]
