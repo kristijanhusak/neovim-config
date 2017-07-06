@@ -30,7 +30,6 @@ if dein#load_state(s:bundle_dir)
     call dein#add('honza/vim-snippets')
     call dein#add('dyng/ctrlsf.vim')
     call dein#add('ctrlpvim/ctrlp.vim')
-    call dein#add('junegunn/goyo.vim')
 
     call dein#end()
     call dein#save_state()
@@ -252,9 +251,6 @@ vnoremap K :m '<-2<CR>gv=gv
 " Clear search highlight
 nnoremap <Leader><space> :noh<CR>
 
-" Toggle distraction free mode
-nnoremap <Leader>g :Goyo<CR>
-
 " Handle syntastic error window
 nnoremap <Leader>e :lopen<CR>
 nnoremap <Leader>q :lclose<CR>
@@ -341,9 +337,6 @@ let g:ale_linters = {'javascript': ['eslint']}                                  
 let g:ale_lint_on_save = 1                                                      "Lint when saving a file
 let g:ale_sign_error = '✖'                                                      "Lint error sign
 let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
-
-let g:goyo_width = 100                                                          "100 chars width
-let g:goyo_height = 100                                                         "100% height
 
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                "Set up spacing for sidebar icons
 
