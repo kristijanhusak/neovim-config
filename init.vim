@@ -42,6 +42,7 @@ filetype plugin indent on                                                       
 let g:mapleader = ","                                                           "Change leader to a comma
 
 let g:enable_bold_font = 1                                                      "Enable bold font in colorscheme
+let g:enable_italic_font = 1                                                    "Enable italic font in colorscheme
 
 " ================ General Config ====================
 
