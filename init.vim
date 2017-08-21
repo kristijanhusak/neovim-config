@@ -30,6 +30,8 @@ if dein#load_state(s:bundle_dir)
     call dein#add('honza/vim-snippets')
     call dein#add('dyng/ctrlsf.vim')
     call dein#add('ctrlpvim/ctrlp.vim')
+    call dein#add('xolox/vim-misc')
+    call dein#add('xolox/vim-notes')
 
     call dein#end()
     call dein#save_state()
@@ -43,6 +45,7 @@ let g:enable_bold_font = 1                                                      
 
 " ================ General Config ====================
 
+set termguicolors
 set t_Co=256                                                                    "Set 256 colors
 set title                                                                       "change the terminal's title
 set number                                                                      "Line numbers are good
@@ -341,3 +344,5 @@ let g:ale_sign_warning = '⚠'                                                  
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                "Set up spacing for sidebar icons
 
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
+
+let g:notes_directories = ['~/notes']                                           "Directory for notes
