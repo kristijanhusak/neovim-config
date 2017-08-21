@@ -13,4 +13,5 @@ rm -rf ~/.config/nvim ~/.tmux.conf ~/.zshrc ~/.oh-my-zsh \
 && chsh -s /bin/zsh \
 && git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
 && mkdir -p ~/.oh-my-zsh/custom/themes \
-&& ln -s $(pwd)/cloud_kris.zsh-theme ~/.oh-my-zsh/custom/themes
+&& ln -s $(pwd)/cloud_kris.zsh-theme ~/.oh-my-zsh/custom/themes \
+&& tic ./xterm-256color-italic.terminfo
