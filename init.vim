@@ -191,6 +191,10 @@ function! SearchAndReplace(...) range
     endif
 endfunction
 
+function! AirlineThemePatch(palette)
+    let a:palette.normal_modified.airline_c = ['#FFFFFF', '#db2525', 250, 167, '']
+endfunction
+
 " ================ Custom mappings ========================
 
 " Comment map
@@ -312,6 +316,7 @@ let g:airline#extensions#whitespace#enabled = 0                                 
 let g:airline#extensions#tabline#enabled = 1                                    "Enable tabline extension
 let g:airline#extensions#tabline#left_sep = ' '                                 "Left separator for tabline
 let g:airline#extensions#tabline#left_alt_sep = '│'                             "Right separator for tabline
+let g:airline_theme_patch_func = 'AirlineThemePatch'                            "Add red background for unsaved buffers
 
 let g:gitgutter_realtime = 0                                                    "Disable gitgutter in realtime
 let g:gitgutter_eager = 0                                                       "Disable gitgutter to eager load on tab or buffer switch
