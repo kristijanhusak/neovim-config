@@ -32,6 +32,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('ctrlpvim/ctrlp.vim')
     call dein#add('xolox/vim-misc')
     call dein#add('xolox/vim-notes')
+    call dein#add('galooshi/vim-import-js', { 'build': 'npm install -g import-js' })
 
     call dein#end()
     call dein#save_state()
@@ -207,8 +208,6 @@ map <c-s> :w<CR>
 imap <c-s> <C-o>:w<CR>
 " Also save with ,w
 nnoremap <Leader>w :w<CR>
-nmap <Leader>k <Plug>(ale_previous_wrap)
-nmap <Leader>j <Plug>(ale_next_wrap)
 
 " Easier window navigation
 nmap <C-h> <C-w>h
