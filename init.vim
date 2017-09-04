@@ -280,6 +280,7 @@ nnoremap <Leader>af :CtrlSF
 " Toggle buffer list
 nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>t :CtrlPBufTag<CR>
+nnoremap <Leader>m :CtrlPMRU<CR>
 
 " Maps for indentation in normal mode
 nnoremap <tab> >>
