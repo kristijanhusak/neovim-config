@@ -17,6 +17,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('tpope/vim-surround')
     call dein#add('tpope/vim-repeat')
     call dein#add('tpope/vim-fugitive')
+    call dein#add('Xuyuanp/nerdtree-git-plugin')
     call dein#add('scrooloose/nerdtree')
     call dein#add('airblade/vim-gitgutter')
     call dein#add('vim-airline/vim-airline')
@@ -120,9 +121,6 @@ autocmd vimrc FileType php,javascript setlocal cc=80                            
 autocmd vimrc VimEnter,BufNewFile,BufReadPost * call s:LoadLocalVimrc()         "Load per project vimrc (Used for custom test mappings, etc.)
 
 autocmd vimrc VimEnter * set vb t_vb=
-
-autocmd vimrc FileType nerdtree syntax match hideBracketsInNerdTree
-            \ "\]" contained conceal containedin=ALL
 
 " ================ Completion =======================
 
@@ -302,6 +300,9 @@ nnoremap N Nzz
 " Search and replace in visual highlight
 vnoremap <Leader>r :call SearchAndReplace(1)<CR>
 nnoremap <Leader>r :call SearchAndReplace()<CR>
+
+" Open file on cursor in vertical split
+nnoremap gf <C-W>vgf
 
 " ================ plugins setups ========================
 
