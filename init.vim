@@ -77,6 +77,7 @@ set conceallevel=2 concealcursor=i                                              
 set splitright                                                                  "Set up new splits positions
 set path+=**                                                                    "Allow recursive search
 set inccommand=split                                                            "Show substitute changes immidiately in separate split
+set fillchars+=vert:\│                                                          "Make vertical split separator full line
 
 syntax on                                                                       "turn on syntax highlighting
 
