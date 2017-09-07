@@ -64,7 +64,7 @@ set ignorecase                                                                  
 set mouse=a                                                                     "Enable mouse usage
 set showmatch                                                                   "Highlight matching bracket
 set nostartofline                                                               "Jump to first non-blank character
-set timeoutlen=1000 ttimeoutlen=200                                             "Reduce Command timeout for faster escape and O
+set timeoutlen=1000 ttimeoutlen=0                                               "Reduce Command timeout for faster escape and O
 set fileencoding=utf-8                                                          "Set utf-8 encoding on write
 set wrap                                                                        "Enable word wrap
 set linebreak                                                                   "Wrap lines at convenient points
