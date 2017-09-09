@@ -34,6 +34,8 @@ if dein#load_state(s:bundle_dir)
     call dein#add('xolox/vim-misc')
     call dein#add('xolox/vim-notes')
     call dein#add('galooshi/vim-import-js', { 'build': 'npm install -g import-js' })
+    call dein#add('myusuf3/numbers.vim')
+    call dein#add('tacahiroy/ctrlp-funky')
 
     call dein#end()
     call dein#save_state()
@@ -278,7 +280,7 @@ nnoremap <Leader>af :CtrlSF
 
 " Toggle buffer list
 nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <Leader>t :CtrlPBufTag<CR>
+nnoremap <Leader>t :CtrlPFunky<CR>
 nnoremap <Leader>m :CtrlPMRU<CR>
 
 " Maps for indentation in normal mode
@@ -303,6 +305,9 @@ nnoremap <Leader>r :call SearchAndReplace()<CR>
 
 " Open file on cursor in vertical split
 nnoremap gf <C-W>vgf
+
+"Disable ex mode mapping
+map Q <Nop>
 
 " ================ plugins setups ========================
 
@@ -354,3 +359,6 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
 
 let g:notes_directories = ['~/notes']                                           "Directory for notes
+
+let g:ctrlp_funky_matchtype = 'path'                                            "Highlight matches in ctrlp funky window
+let g:ctrlp_funky_syntax_highlight = 1                                          "Use syntax highlighting

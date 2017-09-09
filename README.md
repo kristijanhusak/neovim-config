@@ -49,6 +49,8 @@ Plugins
 * [xolox/vim-misc](https://github.com/xolox/vim-misc)
 * [xolox/vim-notes](https://github.com/xolox/vim-notes)
 * [galooshi/vim-import-js](https://github.com/galooshi/vim-import-js)
+* [myusuf3/numbers.vim](https://github.com/myusuf3/numbers.vim)
+* [tacahiroy/ctrlp-funky](https://github.com/tacahiroy/ctrlp-funky)
 
 Font used:
 * current - [Iosevka](https://github.com/be5invis/Iosevka)
