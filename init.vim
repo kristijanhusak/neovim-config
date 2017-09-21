@@ -28,7 +28,6 @@ if dein#load_state(s:bundle_dir)
     call dein#add('kristijanhusak/vim-hybrid-material')
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neosnippet')
-    call dein#add('honza/vim-snippets')
     call dein#add('dyng/ctrlsf.vim')
     call dein#add('ctrlpvim/ctrlp.vim')
     call dein#add('xolox/vim-misc')
@@ -324,6 +323,8 @@ let g:airline#extensions#tabline#enabled = 1                                    
 let g:airline#extensions#tabline#left_sep = ' '                                 "Left separator for tabline
 let g:airline#extensions#tabline#left_alt_sep = '│'                             "Right separator for tabline
 let g:airline_theme_patch_func = 'AirlineThemePatch'                            "Add red background for unsaved buffers
+let g:airline_highlighting_cache = 1                                            "Cache highlighting
+let g:airline_skip_empty_sections = 1                                           "Hide empty sections
 
 let g:gitgutter_realtime = 0                                                    "Disable gitgutter in realtime
 let g:gitgutter_eager = 0                                                       "Disable gitgutter to eager load on tab or buffer switch
@@ -361,4 +362,3 @@ let g:jsx_ext_required = 1                                                      
 let g:notes_directories = ['~/notes']                                           "Directory for notes
 
 let g:ctrlp_funky_matchtype = 'path'                                            "Highlight matches in ctrlp funky window
-let g:ctrlp_funky_syntax_highlight = 1                                          "Use syntax highlighting

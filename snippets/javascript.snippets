@@ -17,3 +17,16 @@ snippet creact
         return (${2})
       }
     }
+
+snippet cnode
+    class ${1:className} {
+      constructor(${2:deps}) {
+        this._$2 = $2;
+      }
+
+      ${3:method}(${4:params}) {
+        ${0}
+      }
+    }
+
+    module.exports = $1;

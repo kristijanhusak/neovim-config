@@ -43,7 +43,6 @@ Plugins
 * [kristijanhusak/vim-hybrid-material](https://github.com/kristijanhusak/vim-hybrid-material)
 * [Shougo/deoplete.nvim](https://github.com/Shougo/deoplete.nvim)
 * [Shougo/neosnippet](https://github.com/Shougo/neosnippet)
-* [honza/vim-snippets](https://github.com/honza/vim-snippets)
 * [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)
 * [ctrlpvim/ctrlp.vim](https://github.com/ctrlpvim/ctrlp.vim)
 * [xolox/vim-misc](https://github.com/xolox/vim-misc)
