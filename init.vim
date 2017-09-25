@@ -26,7 +26,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('gregsexton/MatchTag')
     call dein#add('sheerun/vim-polyglot')
     call dein#add('kristijanhusak/vim-hybrid-material')
-    call dein#add('Shougo/deoplete.nvim')
+    call dein#add('roxma/nvim-completion-manager')
     call dein#add('Shougo/neosnippet')
     call dein#add('dyng/ctrlsf.vim')
     call dein#add('ctrlpvim/ctrlp.vim')
@@ -35,6 +35,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('galooshi/vim-import-js', { 'build': 'npm install -g import-js' })
     call dein#add('myusuf3/numbers.vim')
     call dein#add('tacahiroy/ctrlp-funky')
+    call dein#add('skywind3000/asyncrun.vim')
 
     call dein#end()
     call dein#save_state()
@@ -196,6 +197,10 @@ function! AirlineThemePatch(palette)
     let a:palette.normal_modified.airline_c = ['#FFFFFF', '#db2525', 250, 167, '']
 endfunction
 
+function! GenerateTags()
+    :AsyncRun find . -type f -iregex ".*\.js$" -not -path "./node_modules/*" -exec jsctags {} -f \; | sed '/^$/d' | sort > tags
+endfunction
+
 " ================ Custom mappings ========================
 
 " Comment map
@@ -341,9 +346,6 @@ let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           
 let g:neosnippet#snippets_directory = [
             \ s:plugin_dir . '/honza/vim-snippets/snippets',
             \ '~/.config/nvim/snippets']
-
-let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
-let g:deoplete#file#enable_buffer_path = 1                                      "Autocomplete files relative to current buffer
 
 let g:ackhighlight = 1                                                          "Highlight current search
 let g:ackprg = 'ag --vimgrep'                                                   "Use ag instead of ack for searching
