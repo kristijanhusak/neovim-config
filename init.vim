@@ -34,8 +34,6 @@ if dein#load_state(s:bundle_dir)
     call dein#add('xolox/vim-notes')
     call dein#add('galooshi/vim-import-js', { 'build': 'npm install -g import-js' })
     call dein#add('myusuf3/numbers.vim')
-    call dein#add('tacahiroy/ctrlp-funky')
-    call dein#add('skywind3000/asyncrun.vim')
 
     call dein#end()
     call dein#save_state()
@@ -73,11 +71,11 @@ set linebreak                                                                   
 set listchars=tab:\ \ ,trail:·                                                  "Set trails for tabs and spaces
 set list                                                                        "Enable listchars
 set lazyredraw                                                                  "Do not redraw on registers and macros
-set completeopt-=preview                                                        "Disable preview for autocomplete
 set background=dark                                                             "Set background to dark
 set hidden                                                                      "Hide buffers in background
 set conceallevel=2 concealcursor=i                                              "neosnippets conceal marker
-set splitright                                                                  "Set up new splits positions
+set splitright                                                                  "Set up new vertical splits positions
+set splitbelow                                                                  "Set up new horizontal splits positions
 set path+=**                                                                    "Allow recursive search
 set inccommand=split                                                            "Show substitute changes immidiately in separate split
 set fillchars+=vert:\│                                                          "Make vertical split separator full line
@@ -197,10 +195,6 @@ function! AirlineThemePatch(palette)
     let a:palette.normal_modified.airline_c = ['#FFFFFF', '#db2525', 250, 167, '']
 endfunction
 
-function! GenerateTags()
-    :AsyncRun find . -type f -iregex ".*\.js$" -not -path "./node_modules/*" -exec jsctags {} -f \; | sed '/^$/d' | sort > tags
-endfunction
-
 " ================ Custom mappings ========================
 
 " Comment map
@@ -219,6 +213,10 @@ nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
 " Open vertical split
 nnoremap <Leader>v <C-w>v
 
@@ -239,6 +237,8 @@ smap <expr><TAB> neosnippet#jumpable() ?
 
 " Map for Escape key
 inoremap jj <Esc>
+tnoremap jj <C-\><C-n>
+tnoremap <Esc> <C-\><C-n>
 
 " Yank to the end of the line
 nnoremap Y y$
@@ -284,7 +284,7 @@ nnoremap <Leader>af :CtrlSF
 
 " Toggle buffer list
 nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <Leader>t :CtrlPFunky<CR>
+nnoremap <Leader>t :CtrlPTag<CR>
 nnoremap <Leader>m :CtrlPMRU<CR>
 
 " Maps for indentation in normal mode
@@ -312,6 +312,8 @@ nnoremap gf <C-W>vgf
 
 "Disable ex mode mapping
 map Q <Nop>
+
+nnoremap <Leader>gt :sp term://ctags -R --exclude=node_modules .<CR><C-\><C-n><C-w>k
 
 " ================ plugins setups ========================
 
@@ -362,5 +364,3 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
 
 let g:notes_directories = ['~/notes']                                           "Directory for notes
-
-let g:ctrlp_funky_matchtype = 'path'                                            "Highlight matches in ctrlp funky window

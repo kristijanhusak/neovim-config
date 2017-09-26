@@ -9,6 +9,9 @@ rm -rf ~/.config/nvim ~/.tmux.conf ~/.zshrc ~/.oh-my-zsh \
 && ln -s $(pwd)/snippets ~/.config/nvim/snippets \
 && rm ./dein_installer.sh \
 && nvim -c 'call dein#install() | exit' \
+&& sudo apt-get install dh-autoreconf \
+&& git clone https://github.com/universal-ctags/ctags \
+&& cd ctags && ./autogen.sh && ./configure && make && sudo make install && cd ../ && rm -rf ctags \
 && git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh \
 && chsh -s /bin/zsh \
 && git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
