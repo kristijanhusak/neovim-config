@@ -79,6 +79,7 @@ set splitbelow                                                                  
 set path+=**                                                                    "Allow recursive search
 set inccommand=split                                                            "Show substitute changes immidiately in separate split
 set fillchars+=vert:\│                                                          "Make vertical split separator full line
+set pumheight=30
 
 syntax on                                                                       "turn on syntax highlighting
 
@@ -284,7 +285,7 @@ nnoremap <Leader>af :CtrlSF
 
 " Toggle buffer list
 nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <Leader>t :CtrlPTag<CR>
+nnoremap <Leader>t :CtrlPBufTag<CR>
 nnoremap <Leader>m :CtrlPMRU<CR>
 
 " Maps for indentation in normal mode
@@ -313,7 +314,7 @@ nnoremap gf <C-W>vgf
 "Disable ex mode mapping
 map Q <Nop>
 
-nnoremap <Leader>gt :sp term://ctags -R --exclude=node_modules .<CR><C-\><C-n><C-w>k
+nnoremap <Leader>gt :sp term://ctags -R --exclude=node_modules .<CR>G
 
 " ================ plugins setups ========================
 
@@ -349,6 +350,7 @@ let g:neosnippet#snippets_directory = [
             \ s:plugin_dir . '/honza/vim-snippets/snippets',
             \ '~/.config/nvim/snippets']
 
+
 let g:ackhighlight = 1                                                          "Highlight current search
 let g:ackprg = 'ag --vimgrep'                                                   "Use ag instead of ack for searching
 
@@ -364,3 +366,5 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
 
 let g:notes_directories = ['~/notes']                                           "Directory for notes
+
+let g:cm_refresh_length = 2
