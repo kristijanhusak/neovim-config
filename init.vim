@@ -314,7 +314,11 @@ nnoremap gf <C-W>vgf
 "Disable ex mode mapping
 map Q <Nop>
 
+" Generate tags
 nnoremap <Leader>gt :sp term://ctags -R --exclude=node_modules .<CR>G
+
+" Jump to definition in vertical split
+nnoremap <Leader>] <C-W>v<C-]>
 
 " ================ plugins setups ========================
 
