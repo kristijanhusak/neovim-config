@@ -26,7 +26,7 @@ if dein#load_state(s:bundle_dir)
     call dein#add('gregsexton/MatchTag')
     call dein#add('sheerun/vim-polyglot')
     call dein#add('kristijanhusak/vim-hybrid-material')
-    call dein#add('roxma/nvim-completion-manager')
+    call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neosnippet')
     call dein#add('dyng/ctrlsf.vim')
     call dein#add('ctrlpvim/ctrlp.vim')
@@ -350,6 +350,9 @@ let g:neosnippet#snippets_directory = [
             \ s:plugin_dir . '/honza/vim-snippets/snippets',
             \ '~/.config/nvim/snippets']
 
+let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
+let g:deoplete#file#enable_buffer_path = 1                                      "Autocomplete files relative to current buffer
+let g:deoplete#tag#cache_limit_size = 10000000                                  "Allow tags file up to ~10 MB
 
 let g:ackhighlight = 1                                                          "Highlight current search
 let g:ackprg = 'ag --vimgrep'                                                   "Use ag instead of ack for searching
@@ -366,5 +369,3 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
 
 let g:notes_directories = ['~/notes']                                           "Directory for notes
-
-let g:cm_refresh_length = 2
