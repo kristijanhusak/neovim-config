@@ -7,7 +7,6 @@ if dein#load_state(s:bundle_dir)
 
     call dein#add(s:plugin_dir . '/Shougo/dein.vim')
     call dein#add('christoomey/vim-tmux-navigator')
-    call dein#add('ryanoasis/vim-devicons')
     call dein#add('w0rp/ale')
     call dein#add('nelstrom/vim-visual-star-search')
     call dein#add('mileszs/ack.vim')
@@ -141,6 +140,24 @@ set wildignore+=*.png,*.jpg,*.gif
 set scrolloff=8                                                                 "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15
 set sidescroll=5
+
+" ================ Statusline ========================
+
+set statusline=%{StatuslineColor()}                                             "Red background when modified
+set statusline+=%{toupper(mode())}                                              "Mode
+set statusline+=\ \│\ %4F                                                       "File path
+set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
+set statusline+=\ %m                                                            "Modified indicator
+set statusline+=\ %w                                                            "Preview indicator
+set statusline+=\ %r                                                            "Read only indicator
+set statusline+=\ %q                                                            "Quickfix list indicator
+set statusline+=\ %=                                                            "Start right side layout
+set statusline+=\ %{&enc}                                                       "Encoding
+set statusline+=\ \│\ %y                                                        "Filetype
+set statusline+=\ \│\ %P                                                        "Percentage
+set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
+set statusline+=\ \│\ %c                                                        "Column number
+set statusline+=\ \│%{ALEGetStatusLine()}                                       "Errors count
 
 " ================ Abbreviations ====================
 
@@ -327,9 +344,6 @@ let g:ctrlp_custom_ignore = {'dir':  '\v[\/]\.(meteor)$'}                       
 let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['@']}                         "Map delete buffer in ctrlp
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'                           "Use ag for searching
 
-" Mode | file path | git branch | quickfix preview readonly modified -> filetype | percentage | current line | total lines | column number | Errors
-set statusline=%{StatuslineColor()}%{toupper(mode())}\ \│\ %4F\ \│\ %{fugitive#head()}\ %m%*\ %w\ %r\ %q\ %=\ %{&enc}\ \│\ %y\ \│\ %P\ \│\ %l/%L\ \│\ %c\ \│%{ALEGetStatusLine()}
-
 let g:gitgutter_realtime = 0                                                    "Disable gitgutter in realtime
 let g:gitgutter_eager = 0                                                       "Disable gitgutter to eager load on tab or buffer switch
 
@@ -360,8 +374,6 @@ let g:ale_lint_on_save = 1                                                      
 let g:ale_sign_error = '✖'                                                      "Lint error sign
 let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
 let g:ale_statusline_format =[' %d E │', ' %d W │', '']                          "Status line texts
-
-let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                "Set up spacing for sidebar icons
 
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
 let g:notes_directories = ['~/notes']                                           "Directory for notes
