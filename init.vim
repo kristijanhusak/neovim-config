@@ -20,11 +20,9 @@ if dein#load_state(s:bundle_dir)
     call dein#add('Xuyuanp/nerdtree-git-plugin')
     call dein#add('scrooloose/nerdtree')
     call dein#add('airblade/vim-gitgutter')
-    call dein#add('vim-airline/vim-airline')
-    call dein#add('vim-airline/vim-airline-themes')
     call dein#add('duff/vim-bufonly')
     call dein#add('gregsexton/MatchTag')
-    call dein#add('sheerun/vim-polyglot')
+    call dein#add('sheerun/vim-polyglot', { 'rev': '9bfde7574aa89a91b80ed9c993fc000cfc11aae7' })
     call dein#add('kristijanhusak/vim-hybrid-material')
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neosnippet')
@@ -192,8 +190,10 @@ function! SearchAndReplace(...) range
     endif
 endfunction
 
-function! AirlineThemePatch(palette)
-    let a:palette.normal_modified.airline_c = ['#FFFFFF', '#db2525', 250, 167, '']
+function! StatuslineColor()
+    let fgColor = (&modified) ? '#db2525' : '#455A64'
+    exe 'hi StatusLine guifg='.fgColor.' guibg=#c5c8c6'
+    return '│ '
 endfunction
 
 " ================ Custom mappings ========================
@@ -327,16 +327,8 @@ let g:ctrlp_custom_ignore = {'dir':  '\v[\/]\.(meteor)$'}                       
 let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['@']}                         "Map delete buffer in ctrlp
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'                           "Use ag for searching
 
-let g:airline_powerline_fonts = 1                                               "Enable powerline fonts
-let g:airline_theme = "hybrid"                                                  "Set theme to powerline default theme
-let g:airline_section_y = '%{substitute(getcwd(), expand("$HOME"), "~", "g")}'  "Set relative path
-let g:airline#extensions#whitespace#enabled = 0                                 "Disable whitespace extension
-let g:airline#extensions#tabline#enabled = 1                                    "Enable tabline extension
-let g:airline#extensions#tabline#left_sep = ' '                                 "Left separator for tabline
-let g:airline#extensions#tabline#left_alt_sep = '│'                             "Right separator for tabline
-let g:airline_theme_patch_func = 'AirlineThemePatch'                            "Add red background for unsaved buffers
-let g:airline_highlighting_cache = 1                                            "Cache highlighting
-let g:airline_skip_empty_sections = 1                                           "Hide empty sections
+" Mode | file path | git branch | quickfix preview readonly modified -> filetype | percentage | current line | total lines | column number | Errors
+set statusline=%{StatuslineColor()}%{toupper(mode())}\ \│\ %4F\ \│\ %{fugitive#head()}\ %m%*\ %w\ %r\ %q\ %=\ %{&enc}\ \│\ %y\ \│\ %P\ \│\ %l/%L\ \│\ %c\ \│%{ALEGetStatusLine()}
 
 let g:gitgutter_realtime = 0                                                    "Disable gitgutter in realtime
 let g:gitgutter_eager = 0                                                       "Disable gitgutter to eager load on tab or buffer switch
@@ -367,9 +359,10 @@ let g:ale_linters = {'javascript': ['eslint']}                                  
 let g:ale_lint_on_save = 1                                                      "Lint when saving a file
 let g:ale_sign_error = '✖'                                                      "Lint error sign
 let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
+let g:ale_statusline_format =[' %d E │', ' %d W │', '']                          "Status line texts
 
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                "Set up spacing for sidebar icons
 
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
-
 let g:notes_directories = ['~/notes']                                           "Directory for notes
+let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
