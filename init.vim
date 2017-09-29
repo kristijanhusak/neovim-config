@@ -135,8 +135,8 @@ set sidescroll=5
 
 set statusline=%{StatuslineColor()}                                             "Red background when modified
 set statusline+=%{toupper(mode())}                                              "Mode
-set statusline+=\ \│\ %4F                                                       "File path
 set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
+set statusline+=\ \│\ %4F                                                       "File path
 set statusline+=\ %m                                                            "Modified indicator
 set statusline+=\ %w                                                            "Preview indicator
 set statusline+=\ %r                                                            "Read only indicator
