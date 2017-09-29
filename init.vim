@@ -198,8 +198,8 @@ function! SearchAndReplace(...) range
 endfunction
 
 function! StatuslineColor()
-    let fgColor = (&modified) ? '#db2525' : '#455A64'
-    exe 'hi StatusLine guifg='.fgColor.' guibg=#c5c8c6'
+    let bgColor = (&modified) ? '#db2525' : '#455A64'
+    exe 'hi StatusLine guibg='.bgColor.' guifg=#c5c8c6 gui=bold'
     return '│ '
 endfunction
 
