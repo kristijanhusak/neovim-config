@@ -1,40 +1,30 @@
-set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
-let s:bundle_dir = expand('~/.config/nvim/bundle')
-let s:plugin_dir = s:bundle_dir . '/repos/github.com'
+let s:bundle_dir = '~/.config/nvim/bundle'
+call plug#begin(s:bundle_dir)
 
-if dein#load_state(s:bundle_dir)
-    call dein#begin(s:bundle_dir)
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'w0rp/ale'
+Plug 'nelstrom/vim-visual-star-search'
+Plug 'mileszs/ack.vim'
+Plug 'Raimondi/delimitMate'
+Plug 'mattn/emmet-vim', { 'for': 'html' }
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree'
+Plug 'airblade/vim-gitgutter'
+Plug 'duff/vim-bufonly'
+Plug 'gregsexton/MatchTag', { 'for': 'html' }
+Plug 'sheerun/vim-polyglot'
+Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/neosnippet'
+Plug 'dyng/ctrlsf.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vimwiki/vimwiki'
+Plug 'galooshi/vim-import-js', { 'do': 'npm install -g import-js', 'for': 'javascript' }
 
-    call dein#add(s:plugin_dir . '/Shougo/dein.vim')
-    call dein#add('christoomey/vim-tmux-navigator')
-    call dein#add('w0rp/ale')
-    call dein#add('nelstrom/vim-visual-star-search')
-    call dein#add('mileszs/ack.vim')
-    call dein#add('Raimondi/delimitMate')
-    call dein#add('mattn/emmet-vim')
-    call dein#add('tpope/vim-commentary')
-    call dein#add('tpope/vim-surround')
-    call dein#add('tpope/vim-repeat')
-    call dein#add('tpope/vim-fugitive')
-    call dein#add('Xuyuanp/nerdtree-git-plugin')
-    call dein#add('scrooloose/nerdtree')
-    call dein#add('airblade/vim-gitgutter')
-    call dein#add('duff/vim-bufonly')
-    call dein#add('gregsexton/MatchTag')
-    call dein#add('sheerun/vim-polyglot', { 'rev': '9bfde7574aa89a91b80ed9c993fc000cfc11aae7' })
-    call dein#add('kristijanhusak/vim-hybrid-material')
-    call dein#add('Shougo/deoplete.nvim')
-    call dein#add('Shougo/neosnippet')
-    call dein#add('dyng/ctrlsf.vim')
-    call dein#add('ctrlpvim/ctrlp.vim')
-    call dein#add('xolox/vim-misc')
-    call dein#add('xolox/vim-notes')
-    call dein#add('galooshi/vim-import-js', { 'build': 'npm install -g import-js' })
-    call dein#add('myusuf3/numbers.vim')
-
-    call dein#end()
-    call dein#save_state()
-endif
+call plug#end()
 
 filetype plugin indent on                                                       "Enable plugins and indents by filetype
 
@@ -154,7 +144,7 @@ set statusline+=\ %q                                                            
 set statusline+=\ %=                                                            "Start right side layout
 set statusline+=\ %{&enc}                                                       "Encoding
 set statusline+=\ \│\ %y                                                        "Filetype
-set statusline+=\ \│\ %P                                                        "Percentage
+set statusline+=\ \│\ %p%%                                                      "Percentage
 set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
 set statusline+=\ \│\ %c                                                        "Column number
 set statusline+=\ \│%{ALEGetStatusLine()}                                       "Errors count
@@ -357,7 +347,7 @@ let g:NERDTreeIgnore=['\.git$', '\.sass-cache$', '\.vagrant', '\.idea']
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
 let g:neosnippet#snippets_directory = [
-            \ s:plugin_dir . '/honza/vim-snippets/snippets',
+            \ s:bundle_dir . '/honza/vim-snippets/snippets',
             \ '~/.config/nvim/snippets']
 
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
