@@ -133,7 +133,6 @@ set sidescroll=5
 
 " ================ Statusline ========================
 
-set statusline=%{StatuslineColor()}                                             "Red background when modified
 set statusline+=%{toupper(mode())}                                              "Mode
 set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
 set statusline+=\ \│\ %4F                                                       "File path
@@ -195,12 +194,6 @@ function! SearchAndReplace(...) range
         let range = isVisualMode ? "'<,'>s/" : ":%s/"
         :execute range.search."/".replace
     endif
-endfunction
-
-function! StatuslineColor()
-    let bgColor = (&modified) ? '#db2525' : '#455A64'
-    exe 'hi StatusLine guibg='.bgColor.' guifg=#c5c8c6 gui=bold'
-    return '│ '
 endfunction
 
 " ================ Custom mappings ========================
