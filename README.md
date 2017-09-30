@@ -20,9 +20,8 @@ Installation
 Plugins
 ----------------
 
-* [Shougo/dein.vim](https://github.com/Shougo/dein.vim)
+* [junegunn/vim-plug](https://github.com/junegunn/vim-plug)
 * [christoomey/vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator)
-* [ryanoasis/vim-devicons](https://github.com/ryanoasis/vim-devicons)
 * [w0rp/ale](https://github.com/w0rp/ale)
 * [nelstrom/vim-visual-star-search](https://github.com/nelstrom/vim-visual-star-search)
 * [mileszs/ack.vim](https://github.com/mileszs/ack.vim)
@@ -35,8 +34,6 @@ Plugins
 * [Xuyuanp/nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)
 * [scrooloose/nerdtree](https://github.com/scrooloose/nerdtree)
 * [airblade/vim-gitgutter](https://github.com/airblade/vim-gitgutter)
-* [vim-airline/vim-airline](https://github.com/vim-airline/vim-airline)
-* [vim-airline/vim-airline-themes](https://github.com/vim-airline/vim-airline-themes)
 * [duff/vim-bufonly](https://github.com/duff/vim-bufonly)
 * [gregsexton/MatchTag](https://github.com/gregsexton/MatchTag)
 * [sheerun/vim-polyglot](https://github.com/sheerun/vim-polyglot)
@@ -45,11 +42,8 @@ Plugins
 * [Shougo/neosnippet](https://github.com/Shougo/neosnippet)
 * [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)
 * [ctrlpvim/ctrlp.vim](https://github.com/ctrlpvim/ctrlp.vim)
-* [xolox/vim-misc](https://github.com/xolox/vim-misc)
-* [xolox/vim-notes](https://github.com/xolox/vim-notes)
+* [vimwiki/vimwiki](https://github.com/vimwiki/vimwiki)
 * [galooshi/vim-import-js](https://github.com/galooshi/vim-import-js)
-* [myusuf3/numbers.vim](https://github.com/myusuf3/numbers.vim)
-* [tacahiroy/ctrlp-funky](https://github.com/tacahiroy/ctrlp-funky)
 
 Font used:
 * current - [Iosevka](https://github.com/be5invis/Iosevka)

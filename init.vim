@@ -9,6 +9,7 @@ Plug 'Raimondi/delimitMate'
 Plug 'mattn/emmet-vim', { 'for': 'html' }
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdtree'
@@ -133,10 +134,11 @@ set sidescroll=5
 
 " ================ Statusline ========================
 
-set statusline+=%{toupper(mode())}                                              "Mode
+hi User1 guifg=#FF0000 guibg=#455A64
+set statusline=\ %{toupper(mode())}                                             "Mode
 set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
 set statusline+=\ \│\ %4F                                                       "File path
-set statusline+=\ %m                                                            "Modified indicator
+set statusline+=\ %1*%m%*                                                       "Modified indicator
 set statusline+=\ %w                                                            "Preview indicator
 set statusline+=\ %r                                                            "Read only indicator
 set statusline+=\ %q                                                            "Quickfix list indicator
