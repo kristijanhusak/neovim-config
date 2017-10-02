@@ -4,7 +4,6 @@ call plug#begin(s:bundle_dir)
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'w0rp/ale'
 Plug 'nelstrom/vim-visual-star-search'
-Plug 'mileszs/ack.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'mattn/emmet-vim', { 'for': 'html' }
 Plug 'tpope/vim-commentary'
@@ -184,7 +183,7 @@ function! Search()
     let term = input('Search for: ', '')
     if term != ''
         let path = input('Path: ', '', 'file')
-        :execute 'Ack -Q "'.term.'" '.path
+        :execute 'CtrlSF "'.term.'" '.path
     endif
 endfunction
 
@@ -283,7 +282,6 @@ nnoremap <Leader>dc :cd %:p:h<CR>:pwd<CR>
 
 " Filesearch plugin map for searching in whole folder
 nnoremap <Leader>f :call Search()<CR>
-nnoremap <Leader>af :CtrlSF
 
 " Toggle buffer list
 nnoremap <Leader>b :CtrlPBuffer<CR>
@@ -329,6 +327,9 @@ let g:ctrlp_custom_ignore = {'dir':  '\v[\/]\.(meteor)$'}                       
 let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['@']}                         "Map delete buffer in ctrlp
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'                           "Use ag for searching
 
+let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
+let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
+
 let g:gitgutter_realtime = 0                                                    "Disable gitgutter in realtime
 let g:gitgutter_eager = 0                                                       "Disable gitgutter to eager load on tab or buffer switch
 
@@ -348,9 +349,6 @@ let g:neosnippet#snippets_directory = [
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
 let g:deoplete#file#enable_buffer_path = 1                                      "Autocomplete files relative to current buffer
 let g:deoplete#tag#cache_limit_size = 10000000                                  "Allow tags file up to ~10 MB
-
-let g:ackhighlight = 1                                                          "Highlight current search
-let g:ackprg = 'ag --vimgrep'                                                   "Use ag instead of ack for searching
 
 let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
 
