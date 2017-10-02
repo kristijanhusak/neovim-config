@@ -361,3 +361,5 @@ let g:ale_statusline_format =[' %d E │', ' %d W │', '']                     
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
 let g:notes_directories = ['~/notes']                                           "Directory for notes
 let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
+
+let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
