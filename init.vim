@@ -23,6 +23,7 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'galooshi/vim-import-js', { 'do': 'npm install -g import-js', 'for': 'javascript' }
+Plug 'jreybert/vimagit'
 
 call plug#end()
 
@@ -363,3 +364,5 @@ let g:notes_directories = ['~/notes']                                           
 let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
+
+let g:magit_default_show_all_files = 0                                          "Fold all files in diff by default when opened
