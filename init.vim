@@ -1,44 +1,33 @@
-set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
-let s:bundle_dir = expand('~/.config/nvim/bundle')
-let s:plugin_dir = s:bundle_dir . '/repos/github.com'
+" ================ Plugins ==================== {{{
+call plug#begin( '~/.config/nvim/bundle')
 
-if dein#load_state(s:bundle_dir)
-    call dein#begin(s:bundle_dir)
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'w0rp/ale'
+Plug 'nelstrom/vim-visual-star-search'
+Plug 'Raimondi/delimitMate'
+Plug 'mattn/emmet-vim', { 'for': ['html', 'css', 'javascript.jsx'] }
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-fugitive'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree'
+Plug 'airblade/vim-gitgutter'
+Plug 'duff/vim-bufonly'
+Plug 'gregsexton/MatchTag', { 'for': ['html', 'css', 'javascript.jsx'] }
+Plug 'sheerun/vim-polyglot'
+Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/neosnippet'
+Plug 'dyng/ctrlsf.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vimwiki/vimwiki'
+Plug 'galooshi/vim-import-js', { 'do': 'npm install -g import-js', 'for': 'javascript' }
+Plug 'jreybert/vimagit'
 
-    call dein#add(s:plugin_dir . '/Shougo/dein.vim')
-    call dein#add('christoomey/vim-tmux-navigator')
-    call dein#add('ryanoasis/vim-devicons')
-    call dein#add('w0rp/ale')
-    call dein#add('nelstrom/vim-visual-star-search')
-    call dein#add('mileszs/ack.vim')
-    call dein#add('Raimondi/delimitMate')
-    call dein#add('mattn/emmet-vim')
-    call dein#add('tpope/vim-commentary')
-    call dein#add('tpope/vim-surround')
-    call dein#add('tpope/vim-repeat')
-    call dein#add('tpope/vim-fugitive')
-    call dein#add('Xuyuanp/nerdtree-git-plugin')
-    call dein#add('scrooloose/nerdtree')
-    call dein#add('airblade/vim-gitgutter')
-    call dein#add('vim-airline/vim-airline')
-    call dein#add('vim-airline/vim-airline-themes')
-    call dein#add('duff/vim-bufonly')
-    call dein#add('gregsexton/MatchTag')
-    call dein#add('sheerun/vim-polyglot')
-    call dein#add('kristijanhusak/vim-hybrid-material')
-    call dein#add('Shougo/deoplete.nvim')
-    call dein#add('Shougo/neosnippet')
-    call dein#add('dyng/ctrlsf.vim')
-    call dein#add('ctrlpvim/ctrlp.vim')
-    call dein#add('xolox/vim-misc')
-    call dein#add('xolox/vim-notes')
-    call dein#add('galooshi/vim-import-js', { 'build': 'npm install -g import-js' })
-    call dein#add('myusuf3/numbers.vim')
-    call dein#add('tacahiroy/ctrlp-funky')
-
-    call dein#end()
-    call dein#save_state()
-endif
+call plug#end()
+"}}}
+" ================ General Config ==================== {{{
 
 filetype plugin indent on                                                       "Enable plugins and indents by filetype
 
@@ -47,10 +36,7 @@ let g:mapleader = ","                                                           
 let g:enable_bold_font = 1                                                      "Enable bold font in colorscheme
 let g:enable_italic_font = 1                                                    "Enable italic font in colorscheme
 
-" ================ General Config ====================
-
 set termguicolors
-set t_Co=256                                                                    "Set 256 colors
 set title                                                                       "change the terminal's title
 set number                                                                      "Line numbers are good
 set relativenumber                                                              "Show numbers relative to current line
@@ -72,61 +58,67 @@ set linebreak                                                                   
 set listchars=tab:\ \ ,trail:·                                                  "Set trails for tabs and spaces
 set list                                                                        "Enable listchars
 set lazyredraw                                                                  "Do not redraw on registers and macros
-set completeopt-=preview                                                        "Disable preview for autocomplete
 set background=dark                                                             "Set background to dark
 set hidden                                                                      "Hide buffers in background
 set conceallevel=2 concealcursor=i                                              "neosnippets conceal marker
-set splitright                                                                  "Set up new splits positions
+set splitright                                                                  "Set up new vertical splits positions
+set splitbelow                                                                  "Set up new horizontal splits positions
 set path+=**                                                                    "Allow recursive search
 set inccommand=split                                                            "Show substitute changes immidiately in separate split
 set fillchars+=vert:\│                                                          "Make vertical split separator full line
+set pumheight=30                                                                "Maximum number of entries in autocomplete popup
+set exrc                                                                        "Allow using local vimrc
+set secure                                                                      "Forbid autocmd in local vimrc
 
 syntax on                                                                       "turn on syntax highlighting
 
 silent! colorscheme hybrid_material
 
-" ================ Turn Off Swap Files ==============
+" }}}
+" ================ Turn Off Swap Files ============== {{{
 
 set noswapfile
 set nobackup
 set nowb
 
-" ================ Persistent Undo ==================
+" }}}
+" ================ Persistent Undo ================== {{{
 
 " Keep undo history across sessions, by storing in file.
 silent !mkdir ~/.config/nvim/backups > /dev/null 2>&1
 set undodir=~/.config/nvim/backups
 set undofile
 
-" ================ Indentation ======================
+" }}}
+" ================ Indentation ====================== {{{
 
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
 set expandtab
 set smartindent
 set nofoldenable
+set colorcolumn=80
 
-" ================ Auto commands ======================
+" }}}
+" ================ Auto commands ====================== {{{
 
 augroup vimrc
     autocmd!
 augroup END
 
 autocmd vimrc BufWritePre * :call s:StripTrailingWhitespaces()                  "Auto-remove trailing spaces
-autocmd vimrc InsertLeave * NeoSnippetClearMarkers                              "Remove unused markers for snippets
 autocmd vimrc InsertEnter * :set nocul                                          "Remove cursorline highlight
-autocmd vimrc InsertLeave * :set cul                                            "Add cursorline highlight in normal mode
-autocmd vimrc FileType html,javascript,coffee,cucumber setlocal sw=2 sts=2 ts=2 "Set 2 indent for html
-autocmd vimrc FileType php,javascript setlocal cc=80                            "Set right margin only for php and js
-autocmd vimrc VimEnter,BufNewFile,BufReadPost * call s:LoadLocalVimrc()         "Load per project vimrc (Used for custom test mappings, etc.)
+autocmd vimrc InsertLeave * :set cul | NeoSnippetClearMarkers                   "Add cursorline highlight in normal mode and remove snippet markers
+autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
 
-autocmd vimrc VimEnter * set vb t_vb=
-
-" ================ Completion =======================
+" }}}
+" ================ Completion ======================= {{{
 
 set wildmode=list:full
 set wildignore=*.o,*.obj,*~                                                     "stuff to ignore when tab completing
+set wildignore+=*.git*
+set wildignore+=*.meteor*
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
 set wildignore+=*cache*
@@ -138,13 +130,34 @@ set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif
 
-" ================ Scrolling ========================
+" }}}
+" ================ Scrolling ======================== {{{
 
 set scrolloff=8                                                                 "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15
 set sidescroll=5
 
-" ================ Abbreviations ====================
+" }}}
+" ================ Statusline ======================== {{{
+
+hi User1 guifg=#FF0000 guibg=#455A64
+set statusline=\ %{toupper(mode())}                                             "Mode
+set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
+set statusline+=\ \│\ %4F                                                       "File path
+set statusline+=\ %1*%m%*                                                       "Modified indicator
+set statusline+=\ %w                                                            "Preview indicator
+set statusline+=\ %r                                                            "Read only indicator
+set statusline+=\ %q                                                            "Quickfix list indicator
+set statusline+=\ %=                                                            "Start right side layout
+set statusline+=\ %{&enc}                                                       "Encoding
+set statusline+=\ \│\ %y                                                        "Filetype
+set statusline+=\ \│\ %p%%                                                      "Percentage
+set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
+set statusline+=\ \│\ %c                                                        "Column number
+set statusline+=\ \│%{ALEGetStatusLine()}                                       "Errors count
+
+"}}}
+" ================ Abbreviations ==================== {{{
 
 cnoreabbrev Wq wq
 cnoreabbrev WQ wq
@@ -158,8 +171,11 @@ cnoreabbrev nowrap set nowrap
 cnoreabbrev bda BufOnly
 cnoreabbrev t tabe
 cnoreabbrev T tabe
+cnoreabbrev f find
+cnoreabbrev F find
 
-" ================ Functions ========================
+" }}}
+" ================ Functions ======================== {{{
 
 function! s:StripTrailingWhitespaces()
     let l:l = line(".")
@@ -168,17 +184,11 @@ function! s:StripTrailingWhitespaces()
     call cursor(l:l, l:c)
 endfunction
 
-function! s:LoadLocalVimrc()
-    if filereadable(glob(getcwd() . '/.vimrc.local'))
-        :execute 'source '.fnameescape(glob(getcwd(). '/.vimrc.local'))
-    endif
-endfunction
-
 function! Search()
     let term = input('Search for: ', '')
     if term != ''
         let path = input('Path: ', '', 'file')
-        :execute 'Ack -Q "'.term.'" '.path
+        :execute 'CtrlSF "'.term.'" '.path
     endif
 endfunction
 
@@ -192,11 +202,8 @@ function! SearchAndReplace(...) range
     endif
 endfunction
 
-function! AirlineThemePatch(palette)
-    let a:palette.normal_modified.airline_c = ['#FFFFFF', '#db2525', 250, 167, '']
-endfunction
-
-" ================ Custom mappings ========================
+" }}}
+" ================ Custom mappings ======================== {{{
 
 " Comment map
 nmap <Leader>c gcc
@@ -214,6 +221,10 @@ nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
 " Open vertical split
 nnoremap <Leader>v <C-w>v
 
@@ -234,6 +245,8 @@ smap <expr><TAB> neosnippet#jumpable() ?
 
 " Map for Escape key
 inoremap jj <Esc>
+tnoremap jj <C-\><C-n>
+tnoremap <Esc> <C-\><C-n>
 
 " Yank to the end of the line
 nnoremap Y y$
@@ -275,11 +288,10 @@ nnoremap <Leader>dc :cd %:p:h<CR>:pwd<CR>
 
 " Filesearch plugin map for searching in whole folder
 nnoremap <Leader>f :call Search()<CR>
-nnoremap <Leader>af :CtrlSF
 
 " Toggle buffer list
 nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <Leader>t :CtrlPFunky<CR>
+nnoremap <Leader>t :CtrlPBufTag<CR>
 nnoremap <Leader>m :CtrlPMRU<CR>
 
 " Maps for indentation in normal mode
@@ -308,23 +320,21 @@ nnoremap gf <C-W>vgf
 "Disable ex mode mapping
 map Q <Nop>
 
-" ================ plugins setups ========================
+" Generate tags
+nnoremap <Leader>gt :sp term://ctags -R --exclude=node_modules .<CR>G
+
+" Jump to definition in vertical split
+nnoremap <Leader>] <C-W>v<C-]>
+
+" }}}
+" ================ Plugins setups ======================== {{{
 
 let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:25,results:25'           "Ctrlp window setup
-let g:ctrlp_custom_ignore = {'dir':  '\v[\/]\.(meteor)$'}                       "Ignore .meteor folder
 let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['@']}                         "Map delete buffer in ctrlp
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'                           "Use ag for searching
 
-let g:airline_powerline_fonts = 1                                               "Enable powerline fonts
-let g:airline_theme = "hybrid"                                                  "Set theme to powerline default theme
-let g:airline_section_y = '%{substitute(getcwd(), expand("$HOME"), "~", "g")}'  "Set relative path
-let g:airline#extensions#whitespace#enabled = 0                                 "Disable whitespace extension
-let g:airline#extensions#tabline#enabled = 1                                    "Enable tabline extension
-let g:airline#extensions#tabline#left_sep = ' '                                 "Left separator for tabline
-let g:airline#extensions#tabline#left_alt_sep = '│'                             "Right separator for tabline
-let g:airline_theme_patch_func = 'AirlineThemePatch'                            "Add red background for unsaved buffers
-let g:airline_highlighting_cache = 1                                            "Cache highlighting
-let g:airline_skip_empty_sections = 1                                           "Hide empty sections
+let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
+let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
 let g:gitgutter_realtime = 0                                                    "Disable gitgutter in realtime
 let g:gitgutter_eager = 0                                                       "Disable gitgutter to eager load on tab or buffer switch
@@ -335,18 +345,13 @@ let g:user_emmet_next_key = '<c-n>'                                             
 let g:NERDTreeChDirMode = 2                                                     "Always change the root directory
 let g:NERDTreeMinimalUI = 1                                                     "Disable help text and bookmark title
 let g:NERDTreeShowHidden = 1                                                    "Show hidden files in NERDTree
-let g:NERDTreeIgnore=['\.git$', '\.sass-cache$', '\.vagrant', '\.idea']
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
-let g:neosnippet#snippets_directory = [
-            \ s:plugin_dir . '/honza/vim-snippets/snippets',
-            \ '~/.config/nvim/snippets']
+let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
 
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
 let g:deoplete#file#enable_buffer_path = 1                                      "Autocomplete files relative to current buffer
-
-let g:ackhighlight = 1                                                          "Highlight current search
-let g:ackprg = 'ag --vimgrep'                                                   "Use ag instead of ack for searching
+let g:deoplete#tag#cache_limit_size = 10000000                                  "Allow tags file up to ~10 MB
 
 let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
 
@@ -354,11 +359,14 @@ let g:ale_linters = {'javascript': ['eslint']}                                  
 let g:ale_lint_on_save = 1                                                      "Lint when saving a file
 let g:ale_sign_error = '✖'                                                      "Lint error sign
 let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
-
-let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '                                "Set up spacing for sidebar icons
+let g:ale_statusline_format =[' %d E │', ' %d W │', '']                         "Status line texts
 
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
+let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
 
-let g:notes_directories = ['~/notes']                                           "Directory for notes
+let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
-let g:ctrlp_funky_matchtype = 'path'                                            "Highlight matches in ctrlp funky window
+let g:magit_default_show_all_files = 0                                          "Fold all files in diff by default when opened
+
+" }}}
+" vim:foldenable:foldmethod=marker
