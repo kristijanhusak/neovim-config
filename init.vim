@@ -66,7 +66,9 @@ set splitbelow                                                                  
 set path+=**                                                                    "Allow recursive search
 set inccommand=split                                                            "Show substitute changes immidiately in separate split
 set fillchars+=vert:\│                                                          "Make vertical split separator full line
-set pumheight=30
+set pumheight=30                                                                "Maximum number of entries in autocomplete popup
+set exrc                                                                        "Allow using local vimrc
+set secure                                                                      "Forbid autocmd in local vimrc
 
 syntax on                                                                       "turn on syntax highlighting
 
@@ -109,7 +111,6 @@ autocmd vimrc BufWritePre * :call s:StripTrailingWhitespaces()                  
 autocmd vimrc InsertEnter * :set nocul                                          "Remove cursorline highlight
 autocmd vimrc InsertLeave * :set cul | NeoSnippetClearMarkers                   "Add cursorline highlight in normal mode and remove snippet markers
 autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
-autocmd vimrc VimEnter,BufNewFile,BufReadPost * call s:LoadLocalVimrc()         "Load per project vimrc (Used for custom test mappings, etc.)
 
 " }}}
 " ================ Completion ======================= {{{
@@ -181,12 +182,6 @@ function! s:StripTrailingWhitespaces()
     let l:c = col(".")
     %s/\s\+$//e
     call cursor(l:l, l:c)
-endfunction
-
-function! s:LoadLocalVimrc()
-    if filereadable(glob(getcwd() . '/.vimrc.local'))
-        :execute 'source '.fnameescape(glob(getcwd(). '/.vimrc.local'))
-    endif
 endfunction
 
 function! Search()
@@ -364,7 +359,7 @@ let g:ale_linters = {'javascript': ['eslint']}                                  
 let g:ale_lint_on_save = 1                                                      "Lint when saving a file
 let g:ale_sign_error = '✖'                                                      "Lint error sign
 let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
-let g:ale_statusline_format =[' %d E │', ' %d W │', '']                          "Status line texts
+let g:ale_statusline_format =[' %d E │', ' %d W │', '']                         "Status line texts
 
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
 let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks

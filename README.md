@@ -24,7 +24,6 @@ Plugins
 * [christoomey/vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator)
 * [w0rp/ale](https://github.com/w0rp/ale)
 * [nelstrom/vim-visual-star-search](https://github.com/nelstrom/vim-visual-star-search)
-* [mileszs/ack.vim](https://github.com/mileszs/ack.vim)
 * [Raimondi/delimitMate](https://github.com/Raimondi/delimitMate)
 * [mattn/emmet-vim](https://github.com/mattn/emmet-vim)
 * [tpope/vim-commentary](https://github.com/tpope/vim-commentary)
@@ -44,6 +43,7 @@ Plugins
 * [ctrlpvim/ctrlp.vim](https://github.com/ctrlpvim/ctrlp.vim)
 * [vimwiki/vimwiki](https://github.com/vimwiki/vimwiki)
 * [galooshi/vim-import-js](https://github.com/galooshi/vim-import-js)
+* [jreybert/vimagit](https://github.com/jreybert/vimagit)
 
 Font used:
 * current - [Iosevka](https://github.com/be5invis/Iosevka)
