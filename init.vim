@@ -1,7 +1,6 @@
 " ================ Plugins ==================== {{{
 call plug#begin( '~/.config/nvim/bundle')
 
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'w0rp/ale'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'Raimondi/delimitMate'
