@@ -1,7 +1,7 @@
 " ================ Plugins ==================== {{{
 call plug#begin( '~/.config/nvim/bundle')
 
-Plug 'w0rp/ale'
+Plug 'w0rp/ale', { 'do': 'npm install -g prettier' }
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'Raimondi/delimitMate'
 Plug 'mattn/emmet-vim', { 'for': ['html', 'css', 'javascript.jsx'] }
@@ -325,6 +325,9 @@ nnoremap <Leader>gt :sp term://ctags -R --exclude=node_modules .<CR>G
 " Jump to definition in vertical split
 nnoremap <Leader>] <C-W>v<C-]>
 
+" Reformat and fix linting errors
+nnoremap <Leader>s :ALEFix<CR>
+
 " }}}
 " ================ Plugins setups ======================== {{{
 
@@ -355,6 +358,8 @@ let g:deoplete#tag#cache_limit_size = 10000000                                  
 let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
 
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
+let g:ale_fixers = {'javascript': ['prettier', 'eslint']}                       "Fix eslint errors
+let g:ale_javascript_prettier_options = '--print-width 100'                     "Set max width to 100 chars for prettier
 let g:ale_lint_on_save = 1                                                      "Lint when saving a file
 let g:ale_sign_error = '✖'                                                      "Lint error sign
 let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
