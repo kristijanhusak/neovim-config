@@ -1,6 +1,7 @@
 " ================ Plugins ==================== {{{
 call plug#begin( '~/.config/nvim/bundle')
 
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'w0rp/ale', { 'do': 'npm install -g prettier' }
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'Raimondi/delimitMate'
@@ -215,15 +216,6 @@ imap <c-s> <C-o>:w<CR>
 " Also save with ,w
 nnoremap <Leader>w :w<CR>
 
-" Easier window navigation
-nmap <C-h> <C-w>h
-nmap <C-j> <C-w>j
-nmap <C-k> <C-w>k
-nmap <C-l> <C-w>l
-tnoremap <C-h> <C-\><C-n><C-w>h
-tnoremap <C-j> <C-\><C-n><C-w>j
-tnoremap <C-k> <C-\><C-n><C-w>k
-tnoremap <C-l> <C-\><C-n><C-w>l
 " Open vertical split
 nnoremap <Leader>v <C-w>v
 
@@ -341,8 +333,7 @@ let g:ctrlsf_mapping = {'vsplit': 's'}                                          
 let g:gitgutter_realtime = 0                                                    "Disable gitgutter in realtime
 let g:gitgutter_eager = 0                                                       "Disable gitgutter to eager load on tab or buffer switch
 
-let g:user_emmet_expandabbr_key = '<c-e>'                                       "Change trigger emmet key
-let g:user_emmet_next_key = '<c-n>'                                             "Change trigger jump to next for emmet
+let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
 
 let g:NERDTreeChDirMode = 2                                                     "Always change the root directory
 let g:NERDTreeMinimalUI = 1                                                     "Disable help text and bookmark title
@@ -371,6 +362,8 @@ let g:javascript_plugin_jsdoc = 1                                               
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
 let g:magit_default_show_all_files = 0                                          "Fold all files in diff by default when opened
+
+let g:tmux_navigator_disable_when_zoomed = 1                                    "Disable tmux navigation on fullscreen
 
 " }}}
 " vim:foldenable:foldmethod=marker
