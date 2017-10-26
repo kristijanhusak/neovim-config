@@ -305,7 +305,7 @@ nnoremap <Leader>s :ALEFix<CR>
 " }}}
 " ================ Plugins setups ======================== {{{
 
-let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:25,results:25'           "Ctrlp window setup
+let g:ctrlp_match_window = 'order:ttb'                                          "Ctrlp window setup
 let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['@']}                         "Map delete buffer in ctrlp
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'                           "Use ag for searching
 
