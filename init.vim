@@ -14,7 +14,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
 Plug 'duff/vim-bufonly'
-Plug 'gregsexton/MatchTag', { 'for': ['html', 'css', 'javascript.jsx'] }
+Plug 'gregsexton/MatchTag', { 'for': ['html', 'javascript.jsx'] }
 Plug 'sheerun/vim-polyglot'
 Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'Shougo/deoplete.nvim'
@@ -22,7 +22,6 @@ Plug 'Shougo/neosnippet'
 Plug 'dyng/ctrlsf.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vimwiki/vimwiki'
-Plug 'galooshi/vim-import-js', { 'do': 'npm install -g import-js', 'for': 'javascript' }
 Plug 'jreybert/vimagit'
 
 call plug#end()
@@ -192,16 +191,6 @@ function! Search()
     endif
 endfunction
 
-function! SearchAndReplace(...) range
-    let search = input('Search: ', '')
-    if search != ''
-        let isVisualMode = a:0
-        let replace = input('Replace: ', '')
-        let range = isVisualMode ? "'<,'>s/" : ":%s/"
-        :execute range.search."/".replace
-    endif
-endfunction
-
 " }}}
 " ================ Custom mappings ======================== {{{
 
@@ -274,9 +263,6 @@ nnoremap <Leader>n :NERDTreeToggle<CR>
 " Toggle between last 2 buffers
 nnoremap <leader><tab> <c-^>
 
-" Auto change directory to match current file
-nnoremap <Leader>dc :cd %:p:h<CR>:pwd<CR>
-
 " Filesearch plugin map for searching in whole folder
 nnoremap <Leader>f :call Search()<CR>
 
@@ -300,10 +286,6 @@ nnoremap _ <c-w>5<
 " Center highlighted search
 nnoremap n nzz
 nnoremap N Nzz
-
-" Search and replace in visual highlight
-vnoremap <Leader>r :call SearchAndReplace(1)<CR>
-nnoremap <Leader>r :call SearchAndReplace()<CR>
 
 " Open file on cursor in vertical split
 nnoremap gf <C-W>vgf
