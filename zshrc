@@ -3,9 +3,10 @@ ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="cloud_kris"
 
-plugins=(git laravel4 composer symfony2 zshmarks zsh-autosuggestions docker-compose)
+plugins=(git laravel4 composer symfony2 zshmarks zsh-autosuggestions docker-compose z)
 
 source $ZSH/oh-my-zsh.sh
+. ~/z.sh
 
 alias c7='sudo chmod -R 777'
 alias rma='sudo rm -rf'

@@ -1,6 +1,7 @@
 #/bin/sh
-rm -rf ~/.config/nvim ~/.tmux.conf ~/.zshrc ~/.oh-my-zsh \
+rm -rf ~/.config/nvim ~/.tmux.conf ~/.zshrc ~/.oh-my-zsh ~/z.sh \
 && sudo apt-get install silversearcher-ag \
+&& curl -fLo ~/z.sh https://raw.githubusercontent.com/rupa/z/master/z.sh \
 && curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
 && ln -s $(pwd)/init.vim ~/.config/nvim/init.vim \
 && ln -s $(pwd)/zshrc ~/.zshrc \
