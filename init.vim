@@ -307,7 +307,7 @@ nnoremap <Leader>r :ALEFix<CR>
 
 let g:ctrlp_match_window = 'order:ttb'                                          "Ctrlp window setup
 let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['@']}                         "Map delete buffer in ctrlp
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'                           "Use ag for searching
+let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'              "Use ripgrep for searching
 
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
