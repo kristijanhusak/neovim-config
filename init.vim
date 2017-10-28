@@ -300,7 +300,7 @@ nnoremap <Leader>gt :sp term://ctags -R --exclude=node_modules .<CR>G
 nnoremap <Leader>] <C-W>v<C-]>
 
 " Reformat and fix linting errors
-nnoremap <Leader>s :ALEFix<CR>
+nnoremap <Leader>r :ALEFix<CR>
 
 " }}}
 " ================ Plugins setups ======================== {{{
