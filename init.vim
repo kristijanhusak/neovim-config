@@ -306,6 +306,7 @@ nnoremap <Leader>r :ALEFix<CR>
 " ================ Plugins setups ======================== {{{
 
 let g:ctrlp_match_window = 'order:ttb'                                          "Ctrlp window setup
+let g:ctrlp_by_filename = 1                                                     "Set default search to be by file name
 let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['@']}                         "Map delete buffer in ctrlp
 let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'              "Use ripgrep for searching
 
