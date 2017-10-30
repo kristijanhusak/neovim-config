@@ -343,8 +343,6 @@ let g:javascript_plugin_jsdoc = 1                                               
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
-let g:magit_default_show_all_files = 0                                          "Fold all files in diff by default when opened
-
 let g:tmux_navigator_disable_when_zoomed = 1                                    "Disable tmux navigation on fullscreen
 
 " }}}
