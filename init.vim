@@ -20,9 +20,10 @@ Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet'
 Plug 'dyng/ctrlsf.vim'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'jreybert/vimagit'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 "}}}
@@ -225,8 +226,7 @@ smap <expr><TAB> neosnippet#jumpable() ?
 
 " Map for Escape key
 inoremap jj <Esc>
-tnoremap jj <C-\><C-n>
-tnoremap <Esc> <C-\><C-n>
+tnoremap <Leader>jj <C-\><C-n>
 
 " Yank to the end of the line
 nnoremap Y y$
@@ -267,9 +267,10 @@ nnoremap <leader><tab> <c-^>
 nnoremap <Leader>f :call Search()<CR>
 
 " Toggle buffer list
-nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <Leader>t :CtrlPBufTag<CR>
-nnoremap <Leader>m :CtrlPMRU<CR>
+nnoremap <C-p> :Files<CR>
+nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>t :BTags<CR>
+nnoremap <Leader>m :History<CR>
 
 " Maps for indentation in normal mode
 nnoremap <tab> >>
@@ -304,11 +305,6 @@ nnoremap <Leader>r :ALEFix<CR>
 
 " }}}
 " ================ Plugins setups ======================== {{{
-
-let g:ctrlp_match_window = 'order:ttb'                                          "Ctrlp window setup
-let g:ctrlp_by_filename = 1                                                     "Set default search to be by file name
-let g:ctrlp_prompt_mappings = {'PrtDeleteEnt()': ['@']}                         "Map delete buffer in ctrlp
-let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'              "Use ripgrep for searching
 
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split

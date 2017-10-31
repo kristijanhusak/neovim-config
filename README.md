@@ -40,10 +40,11 @@ Plugins
 * [Shougo/deoplete.nvim](https://github.com/Shougo/deoplete.nvim)
 * [Shougo/neosnippet](https://github.com/Shougo/neosnippet)
 * [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)
-* [ctrlpvim/ctrlp.vim](https://github.com/ctrlpvim/ctrlp.vim)
 * [vimwiki/vimwiki](https://github.com/vimwiki/vimwiki)
 * [galooshi/vim-import-js](https://github.com/galooshi/vim-import-js)
 * [jreybert/vimagit](https://github.com/jreybert/vimagit)
+* [junegunn/fzf](https://github.com/junegunn/fzf)
+* [junegunn/fzf.vim](https://github.com/junegunn/fzf.vim)
 
 Font used:
 * current - [Iosevka](https://github.com/be5invis/Iosevka)
