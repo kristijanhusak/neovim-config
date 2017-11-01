@@ -32,6 +32,7 @@ alias str="vboxmanage list runningvms | sed -r 's/.*\{(.*)\}/\1/' | xargs -L1 -I
 
 export PATH=$PATH:/usr/local/go/bin
 export EDITOR=nvim
+export FZF_DEFAULT_COMMAND='ag -g ""'
 # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
 # zsh-autosuggestions is designed to be unobtrusive)
 bindkey '^t' autosuggest-execute
