@@ -107,7 +107,7 @@ augroup vimrc
     autocmd!
 augroup END
 
-autocmd vimrc BufWritePre * :call s:StripTrailingWhitespaces()                  "Auto-remove trailing spaces
+autocmd vimrc BufWritePre * :call StripTrailingWhitespaces()                    "Auto-remove trailing spaces
 autocmd vimrc InsertEnter * :set nocul                                          "Remove cursorline highlight
 autocmd vimrc InsertLeave * :set cul | NeoSnippetClearMarkers                   "Add cursorline highlight in normal mode and remove snippet markers
 autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
@@ -177,11 +177,13 @@ cnoreabbrev F find
 " }}}
 " ================ Functions ======================== {{{
 
-function! s:StripTrailingWhitespaces()
+function! StripTrailingWhitespaces()
+  if &modifiable
     let l:l = line(".")
     let l:c = col(".")
     %s/\s\+$//e
     call cursor(l:l, l:c)
+  endif
 endfunction
 
 function! Search()
