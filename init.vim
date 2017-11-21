@@ -205,8 +205,7 @@ xmap <Leader>c gc
 " Map save to Ctrl + S
 map <c-s> :w<CR>
 imap <c-s> <C-o>:w<CR>
-" Also save with ,w
-nnoremap <Leader>w :w<CR>
+nnoremap <Leader>s :w<CR>
 
 " Open vertical split
 nnoremap <Leader>v <C-w>v
