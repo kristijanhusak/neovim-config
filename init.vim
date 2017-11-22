@@ -112,6 +112,7 @@ autocmd vimrc BufWritePre * :call StripTrailingWhitespaces()                    
 autocmd vimrc InsertEnter * :set nocul                                          "Remove cursorline highlight
 autocmd vimrc InsertLeave * :set cul | NeoSnippetClearMarkers                   "Add cursorline highlight in normal mode and remove snippet markers
 autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
+autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
 
 " }}}
 " ================ Completion ======================= {{{
