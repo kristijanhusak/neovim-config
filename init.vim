@@ -16,7 +16,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'duff/vim-bufonly'
 Plug 'gregsexton/MatchTag', { 'for': ['html', 'javascript.jsx'] }
 Plug 'sheerun/vim-polyglot'
-Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'joshdick/onedark.vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet'
 Plug 'dyng/ctrlsf.vim'
@@ -34,8 +34,7 @@ filetype plugin indent on                                                       
 
 let g:mapleader = ","                                                           "Change leader to a comma
 
-let g:enable_bold_font = 1                                                      "Enable bold font in colorscheme
-let g:enable_italic_font = 1                                                    "Enable italic font in colorscheme
+let g:onedark_terminal_italics = 1                                              "Enable italic font
 
 set termguicolors
 set title                                                                       "change the terminal's title
@@ -73,7 +72,7 @@ set secure                                                                      
 
 syntax on                                                                       "turn on syntax highlighting
 
-silent! colorscheme hybrid_material
+silent! colorscheme onedark
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -142,7 +141,7 @@ set sidescroll=5
 " }}}
 " ================ Statusline ======================== {{{
 
-hi User1 guifg=#FF0000 guibg=#455A64
+hi User1 guifg=#FF0000 guibg=#2C323C
 set statusline=\ %{toupper(mode())}                                             "Mode
 set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
 set statusline+=\ \│\ %4F                                                       "File path
