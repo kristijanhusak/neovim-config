@@ -114,6 +114,15 @@ autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             
 autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
 
 " }}}
+" ================ Colorscheme setup ================ {{{
+
+let g:bold_highlight_groups = ['Function', 'Statement', 'Todo', 'CursorLineNr', 'MatchParen', 'StatusLine']
+
+for group in g:bold_highlight_groups
+  call onedark#extend_highlight(group, { 'gui': 'bold' })
+endfor
+
+" }}}
 " ================ Completion ======================= {{{
 
 set wildmode=list:full

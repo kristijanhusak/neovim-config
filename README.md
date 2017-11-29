@@ -36,7 +36,7 @@ Plugins
 * [duff/vim-bufonly](https://github.com/duff/vim-bufonly)
 * [gregsexton/MatchTag](https://github.com/gregsexton/MatchTag)
 * [sheerun/vim-polyglot](https://github.com/sheerun/vim-polyglot)
-* [kristijanhusak/vim-hybrid-material](https://github.com/kristijanhusak/vim-hybrid-material)
+* [joshdick/onedark.vim](https://github.com/joshdick/onedark.vim)
 * [Shougo/deoplete.nvim](https://github.com/Shougo/deoplete.nvim)
 * [Shougo/neosnippet](https://github.com/Shougo/neosnippet)
 * [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)
