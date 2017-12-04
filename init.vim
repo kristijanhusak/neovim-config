@@ -25,6 +25,7 @@ Plug 'jreybert/vimagit'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'takac/vim-hardtime'
+Plug 'Galooshi/vim-import-js', { 'do': 'npm install -g import-js' }
 
 call plug#end()
 "}}}
