@@ -8,6 +8,10 @@ plugins=(git laravel4 composer symfony2 zshmarks zsh-autosuggestions docker-comp
 source $ZSH/oh-my-zsh.sh
 . ~/z.sh
 
+if [[ -r ~/.phpbrew/bashrc ]]; then
+  source ~/.phpbrew/bashrc
+fi
+
 alias n='nvim .'
 alias c7='sudo chmod -R 777'
 alias rma='sudo rm -rf'
