@@ -24,7 +24,6 @@ Plug 'vimwiki/vimwiki'
 Plug 'jreybert/vimagit'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'takac/vim-hardtime'
 Plug 'Galooshi/vim-import-js', { 'do': 'npm install -g import-js' }
 
 call plug#end()
@@ -355,12 +354,6 @@ let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            
 let g:magit_default_show_all_files = 0                                          "Fold all changes when Magit is opened
 
 let g:tmux_navigator_disable_when_zoomed = 1                                    "Disable tmux navigation on fullscreen
-
-let g:hardtime_default_on = 1                                                   "Enable hardtime by default
-let g:hardtime_timeout = 500                                                    "Set timeout to 500ms
-let g:hardtime_ignore_quickfix = 1                                              "Do not use hardtime in quickfix window
-let g:hardtime_maxcount = 3                                                     "Block repeatable action after 3 repeats
-let g:hardtime_ignore_buffer_patterns = ['NERD.*']                              "Ignore NERDTree buffers from triggering hardtime
 
 " }}}
 " vim:foldenable:foldmethod=marker

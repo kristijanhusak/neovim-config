@@ -45,7 +45,6 @@ Plugins
 * [jreybert/vimagit](https://github.com/jreybert/vimagit)
 * [junegunn/fzf](https://github.com/junegunn/fzf)
 * [junegunn/fzf.vim](https://github.com/junegunn/fzf.vim)
-* [takac/vim-hardtime](https://github.com/takac/vim-hardtime)
 
 Font used:
 * current - [Iosevka](https://github.com/be5invis/Iosevka)
