@@ -24,7 +24,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'jreybert/vimagit'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'Galooshi/vim-import-js', { 'do': 'npm install -g import-js' }
+Plug 'ludovicchabant/vim-gutentags'
 
 call plug#end()
 "}}}
@@ -151,6 +151,7 @@ set sidescroll=5
 " ================ Statusline ======================== {{{
 
 hi User1 guifg=#FF0000 guibg=#2C323C
+hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
 set statusline=\ %{toupper(mode())}                                             "Mode
 set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
 set statusline+=\ \│\ %4F                                                       "File path
@@ -162,9 +163,10 @@ set statusline+=\ %=                                                            
 set statusline+=\ %{&enc}                                                       "Encoding
 set statusline+=\ \│\ %y                                                        "Filetype
 set statusline+=\ \│\ %p%%                                                      "Percentage
-set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
 set statusline+=\ \│\ %c                                                        "Column number
-set statusline+=\ \│%1*%{ALEGetStatusLine()}%*                                  "Errors count
+set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
+set statusline+=\ %{gutentags#statusline('\│\ ')}                               "Tags status
+set statusline+=\ %2*%{ALEGetStatusLine()}%*                                    "Errors count
 
 "}}}
 " ================ Abbreviations ==================== {{{
@@ -304,9 +306,6 @@ nnoremap gf <C-W>vgf
 
 "Disable ex mode mapping
 map Q <Nop>
-
-" Generate tags
-nnoremap <Leader>gt :sp term://ctags -R --exclude=node_modules .<CR>G
 
 " Jump to definition in vertical split
 nnoremap <Leader>] <C-W>v<C-]>

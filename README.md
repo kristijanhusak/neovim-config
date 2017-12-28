@@ -41,7 +41,7 @@ Plugins
 * [Shougo/neosnippet](https://github.com/Shougo/neosnippet)
 * [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)
 * [vimwiki/vimwiki](https://github.com/vimwiki/vimwiki)
-* [galooshi/vim-import-js](https://github.com/galooshi/vim-import-js)
+* [ludovicchabant/vim-gutentags](https://github.com/ludovicchabant/vim-gutentags)
 * [jreybert/vimagit](https://github.com/jreybert/vimagit)
 * [junegunn/fzf](https://github.com/junegunn/fzf)
 * [junegunn/fzf.vim](https://github.com/junegunn/fzf.vim)
