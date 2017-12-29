@@ -45,6 +45,7 @@ Plugins
 * [jreybert/vimagit](https://github.com/jreybert/vimagit)
 * [junegunn/fzf](https://github.com/junegunn/fzf)
 * [junegunn/fzf.vim](https://github.com/junegunn/fzf.vim)
+* [kristijanhusak/vim-js-file-import](https://github.com/kristijanhusak/vim-js-file-import)
 
 Font used:
 * current - [Iosevka](https://github.com/be5invis/Iosevka)

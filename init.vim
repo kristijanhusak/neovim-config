@@ -25,6 +25,7 @@ Plug 'jreybert/vimagit'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'kristijanhusak/vim-js-file-import'
 
 call plug#end()
 "}}}
@@ -312,6 +313,9 @@ nnoremap <Leader>] <C-W>v<C-]>
 
 " Reformat and fix linting errors
 nnoremap <Leader>r :ALEFix<CR>
+
+" Reformat and fix linting errors
+nnoremap <Leader>g :call FileImport()<CR>
 
 " }}}
 " ================ Plugins setups ======================== {{{
