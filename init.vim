@@ -200,7 +200,7 @@ function! StripTrailingWhitespaces()
 endfunction
 
 function! Search()
-    let term = input('Search for: ', '')
+    let term = input('Search for: ', expand('<cword>'))
     if term != ''
         let path = input('Path: ', '', 'file')
         :execute 'CtrlSF "'.term.'" '.path
