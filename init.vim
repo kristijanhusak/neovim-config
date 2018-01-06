@@ -315,7 +315,7 @@ nnoremap <Leader>] <C-W>v<C-]>
 nnoremap <Leader>r :ALEFix<CR>
 
 " Reformat and fix linting errors
-nnoremap <Leader>g :call FileImport()<CR>
+nnoremap <Leader>g :call JsFileImport()<CR>
 
 " }}}
 " ================ Plugins setups ======================== {{{
