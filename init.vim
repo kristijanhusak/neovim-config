@@ -26,6 +26,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
+Plug 'AndrewRadev/splitjoin.vim'
 
 call plug#end()
 "}}}
