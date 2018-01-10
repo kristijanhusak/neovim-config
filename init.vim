@@ -200,12 +200,13 @@ function! StripTrailingWhitespaces()
   endif
 endfunction
 
-function! Search()
-    let term = input('Search for: ', expand('<cword>'))
-    if term != ''
-        let path = input('Path: ', '', 'file')
-        :execute 'CtrlSF "'.term.'" '.path
-    endif
+function! Search(...)
+  let default = a:0 > 0 ? expand('<cword>') : ''
+  let term = input('Search for: ', default)
+  if term != ''
+    let path = input('Path: ', '', 'file')
+    :execute 'CtrlSF "'.term.'" '.path
+  endif
 endfunction
 
 " }}}
@@ -280,6 +281,7 @@ nnoremap <leader><tab> <c-^>
 
 " Filesearch plugin map for searching in whole folder
 nnoremap <Leader>f :call Search()<CR>
+nnoremap <Leader>F :call Search(1)<CR>
 
 " Toggle buffer list
 nnoremap <C-p> :Files<CR>
