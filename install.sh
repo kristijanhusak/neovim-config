@@ -8,7 +8,6 @@ rm -rf ~/.config/nvim ~/.tmux.conf ~/.zshrc ~/.oh-my-zsh ~/.fonts/iosevka* \
 && ln -s $(pwd)/zshrc ~/.zshrc \
 && ln -s $(pwd)/tmux.conf ~/.tmux.conf \
 && ln -s $(pwd)/snippets ~/.config/nvim/snippets \
-&& ln -s $(pwd)/importjs.js ~/.importjs.js \
 && nvim -c 'PlugInstall' -c 'qa!' \
 && sudo apt-get install dh-autoreconf \
 && git clone https://github.com/universal-ctags/ctags \
