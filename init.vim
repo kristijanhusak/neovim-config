@@ -341,6 +341,9 @@ let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
 let g:deoplete#file#enable_buffer_path = 1                                      "Autocomplete files relative to current buffer
 let g:deoplete#tag#cache_limit_size = 10000000                                  "Allow tags file up to ~10 MB
+let g:deoplete#auto_complete_delay = 0                                          "Auto complete instantly
+let g:deoplete#max_list = 30                                                    "Show maximum of 30 entries in autocomplete popup
+let g:deoplete#enable_camel_case = 1                                            "Enable camel case completion
 
 let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
 
