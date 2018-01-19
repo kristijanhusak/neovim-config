@@ -16,7 +16,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'duff/vim-bufonly'
 Plug 'gregsexton/MatchTag', { 'for': ['html', 'javascript.jsx'] }
 Plug 'sheerun/vim-polyglot'
-Plug 'joshdick/onedark.vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet'
 Plug 'dyng/ctrlsf.vim'
@@ -26,6 +25,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'lifepillar/vim-solarized8'
 
 call plug#end()
 "}}}
@@ -35,7 +35,8 @@ filetype plugin indent on                                                       
 
 let g:mapleader = ","                                                           "Change leader to a comma
 
-let g:onedark_terminal_italics = 1                                              "Enable italic font
+let g:solarized_term_italics = 1                                                "Enable italic
+let g:solarized_extra_hi_groups = 1                                             "Enable extra higlight groups
 
 set termguicolors
 set title                                                                       "change the terminal's title
@@ -73,7 +74,7 @@ set secure                                                                      
 
 syntax on                                                                       "turn on syntax highlighting
 
-silent! colorscheme onedark
+silent! colorscheme solarized8
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -117,11 +118,7 @@ autocmd vimrc FocusGained,BufEnter * checktime                                  
 " }}}
 " ================ Colorscheme setup ================ {{{
 
-let g:bold_highlight_groups = ['Function', 'Statement', 'Todo', 'CursorLineNr', 'MatchParen', 'StatusLine']
-
-for group in g:bold_highlight_groups
-  call onedark#extend_highlight(group, { 'gui': 'bold' })
-endfor
+hi link jsFuncCall Function
 
 " }}}
 " ================ Completion ======================= {{{
@@ -151,7 +148,7 @@ set sidescroll=5
 " }}}
 " ================ Statusline ======================== {{{
 
-hi User1 guifg=#FF0000 guibg=#2C323C
+hi User1 guifg=#FF0000 guibg=#839496 gui=bold
 hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
 set statusline=\ %{toupper(mode())}                                             "Mode
 set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
