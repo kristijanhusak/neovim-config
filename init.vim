@@ -21,7 +21,6 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet'
 Plug 'dyng/ctrlsf.vim'
 Plug 'vimwiki/vimwiki'
-Plug 'jreybert/vimagit'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
@@ -326,9 +325,6 @@ nnoremap <Leader>g :call JsFileImport()<CR>
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
-let g:gitgutter_realtime = 0                                                    "Disable gitgutter in realtime
-let g:gitgutter_eager = 0                                                       "Disable gitgutter to eager load on tab or buffer switch
-
 let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
 
 let g:NERDTreeChDirMode = 2                                                     "Always change the root directory
@@ -359,8 +355,6 @@ let g:jsx_ext_required = 1                                                      
 let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
-
-let g:magit_default_show_all_files = 0                                          "Fold all changes when Magit is opened
 
 let g:tmux_navigator_disable_when_zoomed = 1                                    "Disable tmux navigation on fullscreen
 
