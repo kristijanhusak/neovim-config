@@ -119,6 +119,7 @@ autocmd vimrc FocusGained,BufEnter * checktime                                  
 " ================ Colorscheme setup ================ {{{
 
 hi link jsFuncCall Function
+let g:terminal_color_8 = '#555753'
 
 " }}}
 " ================ Completion ======================= {{{
