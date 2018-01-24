@@ -16,7 +16,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'duff/vim-bufonly'
 Plug 'gregsexton/MatchTag', { 'for': ['html', 'javascript.jsx'] }
 Plug 'sheerun/vim-polyglot'
-Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-completion-manager'
 Plug 'Shougo/neosnippet'
 Plug 'dyng/ctrlsf.vim'
 Plug 'vimwiki/vimwiki'
@@ -332,12 +332,7 @@ let g:NERDTreeShowHidden = 1                                                    
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
 
-let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
-let g:deoplete#file#enable_buffer_path = 1                                      "Autocomplete files relative to current buffer
-let g:deoplete#tag#cache_limit_size = 10000000                                  "Allow tags file up to ~10 MB
-let g:deoplete#auto_complete_delay = 0                                          "Auto complete instantly
-let g:deoplete#max_list = 30                                                    "Show maximum of 30 entries in autocomplete popup
-let g:deoplete#enable_camel_case = 1                                            "Enable camel case completion
+let g:cm_refresh_length = [[1, 3], [7, 2]]                                      "Require only 2 chars to show autocomplete
 
 let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
 
@@ -355,6 +350,5 @@ let g:javascript_plugin_jsdoc = 1                                               
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
 let g:tmux_navigator_disable_when_zoomed = 1                                    "Disable tmux navigation on fullscreen
-
 " }}}
 " vim:foldenable:foldmethod=marker
