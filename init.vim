@@ -31,8 +31,6 @@ call plug#end()
 "}}}
 " ================ General Config ==================== {{{
 
-filetype plugin indent on                                                       "Enable plugins and indents by filetype
-
 let g:mapleader = ","                                                           "Change leader to a comma
 
 let g:solarized_term_italics = 1                                                "Enable italic
@@ -66,13 +64,11 @@ set conceallevel=2 concealcursor=i                                              
 set splitright                                                                  "Set up new vertical splits positions
 set splitbelow                                                                  "Set up new horizontal splits positions
 set path+=**                                                                    "Allow recursive search
-set inccommand=split                                                            "Show substitute changes immidiately in separate split
+set inccommand=nosplit                                                          "Show substitute changes immidiately in separate split
 set fillchars+=vert:\│                                                          "Make vertical split separator full line
 set pumheight=30                                                                "Maximum number of entries in autocomplete popup
 set exrc                                                                        "Allow using local vimrc
 set secure                                                                      "Forbid autocmd in local vimrc
-
-syntax on                                                                       "turn on syntax highlighting
 
 silent! colorscheme solarized8
 
