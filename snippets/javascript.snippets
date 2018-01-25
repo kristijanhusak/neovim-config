@@ -9,7 +9,6 @@ snippet mtd
   ${1:methodName}(${2:args}) {
     ${0}
   }
-
 snippet creact
     import React, { Component } from 'react'
 
@@ -35,3 +34,16 @@ snippet cnode
     }
 
     module.exports = $1;
+
+snippet amtd
+    async ${1:method}(${2:params}) {
+      ${0}
+    }
+
+snippet tc
+    try {
+      ${1:ok}${0}
+    } catch (e) {
+      ${2:err}
+    }
+
