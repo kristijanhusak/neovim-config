@@ -25,7 +25,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'lifepillar/vim-solarized8'
+Plug 'tyrannicaltoucan/vim-quantum'
 
 call plug#end()
 "}}}
@@ -33,8 +33,7 @@ call plug#end()
 
 let g:mapleader = ","                                                           "Change leader to a comma
 
-let g:solarized_term_italics = 1                                                "Enable italic
-let g:solarized_extra_hi_groups = 1                                             "Enable extra higlight groups
+let g:quantum_italics = 1                                                       "Allow italic comments
 
 set termguicolors
 set title                                                                       "change the terminal's title
@@ -70,7 +69,7 @@ set pumheight=30                                                                
 set exrc                                                                        "Allow using local vimrc
 set secure                                                                      "Forbid autocmd in local vimrc
 
-silent! colorscheme solarized8
+silent! colorscheme quantum
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -114,8 +113,7 @@ autocmd vimrc FocusGained,BufEnter * checktime                                  
 " }}}
 " ================ Colorscheme setup ================ {{{
 
-hi link jsFuncCall Function
-let g:terminal_color_8 = '#555753'
+hi ColorColumn guibg=#2c3a41
 
 " }}}
 " ================ Completion ======================= {{{
@@ -145,7 +143,7 @@ set sidescroll=5
 " }}}
 " ================ Statusline ======================== {{{
 
-hi User1 guifg=#FF0000 guibg=#839496 gui=bold
+hi User1 guifg=#FF0000 guibg=#425762 gui=bold
 hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
 set statusline=\ %{toupper(mode())}                                             "Mode
 set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
