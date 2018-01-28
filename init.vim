@@ -111,11 +111,6 @@ autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             
 autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
 
 " }}}
-" ================ Colorscheme setup ================ {{{
-
-hi ColorColumn guibg=#2c3a41
-
-" }}}
 " ================ Completion ======================= {{{
 
 set wildmode=list:full
@@ -295,9 +290,6 @@ nnoremap _ <c-w>5<
 " Center highlighted search
 nnoremap n nzz
 nnoremap N Nzz
-
-" Open file on cursor in vertical split
-nnoremap gf <C-W>vgf
 
 "Disable ex mode mapping
 map Q <Nop>
