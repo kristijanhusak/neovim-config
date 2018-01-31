@@ -25,7 +25,7 @@ alias code="cd ~/code"
 
 export PATH=$PATH:/usr/local/go/bin:~/go/bin
 export EDITOR=nvim
-export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_DEFAULT_COMMAND='rg --files'
 # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
 # zsh-autosuggestions is designed to be unobtrusive)
 bindkey '^t' autosuggest-execute
