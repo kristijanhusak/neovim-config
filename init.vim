@@ -68,6 +68,7 @@ set fillchars+=vert:\│                                                        
 set pumheight=30                                                                "Maximum number of entries in autocomplete popup
 set exrc                                                                        "Allow using local vimrc
 set secure                                                                      "Forbid autocmd in local vimrc
+set grepprg=rg\ --vimgrep
 
 silent! colorscheme quantum
 
@@ -104,6 +105,7 @@ augroup vimrc
     autocmd!
 augroup END
 
+autocmd vimrc QuickFixCmdPost [^l]* cwindow                                     "Open quickfix window after grepping
 autocmd vimrc BufWritePre * :call StripTrailingWhitespaces()                    "Auto-remove trailing spaces
 autocmd vimrc InsertEnter * :set nocul                                          "Remove cursorline highlight
 autocmd vimrc InsertLeave * :set cul | NeoSnippetClearMarkers                   "Add cursorline highlight in normal mode and remove snippet markers
