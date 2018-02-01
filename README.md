@@ -21,7 +21,6 @@ Plugins
 ----------------
 
 * [junegunn/vim-plug](https://github.com/junegunn/vim-plug)
-* [christoomey/vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator)
 * [w0rp/ale](https://github.com/w0rp/ale)
 * [nelstrom/vim-visual-star-search](https://github.com/nelstrom/vim-visual-star-search)
 * [Raimondi/delimitMate](https://github.com/Raimondi/delimitMate)

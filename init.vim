@@ -1,7 +1,6 @@
 " ================ Plugins ==================== {{{
 call plug#begin( '~/.config/nvim/bundle')
 
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'w0rp/ale', { 'do': 'npm install -g prettier' }
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'Raimondi/delimitMate'
@@ -213,6 +212,13 @@ nnoremap <Leader>s :w<CR>
 " Open vertical split
 nnoremap <Leader>v <C-w>v
 
+" Move between slits
+nnoremap <c-h> <C-w>h
+nnoremap <c-j> <C-w>j
+nnoremap <c-k> <C-w>k
+nnoremap <c-l> <C-w>l
+nnoremap <c-Space> <C-w>p
+
 " Down is really the next line
 nnoremap j gj
 nnoremap k gk
@@ -337,6 +343,5 @@ let g:javascript_plugin_jsdoc = 1                                               
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
-let g:tmux_navigator_disable_when_zoomed = 1                                    "Disable tmux navigation on fullscreen
 " }}}
 " vim:foldenable:foldmethod=marker
