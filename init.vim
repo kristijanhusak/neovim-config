@@ -15,7 +15,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'duff/vim-bufonly'
 Plug 'gregsexton/MatchTag', { 'for': ['html', 'javascript.jsx'] }
 Plug 'sheerun/vim-polyglot'
-Plug 'roxma/nvim-completion-manager'
+Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet'
 Plug 'dyng/ctrlsf.vim'
 Plug 'vimwiki/vimwiki'
@@ -326,7 +326,11 @@ let g:NERDTreeShowHidden = 1                                                    
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
 
-let g:cm_refresh_length = [[1, 3], [7, 2]]                                      "Require only 2 chars to show autocomplete
+let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
+let g:deoplete#file#enable_buffer_path = 1                                      "Autocomplete files relative to current buffer
+let g:deoplete#tag#cache_limit_size = 20000000                                  "Allow tags file up to ~20 MB
+let g:deoplete#max_list = 30                                                    "Show maximum of 30 entries in autocomplete popup
+let g:deoplete#enable_camel_case = 1                                            "Enable camel case completion
 
 let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
 
