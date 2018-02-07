@@ -308,8 +308,10 @@ nnoremap <Leader>] <C-W>v<C-]>
 " Reformat and fix linting errors
 nnoremap <Leader>r :ALEFix<CR>
 
-" Reformat and fix linting errors
+" Import word under cursor automatically
 nnoremap <Leader>g :call JsFileImport()<CR>
+" Import word under manually by entering file path or package name
+nnoremap <Leader>G :call PromptJsFileImport()<CR>
 
 " }}}
 " ================ Plugins setups ======================== {{{
