@@ -25,6 +25,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'tyrannicaltoucan/vim-quantum'
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
 call plug#end()
 "}}}
