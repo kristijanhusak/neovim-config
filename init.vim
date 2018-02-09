@@ -68,6 +68,7 @@ set pumheight=30                                                                
 set exrc                                                                        "Allow using local vimrc
 set secure                                                                      "Forbid autocmd in local vimrc
 set grepprg=rg\ --vimgrep
+set tagcase=smart
 
 silent! colorscheme quantum
 
@@ -288,10 +289,6 @@ nnoremap <C-p> :Files<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>t :BTags<CR>
 nnoremap <Leader>m :History<CR>
-
-" Maps for indentation in normal mode
-nnoremap <tab> >>
-nnoremap <s-tab> <<
 
 " Indenting in visual mode
 xnoremap <s-tab> <gv
