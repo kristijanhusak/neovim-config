@@ -67,8 +67,8 @@ set fillchars+=vert:\│                                                        
 set pumheight=30                                                                "Maximum number of entries in autocomplete popup
 set exrc                                                                        "Allow using local vimrc
 set secure                                                                      "Forbid autocmd in local vimrc
-set grepprg=rg\ --vimgrep
-set tagcase=smart
+set grepprg=rg\ --vimgrep                                                       "Use ripgrep for grepping
+set tagcase=smart                                                               "Use smarcase for tags
 
 silent! colorscheme quantum
 
