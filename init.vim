@@ -176,8 +176,6 @@ cnoreabbrev t tabe
 cnoreabbrev T tabe
 cnoreabbrev f find
 cnoreabbrev F find
-cnoreabbrev fen set fen<CR>
-cnoreabbrev nofen set nofen<CR>
 
 " }}}
 " ================ Functions ======================== {{{
@@ -261,9 +259,6 @@ vnoremap p p`]
 " Move selected lines up and down
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-
-" Toggle fold with space
-nnoremap <space> za
 
 " Clear search highlight
 nnoremap <Leader><space> :noh<CR>

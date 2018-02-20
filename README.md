@@ -36,7 +36,7 @@ Plugins
 * [gregsexton/MatchTag](https://github.com/gregsexton/MatchTag)
 * [sheerun/vim-polyglot](https://github.com/sheerun/vim-polyglot)
 * [tyrannicaltoucan/vim-quantum](https://github.com/tyrannicaltoucan/vim-quantum)
-* [roxma/nvim-completion-manager](https://github.com/roxma/nvim-completion-manager)
+* [Shougo/deoplete.nvim](https://github.com/Shougo/deoplete.nvim)
 * [Shougo/neosnippet](https://github.com/Shougo/neosnippet)
 * [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)
 * [vimwiki/vimwiki](https://github.com/vimwiki/vimwiki)
