@@ -69,6 +69,7 @@ set exrc                                                                        
 set secure                                                                      "Forbid autocmd in local vimrc
 set grepprg=rg\ --vimgrep                                                       "Use ripgrep for grepping
 set tagcase=smart                                                               "Use smarcase for tags
+set updatetime=500                                                              "Cursor hold timeout
 
 silent! colorscheme quantum
 
