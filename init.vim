@@ -221,6 +221,9 @@ nnoremap <c-j> <C-w>j
 nnoremap <c-k> <C-w>k
 nnoremap <c-l> <C-w>l
 nnoremap <c-Space> <C-w>p
+tnoremap <c-h> <C-\><C-n><C-w>h
+tnoremap <c-l> <C-\><C-n><C-w>l
+tnoremap <c-Space> <C-\><C-n><C-w>p
 
 " Down is really the next line
 nnoremap j gj
