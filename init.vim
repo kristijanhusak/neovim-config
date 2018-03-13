@@ -158,7 +158,7 @@ set statusline+=\ \│\ %p%%                                                    
 set statusline+=\ \│\ %c                                                        "Column number
 set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
 set statusline+=\ %{gutentags#statusline('\│\ ')}                               "Tags status
-set statusline+=\ %2*%{ALEGetStatusLine()}%*                                    "Errors count
+set statusline+=\ %2*%{AleStatusline()}%*                                       "Errors count
 
 "}}}
 " ================ Abbreviations ==================== {{{
@@ -197,6 +197,15 @@ function! Search(...)
     let path = input('Path: ', '', 'file')
     :execute 'CtrlSF "'.term.'" '.path
   endif
+endfunction
+
+function! AleStatusline()
+  let count = ale#statusline#Count(bufnr(''))
+  let errors = count['error'] ? printf(' %d E ', count['error']) : ''
+  let warnings = count['warning'] ? printf(' %d W ', count['warning']) : ''
+  let separator = count['error'] && count['warning'] ? '│' : ''
+
+  return printf('%s%s%s', errors, separator, warnings)
 endfunction
 
 " }}}
