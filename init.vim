@@ -111,6 +111,7 @@ autocmd vimrc InsertEnter * :set nocul                                          
 autocmd vimrc InsertLeave * :set cul | NeoSnippetClearMarkers                   "Add cursorline highlight in normal mode and remove snippet markers
 autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
 autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
+autocmd vimrc FileType netrw map <buffer> o <CR>
 
 " }}}
 " ================ Completion ======================= {{{
@@ -339,6 +340,7 @@ let g:ctrlsf_mapping = {'vsplit': 's'}                                          
 
 let g:netrw_banner = 0                                                          "Hide help in netrw
 let g:netrw_list_hide='^\.\/$'                                                  "Hide current directory mark from list
+let g:netrw_localrmdir = 'rm -r'                                                "Allow deleting folders recursively
 
 let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
 
