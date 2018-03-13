@@ -21,7 +21,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
-Plug 'AndrewRadev/splitjoin.vim'
+Plug 'sbdchd/neoformat'
 Plug 'tyrannicaltoucan/vim-quantum'
 
 call plug#end()
@@ -212,6 +212,10 @@ function! AleStatusline()
   return printf('%s%s%s', errors, separator, warnings)
 endfunction
 
+function! FormatSelection() range
+  exe ":'<,'>Neoformat! ".&ft
+endfunction
+
 " }}}
 " ================ Custom mappings ======================== {{{
 
@@ -319,7 +323,8 @@ map Q <Nop>
 nnoremap <Leader>] <C-W>v<C-]>
 
 " Reformat and fix linting errors
-nnoremap <Leader>r :ALEFix<CR>
+nnoremap <Leader>r :Neoformat<CR>
+vnoremap <Leader>r :call FormatSelection()<CR>
 
 " Import word under cursor automatically
 nnoremap <Leader>g :call JsFileImport()<CR>
@@ -354,7 +359,6 @@ let g:ale_javascript_prettier_options = '--print-width 100'                     
 let g:ale_lint_on_save = 1                                                      "Lint when saving a file
 let g:ale_sign_error = '✖'                                                      "Lint error sign
 let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
-let g:ale_statusline_format =[' %d E ', ' %d W ', '']                           "Status line texts
 
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
 let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
