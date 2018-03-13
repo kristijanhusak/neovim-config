@@ -9,8 +9,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
 Plug 'duff/vim-bufonly'
 Plug 'gregsexton/MatchTag', { 'for': ['html', 'javascript.jsx'] }
@@ -199,6 +197,12 @@ function! Search(...)
   endif
 endfunction
 
+function! FindInNetrw()
+  let currentFilePath = expand('%:p:t')
+  Explore
+  call search(currentFilePath)
+endfunction
+
 function! AleStatusline()
   let count = ale#statusline#Count(bufnr(''))
   let errors = count['error'] ? printf(' %d E ', count['error']) : ''
@@ -280,10 +284,8 @@ nnoremap <Leader><space> :noh<CR>
 nnoremap <Leader>e :lopen<CR>
 nnoremap <Leader>q :lclose<CR>
 
-" Find current file in NERDTree
-nnoremap <Leader>hf :NERDTreeFind<CR>
-" Open NERDTree
-nnoremap <Leader>n :NERDTreeToggle<CR>
+nnoremap <Leader>hf :call FindInNetrw()<CR>
+nnoremap <Leader>n :Rexplore<CR>
 
 " Toggle between last 2 buffers
 nnoremap <leader><tab> <c-^>
@@ -330,11 +332,10 @@ nnoremap <Leader>G :call PromptJsFileImport()<CR>
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
-let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
+let g:netrw_banner = 0                                                          "Hide help in netrw
+let g:netrw_list_hide='^\.\/$'                                                  "Hide current directory mark from list
 
-let g:NERDTreeChDirMode = 2                                                     "Always change the root directory
-let g:NERDTreeMinimalUI = 1                                                     "Disable help text and bookmark title
-let g:NERDTreeShowHidden = 1                                                    "Show hidden files in NERDTree
+let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
