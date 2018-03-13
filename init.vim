@@ -158,7 +158,7 @@ set statusline+=\ \│\ %p%%                                                    
 set statusline+=\ \│\ %c                                                        "Column number
 set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
 set statusline+=\ %{gutentags#statusline('\│\ ')}                               "Tags status
-set statusline+=\ %2*%{ALEGetStatusLine()}%*                                    "Errors count
+set statusline+=\ %2*%{AleStatusline()}%*                                       "Errors count
 
 "}}}
 " ================ Abbreviations ==================== {{{
@@ -197,6 +197,15 @@ function! Search(...)
     let path = input('Path: ', '', 'file')
     :execute 'CtrlSF "'.term.'" '.path
   endif
+endfunction
+
+function! AleStatusline()
+  let count = ale#statusline#Count(bufnr(''))
+  let errors = count['error'] ? printf(' %d E ', count['error']) : ''
+  let warnings = count['warning'] ? printf(' %d W ', count['warning']) : ''
+  let separator = count['error'] && count['warning'] ? '│' : ''
+
+  return printf('%s%s%s', errors, separator, warnings)
 endfunction
 
 " }}}
@@ -344,7 +353,6 @@ let g:ale_javascript_prettier_options = '--print-width 100'                     
 let g:ale_lint_on_save = 1                                                      "Lint when saving a file
 let g:ale_sign_error = '✖'                                                      "Lint error sign
 let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
-let g:ale_statusline_format =[' %d E ', ' %d W ', '']                           "Status line texts
 
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
 let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
