@@ -111,6 +111,7 @@ autocmd vimrc InsertEnter * :set nocul                                          
 autocmd vimrc InsertLeave * :set cul | NeoSnippetClearMarkers                   "Add cursorline highlight in normal mode and remove snippet markers
 autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
 autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
+autocmd vimrc FileType netrw setl bufhidden=delete                              "Prevent netrw to set nohidden
 autocmd vimrc FileType netrw map <buffer> o <CR>
 
 " }}}
@@ -204,6 +205,14 @@ function! FindInNetrw()
   call search(currentFilePath)
 endfunction
 
+function! ToggleNetrw()
+  if &ft == 'netrw'
+    Rexplore
+    return 0
+  endif
+  e.
+endfunction
+
 function! AleStatusline()
   let count = ale#statusline#Count(bufnr(''))
   let errors = count['error'] ? printf(' %d E ', count['error']) : ''
@@ -290,7 +299,7 @@ nnoremap <Leader>e :lopen<CR>
 nnoremap <Leader>q :lclose<CR>
 
 nnoremap <Leader>hf :call FindInNetrw()<CR>
-nnoremap <Leader>n :Rexplore<CR>
+nnoremap <Leader>n :call ToggleNetrw()<CR>
 
 " Toggle between last 2 buffers
 nnoremap <leader><tab> <c-^>
