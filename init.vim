@@ -10,7 +10,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'duff/vim-bufonly'
 Plug 'gregsexton/MatchTag', { 'for': ['html', 'javascript.jsx'] }
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim'
@@ -172,7 +171,6 @@ cnoreabbrev Bd bd
 cnoreabbrev bD bd
 cnoreabbrev wrap set wrap
 cnoreabbrev nowrap set nowrap
-cnoreabbrev bda BufOnly
 cnoreabbrev t tabe
 cnoreabbrev T tabe
 cnoreabbrev f find
@@ -340,6 +338,9 @@ vnoremap <Leader>r :call FormatSelection()<CR>
 nnoremap <Leader>g :call JsFileImport()<CR>
 " Import word under manually by entering file path or package name
 nnoremap <Leader>G :call PromptJsFileImport()<CR>
+
+" Close all other buffers except current one
+nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 
 " }}}
 " ================ Plugins setups ======================== {{{

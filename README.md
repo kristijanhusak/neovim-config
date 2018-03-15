@@ -29,10 +29,7 @@ Plugins
 * [tpope/vim-surround](https://github.com/tpope/vim-surround)
 * [tpope/vim-repeat](https://github.com/tpope/vim-repeat)
 * [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
-* [Xuyuanp/nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)
-* [scrooloose/nerdtree](https://github.com/scrooloose/nerdtree)
 * [airblade/vim-gitgutter](https://github.com/airblade/vim-gitgutter)
-* [duff/vim-bufonly](https://github.com/duff/vim-bufonly)
 * [gregsexton/MatchTag](https://github.com/gregsexton/MatchTag)
 * [sheerun/vim-polyglot](https://github.com/sheerun/vim-polyglot)
 * [tyrannicaltoucan/vim-quantum](https://github.com/tyrannicaltoucan/vim-quantum)
@@ -44,7 +41,6 @@ Plugins
 * [junegunn/fzf](https://github.com/junegunn/fzf)
 * [junegunn/fzf.vim](https://github.com/junegunn/fzf.vim)
 * [kristijanhusak/vim-js-file-import](https://github.com/kristijanhusak/vim-js-file-import)
-* [AndrewRadev/splitjoin.vim](https://github.com/AndrewRadev/splitjoin.vim)
 
 Font used:
 * current - [Iosevka](https://github.com/be5invis/Iosevka)
