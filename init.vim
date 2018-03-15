@@ -109,6 +109,8 @@ autocmd vimrc BufWritePre * :call StripTrailingWhitespaces()                    
 autocmd vimrc InsertEnter * :set nocul                                          "Remove cursorline highlight
 autocmd vimrc InsertLeave * :set cul | NeoSnippetClearMarkers                   "Add cursorline highlight in normal mode and remove snippet markers
 autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
+autocmd vimrc FileType javascript setlocal formatprg=prettier\ --stdin
+      \\ --single-quote\ --print-width\ 100                                     "Setup prettier options for neoformat
 autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
 autocmd vimrc FileType netrw setl bufhidden=delete                              "Prevent netrw to set nohidden
 autocmd vimrc FileType netrw map <buffer> o <CR>
@@ -363,7 +365,10 @@ let g:deoplete#tag#cache_limit_size = 20000000                                  
 let g:deoplete#max_list = 30                                                    "Show maximum of 30 entries in autocomplete popup
 let g:deoplete#enable_camel_case = 1                                            "Enable camel case completion
 
-let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
+let g:delimitMate_expand_cr = 2                                                 "Auto indent on enter
+let g:delimitMate_jump_expansion = 1                                            "Jump to closing bracket instead of inserting new one
+
+let g:neoformat_try_formatprg = 1                                               "Use formatprg when available
 
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
 let g:ale_fixers = {'javascript': ['prettier', 'eslint']}                       "Fix eslint errors
