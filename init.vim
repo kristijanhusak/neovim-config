@@ -9,10 +9,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
-Plug 'duff/vim-bufonly'
+Plug 'scrooloose/nerdtree'
 Plug 'gregsexton/MatchTag', { 'for': ['html', 'javascript.jsx'] }
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim'
@@ -23,7 +21,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
-Plug 'AndrewRadev/splitjoin.vim'
+Plug 'sbdchd/neoformat'
 Plug 'tyrannicaltoucan/vim-quantum'
 
 call plug#end()
@@ -108,10 +106,12 @@ augroup vimrc
 augroup END
 
 autocmd vimrc QuickFixCmdPost [^l]* cwindow                                     "Open quickfix window after grepping
-autocmd vimrc BufWritePre * :call StripTrailingWhitespaces()                    "Auto-remove trailing spaces
-autocmd vimrc InsertEnter * :set nocul                                          "Remove cursorline highlight
-autocmd vimrc InsertLeave * :set cul | NeoSnippetClearMarkers                   "Add cursorline highlight in normal mode and remove snippet markers
+autocmd vimrc BufWritePre * call StripTrailingWhitespaces()                     "Auto-remove trailing spaces
+autocmd vimrc InsertEnter * set nocul                                           "Remove cursorline highlight
+autocmd vimrc InsertLeave * set cul | NeoSnippetClearMarkers                    "Add cursorline highlight in normal mode and remove snippet markers
 autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
+autocmd vimrc FileType javascript setlocal formatprg=prettier\ --stdin
+      \\ --single-quote\ --print-width\ 100                                     "Setup prettier options for neoformat
 autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
 
 " }}}
@@ -172,11 +172,6 @@ cnoreabbrev Bd bd
 cnoreabbrev bD bd
 cnoreabbrev wrap set wrap
 cnoreabbrev nowrap set nowrap
-cnoreabbrev bda BufOnly
-cnoreabbrev t tabe
-cnoreabbrev T tabe
-cnoreabbrev f find
-cnoreabbrev F find
 
 " }}}
 " ================ Functions ======================== {{{
@@ -195,7 +190,7 @@ function! Search(...)
   let term = input('Search for: ', default)
   if term != ''
     let path = input('Path: ', '', 'file')
-    :execute 'CtrlSF "'.term.'" '.path
+    execute 'CtrlSF "'.term.'" '.path
   endif
 endfunction
 
@@ -206,6 +201,10 @@ function! AleStatusline()
   let separator = count['error'] && count['warning'] ? '│' : ''
 
   return printf('%s%s%s', errors, separator, warnings)
+endfunction
+
+function! FormatSelection() range
+  exe ":'<,'>Neoformat! ".&ft
 endfunction
 
 " }}}
@@ -317,12 +316,16 @@ map Q <Nop>
 nnoremap <Leader>] <C-W>v<C-]>
 
 " Reformat and fix linting errors
-nnoremap <Leader>r :ALEFix<CR>
+nnoremap <Leader>r :Neoformat<CR>
+vnoremap <Leader>r :call FormatSelection()<CR>
 
 " Import word under cursor automatically
 nnoremap <Leader>g :call JsFileImport()<CR>
 " Import word under manually by entering file path or package name
 nnoremap <Leader>G :call PromptJsFileImport()<CR>
+
+" Close all other buffers except current one
+nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 
 " }}}
 " ================ Plugins setups ======================== {{{
@@ -330,11 +333,11 @@ nnoremap <Leader>G :call PromptJsFileImport()<CR>
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
-let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
-
 let g:NERDTreeChDirMode = 2                                                     "Always change the root directory
 let g:NERDTreeMinimalUI = 1                                                     "Disable help text and bookmark title
 let g:NERDTreeShowHidden = 1                                                    "Show hidden files in NERDTree
+
+let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
@@ -345,7 +348,10 @@ let g:deoplete#tag#cache_limit_size = 20000000                                  
 let g:deoplete#max_list = 30                                                    "Show maximum of 30 entries in autocomplete popup
 let g:deoplete#enable_camel_case = 1                                            "Enable camel case completion
 
-let g:delimitMate_expand_cr = 1                                                 "auto indent on enter
+let g:delimitMate_expand_cr = 2                                                 "Auto indent on enter
+let g:delimitMate_jump_expansion = 1                                            "Jump to closing bracket instead of inserting new one
+
+let g:neoformat_try_formatprg = 1                                               "Use formatprg when available
 
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
 let g:ale_fixers = {'javascript': ['prettier', 'eslint']}                       "Fix eslint errors
