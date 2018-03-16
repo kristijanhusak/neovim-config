@@ -10,6 +10,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'scrooloose/nerdtree'
 Plug 'gregsexton/MatchTag', { 'for': ['html', 'javascript.jsx'] }
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim'
@@ -112,8 +113,6 @@ autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             
 autocmd vimrc FileType javascript setlocal formatprg=prettier\ --stdin
       \\ --single-quote\ --print-width\ 100                                     "Setup prettier options for neoformat
 autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
-autocmd vimrc FileType netrw setl bufhidden=delete                              "Prevent netrw to set nohidden
-autocmd vimrc FileType netrw map <buffer> o <CR>
 
 " }}}
 " ================ Completion ======================= {{{
@@ -193,20 +192,6 @@ function! Search(...)
     let path = input('Path: ', '', 'file')
     execute 'CtrlSF "'.term.'" '.path
   endif
-endfunction
-
-function! FindInNetrw()
-  let currentFilePath = expand('%:p:t')
-  Explore
-  call search('\<'.currentFilePath.'\>')
-endfunction
-
-function! ToggleNetrw()
-  if &ft == 'netrw'
-    Rexplore
-    return 0
-  endif
-  e.
 endfunction
 
 function! AleStatusline()
@@ -294,8 +279,10 @@ nnoremap <Leader><space> :noh<CR>
 nnoremap <Leader>e :lopen<CR>
 nnoremap <Leader>q :lclose<CR>
 
-nnoremap <Leader>hf :call FindInNetrw()<CR>
-nnoremap <Leader>n :call ToggleNetrw()<CR>
+" Find current file in NERDTree
+nnoremap <Leader>hf :NERDTreeFind<CR>
+" Open NERDTree
+nnoremap <Leader>n :NERDTreeToggle<CR>
 
 " Toggle between last 2 buffers
 nnoremap <leader><tab> <c-^>
@@ -346,9 +333,9 @@ nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
-let g:netrw_banner = 0                                                          "Hide help in netrw
-let g:netrw_localrmdir = 'rm -r'                                                "Allow deleting folders recursively
-let g:netrw_keepdir = 0                                                         "Keep current directory same as browsing directory, fixes copying
+let g:NERDTreeChDirMode = 2                                                     "Always change the root directory
+let g:NERDTreeMinimalUI = 1                                                     "Disable help text and bookmark title
+let g:NERDTreeShowHidden = 1                                                    "Show hidden files in NERDTree
 
 let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
 
