@@ -105,9 +105,9 @@ augroup vimrc
 augroup END
 
 autocmd vimrc QuickFixCmdPost [^l]* cwindow                                     "Open quickfix window after grepping
-autocmd vimrc BufWritePre * :call StripTrailingWhitespaces()                    "Auto-remove trailing spaces
-autocmd vimrc InsertEnter * :set nocul                                          "Remove cursorline highlight
-autocmd vimrc InsertLeave * :set cul | NeoSnippetClearMarkers                   "Add cursorline highlight in normal mode and remove snippet markers
+autocmd vimrc BufWritePre * call StripTrailingWhitespaces()                     "Auto-remove trailing spaces
+autocmd vimrc InsertEnter * set nocul                                           "Remove cursorline highlight
+autocmd vimrc InsertLeave * set cul | NeoSnippetClearMarkers                    "Add cursorline highlight in normal mode and remove snippet markers
 autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
 autocmd vimrc FileType javascript setlocal formatprg=prettier\ --stdin
       \\ --single-quote\ --print-width\ 100                                     "Setup prettier options for neoformat
@@ -173,10 +173,6 @@ cnoreabbrev Bd bd
 cnoreabbrev bD bd
 cnoreabbrev wrap set wrap
 cnoreabbrev nowrap set nowrap
-cnoreabbrev t tabe
-cnoreabbrev T tabe
-cnoreabbrev f find
-cnoreabbrev F find
 
 " }}}
 " ================ Functions ======================== {{{
@@ -195,14 +191,14 @@ function! Search(...)
   let term = input('Search for: ', default)
   if term != ''
     let path = input('Path: ', '', 'file')
-    :execute 'CtrlSF "'.term.'" '.path
+    execute 'CtrlSF "'.term.'" '.path
   endif
 endfunction
 
 function! FindInNetrw()
   let currentFilePath = expand('%:p:t')
   Explore
-  call search(currentFilePath)
+  call search('\<'.currentFilePath.'\>')
 endfunction
 
 function! ToggleNetrw()
@@ -351,8 +347,8 @@ let g:ctrlsf_auto_close = 0                                                     
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
 let g:netrw_banner = 0                                                          "Hide help in netrw
-let g:netrw_list_hide='^\.\/$'                                                  "Hide current directory mark from list
 let g:netrw_localrmdir = 'rm -r'                                                "Allow deleting folders recursively
+let g:netrw_keepdir = 0                                                         "Keep current directory same as browsing directory, fixes copying
 
 let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
 
