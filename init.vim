@@ -204,7 +204,7 @@ function! AleStatusline()
 endfunction
 
 function! FormatSelection() range
-  exe ":'<,'>Neoformat! ".&ft
+  exe ":'<,'>Neoformat! ".&ft." | norm!gv="
 endfunction
 
 " }}}
@@ -316,7 +316,7 @@ map Q <Nop>
 nnoremap <Leader>] <C-W>v<C-]>
 
 " Reformat and fix linting errors
-nnoremap <Leader>r :Neoformat<CR>
+nnoremap <Leader>r :ALEFix<CR>
 vnoremap <Leader>r :call FormatSelection()<CR>
 
 " Import word under cursor automatically
