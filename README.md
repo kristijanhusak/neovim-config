@@ -30,6 +30,7 @@ Plugins
 * [tpope/vim-repeat](https://github.com/tpope/vim-repeat)
 * [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
 * [scrooloose/nerdtree](https://github.com/scrooloose/nerdtree)
+* [Xuyuanp/nerdtree-git-plugin](https://github.com/Xuyuanp/nerdtree-git-plugin)
 * [airblade/vim-gitgutter](https://github.com/airblade/vim-gitgutter)
 * [gregsexton/MatchTag](https://github.com/gregsexton/MatchTag)
 * [sheerun/vim-polyglot](https://github.com/sheerun/vim-polyglot)
