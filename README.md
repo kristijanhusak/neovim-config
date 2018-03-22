@@ -25,7 +25,7 @@ Plugins
 * [nelstrom/vim-visual-star-search](https://github.com/nelstrom/vim-visual-star-search)
 * [Raimondi/delimitMate](https://github.com/Raimondi/delimitMate)
 * [mattn/emmet-vim](https://github.com/mattn/emmet-vim)
-* [tpope/vim-commentary](https://github.com/tpope/vim-commentary)
+* [manasthakur/vim-commentor](https://github.com/manasthakur/vim-commentor)
 * [tpope/vim-surround](https://github.com/tpope/vim-surround)
 * [tpope/vim-repeat](https://github.com/tpope/vim-repeat)
 * [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
