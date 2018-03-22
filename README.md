@@ -34,7 +34,7 @@ Plugins
 * [airblade/vim-gitgutter](https://github.com/airblade/vim-gitgutter)
 * [gregsexton/MatchTag](https://github.com/gregsexton/MatchTag)
 * [sheerun/vim-polyglot](https://github.com/sheerun/vim-polyglot)
-* [tyrannicaltoucan/vim-quantum](https://github.com/tyrannicaltoucan/vim-quantum)
+* [joshdick/onedark.vim](https://github.com/joshdick/onedark.vim)
 * [Shougo/deoplete.nvim](https://github.com/Shougo/deoplete.nvim)
 * [Shougo/neosnippet](https://github.com/Shougo/neosnippet)
 * [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)

@@ -23,7 +23,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
 Plug 'sbdchd/neoformat'
-Plug 'tyrannicaltoucan/vim-quantum'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 "}}}
@@ -31,7 +31,7 @@ call plug#end()
 
 let g:mapleader = ","                                                           "Change leader to a comma
 
-let g:quantum_italics = 1                                                       "Allow italic comments
+let g:onedark_terminal_italics = 1                                              "Allow italic comments
 
 set termguicolors
 set title                                                                       "change the terminal's title
@@ -70,7 +70,7 @@ set grepprg=rg\ --vimgrep                                                       
 set tagcase=smart                                                               "Use smarcase for tags
 set updatetime=500                                                              "Cursor hold timeout
 
-silent! colorscheme quantum
+silent! colorscheme onedark
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -143,7 +143,7 @@ set sidescroll=5
 " }}}
 " ================ Statusline ======================== {{{
 
-hi User1 guifg=#FF0000 guibg=#425762 gui=bold
+hi User1 guifg=#FF0000 guibg=#2C323C gui=bold
 hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
 set statusline=\ %{toupper(mode())}                                             "Mode
 set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
