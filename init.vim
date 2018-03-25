@@ -114,6 +114,10 @@ autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             
 autocmd vimrc FileType javascript setlocal formatprg=prettier\ --stdin
       \\ --single-quote\ --print-width\ 100                                     "Setup prettier options for neoformat
 autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
+autocmd vimrc VimEnter * call NERDTreeAddMenuItem({
+    \ 'text': '(o)pen in file manager',
+    \ 'shortcut': 'o',
+    \ 'callback': 'OpenInFileManager'})
 
 " }}}
 " ================ Completion ======================= {{{
@@ -206,6 +210,11 @@ endfunction
 
 function! FormatSelection() range
   exe ":'<,'>Neoformat! ".&ft." | norm!gv="
+endfunction
+
+function! OpenInFileManager()
+  let curNode = g:NERDTreeFileNode.GetSelected()
+  exe ':!xdg-open '.shellescape(fnamemodify(curNode.path.str(), ':p:h'))
 endfunction
 
 " }}}
@@ -365,6 +374,7 @@ let g:jsx_ext_required = 1                                                      
 let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
+
 
 " }}}
 " vim:foldenable:foldmethod=marker
