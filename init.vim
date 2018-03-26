@@ -359,7 +359,6 @@ let g:deoplete#max_list = 30                                                    
 let g:deoplete#enable_camel_case = 1                                            "Enable camel case completion
 
 let g:delimitMate_expand_cr = 2                                                 "Auto indent on enter
-let g:delimitMate_jump_expansion = 1                                            "Jump to closing bracket instead of inserting new one
 
 let g:neoformat_try_formatprg = 1                                               "Use formatprg when available
 
