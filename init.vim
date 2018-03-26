@@ -149,8 +149,10 @@ set sidescroll=5
 
 hi User1 guifg=#FF0000 guibg=#2C323C gui=bold
 hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
+hi User3 guifg=#2C323C guibg=#E5C07B gui=bold
 set statusline=\ %{toupper(mode())}                                             "Mode
 set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
+set statusline+=%{GitFileStatus()}                                              "Git file status
 set statusline+=\ \│\ %4F                                                       "File path
 set statusline+=\ %1*%m%*                                                       "Modified indicator
 set statusline+=\ %w                                                            "Preview indicator
@@ -163,7 +165,8 @@ set statusline+=\ \│\ %p%%                                                    
 set statusline+=\ \│\ %c                                                        "Column number
 set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
 set statusline+=\ %{gutentags#statusline('\│\ ')}                               "Tags status
-set statusline+=\ %2*%{AleStatusline()}%*                                       "Errors count
+set statusline+=\ %2*%{AleStatusline('error')}%*                                "Errors count
+set statusline+=%3*%{AleStatusline('warning')}%*                                "Warning count
 
 "}}}
 " ================ Abbreviations ==================== {{{
@@ -199,13 +202,18 @@ function! Search(...)
   endif
 endfunction
 
-function! AleStatusline()
+function! AleStatusline(type)
   let count = ale#statusline#Count(bufnr(''))
-  let errors = count['error'] ? printf(' %d E ', count['error']) : ''
-  let warnings = count['warning'] ? printf(' %d W ', count['warning']) : ''
-  let separator = count['error'] && count['warning'] ? '│' : ''
+  if a:type == 'error' && count['error']
+    return printf(' %d E ', count['error'])
+  endif
 
-  return printf('%s%s%s', errors, separator, warnings)
+  if a:type == 'warning' && count['warning']
+    let l:space = count['error'] ? ' ': ''
+    return printf('%s %d W ', l:space, count['warning'])
+  endif
+
+  return ''
 endfunction
 
 function! FormatSelection() range
@@ -215,6 +223,20 @@ endfunction
 function! OpenInFileManager()
   let curNode = g:NERDTreeFileNode.GetSelected()
   exe ':!xdg-open '.shellescape(fnamemodify(curNode.path.str(), ':p:h'))
+endfunction
+
+function! GitFileStatus()
+  if !exists('b:gitgutter')
+    return ''
+  endif
+  let l:summary = get(b:gitgutter, 'summary', [0, 0, 0])
+  let l:result = l:summary[0] == 0 ? '' : ' +'.l:summary[0]
+  let l:result .= l:summary[1] == 0 ? '' : ' ~'.l:summary[1]
+  let l:result .= l:summary[2] == 0 ? '' : ' -'.l:summary[2]
+  if l:result != ''
+    return ' '.l:result
+  endif
+  return l:result
 endfunction
 
 " }}}
