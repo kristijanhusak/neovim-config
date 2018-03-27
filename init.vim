@@ -69,6 +69,7 @@ set secure                                                                      
 set grepprg=rg\ --vimgrep                                                       "Use ripgrep for grepping
 set tagcase=smart                                                               "Use smarcase for tags
 set updatetime=500                                                              "Cursor hold timeout
+set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
 silent! colorscheme onedark
 
