@@ -68,7 +68,7 @@ set exrc                                                                        
 set secure                                                                      "Forbid autocmd in local vimrc
 set grepprg=rg\ --vimgrep                                                       "Use ripgrep for grepping
 set tagcase=smart                                                               "Use smarcase for tags
-set updatetime=500                                                              "Cursor hold timeout
+set updatetime=300                                                              "Cursor hold timeout
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
 silent! colorscheme onedark
@@ -110,15 +110,11 @@ augroup END
 autocmd vimrc QuickFixCmdPost [^l]* cwindow                                     "Open quickfix window after grepping
 autocmd vimrc BufWritePre * call StripTrailingWhitespaces()                     "Auto-remove trailing spaces
 autocmd vimrc InsertEnter * set nocul                                           "Remove cursorline highlight
-autocmd vimrc InsertLeave * set cul                                             "Add cursorline highlight in normal mode and remove snippet markers
+autocmd vimrc InsertLeave * set cul                                             "Add cursorline highlight in normal mode
 autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
 autocmd vimrc FileType javascript setlocal formatprg=prettier\ --stdin
       \\ --single-quote\ --print-width\ 100                                     "Setup prettier options for neoformat
 autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
-autocmd vimrc VimEnter * call NERDTreeAddMenuItem({
-    \ 'text': '(o)pen in file manager',
-    \ 'shortcut': 'o',
-    \ 'callback': 'OpenInFileManager'})
 autocmd vimrc FileType javascript nnoremap <buffer><unique><silent><C-]> :JsGotoDefinition<CR>
 
 " }}}
@@ -220,11 +216,6 @@ endfunction
 
 function! FormatSelection() range
   exe ":'<,'>Neoformat! ".&ft." | norm!gv="
-endfunction
-
-function! OpenInFileManager()
-  let curNode = g:NERDTreeFileNode.GetSelected()
-  exe ':!xdg-open '.shellescape(fnamemodify(curNode.path.str(), ':p:h'))
 endfunction
 
 function! GitFileStatus()
@@ -384,7 +375,6 @@ let g:neoformat_try_formatprg = 1                                               
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
 let g:ale_fixers = {'javascript': ['prettier', 'eslint']}                       "Fix eslint errors
 let g:ale_javascript_prettier_options = '--print-width 100'                     "Set max width to 100 chars for prettier
-let g:ale_lint_on_save = 1                                                      "Lint when saving a file
 let g:ale_sign_error = '✖'                                                      "Lint error sign
 let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
 
@@ -392,7 +382,6 @@ let g:jsx_ext_required = 1                                                      
 let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
-
 
 " }}}
 " vim:foldenable:foldmethod=marker
