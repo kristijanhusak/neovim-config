@@ -115,7 +115,7 @@ autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             
 autocmd vimrc FileType javascript setlocal formatprg=prettier\ --stdin
       \\ --single-quote\ --print-width\ 100                                     "Setup prettier options for neoformat
 autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
-autocmd vimrc FileType javascript nnoremap <buffer><unique><silent><C-]> :JsGotoDefinition<CR>
+autocmd vimrc FileType javascript nnoremap <buffer><silent><C-]> :JsGotoDefinition<CR>
 
 " }}}
 " ================ Completion ======================= {{{
