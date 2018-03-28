@@ -68,7 +68,7 @@ set exrc                                                                        
 set secure                                                                      "Forbid autocmd in local vimrc
 set grepprg=rg\ --vimgrep                                                       "Use ripgrep for grepping
 set tagcase=smart                                                               "Use smarcase for tags
-set updatetime=300                                                              "Cursor hold timeout
+set updatetime=500                                                              "Cursor hold timeout
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
 silent! colorscheme onedark
@@ -356,6 +356,7 @@ let g:ctrlsf_mapping = {'vsplit': 's'}                                          
 let g:NERDTreeChDirMode = 2                                                     "Always change the root directory
 let g:NERDTreeMinimalUI = 1                                                     "Disable help text and bookmark title
 let g:NERDTreeShowHidden = 1                                                    "Show hidden files in NERDTree
+let g:NERDTreeUpdateOnCursorHold = 0                                            "Disable nerdtree git plugin updating on cursor hold
 
 let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
 
