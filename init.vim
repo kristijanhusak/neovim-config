@@ -110,7 +110,7 @@ augroup END
 autocmd vimrc QuickFixCmdPost [^l]* cwindow                                     "Open quickfix window after grepping
 autocmd vimrc BufWritePre * call StripTrailingWhitespaces()                     "Auto-remove trailing spaces
 autocmd vimrc InsertEnter * set nocul                                           "Remove cursorline highlight
-autocmd vimrc InsertLeave * set cul | NeoSnippetClearMarkers                    "Add cursorline highlight in normal mode and remove snippet markers
+autocmd vimrc InsertLeave * set cul                                             "Add cursorline highlight in normal mode and remove snippet markers
 autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
 autocmd vimrc FileType javascript setlocal formatprg=prettier\ --stdin
       \\ --single-quote\ --print-width\ 100                                     "Setup prettier options for neoformat
@@ -119,6 +119,7 @@ autocmd vimrc VimEnter * call NERDTreeAddMenuItem({
     \ 'text': '(o)pen in file manager',
     \ 'shortcut': 'o',
     \ 'callback': 'OpenInFileManager'})
+autocmd vimrc FileType javascript nnoremap <buffer><unique><silent><C-]> :JsGotoDefinition<CR>
 
 " }}}
 " ================ Completion ======================= {{{
@@ -351,11 +352,6 @@ nnoremap <Leader>] <C-W>v<C-]>
 " Reformat and fix linting errors
 nnoremap <Leader>r :ALEFix<CR>
 vnoremap <Leader>r :call FormatSelection()<CR>
-
-" Import word under cursor automatically
-nnoremap <Leader>g :call JsFileImport()<CR>
-" Import word under manually by entering file path or package name
-nnoremap <Leader>G :call PromptJsFileImport()<CR>
 
 " Close all other buffers except current one
 nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
