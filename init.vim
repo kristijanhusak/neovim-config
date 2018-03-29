@@ -116,6 +116,7 @@ autocmd vimrc FileType javascript setlocal formatprg=prettier\ --stdin
       \\ --single-quote\ --print-width\ 100                                     "Setup prettier options for neoformat
 autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
 autocmd vimrc FileType javascript nnoremap <buffer><silent><C-]> :JsGotoDefinition<CR>
+autocmd vimrc FileType javascript nnoremap <buffer><silent><Leader>] <C-W>v:JsGotoDefinition<CR>
 
 " }}}
 " ================ Completion ======================= {{{
