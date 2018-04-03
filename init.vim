@@ -23,7 +23,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
 Plug 'sbdchd/neoformat'
-Plug 'joshdick/onedark.vim'
+Plug 'morhetz/gruvbox'
 
 call plug#end()
 "}}}
@@ -31,7 +31,7 @@ call plug#end()
 
 let g:mapleader = ","                                                           "Change leader to a comma
 
-let g:onedark_terminal_italics = 1                                              "Allow italic comments
+let g:gruvbox_italic = 1                                                        "Use italic for comments
 
 set termguicolors
 set title                                                                       "change the terminal's title
@@ -71,7 +71,8 @@ set tagcase=smart                                                               
 set updatetime=500                                                              "Cursor hold timeout
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
-silent! colorscheme onedark
+silent! colorscheme gruvbox
+hi link jsFuncCall GruvboxBlue
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -146,7 +147,7 @@ set sidescroll=5
 " }}}
 " ================ Statusline ======================== {{{
 
-hi User1 guifg=#FF0000 guibg=#2C323C gui=bold
+hi User1 guifg=#FF0000 guibg=#504945 gui=bold
 hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
 hi User3 guifg=#2C323C guibg=#E5C07B gui=bold
 set statusline=\ %{toupper(mode())}                                             "Mode
@@ -233,6 +234,23 @@ function! GitFileStatus()
   return l:result
 endfunction
 
+function! CloseBuffer() abort
+  if &buftype ==? 'quickfix'
+    lclose
+    return 1
+  endif
+  let l:nerdtreeOpen = g:NERDTree.IsOpen()
+  let l:windowCount = winnr('$')
+  let l:command = 'bd'
+  let l:totalBuffers = len(getbufinfo({ 'buflisted': 1 }))
+  let l:isNerdtreeLast = l:nerdtreeOpen && l:windowCount ==? 2
+  let l:noSplits = !l:nerdtreeOpen && l:windowCount ==? 1
+  if l:totalBuffers > 1 && (l:isNerdtreeLast || l:noSplits)
+    let l:command = 'bp|bd#'
+  endif
+  silent exe l:command
+endfunction
+
 " }}}
 " ================ Custom mappings ======================== {{{
 
@@ -303,7 +321,7 @@ nnoremap <Leader><space> :noh<CR>
 
 " Handle syntastic error window
 nnoremap <Leader>e :lopen<CR>
-nnoremap <Leader>q :lclose<CR>
+nnoremap <Leader>q :call CloseBuffer()<CR>
 
 " Find current file in NERDTree
 nnoremap <Leader>hf :NERDTreeFind<CR>
