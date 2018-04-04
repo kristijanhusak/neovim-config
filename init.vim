@@ -32,6 +32,8 @@ call plug#end()
 let g:mapleader = ","                                                           "Change leader to a comma
 
 let g:gruvbox_italic = 1                                                        "Use italic for comments
+let g:gruvbox_invert_selection = 0                                              "Do not invert highlighing on selection
+let g:gruvbox_sign_column = 'none'                                              "Do not use background for sign column
 
 set termguicolors
 set title                                                                       "change the terminal's title
@@ -236,7 +238,7 @@ endfunction
 
 function! CloseBuffer() abort
   if &buftype ==? 'quickfix'
-    lclose
+    bd
     return 1
   endif
   let l:nerdtreeOpen = g:NERDTree.IsOpen()
@@ -321,7 +323,7 @@ nnoremap <Leader><space> :noh<CR>
 
 " Handle syntastic error window
 nnoremap <Leader>e :lopen<CR>
-nnoremap <Leader>q :call CloseBuffer()<CR>
+nnoremap <silent><Leader>q :call CloseBuffer()<CR>
 
 " Find current file in NERDTree
 nnoremap <Leader>hf :NERDTreeFind<CR>
