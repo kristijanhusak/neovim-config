@@ -24,6 +24,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
 Plug 'sbdchd/neoformat'
 Plug 'morhetz/gruvbox'
+Plug 'jreybert/vimagit'
 
 call plug#end()
 "}}}
@@ -75,6 +76,7 @@ set synmaxcol=300                                                               
 
 silent! colorscheme gruvbox
 hi link jsFuncCall GruvboxBlue
+hi link fileEntry Constant
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
