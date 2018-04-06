@@ -239,23 +239,24 @@ function! GitFileStatus()
   return l:result
 endfunction
 
-function! CloseBuffer() abort
-  if &buftype ==? 'quickfix'
-    return execute('bwipe')
+function! CloseBuffer(...) abort
+  if &buftype !=? ''
+    return execute('bwipe!')
   endif
   let l:nerdtreeOpen = g:NERDTree.IsOpen()
   let l:windowCount = winnr('$')
   let l:totalBuffers = len(getbufinfo({ 'buflisted': 1 }))
   let l:isNerdtreeLast = l:nerdtreeOpen && l:windowCount ==? 2
   let l:noSplits = !l:nerdtreeOpen && l:windowCount ==? 1
+  let l:bang = a:0 > 0 ? '!' : ''
   if l:totalBuffers > 1 && (l:isNerdtreeLast || l:noSplits)
     let l:command = 'bp'
     if buflisted(bufnr('#'))
-      let l:command .= '|bwipe#'
+      let l:command .= '|bwipe'.l:bang.'#'
     endif
     return execute(l:command)
   endif
-  return execute('bd')
+  return execute('bwipe'.l:bang)
 endfunction
 
 " }}}
@@ -329,6 +330,7 @@ nnoremap <Leader><space> :noh<CR>
 " Handle syntastic error window
 nnoremap <Leader>e :lopen<CR>
 nnoremap <silent><Leader>q :call CloseBuffer()<CR>
+nnoremap <silent><Leader>Q :call CloseBuffer(1)<CR>
 
 " Find current file in NERDTree
 nnoremap <Leader>hf :NERDTreeFind<CR>
