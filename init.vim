@@ -240,19 +240,21 @@ endfunction
 
 function! CloseBuffer() abort
   if &buftype ==? 'quickfix'
-    bd
-    return 1
+    return execute('bwipe')
   endif
   let l:nerdtreeOpen = g:NERDTree.IsOpen()
   let l:windowCount = winnr('$')
-  let l:command = 'bd'
   let l:totalBuffers = len(getbufinfo({ 'buflisted': 1 }))
   let l:isNerdtreeLast = l:nerdtreeOpen && l:windowCount ==? 2
   let l:noSplits = !l:nerdtreeOpen && l:windowCount ==? 1
   if l:totalBuffers > 1 && (l:isNerdtreeLast || l:noSplits)
-    let l:command = 'bp|bd#'
+    let l:command = 'bp'
+    if buflisted(bufnr('#'))
+      let l:command .= '|bwipe#'
+    endif
+    return execute(l:command)
   endif
-  silent exe l:command
+  return execute('bd')
 endfunction
 
 " }}}
