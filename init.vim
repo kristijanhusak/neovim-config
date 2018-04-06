@@ -24,7 +24,6 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
 Plug 'sbdchd/neoformat'
 Plug 'morhetz/gruvbox'
-Plug 'jreybert/vimagit'
 
 call plug#end()
 "}}}
@@ -397,7 +396,7 @@ let g:deoplete#tag#cache_limit_size = 20000000                                  
 let g:deoplete#max_list = 30                                                    "Show maximum of 30 entries in autocomplete popup
 let g:deoplete#enable_camel_case = 1                                            "Enable camel case completion
 
-let g:delimitMate_expand_cr = 2                                                 "Auto indent on enter
+let g:delimitMate_expand_cr = 1                                                 "Auto indent on enter
 
 let g:neoformat_try_formatprg = 1                                               "Use formatprg when available
 
