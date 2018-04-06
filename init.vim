@@ -30,7 +30,7 @@ call plug#end()
 "}}}
 " ================ General Config ==================== {{{
 
-let g:mapleader = ","                                                           "Change leader to a comma
+let g:mapleader = ','                                                           "Change leader to a comma
 
 let g:gruvbox_italic = 1                                                        "Use italic for comments
 let g:gruvbox_invert_selection = 0                                              "Do not invert highlighing on selection
@@ -44,7 +44,7 @@ set history=500                                                                 
 set showcmd                                                                     "Show incomplete cmds down the bottom
 set noshowmode                                                                  "Hide showmode because of the powerline plugin
 set gdefault                                                                    "Set global flag for search and replace
-set gcr=a:blinkon500-blinkwait500-blinkoff500                                   "Set cursor blinking rate
+set guicursor=a:blinkon500-blinkwait500-blinkoff500                             "Set cursor blinking rate
 set cursorline                                                                  "Highlight current line
 set smartcase                                                                   "Smart case search if there is uppercase
 set ignorecase                                                                  "case insensitive search
@@ -83,7 +83,7 @@ hi link fileEntry Constant
 
 set noswapfile
 set nobackup
-set nowb
+set nowritebackup
 
 " }}}
 " ================ Persistent Undo ================== {{{
@@ -190,38 +190,39 @@ cnoreabbrev nowrap set nowrap
 
 function! StripTrailingWhitespaces()
   if &modifiable
-    let l:l = line(".")
-    let l:c = col(".")
-    %s/\s\+$//e
+    let l:l = line('.')
+    let l:c = col('.')
+    call execute('%s/\s\+$//e')
+    call histdel('/', -1)
     call cursor(l:l, l:c)
   endif
 endfunction
 
 function! Search(...)
-  let default = a:0 > 0 ? expand('<cword>') : ''
-  let term = input('Search for: ', default)
-  if term != ''
-    let path = input('Path: ', '', 'file')
-    execute 'CtrlSF "'.term.'" '.path
+  let l:default = a:0 > 0 ? expand('<cword>') : ''
+  let l:term = input('Search for: ', l:default)
+  if l:term !=? ''
+    let l:path = input('Path: ', '', 'file')
+    execute 'CtrlSF "'.l:term.'" '.l:path
   endif
 endfunction
 
 function! AleStatusline(type)
-  let count = ale#statusline#Count(bufnr(''))
-  if a:type == 'error' && count['error']
-    return printf(' %d E ', count['error'])
+  let l:count = ale#statusline#Count(bufnr(''))
+  if a:type ==? 'error' && l:count['error']
+    return printf(' %d E ', l:count['error'])
   endif
 
-  if a:type == 'warning' && count['warning']
-    let l:space = count['error'] ? ' ': ''
-    return printf('%s %d W ', l:space, count['warning'])
+  if a:type ==? 'warning' && l:count['warning']
+    let l:space = l:count['error'] ? ' ': ''
+    return printf('%s %d W ', l:space, l:count['warning'])
   endif
 
   return ''
 endfunction
 
 function! FormatSelection() range
-  exe ":'<,'>Neoformat! ".&ft." | norm!gv="
+  exe ":'<,'>Neoformat! ".&filetype.' | norm!gv='
 endfunction
 
 function! GitFileStatus()
@@ -232,7 +233,7 @@ function! GitFileStatus()
   let l:result = l:summary[0] == 0 ? '' : ' +'.l:summary[0]
   let l:result .= l:summary[1] == 0 ? '' : ' ~'.l:summary[1]
   let l:result .= l:summary[2] == 0 ? '' : ' -'.l:summary[2]
-  if l:result != ''
+  if l:result !=? ''
     return ' '.l:result
   endif
   return l:result
