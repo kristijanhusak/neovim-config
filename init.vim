@@ -75,7 +75,6 @@ set synmaxcol=300                                                               
 
 silent! colorscheme gruvbox
 hi link jsFuncCall GruvboxBlue
-hi link fileEntry Constant
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -242,7 +241,7 @@ endfunction
 
 function! CloseBuffer(...) abort
   if &buftype !=? ''
-    return execute('bwipe!')
+    return execute('bd!')
   endif
   let l:nerdtreeOpen = g:NERDTree.IsOpen()
   let l:windowCount = winnr('$')
@@ -253,11 +252,11 @@ function! CloseBuffer(...) abort
   if l:totalBuffers > 1 && (l:isNerdtreeLast || l:noSplits)
     let l:command = 'bp'
     if buflisted(bufnr('#'))
-      let l:command .= '|bwipe'.l:bang.'#'
+      let l:command .= '|bd'.l:bang.'#'
     endif
     return execute(l:command)
   endif
-  return execute('bwipe'.l:bang)
+  return execute('q'.l:bang)
 endfunction
 
 " }}}

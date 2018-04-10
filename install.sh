@@ -24,5 +24,6 @@ if echo "$answer" | grep -iq "^y" ;then
     && git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
     && mkdir -p ~/.oh-my-zsh/custom/themes \
     && ln -s $(pwd)/cloud_kris.zsh-theme ~/.oh-my-zsh/custom/themes \
+    && ln -s $(pwd)/bin/slack-notifier /usr/local/bin/slack-notifier \
     && tic ./xterm-256color-italic.terminfo
 fi

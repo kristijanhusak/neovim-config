@@ -36,3 +36,4 @@ export NVM_DIR="/home/kristijan/.nvm"
 [ -z "$TMUX" ] && exec tmux
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.zsh_secret ] && source ~/.zsh_secret
