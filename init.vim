@@ -22,7 +22,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
-Plug 'sbdchd/neoformat'
+Plug 'FooSoft/vim-argwrap'
 Plug 'morhetz/gruvbox'
 
 call plug#end()
@@ -115,8 +115,6 @@ autocmd vimrc BufWritePre * call StripTrailingWhitespaces()                     
 autocmd vimrc InsertEnter * set nocul                                           "Remove cursorline highlight
 autocmd vimrc InsertLeave * set cul                                             "Add cursorline highlight in normal mode
 autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
-autocmd vimrc FileType javascript setlocal formatprg=prettier\ --stdin
-      \\ --single-quote\ --print-width\ 100                                     "Setup prettier options for neoformat
 autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
 autocmd vimrc FileType javascript nmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
 autocmd vimrc FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
@@ -219,10 +217,6 @@ function! AleStatusline(type)
   endif
 
   return ''
-endfunction
-
-function! FormatSelection() range
-  exe ":'<,'>Neoformat! ".&filetype.' | norm!gv='
 endfunction
 
 function! GitFileStatus()
@@ -370,7 +364,8 @@ nnoremap <Leader>] <C-W>v<C-]>
 
 " Reformat and fix linting errors
 nnoremap <Leader>r :ALEFix<CR>
-vnoremap <Leader>r :call FormatSelection()<CR>
+" Wrap/Unwrap lines
+nnoremap <leader>r :ArgWrap<CR>
 
 " Close all other buffers except current one
 nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
@@ -398,8 +393,6 @@ let g:deoplete#max_list = 30                                                    
 let g:deoplete#enable_camel_case = 1                                            "Enable camel case completion
 
 let g:delimitMate_expand_cr = 1                                                 "Auto indent on enter
-
-let g:neoformat_try_formatprg = 1                                               "Use formatprg when available
 
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
 let g:ale_fixers = {'javascript': ['prettier', 'eslint']}                       "Fix eslint errors
