@@ -12,6 +12,8 @@ if [[ -r ~/.phpbrew/bashrc ]]; then
   source ~/.phpbrew/bashrc
 fi
 
+[ -f ~/.zsh_secret ] && source ~/.zsh_secret
+
 alias n='nvim .'
 alias install='sudo apt-get install'
 alias search='sudo apt-cache search'
@@ -36,4 +38,3 @@ export NVM_DIR="/home/kristijan/.nvm"
 [ -z "$TMUX" ] && exec tmux
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.zsh_secret ] && source ~/.zsh_secret

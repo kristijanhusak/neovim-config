@@ -25,7 +25,8 @@ if token:
         mentions += group["mention_count_display"]
 
     for im in counts["ims"]:
+        unread += im["dm_count"]
         dms += im["dm_count"]
 
-    if ((unread + mentions + dms) > 0):
+    if ((mentions + dms) > 0):
         print "#: D{}/@{}/{}".format(dms, mentions, unread)
