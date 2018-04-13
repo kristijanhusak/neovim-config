@@ -254,6 +254,19 @@ function! CloseBuffer(...) abort
   return execute('q'.l:bang)
 endfunction
 
+function! SetupDiffColor() abort
+  let l:diffAddColor = synIDattr(synIDtrans(hlID('DiffAdd')), 'reverse') ? 'fg' : 'bg'
+  let l:diffDeleteColor = synIDattr(synIDtrans(hlID('DiffDelete')), 'reverse') ? 'fg' : 'bg'
+  let l:diffAdd = synIDattr(synIDtrans(hlID('DiffAdd')), l:diffAddColor)
+  let l:diffDelete = synIDattr(synIDtrans(hlID('DiffDelete')), l:diffDeleteColor)
+  let l:normalBg = synIDattr(synIDtrans(hlID('Normal')), 'bg')
+  let l:bg = '#282f28'
+  exe 'hi DiffAdd guifg='.l:diffAdd.' guibg='.l:bg.' gui=NONE'
+  exe 'hi DiffChange guifg='.l:diffAdd.' guibg='.l:bg.' gui=NONE'
+  exe 'hi DiffText  guifg='.l:bg.' guibg='.l:diffAdd.' gui=NONE'
+  exe 'hi DiffDelete guifg='.l:diffDelete.' guibg='.l:normalBg.' gui=NONE'
+endfunction
+
 " }}}
 " ================ Custom mappings ======================== {{{
 
@@ -405,6 +418,8 @@ let g:jsx_ext_required = 1                                                      
 let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
+
+call SetupDiffColor()
 
 " }}}
 " vim:foldenable:foldmethod=marker
