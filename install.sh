@@ -2,7 +2,7 @@
 echo -n "This will delete all your previous nvim, tmux, zsh and iosevka fonts. Proceed? (y/n)? "
 read answer
 if echo "$answer" | grep -iq "^y" ;then
-    rm -rf ~/.config/nvim ~/.tmux.conf ~/.zshrc ~/.oh-my-zsh ~/.fonts/iosevka* \
+    rm -rf ~/.config/nvim ~/.tmux.conf ~/.tmux ~/.zshrc ~/.oh-my-zsh ~/.fonts/iosevka* \
     && cp $(pwd)/fonts/* ~/.fonts/ \
     && curl -L https://github.com/BurntSushi/ripgrep/releases/download/0.7.1/ripgrep-0.7.1-x86_64-unknown-linux-musl.tar.gz | tar zx \
     && cp ripgrep-0.7.1-x86_64-unknown-linux-musl/rg /usr/local/bin \
@@ -20,6 +20,8 @@ if echo "$answer" | grep -iq "^y" ;then
     && npm install -g diff-so-fancy \
     && git config --global core.pager "diff-so-fancy | less --tabs=4 -R" \
     && git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh \
+    && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
+    && ~/.tmux/plugins/tpm/bin/install_plugins \
     && chsh -s /bin/zsh \
     && git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
     && mkdir -p ~/.oh-my-zsh/custom/themes \
