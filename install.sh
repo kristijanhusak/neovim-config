@@ -2,7 +2,7 @@
 echo -n "This will delete all your previous nvim, tmux, zsh and iosevka fonts. Proceed? (y/n)? "
 read answer
 if echo "$answer" | grep -iq "^y" ;then
-    rm -rf ~/.config/nvim ~/.tmux.conf ~/.tmux ~/.zshrc ~/.oh-my-zsh ~/.fonts/iosevka* \
+    rm -rf ~/.config/nvim ~/.tmux.conf ~/.tmux ~/.zshrc ~/.oh-my-zsh ~/.fonts/iosevka* /usr/local/bin/slack-notifier \
     && cp $(pwd)/fonts/* ~/.fonts/ \
     && curl -L https://github.com/BurntSushi/ripgrep/releases/download/0.7.1/ripgrep-0.7.1-x86_64-unknown-linux-musl.tar.gz | tar zx \
     && cp ripgrep-0.7.1-x86_64-unknown-linux-musl/rg /usr/local/bin \
