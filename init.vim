@@ -14,8 +14,10 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'gregsexton/MatchTag', { 'for': ['html', 'javascript.jsx'] }
 Plug 'sheerun/vim-polyglot'
+Plug 'phpactor/phpactor', { 'for': 'php', 'do': 'composer install' }
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet'
+Plug 'kristijanhusak/deoplete-phpactor', { 'for': 'php' }
 Plug 'dyng/ctrlsf.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -65,7 +67,7 @@ set splitbelow                                                                  
 set path+=**                                                                    "Allow recursive search
 set inccommand=nosplit                                                          "Show substitute changes immidiately in separate split
 set fillchars+=vert:\│                                                          "Make vertical split separator full line
-set pumheight=30                                                                "Maximum number of entries in autocomplete popup
+set pumheight=15                                                                "Maximum number of entries in autocomplete popup
 set exrc                                                                        "Allow using local vimrc
 set secure                                                                      "Forbid autocmd in local vimrc
 set grepprg=rg\ --vimgrep                                                       "Use ripgrep for grepping
@@ -236,7 +238,7 @@ endfunction
 
 function! CloseBuffer(...) abort
   if &buftype !=? ''
-    return execute('bd!')
+    return execute('q!')
   endif
   let l:nerdtreeOpen = g:NERDTree.IsOpen()
   let l:windowCount = winnr('$')
@@ -402,7 +404,6 @@ let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               
 
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
 let g:deoplete#file#enable_buffer_path = 1                                      "Autocomplete files relative to current buffer
-let g:deoplete#tag#cache_limit_size = 20000000                                  "Allow tags file up to ~20 MB
 let g:deoplete#max_list = 30                                                    "Show maximum of 30 entries in autocomplete popup
 let g:deoplete#enable_camel_case = 1                                            "Enable camel case completion
 
