@@ -262,7 +262,7 @@ function! SetupDiffColor() abort
   let l:diffAdd = synIDattr(synIDtrans(hlID('DiffAdd')), l:diffAddColor)
   let l:diffDelete = synIDattr(synIDtrans(hlID('DiffDelete')), l:diffDeleteColor)
   let l:normalBg = synIDattr(synIDtrans(hlID('Normal')), 'bg')
-  let l:bg = '#282f28'
+  let l:bg = substitute(l:normalBg, '\(#...\).\(..\)', '\1f\2', 'g')
   exe 'hi DiffAdd guifg='.l:diffAdd.' guibg='.l:bg.' gui=NONE'
   exe 'hi DiffChange guifg='.l:diffAdd.' guibg='.l:bg.' gui=NONE'
   exe 'hi DiffText  guifg='.l:bg.' guibg='.l:diffAdd.' gui=NONE'
