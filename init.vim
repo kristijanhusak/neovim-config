@@ -364,9 +364,12 @@ nnoremap <Leader>m :History<CR>
 xnoremap <s-tab> <gv
 xnoremap <tab> >gv
 
-" Resize window with shift + and shift -
-nnoremap + <c-w>5>
-nnoremap _ <c-w>5<
+" Resize window with shift + and shift - or use for diffget/diffput in diff mode
+nnoremap <expr> + &diff ? ':diffput<BAR>diffupdate<CR>' : '<c-w>5>'
+nnoremap <expr> _ &diff ? ':diffget<BAR>diffupdate<CR>' : '<c-w>5<'
+xnoremap <expr> + &diff ? ':diffput<BAR>diffupdate<CR>' : '+'
+xnoremap <expr> _ &diff ? ':diffget<BAR>diffupdate<CR>' : '_'
+nnoremap <expr> R &diff ? ':diffupdate<CR>' : 'R'
 
 " Center highlighted search
 nnoremap n nzz
