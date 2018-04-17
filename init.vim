@@ -265,7 +265,7 @@ function! SetupDiffColor() abort
   let l:bg = substitute(l:normalBg, '\(#..\)..\(..\)', '\13f\2', 'g')
   exe 'hi DiffAdd guifg='.l:diffAdd.' guibg='.l:bg.' gui=NONE'
   exe 'hi DiffChange guifg='.l:diffAdd.' guibg='.l:bg.' gui=NONE'
-  exe 'hi DiffText  guifg='.l:bg.' guibg='.l:diffAdd.' gui=NONE'
+  exe 'hi DiffText  guibg='.l:bg.' guifg='.l:diffAdd.' gui=reverse'
   exe 'hi DiffDelete guifg='.l:diffDelete.' guibg='.l:normalBg.' gui=NONE'
 endfunction
 
