@@ -17,7 +17,7 @@ if echo "$answer" | grep -iq "^y" ;then
     && ln -s $(pwd)/tmux.conf ~/.tmux.conf \
     && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
     && ~/.tmux/plugins/tpm/bin/install_plugins \
-    && echo "Setting up neovim" \
+    && echo "Setting up neovim..." \
     && rm -rf ~/.config/nvim \
     && curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
     && ln -s $(pwd)/snippets ~/.config/nvim/snippets \
