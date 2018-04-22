@@ -9,11 +9,12 @@ Plug 'manasthakur/vim-commentor'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
+Plug 'jreybert/vimagit'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'gregsexton/MatchTag', { 'for': ['html', 'javascript.jsx'] }
 Plug 'sheerun/vim-polyglot'
+Plug 'andymass/vim-matchup'
 Plug 'phpactor/phpactor', { 'for': 'php', 'do': 'composer install' }
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet'
@@ -77,6 +78,7 @@ set synmaxcol=300                                                               
 
 silent! colorscheme gruvbox
 hi link jsFuncCall GruvboxBlue
+hi link fileEntry Constant
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -178,11 +180,11 @@ set statusline+=%3*%{AleStatusline('warning')}%*                                
 
 cnoreabbrev Wq wq
 cnoreabbrev WQ wq
+cnoreabbrev Wqa wqa
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qa qa
 cnoreabbrev Bd bd
-cnoreabbrev bD bd
 cnoreabbrev wrap set wrap
 cnoreabbrev nowrap set nowrap
 
@@ -254,19 +256,6 @@ function! CloseBuffer(...) abort
     return execute(l:command)
   endif
   return execute('q'.l:bang)
-endfunction
-
-function! SetupDiffColor() abort
-  let l:diffAddColor = synIDattr(synIDtrans(hlID('DiffAdd')), 'reverse') ? 'fg' : 'bg'
-  let l:diffDeleteColor = synIDattr(synIDtrans(hlID('DiffDelete')), 'reverse') ? 'fg' : 'bg'
-  let l:diffAdd = synIDattr(synIDtrans(hlID('DiffAdd')), l:diffAddColor)
-  let l:diffDelete = synIDattr(synIDtrans(hlID('DiffDelete')), l:diffDeleteColor)
-  let l:normalBg = synIDattr(synIDtrans(hlID('Normal')), 'bg')
-  let l:bg = substitute(l:normalBg, '\(#..\)..\(..\)', '\13f\2', 'g')
-  exe 'hi DiffAdd guifg='.l:diffAdd.' guibg='.l:bg.' gui=NONE'
-  exe 'hi DiffChange guifg='.l:diffAdd.' guibg='.l:bg.' gui=NONE'
-  exe 'hi DiffText  guifg='.l:bg.' guibg='.l:diffAdd.' gui=NONE'
-  exe 'hi DiffDelete guifg='.l:diffDelete.' guibg='.l:normalBg.' gui=NONE'
 endfunction
 
 " }}}
@@ -406,9 +395,8 @@ let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
 
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
-let g:deoplete#file#enable_buffer_path = 1                                      "Autocomplete files relative to current buffer
-let g:deoplete#max_list = 30                                                    "Show maximum of 30 entries in autocomplete popup
-let g:deoplete#enable_camel_case = 1                                            "Enable camel case completion
+call deoplete#custom#var('file', 'enable_buffer_path', 1)
+call deoplete#custom#option({ 'max_list': 30 , 'camel_case': 1 })
 
 let g:delimitMate_expand_cr = 1                                                 "Auto indent on enter
 
@@ -423,7 +411,7 @@ let g:javascript_plugin_jsdoc = 1                                               
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
-call SetupDiffColor()
+let g:magit_default_show_all_files = 0                                          "Close all diffs by default in Magit buffer
 
 " }}}
 " vim:foldenable:foldmethod=marker
