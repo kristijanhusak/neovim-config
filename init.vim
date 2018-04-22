@@ -13,8 +13,8 @@ Plug 'jreybert/vimagit'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'gregsexton/MatchTag', { 'for': ['html', 'javascript.jsx'] }
 Plug 'sheerun/vim-polyglot'
+Plug 'andymass/vim-matchup'
 Plug 'phpactor/phpactor', { 'for': 'php', 'do': 'composer install' }
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet'
