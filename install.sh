@@ -1,5 +1,5 @@
 #/bin/sh
-echo -n "This will delete all your previous nvim, tmux, alacritty and zsh settings. Proceed? (y/n)? "
+echo -n "This will delete all your previous nvim, tmux and zsh settings. Proceed? (y/n)? "
 read answer
 if echo "$answer" | grep -iq "^y" ;then
     echo "Installing dependencies..." \
@@ -26,12 +26,6 @@ if echo "$answer" | grep -iq "^y" ;then
     && echo "Setting up fonts..." \
     && rm -rf ~/.fonts/iosevka-* \
     && cp $(pwd)/fonts/* ~/.fonts/ \
-    && echo "Installing alacritty..." \
-    && rm -rf ~/.alacritty.yml /usr/local/bin/alacritty /usr/local/bin/alacritty_fullscreen ~/.local/share/applications/Alacritty.desktop \
-    && ln -s $(pwd)/alacritty.yml ~/.alacritty.yml \
-    && ln -s $(pwd)/Alacritty.desktop ~/.local/share/applications/Alacritty.desktop \
-    && ln -s $(pwd)/bin/alacritty_fullscreen /usr/local/bin/alacritty_fullscreen \
-    && ln -s $(pwd)/bin/alacritty /usr/local/bin/alacritty \
     && echo "Installing ripgrep..." \
     && rm /usr/local/bin/rg \
     && curl -L https://github.com/BurntSushi/ripgrep/releases/download/0.8.1/ripgrep-0.8.1-x86_64-unknown-linux-musl.tar.gz | tar zx \
