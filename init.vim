@@ -11,8 +11,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'jreybert/vimagit'
 Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'sheerun/vim-polyglot'
 Plug 'andymass/vim-matchup'
 Plug 'phpactor/phpactor', { 'for': 'php', 'do': 'composer install' }
@@ -27,6 +25,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
 Plug 'FooSoft/vim-argwrap'
 Plug 'morhetz/gruvbox'
+Plug 'justinmk/vim-dirvish'
 
 call plug#end()
 "}}}
@@ -125,6 +124,9 @@ autocmd vimrc FileType javascript nmap <buffer><silent><C-]> <Plug>(JsGotoDefini
 autocmd vimrc FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
 autocmd vimrc FileType javascript nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
 autocmd vimrc FileType javascript xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
+autocmd vimrc FileType dirvish nnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
+autocmd vimrc FileType dirvish xnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
+autocmd vimrc FileType dirvish nmap <silent><buffer> u <Plug>(dirvish_up)
 
 " }}}
 " ================ Completion ======================= {{{
@@ -242,13 +244,11 @@ function! CloseBuffer(...) abort
   if &buftype !=? ''
     return execute('q!')
   endif
-  let l:nerdtreeOpen = g:NERDTree.IsOpen()
   let l:windowCount = winnr('$')
   let l:totalBuffers = len(getbufinfo({ 'buflisted': 1 }))
-  let l:isNerdtreeLast = l:nerdtreeOpen && l:windowCount ==? 2
-  let l:noSplits = !l:nerdtreeOpen && l:windowCount ==? 1
+  let l:noSplits = l:windowCount ==? 1
   let l:bang = a:0 > 0 ? '!' : ''
-  if l:totalBuffers > 1 && (l:isNerdtreeLast || l:noSplits)
+  if l:totalBuffers > 1 && l:noSplits
     let l:command = 'bp'
     if buflisted(bufnr('#'))
       let l:command .= '|bd'.l:bang.'#'
@@ -331,10 +331,8 @@ nnoremap <Leader>e :lopen<CR>
 nnoremap <silent><Leader>q :call CloseBuffer()<CR>
 nnoremap <silent><Leader>Q :call CloseBuffer(1)<CR>
 
-" Find current file in NERDTree
-nnoremap <Leader>hf :NERDTreeFind<CR>
-" Open NERDTree
-nnoremap <Leader>n :NERDTreeToggle<CR>
+nnoremap <Leader>hf :Dirvish %<CR>
+nnoremap <Leader>n :Dirvish<CR>
 
 " Toggle between last 2 buffers
 nnoremap <leader><tab> <c-^>
@@ -384,10 +382,7 @@ nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
-let g:NERDTreeChDirMode = 2                                                     "Always change the root directory
-let g:NERDTreeMinimalUI = 1                                                     "Disable help text and bookmark title
-let g:NERDTreeShowHidden = 1                                                    "Show hidden files in NERDTree
-let g:NERDTreeUpdateOnCursorHold = 0                                            "Disable nerdtree git plugin updating on cursor hold
+let g:dirvish_mode = ':sort ,^.*[\/],'
 
 let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
 
