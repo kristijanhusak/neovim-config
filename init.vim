@@ -125,8 +125,10 @@ autocmd vimrc FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefini
 autocmd vimrc FileType javascript nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
 autocmd vimrc FileType javascript xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
 autocmd vimrc FileType dirvish nnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
+autocmd vimrc FileType dirvish nnoremap <silent><buffer> s :call dirvish#open('vsplit', 1)<CR>
 autocmd vimrc FileType dirvish xnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
 autocmd vimrc FileType dirvish nmap <silent><buffer> u <Plug>(dirvish_up)
+autocmd vimrc FileType dirvish silent! unmap <buffer> <C-p>
 
 " }}}
 " ================ Completion ======================= {{{
