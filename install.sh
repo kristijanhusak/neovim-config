@@ -41,7 +41,7 @@ if echo "$answer" | grep -iq "^y" ;then
     && npm install -g diff-so-fancy \
     && git config --global core.pager "diff-so-fancy | less --tabs=4 -R" \
     && echo "Installing slack notifier..." \
-    && rm /usr/local/bin/slack-notifier \
+    && rm -f /usr/local/bin/slack-notifier \
     && ln -s $(pwd)/bin/slack-notifier /usr/local/bin/slack-notifier \
     && tic ./xterm-256color-italic.terminfo \
     && echo "Finished installation."
