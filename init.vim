@@ -26,6 +26,7 @@ Plug 'kristijanhusak/vim-js-file-import'
 Plug 'FooSoft/vim-argwrap'
 Plug 'morhetz/gruvbox'
 Plug 'justinmk/vim-dirvish'
+Plug 'kristijanhusak/vim-dirvish-git'
 
 call plug#end()
 "}}}
