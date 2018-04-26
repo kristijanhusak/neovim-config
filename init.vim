@@ -27,6 +27,7 @@ Plug 'FooSoft/vim-argwrap'
 Plug 'morhetz/gruvbox'
 Plug 'justinmk/vim-dirvish'
 Plug 'kristijanhusak/vim-dirvish-git'
+Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
 "}}}
@@ -34,9 +35,10 @@ call plug#end()
 
 let g:mapleader = ','                                                           "Change leader to a comma
 
-let g:gruvbox_italic = 1                                                        "Use italic for comments
-let g:gruvbox_invert_selection = 0                                              "Do not invert highlighing on selection
-let g:gruvbox_sign_column = 'none'                                              "Do not use background for sign column
+let g:nord_italic = 1                                                           "Enable italics
+let g:nord_italic_comments = 1                                                  "Use italics for comments
+let g:nord_comment_brightness = 12                                              "Increase comments brightness
+let g:nord_uniform_diff_background = 1                                          "Use same background color for all diff highlights
 
 set termguicolors
 set title                                                                       "change the terminal's title
@@ -76,9 +78,9 @@ set tagcase=smart                                                               
 set updatetime=500                                                              "Cursor hold timeout
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
-silent! colorscheme gruvbox
-hi link jsFuncCall GruvboxBlue
-hi link fileEntry Constant
+silent! colorscheme nord
+hi Conceal guibg=NONE
+hi link jsThis Keyword
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -159,7 +161,7 @@ set sidescroll=5
 " }}}
 " ================ Statusline ======================== {{{
 
-hi User1 guifg=#FF0000 guibg=#504945 gui=bold
+hi User1 guifg=#FF0000 guibg=#4C566A gui=bold
 hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
 hi User3 guifg=#2C323C guibg=#E5C07B gui=bold
 set statusline=\ %{toupper(mode())}                                             "Mode
