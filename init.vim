@@ -9,24 +9,23 @@ Plug 'manasthakur/vim-commentor'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
+Plug 'FooSoft/vim-argwrap'
 Plug 'jreybert/vimagit'
 Plug 'airblade/vim-gitgutter'
 Plug 'sheerun/vim-polyglot'
 Plug 'andymass/vim-matchup'
-Plug 'phpactor/phpactor', { 'for': 'php', 'do': 'composer install' }
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet'
+Plug 'phpactor/phpactor', { 'for': 'php', 'do': 'composer install' }
 Plug 'kristijanhusak/deoplete-phpactor', { 'for': 'php' }
 Plug 'dyng/ctrlsf.vim'
-Plug 'vimwiki/vimwiki'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
-Plug 'FooSoft/vim-argwrap'
-Plug 'morhetz/gruvbox'
 Plug 'justinmk/vim-dirvish'
 Plug 'kristijanhusak/vim-dirvish-git'
+Plug 'vimwiki/vimwiki'
 Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
@@ -388,7 +387,7 @@ nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
-let g:dirvish_mode = ':sort ,^.*[\/],'
+let g:dirvish_mode = ':sort ,^.*[\/],'                                          "List directories first in dirvish
 
 let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
 
@@ -396,8 +395,8 @@ let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
 
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
-call deoplete#custom#var('file', 'enable_buffer_path', 1)
-call deoplete#custom#option({ 'max_list': 30 , 'camel_case': 1 })
+call deoplete#custom#var('file', 'enable_buffer_path', 1)                       "Autocomplete files relative to current buffer path
+call deoplete#custom#option({ 'max_list': 30 , 'camel_case': 1 })               "Show only 30 entries in list and allow smart case autocomplete
 
 let g:delimitMate_expand_cr = 1                                                 "Auto indent on enter
 
