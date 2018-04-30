@@ -332,7 +332,8 @@ vnoremap K :m '<-2<CR>gv=gv
 nnoremap <Leader><space> :noh<CR>
 
 " Handle ale error window
-nnoremap <Leader>e :copen<CR>
+nnoremap <Leader>e :lopen<CR>
+nnoremap <Leader>E :copen<CR>
 
 nnoremap <silent><Leader>q :call CloseBuffer()<CR>
 nnoremap <silent><Leader>Q :call CloseBuffer(1)<CR>
@@ -406,7 +407,6 @@ let g:ale_fixers = {'javascript': ['prettier', 'eslint']}                       
 let g:ale_javascript_prettier_options = '--print-width 100'                     "Set max width to 100 chars for prettier
 let g:ale_sign_error = '✖'                                                      "Lint error sign
 let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
-let g:ale_set_quickfix = 1                                                      "Use quickfix instead of location list for errors
 
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
 let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
