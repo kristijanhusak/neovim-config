@@ -26,7 +26,7 @@ Plug 'kristijanhusak/vim-js-file-import'
 Plug 'justinmk/vim-dirvish'
 Plug 'kristijanhusak/vim-dirvish-git'
 Plug 'vimwiki/vimwiki'
-Plug 'arcticicestudio/nord-vim'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 "}}}
@@ -34,10 +34,7 @@ call plug#end()
 
 let g:mapleader = ','                                                           "Change leader to a comma
 
-let g:nord_italic = 1                                                           "Enable italics
-let g:nord_italic_comments = 1                                                  "Use italics for comments
-let g:nord_comment_brightness = 12                                              "Increase comments brightness
-let g:nord_uniform_diff_background = 1                                          "Use same background color for all diff highlights
+let g:onedark_terminal_italics = 1                                              "Enable italics
 
 set termguicolors
 set title                                                                       "change the terminal's title
@@ -77,9 +74,7 @@ set tagcase=smart                                                               
 set updatetime=500                                                              "Cursor hold timeout
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
-silent! colorscheme nord
-hi Conceal guibg=NONE
-hi link jsThis Keyword
+silent! colorscheme onedark
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -161,7 +156,7 @@ set sidescroll=5
 " }}}
 " ================ Statusline ======================== {{{
 
-hi User1 guifg=#FF0000 guibg=#4C566A gui=bold
+hi User1 guifg=#FF0000 guibg=#2C323C gui=bold
 hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
 hi User3 guifg=#2C323C guibg=#E5C07B gui=bold
 set statusline=\ %{toupper(mode())}                                             "Mode

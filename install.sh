@@ -4,10 +4,11 @@ read answer
 if echo "$answer" | grep -iq "^y" ;then
     echo "Installing dependencies..." \
     && sudo apt-get install urlview xdotool dh-autoreconf dconf-cli \
-    && echo "Installing nord gnome terminal theme..." \
-    && git clone git@github.com:arcticicestudio/nord-gnome-terminal.git \
-    && cd $(pwd)/nord-gnome-terminal/src && ./nord.sh && cd ../../ \
-    && rm -rf $(pwd)/nord-gnome-terminal \
+    && echo "Installing onedark gnome terminal theme..." \
+    && wget https://raw.githubusercontent.com/denysdovhan/gnome-terminal-one/master/one-dark.sh \
+    && chmod +x ./one-dark.sh \
+    && ./one-dark.sh \
+    && rm -rf ./one-dark.sh \
     && echo "Setting up zsh..." \
     && rm -rf ~/.zshrc ~/.oh-my-zsh \
     && ln -s $(pwd)/zshrc ~/.zshrc \
