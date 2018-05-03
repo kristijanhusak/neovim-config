@@ -23,17 +23,21 @@ if echo "$answer" | grep -iq "^y" ;then
     && ln -s $(pwd)/tmux.conf ~/.tmux.conf \
     && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
     && ~/.tmux/plugins/tpm/bin/install_plugins \
+    && echo "Installing fzf..." \
+    && rm -rf ~/.fzf \
+    && git clone https://github.com/junegunn/fzf ~/.fzf \
+    && ~/.fzf/install --all \
     && echo "Setting up neovim..." \
     && rm -rf ~/.config/nvim \
-    && curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
+    && git clone https://github.com/k-takata/minpac.git ~/.config/nvim/pack/minpac/opt/minpac \
     && ln -s $(pwd)/snippets ~/.config/nvim/snippets \
     && ln -s $(pwd)/init.vim ~/.config/nvim/init.vim \
-    && nvim -c 'PlugInstall' -c 'qa!' \
+    && nvim -c 'echo "Installing plugins..." | silent! call minpac#update("", { "do": "UpdateRemotePlugins | qa!"})' \
     && echo "Setting up fonts..." \
     && rm -rf ~/.fonts/iosevka-* \
     && cp $(pwd)/fonts/* ~/.fonts/ \
     && echo "Installing ripgrep..." \
-    && rm /usr/local/bin/rg \
+    && rm -f /usr/local/bin/rg \
     && curl -L https://github.com/BurntSushi/ripgrep/releases/download/0.8.1/ripgrep-0.8.1-x86_64-unknown-linux-musl.tar.gz | tar zx \
     && cp ripgrep-0.8.1-x86_64-unknown-linux-musl/rg /usr/local/bin \
     && rm -rf ripgrep-0.8.1-x86_64-unknown-linux-musl \
@@ -41,6 +45,7 @@ if echo "$answer" | grep -iq "^y" ;then
     && rm ~/z.sh \
     && curl -fLo ~/z.sh https://raw.githubusercontent.com/rupa/z/master/z.sh \
     && echo "Installing universal ctags..." \
+    && rm -rf ./ctags \
     && git clone https://github.com/universal-ctags/ctags \
     && cd ctags && ./autogen.sh && ./configure && make && sudo make install && cd ../ && rm -rf ctags \
     && echo "Installing diff-so-fancy..." \

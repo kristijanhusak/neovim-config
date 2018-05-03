@@ -1,33 +1,46 @@
 " ================ Plugins ==================== {{{
-call plug#begin( '~/.config/nvim/bundle')
+silent! packadd minpac
 
-Plug 'w0rp/ale', { 'do': 'npm install -g prettier' }
-Plug 'nelstrom/vim-visual-star-search'
-Plug 'Raimondi/delimitMate'
-Plug 'mattn/emmet-vim', { 'for': ['html', 'css', 'javascript.jsx'] }
-Plug 'manasthakur/vim-commentor'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-fugitive'
-Plug 'FooSoft/vim-argwrap'
-Plug 'airblade/vim-gitgutter'
-Plug 'sheerun/vim-polyglot'
-Plug 'andymass/vim-matchup'
-Plug 'Shougo/deoplete.nvim'
-Plug 'Shougo/neosnippet'
-Plug 'phpactor/phpactor', { 'for': 'php', 'do': 'composer install' }
-Plug 'kristijanhusak/deoplete-phpactor', { 'for': 'php' }
-Plug 'dyng/ctrlsf.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'kristijanhusak/vim-js-file-import'
-Plug 'justinmk/vim-dirvish'
-Plug 'kristijanhusak/vim-dirvish-git'
-Plug 'vimwiki/vimwiki'
-Plug 'joshdick/onedark.vim'
+call minpac#init()
 
-call plug#end()
+" Manually loaded plugins
+call minpac#add('k-takata/minpac', {'type': 'opt'})
+call minpac#add('joshdick/onedark.vim', { 'type': 'opt' })
+call minpac#add('justinmk/vim-dirvish', { 'type': 'opt' })
+call minpac#add('mattn/emmet-vim', { 'type': 'opt' })
+call minpac#add('phpactor/phpactor', { 'do': '!composer install', 'type': 'opt' })
+call minpac#add('andymass/vim-matchup', { 'type': 'opt' })
+
+" Auto loaded plugins
+call minpac#add('Shougo/deoplete.nvim')
+call minpac#add('Shougo/neosnippet')
+call minpac#add('w0rp/ale', { 'do': '!npm install -g prettier' })
+call minpac#add('nelstrom/vim-visual-star-search')
+call minpac#add('Raimondi/delimitMate')
+call minpac#add('manasthakur/vim-commentor')
+call minpac#add('tpope/vim-surround')
+call minpac#add('tpope/vim-repeat')
+call minpac#add('tpope/vim-fugitive')
+call minpac#add('FooSoft/vim-argwrap')
+call minpac#add('airblade/vim-gitgutter')
+call minpac#add('sheerun/vim-polyglot')
+call minpac#add('dyng/ctrlsf.vim')
+call minpac#add('junegunn/fzf')
+call minpac#add('junegunn/fzf.vim')
+call minpac#add('ludovicchabant/vim-gutentags')
+call minpac#add('kristijanhusak/vim-js-file-import')
+call minpac#add('kristijanhusak/vim-dirvish-git')
+call minpac#add('kristijanhusak/deoplete-phpactor')
+call minpac#add('vimwiki/vimwiki')
+
+filetype plugin indent on
+syntax on
+
+" Plugins that must be loaded before all other plugins
+silent! packadd onedark.vim
+silent! packadd vim-dirvish
+silent! packadd vim-matchup
+
 "}}}
 " ================ General Config ==================== {{{
 
@@ -108,24 +121,28 @@ set foldmethod=syntax
 
 augroup vimrc
     autocmd!
+    autocmd VimEnter * call DeopleteEnable()                                    "Enable deoplete on VimEnter because it's loaded after init.vim
+    autocmd QuickFixCmdPost [^l]* cwindow                                       "Open quickfix window after grepping
+    autocmd BufWritePre * call StripTrailingWhitespaces()                       "Auto-remove trailing spaces
+    autocmd InsertEnter * set nocul                                             "Remove cursorline highlight
+    autocmd InsertLeave * set cul                                               "Add cursorline highlight in normal mode
+    autocmd FocusGained,BufEnter * checktime                                    "Refresh file when vim gets focus
+    autocmd FileType php setlocal sw=4 sts=4 ts=4                               "Set indentation to 4 for php
+    autocmd FileType php packadd phpactor
+    autocmd FileType php packadd deoplete-phpactor
+    autocmd FileType html,css,javascript.jsx packadd emmet-vim
+    autocmd FileType javascript nmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
+    autocmd FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
+    autocmd FileType javascript nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
+    autocmd FileType javascript xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
+    autocmd FileType dirvish nnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
+    autocmd FileType dirvish nnoremap <silent><buffer> s :call dirvish#open('vsplit', 1)<CR>
+    autocmd FileType dirvish xnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
+    autocmd FileType dirvish nmap <silent><buffer> u <Plug>(dirvish_up)
+    autocmd FileType dirvish nmap <silent><buffer><Leader>n <Plug>(dirvish_quit)
+    autocmd FileType dirvish silent! unmap <buffer> <C-p>
 augroup END
 
-autocmd vimrc QuickFixCmdPost [^l]* cwindow                                     "Open quickfix window after grepping
-autocmd vimrc BufWritePre * call StripTrailingWhitespaces()                     "Auto-remove trailing spaces
-autocmd vimrc InsertEnter * set nocul                                           "Remove cursorline highlight
-autocmd vimrc InsertLeave * set cul                                             "Add cursorline highlight in normal mode
-autocmd vimrc FileType php setlocal sw=4 sts=4 ts=4                             "Set indentation to 4 for php
-autocmd vimrc FocusGained,BufEnter * checktime                                  "Refresh file when vim gets focus
-autocmd vimrc FileType javascript nmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
-autocmd vimrc FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
-autocmd vimrc FileType javascript nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
-autocmd vimrc FileType javascript xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
-autocmd vimrc FileType dirvish nnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
-autocmd vimrc FileType dirvish nnoremap <silent><buffer> s :call dirvish#open('vsplit', 1)<CR>
-autocmd vimrc FileType dirvish xnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
-autocmd vimrc FileType dirvish nmap <silent><buffer> u <Plug>(dirvish_up)
-autocmd vimrc FileType dirvish nmap <silent><buffer><Leader>n <Plug>(dirvish_quit)
-autocmd vimrc FileType dirvish silent! unmap <buffer> <C-p>
 
 " }}}
 " ================ Completion ======================= {{{
@@ -159,7 +176,9 @@ hi User1 guifg=#FF0000 guibg=#2C323C gui=bold
 hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
 hi User3 guifg=#2C323C guibg=#E5C07B gui=bold
 set statusline=\ %{toupper(mode())}                                             "Mode
-set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
+if exists('*fugitive#head')
+  set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
+endif
 set statusline+=%{GitFileStatus()}                                              "Git file status
 set statusline+=\ \│\ %4F                                                       "File path
 set statusline+=\ %1*%m%*                                                       "Modified indicator
@@ -172,7 +191,9 @@ set statusline+=\ \│\ %y                                                      
 set statusline+=\ \│\ %p%%                                                      "Percentage
 set statusline+=\ \│\ %c                                                        "Column number
 set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
-set statusline+=\ %{gutentags#statusline('\│\ ')}                               "Tags status
+if exists('*gutentags#statusline')
+  set statusline+=\ %{gutentags#statusline('\│\ ')}                               "Tags status
+endif
 set statusline+=\ %2*%{AleStatusline('error')}%*                                "Errors count
 set statusline+=%3*%{AleStatusline('warning')}%*                                "Warning count
 
@@ -212,6 +233,9 @@ function! Search(...)
 endfunction
 
 function! AleStatusline(type)
+  if !exists('*ale#statusline#Count')
+    return ''
+  endif
   let l:count = ale#statusline#Count(bufnr(''))
   if a:type ==? 'error' && l:count['error']
     return printf(' %d E ', l:count['error'])
@@ -267,6 +291,12 @@ function! CustomDiffColors() abort
   exe 'hi DiffChange guifg='.l:added.' guibg='.l:bg.' gui=NONE'
   exe 'hi DiffText  guifg='.l:added.' guibg='.l:bg.' gui=reverse'
   exe 'hi DiffDelete guifg='.l:deleted.' guibg='.l:normalBg.' gui=NONE'
+endfunction
+
+function! DeopleteEnable() abort
+  call deoplete#enable()                                                        "Enable deoplete autocompletion
+  call deoplete#custom#var('file', 'enable_buffer_path', 1)                     "Autocomplete files relative to current buffer path
+  call deoplete#custom#option({ 'max_list': 30 , 'camel_case': 1 })             "Show only 30 entries in list and allow smart case autocomplete
 endfunction
 
 " }}}
@@ -401,10 +431,6 @@ let g:user_emmet_leader_key = '<c-e>'                                           
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
-
-let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
-call deoplete#custom#var('file', 'enable_buffer_path', 1)                       "Autocomplete files relative to current buffer path
-call deoplete#custom#option({ 'max_list': 30 , 'camel_case': 1 })               "Show only 30 entries in list and allow smart case autocomplete
 
 let g:delimitMate_expand_cr = 1                                                 "Auto indent on enter
 
