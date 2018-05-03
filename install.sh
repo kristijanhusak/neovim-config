@@ -3,7 +3,12 @@ echo -n "This will delete all your previous nvim, tmux and zsh settings. Proceed
 read answer
 if echo "$answer" | grep -iq "^y" ;then
     echo "Installing dependencies..." \
-    && sudo apt-get install urlview xdotool dh-autoreconf \
+    && sudo apt-get install urlview xdotool dh-autoreconf dconf-cli \
+    && echo "Installing onedark gnome terminal theme..." \
+    && wget https://raw.githubusercontent.com/denysdovhan/gnome-terminal-one/master/one-dark.sh \
+    && chmod +x ./one-dark.sh \
+    && ./one-dark.sh \
+    && rm -rf ./one-dark.sh \
     && echo "Setting up zsh..." \
     && rm -rf ~/.zshrc ~/.oh-my-zsh \
     && ln -s $(pwd)/zshrc ~/.zshrc \
@@ -41,7 +46,7 @@ if echo "$answer" | grep -iq "^y" ;then
     && npm install -g diff-so-fancy \
     && git config --global core.pager "diff-so-fancy | less --tabs=4 -R" \
     && echo "Installing slack notifier..." \
-    && rm /usr/local/bin/slack-notifier \
+    && rm -f /usr/local/bin/slack-notifier \
     && ln -s $(pwd)/bin/slack-notifier /usr/local/bin/slack-notifier \
     && tic ./xterm-256color-italic.terminfo \
     && echo "Finished installation."

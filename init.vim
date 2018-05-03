@@ -9,24 +9,23 @@ Plug 'manasthakur/vim-commentor'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
-Plug 'jreybert/vimagit'
+Plug 'FooSoft/vim-argwrap'
 Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'sheerun/vim-polyglot'
 Plug 'andymass/vim-matchup'
-Plug 'phpactor/phpactor', { 'for': 'php', 'do': 'composer install' }
 Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/neosnippet'
+Plug 'phpactor/phpactor', { 'for': 'php', 'do': 'composer install' }
 Plug 'kristijanhusak/deoplete-phpactor', { 'for': 'php' }
 Plug 'dyng/ctrlsf.vim'
-Plug 'vimwiki/vimwiki'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import'
-Plug 'FooSoft/vim-argwrap'
-Plug 'morhetz/gruvbox'
+Plug 'justinmk/vim-dirvish'
+Plug 'kristijanhusak/vim-dirvish-git'
+Plug 'vimwiki/vimwiki'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 "}}}
@@ -34,9 +33,7 @@ call plug#end()
 
 let g:mapleader = ','                                                           "Change leader to a comma
 
-let g:gruvbox_italic = 1                                                        "Use italic for comments
-let g:gruvbox_invert_selection = 0                                              "Do not invert highlighing on selection
-let g:gruvbox_sign_column = 'none'                                              "Do not use background for sign column
+let g:onedark_terminal_italics = 1                                              "Enable italics
 
 set termguicolors
 set title                                                                       "change the terminal's title
@@ -76,9 +73,7 @@ set tagcase=smart                                                               
 set updatetime=500                                                              "Cursor hold timeout
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
-silent! colorscheme gruvbox
-hi link jsFuncCall GruvboxBlue
-hi link fileEntry Constant
+silent! colorscheme onedark
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -125,6 +120,12 @@ autocmd vimrc FileType javascript nmap <buffer><silent><C-]> <Plug>(JsGotoDefini
 autocmd vimrc FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
 autocmd vimrc FileType javascript nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
 autocmd vimrc FileType javascript xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
+autocmd vimrc FileType dirvish nnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
+autocmd vimrc FileType dirvish nnoremap <silent><buffer> s :call dirvish#open('vsplit', 1)<CR>
+autocmd vimrc FileType dirvish xnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
+autocmd vimrc FileType dirvish nmap <silent><buffer> u <Plug>(dirvish_up)
+autocmd vimrc FileType dirvish nmap <silent><buffer><Leader>n <Plug>(dirvish_quit)
+autocmd vimrc FileType dirvish silent! unmap <buffer> <C-p>
 
 " }}}
 " ================ Completion ======================= {{{
@@ -154,7 +155,7 @@ set sidescroll=5
 " }}}
 " ================ Statusline ======================== {{{
 
-hi User1 guifg=#FF0000 guibg=#504945 gui=bold
+hi User1 guifg=#FF0000 guibg=#2C323C gui=bold
 hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
 hi User3 guifg=#2C323C guibg=#E5C07B gui=bold
 set statusline=\ %{toupper(mode())}                                             "Mode
@@ -242,13 +243,11 @@ function! CloseBuffer(...) abort
   if &buftype !=? ''
     return execute('q!')
   endif
-  let l:nerdtreeOpen = g:NERDTree.IsOpen()
   let l:windowCount = winnr('$')
   let l:totalBuffers = len(getbufinfo({ 'buflisted': 1 }))
-  let l:isNerdtreeLast = l:nerdtreeOpen && l:windowCount ==? 2
-  let l:noSplits = !l:nerdtreeOpen && l:windowCount ==? 1
+  let l:noSplits = l:windowCount ==? 1
   let l:bang = a:0 > 0 ? '!' : ''
-  if l:totalBuffers > 1 && (l:isNerdtreeLast || l:noSplits)
+  if l:totalBuffers > 1 && l:noSplits
     let l:command = 'bp'
     if buflisted(bufnr('#'))
       let l:command .= '|bd'.l:bang.'#'
@@ -256,6 +255,18 @@ function! CloseBuffer(...) abort
     return execute(l:command)
   endif
   return execute('q'.l:bang)
+endfunction
+
+function! CustomDiffColors() abort
+  let l:added = '#A3BE8C'
+  let l:deleted = '#BF616A'
+
+  let l:normalBg = synIDattr(synIDtrans(hlID('Normal')), 'bg')
+  let l:bg = substitute(l:normalBg, '\(#..\)..\(..\)', '\13f\2', 'g')
+  exe 'hi DiffAdd guifg='.l:added.' guibg='.l:bg.' gui=NONE'
+  exe 'hi DiffChange guifg='.l:added.' guibg='.l:bg.' gui=NONE'
+  exe 'hi DiffText  guifg='.l:added.' guibg='.l:bg.' gui=reverse'
+  exe 'hi DiffDelete guifg='.l:deleted.' guibg='.l:normalBg.' gui=NONE'
 endfunction
 
 " }}}
@@ -326,15 +337,15 @@ vnoremap K :m '<-2<CR>gv=gv
 " Clear search highlight
 nnoremap <Leader><space> :noh<CR>
 
-" Handle syntastic error window
+" Handle ale error window
 nnoremap <Leader>e :lopen<CR>
+nnoremap <Leader>E :copen<CR>
+
 nnoremap <silent><Leader>q :call CloseBuffer()<CR>
 nnoremap <silent><Leader>Q :call CloseBuffer(1)<CR>
 
-" Find current file in NERDTree
-nnoremap <Leader>hf :NERDTreeFind<CR>
-" Open NERDTree
-nnoremap <Leader>n :NERDTreeToggle<CR>
+nnoremap <Leader>hf :Dirvish %<CR>
+nnoremap <Leader>n :Dirvish<CR>
 
 " Toggle between last 2 buffers
 nnoremap <leader><tab> <c-^>
@@ -384,10 +395,7 @@ nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
-let g:NERDTreeChDirMode = 2                                                     "Always change the root directory
-let g:NERDTreeMinimalUI = 1                                                     "Disable help text and bookmark title
-let g:NERDTreeShowHidden = 1                                                    "Show hidden files in NERDTree
-let g:NERDTreeUpdateOnCursorHold = 0                                            "Disable nerdtree git plugin updating on cursor hold
+let g:dirvish_mode = ':sort ,^.*[\/],'                                          "List directories first in dirvish
 
 let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
 
@@ -395,8 +403,8 @@ let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
 
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete autocompletion
-call deoplete#custom#var('file', 'enable_buffer_path', 1)
-call deoplete#custom#option({ 'max_list': 30 , 'camel_case': 1 })
+call deoplete#custom#var('file', 'enable_buffer_path', 1)                       "Autocomplete files relative to current buffer path
+call deoplete#custom#option({ 'max_list': 30 , 'camel_case': 1 })               "Show only 30 entries in list and allow smart case autocomplete
 
 let g:delimitMate_expand_cr = 1                                                 "Auto indent on enter
 
@@ -411,7 +419,6 @@ let g:javascript_plugin_jsdoc = 1                                               
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
-let g:magit_default_show_all_files = 0                                          "Close all diffs by default in Magit buffer
-
+call CustomDiffColors()                                                         "Use custom diff colors
 " }}}
 " vim:foldenable:foldmethod=marker
