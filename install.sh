@@ -9,6 +9,7 @@ if echo "$answer" | grep -iq "^y" ;then
     && chmod +x ./one-dark.sh \
     && ./one-dark.sh \
     && rm -rf ./one-dark.sh \
+    && tic ./xterm-256color-italic.terminfo \
     && echo "Setting up zsh..." \
     && rm -rf ~/.zshrc ~/.oh-my-zsh \
     && ln -s $(pwd)/zshrc ~/.zshrc \
@@ -45,9 +46,5 @@ if echo "$answer" | grep -iq "^y" ;then
     && echo "Installing diff-so-fancy..." \
     && npm install -g diff-so-fancy \
     && git config --global core.pager "diff-so-fancy | less --tabs=4 -R" \
-    && echo "Installing slack notifier..." \
-    && rm -f /usr/local/bin/slack-notifier \
-    && ln -s $(pwd)/bin/slack-notifier /usr/local/bin/slack-notifier \
-    && tic ./xterm-256color-italic.terminfo \
     && echo "Finished installation."
 fi
