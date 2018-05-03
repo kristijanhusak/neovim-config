@@ -10,7 +10,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'FooSoft/vim-argwrap'
-Plug 'jreybert/vimagit'
 Plug 'airblade/vim-gitgutter'
 Plug 'sheerun/vim-polyglot'
 Plug 'andymass/vim-matchup'
@@ -258,6 +257,18 @@ function! CloseBuffer(...) abort
   return execute('q'.l:bang)
 endfunction
 
+function! CustomDiffColors() abort
+  let l:added = '#A3BE8C'
+  let l:deleted = '#BF616A'
+
+  let l:normalBg = synIDattr(synIDtrans(hlID('Normal')), 'bg')
+  let l:bg = substitute(l:normalBg, '\(#..\)..\(..\)', '\13f\2', 'g')
+  exe 'hi DiffAdd guifg='.l:added.' guibg='.l:bg.' gui=NONE'
+  exe 'hi DiffChange guifg='.l:added.' guibg='.l:bg.' gui=NONE'
+  exe 'hi DiffText  guifg='.l:added.' guibg='.l:bg.' gui=reverse'
+  exe 'hi DiffDelete guifg='.l:deleted.' guibg='.l:normalBg.' gui=NONE'
+endfunction
+
 " }}}
 " ================ Custom mappings ======================== {{{
 
@@ -408,7 +419,6 @@ let g:javascript_plugin_jsdoc = 1                                               
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
-let g:magit_default_show_all_files = 0                                          "Close all diffs by default in Magit buffer
-
+call CustomDiffColors()                                                         "Use custom diff colors
 " }}}
 " vim:foldenable:foldmethod=marker
