@@ -1,40 +1,40 @@
 " ================ Plugins ==================== {{{
-silent! packadd minpac
+if exists('*minpac#init')
+  call minpac#init()
 
-call minpac#init()
+  " Manually loaded plugins
+  call minpac#add('k-takata/minpac', {'type': 'opt'})
+  call minpac#add('joshdick/onedark.vim', { 'type': 'opt' })
+  call minpac#add('justinmk/vim-dirvish', { 'type': 'opt' })
+  call minpac#add('andymass/vim-matchup', { 'type': 'opt' })
 
-" Manually loaded plugins
-call minpac#add('k-takata/minpac', {'type': 'opt'})
-call minpac#add('joshdick/onedark.vim', { 'type': 'opt' })
-call minpac#add('justinmk/vim-dirvish', { 'type': 'opt' })
-call minpac#add('mattn/emmet-vim', { 'type': 'opt' })
-call minpac#add('phpactor/phpactor', { 'do': '!composer install', 'type': 'opt' })
-call minpac#add('andymass/vim-matchup', { 'type': 'opt' })
+  " Auto loaded plugins
+  call minpac#add('Shougo/deoplete.nvim')
+  call minpac#add('Shougo/neosnippet')
+  call minpac#add('w0rp/ale', { 'do': '!npm install -g prettier' })
+  call minpac#add('nelstrom/vim-visual-star-search')
+  call minpac#add('Raimondi/delimitMate')
+  call minpac#add('manasthakur/vim-commentor')
+  call minpac#add('tpope/vim-surround')
+  call minpac#add('tpope/vim-repeat')
+  call minpac#add('tpope/vim-fugitive')
+  call minpac#add('FooSoft/vim-argwrap')
+  call minpac#add('airblade/vim-gitgutter')
+  call minpac#add('sheerun/vim-polyglot')
+  call minpac#add('mattn/emmet-vim')
+  call minpac#add('dyng/ctrlsf.vim')
+  call minpac#add('junegunn/fzf')
+  call minpac#add('junegunn/fzf.vim')
+  call minpac#add('ludovicchabant/vim-gutentags')
+  call minpac#add('phpactor/phpactor', { 'do': '!composer install' })
+  call minpac#add('kristijanhusak/vim-js-file-import')
+  call minpac#add('kristijanhusak/vim-dirvish-git')
+  call minpac#add('kristijanhusak/deoplete-phpactor')
+  call minpac#add('vimwiki/vimwiki')
+endif
 
-" Auto loaded plugins
-call minpac#add('Shougo/deoplete.nvim')
-call minpac#add('Shougo/neosnippet')
-call minpac#add('w0rp/ale', { 'do': '!npm install -g prettier' })
-call minpac#add('nelstrom/vim-visual-star-search')
-call minpac#add('Raimondi/delimitMate')
-call minpac#add('manasthakur/vim-commentor')
-call minpac#add('tpope/vim-surround')
-call minpac#add('tpope/vim-repeat')
-call minpac#add('tpope/vim-fugitive')
-call minpac#add('FooSoft/vim-argwrap')
-call minpac#add('airblade/vim-gitgutter')
-call minpac#add('sheerun/vim-polyglot')
-call minpac#add('dyng/ctrlsf.vim')
-call minpac#add('junegunn/fzf')
-call minpac#add('junegunn/fzf.vim')
-call minpac#add('ludovicchabant/vim-gutentags')
-call minpac#add('kristijanhusak/vim-js-file-import')
-call minpac#add('kristijanhusak/vim-dirvish-git')
-call minpac#add('kristijanhusak/deoplete-phpactor')
-call minpac#add('vimwiki/vimwiki')
-
-filetype plugin indent on
-syntax on
+command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
+command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 
 " Plugins that must be loaded before all other plugins
 silent! packadd onedark.vim
@@ -86,6 +86,7 @@ set tagcase=smart                                                               
 set updatetime=500                                                              "Cursor hold timeout
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
+syntax on
 silent! colorscheme onedark
 
 " }}}
@@ -121,16 +122,13 @@ set foldmethod=syntax
 
 augroup vimrc
     autocmd!
-    autocmd VimEnter * call DeopleteEnable()                                    "Enable deoplete on VimEnter because it's loaded after init.vim
     autocmd QuickFixCmdPost [^l]* cwindow                                       "Open quickfix window after grepping
     autocmd BufWritePre * call StripTrailingWhitespaces()                       "Auto-remove trailing spaces
     autocmd InsertEnter * set nocul                                             "Remove cursorline highlight
     autocmd InsertLeave * set cul                                               "Add cursorline highlight in normal mode
     autocmd FocusGained,BufEnter * checktime                                    "Refresh file when vim gets focus
     autocmd FileType php setlocal sw=4 sts=4 ts=4                               "Set indentation to 4 for php
-    autocmd FileType php packadd phpactor
-    autocmd FileType php packadd deoplete-phpactor
-    autocmd FileType html,css,javascript.jsx packadd emmet-vim
+    autocmd FileType html,css,javascript.jsx EmmetInstall
     autocmd FileType javascript nmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
     autocmd FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
     autocmd FileType javascript nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
@@ -142,7 +140,6 @@ augroup vimrc
     autocmd FileType dirvish nmap <silent><buffer><Leader>n <Plug>(dirvish_quit)
     autocmd FileType dirvish silent! unmap <buffer> <C-p>
 augroup END
-
 
 " }}}
 " ================ Completion ======================= {{{
@@ -176,9 +173,7 @@ hi User1 guifg=#FF0000 guibg=#2C323C gui=bold
 hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
 hi User3 guifg=#2C323C guibg=#E5C07B gui=bold
 set statusline=\ %{toupper(mode())}                                             "Mode
-if exists('*fugitive#head')
-  set statusline+=\ \│\ %{fugitive#head()}                                        "Git branch
-endif
+set statusline+=\ \│\ %{StatuslineFn('fugitive#head')}                          "Git branch
 set statusline+=%{GitFileStatus()}                                              "Git file status
 set statusline+=\ \│\ %4F                                                       "File path
 set statusline+=\ %1*%m%*                                                       "Modified indicator
@@ -191,9 +186,7 @@ set statusline+=\ \│\ %y                                                      
 set statusline+=\ \│\ %p%%                                                      "Percentage
 set statusline+=\ \│\ %c                                                        "Column number
 set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
-if exists('*gutentags#statusline')
-  set statusline+=\ %{gutentags#statusline('\│\ ')}                               "Tags status
-endif
+set statusline+=\ %{StatuslineFn('gutentags#statusline','\│\ ')}                "Tags status
 set statusline+=\ %2*%{AleStatusline('error')}%*                                "Errors count
 set statusline+=%3*%{AleStatusline('warning')}%*                                "Warning count
 
@@ -212,6 +205,15 @@ cnoreabbrev nowrap set nowrap
 
 " }}}
 " ================ Functions ======================== {{{
+
+function! StatuslineFn(name, ...) abort
+  if !exists('*'.a:name)
+    return ''
+  endif
+
+  return call(a:name, a:000)
+endfunction
+
 
 function! StripTrailingWhitespaces()
   if &modifiable
@@ -253,10 +255,10 @@ function! GitFileStatus()
   if !exists('b:gitgutter')
     return ''
   endif
-  let l:summary = get(b:gitgutter, 'summary', [0, 0, 0])
-  let l:result = l:summary[0] == 0 ? '' : ' +'.l:summary[0]
-  let l:result .= l:summary[1] == 0 ? '' : ' ~'.l:summary[1]
-  let l:result .= l:summary[2] == 0 ? '' : ' -'.l:summary[2]
+  let [l:added, l:modified, l:removed] = get(b:gitgutter, 'summary', [0, 0, 0])
+  let l:result = l:added == 0 ? '' : ' +'.l:added
+  let l:result .= l:modified == 0 ? '' : ' ~'.l:modified
+  let l:result .= l:removed == 0 ? '' : ' -'.l:removed
   if l:result !=? ''
     return ' '.l:result
   endif
@@ -291,12 +293,6 @@ function! CustomDiffColors() abort
   exe 'hi DiffChange guifg='.l:added.' guibg='.l:bg.' gui=NONE'
   exe 'hi DiffText  guifg='.l:added.' guibg='.l:bg.' gui=reverse'
   exe 'hi DiffDelete guifg='.l:deleted.' guibg='.l:normalBg.' gui=NONE'
-endfunction
-
-function! DeopleteEnable() abort
-  call deoplete#enable()                                                        "Enable deoplete autocompletion
-  call deoplete#custom#var('file', 'enable_buffer_path', 1)                     "Autocomplete files relative to current buffer path
-  call deoplete#custom#option({ 'max_list': 30 , 'camel_case': 1 })             "Show only 30 entries in list and allow smart case autocomplete
 endfunction
 
 " }}}
@@ -428,6 +424,11 @@ let g:ctrlsf_mapping = {'vsplit': 's'}                                          
 let g:dirvish_mode = ':sort ,^.*[\/],'                                          "List directories first in dirvish
 
 let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
+let g:user_emmet_install_global = 0                                             "Load emmet on demand
+
+let g:deoplete#enable_at_startup = 1                                            "Enable deoplete on startup
+let g:deoplete#camel_case = 1                                                   "Autocomplete files relative to current buffer path
+let g:deoplete#file#enable_buffer_path = 1                                      "Show only 30 entries in list and allow smart case autocomplete
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory

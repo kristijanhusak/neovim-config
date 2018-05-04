@@ -32,7 +32,7 @@ if echo "$answer" | grep -iq "^y" ;then
     && git clone https://github.com/k-takata/minpac.git ~/.config/nvim/pack/minpac/opt/minpac \
     && ln -s $(pwd)/snippets ~/.config/nvim/snippets \
     && ln -s $(pwd)/init.vim ~/.config/nvim/init.vim \
-    && nvim -c 'echo "Installing plugins..." | silent! call minpac#update("", { "do": "UpdateRemotePlugins | qa!"})' \
+    && nvim -c 'packadd minpac | source $MYVIMRC | echo "Installing plugins..." | call minpac#update("", { "do": "UpdateRemotePlugins | qa!"})' \
     && echo "Setting up fonts..." \
     && rm -rf ~/.fonts/iosevka-* \
     && cp $(pwd)/fonts/* ~/.fonts/ \
