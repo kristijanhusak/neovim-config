@@ -207,11 +207,11 @@ cnoreabbrev nowrap set nowrap
 " ================ Functions ======================== {{{
 
 function! StatuslineFn(name, ...) abort
-  if !exists('*'.a:name)
+  try
+    return call(a:name, a:000)
+  catch
     return ''
-  endif
-
-  return call(a:name, a:000)
+  endtry
 endfunction
 
 
@@ -235,20 +235,21 @@ function! Search(...)
 endfunction
 
 function! AleStatusline(type)
-  if !exists('*ale#statusline#Count')
+  try
+    let l:count = ale#statusline#Count(bufnr(''))
+    if a:type ==? 'error' && l:count['error']
+      return printf(' %d E ', l:count['error'])
+    endif
+
+    if a:type ==? 'warning' && l:count['warning']
+      let l:space = l:count['error'] ? ' ': ''
+      return printf('%s %d W ', l:space, l:count['warning'])
+    endif
+
     return ''
-  endif
-  let l:count = ale#statusline#Count(bufnr(''))
-  if a:type ==? 'error' && l:count['error']
-    return printf(' %d E ', l:count['error'])
-  endif
-
-  if a:type ==? 'warning' && l:count['warning']
-    let l:space = l:count['error'] ? ' ': ''
-    return printf('%s %d W ', l:space, l:count['warning'])
-  endif
-
-  return ''
+  catch
+    return ''
+  endtry
 endfunction
 
 function! GitFileStatus()
