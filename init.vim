@@ -121,24 +121,32 @@ set foldmethod=syntax
 " ================ Auto commands ====================== {{{
 
 augroup vimrc
-    autocmd!
-    autocmd QuickFixCmdPost [^l]* cwindow                                       "Open quickfix window after grepping
-    autocmd BufWritePre * call StripTrailingWhitespaces()                       "Auto-remove trailing spaces
-    autocmd InsertEnter * set nocul                                             "Remove cursorline highlight
-    autocmd InsertLeave * set cul                                               "Add cursorline highlight in normal mode
-    autocmd FocusGained,BufEnter * checktime                                    "Refresh file when vim gets focus
-    autocmd FileType php setlocal sw=4 sts=4 ts=4                               "Set indentation to 4 for php
-    autocmd FileType html,css,javascript.jsx EmmetInstall
-    autocmd FileType javascript nmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
-    autocmd FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
-    autocmd FileType javascript nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
-    autocmd FileType javascript xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
-    autocmd FileType dirvish nnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
-    autocmd FileType dirvish nnoremap <silent><buffer> s :call dirvish#open('vsplit', 1)<CR>
-    autocmd FileType dirvish xnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
-    autocmd FileType dirvish nmap <silent><buffer> u <Plug>(dirvish_up)
-    autocmd FileType dirvish nmap <silent><buffer><Leader>n <Plug>(dirvish_quit)
-    autocmd FileType dirvish silent! unmap <buffer> <C-p>
+  autocmd!
+  autocmd QuickFixCmdPost [^l]* cwindow                                       "Open quickfix window after grepping
+  autocmd BufWritePre * call StripTrailingWhitespaces()                       "Auto-remove trailing spaces
+  autocmd InsertEnter * set nocul                                             "Remove cursorline highlight
+  autocmd InsertLeave * set cul                                               "Add cursorline highlight in normal mode
+  autocmd FocusGained,BufEnter * checktime                                    "Refresh file when vim gets focus
+  autocmd FileType php setlocal sw=4 sts=4 ts=4                               "Set indentation to 4 for php
+  autocmd FileType html,css,javascript.jsx EmmetInstall
+augroup END
+
+augroup javascript
+  autocmd!
+  autocmd FileType javascript nmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
+  autocmd FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
+  autocmd FileType javascript nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
+  autocmd FileType javascript xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
+augroup END
+
+augroup dirvish
+  autocmd!
+  autocmd FileType dirvish nnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
+  autocmd FileType dirvish nnoremap <silent><buffer> s :call dirvish#open('vsplit', 1)<CR>
+  autocmd FileType dirvish xnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
+  autocmd FileType dirvish nmap <silent><buffer> u <Plug>(dirvish_up)
+  autocmd FileType dirvish nmap <silent><buffer><Leader>n <Plug>(dirvish_quit)
+  autocmd FileType dirvish silent! unmap <buffer> <C-p>
 augroup END
 
 " }}}
