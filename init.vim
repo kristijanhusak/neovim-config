@@ -409,7 +409,7 @@ map Q <Nop>
 nnoremap <Leader>] <C-W>v<C-]>
 
 " Reformat and fix linting errors
-nnoremap <Leader>r :ALEFix<CR>
+nnoremap <Leader>R :ALEFix<CR>
 " Wrap/Unwrap lines
 nnoremap <leader>r :ArgWrap<CR>
 

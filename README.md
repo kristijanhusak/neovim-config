@@ -20,7 +20,7 @@ Installation
 Plugins
 ----------------
 
-* [junegunn/vim-plug](https://github.com/junegunn/vim-plug)
+* [k-takata/minpac](https://github.com/k-takata/minpac)
 * [w0rp/ale](https://github.com/w0rp/ale)
 * [nelstrom/vim-visual-star-search](https://github.com/nelstrom/vim-visual-star-search)
 * [Raimondi/delimitMate](https://github.com/Raimondi/delimitMate)
