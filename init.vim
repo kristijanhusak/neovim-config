@@ -127,8 +127,16 @@ augroup vimrc
   autocmd InsertEnter * set nocul                                             "Remove cursorline highlight
   autocmd InsertLeave * set cul                                               "Add cursorline highlight in normal mode
   autocmd FocusGained,BufEnter * checktime                                    "Refresh file when vim gets focus
-  autocmd FileType php setlocal sw=4 sts=4 ts=4                               "Set indentation to 4 for php
   autocmd FileType html,css,javascript.jsx EmmetInstall
+augroup END
+
+augroup php
+  autocmd!
+  autocmd FileType php setlocal shiftwidth=4 softtabstop=4 tabstop=4
+  autocmd FileType php nmap <buffer><silent><Leader>if :call phpactor#UseAdd()<CR>
+  autocmd FileType php nmap <buffer><silent><Leader>ir :call phpactor#ContextMenu()<CR>
+  autocmd FileType php vmap <buffer><silent><Leader>ie :<C-U>call phpactor#ExtractMethod()<CR>
+  autocmd FileType php nmap <buffer><silent><C-]> :call phpactor#GotoDefinition()<CR>
 augroup END
 
 augroup javascript
