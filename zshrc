@@ -31,7 +31,9 @@ export FZF_DEFAULT_COMMAND='rg --files'
 # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
 # zsh-autosuggestions is designed to be unobtrusive)
 bindkey '^t' autosuggest-execute
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
+export THEME='onedark'
+source ~/neovim-config/tmux/$THEME.sh
 
 export NVM_DIR="/home/kristijan/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

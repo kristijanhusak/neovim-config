@@ -4,11 +4,13 @@ if exists('*minpac#init')
 
   " Manually loaded plugins
   call minpac#add('k-takata/minpac', {'type': 'opt'})
-  call minpac#add('joshdick/onedark.vim', { 'type': 'opt' })
   call minpac#add('justinmk/vim-dirvish', { 'type': 'opt' })
   call minpac#add('andymass/vim-matchup', { 'type': 'opt' })
+  call minpac#add('joshdick/onedark.vim', { 'type': 'opt' })
 
   " Auto loaded plugins
+  call minpac#add('arcticicestudio/nord-vim')
+  call minpac#add('lifepillar/vim-solarized8')
   call minpac#add('Shougo/deoplete.nvim')
   call minpac#add('Shougo/neosnippet')
   call minpac#add('w0rp/ale', { 'do': '!npm install -g prettier' })
@@ -87,7 +89,8 @@ set updatetime=500                                                              
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
 syntax on
-silent! colorscheme onedark
+silent! colorscheme $THEME
+hi Conceal guibg=NONE
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -185,7 +188,10 @@ set sidescroll=5
 " }}}
 " ================ Statusline ======================== {{{
 
-hi User1 guifg=#FF0000 guibg=#2C323C gui=bold
+let s:statuslineBgColor = synIDattr(synIDtrans(hlID('StatusLine')), 'reverse') ? 'fg' : 'bg'
+let s:statuslineBg = synIDattr(synIDtrans(hlID('StatusLine')), s:statuslineBgColor)
+silent exe 'hi User1 guifg=#FF0000 guibg='.s:statuslineBg.' gui=bold'
+
 hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
 hi User3 guifg=#2C323C guibg=#E5C07B gui=bold
 set statusline=\ %{toupper(mode())}                                             "Mode
