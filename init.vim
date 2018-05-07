@@ -474,6 +474,8 @@ let g:javascript_plugin_jsdoc = 1                                               
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
+let g:matchup_matchparen_status_offscreen = 0                                   "Do not show offscreen closing match in statusline
+
 call CustomDiffColors()                                                         "Use custom diff colors
 " }}}
 " vim:foldenable:foldmethod=marker
