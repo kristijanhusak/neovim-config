@@ -31,6 +31,8 @@ export FZF_DEFAULT_COMMAND='rg --files'
 bindkey '^t' autosuggest-execute
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
 export THEME='onedark'
+[ -f ~/.zsh_secret ] && source ~/.zsh_secret
+
 source ~/neovim-config/tmux/$THEME.sh
 
 export NVM_DIR="/home/kristijan/.nvm"
@@ -38,5 +40,3 @@ export NVM_DIR="/home/kristijan/.nvm"
 [ -z "$TMUX" ] && exec tmux
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.zsh_secret ] && source ~/.zsh_secret
-
