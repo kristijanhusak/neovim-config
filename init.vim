@@ -48,7 +48,12 @@ silent! packadd vim-matchup
 
 let g:mapleader = ','                                                           "Change leader to a comma
 
-let g:onedark_terminal_italics = 1                                              "Enable italics
+let g:onedark_terminal_italics = 1                                              "Enable italics in Onedark colorscheme
+let g:solarized_extra_hi_groups = 1                                             "Enable extra highlighting in Solarized colorscheme
+let g:nord_italic = 1                                                           "Enable italics in Nord colorscheme
+let g:nord_italic_comments = 1                                                  "Use italics for comments in Nord colorscheme
+let g:nord_comment_brightness = 12                                              "Increase comments brightness in Nord colorscheme
+let g:nord_uniform_diff_background = 1                                          "Use same background color for all diff highlights
 
 set termguicolors
 set title                                                                       "change the terminal's title
