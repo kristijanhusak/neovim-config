@@ -33,6 +33,7 @@ if exists('*minpac#init')
   call minpac#add('kristijanhusak/vim-dirvish-git')
   call minpac#add('kristijanhusak/deoplete-phpactor')
   call minpac#add('vimwiki/vimwiki')
+  call minpac#add('editorconfig/editorconfig-vim')
 endif
 
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()

@@ -46,6 +46,7 @@ Plugins
 * [kristijanhusak/vim-dirvish-git](https://github.com/kristijanhusak/vim-dirvish-git)
 * [vimwiki/vimwiki](https://github.com/vimwiki/vimwiki)
 * [joshdick/onedark.vim](https://github.com/joshdick/onedark.vim)
+* [editorconfig/editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
 
 Font used:
 * current - [Iosevka](https://github.com/be5invis/Iosevka)
