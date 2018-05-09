@@ -9,8 +9,6 @@ if exists('*minpac#init')
   call minpac#add('joshdick/onedark.vim', { 'type': 'opt' })
 
   " Auto loaded plugins
-  call minpac#add('arcticicestudio/nord-vim')
-  call minpac#add('lifepillar/vim-solarized8')
   call minpac#add('Shougo/deoplete.nvim')
   call minpac#add('Shougo/neosnippet')
   call minpac#add('w0rp/ale', { 'do': '!npm install -g prettier' })
@@ -34,6 +32,7 @@ if exists('*minpac#init')
   call minpac#add('kristijanhusak/deoplete-phpactor')
   call minpac#add('vimwiki/vimwiki')
   call minpac#add('editorconfig/editorconfig-vim')
+  call minpac#add('morhetz/gruvbox')
 endif
 
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
@@ -50,11 +49,9 @@ silent! packadd vim-matchup
 let g:mapleader = ','                                                           "Change leader to a comma
 
 let g:onedark_terminal_italics = 1                                              "Enable italics in Onedark colorscheme
-let g:solarized_extra_hi_groups = 1                                             "Enable extra highlighting in Solarized colorscheme
-let g:nord_italic = 1                                                           "Enable italics in Nord colorscheme
-let g:nord_italic_comments = 1                                                  "Use italics for comments in Nord colorscheme
-let g:nord_comment_brightness = 12                                              "Increase comments brightness in Nord colorscheme
-let g:nord_uniform_diff_background = 1                                          "Use same background color for all diff highlights
+let g:gruvbox_italic = 1                                                        "Enable italics in Gruvbox colorscheme
+let g:gruvbox_invert_selection = 0                                              "Do not invert selection in Gruvbox colorscheme
+let g:gruvbox_sign_column = 'bg0'                                               "Use default bg color in sign column
 
 set termguicolors
 set title                                                                       "change the terminal's title
@@ -96,7 +93,7 @@ set synmaxcol=300                                                               
 
 syntax on
 silent! colorscheme $THEME
-hi Conceal guibg=NONE
+silent exe 'hi! link jsFuncCall GruvboxBlue'
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{

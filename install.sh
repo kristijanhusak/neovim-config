@@ -1,39 +1,4 @@
 #!/usr/bin/env bash
-DCONF_PROFILE_BASE_PATH=/org/gnome/terminal/legacy/profiles:
-GSETTINGS_PROFILELIST_PATH=org.gnome.Terminal.ProfilesList
-profiles=($(gsettings get "$GSETTINGS_PROFILELIST_PATH" list | tr -d "[]\',"))
-
-check_profile_exists() {
-  local name=$1
-  for idx in "${!profiles[@]}"; do
-    if [[ "$(dconf read "$DCONF_PROFILE_BASE_PATH"/:"${profiles[idx]}"/visible-name)" == "'$name'" ]]; then
-      printf "%s" "${profiles[idx]}"
-      return 0
-    fi
-  done
-}
-
-install_onedark_theme() {
-  local existing_profile=$(check_profile_exists "One Dark")
-  if [[ -z $existing_profile ]]; then
-    echo "Installing onedark gnome terminal theme..." \
-    && wget https://raw.githubusercontent.com/denysdovhan/gnome-terminal-one/master/one-dark.sh \
-    && chmod +x ./one-dark.sh \
-    && ./one-dark.sh \
-    && rm -rf ./one-dark.sh
-  fi
-}
-
-install_nord_theme() {
-  local existing_profile=$(check_profile_exists "Nord")
-  if [[ -z $existing_profile ]]; then
-    echo "Installing nord gnome terminal theme..." \
-    && git clone git@github.com:arcticicestudio/nord-gnome-terminal.git \
-    && cd $(pwd)/nord-gnome-terminal/src && ./nord.sh && cd ../../ \
-    && rm -rf $(pwd)/nord-gnome-terminal
-  fi
-}
-
 install_on_my_zsh() {
   echo "Setting up zsh..." \
   && rm -rf ~/.zshrc ~/.oh-my-zsh \
@@ -109,8 +74,6 @@ read answer
 if echo "$answer" | grep -iq "^y" ;then
   echo "Installing dependencies..." \
   && sudo apt-get install urlview xdotool dh-autoreconf dconf-cli \
-  && install_onedark_theme \
-  && install_nord_theme \
   && install_on_my_zsh \
   && setup_tmux \
   && install_fzf \
