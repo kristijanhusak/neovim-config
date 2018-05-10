@@ -30,10 +30,7 @@ export FZF_DEFAULT_COMMAND='rg --files'
 # zsh-autosuggestions is designed to be unobtrusive)
 bindkey '^t' autosuggest-execute
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
-export THEME='gruvbox'
 [ -f ~/.zsh_secret ] && source ~/.zsh_secret
-
-source ~/neovim-config/tmux/$THEME.sh
 
 export NVM_DIR="/home/kristijan/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

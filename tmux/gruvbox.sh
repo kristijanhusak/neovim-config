@@ -1,5 +1,0 @@
-export tmux_bg_color='#3c3836'
-export tmux_fg_color='#a89984'
-export tmux_high_contrast='fg=#282828,bg=#83a598,bold'
-export tmux_normal_contrast='fg=#282828,bg=#fabd2f,nobold'
-export tmux_low_contrast='fg=#a89984,bg=#504945'
