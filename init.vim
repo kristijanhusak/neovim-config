@@ -32,6 +32,7 @@ if exists('*minpac#init')
   call minpac#add('vimwiki/vimwiki')
   call minpac#add('editorconfig/editorconfig-vim')
   call minpac#add('morhetz/gruvbox')
+  call minpac#add('google/vim-searchindex')
 endif
 
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
@@ -421,8 +422,8 @@ xnoremap <expr> _ &diff ? ':diffget<BAR>diffupdate<CR>' : '_'
 nnoremap <expr> R &diff ? ':diffupdate<CR>' : 'R'
 
 " Center highlighted search
-nnoremap n nzz
-nnoremap N Nzz
+nmap n nzz<Plug>SearchIndex
+nmap N Nzz<Plug>SearchIndex
 
 "Disable ex mode mapping
 map Q <Nop>
@@ -455,6 +456,7 @@ let g:deoplete#file#enable_buffer_path = 1                                      
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
+let g:neosnippet#enable_completed_snippet = 1                                   "Allow expanding function arguments as snippet
 
 let g:delimitMate_expand_cr = 1                                                 "Auto indent on enter
 
