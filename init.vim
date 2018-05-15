@@ -38,6 +38,8 @@ endif
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
 command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 
+filetype plugin indent on
+
 " Plugins that must be loaded before all other plugins
 silent! packadd vim-dirvish
 silent! packadd vim-matchup
