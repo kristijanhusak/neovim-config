@@ -4,7 +4,6 @@ if exists('*minpac#init')
 
   " Manually loaded plugins
   call minpac#add('k-takata/minpac', {'type': 'opt'})
-  call minpac#add('justinmk/vim-dirvish', { 'type': 'opt' })
   call minpac#add('andymass/vim-matchup', { 'type': 'opt' })
 
   " Auto loaded plugins
@@ -33,6 +32,7 @@ if exists('*minpac#init')
   call minpac#add('editorconfig/editorconfig-vim')
   call minpac#add('morhetz/gruvbox')
   call minpac#add('google/vim-searchindex')
+  call minpac#add('justinmk/vim-dirvish')
 endif
 
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
@@ -41,11 +41,12 @@ command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 filetype plugin indent on
 
 " Plugins that must be loaded before all other plugins
-silent! packadd vim-dirvish
 silent! packadd vim-matchup
 
 "}}}
 " ================ General Config ==================== {{{
+
+let g:loaded_netrwPlugin = 1                                                    "Do not load netrw so Dirvish can be autoloaded
 
 let g:mapleader = ','                                                           "Change leader to a comma
 
