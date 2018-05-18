@@ -36,7 +36,6 @@ Plugins
 * [sheerun/vim-polyglot](https://github.com/sheerun/vim-polyglot)
 * [mattn/emmet-vim](https://github.com/mattn/emmet-vim)
 * [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)
-* [junegunn/vim-slash](https://github.com/junegunn/vim-slash)
 * [junegunn/fzf](https://github.com/junegunn/fzf)
 * [junegunn/fzf.vim](https://github.com/junegunn/fzf.vim)
 * [ludovicchabant/vim-gutentags](https://github.com/ludovicchabant/vim-gutentags)
@@ -47,6 +46,8 @@ Plugins
 * [vimwiki/vimwiki](https://github.com/vimwiki/vimwiki)
 * [editorconfig/editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
 * [morhetz/gruvbox](https://github.com/morhetz/gruvbox)
+* [haya14busa/vim-asterisk](https://github.com/haya14busa/vim-asterisk)
+* [osyo-manga/vim-anzu](https://github.com/osyo-manga/vim-anzu)
 
 Font used:
 * current - [Iosevka](https://github.com/be5invis/Iosevka)

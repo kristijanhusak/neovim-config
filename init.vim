@@ -19,7 +19,6 @@ if exists('*minpac#init')
   call minpac#add('sheerun/vim-polyglot')
   call minpac#add('mattn/emmet-vim')
   call minpac#add('dyng/ctrlsf.vim')
-  call minpac#add('junegunn/vim-slash')
   call minpac#add('junegunn/fzf')
   call minpac#add('junegunn/fzf.vim')
   call minpac#add('ludovicchabant/vim-gutentags')
@@ -32,6 +31,8 @@ if exists('*minpac#init')
   call minpac#add('morhetz/gruvbox')
   call minpac#add('justinmk/vim-dirvish')
   call minpac#add('andymass/vim-matchup')
+  call minpac#add('haya14busa/vim-asterisk')
+  call minpac#add('osyo-manga/vim-anzu')
 endif
 
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
@@ -384,7 +385,7 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
 " Clear search highlight
-nnoremap <Leader><space> :noh<CR>
+nnoremap <Leader><space> :AnzuClearSearchStatus<BAR>noh<CR>
 
 " Handle ale error window
 nnoremap <Leader>e :lopen<CR>
@@ -420,8 +421,13 @@ xnoremap <expr> + &diff ? ':diffput<BAR>diffupdate<CR>' : '+'
 xnoremap <expr> _ &diff ? ':diffget<BAR>diffupdate<CR>' : '_'
 nnoremap <expr> R &diff ? ':diffupdate<CR>' : 'R'
 
-" Center highlighted search
-noremap <plug>(slash-after) zz
+" Better search status
+nmap n <Plug>(anzu-n-with-echo)zz
+nmap N <Plug>(anzu-N-with-echo)zz
+map * <Plug>(asterisk-z*)<Plug>(anzu-update-search-status-with-echo)
+map # <Plug>(asterisk-z#)<Plug>(anzu-update-search-status-with-echo)
+map g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status-with-echo)
+map g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status-with-echo)
 
 "Disable ex mode mapping
 map Q <Nop>
