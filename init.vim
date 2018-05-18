@@ -118,6 +118,7 @@ set smartindent
 set nofoldenable
 set colorcolumn=80
 set foldmethod=syntax
+set foldlevelstart=5
 
 " }}}
 " ================ Auto commands ====================== {{{
