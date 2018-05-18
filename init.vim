@@ -9,7 +9,6 @@ if exists('*minpac#init')
   call minpac#add('Shougo/deoplete.nvim')
   call minpac#add('Shougo/neosnippet')
   call minpac#add('w0rp/ale', { 'do': '!npm install -g prettier' })
-  call minpac#add('nelstrom/vim-visual-star-search')
   call minpac#add('Raimondi/delimitMate')
   call minpac#add('manasthakur/vim-commentor')
   call minpac#add('tpope/vim-surround')
@@ -20,6 +19,7 @@ if exists('*minpac#init')
   call minpac#add('sheerun/vim-polyglot')
   call minpac#add('mattn/emmet-vim')
   call minpac#add('dyng/ctrlsf.vim')
+  call minpac#add('junegunn/vim-slash')
   call minpac#add('junegunn/fzf')
   call minpac#add('junegunn/fzf.vim')
   call minpac#add('ludovicchabant/vim-gutentags')
@@ -30,7 +30,6 @@ if exists('*minpac#init')
   call minpac#add('vimwiki/vimwiki')
   call minpac#add('editorconfig/editorconfig-vim')
   call minpac#add('morhetz/gruvbox')
-  call minpac#add('google/vim-searchindex')
   call minpac#add('justinmk/vim-dirvish')
   call minpac#add('andymass/vim-matchup')
 endif
@@ -421,8 +420,7 @@ xnoremap <expr> _ &diff ? ':diffget<BAR>diffupdate<CR>' : '_'
 nnoremap <expr> R &diff ? ':diffupdate<CR>' : 'R'
 
 " Center highlighted search
-nmap n nzz<Plug>SearchIndex
-nmap N Nzz<Plug>SearchIndex
+noremap <plug>(slash-after) zz
 
 "Disable ex mode mapping
 map Q <Nop>
