@@ -33,6 +33,7 @@ if exists('*minpac#init')
   call minpac#add('andymass/vim-matchup')
   call minpac#add('haya14busa/vim-asterisk')
   call minpac#add('osyo-manga/vim-anzu')
+  call minpac#add('autozimu/LanguageClient-neovim', { 'do': '!bash install.sh' })
 endif
 
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
@@ -482,6 +483,11 @@ let g:javascript_plugin_jsdoc = 1                                               
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
 let g:matchup_matchparen_status_offscreen = 0                                   "Do not show offscreen closing match in statusline
+
+let g:LanguageClient_serverCommands = {
+\ 'javascript': ['javascript-typescript-stdio'],
+\ 'javascript.jsx': ['javascript-typescript-stdio'],
+\ }
 
 call CustomDiffColors()                                                         "Use custom diff colors
 " }}}
