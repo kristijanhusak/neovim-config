@@ -21,8 +21,6 @@ Plugins
 ----------------
 
 * [k-takata/minpac](https://github.com/k-takata/minpac)
-* [justinmk/vim-dirvish](https://github.com/justinmk/vim-dirvish)
-* [andymass/vim-matchup](https://github.com/andymass/vim-matchup)
 * [Shougo/deoplete.nvim](https://github.com/Shougo/deoplete.nvim)
 * [Shougo/neosnippet](https://github.com/Shougo/neosnippet)
 * [w0rp/ale](https://github.com/w0rp/ale)
@@ -31,7 +29,7 @@ Plugins
 * [tpope/vim-surround](https://github.com/tpope/vim-surround)
 * [tpope/vim-repeat](https://github.com/tpope/vim-repeat)
 * [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
-* [FooSoft/vim-argwrap](https://github.com/FooSoft/vim-argwrap)
+* [AndrewRadev/splitjoin.vim](https://github.com/AndrewRadev/splitjoin.vim)
 * [airblade/vim-gitgutter](https://github.com/airblade/vim-gitgutter)
 * [sheerun/vim-polyglot](https://github.com/sheerun/vim-polyglot)
 * [mattn/emmet-vim](https://github.com/mattn/emmet-vim)
@@ -46,8 +44,12 @@ Plugins
 * [vimwiki/vimwiki](https://github.com/vimwiki/vimwiki)
 * [editorconfig/editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
 * [morhetz/gruvbox](https://github.com/morhetz/gruvbox)
+* [justinmk/vim-dirvish](https://github.com/justinmk/vim-dirvish)
+* [andymass/vim-matchup](https://github.com/andymass/vim-matchup)
 * [haya14busa/vim-asterisk](https://github.com/haya14busa/vim-asterisk)
 * [osyo-manga/vim-anzu](https://github.com/osyo-manga/vim-anzu)
+* [autozimu/LanguageClient-neovim](https://github.com/autozimu/LanguageClient-neovim)
+* [soywod/vim-keepeye](https://github.com/soywod/vim-keepeye)
 
 Font used:
 * current - [Iosevka](https://github.com/be5invis/Iosevka)

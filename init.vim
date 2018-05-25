@@ -14,7 +14,7 @@ if exists('*minpac#init')
   call minpac#add('tpope/vim-surround')
   call minpac#add('tpope/vim-repeat')
   call minpac#add('tpope/vim-fugitive')
-  call minpac#add('FooSoft/vim-argwrap')
+  call minpac#add('AndrewRadev/splitjoin.vim')
   call minpac#add('airblade/vim-gitgutter')
   call minpac#add('sheerun/vim-polyglot')
   call minpac#add('mattn/emmet-vim')
@@ -34,6 +34,7 @@ if exists('*minpac#init')
   call minpac#add('haya14busa/vim-asterisk')
   call minpac#add('osyo-manga/vim-anzu')
   call minpac#add('autozimu/LanguageClient-neovim', { 'do': '!bash install.sh' })
+  call minpac#add('soywod/vim-keepeye')
 endif
 
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
@@ -436,6 +437,9 @@ map # <Plug>(asterisk-z#)<Plug>(anzu-update-search-status-with-echo)
 map g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status-with-echo)
 map g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status-with-echo)
 
+" Language client context menu
+nnoremap <Leader>r :call LanguageClient_contextMenu()<CR>
+
 "Disable ex mode mapping
 map Q <Nop>
 
@@ -444,8 +448,6 @@ nnoremap <Leader>] <C-W>v<C-]>
 
 " Reformat and fix linting errors
 nnoremap <Leader>R :ALEFix<CR>
-" Wrap/Unwrap lines
-nnoremap <leader>r :ArgWrap<CR>
 
 " Close all other buffers except current one
 nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
@@ -467,7 +469,6 @@ let g:deoplete#file#enable_buffer_path = 1                                      
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
-let g:neosnippet#enable_completed_snippet = 1                                   "Allow expanding function arguments as snippet
 
 let g:delimitMate_expand_cr = 1                                                 "Auto indent on enter
 
@@ -487,7 +488,13 @@ let g:matchup_matchparen_status_offscreen = 0                                   
 let g:LanguageClient_serverCommands = {
 \ 'javascript': ['javascript-typescript-stdio'],
 \ 'javascript.jsx': ['javascript-typescript-stdio'],
+\ 'typescript': ['javascript-typescript-stdio'],
 \ }
+let g:LanguageClient_fzfContextMenu = 0                                         "Do not use fzf for language client context menu
+
+let g:keepeye_start = v:true                                                    "Start keepeye on vim enter
+hi User4 guifg=#FFFFFF guibg=#FF0000
+let g:keepeye_message_hl_user = 4                                               "Use User4 hl group when showing keepeye message
 
 call CustomDiffColors()                                                         "Use custom diff colors
 " }}}
