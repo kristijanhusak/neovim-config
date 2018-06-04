@@ -35,6 +35,7 @@ if exists('*minpac#init')
   call minpac#add('osyo-manga/vim-anzu')
   call minpac#add('autozimu/LanguageClient-neovim', { 'do': '!bash install.sh' })
   call minpac#add('soywod/vim-keepeye')
+  call minpac#add('wellle/targets.vim')
 endif
 
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
@@ -490,7 +491,6 @@ let g:LanguageClient_serverCommands = {
 \ 'javascript.jsx': ['javascript-typescript-stdio'],
 \ 'typescript': ['javascript-typescript-stdio'],
 \ }
-let g:LanguageClient_fzfContextMenu = 0                                         "Do not use fzf for language client context menu
 
 let g:keepeye_start = v:true                                                    "Start keepeye on vim enter
 hi User4 guifg=#FFFFFF guibg=#FF0000

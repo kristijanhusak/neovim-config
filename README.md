@@ -50,6 +50,7 @@ Plugins
 * [osyo-manga/vim-anzu](https://github.com/osyo-manga/vim-anzu)
 * [autozimu/LanguageClient-neovim](https://github.com/autozimu/LanguageClient-neovim)
 * [soywod/vim-keepeye](https://github.com/soywod/vim-keepeye)
+* [wellle/targets.vim](https://github.com/wellle/targets.vim)
 
 Font used:
 * current - [Iosevka](https://github.com/be5invis/Iosevka)
