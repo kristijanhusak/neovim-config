@@ -316,18 +316,6 @@ function! CloseBuffer(...) abort
   return execute('q'.l:bang)
 endfunction
 
-function! CustomDiffColors() abort
-  let l:added = '#A3BE8C'
-  let l:deleted = '#BF616A'
-
-  let l:normalBg = synIDattr(synIDtrans(hlID('Normal')), 'bg')
-  let l:bg = substitute(l:normalBg, '\(#..\)..\(..\)', '\13f\2', 'g')
-  exe 'hi DiffAdd guifg='.l:added.' guibg='.l:bg.' gui=NONE'
-  exe 'hi DiffChange guifg='.l:added.' guibg='.l:bg.' gui=NONE'
-  exe 'hi DiffText  guifg='.l:added.' guibg='.l:bg.' gui=reverse'
-  exe 'hi DiffDelete guifg='.l:deleted.' guibg='.l:normalBg.' gui=NONE'
-endfunction
-
 " }}}
 " ================ Custom mappings ======================== {{{
 
@@ -493,9 +481,9 @@ let g:LanguageClient_serverCommands = {
 \ }
 
 let g:keepeye_start = v:true                                                    "Start keepeye on vim enter
+let g:keepeye_timer = 2100                                                      "Remind every 35 min
 hi User4 guifg=#FFFFFF guibg=#FF0000
 let g:keepeye_message_hl_user = 4                                               "Use User4 hl group when showing keepeye message
 
-call CustomDiffColors()                                                         "Use custom diff colors
 " }}}
 " vim:foldenable:foldmethod=marker
