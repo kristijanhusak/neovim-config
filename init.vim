@@ -94,6 +94,8 @@ set synmaxcol=300                                                               
 syntax on
 silent! colorscheme gruvbox
 hi! link jsFuncCall GruvboxBlue
+" Remove highlighting of Operator because it is reversed with cursorline enabled
+hi! Operator guifg=NONE guibg=NONE
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -473,6 +475,7 @@ let g:javascript_plugin_jsdoc = 1                                               
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
 let g:matchup_matchparen_status_offscreen = 0                                   "Do not show offscreen closing match in statusline
+let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   "Enable matchup only in normal mode
 
 let g:LanguageClient_serverCommands = {
 \ 'javascript': ['javascript-typescript-stdio'],
