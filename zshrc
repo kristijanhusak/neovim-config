@@ -22,6 +22,7 @@ alias l="ls -l"
 alias c="clear"
 alias www="cd /var/www"
 alias weather="curl http://wttr.in/Novi sad"
+alias gs="git status"
 alias code="cd ~/code"
 
 export PATH=$PATH:/usr/local/go/bin:~/go/bin
