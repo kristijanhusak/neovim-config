@@ -20,13 +20,6 @@ setup_tmux() {
   && ~/.tmux/plugins/tpm/bin/install_plugins
 }
 
-install_fzf() {
-  echo "Installing fzf..." \
-  && rm -rf ~/.fzf \
-  && git clone https://github.com/junegunn/fzf ~/.fzf \
-  && ~/.fzf/install --all
-}
-
 setup_neovim() {
   echo "Setting up neovim..." \
   && rm -rf ~/.config/nvim \
@@ -76,7 +69,6 @@ if echo "$answer" | grep -iq "^y" ;then
   && sudo apt-get install urlview xdotool dh-autoreconf dconf-cli \
   && install_on_my_zsh \
   && setup_tmux \
-  && install_fzf \
   && setup_neovim \
   && install_fonts \
   && install_ripgrep \
