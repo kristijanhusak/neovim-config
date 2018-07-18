@@ -23,7 +23,7 @@ setup_tmux() {
 setup_neovim() {
   echo "Setting up neovim..." \
   && rm -rf ~/.config/nvim \
-  && git clone https://github.com/k-takata/minpac.git ~/.config/nvim/pack/minpac/opt/minpac \
+  && git clone -b feature/status-list https://github.com/kristijanhusak/minpac.git ~/.config/nvim/pack/minpac/opt/minpac \
   && ln -s $(pwd)/snippets ~/.config/nvim/snippets \
   && ln -s $(pwd)/init.vim ~/.config/nvim/init.vim \
   && nvim -c 'packadd minpac | source $MYVIMRC | echo "Installing plugins..." | call minpac#update("", { "do": "UpdateRemotePlugins | qa!"})'
@@ -70,7 +70,6 @@ if echo "$answer" | grep -iq "^y" ;then
   && install_on_my_zsh \
   && setup_tmux \
   && setup_neovim \
-  && install_fonts \
   && install_ripgrep \
   && install_ctags \
   && echo "Finished installation."

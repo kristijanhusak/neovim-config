@@ -39,7 +39,8 @@ if exists('*minpac#init')
 endif
 
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
-command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
+command! PackClean packadd minpac | source $MYVIMRC | call minpac#clean()
+command! PackStatus packadd minpac | source $MYVIMRC | call minpac#status()
 
 "}}}
 " ================ General Config ==================== {{{
@@ -378,6 +379,8 @@ nnoremap <Leader>h viw"0p
 nnoremap p p`]
 vnoremap y y`]
 vnoremap p p`]
+" Select last pasted text
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " Move selected lines up and down
 vnoremap J :m '>+1<CR>gv=gv
