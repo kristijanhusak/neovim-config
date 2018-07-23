@@ -38,7 +38,7 @@ if exists('*minpac#init')
   call minpac#add('wellle/targets.vim')
 endif
 
-command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
+command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update() | call minpac#status()
 command! PackClean packadd minpac | source $MYVIMRC | call minpac#clean()
 command! PackStatus packadd minpac | source $MYVIMRC | call minpac#status()
 
