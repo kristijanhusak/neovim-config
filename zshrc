@@ -26,9 +26,11 @@ alias gs="git status"
 alias code="cd ~/code"
 
 export PATH=$PATH:/usr/local/go/bin:~/go/bin
+export LESS=R
 export EDITOR=nvim
 export MANPAGER="nvim -c 'set ft=man' -"
 export FZF_DEFAULT_COMMAND='rg --files'
+export LESS=R
 # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
 # zsh-autosuggestions is designed to be unobtrusive)
 bindkey '^t' autosuggest-execute

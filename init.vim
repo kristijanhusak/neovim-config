@@ -17,7 +17,6 @@ if exists('*minpac#init')
   call minpac#add('AndrewRadev/splitjoin.vim')
   call minpac#add('airblade/vim-gitgutter')
   call minpac#add('sheerun/vim-polyglot')
-  call minpac#add('mattn/emmet-vim')
   call minpac#add('dyng/ctrlsf.vim')
   call minpac#add('junegunn/fzf', { 'do': '!./install --all && ln -s $(pwd) ~/.fzf'})
   call minpac#add('junegunn/fzf.vim')
@@ -34,8 +33,8 @@ if exists('*minpac#init')
   call minpac#add('haya14busa/vim-asterisk')
   call minpac#add('osyo-manga/vim-anzu')
   call minpac#add('autozimu/LanguageClient-neovim', { 'do': '!bash install.sh' })
-  call minpac#add('soywod/vim-keepeye')
   call minpac#add('wellle/targets.vim')
+  call minpac#add('wsdjeg/FlyGrep.vim')
 endif
 
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update() | call minpac#status()
@@ -91,6 +90,7 @@ set grepprg=rg\ --vimgrep                                                       
 set tagcase=smart                                                               "Use smarcase for tags
 set updatetime=500                                                              "Cursor hold timeout
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
+set shortmess+=c                                                                "Disable completion menu messages in command line
 
 syntax on
 silent! colorscheme gruvbox
@@ -125,7 +125,6 @@ set smartindent
 set nofoldenable
 set colorcolumn=80
 set foldmethod=syntax
-set foldlevelstart=5
 
 " }}}
 " ================ Auto commands ====================== {{{
@@ -137,7 +136,9 @@ augroup vimrc
   autocmd InsertEnter * set nocul                                             "Remove cursorline highlight
   autocmd InsertLeave * set cul                                               "Add cursorline highlight in normal mode
   autocmd FocusGained,BufEnter * checktime                                    "Refresh file when vim gets focus
-  autocmd FileType html,css,javascript.jsx EmmetInstall
+  autocmd FileType dirvish call DirvishMappings()
+  autocmd BufWritePre,FileWritePre * call mkdir(expand('<afile>:p:h'), 'p')
+  autocmd BufEnter,BufWritePost,TextChanged,TextChangedI * call HighlightModified()
 augroup END
 
 augroup php
@@ -155,16 +156,6 @@ augroup javascript
   autocmd FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
   autocmd FileType javascript nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
   autocmd FileType javascript xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
-augroup END
-
-augroup dirvish
-  autocmd!
-  autocmd FileType dirvish nnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
-  autocmd FileType dirvish nnoremap <silent><buffer> s :call dirvish#open('vsplit', 1)<CR>
-  autocmd FileType dirvish xnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
-  autocmd FileType dirvish nmap <silent><buffer> u <Plug>(dirvish_up)
-  autocmd FileType dirvish nmap <silent><buffer><Leader>n <Plug>(dirvish_quit)
-  autocmd FileType dirvish silent! unmap <buffer> <C-p>
 augroup END
 
 augroup numbertoggle
@@ -201,29 +192,107 @@ set sidescroll=5
 " }}}
 " ================ Statusline ======================== {{{
 
-let s:statuslineBgColor = synIDattr(synIDtrans(hlID('StatusLine')), 'reverse') ? 'fg' : 'bg'
-let s:statuslineBg = synIDattr(synIDtrans(hlID('StatusLine')), s:statuslineBgColor)
-silent exe 'hi User1 guifg=#FF0000 guibg='.s:statuslineBg.' gui=bold'
-
-hi User2 guifg=#FFFFFF guibg=#FF1111 gui=bold
-hi User3 guifg=#2C323C guibg=#E5C07B gui=bold
-set statusline=\ %{toupper(mode())}                                             "Mode
-set statusline+=\ \│\ %{StatuslineFn('fugitive#head')}                          "Git branch
-set statusline+=%{GitFileStatus()}                                              "Git file status
-set statusline+=\ \│\ %4F                                                       "File path
-set statusline+=\ %1*%m%*                                                       "Modified indicator
+set statusline=%1*\ %{StatuslineMode()}                                         "Mode
+set statusline+=\ %*%2*%{StatuslineFn('GitStatusline')}%*                       "Git branch and status
+set statusline+=\ %f                                                            "File path
+set statusline+=\ %m                                                            "Modified indicator
 set statusline+=\ %w                                                            "Preview indicator
 set statusline+=\ %r                                                            "Read only indicator
 set statusline+=\ %q                                                            "Quickfix list indicator
 set statusline+=\ %=                                                            "Start right side layout
-set statusline+=\ %{&enc}                                                       "Encoding
-set statusline+=\ \│\ %y                                                        "Filetype
+set statusline+=\ %{StatuslineFn('anzu#search_status')}                         "Search status
+set statusline+=\ %2*\ %{&ft}                                                   "Filetype
 set statusline+=\ \│\ %p%%                                                      "Percentage
 set statusline+=\ \│\ %c                                                        "Column number
 set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
-set statusline+=\ %{StatuslineFn('gutentags#statusline','\│\ ')}                "Tags status
-set statusline+=\ %2*%{AleStatusline('error')}%*                                "Errors count
-set statusline+=%3*%{AleStatusline('warning')}%*                                "Warning count
+set statusline+=\ %*%#Error#%{AleStatusline('error')}%*                         "Errors count
+set statusline+=%#DiffText#%{AleStatusline('warning')}%*                        "Warning count
+
+hi User1 guifg=#504945 gui=bold
+hi User2 guibg=#665c54 guifg=#ebdbb2
+
+function! StatuslineFn(name) abort
+  try
+    return call(a:name, [])
+  catch
+    return ''
+  endtry
+endfunction
+
+function! AleStatusline(type) abort
+  try
+    let l:count = ale#statusline#Count(bufnr(''))
+    if a:type ==? 'error' && l:count['error']
+      return printf(' %d E ', l:count['error'])
+    endif
+
+    if a:type ==? 'warning' && l:count['warning']
+      let l:space = l:count['error'] ? ' ': ''
+      return printf('%s %d W ', l:space, l:count['warning'])
+    endif
+
+    return ''
+  catch
+    return ''
+  endtry
+endfunction
+
+function! GitStatusline() abort
+  let l:head = fugitive#head()
+  if !exists('b:gitgutter')
+    return (empty(l:head) ? '' : printf(' %s ', l:head))
+  endif
+  let [l:added, l:modified, l:removed] = get(b:gitgutter, 'summary', [0, 0, 0])
+  let l:result = l:added == 0 ? '' : ' +'.l:added
+  let l:result .= l:modified == 0 ? '' : ' ~'.l:modified
+  let l:result .= l:removed == 0 ? '' : ' -'.l:removed
+  let l:result = join(filter([l:head, l:result], {-> !empty(v:val) }), '')
+  return (empty(l:result) ? '' : printf(' %s ', l:result))
+endfunction
+
+function! HighlightModified() abort
+  let l:is_modified = getwinvar(winnr(), '&mod') && getbufvar(bufnr(''), '&mod')
+
+  if empty(l:is_modified)
+    hi StatusLine guifg=#ebdbb2 guibg=#504945 gui=NONE
+    return ''
+  endif
+
+  hi StatusLine guifg=#ebdbb2 guibg=#fb4934 gui=NONE
+  return ''
+endfunction
+
+function! StatuslineMode() abort
+  let l:mode = mode()
+  call ModeHighlight(l:mode)
+  let l:modeMap = {
+  \ 'n'  : 'NORMAL',
+  \ 'i'  : 'INSERT',
+  \ 'R'  : 'REPLACE',
+  \ 'v'  : 'VISUAL',
+  \ 'V'  : 'V-LINE',
+  \ 'c'  : 'COMMAND',
+  \ '' : 'V-BLOCK',
+  \ 's'  : 'SELECT',
+  \ 'S'  : 'S-LINE',
+  \ '' : 'S-BLOCK',
+  \ 't'  : 'TERMINAL',
+  \ }
+
+  return get(l:modeMap, l:mode, 'UNKNOWN')
+endfunction
+
+function! ModeHighlight(mode) abort
+  if a:mode ==? 'i'
+    hi User1 guibg=#83a598
+  elseif a:mode =~? '\(v\|V\|\)'
+    hi User1 guibg=#fe8019
+  elseif a:mode ==? 'R'
+    hi User1 guibg=#8ec07c
+  else
+    hi User1 guibg=#928374
+  endif
+endfunction
 
 "}}}
 " ================ Abbreviations ==================== {{{
@@ -237,18 +306,10 @@ cnoreabbrev Qa qa
 cnoreabbrev Bd bd
 cnoreabbrev wrap set wrap
 cnoreabbrev nowrap set nowrap
+cnoreabbrev E e
 
 " }}}
 " ================ Functions ======================== {{{
-
-function! StatuslineFn(name, ...) abort
-  try
-    return call(a:name, a:000)
-  catch
-    return ''
-  endtry
-endfunction
-
 
 function! StripTrailingWhitespaces()
   if &modifiable
@@ -269,38 +330,6 @@ function! Search(...)
   endif
 endfunction
 
-function! AleStatusline(type)
-  try
-    let l:count = ale#statusline#Count(bufnr(''))
-    if a:type ==? 'error' && l:count['error']
-      return printf(' %d E ', l:count['error'])
-    endif
-
-    if a:type ==? 'warning' && l:count['warning']
-      let l:space = l:count['error'] ? ' ': ''
-      return printf('%s %d W ', l:space, l:count['warning'])
-    endif
-
-    return ''
-  catch
-    return ''
-  endtry
-endfunction
-
-function! GitFileStatus()
-  if !exists('b:gitgutter')
-    return ''
-  endif
-  let [l:added, l:modified, l:removed] = get(b:gitgutter, 'summary', [0, 0, 0])
-  let l:result = l:added == 0 ? '' : ' +'.l:added
-  let l:result .= l:modified == 0 ? '' : ' ~'.l:modified
-  let l:result .= l:removed == 0 ? '' : ' -'.l:removed
-  if l:result !=? ''
-    return ' '.l:result
-  endif
-  return l:result
-endfunction
-
 function! CloseBuffer(...) abort
   if &buftype !=? ''
     return execute('q!')
@@ -317,6 +346,17 @@ function! CloseBuffer(...) abort
     return execute(l:command)
   endif
   return execute('q'.l:bang)
+endfunction
+
+function! DirvishMappings() abort
+  nnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
+  nnoremap <silent><buffer> s :call dirvish#open('vsplit', 1)<CR>
+  xnoremap <silent><buffer> o :call dirvish#open('edit', 0)<CR>
+  nmap <silent><buffer> u <Plug>(dirvish_up)
+  nmap <silent><buffer><Leader>n <Plug>(dirvish_quit)
+  silent! unmap <buffer> <C-p>
+  nnoremap <silent><buffer><expr>j line('.') == line('$') ? 'gg' : 'j'
+  nnoremap <silent><buffer><expr>k line('.') == 1 ? 'G' : 'k'
 endfunction
 
 " }}}
@@ -340,7 +380,6 @@ nnoremap <c-h> <C-w>h
 nnoremap <c-j> <C-w>j
 nnoremap <c-k> <C-w>k
 nnoremap <c-l> <C-w>l
-nnoremap <c-Space> <C-w>p
 tnoremap <c-h> <C-\><C-n><C-w>h
 tnoremap <c-l> <C-\><C-n><C-w>l
 tnoremap <c-Space> <C-\><C-n><C-w>p
@@ -424,12 +463,12 @@ xnoremap <expr> _ &diff ? ':diffget<BAR>diffupdate<CR>' : '_'
 nnoremap <expr> R &diff ? ':diffupdate<CR>' : 'R'
 
 " Better search status
-nmap n <Plug>(anzu-n-with-echo)zz
-nmap N <Plug>(anzu-N-with-echo)zz
-map * <Plug>(asterisk-z*)<Plug>(anzu-update-search-status-with-echo)
-map # <Plug>(asterisk-z#)<Plug>(anzu-update-search-status-with-echo)
-map g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status-with-echo)
-map g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status-with-echo)
+nmap n <Plug>(anzu-n)zz
+nmap N <Plug>(anzu-N)zz
+map * <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)
+map # <Plug>(asterisk-z#)<Plug>(anzu-update-search-status)
+map g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)
+map g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)
 
 " Language client context menu
 nnoremap <Leader>r :call LanguageClient_contextMenu()<CR>
@@ -446,6 +485,10 @@ nnoremap <Leader>R :ALEFix<CR>
 " Close all other buffers except current one
 nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 
+nnoremap gx :call netrw#BrowseX(expand('<cfile>'), netrw#CheckIfRemote())<CR>
+
+nnoremap <Leader>/ :FlyGrep<CR>
+
 " }}}
 " ================ Plugins setups ======================== {{{
 
@@ -453,9 +496,6 @@ let g:ctrlsf_auto_close = 0                                                     
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
 let g:dirvish_mode = ':sort ,^.*[\/],'                                          "List directories first in dirvish
-
-let g:user_emmet_leader_key = '<c-e>'                                           "Change trigger emmet key
-let g:user_emmet_install_global = 0                                             "Load emmet on demand
 
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete on startup
 let g:deoplete#camel_case = 1                                                   "Autocomplete files relative to current buffer path
@@ -474,22 +514,19 @@ let g:ale_sign_warning = '⚠'                                                  
 
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
 let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
+let g:vim_markdown_conceal = 0                                                  "Disable concealing in markdown
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
 let g:matchup_matchparen_status_offscreen = 0                                   "Do not show offscreen closing match in statusline
 let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   "Enable matchup only in normal mode
+let g:matchup_matchparen_deferred = 1                                           "Defer matchup highlights to allow better cursor movement performance
 
 let g:LanguageClient_serverCommands = {
 \ 'javascript': ['javascript-typescript-stdio'],
 \ 'javascript.jsx': ['javascript-typescript-stdio'],
 \ 'typescript': ['javascript-typescript-stdio'],
 \ }
-
-let g:keepeye_start = v:true                                                    "Start keepeye on vim enter
-let g:keepeye_timer = 2100                                                      "Remind every 35 min
-hi User4 guifg=#FFFFFF guibg=#FF0000
-let g:keepeye_message_hl_user = 4                                               "Use User4 hl group when showing keepeye message
 
 " }}}
 " vim:foldenable:foldmethod=marker
