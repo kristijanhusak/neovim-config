@@ -22,25 +22,19 @@ setup_tmux() {
 
 setup_neovim() {
   echo "Setting up neovim..." \
-  && rm -rf ~/.config/nvim \
+  && rm -rf ~/.config/nvim ~/.fzf \
   && git clone -b feature/status-list https://github.com/kristijanhusak/minpac.git ~/.config/nvim/pack/minpac/opt/minpac \
   && ln -s $(pwd)/snippets ~/.config/nvim/snippets \
   && ln -s $(pwd)/init.vim ~/.config/nvim/init.vim \
   && nvim -c 'packadd minpac | source $MYVIMRC | echo "Installing plugins..." | call minpac#update("", { "do": "UpdateRemotePlugins | qa!"})'
 }
 
-install_fonts() {
-  echo "Setting up fonts..." \
-  && rm -rf ~/.fonts/iosevka-* \
-  && cp $(pwd)/fonts/* ~/.fonts/
-}
-
 install_ripgrep() {
   echo "Installing ripgrep..." \
   && rm -f /usr/local/bin/rg \
-  && curl -L https://github.com/BurntSushi/ripgrep/releases/download/0.8.1/ripgrep-0.8.1-x86_64-unknown-linux-musl.tar.gz | tar zx \
-  && cp ripgrep-0.8.1-x86_64-unknown-linux-musl/rg /usr/local/bin \
-  && rm -rf ripgrep-0.8.1-x86_64-unknown-linux-musl
+  && curl -L https://github.com/BurntSushi/ripgrep/releases/download/0.9.0/ripgrep-0.9.0-x86_64-unknown-linux-musl.tar.gz | tar zx \
+  && cp ripgrep-0.9.0-x86_64-unknown-linux-musl/rg /usr/local/bin \
+  && rm -rf ripgrep-0.9.0-x86_64-unknown-linux-musl
 }
 
 install_ctags() {
