@@ -450,6 +450,7 @@ nnoremap <C-p> :Files<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>t :BTags<CR>
 nnoremap <Leader>m :History<CR>
+nnoremap <Leader>g :GFiles?<CR>
 
 " Indenting in visual mode
 xnoremap <s-tab> <gv
