@@ -205,36 +205,35 @@ set statusline+=\ %2*\ %{&ft}                                                   
 set statusline+=\ \│\ %p%%                                                      "Percentage
 set statusline+=\ \│\ %c                                                        "Column number
 set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
-set statusline+=\ %*%#Error#%{AleStatusline('error')}%*                         "Errors count
-set statusline+=%#DiffText#%{AleStatusline('warning')}%*                        "Warning count
+set statusline+=\ %*%#Error#%{StatuslineFn('AleStatus','error')}%*              "Errors count
+set statusline+=%#DiffText#%{StatuslineFn('AleStatus','warning')}%*             "Warning count
 
 hi User1 guifg=#504945 gui=bold
 hi User2 guibg=#665c54 guifg=#ebdbb2
 
-function! StatuslineFn(name) abort
+function! StatuslineFn(name, ...) abort
   try
-    return call(a:name, [])
+    return call(a:name, a:000)
   catch
     return ''
   endtry
 endfunction
 
-function! AleStatusline(type) abort
-  try
-    let l:count = ale#statusline#Count(bufnr(''))
-    if a:type ==? 'error' && l:count['error']
-      return printf(' %d E ', l:count['error'])
-    endif
+function! AleStatus(type) abort
+  let l:count = ale#statusline#Count(bufnr(''))
+  let l:errors = l:count.error + l:count.style_error
+  let l:warnings = l:count.warning + l:count.style_warning
 
-    if a:type ==? 'warning' && l:count['warning']
-      let l:space = l:count['error'] ? ' ': ''
-      return printf('%s %d W ', l:space, l:count['warning'])
-    endif
+  if a:type ==? 'error' && l:errors
+    return printf(' %d E ', l:errors)
+  endif
 
-    return ''
-  catch
-    return ''
-  endtry
+  if a:type ==? 'warning' && l:warnings
+    let l:space = l:errors ? ' ': ''
+    return printf('%s %d W ', l:space, l:warnings)
+  endif
+
+  return ''
 endfunction
 
 function! GitStatusline() abort
