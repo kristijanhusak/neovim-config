@@ -425,7 +425,7 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
 " Clear search highlight
-nnoremap <Leader><space> :AnzuClearSearchStatus<BAR>noh<CR>
+nnoremap <silent><Leader><space> :AnzuClearSearchStatus<BAR>noh<CR>
 
 " Handle ale error window
 nnoremap <Leader>e :lopen<CR>
@@ -509,6 +509,7 @@ let g:delimitMate_expand_cr = 1                                                 
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
 let g:ale_fixers = {'javascript': ['prettier', 'eslint']}                       "Fix eslint errors
 let g:ale_javascript_prettier_options = '--print-width 100'                     "Set max width to 100 chars for prettier
+let g:ale_lint_delay = 400                                                      "Increase linting delay
 let g:ale_sign_error = '✖'                                                      "Lint error sign
 let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
 
