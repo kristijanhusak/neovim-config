@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-install_on_my_zsh() {
+install_oh_my_zsh() {
   echo "Setting up zsh..." \
   && rm -rf ~/.zshrc ~/.oh-my-zsh \
   && ln -s $(pwd)/zshrc ~/.zshrc \
@@ -23,7 +23,7 @@ setup_tmux() {
 setup_neovim() {
   echo "Setting up neovim..." \
   && rm -rf ~/.config/nvim ~/.fzf \
-  && git clone -b feature/status-list https://github.com/kristijanhusak/minpac.git ~/.config/nvim/pack/minpac/opt/minpac \
+  && git clone https://github.com/k-takata/minpac.git ~/.config/nvim/pack/minpac/opt/minpac \
   && ln -s $(pwd)/snippets ~/.config/nvim/snippets \
   && ln -s $(pwd)/init.vim ~/.config/nvim/init.vim \
   && nvim -c 'packadd minpac | source $MYVIMRC | echo "Installing plugins..." | call minpac#update("", { "do": "UpdateRemotePlugins | qa!"})'
@@ -61,7 +61,7 @@ read answer
 if echo "$answer" | grep -iq "^y" ;then
   echo "Installing dependencies..." \
   && sudo apt-get install urlview xdotool dh-autoreconf dconf-cli \
-  && install_on_my_zsh \
+  && install_oh_my_zsh \
   && setup_tmux \
   && setup_neovim \
   && install_ripgrep \

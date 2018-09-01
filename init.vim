@@ -92,6 +92,7 @@ set updatetime=500                                                              
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 set shortmess+=c                                                                "Disable completion menu messages in command line
 
+filetype plugin indent on
 syntax on
 silent! colorscheme gruvbox
 hi! link jsFuncCall GruvboxBlue
@@ -528,6 +529,5 @@ let g:LanguageClient_serverCommands = {
 \ 'javascript.jsx': ['javascript-typescript-stdio'],
 \ 'typescript': ['javascript-typescript-stdio'],
 \ }
-
 " }}}
 " vim:foldenable:foldmethod=marker
