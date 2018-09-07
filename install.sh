@@ -9,7 +9,8 @@ install_oh_my_zsh() {
   && mkdir -p ~/.oh-my-zsh/custom/themes \
   && ln -s $(pwd)/cloud_kris.zsh-theme ~/.oh-my-zsh/custom/themes \
   && rm -rf ~/z.sh \
-  && curl -fLo ~/z.sh https://raw.githubusercontent.com/rupa/z/master/z.sh
+  && curl -fLo ~/z.sh https://raw.githubusercontent.com/rupa/z/master/z.sh \
+  && tic xterm-256color-italic.terminfo
 }
 
 setup_tmux() {
