@@ -27,7 +27,7 @@ setup_neovim() {
   && git clone https://github.com/k-takata/minpac.git ~/.config/nvim/pack/minpac/opt/minpac \
   && ln -s $(pwd)/snippets ~/.config/nvim/snippets \
   && ln -s $(pwd)/init.vim ~/.config/nvim/init.vim \
-  && nvim -c 'packadd minpac | source $MYVIMRC | echo "Installing plugins..." | call minpac#update("", { "do": "UpdateRemotePlugins | qa!"})'
+  && nvim -c 'call PackInit() | call minpac#update("", { "do": "UpdateRemotePlugins | qa!"})'
 }
 
 install_ripgrep() {
@@ -61,11 +61,12 @@ echo -n "This will delete all your previous nvim, tmux and zsh settings. Proceed
 read answer
 if echo "$answer" | grep -iq "^y" ;then
   echo "Installing dependencies..." \
-  && sudo apt-get install urlview xdotool dh-autoreconf dconf-cli \
+  && sudo apt-get install urlview xdotool dh-autoreconf dconf-cli xsel \
   && install_oh_my_zsh \
   && setup_tmux \
   && setup_neovim \
   && install_ripgrep \
   && install_ctags \
+  && install_diff_so_fancy \
   && echo "Finished installation."
 fi

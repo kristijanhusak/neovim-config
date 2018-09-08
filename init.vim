@@ -1,11 +1,8 @@
 " ================ Plugins ==================== {{{
-if exists('*minpac#init')
+function! PackInit() abort
+  packadd minpac
   call minpac#init()
-
-  " Manually loaded plugins
   call minpac#add('k-takata/minpac', {'type': 'opt'})
-
-  " Auto loaded plugins
   call minpac#add('Shougo/deoplete.nvim')
   call minpac#add('Shougo/neosnippet')
   call minpac#add('w0rp/ale', { 'do': '!npm install -g prettier' })
@@ -35,11 +32,11 @@ if exists('*minpac#init')
   call minpac#add('autozimu/LanguageClient-neovim', { 'do': '!bash install.sh' })
   call minpac#add('wellle/targets.vim')
   call minpac#add('wsdjeg/FlyGrep.vim')
-endif
+endfunction
 
-command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update() | call minpac#status()
-command! PackClean packadd minpac | source $MYVIMRC | call minpac#clean()
-command! PackStatus packadd minpac | source $MYVIMRC | call minpac#status()
+command! PackUpdate call PackInit() | call minpac#update('', { 'do': 'call minpac#status()' })
+command! PackClean call PackInit() | call minpac#clean()
+command! PackStatus call PackInit() | call minpac#status()
 
 "}}}
 " ================ General Config ==================== {{{
