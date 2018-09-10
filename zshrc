@@ -24,6 +24,7 @@ alias www="cd /var/www"
 alias weather="curl http://wttr.in/Novi sad"
 alias gs="git status"
 alias code="cd ~/code"
+alias lg="lazygit"
 
 export PATH=$PATH:/usr/local/go/bin:~/go/bin
 export LESS=R
