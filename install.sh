@@ -24,10 +24,10 @@ setup_tmux() {
 setup_neovim() {
   echo "Setting up neovim..." \
   && rm -rf ~/.config/nvim ~/.fzf \
-  && git clone https://github.com/k-takata/minpac.git ~/.config/nvim/pack/minpac/opt/minpac \
+  && git clone https://github.com/kristijanhusak/vim-packager.git ~/.config/nvim/pack/packager/opt/vim-packager \
   && ln -s $(pwd)/snippets ~/.config/nvim/snippets \
   && ln -s $(pwd)/init.vim ~/.config/nvim/init.vim \
-  && nvim -c 'call PackInit() | call minpac#update("", { "do": "UpdateRemotePlugins | qa!"})'
+  && nvim -c 'call PackagerInit() | call packager#install({ "on_finish": "UpdateRemotePlugins | qa" })'
 }
 
 install_ripgrep() {
