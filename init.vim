@@ -1,7 +1,7 @@
 " ================ Plugins ==================== {{{
 function! PackagerInit() abort
   packadd vim-packager
-  call packager#add('kristijanhusak/vim-packager', {'type': 'opt'})
+  call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' })
   call packager#add('Shougo/neosnippet')
   call packager#add('w0rp/ale', { 'do': 'npm install -g prettier' })
@@ -34,6 +34,7 @@ function! PackagerInit() abort
 endfunction
 
 command! PackagerInstall call PackagerInit() | call packager#install()
+command! PackagerUpdate call PackagerInit() | call packager#update()
 command! PackagerClean call PackagerInit() | call packager#clean()
 command! PackagerStatus call PackagerInit() | call packager#status()
 
