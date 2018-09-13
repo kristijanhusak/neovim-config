@@ -525,6 +525,7 @@ let g:LanguageClient_serverCommands = {
 \ 'javascript': ['javascript-typescript-stdio'],
 \ 'javascript.jsx': ['javascript-typescript-stdio'],
 \ 'typescript': ['javascript-typescript-stdio'],
+\ 'go': ['go-langserver', '-gocodecompletion', '-func-snippet-enabled=false'],
 \ }
 " }}}
 " vim:foldenable:foldmethod=marker
