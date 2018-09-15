@@ -3,7 +3,7 @@ function! PackagerInit() abort
   packadd vim-packager
   call packager#init()
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-  call packager#add('Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' })
+  call packager#add('Shougo/deoplete.nvim')
   call packager#add('Shougo/neosnippet')
   call packager#add('w0rp/ale', { 'do': 'npm install -g prettier' })
   call packager#add('Raimondi/delimitMate')
