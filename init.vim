@@ -138,6 +138,7 @@ augroup vimrc
   autocmd FileType dirvish call DirvishMappings()
   autocmd BufWritePre,FileWritePre * call mkdir(expand('<afile>:p:h'), 'p')
   autocmd BufEnter,BufWritePost,TextChanged,TextChangedI * call HighlightModified()
+  autocmd VimEnter * call deoplete#custom#option({ 'async_timeout': 10, 'camel_case': 1 })
 augroup END
 
 augroup php
@@ -497,8 +498,6 @@ let g:ctrlsf_mapping = {'vsplit': 's'}                                          
 let g:dirvish_mode = ':sort ,^.*[\/],'                                          "List directories first in dirvish
 
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete on startup
-let g:deoplete#camel_case = 1                                                   "Autocomplete files relative to current buffer path
-let g:deoplete#file#enable_buffer_path = 1                                      "Show only 30 entries in list and allow smart case autocomplete
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
