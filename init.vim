@@ -139,6 +139,7 @@ augroup vimrc
   autocmd BufWritePre,FileWritePre * call mkdir(expand('<afile>:p:h'), 'p')
   autocmd BufEnter,BufWritePost,TextChanged,TextChangedI * call HighlightModified()
   autocmd VimEnter * call deoplete#custom#option({ 'async_timeout': 10, 'camel_case': 1 })
+  autocmd VimEnter * call SetStatusline()
 augroup END
 
 augroup php
@@ -192,32 +193,26 @@ set sidescroll=5
 " }}}
 " ================ Statusline ======================== {{{
 
-set statusline=%1*\ %{StatuslineMode()}                                         "Mode
-set statusline+=\ %*%2*%{StatuslineFn('GitStatusline')}%*                       "Git branch and status
-set statusline+=\ %f                                                            "File path
-set statusline+=\ %m                                                            "Modified indicator
-set statusline+=\ %w                                                            "Preview indicator
-set statusline+=\ %r                                                            "Read only indicator
-set statusline+=\ %q                                                            "Quickfix list indicator
-set statusline+=\ %=                                                            "Start right side layout
-set statusline+=\ %{StatuslineFn('anzu#search_status')}                         "Search status
-set statusline+=\ %2*\ %{&ft}                                                   "Filetype
-set statusline+=\ \│\ %p%%                                                      "Percentage
-set statusline+=\ \│\ %c                                                        "Column number
-set statusline+=\ \│\ %l/%L                                                     "Current line number/Total line numbers
-set statusline+=\ %*%#Error#%{StatuslineFn('AleStatus','error')}%*              "Errors count
-set statusline+=%#DiffText#%{StatuslineFn('AleStatus','warning')}%*             "Warning count
+function! SetStatusline() abort
+  set statusline=%1*\ %{StatuslineMode()}                                       "Mode
+  set statusline+=\ %*%2*%{GitStatusline()}%*                                   "Git branch and status
+  set statusline+=\ %f                                                          "File path
+  set statusline+=\ %m                                                          "Modified indicator
+  set statusline+=\ %w                                                          "Preview indicator
+  set statusline+=\ %r                                                          "Read only indicator
+  set statusline+=\ %q                                                          "Quickfix list indicator
+  set statusline+=\ %=                                                          "Start right side layout
+  set statusline+=\ %{anzu#search_status()}                                     "Search status
+  set statusline+=\ %2*\ %{&ft}                                                 "Filetype
+  set statusline+=\ \│\ %p%%                                                    "Percentage
+  set statusline+=\ \│\ %c                                                      "Column number
+  set statusline+=\ \│\ %l/%L                                                   "Current line number/Total line numbers
+  set statusline+=\ %*%#Error#%{AleStatus('error')}%*                           "Errors count
+  set statusline+=%#DiffText#%{AleStatus('warning')}%*                          "Warning count
+endfunction
 
 hi User1 guifg=#504945 gui=bold
 hi User2 guibg=#665c54 guifg=#ebdbb2
-
-function! StatuslineFn(name, ...) abort
-  try
-    return call(a:name, a:000)
-  catch
-    return ''
-  endtry
-endfunction
 
 function! AleStatus(type) abort
   let l:count = ale#statusline#Count(bufnr(''))
