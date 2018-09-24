@@ -138,6 +138,7 @@ augroup vimrc
   autocmd VimEnter * call deoplete#custom#option({ 'async_timeout': 10, 'camel_case': 1 })
   autocmd VimEnter * call SetStatusline()
   autocmd FileType defx call DefxSettings()
+  autocmd BufEnter * if &filetype !=? 'defx' | set nowinfixwidth | endif
   autocmd VimEnter * if isdirectory(expand(printf('#%s:p', expand('<abuf>')))) | call DefxOpen() | endif
 augroup END
 
@@ -343,12 +344,24 @@ endfunction
 
 function! DefxOpen(...) abort
   let l:find_current_file = a:0 > 0
+  let l:args = '-split=vertical -winwidth=40 -direction=topleft -fnamewidth=50'
 
   if !l:find_current_file
-    return execute(printf('Defx %s', getcwd()))
+    call execute(printf('Defx -toggle %s', l:args))
+    return execute("norm!\<C-w>=")
   endif
 
-  return execute(printf('Defx %s -search=%s', expand('%:p:h'), expand('%:p')))
+  let l:defx_winnr = get(filter(range(1, winnr('$')), 'getwinvar(v:val, "&ft") ==? "defx"'), 0, 0)
+  let l:full_path = expand('%:p')
+  let l:head_path = expand('%:p:h')
+
+  if l:defx_winnr > 0
+    let l:args = ''
+    call execute(printf('%dwincmd w', l:defx_winnr))
+  endif
+
+  call execute(printf('Defx %s -search=%s %s', l:args, l:full_path, l:head_path))
+  return execute("norm!\<C-w>=")
 endfunction
 
 function! DefxContextMenu() abort
@@ -360,9 +373,10 @@ function! DefxContextMenu() abort
 endfunction
 
 function! DefxSettings() abort
-  nnoremap <silent><buffer><expr> <CR> defx#do_action('open')
+  setlocal winfixwidth
   nnoremap <silent><buffer>m :call DefxContextMenu()<CR>
-  nnoremap <silent><buffer><expr> o defx#do_action('open')
+  nnoremap <silent><buffer><expr> <CR> defx#do_action('open', 'wincmd p \| edit')
+  nnoremap <silent><buffer><expr> o defx#do_action('open', 'wincmd p \| edit')
   nnoremap <silent><buffer><expr> s defx#do_action('open', 'vsplit')
   nnoremap <silent><buffer><expr> R defx#do_action('redraw')
   nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
@@ -370,7 +384,7 @@ function! DefxSettings() abort
   nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select') . 'j'
   nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
   nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
-  nnoremap <silent><buffer> q :call execute("bn\<BAR>bw#")<CR>
+  nnoremap <silent><buffer><expr> q defx#do_action('quit')
 endfunction
 
 " }}}
@@ -447,7 +461,7 @@ nnoremap <Leader>e :lopen<CR>
 nnoremap <Leader>E :copen<CR>
 
 nnoremap <silent><Leader>q :call CloseBuffer()<CR>
-nnoremap <silent><Leader>Q :call CloseBuffer(1)<CR>
+nnoremap <silent><Leader>Q :call CloseBuffer(v:true)<CR>
 
 nnoremap <Leader>hf :call DefxOpen(v:true)<CR>
 nnoremap <Leader>n :call DefxOpen()<CR>
@@ -457,7 +471,7 @@ nnoremap <leader><tab> <c-^>
 
 " Filesearch plugin map for searching in whole folder
 nnoremap <Leader>f :call Search()<CR>
-nnoremap <Leader>F :call Search(1)<CR>
+nnoremap <Leader>F :call Search(v:true)<CR>
 
 " Toggle buffer list
 nnoremap <C-p> :Files<CR>
