@@ -16,7 +16,7 @@ function! PackagerInit() abort
   call packager#add('airblade/vim-gitgutter')
   call packager#add('sheerun/vim-polyglot')
   call packager#add('dyng/ctrlsf.vim')
-  call packager#add('junegunn/fzf', { 'do': './install --all && ln -s $(pwd) ~/.fzf'})
+  call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
   call packager#add('junegunn/fzf.vim')
   call packager#add('ludovicchabant/vim-gutentags')
   call packager#add('phpactor/phpactor', { 'do': 'composer install' })
