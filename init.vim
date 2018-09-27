@@ -373,10 +373,9 @@ function! DefxContextMenu() abort
 endfunction
 
 function! DefxSettings() abort
-  setlocal winfixwidth
   nnoremap <silent><buffer>m :call DefxContextMenu()<CR>
-  nnoremap <silent><buffer><expr> <CR> defx#do_action('open', 'wincmd p \| edit')
-  nnoremap <silent><buffer><expr> o defx#do_action('open', 'wincmd p \| edit')
+  nnoremap <silent><buffer><expr> <CR> defx#do_action('open', 'wincmd p \| drop')
+  nnoremap <silent><buffer><expr> o defx#do_action('open', 'wincmd p \| drop')
   nnoremap <silent><buffer><expr> s defx#do_action('open', 'vsplit')
   nnoremap <silent><buffer><expr> R defx#do_action('redraw')
   nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
