@@ -343,10 +343,14 @@ function! CloseBuffer(...) abort
 endfunction
 
 function! DefxOpen(...) abort
-  let l:find_current_file = a:0 > 0
-  let l:args = '-split=vertical -winwidth=40 -direction=topleft -fnamewidth=50'
+  let l:opts = get(a:, 1, {})
+  let l:args = ''
 
-  if !l:find_current_file
+  if has_key(l:opts, 'split')
+    let l:args = '-split=vertical -winwidth=40 -direction=topleft -fnamewidth=50'
+  endif
+
+  if !has_key(l:opts, 'find_current_file')
     call execute(printf('Defx -toggle %s', l:args))
     return execute("norm!\<C-w>=")
   endif
@@ -462,8 +466,8 @@ nnoremap <Leader>E :copen<CR>
 nnoremap <silent><Leader>q :call CloseBuffer()<CR>
 nnoremap <silent><Leader>Q :call CloseBuffer(v:true)<CR>
 
-nnoremap <Leader>hf :call DefxOpen(v:true)<CR>
-nnoremap <Leader>n :call DefxOpen()<CR>
+nnoremap <Leader>n :call DefxOpen({ 'split': v:true })<CR>
+nnoremap <Leader>hf :call DefxOpen({ 'split': v:true, 'find_current_file': v:true })<CR>
 
 " Toggle between last 2 buffers
 nnoremap <leader><tab> <c-^>
