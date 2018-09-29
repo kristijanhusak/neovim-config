@@ -344,6 +344,7 @@ endfunction
 
 function! DefxOpen(...) abort
   let l:opts = get(a:, 1, {})
+  let l:defx_winnr = get(filter(range(1, winnr('$')), 'getwinvar(v:val, "&ft") ==? "defx"'), 0, 0)
   let l:args = ''
 
   if has_key(l:opts, 'split')
@@ -352,10 +353,12 @@ function! DefxOpen(...) abort
 
   if !has_key(l:opts, 'find_current_file')
     call execute(printf('Defx -toggle %s', l:args))
+    if l:defx_winnr
+      call execute('wincmd p')
+    endif
     return execute("norm!\<C-w>=")
   endif
 
-  let l:defx_winnr = get(filter(range(1, winnr('$')), 'getwinvar(v:val, "&ft") ==? "defx"'), 0, 0)
   let l:full_path = expand('%:p')
   let l:head_path = expand('%:p:h')
 
