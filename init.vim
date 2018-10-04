@@ -88,6 +88,8 @@ set tagcase=smart                                                               
 set updatetime=500                                                              "Cursor hold timeout
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 set shortmess+=c                                                                "Disable completion menu messages in command line
+set undofile                                                                    "Keep undo history across sessions, by storing in file
+set completeopt-=preview                                                        "Disable preview window for autocompletion
 
 filetype plugin indent on
 syntax on
@@ -102,14 +104,6 @@ hi! Operator guifg=NONE guibg=NONE
 set noswapfile
 set nobackup
 set nowritebackup
-
-" }}}
-" ================ Persistent Undo ================== {{{
-
-" Keep undo history across sessions, by storing in file.
-silent !mkdir ~/.config/nvim/backups > /dev/null 2>&1
-set undodir=~/.config/nvim/backups
-set undofile
 
 " }}}
 " ================ Indentation ====================== {{{
@@ -138,8 +132,8 @@ augroup vimrc
   autocmd VimEnter * call deoplete#custom#option({ 'async_timeout': 10, 'camel_case': 1 })
   autocmd VimEnter * call SetStatusline()
   autocmd FileType defx call DefxSettings()
-  autocmd BufEnter * if &filetype !=? 'defx' | set nowinfixwidth | endif
-  autocmd VimEnter * if isdirectory(expand(printf('#%s:p', expand('<abuf>')))) | call DefxOpen() | endif
+  autocmd VimEnter * if isdirectory(expand(printf('#%s:p', expand('<abuf>'))))
+        \ | call DefxOpen({ 'dir': expand(printf('#%s:p', expand('<abuf>'))) }) | endif
 augroup END
 
 augroup php
@@ -345,14 +339,14 @@ endfunction
 function! DefxOpen(...) abort
   let l:opts = get(a:, 1, {})
   let l:defx_winnr = get(filter(range(1, winnr('$')), 'getwinvar(v:val, "&ft") ==? "defx"'), 0, 0)
-  let l:args = ''
+  let l:args = '-fnamewidth=50'
 
   if has_key(l:opts, 'split')
     let l:args = '-split=vertical -winwidth=40 -direction=topleft -fnamewidth=50'
   endif
 
   if !has_key(l:opts, 'find_current_file')
-    call execute(printf('Defx -toggle %s', l:args))
+    call execute(printf('Defx -toggle %s %s', l:args, get(l:opts, 'dir', getcwd())))
     if l:defx_winnr
       call execute('wincmd p')
     endif
@@ -363,7 +357,7 @@ function! DefxOpen(...) abort
   let l:head_path = expand('%:p:h')
 
   if l:defx_winnr > 0
-    let l:args = ''
+    let l:args = '-fnamewidth=50'
     call execute(printf('%dwincmd w', l:defx_winnr))
   endif
 
@@ -384,13 +378,14 @@ function! DefxSettings() abort
   nnoremap <silent><buffer><expr> o defx#do_action('open', 'wincmd p \| drop')
   nnoremap <silent><buffer><expr> <CR> defx#do_action('open', 'wincmd p \| drop')
   nnoremap <silent><buffer><expr> <2-LeftMouse> defx#do_action('open', 'wincmd p \| drop')
-  nnoremap <silent><buffer><expr> s defx#do_action('open', 'vsplit')
+  nnoremap <silent><buffer><expr> s defx#do_action('open', 'botright vsplit')
   nnoremap <silent><buffer><expr> R defx#do_action('redraw')
   nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
   nnoremap <silent><buffer><expr> H defx#do_action('toggle_ignored_files')
   nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select') . 'j'
   nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
   nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
+  nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
   nnoremap <silent><buffer><expr> q defx#do_action('quit')
 endfunction
 
@@ -560,6 +555,7 @@ let g:LanguageClient_serverCommands = {
 \ 'javascript.jsx': ['javascript-typescript-stdio'],
 \ 'typescript': ['javascript-typescript-stdio'],
 \ 'go': ['go-langserver', '-gocodecompletion', '-func-snippet-enabled=false'],
+\ 'python': ['pyls'],
 \ }
 " }}}
 " vim:foldenable:foldmethod=marker
