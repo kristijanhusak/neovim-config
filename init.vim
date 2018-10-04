@@ -168,6 +168,7 @@ set wildignore+=*.git*
 set wildignore+=*.meteor*
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
+set wildignore+=*.mypy_cache*,*__pycache__*
 set wildignore+=*cache*
 set wildignore+=*logs*
 set wildignore+=*node_modules/**
@@ -412,7 +413,6 @@ nnoremap <c-k> <C-w>k
 nnoremap <c-l> <C-w>l
 tnoremap <c-h> <C-\><C-n><C-w>h
 tnoremap <c-l> <C-\><C-n><C-w>l
-tnoremap <c-Space> <C-\><C-n><C-w>p
 
 " Down is really the next line
 nnoremap j gj
