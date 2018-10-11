@@ -340,30 +340,22 @@ endfunction
 
 function! DefxOpen(...) abort
   let l:opts = get(a:, 1, {})
-  let l:defx_winnr = get(filter(range(1, winnr('$')), 'getwinvar(v:val, "&ft") ==? "defx"'), 0, 0)
-  let l:args = '-fnamewidth=50'
+  let l:args = '-winwidth=40 -direction=topleft -fnamewidth=50'
+  let l:is_opened = bufwinnr('defx') > 0
 
   if has_key(l:opts, 'split')
-    let l:args = '-split=vertical -winwidth=40 -direction=topleft -fnamewidth=50'
+    let l:args .= ' -split=vertical'
   endif
 
-  if !has_key(l:opts, 'find_current_file')
+  if has_key(l:opts, 'find_current_file')
+    call execute(printf('Defx %s -search=%s %s', l:args, expand('%:p'), expand('%:p:h')))
+  else
     call execute(printf('Defx -toggle %s %s', l:args, get(l:opts, 'dir', getcwd())))
-    if l:defx_winnr
+    if l:is_opened
       call execute('wincmd p')
     endif
-    return execute("norm!\<C-w>=")
   endif
 
-  let l:full_path = expand('%:p')
-  let l:head_path = expand('%:p:h')
-
-  if l:defx_winnr > 0
-    let l:args = '-fnamewidth=50'
-    call execute(printf('%dwincmd w', l:defx_winnr))
-  endif
-
-  call execute(printf('Defx %s -search=%s %s', l:args, l:full_path, l:head_path))
   return execute("norm!\<C-w>=")
 endfunction
 
@@ -467,8 +459,8 @@ nnoremap <Leader>E :copen<CR>
 nnoremap <silent><Leader>q :call CloseBuffer()<CR>
 nnoremap <silent><Leader>Q :call CloseBuffer(v:true)<CR>
 
-nnoremap <Leader>n :call DefxOpen({ 'split': v:true })<CR>
-nnoremap <Leader>hf :call DefxOpen({ 'split': v:true, 'find_current_file': v:true })<CR>
+nnoremap <silent><Leader>n :call DefxOpen({ 'split': v:true })<CR>
+nnoremap <silent><Leader>hf :call DefxOpen({ 'split': v:true, 'find_current_file': v:true })<CR>
 
 " Toggle between last 2 buffers
 nnoremap <leader><tab> <c-^>
