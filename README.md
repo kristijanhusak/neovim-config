@@ -47,7 +47,6 @@ Plugins
 [haya14busa/vim-asterisk](https://github.com/haya14busa/vim-asterisk)
 [osyo-manga/vim-anzu](https://github.com/osyo-manga/vim-anzu)
 [autozimu/LanguageClient-neovim](https://github.com/autozimu/LanguageClient-neovim)
-[wellle/targets.vim](https://github.com/wellle/targets.vim)
 [wsdjeg/FlyGrep.vim](https://github.com/wsdjeg/FlyGrep.vim)
 
 Font used:

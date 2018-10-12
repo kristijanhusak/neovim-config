@@ -29,7 +29,6 @@ function! PackagerInit() abort
   call packager#add('haya14busa/vim-asterisk')
   call packager#add('osyo-manga/vim-anzu')
   call packager#add('autozimu/LanguageClient-neovim', { 'do': 'bash install.sh' })
-  call packager#add('wellle/targets.vim')
   call packager#add('wsdjeg/FlyGrep.vim')
 endfunction
 
