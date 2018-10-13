@@ -30,6 +30,7 @@ function! PackagerInit() abort
   call packager#add('osyo-manga/vim-anzu')
   call packager#add('autozimu/LanguageClient-neovim', { 'do': 'bash install.sh' })
   call packager#add('wsdjeg/FlyGrep.vim')
+  call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
 endfunction
 
 command! PackagerInstall call PackagerInit() | call packager#install()
@@ -542,6 +543,8 @@ let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            
 let g:matchup_matchparen_status_offscreen = 0                                   "Do not show offscreen closing match in statusline
 let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   "Enable matchup only in normal mode
 let g:matchup_matchparen_deferred = 1                                           "Defer matchup highlights to allow better cursor movement performance
+
+let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
 
 let g:LanguageClient_serverCommands = {
 \ 'javascript': ['javascript-typescript-stdio'],
