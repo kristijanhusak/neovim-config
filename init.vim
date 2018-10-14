@@ -31,6 +31,7 @@ function! PackagerInit() abort
   call packager#add('autozimu/LanguageClient-neovim', { 'do': 'bash install.sh' })
   call packager#add('wsdjeg/FlyGrep.vim')
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
+  call packager#add('mgedmin/python-imports.vim')
 endfunction
 
 command! PackagerInstall call PackagerInit() | call packager#install()
@@ -152,6 +153,12 @@ augroup javascript
   autocmd FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
   autocmd FileType javascript nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
   autocmd FileType javascript xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
+augroup END
+
+augroup python
+  autocmd!
+  autocmd FileType python nmap <buffer><silent><Leader>if :ImportName<CR>
+  autocmd FileType php setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=79
 augroup END
 
 augroup numbertoggle
