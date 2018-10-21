@@ -31,7 +31,11 @@ function! PackagerInit() abort
   call packager#add('autozimu/LanguageClient-neovim', { 'do': 'bash install.sh' })
   call packager#add('wsdjeg/FlyGrep.vim')
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
-  call packager#add('mgedmin/python-imports.vim')
+  call packager#add('sodapopcan/vim-twiggy')
+  call packager#add('junegunn/vim-peekaboo')
+  call packager#add('python-mode/python-mode', {
+        \ 'branch': 'develop',
+        \  'do': 'git submodule update --init --recursive' })
 endfunction
 
 command! PackagerInstall call PackagerInit() | call packager#install()
@@ -155,12 +159,6 @@ augroup javascript
   autocmd FileType javascript xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
 augroup END
 
-augroup python
-  autocmd!
-  autocmd FileType python nmap <buffer><silent><Leader>if :ImportName<CR>
-  autocmd FileType php setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=79
-augroup END
-
 augroup numbertoggle
   autocmd!
   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
@@ -176,7 +174,8 @@ set wildignore+=*.git*
 set wildignore+=*.meteor*
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
-set wildignore+=*.mypy_cache*,*__pycache__*
+set wildignore+=*mypy_cache*
+set wildignore+=*__pycache__*
 set wildignore+=*cache*
 set wildignore+=*logs*
 set wildignore+=*node_modules/**
@@ -552,6 +551,21 @@ let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   
 let g:matchup_matchparen_deferred = 1                                           "Defer matchup highlights to allow better cursor movement performance
 
 let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
+
+let g:pymode_python = 'python3'
+let g:pymode_rope = 1
+let g:pymode_rope_autoimport = 1
+let g:pymode_rope_goto_definition_bind = '<Leader>ig'
+let g:pymode_rope_rename_bind = '<Leader>ir'
+let g:pymode_rope_organize_imports_bind = '<Leader>is'
+let g:pymode_rope_autoimport_bind = '<Leader>if'
+let g:pymode_rope_extract_method_bind = '<Leader>ie'
+let g:pymode_rope_extract_variable_bind = '<Leader>iv'
+
+let g:twiggy_num_columns = 40
+let g:twiggy_show_full_ui = 0
+let g:twiggy_local_branch_sort = 'mru'
+let g:twiggy_remote_branch_sort = 'date'
 
 let g:LanguageClient_serverCommands = {
 \ 'javascript': ['javascript-typescript-stdio'],
