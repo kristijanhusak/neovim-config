@@ -567,6 +567,10 @@ let g:twiggy_show_full_ui = 0
 let g:twiggy_local_branch_sort = 'mru'
 let g:twiggy_remote_branch_sort = 'date'
 
+" Manually set wildignore to exclude because defx overrides wildignore
+let g:gutentags_ctags_exclude = split(&wildignore, ',')
+let gutentags_ctags_exclude_wildignore = 0
+
 let g:LanguageClient_serverCommands = {
 \ 'javascript': ['javascript-typescript-stdio'],
 \ 'javascript.jsx': ['javascript-typescript-stdio'],
