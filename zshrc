@@ -3,7 +3,18 @@ ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="cloud_kris"
 
-plugins=(git zsh-autosuggestions docker-compose z zsh-syntax-highlighting history-substring-search)
+plugins=(
+  git
+  zsh-autosuggestions
+  docker-compose
+  z
+  zsh-syntax-highlighting
+  history-substring-search
+  command-not-found
+  copydir
+  copyfile
+  dircycle
+)
 
 source $ZSH/oh-my-zsh.sh
 . ~/z.sh

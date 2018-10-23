@@ -22,6 +22,7 @@ function! PackagerInit() abort
   call packager#add('phpactor/phpactor', { 'do': 'composer install' })
   call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install' })
   call packager#add('kristijanhusak/deoplete-phpactor')
+  call packager#add('kristijanhusak/defx-git')
   call packager#add('vimwiki/vimwiki')
   call packager#add('editorconfig/editorconfig-vim')
   call packager#add('morhetz/gruvbox')
@@ -31,11 +32,8 @@ function! PackagerInit() abort
   call packager#add('autozimu/LanguageClient-neovim', { 'do': 'bash install.sh' })
   call packager#add('wsdjeg/FlyGrep.vim')
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
-  call packager#add('sodapopcan/vim-twiggy')
   call packager#add('junegunn/vim-peekaboo')
-  call packager#add('python-mode/python-mode', {
-        \ 'branch': 'develop',
-        \  'do': 'git submodule update --init --recursive' })
+  call packager#add('mgedmin/python-imports.vim')
 endfunction
 
 command! PackagerInstall call PackagerInit() | call packager#install()
@@ -157,6 +155,12 @@ augroup javascript
   autocmd FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
   autocmd FileType javascript nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
   autocmd FileType javascript xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
+augroup END
+
+augroup python
+  autocmd!
+  autocmd FileType python nmap <buffer><silent><Leader>if :ImportName<CR>
+  autocmd FileType python setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=79
 augroup END
 
 augroup numbertoggle
@@ -552,26 +556,9 @@ let g:matchup_matchparen_deferred = 1                                           
 
 let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
 
-let g:pymode_python = 'python3'
-let g:pymode_rope = 1
-let g:pymode_rope_completion = 0
-let g:pymode_rope_complete_on_dot = 0
-let g:pymode_rope_autoimport = 1
-let g:pymode_rope_goto_definition_bind = '<Leader>ig'
-let g:pymode_rope_rename_bind = '<Leader>ir'
-let g:pymode_rope_organize_imports_bind = '<Leader>is'
-let g:pymode_rope_autoimport_bind = '<Leader>if'
-let g:pymode_rope_extract_method_bind = '<Leader>ie'
-let g:pymode_rope_extract_variable_bind = '<Leader>iv'
-
-let g:twiggy_num_columns = 40
-let g:twiggy_show_full_ui = 0
-let g:twiggy_local_branch_sort = 'mru'
-let g:twiggy_remote_branch_sort = 'date'
-
 " Manually set wildignore to exclude because defx overrides wildignore
 let g:gutentags_ctags_exclude = split(&wildignore, ',')
-let gutentags_ctags_exclude_wildignore = 0
+let g:gutentags_ctags_exclude_wildignore = 0
 
 let g:LanguageClient_serverCommands = {
 \ 'javascript': ['javascript-typescript-stdio'],
