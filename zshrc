@@ -3,7 +3,7 @@ ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="cloud_kris"
 
-plugins=(git zsh-autosuggestions docker-compose z)
+plugins=(git zsh-autosuggestions docker-compose z zsh-syntax-highlighting history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
 . ~/z.sh
@@ -32,6 +32,9 @@ export EDITOR=nvim
 export MANPAGER="nvim -c 'set ft=man' -"
 export FZF_DEFAULT_COMMAND='rg --files'
 export LESS=R
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=magenta,bold,underline"
+setopt HIST_IGNORE_ALL_DUPS
+
 # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
 # zsh-autosuggestions is designed to be unobtrusive)
 bindkey '^t' autosuggest-execute

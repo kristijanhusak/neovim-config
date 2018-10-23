@@ -6,6 +6,7 @@ install_oh_my_zsh() {
   && git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh \
   && chsh -s /bin/zsh \
   && git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
+  && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
   && mkdir -p ~/.oh-my-zsh/custom/themes \
   && ln -s $(pwd)/cloud_kris.zsh-theme ~/.oh-my-zsh/custom/themes \
   && rm -rf ~/z.sh \
