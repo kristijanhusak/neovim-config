@@ -377,11 +377,22 @@ function! DefxContextMenu() abort
   return feedkeys(defx#do_action(l:actions[l:selection - 1]))
 endfunction
 
+function! FocusOrEdit(filename) abort
+  let l:winnr = bufwinnr(a:filename)
+  if l:winnr > 0
+    exe l:winnr.'wincmd w'
+  else
+    exe 'edit' a:filename
+  endif
+endfunction
+
+command -nargs=1 FocusOrEdit call FocusOrEdit(<q-args>)
+
 function! DefxSettings() abort
   nnoremap <silent><buffer>m :call DefxContextMenu()<CR>
-  nnoremap <silent><buffer><expr> o defx#do_action('open', 'wincmd p \| drop')
-  nnoremap <silent><buffer><expr> <CR> defx#do_action('open', 'wincmd p \| drop')
-  nnoremap <silent><buffer><expr> <2-LeftMouse> defx#do_action('open', 'wincmd p \| drop')
+  nnoremap <silent><buffer><expr> o defx#do_action('open', 'wincmd p \| FocusOrEdit')
+  nnoremap <silent><buffer><expr> <CR> defx#do_action('open', 'wincmd p \| FocusOrEdit')
+  nnoremap <silent><buffer><expr> <2-LeftMouse> defx#do_action('open', 'wincmd p \| FocusOrEdit')
   nnoremap <silent><buffer><expr> s defx#do_action('open', 'botright vsplit')
   nnoremap <silent><buffer><expr> R defx#do_action('redraw')
   nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
@@ -555,10 +566,6 @@ let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   
 let g:matchup_matchparen_deferred = 1                                           "Defer matchup highlights to allow better cursor movement performance
 
 let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
-
-" Manually set wildignore to exclude because defx overrides wildignore
-let g:gutentags_ctags_exclude = split(&wildignore, ',')
-let g:gutentags_ctags_exclude_wildignore = 0
 
 let g:LanguageClient_serverCommands = {
 \ 'javascript': ['javascript-typescript-stdio'],
