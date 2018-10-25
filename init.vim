@@ -393,7 +393,7 @@ function! FocusOrEdit(filename) abort
   endif
 endfunction
 
-command -nargs=1 FocusOrEdit call FocusOrEdit(<q-args>)
+command! -nargs=1 FocusOrEdit call FocusOrEdit(<q-args>)
 
 function! DefxSettings() abort
   nnoremap <silent><buffer>m :call DefxContextMenu()<CR>
