@@ -133,11 +133,8 @@ augroup vimrc
   autocmd InsertLeave * set cul                                               "Add cursorline highlight in normal mode
   autocmd FocusGained,BufEnter * checktime                                    "Refresh file when vim gets focus
   autocmd BufEnter,BufWritePost,TextChanged,TextChangedI * call HighlightModified()
-  autocmd VimEnter * call deoplete#custom#option({ 'async_timeout': 10, 'camel_case': 1 })
-  autocmd VimEnter * call SetStatusline()
+  autocmd VimEnter * call VimEnterSettings()
   autocmd FileType defx call DefxSettings()
-  autocmd VimEnter * if isdirectory(expand(printf('#%s:p', expand('<abuf>'))))
-        \ | call DefxOpen({ 'dir': expand(printf('#%s:p', expand('<abuf>'))) }) | endif
 augroup END
 
 augroup php
@@ -311,6 +308,16 @@ cnoreabbrev E e
 " }}}
 " ================ Functions ======================== {{{
 
+function! VimEnterSettings() abort
+  let l:buffer_path = expand(printf('#%s:p', expand('<abuf>')))
+  if isdirectory(l:buffer_path)
+    call DefxOpen({ 'dir': l:buffer_path })
+  endif
+
+  call SetStatusline()
+  call deoplete#custom#option({ 'async_timeout': 10, 'camel_case': 1 })
+endfunction
+
 function! StripTrailingWhitespaces()
   if &modifiable
     let l:l = line('.')
@@ -326,7 +333,7 @@ function! Search(...)
   let l:term = input('Search for: ', l:default)
   if l:term !=? ''
     let l:path = input('Path: ', '', 'file')
-    execute 'CtrlSF "'.l:term.'" '.l:path
+    silent! execute 'CtrlSF "'.l:term.'" '.l:path
   endif
 endfunction
 
@@ -487,8 +494,8 @@ nnoremap <silent><Leader>hf :call DefxOpen({ 'split': v:true, 'find_current_file
 nnoremap <leader><tab> <c-^>
 
 " Filesearch plugin map for searching in whole folder
-nnoremap <Leader>f :call Search()<CR>
-nnoremap <Leader>F :call Search(v:true)<CR>
+nnoremap <silent><Leader>f :call Search()<CR>
+nnoremap <silent><Leader>F :call Search(v:true)<CR>
 
 " Toggle buffer list
 nnoremap <C-p> :Files<CR>
