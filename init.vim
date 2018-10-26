@@ -365,6 +365,9 @@ function! DefxOpen(...) abort
   endif
 
   if has_key(l:opts, 'find_current_file')
+    if &filetype ==? 'defx'
+      return
+    endif
     call execute(printf('Defx %s -search=%s %s', l:args, expand('%:p'), expand('%:p:h')))
   else
     call execute(printf('Defx -toggle %s %s', l:args, get(l:opts, 'dir', getcwd())))
@@ -410,6 +413,7 @@ function! DefxSettings() abort
   nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
   nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
   nnoremap <silent><buffer><expr> q defx#do_action('quit')
+  nnoremap <silent><buffer><expr> gh defx#do_action('cd', [getcwd()])
 endfunction
 
 " }}}
