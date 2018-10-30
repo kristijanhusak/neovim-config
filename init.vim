@@ -567,6 +567,7 @@ let g:matchup_matchparen_deferred = 1                                           
 
 let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
 
+let g:LanguageClient_diagnosticsEnable = 0                                      "Disable linting from Language client
 let g:LanguageClient_serverCommands = {
 \ 'javascript': ['javascript-typescript-stdio'],
 \ 'javascript.jsx': ['javascript-typescript-stdio'],
