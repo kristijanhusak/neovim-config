@@ -61,7 +61,7 @@ echo -n "This will delete all your previous nvim, tmux and zsh settings. Proceed
 read answer
 if echo "$answer" | grep -iq "^y" ;then
   echo "Installing dependencies..." \
-  && sudo apt-get install urlview xdotool dh-autoreconf dconf-cli xsel \
+  && sudo apt-get install urlview xdotool dh-autoreconf dconf-cli xsel ncurses-term \
   && install_oh_my_zsh \
   && setup_tmux \
   && setup_neovim \
