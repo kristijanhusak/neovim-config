@@ -23,7 +23,7 @@ function! PackagerInit() abort
   call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install' })
   call packager#add('kristijanhusak/deoplete-phpactor')
   call packager#add('kristijanhusak/defx-git')
-  call packager#add('kristijanhusak/defx-lint')
+  call packager#add('kristijanhusak/vim-project-lint')
   call packager#add('vimwiki/vimwiki')
   call packager#add('editorconfig/editorconfig-vim')
   call packager#add('morhetz/gruvbox')
@@ -206,7 +206,7 @@ function! SetStatusline() abort
   set statusline+=\ %r                                                          "Read only indicator
   set statusline+=\ %q                                                          "Quickfix list indicator
   set statusline+=\ %=                                                          "Start right side layout
-  set statusline+=\ %{defx_lint#statusline()}                                   "Show status of project lint
+  set statusline+=\ %{project_lint#statusline()}                                "Show status of project lint
   set statusline+=\ %{anzu#search_status()}                                     "Search status
   set statusline+=\ %2*\ %{&ft}                                                 "Filetype
   set statusline+=\ \│\ %p%%                                                    "Percentage
@@ -359,7 +359,7 @@ endfunction
 
 function! DefxOpen(...) abort
   let l:opts = get(a:, 1, {})
-  let l:args = '-winwidth=40 -direction=topleft -fnamewidth=50 -columns=lint:git:mark:filename:type'
+  let l:args = '-winwidth=40 -direction=topleft -fnamewidth=50 -columns=project_lint:git:mark:filename:type'
   let l:is_opened = bufwinnr('defx') > 0
 
   if has_key(l:opts, 'split')
