@@ -33,9 +33,9 @@ setup_neovim() {
 install_ripgrep() {
   echo "Installing ripgrep..." \
   && rm -f /usr/local/bin/rg \
-  && curl -L https://github.com/BurntSushi/ripgrep/releases/download/0.9.0/ripgrep-0.9.0-x86_64-unknown-linux-musl.tar.gz | tar zx \
-  && cp ripgrep-0.9.0-x86_64-unknown-linux-musl/rg /usr/local/bin \
-  && rm -rf ripgrep-0.9.0-x86_64-unknown-linux-musl
+  && curl -L https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep-0.10.0-x86_64-unknown-linux-musl.tar.gz | tar zx \
+  && cp ripgrep-0.10.0-x86_64-unknown-linux-musl/rg /usr/local/bin \
+  && rm -rf ripgrep-0.10.0-x86_64-unknown-linux-musl
 }
 
 install_ctags() {
