@@ -519,7 +519,7 @@ map g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)
 " Language client context menu
 nnoremap <Leader>r :call LanguageClient_contextMenu()<CR>
 
-"Disable ex mode mapping
+" Disable ex mode mapping
 map Q <Nop>
 
 " Jump to definition in vertical split
@@ -534,6 +534,11 @@ nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 nnoremap gx :call netrw#BrowseX(expand('<cfile>'), netrw#CheckIfRemote())<CR>
 
 nnoremap <Leader>/ :FlyGrep<CR>
+
+" Vim test mappings
+nnoremap <Leader>xx :TestFile<CR>
+nnoremap <Leader>xw :TestFile -- --watch<CR>
+nnoremap <Leader>xt :TestSuite<CR>
 
 " }}}
 " ================ Plugins setups ======================== {{{
@@ -577,5 +582,7 @@ let g:LanguageClient_serverCommands = {
 \ }
 
 let g:test#strategy = 'neovim'                                                  "Always use neovim terminal to run tests with vim-test
+let g:test#neovim#term_position = 'vertical botright'                           "Open terminal for tests vertically right
+
 " }}}
 " vim:foldenable:foldmethod=marker
