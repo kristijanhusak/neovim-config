@@ -12,6 +12,8 @@ function! PackagerInit() abort
   call packager#add('tpope/vim-surround')
   call packager#add('tpope/vim-repeat')
   call packager#add('tpope/vim-fugitive')
+  call packager#add('tpope/vim-endwise')
+  call packager#add('tpope/vim-sleuth')
   call packager#add('AndrewRadev/splitjoin.vim')
   call packager#add('airblade/vim-gitgutter')
   call packager#add('sheerun/vim-polyglot')
@@ -35,6 +37,7 @@ function! PackagerInit() abort
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
   call packager#add('junegunn/vim-peekaboo')
   call packager#add('mgedmin/python-imports.vim')
+  call packager#add('janko-m/vim-test')
 endfunction
 
 command! PackagerInstall call PackagerInit() | call packager#install()
@@ -113,10 +116,6 @@ set nowritebackup
 " }}}
 " ================ Indentation ====================== {{{
 
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
-set expandtab
 set breakindent
 set smartindent
 set nofoldenable
@@ -140,7 +139,6 @@ augroup END
 
 augroup php
   autocmd!
-  autocmd FileType php setlocal shiftwidth=4 softtabstop=4 tabstop=4
   autocmd FileType php nmap <buffer><silent><Leader>if :call phpactor#UseAdd()<CR>
   autocmd FileType php nmap <buffer><silent><Leader>ir :call phpactor#ContextMenu()<CR>
   autocmd FileType php vmap <buffer><silent><Leader>ie :<C-U>call phpactor#ExtractMethod()<CR>
@@ -158,7 +156,7 @@ augroup END
 augroup python
   autocmd!
   autocmd FileType python nmap <buffer><silent><Leader>if :ImportName<CR>
-  autocmd FileType python setlocal shiftwidth=4 softtabstop=4 tabstop=4 textwidth=79
+  autocmd FileType python setlocal textwidth=79
 augroup END
 
 augroup numbertoggle
@@ -577,5 +575,7 @@ let g:LanguageClient_serverCommands = {
 \ 'go': ['go-langserver', '-gocodecompletion', '-func-snippet-enabled=false'],
 \ 'python': ['pyls'],
 \ }
+
+let g:test#strategy = 'neovim'                                                  "Always use neovim terminal to run tests with vim-test
 " }}}
 " vim:foldenable:foldmethod=marker
