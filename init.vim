@@ -32,7 +32,7 @@ function! PackagerInit() abort
   call packager#add('andymass/vim-matchup')
   call packager#add('haya14busa/vim-asterisk')
   call packager#add('osyo-manga/vim-anzu')
-  call packager#add('autozimu/LanguageClient-neovim', { 'do': 'bash install.sh' })
+  call packager#add('autozimu/LanguageClient-neovim', { 'do': 'bash install.sh', 'commit': '4960c30' })
   call packager#add('wsdjeg/FlyGrep.vim')
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
   call packager#add('junegunn/vim-peekaboo')
@@ -61,8 +61,6 @@ set termguicolors
 set title                                                                       "change the terminal's title
 set number                                                                      "Line numbers are good
 set relativenumber                                                              "Show numbers relative to current line
-set history=500                                                                 "Store lots of :cmdline history
-set showcmd                                                                     "Show incomplete cmds down the bottom
 set noshowmode                                                                  "Hide showmode because of the powerline plugin
 set gdefault                                                                    "Set global flag for search and replace
 set guicursor=a:blinkon500-blinkwait500-blinkoff500                             "Set cursor blinking rate
@@ -76,7 +74,7 @@ set timeoutlen=1000 ttimeoutlen=0                                               
 set fileencoding=utf-8                                                          "Set utf-8 encoding on write
 set wrap                                                                        "Enable word wrap
 set linebreak                                                                   "Wrap lines at convenient points
-set listchars=tab:\ \ ,trail:·                                                  "Set trails for tabs and spaces
+set listchars=tab:>\ ,trail:·                                                   "Set trails for tabs and spaces
 set list                                                                        "Enable listchars
 set lazyredraw                                                                  "Do not redraw on registers and macros
 set background=dark                                                             "Set background to dark
@@ -86,7 +84,6 @@ set splitright                                                                  
 set splitbelow                                                                  "Set up new horizontal splits positions
 set path+=**                                                                    "Allow recursive search
 set inccommand=nosplit                                                          "Show substitute changes immidiately in separate split
-set fillchars+=vert:\│                                                          "Make vertical split separator full line
 set pumheight=15                                                                "Maximum number of entries in autocomplete popup
 set exrc                                                                        "Allow using local vimrc
 set secure                                                                      "Forbid autocmd in local vimrc
@@ -178,7 +175,7 @@ set wildignore+=*mypy_cache*
 set wildignore+=*__pycache__*
 set wildignore+=*cache*
 set wildignore+=*logs*
-set wildignore+=*node_modules/**
+set wildignore+=*node_modules*
 set wildignore+=*DS_Store*
 set wildignore+=*.gem
 set wildignore+=log/**
