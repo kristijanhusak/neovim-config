@@ -32,7 +32,7 @@ function! PackagerInit() abort
   call packager#add('andymass/vim-matchup')
   call packager#add('haya14busa/vim-asterisk')
   call packager#add('osyo-manga/vim-anzu')
-  call packager#add('autozimu/LanguageClient-neovim', { 'do': 'bash install.sh', 'commit': '4960c30' })
+  call packager#add('autozimu/LanguageClient-neovim', { 'do': 'bash install.sh' })
   call packager#add('wsdjeg/FlyGrep.vim')
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
   call packager#add('junegunn/vim-peekaboo')
