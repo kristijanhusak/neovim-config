@@ -20,7 +20,7 @@ function! PackagerInit() abort
   call packager#add('dyng/ctrlsf.vim')
   call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
   call packager#add('junegunn/fzf.vim')
-  call packager#add('ludovicchabant/vim-gutentags')
+  call packager#add('ludovicchabant/vim-gutentags', {'commit': '76eb66a'})
   call packager#add('phpactor/phpactor', { 'do': 'composer install' })
   call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install' })
   call packager#add('kristijanhusak/deoplete-phpactor')
