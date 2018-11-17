@@ -101,7 +101,6 @@ silent! colorscheme gruvbox
 hi! link jsFuncCall GruvboxBlue
 " Remove highlighting of Operator because it is reversed with cursorline enabled
 hi! Operator guifg=NONE guibg=NONE
-hi! SpellBad gui=underline
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{

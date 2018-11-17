@@ -13,14 +13,6 @@ install_oh_my_zsh() {
   && curl -fLo ~/z.sh https://raw.githubusercontent.com/rupa/z/master/z.sh
 }
 
-setup_tmux() {
-  echo "Setting up tmux..." \
-  && rm -rf ~/.tmux.conf ~/.tmux \
-  && ln -s $(pwd)/tmux.conf ~/.tmux.conf \
-  && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
-  && ~/.tmux/plugins/tpm/bin/install_plugins
-}
-
 setup_neovim() {
   echo "Setting up neovim..." \
   && rm -rf ~/.config/nvim ~/.fzf \
@@ -57,13 +49,18 @@ install_diff_so_fancy() {
   fi
 }
 
-echo -n "This will delete all your previous nvim, tmux and zsh settings. Proceed? (y/n)? "
+install_i3() {
+  echo "Installing i3..." \
+    && sudo apt-get install i3 i3-wm i3status i3lock suckless-tools
+}
+
+echo -n "This will delete all your previous nvim, zsh settings. Proceed? (y/n)? "
 read answer
 if echo "$answer" | grep -iq "^y" ;then
   echo "Installing dependencies..." \
   && sudo apt-get install urlview xdotool dh-autoreconf dconf-cli xsel ncurses-term \
+  && install_i3 \
   && install_oh_my_zsh \
-  && setup_tmux \
   && setup_neovim \
   && install_ripgrep \
   && install_ctags \

@@ -54,6 +54,5 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
 
 export NVM_DIR="/home/kristijan/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -z "$TMUX" ] && exec tmux
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
