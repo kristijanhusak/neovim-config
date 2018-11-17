@@ -49,17 +49,22 @@ install_diff_so_fancy() {
   fi
 }
 
-install_i3() {
-  echo "Installing i3..." \
-    && sudo apt-get install i3 i3-wm i3status i3lock suckless-tools
+setup_manjaro() {
+  local yaourt_installed=$(which yaourt)
+  if [[ -z $yaourt_installed ]]; then
+    echo "Setting up  i3..." \
+      && sudo pacman -S yaourt thunar thunar-archive-plugin python-pip gnome-terminal keychain \
+      && yaourt -S google-chrome neovim-git nvm zsh-completions \
+      && pip install neovim \
+      && echo "NOCONFIRM=1\nBUILD_NOCONFIRM=1\nEDITFILES=0" > ~/.yaourtrc
+  fi
 }
 
 echo -n "This will delete all your previous nvim, zsh settings. Proceed? (y/n)? "
 read answer
 if echo "$answer" | grep -iq "^y" ;then
   echo "Installing dependencies..." \
-  && sudo apt-get install urlview xdotool dh-autoreconf dconf-cli xsel ncurses-term \
-  && install_i3 \
+  && setup_manjaro \
   && install_oh_my_zsh \
   && setup_neovim \
   && install_ripgrep \

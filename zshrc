@@ -24,10 +24,14 @@ if [[ -r ~/.phpbrew/bashrc ]]; then
 fi
 
 alias n='nvim .'
-alias install='sudo apt-get install'
-alias search='sudo apt-cache search'
-alias purge='sudo apt-get purge'
-alias update='sudo apt-get purge'
+alias install='sudo pacman -S'
+alias search='sudo pacman -Ss'
+alias remove='sudo pacman -R'
+alias update='sudo pacman -Sy'
+alias yinstall='yaourt -S'
+alias ysearch='yaourt -Ss'
+alias yremove='yaourt -R'
+alias yupdate='yaourt -Sy'
 alias c7="sudo chmod -R 777"
 alias l="ls -l"
 alias c="clear"
@@ -56,3 +60,4 @@ export NVM_DIR="/home/kristijan/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval $(keychain --eval --quiet id_rsa)
