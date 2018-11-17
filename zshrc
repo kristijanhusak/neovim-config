@@ -41,7 +41,7 @@ alias gs="git status"
 alias code="cd ~/code"
 alias lg="lazygit"
 
-export PATH=$PATH:/usr/local/go/bin:~/go/bin
+export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin
 export LESS=R
 export EDITOR=nvim
 export MANPAGER="nvim -c 'set ft=man' -"
@@ -60,4 +60,5 @@ export NVM_DIR="/home/kristijan/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-eval $(keychain --eval --quiet id_rsa)
+
+eval $(keychain --eval --quiet ~/.ssh/id_rsa)
