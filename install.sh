@@ -53,9 +53,12 @@ setup_manjaro() {
   local yaourt_installed=$(which yaourt)
   if [[ -z $yaourt_installed ]]; then
     echo "Setting up  i3..." \
-      && sudo pacman -S yaourt thunar thunar-archive-plugin python-pip gnome-terminal keychain \
+      && sudo pacman -S yaourt thunar thunar-archive-plugin python-pip gnome-terminal keychain rofi \
       && yaourt -S google-chrome neovim-git nvm zsh-completions \
       && pip install neovim \
+      && curl -fLo ~/.i3/focus_win.py https://gist.githubusercontent.com/syl20bnr/6623972/raw/fdd3e1f0fd7efb8e230ec89ca0b5f800ee135412/i3_focus_win.py \
+      && pip install i3-py \
+      && chmod +x ~/.i3/focus_win.py \
       && echo "NOCONFIRM=1\nBUILD_NOCONFIRM=1\nEDITFILES=0" > ~/.yaourtrc
   fi
 }
