@@ -17,7 +17,6 @@ function! PackagerInit() abort
   call packager#add('AndrewRadev/splitjoin.vim')
   call packager#add('airblade/vim-gitgutter')
   call packager#add('sheerun/vim-polyglot')
-  call packager#add('dyng/ctrlsf.vim')
   call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
   call packager#add('junegunn/fzf.vim')
   call packager#add('ludovicchabant/vim-gutentags', {'commit': '76eb66a'})
@@ -38,6 +37,7 @@ function! PackagerInit() abort
   call packager#add('junegunn/vim-peekaboo')
   call packager#add('mgedmin/python-imports.vim')
   call packager#add('janko-m/vim-test')
+  call packager#add('eugen0329/vim-esearch')
 endfunction
 
 command! PackagerInstall call PackagerInit() | call packager#install()
@@ -324,15 +324,6 @@ function! StripTrailingWhitespaces()
   endif
 endfunction
 
-function! Search(...)
-  let l:default = a:0 > 0 ? expand('<cword>') : ''
-  let l:term = input('Search for: ', l:default)
-  if l:term !=? ''
-    let l:path = input('Path: ', '', 'file')
-    silent! execute 'CtrlSF "'.l:term.'" '.l:path
-  endif
-endfunction
-
 function! CloseBuffer(...) abort
   if &buftype !=? ''
     return execute('q!')
@@ -482,10 +473,6 @@ nnoremap <silent><Leader>hf :call DefxOpen({ 'split': v:true, 'find_current_file
 " Toggle between last 2 buffers
 nnoremap <leader><tab> <c-^>
 
-" Filesearch plugin map for searching in whole folder
-nnoremap <silent><Leader>f :call Search()<CR>
-nnoremap <silent><Leader>F :call Search(v:true)<CR>
-
 " Toggle buffer list
 nnoremap <C-p> :Files<CR>
 nnoremap <Leader>b :Buffers<CR>
@@ -539,8 +526,7 @@ nnoremap <Leader>xt :TestSuite<CR>
 " }}}
 " ================ Plugins setups ======================== {{{
 
-let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
-let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
+let g:esearch#out#win#open = 'topleft vsplit new'                               "Search in vertical split buffer
 
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete on startup
 
