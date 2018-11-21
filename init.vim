@@ -19,7 +19,7 @@ function! PackagerInit() abort
   call packager#add('sheerun/vim-polyglot')
   call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
   call packager#add('junegunn/fzf.vim')
-  call packager#add('ludovicchabant/vim-gutentags', {'commit': '76eb66a'})
+  call packager#add('ludovicchabant/vim-gutentags')
   call packager#add('phpactor/phpactor', { 'do': 'composer install' })
   call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install' })
   call packager#add('kristijanhusak/deoplete-phpactor')
@@ -38,6 +38,7 @@ function! PackagerInit() abort
   call packager#add('mgedmin/python-imports.vim')
   call packager#add('janko-m/vim-test')
   call packager#add('eugen0329/vim-esearch')
+  call packager#add('kristijanhusak/defx-devicons', {'branch': 'feature/highlights-config'})
 endfunction
 
 command! PackagerInstall call PackagerInit() | call packager#install()
