@@ -74,8 +74,7 @@ install_kitty() {
   if [[ -z $kitty_installed ]]; then
     echo "Installing kitty..." \
     && rm -rf ~/.local/kitty.app ~/.config/kitty \
-    && curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
-    && ln -s ~/.local/kitty.app/bin/kitty /usr/local/bin/kitty \
+    && sudo pacman -S kitty \
     && ln -s $(pwd)/kitty.conf ~/.config/kitty/kitty.conf
   else
     echo "Kitty already installed."
