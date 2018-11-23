@@ -37,7 +37,7 @@ function! PackagerInit() abort
   call packager#add('junegunn/vim-peekaboo')
   call packager#add('mgedmin/python-imports.vim')
   call packager#add('janko-m/vim-test')
-  call packager#add('eugen0329/vim-esearch')
+  call packager#add('dyng/ctrlsf.vim')
   call packager#add('kristijanhusak/defx-icons')
 endfunction
 
@@ -524,10 +524,16 @@ nnoremap <Leader>xx :TestFile<CR>
 nnoremap <Leader>xw :TestFile -- --watch<CR>
 nnoremap <Leader>xt :TestSuite<CR>
 
+" Search mappings
+nmap <Leader>f <Plug>CtrlSFPrompt
+vmap <Leader>F <Plug>CtrlSFVwordPath
+nmap <Leader>F <Plug>CtrlSFCwordPath
+
 " }}}
 " ================ Plugins setups ======================== {{{
 
-let g:esearch#out#win#open = 'topleft vsplit new'                               "Search in vertical split buffer
+let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
+let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
 let g:deoplete#enable_at_startup = 1                                            "Enable deoplete on startup
 
