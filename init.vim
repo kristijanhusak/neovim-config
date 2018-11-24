@@ -13,7 +13,7 @@ function! PackagerInit() abort
   call packager#add('tpope/vim-repeat')
   call packager#add('tpope/vim-fugitive')
   call packager#add('tpope/vim-endwise')
-  call packager#add('tpope/vim-sleuth')
+  call packager#add('lambdalisue/vim-backslash')
   call packager#add('AndrewRadev/splitjoin.vim')
   call packager#add('airblade/vim-gitgutter')
   call packager#add('sheerun/vim-polyglot')
