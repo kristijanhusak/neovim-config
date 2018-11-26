@@ -542,6 +542,7 @@ let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               
 
 let g:delimitMate_expand_cr = 1                                                 "Auto indent on enter
 
+let g:ale_virtualtext_cursor = 1                                                "Enable neovim's virtualtext support
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
 let g:ale_fixers = {'javascript': ['prettier', 'eslint']}                       "Fix eslint errors
 let g:ale_javascript_prettier_options = '--print-width 100'                     "Set max width to 100 chars for prettier
