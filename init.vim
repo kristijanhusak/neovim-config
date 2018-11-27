@@ -48,7 +48,6 @@ command! PackagerStatus call PackagerInit() | call packager#status()
 "}}}
 " ================ General Config ==================== {{{
 
-let g:loaded_netrwPlugin = 1                                                    "Do not load netrw
 let g:loaded_matchit = 1                                                        "Do not load matchit, use matchup plugin
 
 let g:mapleader = ','                                                           "Change leader to a comma
@@ -77,7 +76,6 @@ set linebreak                                                                   
 set listchars=tab:>\ ,trail:·                                                   "Set trails for tabs and spaces
 set list                                                                        "Enable listchars
 set lazyredraw                                                                  "Do not redraw on registers and macros
-set background=dark                                                             "Set background to dark
 set hidden                                                                      "Hide buffers in background
 set conceallevel=2 concealcursor=i                                              "neosnippets conceal marker
 set splitright                                                                  "Set up new vertical splits positions
@@ -511,8 +509,6 @@ nnoremap <Leader>R :ALEFix<CR>
 
 " Close all other buffers except current one
 nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
-
-nnoremap gx :call netrw#BrowseX(expand('<cfile>'), netrw#CheckIfRemote())<CR>
 
 " Vim test mappings
 nnoremap <Leader>xx :TestFile<CR>
