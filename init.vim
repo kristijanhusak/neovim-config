@@ -3,6 +3,11 @@ function! PackagerInit() abort
   packadd vim-packager
   call packager#init()
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
+  call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install' })
+  call packager#add('kristijanhusak/deoplete-phpactor')
+  call packager#add('kristijanhusak/vim-project-lint')
+  call packager#add('kristijanhusak/defx-git')
+  call packager#add('kristijanhusak/defx-icons')
   call packager#add('Shougo/deoplete.nvim')
   call packager#add('Shougo/neosnippet')
   call packager#add('Shougo/defx.nvim')
@@ -21,10 +26,6 @@ function! PackagerInit() abort
   call packager#add('junegunn/fzf.vim')
   call packager#add('ludovicchabant/vim-gutentags')
   call packager#add('phpactor/phpactor', { 'do': 'composer install' })
-  call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install' })
-  call packager#add('kristijanhusak/deoplete-phpactor')
-  call packager#add('kristijanhusak/defx-git')
-  call packager#add('kristijanhusak/vim-project-lint')
   call packager#add('vimwiki/vimwiki')
   call packager#add('editorconfig/editorconfig-vim')
   call packager#add('morhetz/gruvbox')
@@ -32,13 +33,11 @@ function! PackagerInit() abort
   call packager#add('haya14busa/vim-asterisk')
   call packager#add('osyo-manga/vim-anzu')
   call packager#add('autozimu/LanguageClient-neovim', { 'do': 'bash install.sh' })
-  call packager#add('wsdjeg/FlyGrep.vim')
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
   call packager#add('junegunn/vim-peekaboo')
   call packager#add('mgedmin/python-imports.vim')
   call packager#add('janko-m/vim-test')
   call packager#add('dyng/ctrlsf.vim')
-  call packager#add('kristijanhusak/defx-icons')
 endfunction
 
 command! PackagerInstall call PackagerInit() | call packager#install()
@@ -516,8 +515,6 @@ nnoremap <Leader>R :ALEFix<CR>
 nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 
 nnoremap gx :call netrw#BrowseX(expand('<cfile>'), netrw#CheckIfRemote())<CR>
-
-nnoremap <Leader>/ :FlyGrep<CR>
 
 " Vim test mappings
 nnoremap <Leader>xx :TestFile<CR>
