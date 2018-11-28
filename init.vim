@@ -17,6 +17,7 @@ function! PackagerInit() abort
   call packager#add('tpope/vim-surround')
   call packager#add('tpope/vim-repeat')
   call packager#add('tpope/vim-fugitive')
+  call packager#add('tpope/vim-sleuth')
   call packager#add('tpope/vim-endwise')
   call packager#add('lambdalisue/vim-backslash')
   call packager#add('AndrewRadev/splitjoin.vim')
@@ -194,6 +195,9 @@ set sidescroll=5
 " ================ Statusline ======================== {{{
 
 function! Statusline(is_bufenter) abort
+  if exists('g:packager')
+    return ''
+  endif
   let l:bufnr = expand('<abuf>')
   let l:statusline = '%1* %{StatuslineMode()}'                                  "Mode
   let l:statusline .= ' %*%2*%{GitStatusline()}%*'                              "Git branch and status
