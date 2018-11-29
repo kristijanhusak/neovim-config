@@ -4,11 +4,9 @@ function! PackagerInit() abort
   call packager#init()
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install' })
-  call packager#add('kristijanhusak/deoplete-phpactor')
   call packager#add('kristijanhusak/vim-project-lint')
   call packager#add('kristijanhusak/defx-git')
   call packager#add('kristijanhusak/defx-icons')
-  call packager#add('Shougo/deoplete.nvim')
   call packager#add('Shougo/neosnippet')
   call packager#add('Shougo/defx.nvim')
   call packager#add('w0rp/ale', { 'do': 'npm install -g prettier' })
@@ -311,7 +309,6 @@ function! VimEnterSettings() abort
   endif
 
   set statusline=%!Statusline(0)
-  call deoplete#custom#option({ 'async_timeout': 10, 'camel_case': 1 })
 endfunction
 
 function! StripTrailingWhitespaces()
@@ -392,6 +389,11 @@ function! DefxSettings() abort
   nnoremap <silent><buffer><expr> gh defx#do_action('cd', [getcwd()])
 endfunction
 
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~? '\s'
+endfunction
+
 " }}}
 " ================ Custom mappings ======================== {{{
 
@@ -420,16 +422,18 @@ tnoremap <c-l> <C-\><C-n><C-w>l
 nnoremap j gj
 nnoremap k gk
 
-" Expand snippets on tab if snippets exists, otherwise do autocompletion
 imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)"
-\ : pumvisible() ? "\<C-n>" : "\<TAB>"
-" If popup window is visible do autocompletion from back
-imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" Fix for jumping over placeholders for neosnippet
+\ : pumvisible() ? "\<C-n>" :
+\ <SID>check_back_space() ? "\<TAB>" : "\<C-n>"
+\
+imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
 smap <expr><TAB> neosnippet#jumpable() ?
 \ "\<Plug>(neosnippet_jump)"
 \: "\<TAB>"
+\
+inoremap <C-space> <C-x><C-o>
 
 " Map for Escape key
 inoremap jj <Esc>
@@ -529,8 +533,6 @@ nmap <Leader>F <Plug>CtrlSFCwordPath
 
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
-
-let g:deoplete#enable_at_startup = 1                                            "Enable deoplete on startup
 
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
 let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
