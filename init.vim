@@ -131,6 +131,8 @@ augroup vimrc
   autocmd WinLeave,BufWinLeave * setlocal statusline=%!Statusline(0)            "Set not active statusline
   autocmd VimEnter * call s:vim_enter_settings()                                "Vim startup settings
   autocmd FileType defx call s:defx_settings()                                  "Defx mappings
+  autocmd CompleteDone * set completeopt-=noinsert,noselect
+  autocmd FileType vim imap <buffer><nowait><expr><C-Space>o <sid>completion("\<C-v>")
 augroup END
 
 augroup php
@@ -393,6 +395,19 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~? '\s'
 endfunction
 
+function! s:completion(key) abort
+  if neosnippet#expandable_or_jumpable()
+    return "\<Plug>(neosnippet_expand_or_jump)"
+  endif
+
+  if !s:check_back_space()
+    set completeopt+=noinsert,noselect
+    return "\<C-x>".a:key
+  endif
+
+  return "\<TAB>"
+endfunction
+
 " }}}
 " ================ Custom mappings ======================== {{{
 
@@ -421,18 +436,21 @@ tnoremap <c-l> <C-\><C-n><C-w>l
 nnoremap j gj
 nnoremap k gk
 
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\ : pumvisible() ? "\<C-n>" :
-\ <SID>check_back_space() ? "\<TAB>" : "\<C-n>"
-\
+imap <expr><TAB> pumvisible() ? "\<C-n>"
+      \ : <sid>check_back_space() ? "\<TAB>" : "\<C-n>"
+imap <expr><C-Space>o <sid>completion("\<C-o>")
+imap <expr><C-Space>] <sid>completion("\<C-]>")
+imap <expr><C-Space>l <sid>completion("\<C-l>")
+imap <expr><C-Space>i <sid>completion("\<C-i>")
+imap <expr><C-Space>k <sid>completion("\<C-k>")
+imap <expr><C-Space>f <sid>completion("\<C-f>")
+imap <expr><C-Space>s <sid>completion('s')
+
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 smap <expr><TAB> neosnippet#jumpable() ?
 \ "\<Plug>(neosnippet_jump)"
 \: "\<TAB>"
-\
-inoremap <C-space> <C-x><C-o>
 
 " Map for Escape key
 inoremap jj <Esc>
