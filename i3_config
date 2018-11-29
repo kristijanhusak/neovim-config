@@ -320,6 +320,7 @@ bar {
 	i3bar_command i3bar
 	status_command i3status
 	position bottom
+	tray_output primary
 
 ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
 #	tray_output primary
