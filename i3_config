@@ -427,6 +427,5 @@ bindsym Mod4+9 exec ~/.i3/focus_win.py -n 9
 bindsym Mod4+0 exec ~/.i3/focus_win.py -n 0
 
 assign [class="Google-chrome"] 2
-assign [class="kitty"] 1
 assign [class="Slack"] 4
 assign [class="DBeaver"] 5
