@@ -1,5 +1,5 @@
 " ================ Plugins ==================== {{{
-function! PackagerInit() abort
+function! s:packager_init() abort
   packadd vim-packager
   call packager#init()
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
@@ -33,16 +33,15 @@ function! PackagerInit() abort
   call packager#add('osyo-manga/vim-anzu')
   call packager#add('autozimu/LanguageClient-neovim', { 'do': 'bash install.sh' })
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
-  call packager#add('junegunn/vim-peekaboo')
   call packager#add('mgedmin/python-imports.vim')
   call packager#add('janko-m/vim-test')
   call packager#add('dyng/ctrlsf.vim')
 endfunction
 
-command! PackagerInstall call PackagerInit() | call packager#install()
-command! PackagerUpdate call PackagerInit() | call packager#update()
-command! PackagerClean call PackagerInit() | call packager#clean()
-command! PackagerStatus call PackagerInit() | call packager#status()
+command! PackagerInstall call s:packager_init() | call packager#install()
+command! PackagerUpdate call s:packager_init() | call packager#update()
+command! PackagerClean call s:packager_init() | call packager#clean()
+command! PackagerStatus call s:packager_init() | call packager#status()
 
 "}}}
 " ================ General Config ==================== {{{
@@ -124,14 +123,14 @@ set foldmethod=syntax
 augroup vimrc
   autocmd!
   autocmd QuickFixCmdPost [^l]* cwindow                                         "Open quickfix window after grepping
-  autocmd BufWritePre * call StripTrailingWhitespaces()                         "Auto-remove trailing spaces
+  autocmd BufWritePre * call s:strip_trailing_whitespace()                      "Auto-remove trailing spaces
   autocmd InsertEnter * set nocul                                               "Remove cursorline highlight
   autocmd InsertLeave * set cul                                                 "Add cursorline highlight in normal mode
   autocmd FocusGained,BufEnter * checktime                                      "Refresh file when vim gets focus
   autocmd WinEnter,BufWinEnter * setlocal statusline=%!Statusline(1)            "Set focused statusline
   autocmd WinLeave,BufWinLeave * setlocal statusline=%!Statusline(0)            "Set not active statusline
-  autocmd VimEnter * call VimEnterSettings()                                    "Vim startup settings
-  autocmd FileType defx call DefxSettings()                                     "Defx mappings
+  autocmd VimEnter * call s:vim_enter_settings()                                "Vim startup settings
+  autocmd FileType defx call s:defx_settings()                                  "Defx mappings
 augroup END
 
 augroup php
@@ -302,16 +301,16 @@ cnoreabbrev E e
 " }}}
 " ================ Functions ======================== {{{
 
-function! VimEnterSettings() abort
+function! s:vim_enter_settings() abort
   let l:buffer_path = expand(printf('#%s:p', expand('<abuf>')))
   if isdirectory(l:buffer_path)
-    call DefxOpen({ 'dir': l:buffer_path })
+    call s:defx_open({ 'dir': l:buffer_path })
   endif
 
   set statusline=%!Statusline(0)
 endfunction
 
-function! StripTrailingWhitespaces()
+function! s:strip_trailing_whitespace()
   if &modifiable
     let l:l = line('.')
     let l:c = col('.')
@@ -321,7 +320,7 @@ function! StripTrailingWhitespaces()
   endif
 endfunction
 
-function! CloseBuffer(...) abort
+function! s:close_buffer(...) abort
   if &buftype !=? ''
     return execute('q!')
   endif
@@ -339,7 +338,7 @@ function! CloseBuffer(...) abort
   return execute('q'.l:bang)
 endfunction
 
-function! DefxOpen(...) abort
+function! s:defx_open(...) abort
   let l:opts = get(a:, 1, {})
   let l:args = '-winwidth=40 -direction=topleft -fnamewidth=50 -columns=project_lint:git:icons:filename:size:time'
   let l:is_opened = bufwinnr('defx') > 0
@@ -363,7 +362,7 @@ function! DefxOpen(...) abort
   return execute("norm!\<C-w>=")
 endfunction
 
-function! DefxContextMenu() abort
+function! s:defx_context_menu() abort
   let l:actions = ['new_file', 'new_directory', 'rename', 'copy', 'move', 'paste', 'remove']
   let l:selection = confirm('Action?', "&New file\nNew &Folder\n&Rename\n&Copy\n&Move\n&Paste\n&Delete")
   silent exe 'redraw'
@@ -371,8 +370,8 @@ function! DefxContextMenu() abort
   return feedkeys(defx#do_action(l:actions[l:selection - 1]))
 endfunction
 
-function! DefxSettings() abort
-  nnoremap <silent><buffer>m :call DefxContextMenu()<CR>
+function! s:defx_settings() abort
+  nnoremap <silent><buffer>m :call <sid>defx_context_menu()<CR>
   nnoremap <silent><buffer><expr> o defx#do_action('drop')
   nnoremap <silent><buffer><expr> <CR> defx#do_action('drop')
   nnoremap <silent><buffer><expr> <2-LeftMouse> defx#do_action('drop')
@@ -468,11 +467,11 @@ nnoremap <silent><Leader><space> :AnzuClearSearchStatus<BAR>noh<CR>
 nnoremap <Leader>e :lopen<CR>
 nnoremap <Leader>E :copen<CR>
 
-nnoremap <silent><Leader>q :call CloseBuffer()<CR>
-nnoremap <silent><Leader>Q :call CloseBuffer(v:true)<CR>
+nnoremap <silent><Leader>q :call <sid>close_buffer()<CR>
+nnoremap <silent><Leader>Q :call <sid>close_buffer(v:true)<CR>
 
-nnoremap <silent><Leader>n :call DefxOpen({ 'split': v:true })<CR>
-nnoremap <silent><Leader>hf :call DefxOpen({ 'split': v:true, 'find_current_file': v:true })<CR>
+nnoremap <silent><Leader>n :call <sid>defx_open({ 'split': v:true })<CR>
+nnoremap <silent><Leader>hf :call <sid>defx_open({ 'split': v:true, 'find_current_file': v:true })<CR>
 
 " Toggle between last 2 buffers
 nnoremap <leader><tab> <c-^>
