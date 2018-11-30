@@ -46,6 +46,7 @@ command! PackagerStatus call s:packager_init() | call packager#status()
 "}}}
 " ================ General Config ==================== {{{
 
+let g:loaded_netrwPlugin = 1                                                    "Do not load netrw
 let g:loaded_matchit = 1                                                        "Do not load matchit, use matchup plugin
 
 let g:mapleader = ','                                                           "Change leader to a comma
@@ -131,8 +132,8 @@ augroup vimrc
   autocmd WinLeave,BufWinLeave * setlocal statusline=%!Statusline(0)            "Set not active statusline
   autocmd VimEnter * call s:vim_enter_settings()                                "Vim startup settings
   autocmd FileType defx call s:defx_settings()                                  "Defx mappings
-  autocmd CompleteDone * set completeopt-=noinsert,noselect
-  autocmd FileType vim imap <buffer><nowait><expr><C-Space>o <sid>completion("\<C-v>")
+  autocmd CompleteDone * set completeopt-=noinsert,noselect,menuone
+  autocmd FileType vim imap <buffer><nowait><C-Space>o <C-R>=<sid>completion('v')<CR>
 augroup END
 
 augroup php
@@ -141,6 +142,7 @@ augroup php
   autocmd FileType php nmap <buffer><silent><Leader>ir :call phpactor#ContextMenu()<CR>
   autocmd FileType php vmap <buffer><silent><Leader>ie :<C-U>call phpactor#ExtractMethod()<CR>
   autocmd FileType php nmap <buffer><silent><C-]> :call phpactor#GotoDefinition()<CR>
+  autocmd FileType php setlocal omnifunc=phpactor#Complete
 augroup END
 
 augroup javascript
@@ -390,37 +392,43 @@ function! s:defx_settings() abort
   nnoremap <silent><buffer><expr> gh defx#do_action('cd', [getcwd()])
 endfunction
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~? '\s'
-endfunction
-
 function! s:completion(key) abort
   if neosnippet#expandable_or_jumpable()
-    return "\<Plug>(neosnippet_expand_or_jump)"
+    return neosnippet#mappings#expand_or_jump_impl()
   endif
 
-  if !s:check_back_space()
+  if !pumvisible() && strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
+    return "\<TAB>"
+  endif
+
+  if a:key !=? 'n'
+    set completeopt+=noinsert,noselect,menuone
+    return eval('"\<C-x>\<C-'.a:key.'>"')
+  endif
+
+  if pumvisible()
+    return "\<C-n>"
+  endif
+
+  let l:file_path = matchstr(getline('.'), '\f\%(\f\|\s\)*\%'.col('.').'c')
+  if empty(l:file_path) || l:file_path !~? '\/'
+    return "\<C-n>"
+  endif
+
+  let l:start = (l:file_path[0] !=? '/' ? expand('%:p:h') : '').'/'
+  let l:dir = matchstr(l:file_path, '.*\/\ze[^\/]*$')
+  let l:values = glob(printf('%s%s*', l:start , l:file_path), 0, 1)
+
+  if len(l:values) > 1
     set completeopt+=noinsert,noselect
-    return "\<C-x>".a:key
   endif
 
-  return "\<TAB>"
-endfunction
-
-function! s:file_completion() abort
-  let l:col = col('.')
-  let l:prefix = matchstr(getline('.'), '\f\%(\f\|\s\)*\%'.l:col.'c')
-  if empty(l:prefix)
-    return ''
-  endif
-
-  let l:current_file_dir = expand('%:p:h').'/'
-  let l:dir = matchstr(l:prefix, '.*\/\ze[^\/]*$')
-  let l:values = glob(printf('%s%s*', l:current_file_dir , l:prefix), 0, 1)
-
-  call map(l:values, {-> {'word': substitute(v:val, l:current_file_dir.l:dir, '', 'g')}})
-  call complete(l:col - (len(l:prefix) - len(l:dir)), l:values)
+  let l:remove_ext = &filetype =~? '^javascript'
+  call map(l:values, {-> {
+        \ 'word' : fnamemodify(v:val, ':t'.(l:remove_ext ? ':r' : '')),
+        \ 'abbr' : fnamemodify(v:val, ':t')
+        \ }})
+  call complete(col('.') - (len(l:file_path) - len(l:dir)), l:values)
   return ''
 endfunction
 
@@ -452,16 +460,12 @@ tnoremap <c-l> <C-\><C-n><C-w>l
 nnoremap j gj
 nnoremap k gk
 
-imap <expr><TAB> pumvisible() ? "\<C-n>"
-      \ : <sid>check_back_space() ? "\<TAB>" : "\<C-n>"
-imap <expr><C-Space>o <sid>completion("\<C-o>")
-imap <expr><C-Space>] <sid>completion("\<C-]>")
-imap <expr><C-Space>l <sid>completion("\<C-l>")
-imap <expr><C-Space>i <sid>completion("\<C-i>")
-imap <expr><C-Space>k <sid>completion("\<C-k>")
-imap <expr><C-Space>f <sid>completion("\<C-f>")
-imap <expr><C-Space>s <sid>completion('s')
-imap <C-Space>h <C-R>=<sid>file_completion()<CR>
+imap <silent><TAB> <C-R>=<sid>completion('n')<CR>
+imap <silent><C-Space>o <C-R>=<sid>completion('o')<CR>
+imap <silent><C-Space>] <C-R>=<sid>completion(']')<CR>
+imap <silent><C-Space>l <C-R>=<sid>completion('l')<CR>
+imap <silent><C-Space>i <C-R>=<sid>completion('i')<CR>
+imap <silent><C-Space>k <C-R>=<sid>completion('k')<CR>
 
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
@@ -562,6 +566,7 @@ nmap <Leader>f <Plug>CtrlSFPrompt
 vmap <Leader>F <Plug>CtrlSFVwordPath
 nmap <Leader>F <Plug>CtrlSFCwordPath
 
+nnoremap gx :call netrw#BrowseX(expand('<cfile>'), netrw#CheckIfRemote())<CR>
 " }}}
 " ================ Plugins setups ======================== {{{
 
