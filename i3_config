@@ -146,6 +146,7 @@ set $ws5 5
 set $ws6 6
 set $ws7 7
 set $ws8 8
+set $ws8 9
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -156,6 +157,20 @@ bindsym $mod+5 workspace $ws5
 bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+
+set_from_resource $output1 i3wm.monitor1 DVI-D-1
+set_from_resource $output2 i3wm.monitor2 HDMI-3
+
+workspace $ws1 output $output1
+workspace $ws2 output $output2
+workspace $ws3 output $output1
+workspace $ws4 output $output2
+workspace $ws5 output $output1
+workspace $ws6 output $output2
+workspace $ws7 output $output1
+workspace $ws8 output $output2
+workspace $ws9 output $output1
 
 # Move focused container to workspace
 bindsym $mod+Ctrl+1 move container to workspace $ws1
@@ -265,7 +280,6 @@ mode "resize" {
 }
 
 # Lock screen
-bindsym $mod+9 exec --no-startup-id blurlock
 bindsym Control+$mod+l exec i3lock -c 000000
 
 # Autostart applications
