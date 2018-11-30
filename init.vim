@@ -408,6 +408,22 @@ function! s:completion(key) abort
   return "\<TAB>"
 endfunction
 
+function! s:file_completion() abort
+  let l:col = col('.')
+  let l:prefix = matchstr(getline('.'), '\f\%(\f\|\s\)*\%'.l:col.'c')
+  if empty(l:prefix)
+    return ''
+  endif
+
+  let l:current_file_dir = expand('%:p:h').'/'
+  let l:dir = matchstr(l:prefix, '.*\/\ze[^\/]*$')
+  let l:values = glob(printf('%s%s*', l:current_file_dir , l:prefix), 0, 1)
+
+  call map(l:values, {-> {'word': substitute(v:val, l:current_file_dir.l:dir, '', 'g')}})
+  call complete(l:col - (len(l:prefix) - len(l:dir)), l:values)
+  return ''
+endfunction
+
 " }}}
 " ================ Custom mappings ======================== {{{
 
@@ -445,6 +461,7 @@ imap <expr><C-Space>i <sid>completion("\<C-i>")
 imap <expr><C-Space>k <sid>completion("\<C-k>")
 imap <expr><C-Space>f <sid>completion("\<C-f>")
 imap <expr><C-Space>s <sid>completion('s')
+imap <C-Space>h <C-R>=<sid>file_completion()<CR>
 
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
