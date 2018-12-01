@@ -419,6 +419,10 @@ function! s:completion(key) abort
   let l:dir = matchstr(l:file_path, '.*\/\ze[^\/]*$')
   let l:values = glob(printf('%s%s*', l:start , l:file_path), 0, 1)
 
+  if empty(l:values)
+    return "\<C-n>"
+  endif
+
   if len(l:values) > 1
     set completeopt+=noinsert,noselect
   endif
