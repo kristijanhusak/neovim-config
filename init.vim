@@ -56,7 +56,7 @@ let g:gruvbox_invert_selection = 0                                              
 let g:gruvbox_sign_column = 'bg0'                                               "Use default bg color in sign column
 let g:gruvbox_contrast_light = 'soft'                                           "Use soft contrast for light version
 
-set termguicolors
+set termguicolors                                                               "Enable true colors
 set title                                                                       "change the terminal's title
 set number                                                                      "Line numbers are good
 set relativenumber                                                              "Show numbers relative to current line
