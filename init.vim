@@ -134,7 +134,6 @@ augroup vimrc
   autocmd WinLeave,BufWinLeave * setlocal statusline=%!Statusline(0)            "Set not active statusline
   autocmd VimEnter * call s:vim_enter_settings()                                "Vim startup settings
   autocmd FileType defx call s:defx_settings()                                  "Defx mappings
-  autocmd CompleteDone * set completeopt-=noinsert,noselect,menuone
   autocmd FileType vim imap <buffer><nowait><C-Space>o <C-R>=<sid>completion('v')<CR>
 augroup END
 
@@ -415,21 +414,20 @@ function! s:completion(key) abort
     return "\<C-n>"
   endif
 
+  set completeopt-=noinsert,noselect,menuone
   let l:file_path = matchstr(getline('.'), '\f\%(\f\|\s\)*\%'.col('.').'c')
   if empty(l:file_path) || l:file_path !~? '\/'
     return "\<C-n>"
   endif
 
-  let l:start = (l:file_path[0] !=? '/' ? expand('%:p:h') : '').'/'
+  let l:start = l:file_path[0] !~? '^\(\~\|\/\)' ? expand('%:p:h') : ''
+  let l:start .= (l:file_path[0] !=? '~' ? '/' : '')
   let l:dir = matchstr(l:file_path, '.*\/\ze[^\/]*$')
   let l:values = glob(printf('%s%s*', l:start , l:file_path), 0, 1)
 
   if empty(l:values)
-    return "\<C-n>"
-  endif
-
-  if len(l:values) > 1
-    set completeopt+=noinsert,noselect
+    echo 'No file matches.'
+    return ''
   endif
 
   let l:remove_ext = &filetype =~? '^javascript'
