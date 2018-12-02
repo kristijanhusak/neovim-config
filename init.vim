@@ -39,7 +39,7 @@ function! s:packager_init() abort
 endfunction
 
 command! PackagerInstall call s:packager_init() | call packager#install()
-command! PackagerUpdate call s:packager_init() | call packager#update()
+command! -bang PackagerUpdate call s:packager_init() | call packager#update({ 'force_hooks': '<bang>' })
 command! PackagerClean call s:packager_init() | call packager#clean()
 command! PackagerStatus call s:packager_init() | call packager#status()
 
