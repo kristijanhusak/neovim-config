@@ -31,11 +31,12 @@ function! s:packager_init() abort
   call packager#add('andymass/vim-matchup')
   call packager#add('haya14busa/vim-asterisk')
   call packager#add('osyo-manga/vim-anzu')
-  call packager#add('autozimu/LanguageClient-neovim', { 'do': 'bash install.sh' })
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
   call packager#add('mgedmin/python-imports.vim')
   call packager#add('janko-m/vim-test')
   call packager#add('dyng/ctrlsf.vim')
+  call packager#add('prabirshrestha/async.vim')
+  call packager#add('prabirshrestha/vim-lsp')
 endfunction
 
 command! PackagerInstall call s:packager_init() | call packager#install()
@@ -135,6 +136,7 @@ augroup vimrc
   autocmd VimEnter * call s:vim_enter_settings()                                "Vim startup settings
   autocmd FileType defx call s:defx_settings()                                  "Defx mappings
   autocmd FileType vim imap <buffer><nowait><C-Space>o <C-R>=<sid>completion('v')<CR>
+  autocmd CompleteDone * let s:omni_tried = 0
 augroup END
 
 augroup php
@@ -165,6 +167,28 @@ augroup numbertoggle
   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif
   autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif
 augroup END
+
+
+augroup langserver
+  autocmd!
+  autocmd User lsp_setup call lsp#register_server({
+        \ 'name': 'javascript-typescript-langserver',
+        \ 'cmd': {server_info->['javascript-typescript-stdio']},
+        \ 'whitelist': ['javascript', 'javascript.jsx', 'typescript'],
+        \ })
+  autocmd User lsp_setup call lsp#register_server({
+        \ 'name': 'go-langserver',
+        \ 'cmd': {server_info->['go-langserver', '-gocodecompletion']},
+        \ 'whitelist': ['go'],
+        \ })
+  autocmd User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ })
+  autocmd FileType javascript,javascript.jsx,typescript,go,python setlocal omnifunc=lsp#complete
+augroup END
+
 
 " }}}
 " ================ Completion ======================= {{{
@@ -414,23 +438,23 @@ function! s:completion(...) abort
     return eval('"\<C-x>\<C-'.a:1.'>"')
   endif
 
-  let l:omni_pattern = '\k\+\(\.\|->\|::\)$'
-  if !s:omni_tried && !empty(&omnifunc) && match(getline('.'), l:omni_pattern) > -1
+  if !s:omni_tried && !empty(&omnifunc) && match(getline('.'), '\k\+\(\.\|->\|::\)\k*$') > -1
     let s:omni_tried = 1
     return "\<C-x>\<C-o>"
   endif
 
-  let s:omni_tried = 0
-
   let l:file_path = matchstr(getline('.'), '\f\%(\f\|\s\)*\%'.col('.').'c')
   if empty(l:file_path) || l:file_path !~? '\/'
-    return "\<C-e>\<C-n>"
+    let l:prefix = s:omni_tried ? "\<C-e>" : ''
+    let s:omni_tried = 0
+    return l:prefix."\<C-n>"
   endif
 
   let l:start = l:file_path[0] !~? '^\(\~\|\/\)' ? expand('%:p:h') : ''
   let l:start .= (l:file_path[0] !=? '~' ? '/' : '')
   let l:dir = matchstr(l:file_path, '.*\/\ze[^\/]*$')
   let l:values = glob(printf('%s%s*', l:start , l:file_path), 0, 1)
+  let s:omni_tried = 0
 
   if empty(l:values)
     echo 'No file matches.'
@@ -607,15 +631,6 @@ let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   
 let g:matchup_matchparen_deferred = 1                                           "Defer matchup highlights to allow better cursor movement performance
 
 let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
-
-let g:LanguageClient_diagnosticsEnable = 0                                      "Disable linting from Language client
-let g:LanguageClient_serverCommands = {
-\ 'javascript': ['javascript-typescript-stdio'],
-\ 'javascript.jsx': ['javascript-typescript-stdio'],
-\ 'typescript': ['javascript-typescript-stdio'],
-\ 'go': ['go-langserver', '-gocodecompletion', '-func-snippet-enabled=false'],
-\ 'python': ['pyls'],
-\ }
 
 let g:test#strategy = 'neovim'                                                  "Always use neovim terminal to run tests with vim-test
 let g:test#neovim#term_position = 'vertical botright'                           "Open terminal for tests vertically right
