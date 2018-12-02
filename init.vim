@@ -134,7 +134,7 @@ augroup vimrc
   autocmd WinLeave,BufWinLeave * setlocal statusline=%!Statusline(0)            "Set not active statusline
   autocmd VimEnter * call s:vim_enter_settings()                                "Vim startup settings
   autocmd FileType defx call s:defx_settings()                                  "Defx mappings
-  autocmd FileType vim imap <buffer><nowait><C-Space>o <C-R>=<sid>completion()<CR>
+  autocmd FileType vim imap <buffer><nowait><C-Space>o <C-R>=<sid>completion('v')<CR>
 augroup END
 
 augroup php
@@ -395,7 +395,8 @@ function! s:defx_settings() abort
   nnoremap <silent><buffer><expr> gh defx#do_action('cd', [getcwd()])
 endfunction
 
-function! s:completion() abort
+let s:omni_tried = 0
+function! s:completion(...) abort
   if pumvisible()
     return "\<C-n>"
   endif
@@ -409,14 +410,21 @@ function! s:completion() abort
     return "\<TAB>"
   endif
 
-  let l:omni_pattern = '\k\+\(\.\|->\|::\)\k*$'
-  if !empty(&omnifunc) && matchstr(getline('.'), l:omni_pattern)
+  if a:0 > 0
+    return eval('"\<C-x>\<C-'.a:1.'>"')
+  endif
+
+  let l:omni_pattern = '\k\+\(\.\|->\|::\)$'
+  if !s:omni_tried && !empty(&omnifunc) && match(getline('.'), l:omni_pattern) > -1
+    let s:omni_tried = 1
     return "\<C-x>\<C-o>"
   endif
 
+  let s:omni_tried = 0
+
   let l:file_path = matchstr(getline('.'), '\f\%(\f\|\s\)*\%'.col('.').'c')
   if empty(l:file_path) || l:file_path !~? '\/'
-    return "\<C-n>"
+    return "\<C-e>\<C-n>"
   endif
 
   let l:start = l:file_path[0] !~? '^\(\~\|\/\)' ? expand('%:p:h') : ''
@@ -466,7 +474,7 @@ tnoremap <c-l> <C-\><C-n><C-w>l
 nnoremap j gj
 nnoremap k gk
 
-imap <silent><TAB> <C-R>=<sid>completion()<CR>
+inoremap <silent><TAB> <C-R>=<sid>completion()<CR>
 
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
