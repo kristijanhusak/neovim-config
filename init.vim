@@ -134,7 +134,7 @@ augroup vimrc
   autocmd WinLeave,BufWinLeave * setlocal statusline=%!Statusline(0)            "Set not active statusline
   autocmd VimEnter * call s:vim_enter_settings()                                "Vim startup settings
   autocmd FileType defx call s:defx_settings()                                  "Defx mappings
-  autocmd FileType vim imap <buffer><nowait><C-Space>o <C-R>=<sid>completion('v')<CR>
+  autocmd FileType vim imap <buffer><nowait><C-Space>o <C-R>=<sid>completion()<CR>
 augroup END
 
 augroup php
@@ -395,26 +395,25 @@ function! s:defx_settings() abort
   nnoremap <silent><buffer><expr> gh defx#do_action('cd', [getcwd()])
 endfunction
 
-function! s:completion(key) abort
+function! s:completion() abort
+  if pumvisible()
+    return "\<C-n>"
+  endif
+
   if neosnippet#expandable_or_jumpable()
     return neosnippet#mappings#expand_or_jump_impl()
   endif
 
   let l:col = col('.') - 1
-  if !pumvisible() && (!l:col || getline('.')[l:col - 1] =~? '\s')
+  if !l:col || getline('.')[l:col - 1] =~? '\s'
     return "\<TAB>"
   endif
 
-  if a:key !=? 'n'
-    set completeopt+=noinsert,noselect,menuone
-    return eval('"\<C-x>\<C-'.a:key.'>"')
+  let l:omni_pattern = '\k\+\(\.\|->\|::\)\k*$'
+  if !empty(&omnifunc) && matchstr(getline('.'), l:omni_pattern)
+    return "\<C-x>\<C-o>"
   endif
 
-  if pumvisible()
-    return "\<C-n>"
-  endif
-
-  set completeopt-=noinsert,noselect,menuone
   let l:file_path = matchstr(getline('.'), '\f\%(\f\|\s\)*\%'.col('.').'c')
   if empty(l:file_path) || l:file_path !~? '\/'
     return "\<C-n>"
@@ -467,12 +466,7 @@ tnoremap <c-l> <C-\><C-n><C-w>l
 nnoremap j gj
 nnoremap k gk
 
-imap <silent><TAB> <C-R>=<sid>completion('n')<CR>
-imap <silent><C-Space>o <C-R>=<sid>completion('o')<CR>
-imap <silent><C-Space>] <C-R>=<sid>completion(']')<CR>
-imap <silent><C-Space>l <C-R>=<sid>completion('l')<CR>
-imap <silent><C-Space>i <C-R>=<sid>completion('i')<CR>
-imap <silent><C-Space>k <C-R>=<sid>completion('k')<CR>
+imap <silent><TAB> <C-R>=<sid>completion()<CR>
 
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
