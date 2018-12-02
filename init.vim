@@ -7,7 +7,6 @@ function! s:packager_init() abort
   call packager#add('kristijanhusak/vim-project-lint')
   call packager#add('kristijanhusak/defx-git')
   call packager#add('kristijanhusak/defx-icons')
-  call packager#add('Shougo/neosnippet')
   call packager#add('Shougo/defx.nvim')
   call packager#add('w0rp/ale', { 'do': 'npm install -g prettier' })
   call packager#add('Raimondi/delimitMate')
@@ -33,7 +32,6 @@ function! s:packager_init() abort
   call packager#add('osyo-manga/vim-anzu')
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
   call packager#add('mgedmin/python-imports.vim')
-  call packager#add('janko-m/vim-test')
   call packager#add('dyng/ctrlsf.vim')
   call packager#add('prabirshrestha/async.vim')
   call packager#add('prabirshrestha/vim-lsp')
@@ -154,6 +152,7 @@ augroup javascript
   autocmd FileType javascript xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
   autocmd FileType javascript nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
   autocmd FileType javascript xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
+  autocmd FileType javascript iabbrev cll console.log
 augroup END
 
 augroup python
@@ -425,10 +424,6 @@ function! s:completion(...) abort
     return "\<C-n>"
   endif
 
-  if neosnippet#expandable_or_jumpable()
-    return neosnippet#mappings#expand_or_jump_impl()
-  endif
-
   let l:col = col('.') - 1
   if !l:col || getline('.')[l:col - 1] =~? '\s'
     return "\<TAB>"
@@ -504,12 +499,7 @@ nnoremap j gj
 nnoremap k gk
 
 inoremap <silent><TAB> <C-R>=<sid>completion()<CR>
-
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-
-smap <expr><TAB> neosnippet#jumpable() ?
-\ "\<Plug>(neosnippet_jump)"
-\: "\<TAB>"
 
 " Map for Escape key
 inoremap jj <Esc>
@@ -579,9 +569,6 @@ map # <Plug>(asterisk-z#)<Plug>(anzu-update-search-status)
 map g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)
 map g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)
 
-" Language client context menu
-nnoremap <Leader>r :call LanguageClient_contextMenu()<CR>
-
 " Disable ex mode mapping
 map Q <Nop>
 
@@ -594,11 +581,6 @@ nnoremap <Leader>R :ALEFix<CR>
 " Close all other buffers except current one
 nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 
-" Vim test mappings
-nnoremap <Leader>xx :TestFile<CR>
-nnoremap <Leader>xw :TestFile -- --watch<CR>
-nnoremap <Leader>xt :TestSuite<CR>
-
 " Search mappings
 nmap <Leader>f <Plug>CtrlSFPrompt
 vmap <Leader>F <Plug>CtrlSFVwordPath
@@ -610,9 +592,6 @@ nnoremap gx :call netrw#BrowseX(expand('<cfile>'), netrw#CheckIfRemote())<CR>
 
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
-
-let g:neosnippet#disable_runtime_snippets = {'_' : 1}                           "Snippets setup
-let g:neosnippet#snippets_directory = ['~/.config/nvim/snippets']               "Snippets directory
 
 let g:delimitMate_expand_cr = 1                                                 "Auto indent on enter
 
@@ -636,9 +615,6 @@ let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   
 let g:matchup_matchparen_deferred = 1                                           "Defer matchup highlights to allow better cursor movement performance
 
 let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
-
-let g:test#strategy = 'neovim'                                                  "Always use neovim terminal to run tests with vim-test
-let g:test#neovim#term_position = 'vertical botright'                           "Open terminal for tests vertically right
 
 " }}}
 " vim:foldenable:foldmethod=marker
