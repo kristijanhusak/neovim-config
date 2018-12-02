@@ -135,7 +135,7 @@ augroup vimrc
   autocmd WinLeave,BufWinLeave * setlocal statusline=%!Statusline(0)            "Set not active statusline
   autocmd VimEnter * call s:vim_enter_settings()                                "Vim startup settings
   autocmd FileType defx call s:defx_settings()                                  "Defx mappings
-  autocmd FileType vim imap <buffer><nowait><C-Space>o <C-R>=<sid>completion('v')<CR>
+  autocmd FileType vim imap <buffer><silent><C-Space>o <C-R>=<sid>completion('v')<CR>
   autocmd CompleteDone * let s:omni_tried = 0
 augroup END
 
@@ -443,10 +443,16 @@ function! s:completion(...) abort
     return "\<C-x>\<C-o>"
   endif
 
+  let l:file_complete = s:file_completion()
+  let s:omni_tried = 0
+
+  return l:file_complete
+endfunction
+
+function! s:file_completion() abort
   let l:file_path = matchstr(getline('.'), '\f\%(\f\|\s\)*\%'.col('.').'c')
   if empty(l:file_path) || l:file_path !~? '\/'
     let l:prefix = s:omni_tried ? "\<C-e>" : ''
-    let s:omni_tried = 0
     return l:prefix."\<C-n>"
   endif
 
@@ -454,7 +460,6 @@ function! s:completion(...) abort
   let l:start .= (l:file_path[0] !=? '~' ? '/' : '')
   let l:dir = matchstr(l:file_path, '.*\/\ze[^\/]*$')
   let l:values = glob(printf('%s%s*', l:start , l:file_path), 0, 1)
-  let s:omni_tried = 0
 
   if empty(l:values)
     echo 'No file matches.'
