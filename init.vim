@@ -436,13 +436,12 @@ function! s:completion() abort
 endfunction
 
 function! s:file_completion() abort
-  let l:file_path = matchstr(getline('.'), '\f\%(\f\|\s\)*\%'.col('.').'c')
+  let l:file_path = matchstr(getline('.'), '\f*\%'.col('.').'c')
   if empty(l:file_path) || l:file_path !~? '\/'
     return 0
   endif
 
-  let l:start = l:file_path[0] !~? '^\(\~\|\/\)' ? expand('%:p:h') : ''
-  let l:start .= (l:file_path[0] !=? '~' ? '/' : '')
+  let l:start = l:file_path[0] !~? '^\(\~\|\/\)' ? expand('%:p:h').'/' : ''
   let l:dir = matchstr(l:file_path, '.*\/\ze[^\/]*$')
   let l:values = glob(printf('%s%s*', l:start , l:file_path), 0, 1)
 
