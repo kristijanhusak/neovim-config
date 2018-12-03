@@ -133,7 +133,7 @@ augroup vimrc
   autocmd WinLeave,BufWinLeave * setlocal statusline=%!Statusline(0)            "Set not active statusline
   autocmd VimEnter * call s:vim_enter_settings()                                "Vim startup settings
   autocmd FileType defx call s:defx_settings()                                  "Defx mappings
-  autocmd FileType vim imap <buffer><silent><C-Space>o <C-R>=<sid>completion('v')<CR>
+  autocmd FileType vim inoremap <buffer><silent><C-Space> <C-x><C-v>
 augroup END
 
 augroup php
@@ -417,42 +417,22 @@ function! s:defx_settings() abort
   nnoremap <silent><buffer><expr> gh defx#do_action('cd', [getcwd()])
 endfunction
 
-let s:stop_complete = 0
-function! s:c(type) abort
-  if a:type ==? 'path'
-    let l:col = col('.') - 1
-    if !l:col || getline('.')[l:col - 1] =~? '\s'
-      let s:stop_complete = 1
-      return "\<TAB>"
-    endif
-    if !pumvisible()
-      let l:file_complete = s:file_completion()
-      if !empty(l:file_complete)
-        let s:stop_complete = 1
-      endif
-    endif
-    return ''
-  endif
-
-  if a:type ==? 'omni'
-    if !pumvisible() && !empty(&omnifunc) && !s:stop_complete
-      let s:stop_complete = 2
-      return "\<C-x>\<C-o>"
-    endif
-    return ''
-  endif
-
-  if !s:stop_complete
+function! s:completion() abort
+  if pumvisible()
     return "\<C-n>"
   endif
 
-  if s:stop_complete ==? 2 && !pumvisible()
-    let s:stop_complete = 0
-    return "\<C-e>\<C-n>"
+  let l:col = col('.') - 1
+  if !l:col || getline('.')[l:col - 1] =~? '\s'
+    return "\<TAB>"
   endif
 
-  let s:stop_complete = 0
-  return ''
+  let l:file_complete = s:file_completion()
+  if l:file_complete
+    return ''
+  endif
+
+  return "\<C-n>"
 endfunction
 
 function! s:file_completion() abort
@@ -468,7 +448,7 @@ function! s:file_completion() abort
 
   if empty(l:values)
     echo 'No file matches.'
-    return 0
+    return 1
   endif
 
   let l:remove_ext = &filetype =~? '^javascript'
@@ -508,8 +488,9 @@ tnoremap <c-l> <C-\><C-n><C-w>l
 nnoremap j gj
 nnoremap k gk
 
-inoremap <silent><TAB> <C-R>=<sid>c('path')<CR><C-R>=<sid>c('omni')<CR><C-R>=<sid>c('next')<CR>
-imap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <C-space> <C-x><C-o>
+inoremap <silent><TAB> <C-R>=<sid>completion()<CR>
+inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " Map for Escape key
 inoremap jj <Esc>
