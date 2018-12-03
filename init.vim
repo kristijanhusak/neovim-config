@@ -134,7 +134,6 @@ augroup vimrc
   autocmd VimEnter * call s:vim_enter_settings()                                "Vim startup settings
   autocmd FileType defx call s:defx_settings()                                  "Defx mappings
   autocmd FileType vim imap <buffer><silent><C-Space>o <C-R>=<sid>completion('v')<CR>
-  autocmd CompleteDone * let s:omni_tried = 0
 augroup END
 
 augroup php
@@ -418,37 +417,48 @@ function! s:defx_settings() abort
   nnoremap <silent><buffer><expr> gh defx#do_action('cd', [getcwd()])
 endfunction
 
-let s:omni_tried = 0
-function! s:completion(...) abort
-  if pumvisible()
+let s:stop_complete = 0
+function! s:c(type) abort
+  if a:type ==? 'path'
+    let l:col = col('.') - 1
+    if !l:col || getline('.')[l:col - 1] =~? '\s'
+      let s:stop_complete = 1
+      return "\<TAB>"
+    endif
+    if !pumvisible()
+      let l:file_complete = s:file_completion()
+      if !empty(l:file_complete)
+        let s:stop_complete = 1
+      endif
+    endif
+    return ''
+  endif
+
+  if a:type ==? 'omni'
+    if !pumvisible() && !empty(&omnifunc) && !s:stop_complete
+      let s:stop_complete = 2
+      return "\<C-x>\<C-o>"
+    endif
+    return ''
+  endif
+
+  if !s:stop_complete
     return "\<C-n>"
   endif
 
-  let l:col = col('.') - 1
-  if !l:col || getline('.')[l:col - 1] =~? '\s'
-    return "\<TAB>"
+  if s:stop_complete ==? 2 && !pumvisible()
+    let s:stop_complete = 0
+    return "\<C-e>\<C-n>"
   endif
 
-  if a:0 > 0
-    return eval('"\<C-x>\<C-'.a:1.'>"')
-  endif
-
-  if !s:omni_tried && !empty(&omnifunc) && match(getline('.'), '\k\+\(\.\|->\|::\)\k*$') > -1
-    let s:omni_tried = 1
-    return "\<C-x>\<C-o>"
-  endif
-
-  let l:file_complete = s:file_completion()
-  let s:omni_tried = 0
-
-  return l:file_complete
+  let s:stop_complete = 0
+  return ''
 endfunction
 
 function! s:file_completion() abort
   let l:file_path = matchstr(getline('.'), '\f\%(\f\|\s\)*\%'.col('.').'c')
   if empty(l:file_path) || l:file_path !~? '\/'
-    let l:prefix = s:omni_tried ? "\<C-e>" : ''
-    return l:prefix."\<C-n>"
+    return 0
   endif
 
   let l:start = l:file_path[0] !~? '^\(\~\|\/\)' ? expand('%:p:h') : ''
@@ -458,7 +468,7 @@ function! s:file_completion() abort
 
   if empty(l:values)
     echo 'No file matches.'
-    return ''
+    return 0
   endif
 
   let l:remove_ext = &filetype =~? '^javascript'
@@ -467,7 +477,7 @@ function! s:file_completion() abort
         \ 'abbr' : fnamemodify(v:val, ':t')
         \ }})
   call complete(col('.') - (len(l:file_path) - len(l:dir)), l:values)
-  return ''
+  return 1
 endfunction
 
 " }}}
@@ -498,8 +508,8 @@ tnoremap <c-l> <C-\><C-n><C-w>l
 nnoremap j gj
 nnoremap k gk
 
-inoremap <silent><TAB> <C-R>=<sid>completion()<CR>
-imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <silent><TAB> <C-R>=<sid>c('path')<CR><C-R>=<sid>c('omni')<CR><C-R>=<sid>c('next')<CR>
+imap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " Map for Escape key
 inoremap jj <Esc>
