@@ -96,12 +96,6 @@ set background=dark                                                             
 filetype plugin indent on
 syntax on
 silent! colorscheme gruvbox
-hi! link jsFuncCall GruvboxBlue
-" Remove highlighting of Operator because it is reversed with cursorline enabled
-hi! Operator guifg=NONE guibg=NONE
-hi! link ALEVirtualTextError GruvboxRed
-hi! link ALEVirtualTextWarning GruvboxYellow
-hi! link ALEVirtualTextInfo GruvboxBlue
 
 " }}}
 " ================ Turn Off Swap Files ============== {{{
@@ -134,6 +128,9 @@ augroup vimrc
   autocmd VimEnter * call s:vim_enter_settings()                                "Vim startup settings
   autocmd FileType defx call s:defx_settings()                                  "Defx mappings
   autocmd FileType vim inoremap <buffer><silent><C-Space> <C-x><C-v>
+  autocmd OptionSet diff if v:option_new | syntax off | endif
+  autocmd BufEnter * if !&diff && !exists('g:syntax_on') | syntax on | endif
+  autocmd Syntax,ColorScheme * call s:set_user_colors()
 augroup END
 
 augroup php
@@ -241,15 +238,27 @@ function! Statusline(is_bufenter) abort
   let l:statusline .= ' │ %c'                                                   "Column number
   let l:statusline .= ' │ %l/%L'                                                "Current line number/Total line numbers
   let l:statusline .= ' %*%#Error#%{AleStatus(''error'')}%*'                    "Errors count
-  let l:statusline .= '%#DiffText#%{AleStatus(''warning'')}%*'                  "Warning count
+  let l:statusline .= '%#Search#%{AleStatus(''warning'')}%*'                    "Warning count
   return l:statusline
 endfunction
 
-hi User1 guifg=#504945 gui=bold
-let s:bg3 = synIDattr(synIDtrans(hlID('GruvboxBg3')), 'fg')
-let s:fg1 = synIDattr(synIDtrans(hlID('GruvboxFg1')), 'fg')
-exe 'hi User2 guifg='.s:fg1.' guibg='.s:bg3
-hi User3 guifg=#ebdbb2 guibg=#fb4934 gui=NONE
+function! s:set_user_colors() abort
+  hi link jsFuncCall GruvboxBlue
+  hi link ALEVirtualTextError GruvboxRed
+  hi link ALEVirtualTextWarning GruvboxYellow
+  hi link ALEVirtualTextInfo GruvboxBlue
+  hi Operator guifg=NONE guibg=NONE
+  hi User1 guifg=#504945 gui=bold
+  let s:bg3 = synIDattr(synIDtrans(hlID('GruvboxBg3')), 'fg')
+  let s:fg1 = synIDattr(synIDtrans(hlID('GruvboxFg1')), 'fg')
+  exe 'hi User2 guifg='.s:fg1.' guibg='.s:bg3
+  hi User3 guifg=#ebdbb2 guibg=#fb4934 gui=NONE
+
+  hi! DiffAdd guifg=#b8bb26 gui=NONE
+  hi! DiffChange guifg=#b8bb26 gui=NONE
+  hi! DiffText guifg=#8ec07c guibg=#323232 gui=NONE
+  hi! DiffDelete guifg=#fb4934 gui=NONE
+endfunction
 
 function! AleStatus(type) abort
   let l:count = ale#statusline#Count(bufnr(''))
