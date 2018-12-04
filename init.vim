@@ -4,7 +4,6 @@ function! s:packager_init() abort
   call packager#init()
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install' })
-  call packager#add('kristijanhusak/vim-project-lint')
   call packager#add('kristijanhusak/defx-git')
   call packager#add('kristijanhusak/defx-icons')
   call packager#add('Shougo/defx.nvim')
@@ -231,7 +230,6 @@ function! Statusline(is_bufenter) abort
   let l:statusline .= ' %r'                                                     "Read only indicator
   let l:statusline .= ' %q'                                                     "Quickfix list indicator
   let l:statusline .= ' %='                                                     "Start right side layout
-  let l:statusline .= ' %{project_lint#statusline()}'                           "Show status of project lint
   let l:statusline .= ' %{anzu#search_status()}'                                "Search status
   let l:statusline .= ' %2* %{&ft}'                                             "Filetype
   let l:statusline .= ' │ %p%%'                                                 "Percentage
@@ -378,7 +376,7 @@ endfunction
 
 function! s:defx_open(...) abort
   let l:opts = get(a:, 1, {})
-  let l:args = '-winwidth=40 -direction=topleft -fnamewidth=50 -columns=project_lint:git:icons:filename:size:time'
+  let l:args = '-winwidth=40 -direction=topleft -fnamewidth=50 -columns=git:icons:filename:size:time'
   let l:is_opened = bufwinnr('defx') > 0
 
   if has_key(l:opts, 'split')
