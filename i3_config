@@ -160,8 +160,8 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 
-set_from_resource $output1 i3wm.monitor1 DVI-D-1
-set_from_resource $output2 i3wm.monitor2 HDMI-3
+set_from_resource $output1 i3wm.monitor1 DVI-D-0
+set_from_resource $output2 i3wm.monitor2 HDMI-2
 
 workspace $ws1 output $output1
 workspace $ws2 output $output2
