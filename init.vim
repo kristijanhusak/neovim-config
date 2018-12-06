@@ -443,7 +443,7 @@ function! s:completion() abort
 endfunction
 
 function! s:file_completion() abort
-  let l:file_path = matchstr(getline('.'), '\f*\%'.col('.').'c')
+  let l:file_path = matchstr(getline('.'), '[\.\/~]\f*\%'.col('.').'c')
   if empty(l:file_path) || l:file_path !~? '\/'
     return 0
   endif
