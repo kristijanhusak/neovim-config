@@ -552,11 +552,58 @@ xnoremap <s-tab> <gv
 xnoremap <tab> >gv
 
 " Resize window with shift + and shift - or use for diffget/diffput in diff mode
-nnoremap <expr> + &diff ? ':diffput<BAR>diffupdate<CR>' : '<c-w>5>'
-nnoremap <expr> _ &diff ? ':diffget<BAR>diffupdate<CR>' : '<c-w>5<'
-xnoremap <expr> + &diff ? ':diffput<BAR>diffupdate<CR>' : '+'
-xnoremap <expr> _ &diff ? ':diffget<BAR>diffupdate<CR>' : '_'
+nnoremap <expr> _ &diff ? ":\<C-u>call \<SID>diff_get_map()\<CR>" : '<c-w>5<'
+xnoremap <expr> _ &diff ? ":\<C-u>call \<SID>diff_get_map()\<CR>" : '_'
+nnoremap <expr> + &diff ? ":\<C-u>call \<SID>diff_put_map()\<CR>" : '<c-w>5>'
+xnoremap <expr> + &diff ? ":\<C-u>call \<SID>diff_put_map()\<CR>" : '+'
 nnoremap <expr> R &diff ? ':diffupdate<CR>' : 'R'
+
+function! s:diff_get_map() abort
+  let l:is_conflict = winnr('$') >= 3
+  if !l:is_conflict
+    return ':diffget<BAR>diffupdate<CR>'
+  endif
+
+  let l:bufname = bufname('')
+  if l:bufname =~? '^fugitive'
+    return ''
+  endif
+
+  let l:other_windows = {}
+
+  for l:winnr in range(1, winnr('$'))
+    let l:win_bufname = bufname(winbufnr(l:winnr))
+    if getbufvar(l:win_bufname, '&diff') && l:win_bufname !=? l:bufname
+      let l:other_windows[l:win_bufname] = winbufnr(l:winnr)
+    endif
+  endfor
+
+  let l:keys = keys(l:other_windows)
+  call inputsave()
+  let l:selected = inputlist(l:keys)
+  call inputrestore()
+
+  let l:target_bufname = l:keys[l:selected - 1]
+  let l:target_bufnr = l:other_windows[l:target_bufname]
+
+  return ':diffget '.l:target_bufnr.'<BAR>diffupdate<CR>'
+endfunction
+
+function! s:diff_put_map() abort
+  let l:is_conflict = winnr('$') >= 3
+  if !l:is_conflict
+    return ':diffput<BAR>diffupdate<CR>'
+  endif
+
+  let l:bufname = bufname('')
+  if l:bufname !~? '^fugitive'
+    return ''
+  endif
+
+  let l:target_window = filter(range(1, winnr('$')), 'getwinvar(v:val, "&diff")')
+  let l:target_bufnr = winbufnr(l:target_window)
+  return ':diffput '.l:target_bufnr.'<BAR>diffupdate<CR>'
+endfunction
 
 " Better search status
 nmap n <Plug>(anzu-n)zz
