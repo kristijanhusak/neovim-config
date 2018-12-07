@@ -434,6 +434,7 @@ function! s:completion() abort
     return "\<TAB>"
   endif
 
+  set completeopt-=noselect
   let l:file_complete = s:file_completion()
   if l:file_complete
     return ''
@@ -454,7 +455,11 @@ function! s:file_completion() abort
 
   if empty(l:values)
     echo 'No file matches.'
-    return 1
+    return 0
+  endif
+
+  if len(l:values) > 1
+    set completeopt+=noselect
   endif
 
   let l:remove_ext = &filetype =~? '^javascript'
