@@ -17,9 +17,9 @@ install_neovim() {
   echo "Setting up neovim..." \
   && rm -rf ~/.config/nvim ~/.fzf \
   && git clone https://github.com/kristijanhusak/vim-packager.git ~/.config/nvim/pack/packager/opt/vim-packager \
-  && ln -s $(pwd)/snippets ~/.config/nvim/snippets \
+  && ln -s $(pwd)/partials ~/.config/nvim/partials \
   && ln -s $(pwd)/init.vim ~/.config/nvim/init.vim \
-  && nvim -c 'call PackagerInit() | call packager#install({ "on_finish": "UpdateRemotePlugins | qa" })'
+  && nvim -c 'PackagerInstall'
 }
 
 install_ripgrep() {
