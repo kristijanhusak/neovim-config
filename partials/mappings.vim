@@ -82,6 +82,9 @@ nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 
 nnoremap gx :call netrw#BrowseX(expand('<cfile>'), netrw#CheckIfRemote())<CR>
 
+nnoremap [q :cprevious<CR>
+nnoremap ]q :cnext<CR>
+
 function! s:close_buffer(...) abort
   if &buftype !=? ''
     return execute('q!')

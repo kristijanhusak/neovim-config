@@ -58,6 +58,8 @@ nmap <Leader>F <Plug>CtrlSFCwordPath
 
 " Reformat and fix linting errors
 nnoremap <Leader>R :ALEFix<CR>
+nnoremap [e :ALEPrevious<CR>
+nnoremap ]e :ALENext<CR>
 
 " Fuzzy finder
 nnoremap <C-p> :Files<CR>
