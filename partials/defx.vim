@@ -15,7 +15,7 @@ endfunction
 
 function! s:defx_open(...) abort
   let l:opts = get(a:, 1, {})
-  let l:args = '-winwidth=40 -direction=topleft -fnamewidth=50 -columns=git:icons:filename:size:time'
+  let l:args = '-winwidth=40 -direction=topleft -fnamewidth=80 -columns=git:icons:filename:size:time'
   let l:is_opened = bufwinnr('defx') > 0
 
   if has_key(l:opts, 'split')
