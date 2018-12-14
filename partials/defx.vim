@@ -11,6 +11,7 @@ function! s:start_defx() abort
   if isdirectory(l:buffer_path)
     call s:defx_open({ 'dir': l:buffer_path })
   endif
+  call fugitive#detect(l:buffer_path)
 endfunction
 
 function! s:defx_open(...) abort
