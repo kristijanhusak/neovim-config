@@ -14,6 +14,7 @@ plugins=(
   copydir
   copyfile
   dircycle
+  vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -52,7 +53,8 @@ setopt HIST_IGNORE_ALL_DUPS
 
 # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
 # zsh-autosuggestions is designed to be unobtrusive)
-bindkey '^t' autosuggest-execute
+export KEYTIMEOUT=1
+
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
 [ -f ~/.zsh_secret ] && source ~/.zsh_secret
 
