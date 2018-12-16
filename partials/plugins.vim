@@ -2,9 +2,14 @@ function! s:packager_init() abort
   packadd vim-packager
   call packager#init()
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-  call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install' })
-  call packager#add('kristijanhusak/defx-git')
-  call packager#add('kristijanhusak/defx-icons')
+  call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install', 'type': 'opt' })
+  call packager#add('kristijanhusak/defx-git', { 'type': 'opt' })
+  call packager#add('kristijanhusak/defx-icons', { 'type': 'opt' })
+  call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries', 'type': 'opt' })
+  call packager#add('mgedmin/python-imports.vim', { 'type': 'opt' })
+  call packager#add('prabirshrestha/async.vim', { 'type': 'opt' })
+  call packager#add('prabirshrestha/vim-lsp', { 'type': 'opt' })
+  call packager#add('phpactor/phpactor', { 'do': 'composer install --no-dev', 'type': 'opt' })
   call packager#add('Shougo/defx.nvim')
   call packager#add('w0rp/ale')
   call packager#add('Raimondi/delimitMate')
@@ -21,18 +26,13 @@ function! s:packager_init() abort
   call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
   call packager#add('junegunn/fzf.vim')
   call packager#add('ludovicchabant/vim-gutentags')
-  call packager#add('phpactor/phpactor', { 'do': 'composer install --no-dev' })
   call packager#add('vimwiki/vimwiki')
   call packager#add('editorconfig/editorconfig-vim')
   call packager#add('morhetz/gruvbox')
   call packager#add('andymass/vim-matchup')
   call packager#add('haya14busa/vim-asterisk')
   call packager#add('osyo-manga/vim-anzu')
-  call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
-  call packager#add('mgedmin/python-imports.vim')
   call packager#add('dyng/ctrlsf.vim')
-  call packager#add('prabirshrestha/async.vim')
-  call packager#add('prabirshrestha/vim-lsp')
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()
@@ -41,6 +41,16 @@ command! PackagerClean call s:packager_init() | call packager#clean()
 command! PackagerStatus call s:packager_init() | call packager#status()
 
 let g:mapleader = ','                                                           "Change leader to a comma
+
+augroup packager_filetype
+  autocmd!
+  autocmd FileType javascript packadd vim-js-file-import
+  autocmd FileType defx packadd defx-git | packadd defx-icons
+  autocmd FileType go packadd vim-go
+  autocmd FileType python packadd python-imports.vim
+  autocmd FileType javascript,python,go packadd async.vim | packadd vim-lsp | call lsp#enable()
+  autocmd FileType php packadd phpactor
+augroup END
 
 " Better search status
 nnoremap <silent><Leader><space> :AnzuClearSearchStatus<BAR>noh<CR>
