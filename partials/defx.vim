@@ -1,21 +1,21 @@
 augroup vimrc_defx
+  autocmd!
   autocmd FileType defx call s:defx_settings()                                  "Defx mappings
-  autocmd VimEnter * call s:start_defx()                                        "Vim startup settings
+  autocmd BufEnter * call s:defx_open({ 'dir': expand('<afile>') })
+  autocmd VimEnter * call fugitive#detect(expand('<afile>'))
 augroup END
 
 nnoremap <silent><Leader>n :call <sid>defx_open({ 'split': v:true })<CR>
 nnoremap <silent><Leader>hf :call <sid>defx_open({ 'split': v:true, 'find_current_file': v:true })<CR>
 
-function! s:start_defx() abort
-  let l:buffer_path = expand(printf('#%s:p', expand('<abuf>')))
-  if isdirectory(l:buffer_path)
-    call s:defx_open({ 'dir': l:buffer_path })
-  endif
-  call fugitive#detect(l:buffer_path)
-endfunction
-
 function! s:defx_open(...) abort
   let l:opts = get(a:, 1, {})
+  let l:path = get(l:opts, 'dir', getcwd())
+
+  if !isdirectory(l:path)
+    return
+  endif
+
   let l:args = '-winwidth=40 -direction=topleft -fnamewidth=80 -columns=git:icons:filename:size:time'
   let l:is_opened = bufwinnr('defx') > 0
 
@@ -29,7 +29,7 @@ function! s:defx_open(...) abort
     endif
     call execute(printf('Defx %s -search=%s %s', l:args, expand('%:p'), expand('%:p:h')))
   else
-    call execute(printf('Defx -toggle %s %s', l:args, get(l:opts, 'dir', getcwd())))
+    call execute(printf('Defx -toggle %s %s', l:args, l:path))
     if l:is_opened
       call execute('wincmd p')
     endif
