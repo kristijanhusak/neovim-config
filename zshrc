@@ -15,6 +15,7 @@ plugins=(
   copyfile
   dircycle
   vi-mode
+  jira
 )
 
 source $ZSH/oh-my-zsh.sh
