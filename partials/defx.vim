@@ -1,7 +1,7 @@
 augroup vimrc_defx
   autocmd!
   autocmd FileType defx call s:defx_settings()                                  "Defx mappings
-  autocmd BufEnter * call s:defx_open({ 'dir': expand('<afile>') })
+  autocmd VimEnter * call s:defx_open({ 'dir': expand('<afile>') })
   autocmd VimEnter * call fugitive#detect(expand('<afile>'))
 augroup END
 
@@ -12,7 +12,7 @@ function! s:defx_open(...) abort
   let l:opts = get(a:, 1, {})
   let l:path = get(l:opts, 'dir', getcwd())
 
-  if !isdirectory(l:path)
+  if !isdirectory(l:path) || &filetype ==? 'defx'
     return
   endif
 
