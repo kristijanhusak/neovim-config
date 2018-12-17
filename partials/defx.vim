@@ -39,8 +39,8 @@ function! s:defx_open(...) abort
 endfunction
 
 function! s:defx_context_menu() abort
-  let l:actions = ['new_file', 'new_directory', 'rename', 'copy', 'move', 'paste', 'remove']
-  let l:selection = confirm('Action?', "&New file\nNew &Folder\n&Rename\n&Copy\n&Move\n&Paste\n&Delete")
+  let l:actions = ['new_multiple_files', 'rename', 'copy', 'move', 'paste', 'remove']
+  let l:selection = confirm('Action?', "&New file/directory\n&Rename\n&Copy\n&Move\n&Paste\n&Delete")
   silent exe 'redraw'
 
   return feedkeys(defx#do_action(l:actions[l:selection - 1]))
