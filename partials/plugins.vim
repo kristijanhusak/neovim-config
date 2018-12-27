@@ -33,6 +33,7 @@ function! s:packager_init() abort
   call packager#add('haya14busa/vim-asterisk')
   call packager#add('osyo-manga/vim-anzu')
   call packager#add('dyng/ctrlsf.vim')
+  call packager#add('kronos-io/kronos.vim')
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()
@@ -46,7 +47,7 @@ augroup packager_filetype
   autocmd!
   autocmd FileType javascript packadd vim-js-file-import
   autocmd FileType defx packadd defx-git | packadd defx-icons
-  autocmd FileType go packadd vim-go
+  autocmd FileType go packadd! vim-go
   autocmd FileType python packadd python-imports.vim
   autocmd FileType javascript,python,go packadd async.vim | packadd vim-lsp | call lsp#enable()
   autocmd FileType php packadd phpactor
@@ -103,3 +104,5 @@ let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   
 let g:matchup_matchparen_deferred = 1                                           "Defer matchup highlights to allow better cursor movement performance
 
 let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
+
+let g:kronos_database = expand('~/Dropbox/kronos')
