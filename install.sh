@@ -53,24 +53,6 @@ install_diff_so_fancy() {
   fi
 }
 
-install_manjaro() {
-  local yaourt_installed=$(which yaourt)
-  if [ ! -f ~/.yaourtrc ]; then
-    echo "Setting up  i3..." \
-      && sudo pacman -S thunar thunar-archive-plugin python-pip gnome-terminal keychain rofi \
-      && yaourt -S google-chrome neovim-git zsh-completions \
-      && pip install neovim --user \
-      && pip install i3-py --user \
-      && curl -fLo ~/.i3/focus_win.py https://gist.githubusercontent.com/syl20bnr/6623972/raw/fdd3e1f0fd7efb8e230ec89ca0b5f800ee135412/i3_focus_win.py \
-      && chmod +x ~/.i3/focus_win.py \
-      && rm -f ~/.i3/config \
-      && ln -s $(pwd)/i3_config ~/.i3/config \
-      && echo "NOCONFIRM=1\nBUILD_NOCONFIRM=1\nEDITFILES=0" > ~/.yaourtrc
-  else
-    echo "Manjaro is already set up."
-  fi
-}
-
 install_kitty() {
   local kitty_installed=$(which kitty)
   if [[ -z $kitty_installed ]]; then
@@ -89,7 +71,6 @@ if [[ -z $1 ]]; then
   read answer
   if echo "$answer" | grep -iq "^y" ;then
     echo "Installing dependencies..." \
-    && install_manjaro \
     && install_oh_my_zsh \
     && install_neovim \
     && install_ripgrep \

@@ -1,11 +1,14 @@
 Neovim and terminal configuration
 ------
 
-This is my Neovim editor setup, with zsh and tmux configurations.
+**NOTE**: I recently switched to [Manjaro i3](https://manjaro.github.io/homepage/public/download/i3/)
+which removed my necessity for tmux. If you want to see my old setup with tmux, checkout [tmux](https://github.com/kristijanhusak/neovim-config/tree/tmux) branch.
+
+This is my Neovim editor setup, with zsh and i3 configurations.
 Feel free to fork it
 and submit a pull request if you found any bug.
 
-**Warning**: Install script removes all previous configuration (zshrc, oh-my-zsh, nvim, tmux)
+**Warning**: Install script removes all previous configuration (zshrc, oh-my-zsh, nvim, i3)
 
 Installation
 -----------
@@ -15,14 +18,19 @@ Installation
     $ chmod +x ./install.sh
     $ ./install.sh
     $ nvim
-    $ :UpdateRemotePlugins
 
 Plugins
 ----------------
 
 * [kristijanhusak/vim-packager](https://github.com/kristijanhusak/vim-packager)
-* [Shougo/deoplete.nvim](https://github.com/Shougo/deoplete.nvim)
-* [Shougo/neosnippet](https://github.com/Shougo/neosnippet)
+* [kristijanhusak/vim-js-file-import](https://github.com/kristijanhusak/vim-js-file-import)
+* [kristijanhusak/defx-git](https://github.com/kristijanhusak/defx-git)
+* [kristijanhusak/defx-icons](https://github.com/kristijanhusak/defx-icons)
+* [fatih/vim-go](https://github.com/fatih/vim-go)
+* [mgedmin/python-imports.vim](https://github.com/mgedmin/python-imports.vim)
+* [prabirshrestha/async.vim](https://github.com/prabirshrestha/async.vim)
+* [prabirshrestha/vim-lsp](https://github.com/prabirshrestha/vim-lsp)
+* [phpactor/phpactor](https://github.com/phpactor/phpactor)
 * [Shougo/defx.nvim](https://github.com/Shougo/defx.nvim)
 * [w0rp/ale](https://github.com/w0rp/ale)
 * [Raimondi/delimitMate](https://github.com/Raimondi/delimitMate)
@@ -30,33 +38,28 @@ Plugins
 * [tpope/vim-surround](https://github.com/tpope/vim-surround)
 * [tpope/vim-repeat](https://github.com/tpope/vim-repeat)
 * [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
+* [tpope/vim-sleuth](https://github.com/tpope/vim-sleuth)
+* [tpope/vim-endwise](https://github.com/tpope/vim-endwise)
+* [lambdalisue/vim-backslash](https://github.com/lambdalisue/vim-backslash)
 * [AndrewRadev/splitjoin.vim](https://github.com/AndrewRadev/splitjoin.vim)
 * [airblade/vim-gitgutter](https://github.com/airblade/vim-gitgutter)
 * [sheerun/vim-polyglot](https://github.com/sheerun/vim-polyglot)
-* [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)
 * [junegunn/fzf](https://github.com/junegunn/fzf)
 * [junegunn/fzf.vim](https://github.com/junegunn/fzf.vim)
 * [ludovicchabant/vim-gutentags](https://github.com/ludovicchabant/vim-gutentags)
-* [phpactor/phpactor](https://github.com/phpactor/phpactor)
-* [kristijanhusak/vim-js-file-import](https://github.com/kristijanhusak/vim-js-file-import)
-* [kristijanhusak/deoplete-phpactor](https://github.com/kristijanhusak/deoplete-phpactor)
-* [kristijanhusak/defx-git](https://github.com/kristijanhusak/defx-git)
 * [vimwiki/vimwiki](https://github.com/vimwiki/vimwiki)
 * [editorconfig/editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
 * [morhetz/gruvbox](https://github.com/morhetz/gruvbox)
 * [andymass/vim-matchup](https://github.com/andymass/vim-matchup)
 * [haya14busa/vim-asterisk](https://github.com/haya14busa/vim-asterisk)
 * [osyo-manga/vim-anzu](https://github.com/osyo-manga/vim-anzu)
-* [autozimu/LanguageClient-neovim](https://github.com/autozimu/LanguageClient-neovim)
-* [wsdjeg/FlyGrep.vim](https://github.com/wsdjeg/FlyGrep.vim)
-* [fatih/vim-go](https://github.com/fatih/vim-go)
-* [junegunn/vim-peekaboo](https://github.com/junegunn/vim-peekaboo)
-* [mgedmin/python-imports.vim](https://github.com/mgedmin/python-imports.vim)
+* [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)
+* [kronos-io/kronos.vim](https://github.com/kronos-io/kronos.vim)
 
 Font used:
-* current - [Input mono condensed](http://input.fontbureau.com/)
+* Current - [Iosevka](https://github.com/be5invis/Iosevka)
 * previous fonts
-  * [Iosevka](https://github.com/be5invis/Iosevka)
+  * [Input mono condensed](http://input.fontbureau.com/)
   * [Inconsolata for powerline](https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20for%20Powerline%20Nerd%20Font%20Complete.otf)
 
 License
