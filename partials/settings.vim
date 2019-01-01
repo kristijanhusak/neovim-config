@@ -57,6 +57,7 @@ augroup vimrc
   autocmd FileType vim inoremap <buffer><silent><C-Space> <C-x><C-v>
   autocmd OptionSet diff if v:option_new | syntax off | endif
   autocmd BufEnter * if !&diff && !exists('g:syntax_on') | syntax on | endif
+  autocmd FileType markdown setlocal spell
 augroup END
 
 augroup numbertoggle

@@ -5,5 +5,4 @@ augroup php
   autocmd FileType php vmap <buffer><silent><Leader>ie :<C-U>call phpactor#ExtractMethod()<CR>
   autocmd FileType php nmap <buffer><silent><C-]> :call phpactor#GotoDefinition()<CR>
   autocmd FileType php setlocal omnifunc=phpactor#Complete
-  autocmd FileType php echom 'SOURCED PHP'
 augroup END
