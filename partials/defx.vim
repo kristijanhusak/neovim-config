@@ -1,12 +1,25 @@
 augroup vimrc_defx
   autocmd!
-  autocmd FileType defx call s:defx_settings()                                  "Defx mappings
-  autocmd VimEnter * call s:defx_open({ 'dir': expand('<afile>') })
+  autocmd FileType defx call s:defx_mappings()                                  "Defx mappings
+  autocmd VimEnter * call s:setup_defx()
   autocmd VimEnter * call fugitive#detect(expand('<afile>'))
 augroup END
 
 nnoremap <silent><Leader>n :call <sid>defx_open({ 'split': v:true })<CR>
 nnoremap <silent><Leader>hf :call <sid>defx_open({ 'split': v:true, 'find_current_file': v:true })<CR>
+
+function! s:setup_defx() abort
+  call defx#custom#column('filename', {
+        \ 'min_width': 80,
+        \ 'max_width': 80,
+        \ })
+
+  call defx#custom#option('_', {
+        \ 'columns': 'git:icons:filename:size:time',
+        \ })
+
+  call s:defx_open({ 'dir': expand('<afile>') })
+endfunction
 
 function! s:defx_open(...) abort
   let l:opts = get(a:, 1, {})
@@ -16,7 +29,7 @@ function! s:defx_open(...) abort
     return
   endif
 
-  let l:args = '-winwidth=40 -direction=topleft -fnamewidth=80 -columns=git:icons:filename:size:time'
+  let l:args = '-winwidth=40 -direction=topleft'
   let l:is_opened = bufwinnr('defx') > 0
 
   if has_key(l:opts, 'split')
@@ -46,7 +59,7 @@ function! s:defx_context_menu() abort
   return feedkeys(defx#do_action(l:actions[l:selection - 1]))
 endfunction
 
-function! s:defx_settings() abort
+function! s:defx_mappings() abort
   nnoremap <silent><buffer>m :call <sid>defx_context_menu()<CR>
   nnoremap <silent><buffer><expr> o defx#do_action('drop')
   nnoremap <silent><buffer><expr> <CR> defx#do_action('drop')
