@@ -32,7 +32,7 @@ install_ripgrep() {
 
 install_ctags() {
   local ctags_installed=$(which ctags)
-  if [[ -z $ctags_installed ]]; then
+  if [[ -z $ctags_installed || ! -z $1 ]]; then
     echo "Installing universal ctags..." \
     && rm -rf ./ctags \
     && git clone https://github.com/universal-ctags/ctags \
@@ -44,7 +44,7 @@ install_ctags() {
 
 install_diff_so_fancy() {
   local dif_so_fancy_installed=$(which diff-so-fancy)
-  if [[ -z $dif_so_fancy_installed ]]; then
+  if [[ -z $dif_so_fancy_installed || ! -z $1 ]]; then
     echo "Installing diff-so-fancy..." \
     && npm install -g diff-so-fancy \
     && git config --global core.pager "diff-so-fancy | less --tabs=4 -R"
@@ -55,7 +55,7 @@ install_diff_so_fancy() {
 
 install_kitty() {
   local kitty_installed=$(which kitty)
-  if [[ -z $kitty_installed ]]; then
+  if [[ -z $kitty_installed || ! -z $1 ]]; then
     echo "Installing kitty..." \
     && rm -rf ~/.local/kitty.app ~/.config/kitty \
     && sudo pacman -S kitty \
@@ -80,5 +80,5 @@ if [[ -z $1 ]]; then
     && echo "Finished installation."
   fi
 else
-  "install_$1"
+  "install_$1" $1
 fi
