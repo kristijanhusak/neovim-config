@@ -33,6 +33,7 @@ function! s:packager_init() abort
   call packager#add('haya14busa/vim-asterisk')
   call packager#add('osyo-manga/vim-anzu')
   call packager#add('dyng/ctrlsf.vim')
+  call packager#add('arcticicestudio/nord-vim')
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()

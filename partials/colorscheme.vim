@@ -6,16 +6,22 @@ let g:gruvbox_italic = 1                                                        
 let g:gruvbox_invert_selection = 0                                              "Do not invert selection in Gruvbox colorscheme
 let g:gruvbox_sign_column = 'bg0'                                               "Use default bg color in sign column
 
+let g:nord_italic = 1
+let g:nord_underline = 1
+let g:nord_italic_comments = 1
+let g:nord_comment_brightness = 10
+let g:nord_uniform_diff_background = 1
+
 filetype plugin indent on
 syntax on
 silent! colorscheme gruvbox
 
 augroup vimrc_colorscheme
   autocmd!
-  autocmd Syntax,ColorScheme * call s:set_user_colors()
+  autocmd Syntax,ColorScheme * call call('s:set_'.g:colors_name.'_colors', [])
 augroup END
 
-function! s:set_user_colors() abort
+function! s:set_gruvbox_colors() abort
   hi link jsFuncCall GruvboxBlue
   hi link ALEVirtualTextError GruvboxRed
   hi link ALEVirtualTextWarning GruvboxYellow
@@ -31,5 +37,15 @@ function! s:set_user_colors() abort
   hi! link DiffChange GruvboxGreen
   hi! link DiffDelete GruvboxRed
   hi DiffText guibg=#92931d guifg=#111111 gui=NONE
+endfunction
+
+function! s:set_nord_colors() abort
+  hi ALEVirtualTextError guifg=#BF616A
+  hi ALEVirtualTextWarning guifg=#EBCB8B
+  hi Operator guifg=NONE guibg=NONE
+  hi User1 guifg=#3B4252 gui=bold
+  hi User2 guifg=#2E3440 guibg=#5E81AC
+
+  hi link User3 Error
 endfunction
 

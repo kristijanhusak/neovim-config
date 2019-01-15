@@ -60,7 +60,9 @@ install_kitty() {
     && rm -rf ~/.local/kitty.app ~/.config/kitty \
     && sudo pacman -S kitty \
     && mkdir -p ~/.config/kitty \
-    && ln -s $(pwd)/kitty.conf ~/.config/kitty/kitty.conf
+    && ln -s $(pwd)/kitty.conf ~/.config/kitty/kitty.conf \
+    && ln -s $(pwd)/nord.conf ~/.config/kitty/nord.conf \
+    && ln -s $(pwd)/gruvbox.conf ~/.config/kitty/gruvbox.conf
   else
     echo "Kitty already installed."
   fi
