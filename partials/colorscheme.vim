@@ -14,7 +14,7 @@ let g:nord_uniform_diff_background = 1
 
 filetype plugin indent on
 syntax on
-silent! colorscheme gruvbox
+silent! colorscheme $COLORSCHEME
 
 augroup vimrc_colorscheme
   autocmd!
