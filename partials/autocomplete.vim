@@ -1,9 +1,29 @@
 set completeopt-=preview                                                        "Disable preview window for autocompletion
 set pumheight=15                                                                "Maximum number of entries in autocomplete popup
 
-inoremap <C-space> <C-x><C-o>
+let g:coc_user_config = {
+      \ 'coc.preferences.diagnostic.displayByAle': v:true,
+      \ 'prettier.printWidth': 100,
+      \ 'prettier.singleQuote': v:true
+      \ }
+
+let g:coc_global_extensions = [
+      \ 'coc-css',
+      \ 'coc-html',
+      \ 'coc-tag',
+      \ 'coc-json',
+      \ 'coc-pyls',
+      \ 'coc-eslint',
+      \ 'coc-jest',
+      \ 'coc-prettier',
+      \ 'coc-tsserver',
+      \ 'coc-gocode'
+      \ ]
+
 inoremap <silent><TAB> <C-R>=<sid>completion()<CR>
 inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+vmap <leader>r <Plug>(coc-format-selected)
+nmap <leader>r <Plug>(coc-format-selected)
 
 function! s:completion() abort
   if pumvisible()
@@ -15,41 +35,7 @@ function! s:completion() abort
     return "\<TAB>"
   endif
 
-  set completeopt-=noselect
-  let l:file_complete = s:file_completion()
-  if l:file_complete
-    return ''
-  endif
-
-  return "\<C-n>"
-endfunction
-
-function! s:file_completion() abort
-  let l:file_path = matchstr(getline('.'), '[\.\/~]\f*\%'.col('.').'c')
-  if empty(l:file_path) || l:file_path !~? '\/'
-    return 0
-  endif
-
-  let l:start = l:file_path[0] !~? '^\(\~\|\/\)' ? expand('%:p:h').'/' : ''
-  let l:dir = matchstr(l:file_path, '.*\/\ze[^\/]*$')
-  let l:values = glob(printf('%s%s*', l:start , l:file_path), 0, 1)
-
-  if empty(l:values)
-    echo 'No file matches.'
-    return 0
-  endif
-
-  if len(l:values) > 1
-    set completeopt+=noselect
-  endif
-
-  let l:remove_ext = &filetype =~? '^javascript'
-  call map(l:values, {-> {
-        \ 'word' : fnamemodify(v:val, ':t'.(l:remove_ext ? ':r' : '')),
-        \ 'abbr' : fnamemodify(v:val, ':t')
-        \ }})
-  call complete(col('.') - (len(l:file_path) - len(l:dir)), l:values)
-  return 1
+  return coc#refresh()
 endfunction
 
 set wildmode=list:full

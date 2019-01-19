@@ -55,8 +55,8 @@ augroup vimrc
   autocmd InsertLeave * set cul                                                 "Add cursorline highlight in normal mode
   autocmd FocusGained,BufEnter * checktime                                      "Refresh file when vim gets focus
   autocmd FileType vim inoremap <buffer><silent><C-Space> <C-x><C-v>
-  autocmd OptionSet diff if v:option_new | syntax off | endif
-  autocmd BufEnter * if !&diff && !exists('g:syntax_on') | syntax on | endif
+"  autocmd OptionSet diff if v:option_new | syntax off | endif
+"  autocmd BufEnter * if !&diff && !exists('g:syntax_on') | syntax on | endif
   autocmd FileType markdown setlocal spell
 augroup END
 

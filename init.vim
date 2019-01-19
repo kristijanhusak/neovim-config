@@ -3,7 +3,6 @@ runtime! partials/settings.vim
 runtime! partials/colorscheme.vim
 runtime! partials/statusline.vim
 runtime! partials/filetype/*.vim
-runtime! partials/lsp.vim
 runtime! partials/autocomplete.vim
 runtime! partials/defx.vim
 runtime! partials/mappings.vim
