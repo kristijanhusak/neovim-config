@@ -27,7 +27,7 @@ function! Statusline(is_bufenter) abort
   let l:statusline .= ' │ %c'                                                   "Column number
   let l:statusline .= ' │ %l/%L'                                                "Current line number/Total line numbers
   let l:statusline .= ' %*%#Error#%{AleStatus(''error'')}%*'                    "Errors count
-  let l:statusline .= '%#Search#%{AleStatus(''warning'')}%*'                    "Warning count
+  let l:statusline .= '%#WarningMsg#%{AleStatus(''warning'')}%*'                "Warning count
   return l:statusline
 endfunction
 

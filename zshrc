@@ -18,6 +18,8 @@ plugins=(
   jira
 )
 
+ENABLE_CORRECTION="true"
+
 source $ZSH/oh-my-zsh.sh
 . ~/z.sh
 
