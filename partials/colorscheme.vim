@@ -47,5 +47,6 @@ function! s:set_nord_colors() abort
   hi User2 guifg=#2E3440 guibg=#5E81AC
 
   hi link User3 Error
+  hi CocHighlightText guibg=#434C5E
 endfunction
 

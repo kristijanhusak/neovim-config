@@ -1,10 +1,20 @@
 set completeopt-=preview                                                        "Disable preview window for autocompletion
 set pumheight=15                                                                "Maximum number of entries in autocomplete popup
 
+augroup vimrc_autocomplete
+  autocmd!
+  autocmd CursorHoldI,CursorMovedI * call CocAction('showSignatureHelp')
+  autocmd CursorHold * silent call CocAction('highlight')
+augroup END
+
 let g:coc_user_config = {
       \ 'coc.preferences.diagnostic.displayByAle': v:true,
       \ 'prettier.printWidth': 100,
-      \ 'prettier.singleQuote': v:true
+      \ 'prettier.singleQuote': v:true,
+      \ 'coc.preferences.maxCompleteItemCount': 20,
+      \ 'coc.preferences.triggerCompletionWait': 80,
+      \ 'coc.preferences.hoverTarget': 'echo',
+      \ 'coc.preferences.triggerSignatureHelp': v:false
       \ }
 
 let g:coc_global_extensions = [
@@ -21,9 +31,16 @@ let g:coc_global_extensions = [
       \ ]
 
 inoremap <silent><TAB> <C-R>=<sid>completion()<CR>
-inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-vmap <leader>r <Plug>(coc-format-selected)
-nmap <leader>r <Plug>(coc-format-selected)
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+vmap <leader>lf <Plug>(coc-format-selected)
+nmap <leader>lf <Plug>(coc-format-selected)
+nmap <leader>lF <Plug>(coc-format)
+nmap <leader>ld <Plug>(coc-definition)
+nmap <leader>lc <Plug>(coc-declaration)
+nmap <leader>lg <Plug>(coc-implementation)
+nmap <leader>lu <Plug>(coc-references)
+nmap <leader>lr <Plug>(coc-rename)
+nmap <leader>lq <Plug>(coc-fix-current)
 
 function! s:completion() abort
   if pumvisible()
