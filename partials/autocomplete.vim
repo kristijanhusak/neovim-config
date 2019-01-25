@@ -4,7 +4,6 @@ set pumheight=15                                                                
 augroup vimrc_autocomplete
   autocmd!
   autocmd CursorHoldI,CursorMovedI * call CocAction('showSignatureHelp')
-  autocmd CursorHold * silent call CocAction('highlight')
 augroup END
 
 let g:coc_user_config = {
@@ -30,7 +29,10 @@ let g:coc_global_extensions = [
       \ 'coc-gocode'
       \ ]
 
-inoremap <silent><TAB> <C-R>=<sid>completion()<CR>
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 vmap <leader>lf <Plug>(coc-format-selected)
 nmap <leader>lf <Plug>(coc-format-selected)
@@ -42,17 +44,9 @@ nmap <leader>lu <Plug>(coc-references)
 nmap <leader>lr <Plug>(coc-rename)
 nmap <leader>lq <Plug>(coc-fix-current)
 
-function! s:completion() abort
-  if pumvisible()
-    return "\<C-n>"
-  endif
-
-  let l:col = col('.') - 1
-  if !l:col || getline('.')[l:col - 1] =~? '\s'
-    return "\<TAB>"
-  endif
-
-  return coc#refresh()
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 set wildmode=list:full
