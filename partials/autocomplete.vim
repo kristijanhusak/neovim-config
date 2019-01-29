@@ -1,11 +1,6 @@
 set completeopt-=preview                                                        "Disable preview window for autocompletion
 set pumheight=15                                                                "Maximum number of entries in autocomplete popup
 
-augroup vimrc_autocomplete
-  autocmd!
-  autocmd CursorHoldI,CursorMovedI * call CocAction('showSignatureHelp')
-augroup END
-
 let g:coc_user_config = {
       \ 'coc.preferences.diagnostic.enable': v:false,
       \ 'prettier.printWidth': 100,
@@ -42,6 +37,7 @@ nmap <leader>lg <Plug>(coc-implementation)
 nmap <leader>lu <Plug>(coc-references)
 nmap <leader>lr <Plug>(coc-rename)
 nmap <leader>lq <Plug>(coc-fix-current)
+imap <silent><F2> <C-o>:call CocAction('showSignatureHelp')<CR>
 
 function! s:check_back_space() abort
   let col = col('.') - 1
