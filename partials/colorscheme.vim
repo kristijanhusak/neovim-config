@@ -48,5 +48,7 @@ function! s:set_nord_colors() abort
 
   hi link User3 Error
   hi CocHighlightText guibg=#434C5E
+  hi DiffChange guifg=#A3BE8C
+  hi DiffText gui=bold guibg=#A3BE8C guifg=#3B4252
 endfunction
 

@@ -7,7 +7,7 @@ augroup vimrc_autocomplete
 augroup END
 
 let g:coc_user_config = {
-      \ 'coc.preferences.diagnostic.displayByAle': v:true,
+      \ 'coc.preferences.diagnostic.enable': v:false,
       \ 'prettier.printWidth': 100,
       \ 'prettier.singleQuote': v:true,
       \ 'coc.preferences.maxCompleteItemCount': 20,
@@ -22,7 +22,6 @@ let g:coc_global_extensions = [
       \ 'coc-tag',
       \ 'coc-json',
       \ 'coc-pyls',
-      \ 'coc-eslint',
       \ 'coc-jest',
       \ 'coc-prettier',
       \ 'coc-tsserver',
