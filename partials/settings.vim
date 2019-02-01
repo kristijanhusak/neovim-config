@@ -30,7 +30,7 @@ set exrc                                                                        
 set secure                                                                      "Forbid autocmd in local vimrc
 set grepprg=rg\ --vimgrep                                                       "Use ripgrep for grepping
 set tagcase=smart                                                               "Use smarcase for tags
-set updatetime=500                                                              "Cursor hold timeout
+set updatetime=300                                                              "Cursor hold timeout
 set shortmess+=c                                                                "Disable completion menu messages in command line
 set undofile                                                                    "Keep undo history across sessions, by storing in file
 set noswapfile                                                                  "Disable creating swap file
