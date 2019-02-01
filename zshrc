@@ -1,7 +1,7 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME="cloud_kris"
+ZSH_THEME="lambda-mod"
 
 plugins=(
   git

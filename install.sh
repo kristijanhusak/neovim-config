@@ -9,6 +9,7 @@ install_oh_my_zsh() {
   && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
   && mkdir -p ~/.oh-my-zsh/custom/themes \
   && ln -s $(pwd)/cloud_kris.zsh-theme ~/.oh-my-zsh/custom/themes \
+  && ln -s $(pwd)/lambda-mod.zsh-theme ~/.oh-my-zsh/custom/themes \
   && rm -rf ~/z.sh \
   && curl -fLo ~/z.sh https://raw.githubusercontent.com/rupa/z/master/z.sh
 }
