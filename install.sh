@@ -69,6 +69,15 @@ install_kitty() {
   fi
 }
 
+install_i3blocks() {
+  rm -rf ~/.config/i3blocks \
+    && yaourt -S i3blocks-git kbdd-git \
+    && sudo pacman -S sysstat yad \
+    && mkdir -p ~/.config/i3blocks \
+    && ln -s $(pwd)/i3blocks_config ~/.config/i3blocks/config \
+    && git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks/i3blocks-contrib
+}
+
 if [[ -z $1 ]]; then
   echo -n "This will delete all your previous nvim, zsh settings. Proceed? (y/n)? "
   read answer
