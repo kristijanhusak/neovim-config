@@ -28,8 +28,7 @@ Plugins
 * [kristijanhusak/defx-icons](https://github.com/kristijanhusak/defx-icons)
 * [fatih/vim-go](https://github.com/fatih/vim-go)
 * [mgedmin/python-imports.vim](https://github.com/mgedmin/python-imports.vim)
-* [prabirshrestha/async.vim](https://github.com/prabirshrestha/async.vim)
-* [prabirshrestha/vim-lsp](https://github.com/prabirshrestha/vim-lsp)
+* [neoclide/coc.nvim](http://github.com/neoclide/coc.nvim)
 * [phpactor/phpactor](https://github.com/phpactor/phpactor)
 * [Shougo/defx.nvim](https://github.com/Shougo/defx.nvim)
 * [w0rp/ale](https://github.com/w0rp/ale)
@@ -54,7 +53,7 @@ Plugins
 * [haya14busa/vim-asterisk](https://github.com/haya14busa/vim-asterisk)
 * [osyo-manga/vim-anzu](https://github.com/osyo-manga/vim-anzu)
 * [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)
-* [kronos-io/kronos.vim](https://github.com/kronos-io/kronos.vim)
+* [arcticicestudio/nord-vim](https://github.com/arcticicestudio/nord-vim)
 
 Font used:
 * Current - [Iosevka](https://github.com/be5invis/Iosevka)

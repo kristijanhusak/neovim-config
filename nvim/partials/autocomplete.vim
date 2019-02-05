@@ -3,7 +3,7 @@ set pumheight=15                                                                
 
 augroup vimrc_autocomplete
   autocmd CursorHold * silent call CocActionAsync('highlight')
-  autocmd CursorHoldI,CursorMovedI * call CocActionAsync('showSignatureHelp')
+  autocmd CursorHoldI * call CocActionAsync('showSignatureHelp')
 augroup END
 
 let g:coc_user_config = {
@@ -11,9 +11,9 @@ let g:coc_user_config = {
       \ 'prettier.printWidth': 100,
       \ 'prettier.singleQuote': v:true,
       \ 'coc.preferences.maxCompleteItemCount': 20,
-      \ 'coc.preferences.triggerCompletionWait': 80,
       \ 'coc.preferences.hoverTarget': 'echo',
-      \ 'coc.preferences.triggerSignatureHelp': v:false
+      \ 'coc.preferences.triggerSignatureHelp': v:false,
+      \ 'coc.preferences.numberSelect': v:true,
       \ }
 
 let g:coc_global_extensions = [

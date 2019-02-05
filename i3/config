@@ -300,7 +300,7 @@ exec --no-startup-id dropbox
 exec --no-startup-id xautolock -time 10 -locker blurlock
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
-exec --no-startup-id "setxkbmap -layout 'us,rs' -variant ',latin' -option 'grp:ctrl_alt_toggle'"
+exec --no-startup-id "setxkbmap -layout 'us,rs' -variant ',latin' -option 'grp:lctrl_lwin_toggle'"
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
@@ -336,7 +336,7 @@ set_from_resource $term_color15    color15
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
 	i3bar_command i3bar
-	status_command SCRIPT_DIR=~/.config/i3blocks/i3blocks-contrib i3blocks
+	status_command SCRIPT_DIR=~/.i3/i3blocks/blocklets i3blocks -c ~/.i3/i3blocks/config
 	position bottom
 
 ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'

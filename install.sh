@@ -2,14 +2,13 @@
 install_oh_my_zsh() {
   echo "Setting up zsh..." \
   && rm -rf ~/.zshrc ~/.oh-my-zsh \
-  && ln -s $(pwd)/zshrc ~/.zshrc \
+  && ln -s $(pwd)/zsh/zshrc ~/.zshrc \
   && git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh \
   && chsh -s /bin/zsh \
   && git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
   && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
-  && mkdir -p ~/.oh-my-zsh/custom/themes \
-  && ln -s $(pwd)/cloud_kris.zsh-theme ~/.oh-my-zsh/custom/themes \
-  && ln -s $(pwd)/lambda-mod.zsh-theme ~/.oh-my-zsh/custom/themes \
+  && rm -rf ~/.oh-my-zsh/custom/themes \
+  && ln -s $(pwd)/zsh/themes ~/.oh-my-zsh/custom/themes \
   && rm -rf ~/z.sh \
   && curl -fLo ~/z.sh https://raw.githubusercontent.com/rupa/z/master/z.sh
 }
@@ -17,9 +16,8 @@ install_oh_my_zsh() {
 install_neovim() {
   echo "Setting up neovim..." \
   && rm -rf ~/.config/nvim ~/.fzf \
+  && ln -s $(pwd)/nvim ~/.config/nvim \
   && git clone https://github.com/kristijanhusak/vim-packager.git ~/.config/nvim/pack/packager/opt/vim-packager \
-  && ln -s $(pwd)/partials ~/.config/nvim/partials \
-  && ln -s $(pwd)/init.vim ~/.config/nvim/init.vim \
   && nvim -c 'PackagerInstall'
 }
 
@@ -32,50 +30,30 @@ install_ripgrep() {
 }
 
 install_ctags() {
-  local ctags_installed=$(which ctags)
-  if [[ -z $ctags_installed || ! -z $1 ]]; then
-    echo "Installing universal ctags..." \
+  echo "Installing universal ctags..." \
     && rm -rf ./ctags \
     && git clone https://github.com/universal-ctags/ctags \
     && cd ctags && ./autogen.sh && ./configure && make && sudo make install && cd ../ && rm -rf ctags
-  else
-    echo "ctags already installed."
-  fi
 }
 
 install_diff_so_fancy() {
-  local dif_so_fancy_installed=$(which diff-so-fancy)
-  if [[ -z $dif_so_fancy_installed || ! -z $1 ]]; then
-    echo "Installing diff-so-fancy..." \
+  echo "Installing diff-so-fancy..." \
     && npm install -g diff-so-fancy \
     && git config --global core.pager "diff-so-fancy | less --tabs=4 -R"
-  else
-    echo "diff-so-fancy already installed."
-  fi
 }
 
 install_kitty() {
-  local kitty_installed=$(which kitty)
-  if [[ -z $kitty_installed || ! -z $1 ]]; then
-    echo "Installing kitty..." \
+  echo "Installing kitty..." \
     && rm -rf ~/.local/kitty.app ~/.config/kitty \
     && sudo pacman -S kitty \
-    && mkdir -p ~/.config/kitty \
-    && ln -s $(pwd)/kitty.conf ~/.config/kitty/kitty.conf \
-    && ln -s $(pwd)/nord.conf ~/.config/kitty/nord.conf \
-    && ln -s $(pwd)/gruvbox.conf ~/.config/kitty/gruvbox.conf
-  else
-    echo "Kitty already installed."
-  fi
+    && ln -s $(pwd)/kitty ~/.config/kitty
 }
 
-install_i3blocks() {
-  rm -rf ~/.config/i3blocks \
+install_i3() {
+  rm -rf ~/.i3 \
     && yaourt -S i3blocks-git kbdd-git \
     && sudo pacman -S sysstat yad \
-    && mkdir -p ~/.config/i3blocks \
-    && ln -s $(pwd)/i3blocks_config ~/.config/i3blocks/config \
-    && git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks/i3blocks-contrib
+    && ln -s $(pwd)/i3 ~/.i3
 }
 
 if [[ -z $1 ]]; then
@@ -83,6 +61,7 @@ if [[ -z $1 ]]; then
   read answer
   if echo "$answer" | grep -iq "^y" ;then
     echo "Installing dependencies..." \
+    && install_i3 \
     && install_oh_my_zsh \
     && install_neovim \
     && install_ripgrep \

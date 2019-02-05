@@ -4,26 +4,33 @@ interval=3600
 color=#A4C2F4
 
 [cpu_usage2]
-command=$SCRIPT_DIR/cpu_usage/cpu_usage
+command=$SCRIPT_DIR/cpu_usage
 markup=pango
 label=CPU 
 interval=5
 
 [memory]
-command=$SCRIPT_DIR/memory/memory
+command=$SCRIPT_DIR/memory
 label=MEM 
 interval=30
 
+[disk]
+command=$SCRIPT_DIR/disk
+label=DISK 
+DIR=/
+ALERT_LOW=10
+interval=30
+
 [battery]
-command=$SCRIPT_DIR/battery/battery
+command=$SCRIPT_DIR/battery
 interval=30
 LABEL=⚡
 #BAT_NUMBER=0
 
 [kbdd_layout]
-command=$SCRIPT_DIR/kbdd_layout/kbdd_layout
+command=$SCRIPT_DIR/kbdd_layout
 interval=persist
 
 [calendar]
-command=$SCRIPT_DIR/calendar/calendar
+command=$SCRIPT_DIR/calendar
 interval=5
