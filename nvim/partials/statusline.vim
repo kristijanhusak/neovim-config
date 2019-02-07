@@ -6,6 +6,9 @@ augroup vimrc_statusline
 augroup END
 
 function! Statusline(is_bufenter) abort
+  if exists('g:packager') && g:packager.is_running()
+    return ''
+  endif
   let l:bufnr = expand('<abuf>')
   let l:statusline = '%1* %{StatuslineMode()}'                                  "Mode
   let l:statusline .= ' %*%2*%{GitStatusline()}%*'                              "Git branch and status

@@ -13,7 +13,6 @@ let g:coc_user_config = {
       \ 'coc.preferences.maxCompleteItemCount': 20,
       \ 'coc.preferences.hoverTarget': 'echo',
       \ 'coc.preferences.triggerSignatureHelp': v:false,
-      \ 'coc.preferences.numberSelect': v:true,
       \ }
 
 let g:coc_global_extensions = [
