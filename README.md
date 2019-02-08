@@ -32,7 +32,7 @@ Plugins
 * [phpactor/phpactor](https://github.com/phpactor/phpactor)
 * [Shougo/defx.nvim](https://github.com/Shougo/defx.nvim)
 * [w0rp/ale](https://github.com/w0rp/ale)
-* [Raimondi/delimitMate](https://github.com/Raimondi/delimitMate)
+* [tmsvg/pear-tree](https://github.com/tmsvg/pear-tree)
 * [manasthakur/vim-commentor](https://github.com/manasthakur/vim-commentor)
 * [tpope/vim-surround](https://github.com/tpope/vim-surround)
 * [tpope/vim-repeat](https://github.com/tpope/vim-repeat)

@@ -9,7 +9,7 @@ function! s:packager_init() abort
   call packager#add('mgedmin/python-imports.vim', { 'type': 'opt' })
   call packager#add('phpactor/phpactor', { 'do': 'composer install --no-dev', 'type': 'opt' })
   call packager#add('Shougo/defx.nvim')
-  call packager#add('Raimondi/delimitMate')
+  call packager#add('tmsvg/pear-tree')
   call packager#add('manasthakur/vim-commentor')
   call packager#add('tpope/vim-surround')
   call packager#add('tpope/vim-repeat')
@@ -80,7 +80,8 @@ nnoremap <Leader>g :GFiles?<CR>
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
-let g:delimitMate_expand_cr = 1                                                 "Auto indent on enter
+let g:pear_tree_repeatable_expand = 0
+let g:pear_tree_timeout = 0
 
 let g:ale_virtualtext_cursor = 1                                                "Enable neovim's virtualtext support
 let g:ale_virtualtext_prefix = '  > '                                           "Move virtual text a bit more right
