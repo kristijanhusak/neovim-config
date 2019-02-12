@@ -80,6 +80,8 @@ function! s:defx_mappings() abort
   nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
   nnoremap <silent><buffer><expr> q defx#do_action('quit')
   nnoremap <silent><buffer><expr> gh defx#do_action('cd', [getcwd()])
+  hi link Defx_mark_root Directory
+  hi link Defx_mark_directory Directory
 endfunction
 
 

@@ -23,9 +23,10 @@ function! Statusline(is_bufenter) abort
   let l:statusline .= ' %='                                                     "Start right side layout
   let l:statusline .= ' %{anzu#search_status()}'                                "Search status
   let l:statusline .= ' %2* %{&ft}'                                             "Filetype
+  let l:statusline .= ' │ %{&expandtab?"spaces":"tabs"}: %{&sw}'                "Are spaces or tabs used for indentation and how much spaces is single indent
+  let l:statusline .= ' │ col: %c'                                              "Column number
+  let l:statusline .= ' │ ln: %l/%L'                                            "Current line number/Total line numbers
   let l:statusline .= ' │ %p%%'                                                 "Percentage
-  let l:statusline .= ' │ %c'                                                   "Column number
-  let l:statusline .= ' │ %l/%L'                                                "Current line number/Total line numbers
   let l:statusline .= ' %*%#Error#%{AleStatus(''error'')}%*'                    "Errors count
   let l:statusline .= '%#WarningMsg#%{AleStatus(''warning'')}%*'                "Warning count
   return l:statusline
