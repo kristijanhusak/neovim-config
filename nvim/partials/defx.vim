@@ -14,8 +14,13 @@ function! s:setup_defx() abort
         \ 'max_width': 80,
         \ })
 
+  call defx#custom#column('mark', {
+        \ 'directory_icon': '',
+        \ 'root_icon': ''
+        \ })
+
   call defx#custom#option('_', {
-        \ 'columns': 'git:icons:filename:size:time',
+        \ 'columns': 'git:mark:filename:size:time',
         \ })
 
   call s:defx_open({ 'dir': expand('<afile>') })
