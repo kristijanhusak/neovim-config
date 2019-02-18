@@ -42,6 +42,7 @@ nmap <leader>lu <Plug>(coc-references)
 nmap <leader>lr <Plug>(coc-rename)
 nmap <leader>lq <Plug>(coc-fix-current)
 imap <silent><F2> <C-o>:call CocAction('showSignatureHelp')<CR>
+inoremap <silent><C-Space> <C-x><C-o>
 
 function! s:check_back_space() abort
   let col = col('.') - 1
