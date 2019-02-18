@@ -20,7 +20,7 @@ function! s:setup_defx() abort
         \ })
 
   call defx#custom#option('_', {
-        \ 'columns': 'git:mark:filename:size:time',
+        \ 'columns': 'git:icons:filename:size:time',
         \ })
 
   call s:defx_open({ 'dir': expand('<afile>') })
