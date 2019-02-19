@@ -22,6 +22,8 @@ my $percent;
 my $ac_adapt;
 my $full_text;
 my $short_text;
+my $charging_label = ' Charging';
+my $discharging_label = ' Discharging';
 my $bat_number = $ENV{BAT_NUMBER} || 0;
 my $label = $ENV{LABEL} || "";
 
@@ -44,9 +46,9 @@ $percent = $2;
 $full_text = "$label$percent%";
 
 if ($status eq 'Discharging') {
-	$full_text .= ' DIS';
+	$full_text .= $discharging_label;
 } elsif ($status eq 'Charging') {
-	$full_text .= ' CHR';
+	$full_text .= $charging_label;
 } elsif ($status eq 'Unknown') {
 	open (AC_ADAPTER, "acpi -a |") or die;
 	$ac_adapt = <AC_ADAPTER>;
@@ -56,9 +58,9 @@ if ($status eq 'Discharging') {
 		$ac_adapt = $1;
 
 		if ($ac_adapt eq 'on-line') {
-			$full_text .= ' CHR';
+			$full_text .= $charging_label;
 		} elsif ($ac_adapt eq 'off-line') {
-			$full_text .= ' DIS';
+			$full_text .= $discharging_label;
 		}
 	}
 }
