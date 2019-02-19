@@ -91,7 +91,7 @@ function! ModeHighlight(mode) abort
   elseif a:mode ==? 'R'
     hi User1 guibg=#8ec07c
   else
-    let s:colors = { 'nord': '#81A1C1', 'gruvbox': '#928374' }
+    let s:colors = { 'nord': '#81A1C1', 'gruvbox': '#928374', 'cosmic_latte': '#007f8a' }
     silent! exe 'hi User1 guibg='.s:colors[g:colors_name]
   endif
 endfunction

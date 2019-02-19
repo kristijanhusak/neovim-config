@@ -1,5 +1,5 @@
 set termguicolors                                                               "Enable true colors
-set background=dark                                                             "Use dark background by default
+set background=light                                                            "Use dark background by default
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
 let g:gruvbox_italic = 1                                                        "Enable italics in Gruvbox colorscheme
@@ -14,7 +14,7 @@ let g:nord_uniform_diff_background = 1
 
 filetype plugin indent on
 syntax on
-silent! colorscheme $COLORSCHEME
+silent! colorscheme cosmic_latte
 
 augroup vimrc_colorscheme
   autocmd!
@@ -51,5 +51,13 @@ function! s:set_nord_colors() abort
   hi CocHighlightText guibg=#434C5E
   hi DiffChange guifg=#A3BE8C
   hi DiffText gui=bold guibg=#A3BE8C guifg=#3B4252
+endfunction
+
+function! s:set_cosmic_latte_colors() abort
+  hi Operator guifg=NONE guibg=NONE
+  hi User1 guifg=#fff8e7 gui=bold
+  hi User2 guifg=#fff8e7 guibg=#364850
+  hi CocHighlightText guibg=#efe4d2
+  hi link User3 Error
 endfunction
 
