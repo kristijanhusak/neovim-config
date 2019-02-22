@@ -7,8 +7,7 @@ install_oh_my_zsh() {
   && chsh -s /bin/zsh \
   && git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
   && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
-  && rm -rf ~/.oh-my-zsh/custom/themes \
-  && ln -s $(pwd)/zsh/themes ~/.oh-my-zsh/custom/themes \
+  && ln -s $(pwd)/zsh/themes/* ~/.oh-my-zsh/custom/themes \
   && rm -rf ~/z.sh \
   && curl -fLo ~/z.sh https://raw.githubusercontent.com/rupa/z/master/z.sh
 }
