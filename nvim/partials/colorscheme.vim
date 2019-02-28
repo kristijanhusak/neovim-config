@@ -56,8 +56,9 @@ endfunction
 function! s:set_cosmic_latte_colors() abort
   hi Operator guifg=NONE guibg=NONE
   hi User1 guifg=#fff8e7 gui=bold
-  hi User2 guifg=#fff8e7 guibg=#364850
+  hi User2 guifg=#fff8e7 guibg=#485a62
   hi CocHighlightText guibg=#efe4d2
   hi link User3 Error
+  hi StatusLine guifg=#efe4d2 guibg=#485a62
 endfunction
 
