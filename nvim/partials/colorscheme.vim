@@ -1,5 +1,5 @@
 set termguicolors                                                               "Enable true colors
-set background=dark                                                             "Use dark background by default
+set background=light                                                            "Use dark background by default
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
 let g:gruvbox_italic = 1                                                        "Enable italics in Gruvbox colorscheme
