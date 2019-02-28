@@ -5,6 +5,7 @@ set synmaxcol=300                                                               
 let g:gruvbox_italic = 1                                                        "Enable italics in Gruvbox colorscheme
 let g:gruvbox_invert_selection = 0                                              "Do not invert selection in Gruvbox colorscheme
 let g:gruvbox_sign_column = 'bg0'                                               "Use default bg color in sign column
+let g:gruvbox_contrast_light = 'hard'
 
 let g:nord_italic = 1
 let g:nord_underline = 1
@@ -38,6 +39,11 @@ function! s:set_gruvbox_colors() abort
   hi! link DiffDelete GruvboxRed
   hi DiffText guibg=#92931d guifg=#111111 gui=NONE
   hi CocHighlightText guibg=#d5c4a1
+
+  if &background ==? 'light'
+    hi CursorLine guibg=#f2e5bc
+    hi ColorColumn guibg=#f2e5bc
+  endif
 endfunction
 
 function! s:set_nord_colors() abort
