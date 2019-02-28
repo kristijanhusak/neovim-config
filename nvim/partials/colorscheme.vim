@@ -37,6 +37,7 @@ function! s:set_gruvbox_colors() abort
   hi! link DiffChange GruvboxGreen
   hi! link DiffDelete GruvboxRed
   hi DiffText guibg=#92931d guifg=#111111 gui=NONE
+  hi CocHighlightText guibg=#d5c4a1
 endfunction
 
 function! s:set_nord_colors() abort
