@@ -24,15 +24,13 @@ function! s:packager_init() abort
   call packager#add('ludovicchabant/vim-gutentags')
   call packager#add('vimwiki/vimwiki')
   call packager#add('editorconfig/editorconfig-vim')
-  call packager#add('morhetz/gruvbox')
   call packager#add('andymass/vim-matchup')
   call packager#add('haya14busa/vim-asterisk')
   call packager#add('osyo-manga/vim-anzu')
   call packager#add('dyng/ctrlsf.vim')
-  call packager#add('arcticicestudio/nord-vim')
   call packager#add('neoclide/coc.nvim', { 'do': 'yarn install' })
   call packager#add('w0rp/ale')
-  call packager#add('nightsense/cosmic_latte')
+  call packager#add('kristijanhusak/cosmic_latte', { 'branch': 'tweak-statusline' })
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()

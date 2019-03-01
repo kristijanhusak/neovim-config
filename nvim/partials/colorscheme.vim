@@ -1,5 +1,5 @@
 set termguicolors                                                               "Enable true colors
-set background=light                                                            "Use dark background by default
+silent! exe 'set background='.$NVIM_COLORSCHEME_BG
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
 let g:gruvbox_italic = 1                                                        "Enable italics in Gruvbox colorscheme
@@ -58,7 +58,9 @@ function! s:set_cosmic_latte_colors() abort
   hi User1 guifg=#fff8e7 gui=bold
   hi User2 guifg=#fff8e7 guibg=#485a62
   hi CocHighlightText guibg=#efe4d2
+  hi ALEVirtualTextError guifg=#c44756
+  hi ALEVirtualTextWarning guifg=#a154ae
   hi link User3 Error
-  hi StatusLine guifg=#efe4d2 guibg=#485a62
+  hi Comment gui=italic
 endfunction
 

@@ -44,6 +44,8 @@ alias weather="curl http://wttr.in/Novi sad"
 alias gs="git status"
 alias code="cd ~/code"
 alias lg="lazygit"
+alias resetbg="source ~/neovim-config/toggle_bg.sh"
+alias togglebg="source ~/neovim-config/toggle_bg.sh toggle"
 
 export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin
 export LESS=R
