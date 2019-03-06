@@ -62,5 +62,14 @@ function! s:set_cosmic_latte_colors() abort
   hi ALEVirtualTextWarning guifg=#a154ae
   hi link User3 Error
   hi Comment gui=italic
+  if &background ==? 'dark'
+    hi StatusLine guifg=#2b3740 guibg=#abb0c0
+    hi StatusLineNC guifg=#2b3740 guibg=#abb0c0
+    hi WildMenu guifg=#2b3740 guibg=#abb0c0
+  else
+    hi StatusLine guifg=#efe4d2 guibg=#485a62
+    hi StatusLineNC guifg=#efe4d2 guibg=#485a62
+    hi WildMenu guifg=#efe4d2 guibg=#485a62
+  endif
 endfunction
 
