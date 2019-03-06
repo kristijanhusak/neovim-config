@@ -14,11 +14,6 @@ function! s:setup_defx() abort
         \ 'max_width': 80,
         \ })
 
-  call defx#custom#column('mark', {
-        \ 'directory_icon': '',
-        \ 'root_icon': ''
-        \ })
-
   call defx#custom#option('_', {
         \ 'columns': 'git:icons:filename:size:time',
         \ })
@@ -67,6 +62,7 @@ endfunction
 function! s:defx_mappings() abort
   nnoremap <silent><buffer>m :call <sid>defx_context_menu()<CR>
   nnoremap <silent><buffer><expr> o defx#do_action('drop')
+  nnoremap <silent><buffer><expr> O defx#is_directory() ? defx#do_action('open_or_close_tree') : defx#do_action('drop')
   nnoremap <silent><buffer><expr> <CR> defx#do_action('drop')
   nnoremap <silent><buffer><expr> <2-LeftMouse> defx#do_action('drop')
   nnoremap <silent><buffer><expr> s defx#do_action('open', 'botright vsplit')
