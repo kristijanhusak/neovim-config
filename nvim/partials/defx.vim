@@ -8,8 +8,10 @@ augroup END
 nnoremap <silent><Leader>n :call <sid>defx_open({ 'split': v:true })<CR>
 nnoremap <silent><Leader>hf :call <sid>defx_open({ 'split': v:true, 'find_current_file': v:true })<CR>
 
+
 function! s:setup_defx() abort
   call defx#custom#column('filename', {
+        \ 'indent': '--',
         \ 'min_width': 80,
         \ 'max_width': 80,
         \ })
@@ -40,7 +42,7 @@ function! s:defx_open(...) abort
     if &filetype ==? 'defx'
       return
     endif
-    call execute(printf('Defx %s -search=%s %s', l:args, expand('%:p'), expand('%:p:h')))
+    call execute(printf('Defx %s -search=%s %s', l:args, expand('%:p'), getcwd()))
   else
     call execute(printf('Defx -toggle %s %s', l:args, l:path))
     if l:is_opened
@@ -59,15 +61,23 @@ function! s:defx_context_menu() abort
   return feedkeys(defx#do_action(l:actions[l:selection - 1]))
 endfunction
 
+function s:defx_toggle_tree() abort
+  if defx#is_directory()
+    return defx#do_action('open_or_close_tree')
+  endif
+  return defx#do_action('drop')
+endfunction
+
 function! s:defx_mappings() abort
   nnoremap <silent><buffer>m :call <sid>defx_context_menu()<CR>
-  nnoremap <silent><buffer><expr> o defx#do_action('drop')
-  nnoremap <silent><buffer><expr> O defx#is_directory() ? defx#do_action('open_or_close_tree') : defx#do_action('drop')
-  nnoremap <silent><buffer><expr> <CR> defx#do_action('drop')
-  nnoremap <silent><buffer><expr> <2-LeftMouse> defx#do_action('drop')
+  nnoremap <silent><buffer><expr> o <sid>defx_toggle_tree()
+  nnoremap <silent><buffer><expr> O defx#do_action('open_tree_recursive')
+  nnoremap <silent><buffer><expr> <CR> <sid>defx_toggle_tree()
+  nnoremap <silent><buffer><expr> <2-LeftMouse> <sid>defx_toggle_tree()
+  nnoremap <silent><buffer><expr> C defx#is_directory() ? defx#do_action('open') : 'C'
   nnoremap <silent><buffer><expr> s defx#do_action('open', 'botright vsplit')
   nnoremap <silent><buffer><expr> R defx#do_action('redraw')
-  nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> U defx#do_action('cd', ['..'])
   nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
   nnoremap <silent><buffer><expr> H defx#do_action('toggle_ignored_files')
   nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select') . 'j'
@@ -76,8 +86,10 @@ function! s:defx_mappings() abort
   nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
   nnoremap <silent><buffer><expr> q defx#do_action('quit')
   nnoremap <silent><buffer><expr> gh defx#do_action('cd', [getcwd()])
-  hi link Defx_mark_root Directory
-  hi link Defx_mark_directory Directory
+  syn match Defx_filename_indent /\(--\)\+/  contained containedin=Defx_filename_directory
+  syn match Defx_filename_indent_file /\(--\)\+/  contained containedin=Defx_filename
+  hi Defx_filename_indent guifg=#b1b4a2
+  hi Defx_filename_indent_file guifg=#b1b4a2
 endfunction
 
 
