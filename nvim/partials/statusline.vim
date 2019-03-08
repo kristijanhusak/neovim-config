@@ -4,24 +4,40 @@ augroup VimrcLightline
   autocmd User ALEFixPost  call lightline#update()
   autocmd User ALELintPre  call lightline#update()
   autocmd User ALELintPost call lightline#update()
+  autocmd VimEnter * call SetupLightlineColors()
 augroup end
 
 let g:lightline = {
       \ 'colorscheme': 'cosmic_latte_'.$NVIM_COLORSCHEME_BG,
       \ 'active': {
-                  \ 'left': [ [ 'mode', 'paste', 'git_status' ], [ 'readonly', 'relativepath', 'modified' ] ],
-                  \ 'right': [['lineinfo'], ['percent'], ['filetype', 'linter_errors', 'linter_warnings']]
+                  \ 'left': [[ 'mode', 'paste', 'git_status' ], [ 'readonly', 'relativepath', 'custom_modified' ]],
+                  \ 'right': [['linter_errors', 'linter_warnings', 'lineinfo'], ['percent'], ['filetype']]
                   \ },
       \ 'component_expand': {
                   \ 'linter_warnings': 'LightlineLinterWarnings',
                   \ 'linter_errors': 'LightlineLinterErrors',
-                  \ 'git_status': 'GitStatusline'
+                  \ 'git_status': 'GitStatusline',
+                  \ 'custom_modified': 'StatuslineModified'
                   \ },
       \ 'component_type': {
                   \ 'linter_errors': 'error',
+                  \ 'custom_modified': 'error',
                   \ 'linter_warnings': 'warning'
                   \ }
       \ }
+
+function! StatuslineModified() abort
+  return &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function SetupLightlineColors() abort
+  let l:pallete = g:lightline#colorscheme#cosmic_latte_light#palette
+  let l:pallete.normal.error = [['#fff8e7', '#c44756', 231, 131]]
+  let l:pallete.normal.warning =  [['#fff8e7', '#a154ae', 231, 133]]
+  call lightline#init()
+  call lightline#colorscheme()
+  call lightline#update()
+endfunction
 
 function! LightlineLinterWarnings() abort
   return AleStatus('warning')
