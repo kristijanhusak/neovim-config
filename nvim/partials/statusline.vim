@@ -1,52 +1,43 @@
-augroup vimrc_statusline
+augroup VimrcLightline
   autocmd!
-  autocmd WinEnter,BufWinEnter * setlocal statusline=%!Statusline(1)            "Set focused statusline
-  autocmd WinLeave,BufWinLeave * setlocal statusline=%!Statusline(0)            "Set not active statusline
-  autocmd VimEnter * set statusline=%!Statusline(0)                             "Render statusline on vim start
-augroup END
+  autocmd User ALEFixPre   call lightline#update()
+  autocmd User ALEFixPost  call lightline#update()
+  autocmd User ALELintPre  call lightline#update()
+  autocmd User ALELintPost call lightline#update()
+augroup end
 
-function! Statusline(is_bufenter) abort
-  if exists('g:packager') && g:packager.is_running()
-    return ''
-  endif
-  let l:bufnr = expand('<abuf>')
-  let l:statusline = '%1* %{StatuslineMode()}'                                  "Mode
-  let l:statusline .= ' %*%2*%{GitStatusline()}%*'                              "Git branch and status
-  if &modified && a:is_bufenter
-    let l:statusline .= '%3*'
-  endif
-  let l:statusline .= ' %f'                                                     "File path
-  let l:statusline .= ' %m'                                                     "Modified indicator
-  let l:statusline .= ' %w'                                                     "Preview indicator
-  let l:statusline .= ' %r'                                                     "Read only indicator
-  let l:statusline .= ' %q'                                                     "Quickfix list indicator
-  let l:statusline .= ' %='                                                     "Start right side layout
-  let l:statusline .= ' %{anzu#search_status()}'                                "Search status
-  let l:statusline .= ' %2* %{&ft}'                                             "Filetype
-  let l:statusline .= ' │ %{&expandtab?"spaces":"tabs"}: %{&sw}'                "Are spaces or tabs used for indentation and how much spaces is single indent
-  let l:statusline .= ' │ col: %c'                                              "Column number
-  let l:statusline .= ' │ ln: %l/%L'                                            "Current line number/Total line numbers
-  let l:statusline .= ' │ %p%%'                                                 "Percentage
-  let l:statusline .= ' %*%#Error#%{AleStatus(''error'')}%*'                    "Errors count
-  let l:statusline .= '%#WarningMsg#%{AleStatus(''warning'')}%*'                "Warning count
-  return l:statusline
+let g:lightline = {
+      \ 'colorscheme': 'cosmic_latte_'.$NVIM_COLORSCHEME_BG,
+      \ 'active': {
+                  \ 'left': [ [ 'mode', 'paste', 'git_status' ], [ 'readonly', 'relativepath', 'modified' ] ],
+                  \ 'right': [['lineinfo'], ['percent'], ['filetype', 'linter_errors', 'linter_warnings']]
+                  \ },
+      \ 'component_expand': {
+                  \ 'linter_warnings': 'LightlineLinterWarnings',
+                  \ 'linter_errors': 'LightlineLinterErrors',
+                  \ 'git_status': 'GitStatusline'
+                  \ },
+      \ 'component_type': {
+                  \ 'linter_errors': 'error',
+                  \ 'linter_warnings': 'warning'
+                  \ }
+      \ }
+
+function! LightlineLinterWarnings() abort
+  return AleStatus('warning')
 endfunction
 
+function! LightlineLinterErrors() abort
+  return AleStatus('error')
+endfunction
 
-function! AleStatus(type) abort
+function AleStatus(type) abort
   let l:count = ale#statusline#Count(bufnr(''))
-  let l:errors = l:count.error + l:count.style_error
-  let l:warnings = l:count.warning + l:count.style_warning
+  let l:items = l:count[a:type] + l:count['style_'.a:type]
 
-  if a:type ==? 'error' && l:errors
-    return printf(' %d E ', l:errors)
+  if l:items
+    return printf('%d %s', l:items, toupper(strpart(a:type, 0, 1)))
   endif
-
-  if a:type ==? 'warning' && l:warnings
-    let l:space = l:errors ? ' ': ''
-    return printf('%s %d W ', l:space, l:warnings)
-  endif
-
   return ''
 endfunction
 
@@ -61,37 +52,4 @@ function! GitStatusline() abort
   let l:result .= l:removed == 0 ? '' : ' -'.l:removed
   let l:result = join(filter([l:head, l:result], {-> !empty(v:val) }), '')
   return (empty(l:result) ? '' : printf(' %s ', l:result))
-endfunction
-
-function! StatuslineMode() abort
-  let l:mode = mode()
-  call ModeHighlight(l:mode)
-  let l:modeMap = {
-  \ 'n'  : 'NORMAL',
-  \ 'i'  : 'INSERT',
-  \ 'R'  : 'REPLACE',
-  \ 'v'  : 'VISUAL',
-  \ 'V'  : 'V-LINE',
-  \ 'c'  : 'COMMAND',
-  \ '' : 'V-BLOCK',
-  \ 's'  : 'SELECT',
-  \ 'S'  : 'S-LINE',
-  \ '' : 'S-BLOCK',
-  \ 't'  : 'TERMINAL',
-  \ }
-
-  return get(l:modeMap, l:mode, 'UNKNOWN')
-endfunction
-
-function! ModeHighlight(mode) abort
-  if a:mode ==? 'i'
-    hi User1 guibg=#83a598
-  elseif a:mode =~? '\(v\|V\|\)'
-    hi User1 guibg=#fe8019
-  elseif a:mode ==? 'R'
-    hi User1 guibg=#8ec07c
-  else
-    let s:colors = { 'nord': '#81A1C1', 'gruvbox': '#928374', 'cosmic_latte': '#007f8a' }
-    silent! exe 'hi User1 guibg='.s:colors[g:colors_name]
-  endif
 endfunction

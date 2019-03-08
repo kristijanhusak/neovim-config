@@ -31,6 +31,7 @@ function! s:packager_init() abort
   call packager#add('neoclide/coc.nvim', { 'do': 'yarn install' })
   call packager#add('w0rp/ale')
   call packager#add('nightsense/cosmic_latte')
+  call packager#add('itchyny/lightline.vim')
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()
