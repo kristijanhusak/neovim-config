@@ -11,7 +11,11 @@ let g:lightline = {
       \ 'colorscheme': 'cosmic_latte_'.$NVIM_COLORSCHEME_BG,
       \ 'active': {
                   \ 'left': [[ 'mode', 'paste', 'git_status' ], [ 'readonly', 'relativepath', 'custom_modified' ]],
-                  \ 'right': [['linter_errors', 'linter_warnings', 'lineinfo'], ['percent'], ['filetype']]
+                  \ 'right': [['linter_errors', 'linter_warnings', 'lineinfo'], ['percent'], ['filetype']],
+                  \ },
+      \ 'inactive': {
+                  \ 'left': [[ 'readonly', 'relativepath', 'modified' ]],
+                  \ 'right': [['lineinfo'], ['percent'], ['filetype']]
                   \ },
       \ 'component_expand': {
                   \ 'linter_warnings': 'LightlineLinterWarnings',
@@ -23,7 +27,8 @@ let g:lightline = {
                   \ 'linter_errors': 'error',
                   \ 'custom_modified': 'error',
                   \ 'linter_warnings': 'warning'
-                  \ }
+                  \ },
+      \ 'subseparator': { 'left': '│', 'right': '│' }
       \ }
 
 function! StatuslineModified() abort
@@ -67,5 +72,5 @@ function! GitStatusline() abort
   let l:result .= l:modified == 0 ? '' : ' ~'.l:modified
   let l:result .= l:removed == 0 ? '' : ' -'.l:removed
   let l:result = join(filter([l:head, l:result], {-> !empty(v:val) }), '')
-  return (empty(l:result) ? '' : printf(' %s ', l:result))
+  return (empty(l:result) ? '' : printf('%s', l:result))
 endfunction
