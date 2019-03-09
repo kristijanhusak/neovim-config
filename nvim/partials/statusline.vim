@@ -11,7 +11,7 @@ let g:lightline = {
       \ 'colorscheme': 'cosmic_latte_'.$NVIM_COLORSCHEME_BG,
       \ 'active': {
                   \ 'left': [[ 'mode', 'paste', 'git_status' ], [ 'readonly', 'relativepath', 'custom_modified' ]],
-                  \ 'right': [['linter_errors', 'linter_warnings', 'lineinfo'], ['percent'], ['filetype']],
+                  \ 'right': [['linter_errors', 'linter_warnings', 'lineinfo'], ['indent', 'percent'], ['anzu', 'filetype']],
                   \ },
       \ 'inactive': {
                   \ 'left': [[ 'readonly', 'relativepath', 'modified' ]],
@@ -21,7 +21,11 @@ let g:lightline = {
                   \ 'linter_warnings': 'LightlineLinterWarnings',
                   \ 'linter_errors': 'LightlineLinterErrors',
                   \ 'git_status': 'GitStatusline',
-                  \ 'custom_modified': 'StatuslineModified'
+                  \ 'custom_modified': 'StatuslineModified',
+                  \ 'indent': 'IndentInfo',
+                  \ },
+      \ 'component_function': {
+                  \ 'anzu': 'anzu#search_status',
                   \ },
       \ 'component_type': {
                   \ 'linter_errors': 'error',
@@ -31,6 +35,12 @@ let g:lightline = {
       \ 'subseparator': { 'left': '│', 'right': '│' }
       \ }
 
+function! IndentInfo() abort
+  let l:indent_type = &expandtab ? 'spaces' : 'tabs'
+  return l:indent_type.': '.&shiftwidth
+endfunction
+
+
 function! StatuslineModified() abort
   return &modified ? '+' : &modifiable ? '' : '-'
 endfunction
@@ -39,9 +49,7 @@ function SetupLightlineColors() abort
   let l:pallete = g:lightline#colorscheme#cosmic_latte_light#palette
   let l:pallete.normal.error = [['#fff8e7', '#c44756', 231, 131]]
   let l:pallete.normal.warning =  [['#fff8e7', '#a154ae', 231, 133]]
-  call lightline#init()
   call lightline#colorscheme()
-  call lightline#update()
 endfunction
 
 function! LightlineLinterWarnings() abort
