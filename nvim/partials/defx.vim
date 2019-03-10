@@ -11,13 +11,14 @@ nnoremap <silent><Leader>hf :call <sid>defx_open({ 'split': v:true, 'find_curren
 
 function! s:setup_defx() abort
   call defx#custom#column('filename', {
-        \ 'indent': '--',
+        \ 'directory_icon': '',
+        \ 'opened_icon': '',
         \ 'min_width': 80,
         \ 'max_width': 80,
         \ })
 
   call defx#custom#option('_', {
-        \ 'columns': 'git:icons:filename:size:time',
+        \ 'columns': 'mark:git:filename:size:time',
         \ })
 
   call s:defx_open({ 'dir': expand('<afile>') })
@@ -86,10 +87,6 @@ function! s:defx_mappings() abort
   nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
   nnoremap <silent><buffer><expr> q defx#do_action('quit')
   nnoremap <silent><buffer><expr> gh defx#do_action('cd', [getcwd()])
-  syn match Defx_filename_indent /\(--\)\+/  contained containedin=Defx_filename_directory
-  syn match Defx_filename_indent_file /\(--\)\+/  contained containedin=Defx_filename
-  hi Defx_filename_indent guifg=#b1b4a2
-  hi Defx_filename_indent_file guifg=#b1b4a2
 endfunction
 
 
