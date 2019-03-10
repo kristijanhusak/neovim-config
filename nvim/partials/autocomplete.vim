@@ -11,7 +11,6 @@ let g:coc_user_config = {
       \ 'prettier.printWidth': 100,
       \ 'prettier.singleQuote': v:true,
       \ 'coc.preferences.maxCompleteItemCount': 20,
-      \ 'coc.preferences.hoverTarget': 'echo',
       \ 'coc.preferences.triggerSignatureHelp': v:false,
       \ }
 
@@ -41,7 +40,7 @@ nmap <leader>lg <Plug>(coc-implementation)
 nmap <leader>lu <Plug>(coc-references)
 nmap <leader>lr <Plug>(coc-rename)
 nmap <leader>lq <Plug>(coc-fix-current)
-imap <silent><F2> <C-o>:call CocAction('showSignatureHelp')<CR>
+nmap <silent><leader>lh :call CocAction('doHover')<CR>
 inoremap <silent><C-Space> <C-x><C-o>
 
 function! s:check_back_space() abort
