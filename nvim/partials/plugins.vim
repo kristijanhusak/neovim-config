@@ -4,7 +4,6 @@ function! s:packager_init() abort
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install', 'type': 'opt' })
   call packager#add('kristijanhusak/defx-git', { 'type': 'opt' })
-  call packager#add('kristijanhusak/defx-icons', { 'type': 'opt' })
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries', 'type': 'opt' })
   call packager#add('mgedmin/python-imports.vim', { 'type': 'opt' })
   call packager#add('phpactor/phpactor', { 'do': 'composer install --no-dev', 'type': 'opt' })

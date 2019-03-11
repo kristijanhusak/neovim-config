@@ -13,6 +13,7 @@ function! s:setup_defx() abort
   call defx#custom#column('filename', {
         \ 'directory_icon': '',
         \ 'opened_icon': '',
+        \ 'root_icon': '',
         \ 'min_width': 80,
         \ 'max_width': 80,
         \ })
@@ -32,7 +33,7 @@ function! s:defx_open(...) abort
     return
   endif
 
-  let l:args = '-winwidth=40 -direction=topleft'
+  let l:args = '-winwidth=40 -direction=topleft -root-marker='
   let l:is_opened = bufwinnr('defx') > 0
 
   if has_key(l:opts, 'split')
