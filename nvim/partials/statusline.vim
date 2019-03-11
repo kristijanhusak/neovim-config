@@ -73,7 +73,7 @@ endfunction
 function! GitStatusline() abort
   let l:head = fugitive#head()
   if !exists('b:gitgutter')
-    return (empty(l:head) ? '' : printf(' %s ', l:head))
+    return (empty(l:head) ? '' : printf('%s', l:head))
   endif
   let [l:added, l:modified, l:removed] = get(b:gitgutter, 'summary', [0, 0, 0])
   let l:result = l:added == 0 ? '' : ' +'.l:added
