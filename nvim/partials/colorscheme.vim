@@ -1,5 +1,5 @@
 set termguicolors                                                               "Enable true colors
-silent! exe 'set background='.$NVIM_COLORSCHEME_BG
+set background=dark
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
 let g:gruvbox_italic = 1                                                        "Enable italics in Gruvbox colorscheme
@@ -14,7 +14,7 @@ let g:nord_uniform_diff_background = 1
 
 filetype plugin indent on
 syntax on
-silent! colorscheme cosmic_latte
+silent! colorscheme nord
 
 augroup vimrc_colorscheme
   autocmd!

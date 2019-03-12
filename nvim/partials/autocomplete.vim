@@ -10,7 +10,6 @@ let g:coc_user_config = {
       \ 'coc.preferences.diagnostic.enable': v:false,
       \ 'prettier.printWidth': 100,
       \ 'prettier.singleQuote': v:true,
-      \ 'coc.preferences.maxCompleteItemCount': 20,
       \ 'coc.preferences.triggerSignatureHelp': v:false,
       \ }
 

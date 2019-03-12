@@ -4,14 +4,13 @@ augroup VimrcLightline
   autocmd User ALEFixPost  call lightline#update()
   autocmd User ALELintPre  call lightline#update()
   autocmd User ALELintPost call lightline#update()
-  autocmd VimEnter * call SetupLightlineColors()
 augroup end
 
 let g:lightline = {
-      \ 'colorscheme': 'cosmic_latte_'.$NVIM_COLORSCHEME_BG,
+      \ 'colorscheme': 'nord',
       \ 'active': {
-                  \ 'left': [[ 'mode', 'paste', 'git_status' ], [ 'readonly', 'relativepath', 'custom_modified' ]],
-                  \ 'right': [['linter_errors', 'linter_warnings', 'lineinfo'], ['indent', 'percent'], ['anzu', 'filetype']],
+                  \ 'left': [[ 'mode', 'paste'], ['git_status'], [ 'readonly', 'relativepath', 'custom_modified' ]],
+                  \ 'right': [['linter_errors', 'linter_warnings'], ['indent', 'percent', 'lineinfo'], ['anzu', 'filetype']],
                   \ },
       \ 'inactive': {
                   \ 'left': [[ 'readonly', 'relativepath', 'modified' ]],
@@ -32,7 +31,8 @@ let g:lightline = {
                   \ 'custom_modified': 'error',
                   \ 'linter_warnings': 'warning'
                   \ },
-      \ 'subseparator': { 'left': '│', 'right': '│' }
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' }
       \ }
 
 function! IndentInfo() abort
@@ -43,13 +43,6 @@ endfunction
 
 function! StatuslineModified() abort
   return &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function SetupLightlineColors() abort
-  let l:pallete = g:lightline#colorscheme#cosmic_latte_light#palette
-  let l:pallete.normal.error = [['#fff8e7', '#c44756', 231, 131]]
-  let l:pallete.normal.warning =  [['#fff8e7', '#a154ae', 231, 133]]
-  call lightline#colorscheme()
 endfunction
 
 function! LightlineLinterWarnings() abort
@@ -73,12 +66,12 @@ endfunction
 function! GitStatusline() abort
   let l:head = fugitive#head()
   if !exists('b:gitgutter')
-    return (empty(l:head) ? '' : printf('%s', l:head))
+    return (empty(l:head) ? '' : printf(' %s', l:head))
   endif
   let [l:added, l:modified, l:removed] = get(b:gitgutter, 'summary', [0, 0, 0])
   let l:result = l:added == 0 ? '' : ' +'.l:added
   let l:result .= l:modified == 0 ? '' : ' ~'.l:modified
   let l:result .= l:removed == 0 ? '' : ' -'.l:removed
   let l:result = join(filter([l:head, l:result], {-> !empty(v:val) }), '')
-  return (empty(l:result) ? '' : printf('%s', l:result))
+  return (empty(l:result) ? '' : printf(' %s', l:result))
 endfunction
