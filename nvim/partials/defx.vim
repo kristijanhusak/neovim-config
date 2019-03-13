@@ -26,6 +26,21 @@ function! s:setup_defx() abort
   call s:defx_open({ 'dir': expand('<afile>') })
 endfunction
 
+function s:get_project_root() abort
+  let l:git_root = ''
+  let l:path = expand('%:p:h')
+  let l:cmd = systemlist('cd '.l:path.' && git rev-parse --show-toplevel')
+  if !v:shell_error
+    let l:git_root = fnamemodify(l:cmd[0], ':p:h')
+  endif
+
+  if !empty(l:git_root)
+    return l:git_root
+  endif
+
+  return getcwd()
+endfunction
+
 function! s:defx_open(...) abort
   let l:opts = get(a:, 1, {})
   let l:path = get(l:opts, 'dir', getcwd())
@@ -45,7 +60,7 @@ function! s:defx_open(...) abort
     if &filetype ==? 'defx'
       return
     endif
-    call execute(printf('Defx %s -search=%s %s', l:args, expand('%:p'), getcwd()))
+    call execute(printf('Defx %s -search=%s %s', l:args, expand('%:p'), s:get_project_root()))
   else
     call execute(printf('Defx -toggle %s %s', l:args, l:path))
     if l:is_opened
