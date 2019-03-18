@@ -47,7 +47,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-set wildmode=list:full
+set wildoptions=pum
 set wildignore=*.o,*.obj,*~                                                     "stuff to ignore when tab completing
 set wildignore+=*.git*
 set wildignore+=*.meteor*
