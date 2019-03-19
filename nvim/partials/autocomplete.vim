@@ -10,7 +10,6 @@ let g:coc_user_config = {
       \ 'diagnostic.enable': v:false,
       \ 'prettier.printWidth': 100,
       \ 'prettier.singleQuote': v:true,
-      \ 'coc.preferences.triggerSignatureHelp': v:false,
       \ }
 
 let g:coc_global_extensions = [

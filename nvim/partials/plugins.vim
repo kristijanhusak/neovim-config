@@ -32,6 +32,9 @@ function! s:packager_init() abort
   call packager#add('nightsense/cosmic_latte')
   call packager#add('itchyny/lightline.vim')
   call packager#add('arcticicestudio/nord-vim')
+  call packager#add('mbbill/undotree')
+  call packager#add('mg979/vim-visual-multi')
+  call packager#add('samoshkin/vim-mergetool')
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()
