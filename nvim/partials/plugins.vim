@@ -34,6 +34,7 @@ function! s:packager_init() abort
   call packager#add('arcticicestudio/nord-vim')
   call packager#add('mbbill/undotree')
   call packager#add('samoshkin/vim-mergetool')
+  call packager#add('honza/vim-snippets')
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()

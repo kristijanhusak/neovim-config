@@ -21,7 +21,8 @@ let g:coc_global_extensions = [
       \ 'coc-jest',
       \ 'coc-prettier',
       \ 'coc-tsserver',
-      \ 'coc-gocode'
+      \ 'coc-gocode',
+      \ 'coc-snippets',
       \ ]
 
 inoremap <silent><expr> <TAB>
