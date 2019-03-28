@@ -52,7 +52,7 @@ function! s:defx_open(...) abort
   let l:args = '-winwidth=40 -direction=topleft'
   let l:is_opened = bufwinnr('defx') > 0
 
-  if has_key(l:opts, 'split')
+  if has_key(l:opts, 'split') && !l:is_opened
     let l:args .= ' -split=vertical'
   endif
 
