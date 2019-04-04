@@ -40,6 +40,8 @@ nmap <leader>lu <Plug>(coc-references)
 nmap <leader>lr <Plug>(coc-rename)
 nmap <leader>lq <Plug>(coc-fix-current)
 nmap <silent><leader>lh :call CocAction('doHover')<CR>
+vmap <leader>la <Plug>(coc-codeaction-selected)
+nmap <leader>la <Plug>(coc-codeaction-selected)
 inoremap <silent><C-Space> <C-x><C-o>
 
 function! s:check_back_space() abort
