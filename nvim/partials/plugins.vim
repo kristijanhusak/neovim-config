@@ -32,8 +32,6 @@ function! s:packager_init() abort
   call packager#add('nightsense/cosmic_latte')
   call packager#add('itchyny/lightline.vim')
   call packager#add('arcticicestudio/nord-vim')
-  call packager#add('mbbill/undotree')
-  call packager#add('samoshkin/vim-mergetool')
   call packager#add('honza/vim-snippets')
 endfunction
 
