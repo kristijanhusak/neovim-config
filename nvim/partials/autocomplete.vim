@@ -7,12 +7,9 @@ augroup vimrc_autocomplete
 augroup END
 
 let g:coc_user_config = {
-      \ 'coc.preferences.diagnostic.enable': v:false,
+      \ 'diagnostic.enable': v:false,
       \ 'prettier.printWidth': 100,
       \ 'prettier.singleQuote': v:true,
-      \ 'coc.preferences.maxCompleteItemCount': 20,
-      \ 'coc.preferences.hoverTarget': 'echo',
-      \ 'coc.preferences.triggerSignatureHelp': v:false,
       \ }
 
 let g:coc_global_extensions = [
@@ -24,7 +21,8 @@ let g:coc_global_extensions = [
       \ 'coc-jest',
       \ 'coc-prettier',
       \ 'coc-tsserver',
-      \ 'coc-gocode'
+      \ 'coc-gocode',
+      \ 'coc-snippets',
       \ ]
 
 inoremap <silent><expr> <TAB>
@@ -41,7 +39,9 @@ nmap <leader>lg <Plug>(coc-implementation)
 nmap <leader>lu <Plug>(coc-references)
 nmap <leader>lr <Plug>(coc-rename)
 nmap <leader>lq <Plug>(coc-fix-current)
-imap <silent><F2> <C-o>:call CocAction('showSignatureHelp')<CR>
+nmap <silent><leader>lh :call CocAction('doHover')<CR>
+vmap <leader>la <Plug>(coc-codeaction-selected)
+nmap <leader>la <Plug>(coc-codeaction-selected)
 inoremap <silent><C-Space> <C-x><C-o>
 
 function! s:check_back_space() abort
@@ -49,7 +49,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-set wildmode=list:full
+set wildoptions=pum
 set wildignore=*.o,*.obj,*~                                                     "stuff to ignore when tab completing
 set wildignore+=*.git*
 set wildignore+=*.meteor*

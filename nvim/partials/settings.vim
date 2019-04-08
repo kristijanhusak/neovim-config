@@ -56,6 +56,7 @@ augroup vimrc
   autocmd FocusGained,BufEnter * checktime                                      "Refresh file when vim gets focus
   autocmd FileType vim inoremap <buffer><silent><C-Space> <C-x><C-v>
   autocmd FileType markdown setlocal spell
+  autocmd FileType json setlocal equalprg=python\ -m\ json.tool
 augroup END
 
 augroup numbertoggle

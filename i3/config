@@ -203,6 +203,7 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 for_window [title="alsamixer"] floating enable border pixel 1
 for_window [class="calamares"] floating enable border normal
 for_window [class="Clipgrab"] floating enable
+for_window [class="Gnome-calculator"] floating enable
 for_window [title="File Transfer*"] floating enable
 for_window [class="Galculator"] floating enable border pixel 1
 for_window [class="GParted"] floating enable border normal
@@ -387,5 +388,6 @@ bindsym Mod4+9 exec ~/.i3/focus_win.py -n 9
 bindsym Mod4+0 exec ~/.i3/focus_win.py -n 0
 
 assign [class="Google-chrome"] 2
+assign [class="Brave-browser"] 2
 assign [class="Slack"] 4
 assign [class="DBeaver"] 5

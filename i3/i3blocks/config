@@ -1,5 +1,5 @@
 [weather]
-command=curl -Ss 'https://wttr.in?format=3'
+command=curl -Ss --fail 'https://wttr.in?format=3'
 interval=3600
 color=#A4C2F4
 

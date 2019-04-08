@@ -14,7 +14,7 @@ install_oh_my_zsh() {
 
 install_neovim() {
   echo "Setting up neovim..." \
-  && rm -rf ~/.config/nvim ~/.fzf \
+  && rm -rf ~/.config/nvim/pack ~/.fzf \
   && ln -s $(pwd)/nvim ~/.config/nvim \
   && git clone https://github.com/kristijanhusak/vim-packager.git ~/.config/nvim/pack/packager/opt/vim-packager \
   && nvim -c 'PackagerInstall'
