@@ -68,10 +68,9 @@ function! GitStatusline() abort
   if !exists('b:gitgutter')
     return (empty(l:head) ? '' : printf(' %s', l:head))
   endif
-  let [l:added, l:modified, l:removed] = get(b:gitgutter, 'summary', [0, 0, 0])
-  let l:result = l:added == 0 ? '' : ' +'.l:added
-  let l:result .= l:modified == 0 ? '' : ' ~'.l:modified
-  let l:result .= l:removed == 0 ? '' : ' -'.l:removed
-  let l:result = join(filter([l:head, l:result], {-> !empty(v:val) }), '')
-  return (empty(l:result) ? '' : printf(' %s', l:result))
+
+  let l:summary = GitGutterGetHunkSummary()
+  let l:result = [l:head] + filter(map(['+','~','-'], {i,v -> v.l:summary[i]}), 'v:val[-1:]')
+
+  return (empty(l:result) ? '' : printf(' %s', join(l:result, ' ')))
 endfunction
