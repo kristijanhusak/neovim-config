@@ -29,7 +29,7 @@ Plugins
 * [mgedmin/python-imports.vim](https://github.com/mgedmin/python-imports.vim)
 * [phpactor/phpactor](https://github.com/phpactor/phpactor)
 * [Shougo/defx.nvim](https://github.com/Shougo/defx.nvim)
-* [cohama/lexima.vim](https://github.com/cohama/lexima.vim)
+* [Raimondi/delimitMate](https://github.com/Raimondi/delimitMate)
 * [manasthakur/vim-commentor](https://github.com/manasthakur/vim-commentor)
 * [tpope/vim-surround](https://github.com/tpope/vim-surround)
 * [tpope/vim-repeat](https://github.com/tpope/vim-repeat)

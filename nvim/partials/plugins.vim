@@ -8,7 +8,7 @@ function! s:packager_init() abort
   call packager#add('mgedmin/python-imports.vim', { 'type': 'opt' })
   call packager#add('phpactor/phpactor', { 'do': 'composer install --no-dev', 'type': 'opt' })
   call packager#add('Shougo/defx.nvim')
-  call packager#add('cohama/lexima.vim')
+  call packager#add('Raimondi/delimitMate')
   call packager#add('manasthakur/vim-commentor')
   call packager#add('tpope/vim-surround')
   call packager#add('tpope/vim-repeat')
@@ -92,6 +92,8 @@ let g:ale_sign_warning = '⚠'                                                  
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
 let g:javascript_plugin_jsdoc = 1                                               "Enable syntax highlighting for js doc blocks
 let g:vim_markdown_conceal = 0                                                  "Disable concealing in markdown
+
+let g:delimitMate_expand_cr = 1                                                 "Properly set indentation on enter inside brackets
 
 let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
 
