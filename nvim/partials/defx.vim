@@ -10,17 +10,8 @@ nnoremap <silent><Leader>hf :call <sid>defx_open({ 'split': v:true, 'find_curren
 
 
 function! s:setup_defx() abort
-  call defx#custom#column('filename', {
-        \ 'indent': '  ',
-        \ 'directory_icon': '',
-        \ 'opened_icon': '',
-        \ 'root_icon': '',
-        \ 'min_width': 80,
-        \ 'max_width': 80,
-        \ })
-
   call defx#custom#option('_', {
-        \ 'columns': 'mark:git:filename:size:time',
+        \ 'columns': 'indent:git:icons:filename:size:time',
         \ })
 
   call s:defx_open({ 'dir': expand('<afile>') })
