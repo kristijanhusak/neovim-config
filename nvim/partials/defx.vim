@@ -8,10 +8,11 @@ augroup END
 nnoremap <silent><Leader>n :call <sid>defx_open({ 'split': v:true })<CR>
 nnoremap <silent><Leader>hf :call <sid>defx_open({ 'split': v:true, 'find_current_file': v:true })<CR>
 let g:defx_icons_column_length = 2
+let s:default_columns = 'indent:git:icons:filename'
 
 function! s:setup_defx() abort
   call defx#custom#option('_', {
-        \ 'columns': 'indent:git:icons:filename:size',
+        \ 'columns': s:default_columns,
         \ })
 
   call s:defx_open({ 'dir': expand('<afile>') })
@@ -97,6 +98,7 @@ function! s:defx_mappings() abort
   nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
   nnoremap <silent><buffer><expr> q defx#do_action('quit')
   nnoremap <silent><buffer><expr> gh defx#do_action('cd', [getcwd()])
+  silent exe 'nnoremap <silent><buffer><expr> tt defx#do_action("toggle_columns", "'.s:default_columns.':size:time")'
 endfunction
 
 
