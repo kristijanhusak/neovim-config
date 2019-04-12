@@ -7,11 +7,11 @@ augroup END
 
 nnoremap <silent><Leader>n :call <sid>defx_open({ 'split': v:true })<CR>
 nnoremap <silent><Leader>hf :call <sid>defx_open({ 'split': v:true, 'find_current_file': v:true })<CR>
-
+let g:defx_icons_column_length = 2
 
 function! s:setup_defx() abort
   call defx#custom#option('_', {
-        \ 'columns': 'indent:git:icons:filename:size:time',
+        \ 'columns': 'indent:git:icons:filename:size',
         \ })
 
   call s:defx_open({ 'dir': expand('<afile>') })
