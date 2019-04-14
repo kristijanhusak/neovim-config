@@ -8,7 +8,7 @@ function! s:packager_init() abort
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries', 'type': 'opt' })
   call packager#add('mgedmin/python-imports.vim', { 'type': 'opt' })
   call packager#add('phpactor/phpactor', { 'do': 'composer install --no-dev', 'type': 'opt' })
-  call packager#add('Shougo/defx.nvim', { 'branch': 'variable_columns' })
+  call packager#add('Shougo/defx.nvim')
   call packager#add('Raimondi/delimitMate')
   call packager#add('manasthakur/vim-commentor')
   call packager#add('tpope/vim-surround')
