@@ -7,3 +7,4 @@ runtime! partials/autocomplete.vim
 runtime! partials/defx.vim
 runtime! partials/mappings.vim
 runtime! partials/abbreviations.vim
+runtime! partials/fzf.vim

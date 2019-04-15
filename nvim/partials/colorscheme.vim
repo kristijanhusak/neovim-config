@@ -30,6 +30,7 @@ function! s:set_nord_colors() abort
   hi CocHighlightText guibg=#434C5E
   hi DiffChange guifg=#A3BE8C
   hi DiffText gui=bold guibg=#A3BE8C guifg=#3B4252
+  hi FzfCustomHighlight guifg=#D8DEE9 guibg=#333a49
 endfunction
 
 function! s:set_cosmic_latte_colors() abort
