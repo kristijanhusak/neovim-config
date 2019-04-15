@@ -4,16 +4,11 @@ function! FloatingFZF()
   let buf = nvim_create_buf(v:false, v:true)
   call setbufvar(buf, '&signcolumn', 'no')
 
-  let winheight = winheight(0)
-  let winwidth = winwidth(0)
-
-  let width = float2nr(winwidth - (winwidth * 2 / 10))
-
   let opts = {
         \ 'relative': 'editor',
         \ 'row': &lines / 4,
-        \ 'col': float2nr((winwidth - width) / 2),
-        \ 'width': width,
+        \ 'col': &columns / 4,
+        \ 'width': &columns / 2,
         \ 'height': &lines / 2
         \ }
 
