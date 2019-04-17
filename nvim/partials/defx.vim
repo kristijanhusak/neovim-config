@@ -15,6 +15,11 @@ function! s:setup_defx() abort
         \ 'columns': s:default_columns,
         \ })
 
+  call defx#custom#column('filename', {
+        \ 'min_width': 80,
+        \ 'max_width': 80,
+        \ })
+
   call s:defx_open({ 'dir': expand('<afile>') })
 endfunction
 
