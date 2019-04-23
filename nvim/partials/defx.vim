@@ -40,16 +40,15 @@ endfunction
 
 function! s:defx_open(...) abort
   let l:opts = get(a:, 1, {})
-  let l:path = get(l:opts, 'dir', getcwd())
+  let l:path = get(l:opts, 'dir', s:get_project_root())
 
   if !isdirectory(l:path) || &filetype ==? 'defx'
     return
   endif
 
   let l:args = '-winwidth=40 -direction=topleft'
-  let l:is_opened = bufwinnr('defx') > 0
 
-  if has_key(l:opts, 'split') && !l:is_opened
+  if has_key(l:opts, 'split')
     let l:args .= ' -split=vertical'
   endif
 
@@ -57,12 +56,10 @@ function! s:defx_open(...) abort
     if &filetype ==? 'defx'
       return
     endif
-    call execute(printf('Defx %s -search=%s %s', l:args, expand('%:p'), s:get_project_root()))
+    call execute(printf('Defx %s -search=%s %s', l:args, expand('%:p'), l:path))
   else
     call execute(printf('Defx -toggle %s %s', l:args, l:path))
-    if l:is_opened
-      call execute('wincmd p')
-    endif
+    call execute('wincmd p')
   endif
 
   return execute("norm!\<C-w>=")
