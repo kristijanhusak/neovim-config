@@ -71,13 +71,6 @@ nnoremap <Leader>R :ALEFix<CR>
 nnoremap [e :ALEPrevious<CR>
 nnoremap ]e :ALENext<CR>
 
-" Fuzzy finder
-nnoremap <C-p> :Files<CR>
-nnoremap <Leader>b :Buffers<CR>
-nnoremap <Leader>t :BTags<CR>
-nnoremap <Leader>m :History<CR>
-nnoremap <Leader>g :GFiles?<CR>
-
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 
