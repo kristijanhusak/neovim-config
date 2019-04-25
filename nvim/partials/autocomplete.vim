@@ -29,6 +29,7 @@ inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+imap <expr> <CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 vmap <leader>lf <Plug>(coc-format-selected)
 nmap <leader>lf <Plug>(coc-format-selected)
