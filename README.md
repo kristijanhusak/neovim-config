@@ -25,7 +25,6 @@ Plugins
 * [kristijanhusak/vim-packager](https://github.com/kristijanhusak/vim-packager)
 * [kristijanhusak/vim-js-file-import](https://github.com/kristijanhusak/vim-js-file-import)
 * [kristijanhusak/defx-git](https://github.com/kristijanhusak/defx-git)
-* [fatih/vim-go](https://github.com/fatih/vim-go)
 * [mgedmin/python-imports.vim](https://github.com/mgedmin/python-imports.vim)
 * [phpactor/phpactor](https://github.com/phpactor/phpactor)
 * [Shougo/defx.nvim](https://github.com/Shougo/defx.nvim)
@@ -54,6 +53,7 @@ Plugins
 * [itchyny/lightline.vim](https://github.com/itchyny/lightline.vim)
 * [arcticicestudio/nord-vim](https://github.com/arcticicestudio/nord-vim)
 * [honza/vim-snippets](https://github.com/honza/vim-snippets)
+* [AndrewRadev/tagalong.vim](https://github.com/AndrewRadev/tagalong.vim)
 
 Font used:
 * Current - [Iosevka](https://github.com/be5invis/Iosevka)

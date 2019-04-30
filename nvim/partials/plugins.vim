@@ -33,6 +33,7 @@ function! s:packager_init() abort
   call packager#add('itchyny/lightline.vim')
   call packager#add('arcticicestudio/nord-vim')
   call packager#add('honza/vim-snippets')
+  call packager#add('AndrewRadev/tagalong.vim')
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()
