@@ -10,6 +10,12 @@ let g:coc_user_config = {
       \ 'diagnostic.enable': v:false,
       \ 'prettier.printWidth': 100,
       \ 'prettier.singleQuote': v:true,
+      \ 'languageserver' : {
+          \ 'golang': {
+              \ 'command': 'gopls',
+              \ 'filetypes': ['go']
+              \ }
+          \ }
       \ }
 
 let g:coc_global_extensions = [
@@ -21,7 +27,6 @@ let g:coc_global_extensions = [
       \ 'coc-jest',
       \ 'coc-prettier',
       \ 'coc-tsserver',
-      \ 'coc-gocode',
       \ 'coc-snippets',
       \ ]
 

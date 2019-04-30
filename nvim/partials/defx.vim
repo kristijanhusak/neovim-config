@@ -7,7 +7,6 @@ augroup END
 
 nnoremap <silent><Leader>n :call <sid>defx_open({ 'split': v:true })<CR>
 nnoremap <silent><Leader>hf :call <sid>defx_open({ 'split': v:true, 'find_current_file': v:true })<CR>
-let g:defx_icons_column_length = 2
 let s:default_columns = 'indent:git:icons:filename'
 
 function! s:setup_defx() abort
