@@ -39,6 +39,8 @@ set nowritebackup                                                               
 
 set breakindent                                                                 "Preserve indent on line wrap
 set smartindent                                                                 "Use smarter indenting
+set expandtab                                                                   "Use spaces for indentation
+set shiftwidth=2                                                                "Use 2 spaces for indentation
 set nofoldenable                                                                "Disable folding by default
 set colorcolumn=80                                                              "Highlight 80th column for easier wrapping
 set foldmethod=syntax                                                           "When folding enabled, use syntax method
