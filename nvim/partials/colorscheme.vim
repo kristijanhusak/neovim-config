@@ -1,5 +1,6 @@
+let s:bg_color = $NVIM_COLORSCHEME_BG ==? 'light' ? 'light' : 'dark'
 set termguicolors                                                               "Enable true colors
-silent exe 'set background='.$NVIM_COLORSCHEME_BG
+silent exe 'set background='.s:bg_color
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
 let g:nord_italic = 1
@@ -8,7 +9,7 @@ let g:nord_italic_comments = 1
 let g:nord_comment_brightness = 10
 let g:nord_uniform_diff_background = 1
 
-let s:colorscheme = $NVIM_COLORSCHEME_BG ==? 'dark' ? 'nord' : 'cosmic_latte'
+let s:colorscheme = s:bg_color ==? 'dark' ? 'nord' : 'cosmic_latte'
 
 filetype plugin indent on
 syntax on
