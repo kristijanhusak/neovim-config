@@ -44,6 +44,7 @@ set shiftwidth=2                                                                
 set nofoldenable                                                                "Disable folding by default
 set colorcolumn=80                                                              "Highlight 80th column for easier wrapping
 set foldmethod=syntax                                                           "When folding enabled, use syntax method
+set diffopt+=vertical                                                           "Always use vertical layout for diffs
 
 set scrolloff=8                                                                 "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15
