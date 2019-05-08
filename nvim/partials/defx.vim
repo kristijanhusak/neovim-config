@@ -26,7 +26,7 @@ function s:get_project_root() abort
   let l:git_root = ''
   let l:path = expand('%:p:h')
   let l:cmd = systemlist('cd '.l:path.' && git rev-parse --show-toplevel')
-  if !v:shell_error
+  if !v:shell_error && !empty(l:cmd)
     let l:git_root = fnamemodify(l:cmd[0], ':p:h')
   endif
 
