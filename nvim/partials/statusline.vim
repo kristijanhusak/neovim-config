@@ -70,7 +70,7 @@ function! GitStatusline() abort
   endif
 
   let l:summary = GitGutterGetHunkSummary()
-  let l:result = filter([l:head] + map(['+','~','-'], {i,v -> v.l:summary[i]}), 'v:val[-1:]')
+  let l:result = filter([l:head] + map(['+','~','-'], {i,v -> v.l:summary[i]}), 'v:val[-1:] !=? "0"')
 
   return (empty(l:result) ? '' : printf(' %s', join(l:result, ' ')))
 endfunction
