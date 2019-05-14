@@ -49,6 +49,7 @@ augroup packager_filetype
   autocmd FileType defx packadd defx-git | packadd defx-icons
   autocmd FileType python packadd python-imports.vim
   autocmd FileType php packadd phpactor
+  autocmd FileType fugitive nmap <buffer><silent> <Space> =
 augroup END
 
 " Better search status
@@ -69,6 +70,9 @@ nmap <Leader>F <Plug>CtrlSFCwordPath
 nnoremap <Leader>R :ALEFix<CR>
 nnoremap [e :ALEPrevious<CR>
 nnoremap ]e :ALENext<CR>
+
+" Open fugitive git status in vertical split
+nnoremap <silent> <Leader>G :vert G<CR>
 
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
