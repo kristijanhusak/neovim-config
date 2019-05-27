@@ -28,6 +28,7 @@ let g:coc_global_extensions = [
       \ 'coc-prettier',
       \ 'coc-tsserver',
       \ 'coc-snippets',
+      \ 'coc-vimlsp',
       \ ]
 
 inoremap <silent><expr> <TAB>
