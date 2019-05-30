@@ -49,6 +49,7 @@ set diffopt+=vertical                                                           
 set scrolloff=8                                                                 "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15
 set sidescroll=5
+set pyxversion=3                                                                "Always use python 3
 
 augroup vimrc
   autocmd!
