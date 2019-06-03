@@ -21,7 +21,6 @@ let g:coc_user_config = {
 let g:coc_global_extensions = [
       \ 'coc-css',
       \ 'coc-html',
-      \ 'coc-tag',
       \ 'coc-json',
       \ 'coc-pyls',
       \ 'coc-jest',
