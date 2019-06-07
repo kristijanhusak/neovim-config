@@ -70,6 +70,18 @@ export NVM_DIR="/home/kristijan/.nvm"
 
 eval $(keychain --eval --quiet ~/.ssh/id_rsa)
 
+function zle-keymap-select zle-line-init zle-line-finish
+{
+  case $KEYMAP in
+      vicmd)      print -n '\033[1 q';; # block cursor
+      viins|main) print -n '\033[5 q';; # line cursor
+  esac
+}
+
+zle -N zle-line-init
+zle -N zle-line-finish
+zle -N zle-keymap-select
+
 ### Fix slowness of pastes with zsh-syntax-highlighting.zsh
 ### Source: https://gist.github.com/magicdude4eva/2d4748f8ef3e6bf7b1591964c201c1ab
 pasteinit() {

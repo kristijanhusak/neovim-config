@@ -22,13 +22,10 @@ function check_git_prompt_info() {
 }
 
 function get_right_prompt() {
-    local INDICATOR=""
-  if [[ ${KEYMAP} = 'vicmd' ]] then INDICATOR=$MODE_INDICATOR; else INDICATOR=""; fi
-
     if git rev-parse --git-dir > /dev/null 2>&1; then
-        echo -n "$(git_prompt_short_sha)%{$reset_color%} $INDICATOR"
+        echo -n "$(git_prompt_short_sha)%{$reset_color%}"
     else
-        echo -n "%{$reset_color%} $INDICATOR"
+        echo -n "%{$reset_color%}"
     fi
 }
 
