@@ -35,6 +35,7 @@ function! s:packager_init() abort
   call packager#add('honza/vim-snippets')
   call packager#add('AndrewRadev/tagalong.vim')
   call packager#add('sodapopcan/vim-twiggy')
+  call packager#add('kristijanhusak/vim-create-pr')
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()
