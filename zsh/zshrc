@@ -70,6 +70,8 @@ export NVM_DIR="/home/kristijan/.nvm"
 
 eval $(keychain --eval --quiet ~/.ssh/id_rsa)
 
+bindkey '^[[Z' reverse-menu-complete # Use shift tab for backward autocompletion
+
 function zle-keymap-select zle-line-init zle-line-finish
 {
   case $KEYMAP in
