@@ -19,7 +19,6 @@ function! FloatingFZF()
         \ }
 
   let win = nvim_open_win(buf, v:true, opts)
-  call nvim_win_set_option(win, 'winhl', 'Normal:FzfCustomHighlight')
   call nvim_win_set_option(win, 'number', v:false)
   call nvim_win_set_option(win, 'relativenumber', v:false)
 endfunction

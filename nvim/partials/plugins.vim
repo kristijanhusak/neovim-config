@@ -30,13 +30,12 @@ function! s:packager_init() abort
   call packager#add('dyng/ctrlsf.vim')
   call packager#add('neoclide/coc.nvim', { 'do': 'yarn install' })
   call packager#add('w0rp/ale')
-  call packager#add('nightsense/cosmic_latte')
   call packager#add('itchyny/lightline.vim')
-  call packager#add('arcticicestudio/nord-vim')
   call packager#add('honza/vim-snippets')
   call packager#add('AndrewRadev/tagalong.vim')
   call packager#add('sodapopcan/vim-twiggy')
   call packager#add('kristijanhusak/vim-create-pr')
+  call packager#add('gruvbox-community/gruvbox')
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()
@@ -102,3 +101,5 @@ let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   
 let g:matchup_matchparen_deferred = 1                                           "Defer matchup highlights to allow better cursor movement performance
 
 let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
+
+let g:dispatch_no_maps = 1                                                      "Disable Dispatch mappings
