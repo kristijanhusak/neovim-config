@@ -14,6 +14,7 @@ colorscheme gruvbox
 augroup vimrc_colorscheme
   autocmd!
   autocmd Syntax,ColorScheme * call s:set_gruvbox_colors()
+  autocmd BufEnter * :syntax sync fromstart
 augroup END
 
 function! s:set_gruvbox_colors() abort
