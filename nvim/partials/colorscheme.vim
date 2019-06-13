@@ -9,7 +9,7 @@ let g:gruvbox_invert_selection = 0
 
 filetype plugin indent on
 syntax on
-colorscheme gruvbox
+silent! colorscheme gruvbox
 
 augroup vimrc_colorscheme
   autocmd!
