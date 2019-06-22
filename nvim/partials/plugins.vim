@@ -36,6 +36,7 @@ function! s:packager_init() abort
   call packager#add('sodapopcan/vim-twiggy')
   call packager#add('kristijanhusak/vim-create-pr')
   call packager#add('gruvbox-community/gruvbox')
+  call packager#add('wakatime/vim-wakatime')
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()
