@@ -6,6 +6,24 @@ nnoremap <silent><Leader>t :BTags<CR>
 nnoremap <silent><Leader>m :History<CR>
 nnoremap <silent><Leader>g :GFiles?<CR>
 
+function! s:goto_def(lines) abort
+  silent! exe 'e +BTags '.a:lines[0]
+  call timer_start(10, {-> execute('startinsert') })
+endfunction
+
+function! s:goto_line(lines) abort
+  silent! exe 'e '.a:lines[0]
+  call timer_start(10, {-> feedkeys(':') })
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit',
+  \ '@': function('s:goto_def'),
+  \ ':': function('s:goto_line')
+  \  }
+
 function! FloatingFZF()
   let buf = nvim_create_buf(v:false, v:true)
   call setbufvar(buf, '&signcolumn', 'no')
