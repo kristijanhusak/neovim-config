@@ -36,7 +36,6 @@ Plugins
 * [tpope/vim-repeat](https://github.com/tpope/vim-repeat)
 * [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
 * [tpope/vim-sleuth](https://github.com/tpope/vim-sleuth)
-* [tpope/vim-dispatch](https://github.com/tpope/vim-dispatch)
 * [lambdalisue/vim-backslash](https://github.com/lambdalisue/vim-backslash)
 * [AndrewRadev/splitjoin.vim](https://github.com/AndrewRadev/splitjoin.vim)
 * [airblade/vim-gitgutter](https://github.com/airblade/vim-gitgutter)

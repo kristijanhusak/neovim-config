@@ -14,7 +14,6 @@ function! s:packager_init() abort
   call packager#add('tpope/vim-repeat')
   call packager#add('tpope/vim-fugitive')
   call packager#add('tpope/vim-sleuth')
-  call packager#add('tpope/vim-dispatch')
   call packager#add('lambdalisue/vim-backslash')
   call packager#add('AndrewRadev/splitjoin.vim')
   call packager#add('airblade/vim-gitgutter')
@@ -102,5 +101,3 @@ let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   
 let g:matchup_matchparen_deferred = 1                                           "Defer matchup highlights to allow better cursor movement performance
 
 let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
-
-let g:dispatch_no_maps = 1                                                      "Disable Dispatch mappings
