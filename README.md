@@ -56,6 +56,7 @@ Plugins
 * [AndrewRadev/tagalong.vim](https://github.com/AndrewRadev/tagalong.vim)
 * [sodapopcan/vim-twiggy](https://github.com/sodapopcan/vim-twiggy)
 * [gruvbox-community/gruvbox](https://github.com/gruvbox-community/gruvbox)
+* [kkoomen/vim-doge](https://github.com/kkoomen/vim-doge)
 
 Font used:
 * Current - [Iosevka](https://github.com/be5invis/Iosevka)
