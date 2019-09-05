@@ -6,7 +6,6 @@ set number                                                                      
 set relativenumber                                                              "Show numbers relative to current line
 set noshowmode                                                                  "Hide showmode because of the powerline plugin
 set gdefault                                                                    "Set global flag for search and replace
-set guicursor=a:blinkon500-blinkwait500-blinkoff500                             "Set cursor blinking rate
 set cursorline                                                                  "Highlight current line
 set smartcase                                                                   "Smart case search if there is uppercase
 set ignorecase                                                                  "case insensitive search
