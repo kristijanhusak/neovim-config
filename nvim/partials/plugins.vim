@@ -48,7 +48,7 @@ let g:mapleader = ','                                                           
 
 augroup packager_filetype
   autocmd!
-  autocmd FileType javascript packadd vim-js-file-import
+  autocmd FileType javascript,javascriptreact packadd vim-js-file-import
   autocmd FileType defx packadd defx-git | packadd defx-icons
   autocmd FileType python packadd python-imports.vim
   autocmd FileType php packadd phpactor
