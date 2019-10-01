@@ -18,10 +18,6 @@ augroup vimrc_colorscheme
 augroup END
 
 function! s:set_gruvbox_colors() abort
-  hi link ALEVirtualTextError GruvboxRed
-  hi link ALEVirtualTextWarning GruvboxYellow
-  hi link ALEVirtualTextInfo GruvboxBlue
-
   let g:fzf_colors = extend(get(g:, 'fzf_colors', {}), {
         \ 'fg': ['fg', 'GruvboxFg1'],
         \ 'bg': ['fg', 'GruvboxBg1'],
