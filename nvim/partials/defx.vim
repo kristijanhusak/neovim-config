@@ -5,8 +5,8 @@ augroup vimrc_defx
   autocmd VimEnter * call fugitive#detect(expand('<afile>')) | call lightline#update()
 augroup END
 
-nnoremap <silent><Leader>n :call <sid>defx_open({ 'split': v:true })<CR>
-nnoremap <silent><Leader>hf :call <sid>defx_open({ 'split': v:true, 'find_current_file': v:true })<CR>
+nnoremap <silent><Leader>n :call <sid>defx_open()<CR>
+nnoremap <silent><Leader>hf :call <sid>defx_open({ 'find_current_file': v:true })<CR>
 let s:default_columns = 'indent:git:icons:filename'
 
 function! s:setup_defx() abort
@@ -38,23 +38,20 @@ function s:get_project_root() abort
 endfunction
 
 function! s:defx_open(...) abort
-  let l:opts = get(a:, 1, {})
-  let l:path = get(l:opts, 'dir', s:get_project_root())
-
-  if !isdirectory(l:path) || &filetype ==? 'defx'
+  if  &filetype ==? 'defx'
     return
   endif
 
-  let l:args = '-winwidth=40 -direction=topleft'
+  let l:opts = get(a:, 1, {})
+  let l:path = s:get_project_root()
 
-  if has_key(l:opts, 'split')
-    let l:args .= ' -split=vertical'
+  if has_key(l:opts, 'dir') && isdirectory(l:opts.dir)
+    let l:path = l:opts.dir
   endif
 
+  let l:args = '-winwidth=40 -direction=topleft -split=vertical'
+
   if has_key(l:opts, 'find_current_file')
-    if &filetype ==? 'defx'
-      return
-    endif
     call execute(printf('Defx %s -search=%s %s', l:args, expand('%:p'), l:path))
   else
     call execute(printf('Defx -toggle %s %s', l:args, l:path))
