@@ -38,11 +38,13 @@ function s:get_project_root() abort
 endfunction
 
 function! s:defx_open(...) abort
-  if  &filetype ==? 'defx'
+  let l:opts = get(a:, 1, {})
+  let l:is_file = has_key(l:opts, 'dir') && !isdirectory(l:opts.dir)
+
+  if  &filetype ==? 'defx' || l:is_file
     return
   endif
 
-  let l:opts = get(a:, 1, {})
   let l:path = s:get_project_root()
 
   if has_key(l:opts, 'dir') && isdirectory(l:opts.dir)
