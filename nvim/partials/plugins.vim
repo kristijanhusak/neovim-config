@@ -87,6 +87,7 @@ nnoremap <silent> <Leader>G :vert G<CR>
 
 let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
+let g:ctrlsf_search_mode = 'sync'                                               "Use sync mode for searching, more precise and reliable
 
 let g:ale_virtualtext_cursor = 1                                                "Enable neovim's virtualtext support
 let g:ale_virtualtext_prefix = '  > '                                           "Move virtual text a bit more right
