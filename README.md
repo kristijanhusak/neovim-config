@@ -51,7 +51,6 @@ Plugins
 * [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)
 * [neoclide/coc.nvim](https://github.com/neoclide/coc.nvim)
 * [w0rp/ale](https://github.com/w0rp/ale)
-* [itchyny/lightline.vim](https://github.com/itchyny/lightline.vim)
 * [honza/vim-snippets](https://github.com/honza/vim-snippets)
 * [AndrewRadev/tagalong.vim](https://github.com/AndrewRadev/tagalong.vim)
 * [sodapopcan/vim-twiggy](https://github.com/sodapopcan/vim-twiggy)

@@ -2,7 +2,6 @@ augroup vimrc_defx
   autocmd!
   autocmd FileType defx call s:defx_mappings()                                  "Defx mappings
   autocmd VimEnter * call s:setup_defx()
-  autocmd VimEnter * call fugitive#detect(expand('<afile>')) | call lightline#update()
 augroup END
 
 nnoremap <silent><Leader>n :call <sid>defx_open()<CR>

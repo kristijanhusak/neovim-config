@@ -30,7 +30,6 @@ function! s:packager_init() abort
   call packager#add('dyng/ctrlsf.vim')
   call packager#add('neoclide/coc.nvim', { 'do': 'yarn install' })
   call packager#add('w0rp/ale')
-  call packager#add('itchyny/lightline.vim')
   call packager#add('honza/vim-snippets')
   call packager#add('AndrewRadev/tagalong.vim')
   call packager#add('sodapopcan/vim-twiggy')
