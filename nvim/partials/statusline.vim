@@ -1,10 +1,11 @@
 scriptencoding utf-8
 let s:cache = {'branch': ''}
+
 augroup custom_statusline
   autocmd!
   autocmd VimEnter * call fugitive#detect(expand('<afile>'))
   autocmd BufEnter * setlocal statusline=%!Statusline()
-  autocmd BufLeave * setlocal statusline=%f\ %y
+  autocmd BufLeave * setlocal statusline=%f\ %y\ %m
   autocmd VimEnter,BufEnter * let s:cache.branch = fugitive#head()
   autocmd User FugitiveChanged let s:cache.branch = fugitive#head()
 augroup END
@@ -37,6 +38,7 @@ function! s:sep_if(item, condition, ...) abort
 endfunction
 
 let s:st_err = {'color': '%#StErr#', 'sep_color': '%#StErrSep#'}
+
 let s:st_warn = {'color': '%#StWarn#', 'sep_color': '%#StWarnSep#'}
 
 function! Statusline() abort
@@ -44,7 +46,7 @@ function! Statusline() abort
   let l:statusline = s:sep(l:mode, {'before': '', 'color': '%#StMode#', 'sep_color': '%#StModeSep#'})
   let l:git_status = s:git_statusline()
   let l:statusline .= s:sep_if(l:git_status, !empty(l:git_status))
-  let l:statusline .= s:sep(expand('%:~:.'))                                    "File path
+  let l:statusline .= s:sep(expand('%:~:.'), &modified ? s:st_err : {})         "File path
   let l:statusline .= s:sep_if(' + ', &modified, s:st_err)                      "Modified indicator
   let l:statusline .= s:sep_if('%w', &previewwindow)                            "Preview indicator
   let l:statusline .= s:sep_if('%r', &readonly)                                 "Read only indicator
