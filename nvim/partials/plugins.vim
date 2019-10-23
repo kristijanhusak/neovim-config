@@ -103,7 +103,11 @@ let g:vim_markdown_conceal = 0                                                  
 
 let g:delimitMate_expand_cr = 1                                                 "Properly set indentation on enter inside brackets
 
-let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki'}]                            "Use dropbox folder for easier syncing of wiki
+let g:vimwiki_list = [{
+      \ 'path': '~/Dropbox/vimwiki',
+      \ 'syntax': 'markdown',
+      \ 'ext': '.md'
+      \ }]
 
 let g:matchup_matchparen_status_offscreen = 0                                   "Do not show offscreen closing match in statusline
 let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   "Enable matchup only in normal mode
