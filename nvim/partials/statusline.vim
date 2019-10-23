@@ -2,6 +2,7 @@ scriptencoding utf-8
 let s:cache = {'branch': ''}
 
 augroup custom_statusline
+
   autocmd!
   autocmd VimEnter * call fugitive#detect(expand('<afile>'))
   autocmd BufEnter * setlocal statusline=%!Statusline()
@@ -38,12 +39,12 @@ function! s:sep_if(item, condition, ...) abort
 endfunction
 
 let s:st_err = {'color': '%#StErr#', 'sep_color': '%#StErrSep#'}
-
 let s:st_warn = {'color': '%#StWarn#', 'sep_color': '%#StWarnSep#'}
+let s:st_mode = {'color': '%#StMode#', 'sep_color': '%#StModeSep#'}
 
 function! Statusline() abort
   let l:mode = s:mode_statusline()
-  let l:statusline = s:sep(l:mode, {'before': '', 'color': '%#StMode#', 'sep_color': '%#StModeSep#'})
+  let l:statusline = s:sep(l:mode, extend({'before': ''}, s:st_mode))
   let l:git_status = s:git_statusline()
   let l:statusline .= s:sep_if(l:git_status, !empty(l:git_status))
   let l:statusline .= s:sep(expand('%:~:.'), &modified ? s:st_err : {})         "File path
@@ -57,9 +58,9 @@ function! Statusline() abort
   let l:ft = &filetype
   let l:statusline .= s:sep_if(l:ft, !empty(l:ft))                              "Filetype
   let l:statusline .= s:sep('%{&expandtab?"spaces":"tabs"}: %{&sw}')            "Are spaces or tabs used for indentation and how much spaces is single indent
-  let l:statusline .= s:sep('col: %c')                                          "Column number
-  let l:statusline .= s:sep('ln: %l/%L')                                        "Current line number/Total line numbers
-  let l:statusline .= s:sep('%p%%')                                             "Percentage
+  let l:statusline .= s:sep('col: %c', s:st_mode)                               "Column number
+  let l:statusline .= s:sep('ln: %l/%L', s:st_mode)                             "Current line number/Total line numbers
+  let l:statusline .= s:sep('%p%%', s:st_mode)                                  "Percentage
   let l:err = s:ale_status('error')
   let l:warn = s:ale_status('warning')
   let l:statusline .= s:sep_if(l:err, !empty(l:err), s:st_err)
@@ -118,13 +119,13 @@ endfunction
 
 function! s:mode_highlight(mode) abort
   if a:mode ==? 'i'
-    hi StMode guibg=#83a598 guifg=#ebdbb2
+    hi StMode guibg=#83a598 guifg=#3c3836
     hi StModeSep guifg=#83a598 guibg=NONE
   elseif a:mode =~? '\(v\|V\|\)'
-    hi StMode guibg=#fe8019 guifg=#ebdbb2
+    hi StMode guibg=#fe8019 guifg=#3c3836
     hi StModeSep guifg=#fe8019 guibg=NONE
   elseif a:mode ==? 'R'
-    hi StMode guibg=#8ec07c guifg=#ebdbb2
+    hi StMode guibg=#8ec07c guifg=#3c3836
     hi StModeSep guifg=#8ec07c guibg=NONE
   else
     hi StMode guibg=#504945 guifg=#ebdbb2 gui=NONE
