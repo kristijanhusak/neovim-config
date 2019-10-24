@@ -15,8 +15,8 @@ hi StItem guibg=#504945 guifg=#ebdbb2 gui=NONE
 hi StSep guifg=#504945 guibg=NONE gui=NONE
 hi StErr guibg=#fb4934 guifg=#282828 gui=bold
 hi StErrSep guifg=#fb4934 guibg=NONE gui=NONE
-hi StWarn guibg=#fe8019 guifg=#282828 gui=bold
-hi StWarnSep guifg=#fe8019 guibg=NONE gui=NONE
+hi StWarn guibg=#fabd2f guifg=#282828 gui=bold
+hi StWarnSep guifg=#fabd2f guibg=NONE gui=NONE
 
 hi Statusline guifg=NONE guibg=#282828 gui=NONE
 hi StatuslineNC guifg=NONE guibg=#282828 gui=NONE
