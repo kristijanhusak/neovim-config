@@ -9,7 +9,7 @@ function! s:packager_init() abort
   call packager#add('phpactor/phpactor', { 'do': 'composer install --no-dev', 'type': 'opt' })
   call packager#add('Shougo/defx.nvim')
   call packager#add('Raimondi/delimitMate')
-  call packager#add('manasthakur/vim-commentor')
+  call packager#add('tpope/vim-commentary')
   call packager#add('tpope/vim-surround')
   call packager#add('tpope/vim-repeat')
   call packager#add('tpope/vim-fugitive')
