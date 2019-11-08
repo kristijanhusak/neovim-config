@@ -2,11 +2,10 @@ scriptencoding utf-8
 let s:cache = {'branch': ''}
 
 augroup custom_statusline
-
   autocmd!
   autocmd VimEnter * call fugitive#detect(expand('<afile>'))
-  autocmd BufEnter * setlocal statusline=%!Statusline()
-  autocmd BufLeave * setlocal statusline=%f\ %y\ %m
+  autocmd BufEnter,WinEnter * setlocal statusline=%!Statusline()
+  autocmd BufLeave,WinLeave * setlocal statusline=%f\ %y\ %m
   autocmd VimEnter,BufEnter * let s:cache.branch = fugitive#head()
   autocmd User FugitiveChanged let s:cache.branch = fugitive#head()
 augroup END
