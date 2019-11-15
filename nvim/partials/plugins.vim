@@ -15,6 +15,7 @@ function! s:packager_init() abort
   call packager#add('tpope/vim-fugitive')
   call packager#add('tpope/vim-sleuth')
   call packager#add('tpope/vim-dadbod')
+  call packager#add('tpope/vim-rsi')
   call packager#add('lambdalisue/vim-backslash')
   call packager#add('AndrewRadev/splitjoin.vim')
   call packager#add('airblade/vim-gitgutter')
