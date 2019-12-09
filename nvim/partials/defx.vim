@@ -9,16 +9,16 @@ nnoremap <silent><Leader>hf :call <sid>defx_open({ 'find_current_file': v:true }
 let s:default_columns = 'indent:git:icons:filename'
 
 function! s:setup_defx() abort
-  call defx#custom#option('_', {
+  silent! call defx#custom#option('_', {
         \ 'columns': s:default_columns,
         \ })
 
-  call defx#custom#column('filename', {
+  silent! call defx#custom#column('filename', {
         \ 'min_width': 80,
         \ 'max_width': 80,
         \ })
 
-  call s:defx_open({ 'dir': expand('<afile>') })
+  silent! call s:defx_open({ 'dir': expand('<afile>') })
 endfunction
 
 function s:get_project_root() abort

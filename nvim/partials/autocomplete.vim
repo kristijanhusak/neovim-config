@@ -2,8 +2,8 @@ set completeopt-=preview                                                        
 set pumheight=15                                                                "Maximum number of entries in autocomplete popup
 
 augroup vimrc_autocomplete
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-  autocmd CursorHoldI * call CocActionAsync('showSignatureHelp')
+  autocmd CursorHold * silent! call CocActionAsync('highlight')
+  autocmd CursorHoldI * silent! call CocActionAsync('showSignatureHelp')
 augroup END
 
 let g:coc_user_config = {

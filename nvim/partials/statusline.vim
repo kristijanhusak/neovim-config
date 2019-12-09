@@ -3,10 +3,10 @@ let s:cache = {'branch': ''}
 
 augroup custom_statusline
   autocmd!
-  autocmd VimEnter * call fugitive#detect(expand('<afile>'))
+  autocmd VimEnter * silent! call fugitive#detect(expand('<afile>'))
   autocmd BufEnter,WinEnter * setlocal statusline=%!Statusline()
   autocmd BufLeave,WinLeave * setlocal statusline=%f\ %y\ %m
-  autocmd VimEnter,BufEnter * let s:cache.branch = fugitive#head()
+  autocmd VimEnter,BufEnter * if exists('*fugitive#head') | let s:cache.branch = fugitive#head() | endif
   autocmd User FugitiveChanged let s:cache.branch = fugitive#head()
 augroup END
 
@@ -52,7 +52,7 @@ function! Statusline() abort
   let l:statusline .= s:sep_if('%r', &readonly)                                 "Read only indicator
   let l:statusline .= s:sep_if('%q', &buftype ==? 'quickfix')                   "Quickfix list indicator
   let l:statusline .= '%='                                                      "Start right side layout
-  let l:anzu = anzu#search_status()
+  let l:anzu = exists('*anzu#search_status') ? anzu#search_status() : ''
   let l:statusline .= s:sep_if(l:anzu, !empty(l:anzu))                          "Search status
   let l:ft = &filetype
   let l:statusline .= s:sep_if(l:ft, !empty(l:ft))                              "Filetype
@@ -69,6 +69,10 @@ endfunction
 
 
 function! s:ale_status(type) abort
+  if !exists('*ale#statusline#Count')
+    return ''
+  endif
+
   let l:count = ale#statusline#Count(bufnr(''))
   let l:errors = l:count.error + l:count.style_error
   let l:warnings = l:count.warning + l:count.style_warning
