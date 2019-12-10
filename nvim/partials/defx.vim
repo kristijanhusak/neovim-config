@@ -91,8 +91,8 @@ function! s:defx_mappings() abort
   nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select') . 'j'
   nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
   nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
-  nnoremap <silent><buffer> J :call search('')<CR>
-  nnoremap <silent><buffer> K :call search('', 'b')<CR>
+  nnoremap <silent><buffer> J :call search('[]')<CR>
+  nnoremap <silent><buffer> K :call search('[]', 'b')<CR>
   nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
   nnoremap <silent><buffer><expr> q defx#do_action('quit')
   silent exe 'nnoremap <silent><buffer><expr> tt defx#do_action("toggle_columns", "'.s:default_columns.':size:time")'
