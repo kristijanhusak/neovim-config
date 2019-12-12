@@ -6,6 +6,8 @@ augroup vimrc_autocomplete
   autocmd CursorHoldI * silent! call CocActionAsync('showSignatureHelp')
 augroup END
 
+nnoremap <silent><Leader>n :CocCommand explorer<CR>
+
 let g:coc_user_config = {
       \ 'diagnostic.enable': v:false,
       \ 'prettier.printWidth': 100,
@@ -15,6 +17,22 @@ let g:coc_user_config = {
               \ 'command': 'gopls',
               \ 'filetypes': ['go']
               \ }
+          \ },
+          \ 'explorer.icon.enableNerdfont': v:true,
+          \ 'explorer.file.column.git.icon.modified': '✹',
+          \ 'explorer.file.column.git.icon.added': '✚',
+          \ 'explorer.file.column.git.icon.deleted': '✖',
+          \ 'explorer.file.column.git.icon.renamed': '➜',
+          \ 'explorer.file.column.git.icon.unmerged': '═',
+          \ 'explorer.file.column.git.icon.untracked': '✭',
+          \ 'explorer.file.column.git.icon.ignored': '☒',
+          \ 'explorer.file.column.indent.indentLine': v:false,
+          \ 'explorer.openAction.changeDirectory': v:false,
+          \ 'explorer.keyMappings': {
+          \ '<space>': ['toggleSelection', 'normal:j'],
+          \ 'M': 'actionMenu',
+          \ 'S': 'openInVsplit',
+          \ 'o': 'open',
           \ }
       \ }
 
@@ -30,6 +48,7 @@ let g:coc_global_extensions = [
       \ 'coc-snippets',
       \ 'coc-vimlsp',
       \ 'coc-pairs',
+      \ 'coc-explorer',
       \ ]
 
 inoremap <silent><expr> <TAB>
