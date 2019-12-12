@@ -69,7 +69,7 @@ endfunction
 
 
 function! s:ale_status(type) abort
-  if !exists('*ale#statusline#Count')
+  if !exists('g:loaded_ale')
     return ''
   endif
 
