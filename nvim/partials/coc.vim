@@ -29,11 +29,12 @@ let g:coc_user_config = {
           \ 'explorer.file.column.indent.indentLine': v:false,
           \ 'explorer.openAction.changeDirectory': v:false,
           \ 'explorer.keyMappings': {
-          \ '<space>': ['toggleSelection', 'normal:j'],
-          \ 'M': 'actionMenu',
-          \ 'S': 'openInVsplit',
-          \ 'o': 'open',
-          \ }
+            \ '<space>': ['toggleSelection', 'normal:j'],
+            \ 'M': 'actionMenu',
+            \ 'S': 'openInVsplit',
+            \ 'o': 'open',
+          \ },
+          \ 'explorer.sources': [{'name': 'file', 'expand': v:true}]
       \ }
 
 let g:coc_global_extensions = [
