@@ -64,6 +64,7 @@ function! Statusline() abort
   let l:warn = s:ale_status('warning')
   let l:statusline .= s:sep_if(l:err, !empty(l:err), s:st_err)
   let l:statusline .= s:sep_if(l:warn, !empty(l:warn), s:st_warn)
+  let l:statusline .= '%<'
   return l:statusline
 endfunction
 

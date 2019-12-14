@@ -7,6 +7,7 @@ augroup vimrc_autocomplete
 augroup END
 
 nnoremap <silent><Leader>n :CocCommand explorer<CR>
+nnoremap <silent><Leader>hf :CocCommand explorer --no-toggle<CR>
 
 let g:coc_user_config = {
       \ 'diagnostic.enable': v:false,
