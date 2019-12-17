@@ -6,8 +6,32 @@ augroup vimrc_autocomplete
   autocmd CursorHoldI * silent! call CocActionAsync('showSignatureHelp')
 augroup END
 
-nnoremap <silent><Leader>n :CocCommand explorer<CR>
-nnoremap <silent><Leader>hf :CocCommand explorer --no-toggle<CR>
+function s:get_project_root() abort
+  let l:git_root = ''
+  let l:path = expand('%:p:h')
+  let l:cmd = systemlist('cd '.l:path.' && git rev-parse --show-toplevel')
+  if !v:shell_error && !empty(l:cmd)
+    let l:git_root = fnamemodify(l:cmd[0], ':p:h')
+  endif
+
+  if !empty(l:git_root)
+    return l:git_root
+  endif
+
+  return getcwd()
+endfunction
+
+function! s:open(...) abort
+  let l:cwd = s:get_project_root()
+  if a:0 > 0
+    let l:cwd .= ' --no-toggle'
+  endif
+
+  silent! exe 'CocCommand explorer '.l:cwd
+endfunction
+
+nnoremap <silent><Leader>n :call <sid>open()<CR>
+nnoremap <silent><Leader>hf :call <sid>open(1)<CR>
 
 let g:coc_user_config = {
       \ 'diagnostic.enable': v:false,
