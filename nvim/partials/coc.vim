@@ -32,7 +32,7 @@ let g:coc_user_config = {
           \ 'explorer.keyMappings': {
             \ '<space>': ['toggleSelection', 'normal:j'],
             \ 'M': 'actionMenu',
-            \ 'S': 'openInVsplit',
+            \ 's': 'openInVsplit',
             \ 'o': 'open',
           \ },
           \ 'explorer.sources': [{'name': 'file', 'expand': v:true}]
