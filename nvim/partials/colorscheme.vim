@@ -6,6 +6,7 @@ set synmaxcol=300                                                               
 let g:gruvbox_italic = 1
 let g:gruvbox_sign_column = 'bg0'
 let g:gruvbox_invert_selection = 0
+let g:gruvbox_contrast_light = 'soft'
 
 filetype plugin indent on
 syntax on
@@ -13,7 +14,7 @@ silent! colorscheme gruvbox
 
 augroup vimrc_colorscheme
   autocmd!
-  autocmd Syntax,ColorScheme * call s:set_gruvbox_colors()
+  autocmd VimEnter,Syntax,ColorScheme * call s:set_gruvbox_colors()
   autocmd BufEnter * :syntax sync fromstart
 augroup END
 

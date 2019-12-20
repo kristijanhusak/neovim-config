@@ -10,15 +10,19 @@ augroup custom_statusline
   autocmd User FugitiveChanged let s:cache.branch = fugitive#head()
 augroup END
 
-hi StItem guibg=#504945 guifg=#ebdbb2 gui=NONE
-hi StSep guifg=#504945 guibg=NONE gui=NONE
-hi StErr guibg=#fb4934 guifg=#282828 gui=bold
+let s:normal_bg = synIDattr(hlID('Normal'), 'bg')
+let s:bg_2 = synIDattr(hlID('GruvboxBg2'), 'fg')
+let s:fg_1 = synIDattr(hlID('GruvboxFg1'), 'fg')
+
+silent! exe 'hi StItem guibg='.s:bg_2.' guifg='.s:fg_1.' gui=NONE'
+silent! exe 'hi StSep guifg='.s:bg_2.' guibg=NONE gui=NONE'
+silent! exe 'hi StErr guibg=#fb4934 guifg='.s:normal_bg.' gui=bold'
 hi StErrSep guifg=#fb4934 guibg=NONE gui=NONE
-hi StWarn guibg=#fabd2f guifg=#282828 gui=bold
+silent! exe 'hi StWarn guibg=#fabd2f guifg='.s:normal_bg.' gui=bold'
 hi StWarnSep guifg=#fabd2f guibg=NONE gui=NONE
 
-hi Statusline guifg=NONE guibg=#282828 gui=NONE
-hi StatuslineNC guifg=NONE guibg=#282828 gui=NONE
+silent! exe 'hi Statusline guifg=NONE guibg='.s:normal_bg.' gui=NONE'
+silent! exe 'hi StatuslineNC guifg=NONE guibg='.s:normal_bg.' gui=NONE'
 
 function! s:sep(item, ...) abort
   let l:opts = get(a:, '1', {})
@@ -132,7 +136,7 @@ function! s:mode_highlight(mode) abort
     hi StMode guibg=#8ec07c guifg=#3c3836
     hi StModeSep guifg=#8ec07c guibg=NONE
   else
-    hi StMode guibg=#504945 guifg=#ebdbb2 gui=NONE
-    hi StModeSep guifg=#504945 guibg=NONE gui=NONE
+    silent! exe 'hi StMode guibg='.s:bg_2.' guifg='.s:fg_1.' gui=NONE'
+    silent! exe 'hi StModeSep guifg='.s:bg_2.' guibg=NONE gui=NONE'
   endif
 endfunction
