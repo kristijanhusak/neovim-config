@@ -34,6 +34,7 @@ function! s:packager_init() abort
   call packager#add('gruvbox-community/gruvbox')
   call packager#add('wakatime/vim-wakatime')
   call packager#add('kkoomen/vim-doge')
+  call packager#add('lifepillar/vim-solarized8')
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()

@@ -7,22 +7,13 @@ let g:gruvbox_italic = 1
 let g:gruvbox_sign_column = 'bg0'
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_contrast_light = 'soft'
+let g:solarized_extra_hi_groups = 1
 
 filetype plugin indent on
 syntax on
-silent! colorscheme gruvbox
+silent! colorscheme solarized8_flat
 
 augroup vimrc_colorscheme
   autocmd!
-  autocmd VimEnter,Syntax,ColorScheme * call s:set_gruvbox_colors()
   autocmd BufEnter * :syntax sync fromstart
 augroup END
-
-function! s:set_gruvbox_colors() abort
-  let g:fzf_colors = extend(get(g:, 'fzf_colors', {}), {
-        \ 'fg': ['fg', 'GruvboxFg1'],
-        \ 'bg': ['fg', 'GruvboxBg1'],
-        \ 'fg+': ['fg', 'GruvboxFg2'],
-        \ 'bg+': ['fg', 'GruvboxBg2'],
-        \ })
-endfunction

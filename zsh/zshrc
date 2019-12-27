@@ -60,7 +60,7 @@ setopt HIST_IGNORE_ALL_DUPS
 # zsh-autosuggestions is designed to be unobtrusive)
 export KEYTIMEOUT=1
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=250'
 [ -f ~/.zsh_secret ] && source ~/.zsh_secret
 
 export NVM_DIR="/home/kristijan/.nvm"
