@@ -29,11 +29,9 @@ function! s:packager_init() abort
   call packager#add('w0rp/ale')
   call packager#add('honza/vim-snippets')
   call packager#add('AndrewRadev/tagalong.vim')
-  call packager#add('sodapopcan/vim-twiggy')
   call packager#add('kristijanhusak/vim-create-pr')
   call packager#add('gruvbox-community/gruvbox')
   call packager#add('wakatime/vim-wakatime')
-  call packager#add('kkoomen/vim-doge')
   call packager#add('lifepillar/vim-solarized8')
 endfunction
 
@@ -72,13 +70,6 @@ nnoremap <Leader>R :ALEFix<CR>
 nnoremap [e :ALEPrevious<CR>
 nnoremap ]e :ALENext<CR>
 
-" Doc generator mappings
-nmap <silent> <Leader>d <Plug>(doge-generate)
-nmap <silent> <Leader>j <Plug>(doge-comment-jump-forward)
-nmap <silent> <Leader>k <Plug>(doge-comment-jump-backward)
-smap <silent> <Leader>j <Plug>(doge-comment-jump-forward)
-smap <silent> <Leader>k <Plug>(doge-comment-jump-backward)
-
 " Open fugitive git status in vertical split
 nnoremap <silent> <Leader>G :vert G<CR>
 
@@ -110,5 +101,3 @@ let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   
 let g:matchup_matchparen_deferred = 1                                           "Defer matchup highlights to allow better cursor movement performance
 
 let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
-
-let g:doge_enable_mappings = 0                                                  "Disable doge mappings
