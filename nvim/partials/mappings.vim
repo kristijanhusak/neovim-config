@@ -82,8 +82,23 @@ nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 
 nnoremap gx :call netrw#BrowseX(expand('<cfile>'), netrw#CheckIfRemote())<CR>
 
+" Unimpaired mappings
 nnoremap [q :cprevious<CR>
 nnoremap ]q :cnext<CR>
+nnoremap [Q :cfirst<CR>
+nnoremap ]Q :clast<CR>
+nnoremap [l :lprevious<CR>
+nnoremap ]l :lnext<CR>
+nnoremap [L :lfirst<CR>
+nnoremap ]L :llast<CR>
+nnoremap [t :tprevious
+nnoremap ]t :tnext
+nnoremap [T :tfirst
+nnoremap ]T :tlast
+nnoremap [b :bprevious
+nnoremap ]b :bnext
+nnoremap [B :bfirst
+nnoremap ]B :blast
 
 function! s:close_buffer(...) abort
   if &buftype !=? ''
