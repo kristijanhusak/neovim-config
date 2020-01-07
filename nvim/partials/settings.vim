@@ -60,6 +60,7 @@ augroup vimrc
   autocmd FileType vim inoremap <buffer><silent><C-Space> <C-x><C-v>
   autocmd FileType markdown setlocal spell
   autocmd FileType json setlocal equalprg=python\ -m\ json.tool
+  autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
 
 augroup numbertoggle
