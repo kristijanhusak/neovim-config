@@ -13,7 +13,7 @@ augroup END
 let s:normal_bg = synIDattr(hlID('Normal'), 'bg')
 let s:normal_fg = synIDattr(hlID('Normal'), 'fg')
 let s:warning_fg = synIDattr(hlID('WarningMsg'), 'fg')
-let s:error_fg = synIDattr(hlID('ErrorMsg'), 'fg')
+let s:error_fg = synIDattr(hlID('Error'), 'fg')
 
 silent! exe 'hi StItem guibg='.s:normal_fg.' guifg='.s:normal_bg.' gui=NONE'
 silent! exe 'hi StSep guifg='.s:normal_fg.' guibg=NONE gui=NONE'

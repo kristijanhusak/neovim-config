@@ -3,15 +3,15 @@ set termguicolors                                                               
 silent exe 'set background='.s:bg_color
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
-let g:gruvbox_italic = 1
-let g:gruvbox_sign_column = 'bg0'
-let g:gruvbox_invert_selection = 0
-let g:gruvbox_contrast_light = 'soft'
-let g:solarized_extra_hi_groups = 1
-
 filetype plugin indent on
 syntax on
-silent! colorscheme solarized8_flat
+let s:colorscheme  = $NVIM_COLORSCHEME_BG ==? 'light' ? 'onehalflight' : 'onehalfdark'
+silent! exe 'colorscheme '.s:colorscheme
+
+hi DiffAdd ctermfg=71 guifg=#379b5f guibg=#bcf2d0
+hi DiffDelete ctermfg=167 guifg=#DE1840 guibg=#FAB9B7
+hi DiffChange ctermfg=136 guifg=#166faa guibg=#cce6f7
+hi DiffText ctermfg=31 guifg=#a69f03 guibg=#f1eeaa
 
 augroup vimrc_colorscheme
   autocmd!
