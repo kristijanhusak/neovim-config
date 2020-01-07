@@ -5,13 +5,7 @@ set synmaxcol=300                                                               
 
 filetype plugin indent on
 syntax on
-let s:colorscheme  = $NVIM_COLORSCHEME_BG ==? 'light' ? 'onehalflight' : 'onehalfdark'
-silent! exe 'colorscheme '.s:colorscheme
-
-hi DiffAdd ctermfg=71 guifg=#379b5f guibg=#bcf2d0
-hi DiffDelete ctermfg=167 guifg=#DE1840 guibg=#FAB9B7
-hi DiffChange ctermfg=136 guifg=#166faa guibg=#cce6f7
-hi DiffText ctermfg=31 guifg=#a69f03 guibg=#f1eeaa
+silent colorscheme endarkened
 
 augroup vimrc_colorscheme
   autocmd!
