@@ -24,11 +24,8 @@ Plugins
 
 * [kristijanhusak/vim-packager](https://github.com/kristijanhusak/vim-packager)
 * [kristijanhusak/vim-js-file-import](https://github.com/kristijanhusak/vim-js-file-import)
-* [kristijanhusak/defx-git](https://github.com/kristijanhusak/defx-git)
-* [kristijanhusak/defx-icons](https://github.com/kristijanhusak/defx-icons)
 * [mgedmin/python-imports.vim](https://github.com/mgedmin/python-imports.vim)
 * [phpactor/phpactor](https://github.com/phpactor/phpactor)
-* [Shougo/defx.nvim](https://github.com/Shougo/defx.nvim)
 * [Raimondi/delimitMate](https://github.com/Raimondi/delimitMate)
 * [tpope/vim-commentary](https://github.com/tpope/vim-commentary)
 * [tpope/vim-surround](https://github.com/tpope/vim-surround)

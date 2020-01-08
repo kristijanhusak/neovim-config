@@ -5,6 +5,7 @@ function! s:packager_init() abort
   call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install', 'type': 'opt' })
   call packager#add('mgedmin/python-imports.vim', { 'type': 'opt' })
   call packager#add('phpactor/phpactor', { 'do': 'composer install --no-dev', 'type': 'opt' })
+  call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
   call packager#add('tpope/vim-commentary')
   call packager#add('tpope/vim-surround')
   call packager#add('tpope/vim-repeat')
@@ -19,7 +20,6 @@ function! s:packager_init() abort
   call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
   call packager#add('junegunn/fzf.vim')
   call packager#add('ludovicchabant/vim-gutentags')
-  call packager#add('vimwiki/vimwiki')
   call packager#add('editorconfig/editorconfig-vim')
   call packager#add('andymass/vim-matchup')
   call packager#add('haya14busa/vim-asterisk')
@@ -44,7 +44,6 @@ let g:mapleader = ','                                                           
 augroup packager_filetype
   autocmd!
   autocmd FileType javascript,javascriptreact,typescript packadd vim-js-file-import
-  autocmd FileType defx packadd defx-git | packadd defx-icons
   autocmd FileType python packadd python-imports.vim
   autocmd FileType php packadd phpactor
   autocmd FileType fugitive nmap <buffer><silent> <Space> =
@@ -58,6 +57,7 @@ map * <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)
 map # <Plug>(asterisk-z#)<Plug>(anzu-update-search-status)
 map g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)
 map g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)
+nnoremap <silent><Leader>ww :unmap <Leader>ww<BAR>packadd vimwiki<BAR>VimwikiIndex<CR>
 
 " Search mappings
 nmap <Leader>f <Plug>CtrlSFPrompt
