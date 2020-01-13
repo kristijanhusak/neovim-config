@@ -39,27 +39,32 @@ let g:coc_user_config = {
       \ 'prettier.singleQuote': v:true,
       \ 'languageserver' : {
           \ 'golang': {
-              \ 'command': 'gopls',
-              \ 'filetypes': ['go']
-              \ }
-          \ },
-          \ 'explorer.icon.enableNerdfont': v:true,
-          \ 'explorer.file.column.git.icon.modified': '✹',
-          \ 'explorer.file.column.git.icon.added': '✚',
-          \ 'explorer.file.column.git.icon.deleted': '✖',
-          \ 'explorer.file.column.git.icon.renamed': '➜',
-          \ 'explorer.file.column.git.icon.unmerged': '═',
-          \ 'explorer.file.column.git.icon.untracked': '✭',
-          \ 'explorer.file.column.git.icon.ignored': '☒',
-          \ 'explorer.file.column.indent.indentLine': v:false,
-          \ 'explorer.openAction.changeDirectory': v:false,
-          \ 'explorer.keyMappings': {
-            \ '<space>': ['toggleSelection', 'normal:j'],
-            \ 'M': 'actionMenu',
-            \ 's': 'openInVsplit',
-            \ 'o': 'open',
-          \ },
-          \ 'explorer.sources': [{'name': 'file', 'expand': v:true}]
+            \ 'command': 'go-langserver',
+            \ 'filetypes': ['go'],
+            \ 'initializationOptions': {
+            \   'gocodeCompletionEnabled': v:true,
+            \   'diagnosticsEnabled': v:true,
+            \   'lintTool': 'golint'
+            \ }
+          \ }
+      \ },
+      \ 'explorer.icon.enableNerdfont': v:true,
+      \ 'explorer.file.column.git.icon.modified': '✹',
+      \ 'explorer.file.column.git.icon.added': '✚',
+      \ 'explorer.file.column.git.icon.deleted': '✖',
+      \ 'explorer.file.column.git.icon.renamed': '➜',
+      \ 'explorer.file.column.git.icon.unmerged': '═',
+      \ 'explorer.file.column.git.icon.untracked': '✭',
+      \ 'explorer.file.column.git.icon.ignored': '☒',
+      \ 'explorer.file.column.indent.indentLine': v:false,
+      \ 'explorer.openAction.changeDirectory': v:false,
+      \ 'explorer.keyMappings': {
+        \ '<space>': ['toggleSelection', 'normal:j'],
+        \ 'M': 'actionMenu',
+        \ 's': 'openInVsplit',
+        \ 'o': 'open',
+      \ },
+      \ 'explorer.sources': [{'name': 'file', 'expand': v:true}]
       \ }
 
 let g:coc_global_extensions = [
@@ -67,7 +72,6 @@ let g:coc_global_extensions = [
       \ 'coc-css',
       \ 'coc-html',
       \ 'coc-json',
-      \ 'coc-pyls',
       \ 'coc-jest',
       \ 'coc-prettier',
       \ 'coc-tsserver',
