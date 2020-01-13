@@ -5,6 +5,7 @@ function! s:packager_init() abort
   call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install', 'type': 'opt' })
   call packager#add('mgedmin/python-imports.vim', { 'type': 'opt' })
   call packager#add('phpactor/phpactor', { 'do': 'composer install --no-dev', 'type': 'opt' })
+  call packager#add('fatih/vim-go', { 'do': ':GoUpdateBinaries', 'type': 'opt' })
   call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
   call packager#add('tpope/vim-commentary')
   call packager#add('tpope/vim-surround')
@@ -46,6 +47,7 @@ augroup packager_filetype
   autocmd FileType javascript,javascriptreact,typescript packadd vim-js-file-import
   autocmd FileType python packadd python-imports.vim
   autocmd FileType php packadd phpactor
+  autocmd FileType go packadd vim-go
   autocmd FileType fugitive nmap <buffer><silent> <Space> =
 augroup END
 

@@ -37,17 +37,6 @@ let g:coc_user_config = {
       \ 'diagnostic.enable': v:false,
       \ 'prettier.printWidth': 100,
       \ 'prettier.singleQuote': v:true,
-      \ 'languageserver' : {
-          \ 'golang': {
-            \ 'command': 'go-langserver',
-            \ 'filetypes': ['go'],
-            \ 'initializationOptions': {
-            \   'gocodeCompletionEnabled': v:true,
-            \   'diagnosticsEnabled': v:true,
-            \   'lintTool': 'golint'
-            \ }
-          \ }
-      \ },
       \ 'explorer.icon.enableNerdfont': v:true,
       \ 'explorer.file.column.git.icon.modified': '✹',
       \ 'explorer.file.column.git.icon.added': '✚',
