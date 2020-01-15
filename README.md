@@ -22,11 +22,15 @@ Installation
 Plugins
 ----------------
 
+
 * [kristijanhusak/vim-packager](https://github.com/kristijanhusak/vim-packager)
 * [kristijanhusak/vim-js-file-import](https://github.com/kristijanhusak/vim-js-file-import)
-* [mgedmin/python-imports.vim](https://github.com/mgedmin/python-imports.vim)
+* [kristijanhusak/defx-git](https://github.com/kristijanhusak/defx-git)
+* [kristijanhusak/defx-icons](https://github.com/kristijanhusak/defx-icons)
 * [phpactor/phpactor](https://github.com/phpactor/phpactor)
-* [Raimondi/delimitMate](https://github.com/Raimondi/delimitMate)
+* [fatih/vim-go](https://github.com/fatih/vim-go)
+* [vimwiki/vimwiki](https://github.com/vimwiki/vimwiki)
+* [Shougo/defx.nvim](https://github.com/Shougo/defx.nvim)
 * [tpope/vim-commentary](https://github.com/tpope/vim-commentary)
 * [tpope/vim-surround](https://github.com/tpope/vim-surround)
 * [tpope/vim-repeat](https://github.com/tpope/vim-repeat)
@@ -41,7 +45,6 @@ Plugins
 * [junegunn/fzf](https://github.com/junegunn/fzf)
 * [junegunn/fzf.vim](https://github.com/junegunn/fzf.vim)
 * [ludovicchabant/vim-gutentags](https://github.com/ludovicchabant/vim-gutentags)
-* [vimwiki/vimwiki](https://github.com/vimwiki/vimwiki)
 * [editorconfig/editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
 * [andymass/vim-matchup](https://github.com/andymass/vim-matchup)
 * [haya14busa/vim-asterisk](https://github.com/haya14busa/vim-asterisk)
@@ -51,15 +54,14 @@ Plugins
 * [w0rp/ale](https://github.com/w0rp/ale)
 * [honza/vim-snippets](https://github.com/honza/vim-snippets)
 * [AndrewRadev/tagalong.vim](https://github.com/AndrewRadev/tagalong.vim)
-* [sodapopcan/vim-twiggy](https://github.com/sodapopcan/vim-twiggy)
 * [kristijanhusak/vim-create-pr](https://github.com/kristijanhusak/vim-create-pr)
-* [gruvbox-community/gruvbox](https://github.com/gruvbox-community/gruvbox)
 * [wakatime/vim-wakatime](https://github.com/wakatime/vim-wakatime)
-* [kkoomen/vim-doge](https://github.com/kkoomen/vim-doge)
+* [sonph/onehalf](https://github.com/sonph/onehalf)
 
 Font used:
-* Current - [Iosevka](https://github.com/be5invis/Iosevka)
+* Current - [IBM Plex Mono](https://github.com/IBM/plex)
 * previous fonts
+  * [Iosevka](https://github.com/be5invis/Iosevka)
   * [Input mono condensed](http://input.fontbureau.com/)
   * [Inconsolata for powerline](https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20for%20Powerline%20Nerd%20Font%20Complete.otf)
 
