@@ -6,54 +6,10 @@ augroup vimrc_autocomplete
   autocmd CursorHoldI * silent! call CocActionAsync('showSignatureHelp')
 augroup END
 
-function s:get_project_root() abort
-  let l:git_root = ''
-  let l:path = expand('%:p:h')
-  let l:cmd = systemlist('cd '.l:path.' && git rev-parse --show-toplevel')
-  if !v:shell_error && !empty(l:cmd)
-    let l:git_root = fnamemodify(l:cmd[0], ':p:h')
-  endif
-
-  if !empty(l:git_root)
-    return l:git_root
-  endif
-
-  return getcwd()
-endfunction
-
-function! s:open(...) abort
-  let l:cwd = s:get_project_root()
-  if a:0 > 0
-    let l:cwd .= ' --no-toggle'
-  endif
-
-  silent! exe 'CocCommand explorer '.l:cwd
-endfunction
-
-nnoremap <silent><Leader>n :call <sid>open()<CR>
-nnoremap <silent><Leader>hf :call <sid>open(1)<CR>
-
 let g:coc_user_config = {
       \ 'diagnostic.enable': v:false,
       \ 'prettier.printWidth': 100,
-      \ 'prettier.singleQuote': v:true,
-      \ 'explorer.icon.enableNerdfont': v:true,
-      \ 'explorer.file.column.git.icon.modified': '✹',
-      \ 'explorer.file.column.git.icon.added': '✚',
-      \ 'explorer.file.column.git.icon.deleted': '✖',
-      \ 'explorer.file.column.git.icon.renamed': '➜',
-      \ 'explorer.file.column.git.icon.unmerged': '═',
-      \ 'explorer.file.column.git.icon.untracked': '✭',
-      \ 'explorer.file.column.git.icon.ignored': '☒',
-      \ 'explorer.file.column.indent.indentLine': v:false,
-      \ 'explorer.openAction.changeDirectory': v:false,
-      \ 'explorer.keyMappings': {
-        \ '<space>': ['toggleSelection', 'normal:j'],
-        \ 'M': 'actionMenu',
-        \ 's': 'openInVsplit',
-        \ 'o': 'open',
-      \ },
-      \ 'explorer.sources': [{'name': 'file', 'expand': v:true}]
+      \ 'prettier.singleQuote': v:true
       \ }
 
 let g:coc_global_extensions = [
@@ -67,7 +23,6 @@ let g:coc_global_extensions = [
       \ 'coc-snippets',
       \ 'coc-vimlsp',
       \ 'coc-pairs',
-      \ 'coc-explorer',
       \ ]
 
 inoremap <silent><expr> <TAB>
