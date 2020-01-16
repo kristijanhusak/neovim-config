@@ -56,7 +56,7 @@ augroup vimrc
   autocmd BufWritePre * call s:strip_trailing_whitespace()                      "Auto-remove trailing spaces
   autocmd InsertEnter * set nocul                                               "Remove cursorline highlight
   autocmd InsertLeave * set cul                                                 "Add cursorline highlight in normal mode
-  autocmd FocusGained,BufEnter * checktime                                      "Refresh file when vim gets focus
+  autocmd FocusGained,BufEnter * silent! exe 'checktime'                        "Refresh file when vim gets focus
   autocmd FileType vim inoremap <buffer><silent><C-Space> <C-x><C-v>
   autocmd FileType markdown setlocal spell
   autocmd FileType json setlocal equalprg=python\ -m\ json.tool
