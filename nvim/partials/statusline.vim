@@ -8,22 +8,25 @@ augroup custom_statusline
   autocmd BufLeave,WinLeave * setlocal statusline=%f\ %y\ %m
   autocmd VimEnter,BufEnter * if exists('*fugitive#head') | let s:cache.branch = fugitive#head() | endif
   autocmd User FugitiveChanged let s:cache.branch = fugitive#head()
+  autocmd VimEnter,ColorScheme * call s:set_statusline_colors()
 augroup END
 
-let s:normal_bg = synIDattr(hlID('Normal'), 'bg')
-let s:normal_fg = synIDattr(hlID('Normal'), 'fg')
-let s:warning_fg = synIDattr(hlID('WarningMsg'), 'fg')
-let s:error_fg = synIDattr(hlID('Error'), 'fg')
+function! s:set_statusline_colors() abort
+  let s:normal_bg = synIDattr(hlID('Normal'), 'bg')
+  let s:normal_fg = synIDattr(hlID('Normal'), 'fg')
+  let s:warning_fg = synIDattr(hlID('WarningMsg'), 'fg')
+  let s:error_fg = synIDattr(hlID('Error'), 'fg')
 
-silent! exe 'hi StItem guibg='.s:normal_fg.' guifg='.s:normal_bg.' gui=NONE'
-silent! exe 'hi StSep guifg='.s:normal_fg.' guibg=NONE gui=NONE'
-silent! exe 'hi StErr guibg='.s:error_fg.' guifg='.s:normal_bg.' gui=bold'
-silent! exe 'hi StErrSep guifg='.s:error_fg.' guibg=NONE gui=NONE'
-silent! exe 'hi StWarn guibg='.s:warning_fg.' guifg='.s:normal_bg.' gui=bold'
-silent! exe 'hi StWarnSep guifg='.s:warning_fg.' guibg=NONE gui=NONE'
+  silent! exe 'hi StItem guibg='.s:normal_fg.' guifg='.s:normal_bg.' gui=NONE'
+  silent! exe 'hi StSep guifg='.s:normal_fg.' guibg=NONE gui=NONE'
+  silent! exe 'hi StErr guibg='.s:error_fg.' guifg='.s:normal_bg.' gui=bold'
+  silent! exe 'hi StErrSep guifg='.s:error_fg.' guibg=NONE gui=NONE'
+  silent! exe 'hi StWarn guibg='.s:warning_fg.' guifg='.s:normal_bg.' gui=bold'
+  silent! exe 'hi StWarnSep guifg='.s:warning_fg.' guibg=NONE gui=NONE'
 
-silent! exe 'hi Statusline guifg=NONE guibg='.s:normal_bg.' gui=NONE cterm=NONE'
-silent! exe 'hi StatuslineNC guifg='.s:normal_fg.' guibg=NONE gui=NONE cterm=NONE'
+  silent! exe 'hi Statusline guifg=NONE guibg='.s:normal_bg.' gui=NONE cterm=NONE'
+  silent! exe 'hi StatuslineNC guifg='.s:normal_fg.' guibg=NONE gui=NONE cterm=NONE'
+endfunction
 
 function! s:sep(item, ...) abort
   let l:opts = get(a:, '1', {})
