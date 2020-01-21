@@ -70,7 +70,7 @@ function! s:close_peek() abort
     let s:state.win = 0
     call s:restore_old_mapping(s:state.mapping_down, 'J')
     call s:restore_old_mapping(s:state.mapping_up, 'K')
-    call s:restore_old_mapping(s:state.mapping_up, 'K')
+    call s:restore_old_mapping(s:state.mapping_up, 'R')
   endif
 endfunction
 
