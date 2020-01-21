@@ -7,13 +7,19 @@ let s:state = {
       \ 'line': 0,
       \ }
 
+function! s:get_word_tag() abort
+  return get(taglist('^'.expand('<cword>').'$'), 0, {})
+endfunction
+
 function! s:peek() abort
-  let tag = get(taglist('^'.expand('<cword>').'$'), 0, {})
+  let tag_fetcher = get(b:, 'peek_tag_fetcher', 's:get_word_tag')
+  let tag = call(tag_fetcher, [])
   if empty(tag)
     echo 'No tag found.'
     return 0
   endif
 
+  silent! exe 'redraw!'
   let curr_win = win_getid()
   let height = float2nr(&lines * 0.3)
   let width = &columns - 20
@@ -28,6 +34,7 @@ function! s:peek() abort
 
   let win = nvim_open_win(0, v:true, opts)
   silent! exe 'edit '.tag.filename
+  echo 'Viewing filename '.tag.filename
   let s:state.buf = bufnr('')
   call search(tag.cmd[1:-2])
   let s:state.line = line('.')
@@ -66,6 +73,7 @@ endfunction
 
 function! s:close_peek() abort
   if !empty(s:state.win)
+    echo ''
     call nvim_win_close(s:state.win, v:true)
     let s:state.win = 0
     call s:restore_old_mapping(s:state.mapping_down, 'J')
