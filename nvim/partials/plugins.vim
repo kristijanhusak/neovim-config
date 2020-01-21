@@ -80,8 +80,6 @@ let g:ctrlsf_auto_close = 0                                                     
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 let g:ctrlsf_search_mode = 'sync'                                               "Use sync mode for searching, more precise and reliable
 
-let g:ale_virtualtext_cursor = 1                                                "Enable neovim's virtualtext support
-let g:ale_virtualtext_prefix = '  > '                                           "Move virtual text a bit more right
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
 let g:ale_fixers = {'javascript': ['prettier', 'eslint']}                       "Fix eslint errors
 let g:ale_javascript_prettier_options = '--print-width 120'                     "Set max width to 120 chars for prettier
