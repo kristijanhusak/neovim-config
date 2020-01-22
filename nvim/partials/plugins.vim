@@ -70,8 +70,8 @@ nmap <Leader>F <Plug>CtrlSFCwordPath
 
 " Reformat and fix linting errors
 nnoremap <Leader>R :ALEFix<CR>
-nnoremap [e :ALEPrevious<CR>
-nnoremap ]e :ALENext<CR>
+nnoremap <silent>[e :ALEPrevious<CR>
+nnoremap <silent>]e :ALENext<CR>
 
 " Open fugitive git status in vertical split
 nnoremap <silent> <Leader>G :vert G<CR>

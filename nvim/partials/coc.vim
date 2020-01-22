@@ -7,7 +7,6 @@ augroup vimrc_autocomplete
 augroup END
 
 let g:coc_user_config = {
-      \ 'diagnostic.checkCurrentLine': v:true,
       \ 'javascript.suggestionActions.enabled': v:false,
       \ 'prettier.printWidth': 100,
       \ 'prettier.singleQuote': v:true
@@ -45,6 +44,8 @@ nmap <silent><leader>lh :call CocAction('doHover')<CR>
 vmap <leader>la <Plug>(coc-codeaction-selected)
 nmap <leader>la <Plug>(coc-codeaction-selected)
 inoremap <silent><C-Space> <C-x><C-o>
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 function! s:check_back_space() abort
   let col = col('.') - 1
