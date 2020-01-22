@@ -8,6 +8,7 @@ augroup END
 
 let g:coc_user_config = {
       \ 'diagnostic.checkCurrentLine': v:true,
+      \ 'javascript.suggestionActions.enabled': v:false,
       \ 'prettier.printWidth': 100,
       \ 'prettier.singleQuote': v:true
       \ }
