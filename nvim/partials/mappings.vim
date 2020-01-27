@@ -146,3 +146,13 @@ function! s:open_file_or_create_new() abort
     return execute('edit '.l:new_path.l:suffixes[0])
   endtry
 endfunction
+
+command Json call <sid>paste_to_json_buffer()
+
+function! s:paste_to_json_buffer() abort
+  vsplit
+  enew
+  set filetype=json
+  silent! exe 'norm!"+p'
+  silent! exe 'norm!gg=G'
+endfunction
