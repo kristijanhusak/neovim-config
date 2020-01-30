@@ -5,7 +5,7 @@ set synmaxcol=300                                                               
 
 filetype plugin indent on
 syntax on
-let s:colorscheme = $NVIM_COLORSCHEME_BG ==? 'light' ? 'onehalflight' : 'onehalfdark'
+let s:colorscheme = $NVIM_COLORSCHEME_BG ==? 'light' ? 'xcodelight' : 'xcodedark'
 silent! exe  'colorscheme '.s:colorscheme
 
 augroup vimrc_colorscheme
