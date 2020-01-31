@@ -2,8 +2,8 @@ scriptencoding utf-8
 let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' }
 
 function! CreateCenteredFloatingWindow()
-    let width = float2nr(&columns * 0.6)
-    let height = float2nr(&lines * 0.6)
+    let width = float2nr(&columns * 0.9)
+    let height = float2nr(&lines * 0.9)
     let top = ((&lines - height) / 2) - 1
     let left = (&columns - width) / 2
     let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
