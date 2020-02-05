@@ -56,7 +56,7 @@ Plugins
 * [AndrewRadev/tagalong.vim](https://github.com/AndrewRadev/tagalong.vim)
 * [kristijanhusak/vim-create-pr](https://github.com/kristijanhusak/vim-create-pr)
 * [wakatime/vim-wakatime](https://github.com/wakatime/vim-wakatime)
-* [sonph/onehalf](https://github.com/sonph/onehalf)
+* [arzg/vim-colors-xcode](https://github.com/arzg/vim-colors-xcode)
 
 Font used:
 * Current - [IBM Plex Mono](https://github.com/IBM/plex)

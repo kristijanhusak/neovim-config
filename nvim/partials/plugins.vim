@@ -34,7 +34,7 @@ function! s:packager_init() abort
   call packager#add('AndrewRadev/tagalong.vim')
   call packager#add('kristijanhusak/vim-create-pr')
   call packager#add('wakatime/vim-wakatime')
-  call packager#add('sonph/onehalf', {'rtp': 'vim'})
+  call packager#add('arzg/vim-colors-xcode')
 endfunction
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()

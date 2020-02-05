@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-dark_colorscheme='~/.config/nvim/pack/packager/start/onehalf/kitty/onehalf-dark.conf'
-light_colorscheme='~/.config/nvim/pack/packager/start/onehalf/kitty/onehalf-light.conf'
+dark_colorscheme='~/.config/kitty/xcodelight.conf'
+light_colorscheme='~/.config/kitty/xcodelight.conf'
 
 set_bg () {
   if [[ $1 = 'light' ]]; then
