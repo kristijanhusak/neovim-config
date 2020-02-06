@@ -87,10 +87,10 @@ function! s:defx_mappings() abort
   nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
   nnoremap <silent><buffer><expr> a defx#do_action('new_multiple_files')
   nnoremap <silent><buffer><expr> r defx#do_action('rename')
-  nnoremap <silent><buffer><expr> c defx#do_action('copy')
+  nnoremap <nowait><silent><buffer><expr> c defx#do_action('copy')
   nnoremap <silent><buffer><expr> x defx#do_action('move')
   nnoremap <silent><buffer><expr> p defx#do_action('paste')
-  nnoremap <silent><buffer><expr> d defx#do_action('remove')
+  nnoremap <nowait><silent><buffer><expr> d defx#do_action('remove')
   nnoremap <silent><buffer><expr> q defx#do_action('quit')
   silent exe 'nnoremap <silent><buffer><expr> tt defx#do_action("toggle_columns", "'.s:default_columns.':size:time")'
 endfunction
