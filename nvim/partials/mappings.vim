@@ -126,6 +126,10 @@ function! s:open_file_or_create_new() abort
     return
   endif
 
+  if &buftype ==? 'terminal'
+    return s:open_file_on_line_and_column()
+  endif
+
   try
     exe 'norm!gf'
   catch /.*/
@@ -147,7 +151,7 @@ function! s:open_file_or_create_new() abort
   endtry
 endfunction
 
-command Json call <sid>paste_to_json_buffer()
+command! Json call <sid>paste_to_json_buffer()
 
 function! s:paste_to_json_buffer() abort
   vsplit
@@ -155,4 +159,25 @@ function! s:paste_to_json_buffer() abort
   set filetype=json
   silent! exe 'norm!"+p'
   silent! exe 'norm!gg=G'
+endfunction
+
+function! s:open_file_on_line_and_column() abort
+  let l:path = expand('<cfile>')
+  let l:line = getline('.')
+  let l:row = 1
+  let l:col = 1
+  if match(l:line, escape(l:path, '/').':\d*:\d*') > -1
+    let l:matchlist = matchlist(l:line, escape(l:path, '/').':\(\d*\):\(\d*\)')
+    let l:row = get(l:matchlist, 1, 1)
+    let l:col = get(l:matchlist, 2, 1)
+  endif
+
+  let l:bufnr = bufnr(l:path)
+  let l:winnr = bufwinnr(l:bufnr)
+  if l:winnr > -1 && getbufvar(l:bufnr, '&buftype') !=? 'terminal'
+    silent! exe l:winnr.'wincmd w'
+  else
+    silent! exe 'vsplit '.l:path
+  endif
+  call cursor(l:row, l:col)
 endfunction
