@@ -21,7 +21,7 @@ function! s:packager_init() abort
   call packager#add('airblade/vim-gitgutter')
   call packager#add('sheerun/vim-polyglot')
   call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
-  call packager#add('junegunn/fzf.vim')
+  call packager#add('yuki-ycino/fzf-preview.vim')
   call packager#add('ludovicchabant/vim-gutentags')
   call packager#add('editorconfig/editorconfig-vim')
   call packager#add('andymass/vim-matchup')
@@ -73,6 +73,14 @@ nnoremap <Leader>R :ALEFix<CR>
 nnoremap <silent>[e :ALEPrevious<CR>
 nnoremap <silent>]e :ALENext<CR>
 
+" Fzf mappings
+nnoremap <silent><C-p> :FzfPreviewProjectFiles<CR>
+nnoremap <silent><Leader>b :FzfPreviewBuffers<CR>
+nnoremap <silent><Leader>t :FzfPreviewBufferTags<CR>
+nnoremap <silent><Leader>m :FzfPreviewFromResources buffer old<CR>
+nnoremap <silent><Leader>g :FzfPreviewGitStatus<CR>
+nnoremap <silent><Leader>r :FzfPreviewProjectGrep<CR>
+
 " Open fugitive git status in vertical split
 nnoremap <silent> <Leader>G :vert G<CR>
 
@@ -80,6 +88,7 @@ let g:ctrlsf_auto_close = 0                                                     
 let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
 let g:ctrlsf_search_mode = 'sync'                                               "Use sync mode for searching, more precise and reliable
 
+let g:ale_virtualtext_cursor = 1
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
 let g:ale_fixers = {'javascript': ['prettier', 'eslint']}                       "Fix eslint errors
 let g:ale_javascript_prettier_options = '--print-width 120'                     "Set max width to 120 chars for prettier
