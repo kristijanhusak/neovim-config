@@ -89,6 +89,7 @@ function! s:defx_mappings() abort
   nnoremap <silent><buffer><expr> r defx#do_action('rename')
   nnoremap <nowait><silent><buffer><expr> c defx#do_action('copy')
   nnoremap <silent><buffer><expr> x defx#do_action('move')
+  nnoremap <silent><buffer><expr> X defx#do_action('execute_system')
   nnoremap <silent><buffer><expr> p defx#do_action('paste')
   nnoremap <nowait><silent><buffer><expr> d defx#do_action('remove')
   nnoremap <silent><buffer><expr> q defx#do_action('quit')
