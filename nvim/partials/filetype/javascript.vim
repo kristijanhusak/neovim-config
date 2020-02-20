@@ -1,12 +1,6 @@
 function! s:console_log() abort
   let l:word = expand('<cword>')
-  let l:empty_line = search('^[[:blank:]]*$', 'n')
-  if l:empty_line > 1 && l:empty_line > line('.')
-    call append(l:empty_line - 1, 'console.log('''.l:word.''', '.l:word.'); // eslint-disable-line no-console')
-    keepjumps execute 'norm!'.l:empty_line."G==\<C-o>"
-  else
-    keepjumps execute 'norm!oconsole.log('''.l:word.''', '.l:word.'); // eslint-disable-line no-console'
-  endif
+  keepjumps execute 'norm!oconsole.log('''.l:word.''', '.l:word.'); // eslint-disable-line no-console'
   silent! call repeat#set("\<Plug>(JsConsoleLog)")
 endfunction
 
