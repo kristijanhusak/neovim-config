@@ -63,6 +63,7 @@ set wildignore+=*__pycache__*
 set wildignore+=*cache*
 set wildignore+=*logs*
 set wildignore+=*node_modules*
+set wildignore+=**/node_modules/**
 set wildignore+=*DS_Store*
 set wildignore+=*.gem
 set wildignore+=log/**

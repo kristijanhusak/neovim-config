@@ -23,7 +23,6 @@ set hidden                                                                      
 set conceallevel=2 concealcursor=i                                              "neosnippets conceal marker
 set splitright                                                                  "Set up new vertical splits positions
 set splitbelow                                                                  "Set up new horizontal splits positions
-set path+=**                                                                    "Allow recursive search
 set inccommand=nosplit                                                          "Show substitute changes immidiately in separate split
 set exrc                                                                        "Allow using local vimrc
 set secure                                                                      "Forbid autocmd in local vimrc
@@ -62,6 +61,7 @@ augroup vimrc
   autocmd FileType json setlocal equalprg=python\ -m\ json.tool
   autocmd FileType git setlocal foldenable foldmethod=syntax | nnoremap <buffer><silent> <Space> za
   autocmd TermOpen * setlocal nonumber norelativenumber
+  autocmd VimEnter * call s:set_path()
 augroup END
 
 augroup numbertoggle
@@ -77,5 +77,15 @@ function! s:strip_trailing_whitespace()
     call execute('%s/\s\+$//e')
     call histdel('/', -1)
     call cursor(l:l, l:c)
+  endif
+endfunction
+
+function! s:set_path() abort
+  let l:dirs = filter(systemlist('find . -maxdepth 1 -type d'), {_,dir ->
+        \ !empty(dir) && empty(filter(split(&wildignore, ','), {_,v -> v =~? dir[2:]}))
+        \ })
+
+  if !empty(l:dirs)
+    let &path = &path.','.join(map(l:dirs, 'v:val[2:]."/**/*"'), ',')
   endif
 endfunction
