@@ -56,6 +56,7 @@ function! Statusline() abort
   let l:statusline .= s:sep_if(l:git_status, !empty(l:git_status))
   let l:statusline .= s:sep(expand('%:~:.'), &modified ? s:st_err : {})         "File path
   let l:statusline .= s:sep_if(' + ', &modified, s:st_err)                      "Modified indicator
+  let l:statusline .= s:sep_if(' - ', !&modifiable, s:st_err)                   "Modifiable indicator
   let l:statusline .= s:sep_if('%w', &previewwindow)                            "Preview indicator
   let l:statusline .= s:sep_if('%r', &readonly)                                 "Read only indicator
   let l:statusline .= s:sep_if('%q', &buftype ==? 'quickfix')                   "Quickfix list indicator
