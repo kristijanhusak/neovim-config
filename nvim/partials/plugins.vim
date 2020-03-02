@@ -27,7 +27,7 @@ function! s:packager_init() abort
   call packager#add('andymass/vim-matchup')
   call packager#add('haya14busa/vim-asterisk')
   call packager#add('osyo-manga/vim-anzu')
-  call packager#add('dyng/ctrlsf.vim')
+  call packager#add('stefandtw/quickfix-reflector.vim')
   call packager#add('neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile' })
   call packager#add('w0rp/ale')
   call packager#add('honza/vim-snippets')
@@ -64,9 +64,18 @@ map g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)
 nnoremap <silent><Leader>ww :unmap <Leader>ww<BAR>packadd vimwiki<BAR>VimwikiIndex<CR>
 
 " Search mappings
-nmap <Leader>f <Plug>CtrlSFPrompt
-vmap <Leader>F <Plug>CtrlSFVwordPath
-nmap <Leader>F <Plug>CtrlSFCwordPath
+nnoremap <expr><Leader>f ':grep '
+nnoremap <expr><Leader>F ':grep '.expand('<cword>').' '
+vnoremap <Leader>F :<C-u>call <sid>get_visual_search_cmd()<CR>
+
+function s:get_visual_search_cmd() abort
+  let [lnum1, col1] = getpos("'<")[1:2]
+  let [lnum2, col2] = getpos("'>")[1:2]
+  let lines = getline(lnum1, lnum2)
+  let lines[-1] = lines[-1][:col2 - (&selection ==? 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][col1 - 1:]
+  return feedkeys(':grep '.join(lines, "\n").' ')
+endfunction
 
 " Reformat and fix linting errors
 nnoremap <Leader>R :ALEFix<CR>
@@ -83,10 +92,6 @@ nnoremap <silent><Leader>r :FzfPreviewProjectGrep<CR>
 
 " Open fugitive git status in vertical split
 nnoremap <silent> <Leader>G :vert G<CR>
-
-let g:ctrlsf_auto_close = 0                                                     "Do not close search when file is opened
-let g:ctrlsf_mapping = {'vsplit': 's'}                                          "Mapping for opening search result in vertical split
-let g:ctrlsf_search_mode = 'sync'                                               "Use sync mode for searching, more precise and reliable
 
 let g:ale_virtualtext_cursor = 1
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint

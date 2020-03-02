@@ -51,7 +51,7 @@ set pyxversion=3                                                                
 
 augroup vimrc
   autocmd!
-  autocmd QuickFixCmdPost [^l]* cwindow                                         "Open quickfix window after grepping
+  autocmd QuickFixCmdPost [^l]* cwindow | doautocmd BufReadPost quickfix        "Open quickfix window after grepping
   autocmd BufWritePre * call s:strip_trailing_whitespace()                      "Auto-remove trailing spaces
   autocmd InsertEnter * set nocul                                               "Remove cursorline highlight
   autocmd InsertLeave * set cul                                                 "Add cursorline highlight in normal mode

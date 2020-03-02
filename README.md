@@ -49,7 +49,7 @@ Plugins
 * [andymass/vim-matchup](https://github.com/andymass/vim-matchup)
 * [haya14busa/vim-asterisk](https://github.com/haya14busa/vim-asterisk)
 * [osyo-manga/vim-anzu](https://github.com/osyo-manga/vim-anzu)
-* [dyng/ctrlsf.vim](https://github.com/dyng/ctrlsf.vim)
+* [stefandtw/quickfix-reflector.vim](https://github.com/stefandtw/quickfix-reflector.vim)
 * [neoclide/coc.nvim](https://github.com/neoclide/coc.nvim)
 * [w0rp/ale](https://github.com/w0rp/ale)
 * [honza/vim-snippets](https://github.com/honza/vim-snippets)
