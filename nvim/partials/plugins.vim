@@ -63,20 +63,6 @@ map g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)
 map g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)
 nnoremap <silent><Leader>ww :unmap <Leader>ww<BAR>packadd vimwiki<BAR>VimwikiIndex<CR>
 
-" Search mappings
-nnoremap <expr><Leader>f ':grep '
-nnoremap <expr><Leader>F ':grep '.expand('<cword>').' '
-vnoremap <Leader>F :<C-u>call <sid>get_visual_search_cmd()<CR>
-
-function s:get_visual_search_cmd() abort
-  let [lnum1, col1] = getpos("'<")[1:2]
-  let [lnum2, col2] = getpos("'>")[1:2]
-  let lines = getline(lnum1, lnum2)
-  let lines[-1] = lines[-1][:col2 - (&selection ==? 'inclusive' ? 1 : 2)]
-  let lines[0] = lines[0][col1 - 1:]
-  return feedkeys(':grep '.join(lines, "\n").' ')
-endfunction
-
 " Reformat and fix linting errors
 nnoremap <Leader>R :ALEFix<CR>
 nnoremap <silent>[e :ALEPrevious<CR>
@@ -88,7 +74,7 @@ nnoremap <silent><Leader>b :FzfPreviewBuffers<CR>
 nnoremap <silent><Leader>t :FzfPreviewBufferTags<CR>
 nnoremap <silent><Leader>m :FzfPreviewFromResources buffer old<CR>
 nnoremap <silent><Leader>g :FzfPreviewGitStatus<CR>
-nnoremap <silent><Leader>r :FzfPreviewProjectGrep<CR>
+nnoremap <silent><Leader>r :FzfPreviewProjectGrep .<CR>
 
 " Open fugitive git status in vertical split
 nnoremap <silent> <Leader>G :vert G<CR>
