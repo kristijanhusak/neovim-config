@@ -9,6 +9,7 @@ function! s:packager_init() abort
   call packager#add('fatih/vim-go', { 'do': ':GoUpdateBinaries', 'type': 'opt' })
   call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
   call packager#add('Shougo/defx.nvim')
+  call packager#add('Shougo/neomru.vim')
   call packager#add('tpope/vim-commentary')
   call packager#add('tpope/vim-surround')
   call packager#add('tpope/vim-repeat')
