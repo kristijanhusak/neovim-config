@@ -23,9 +23,7 @@ function! s:set_statusline_colors() abort
   silent! exe 'hi StErrSep guifg='.s:error_fg.' guibg=NONE gui=NONE'
   silent! exe 'hi StWarn guibg='.s:warning_fg.' guifg='.s:normal_bg.' gui=bold'
   silent! exe 'hi StWarnSep guifg='.s:warning_fg.' guibg=NONE gui=NONE'
-
   silent! exe 'hi Statusline guifg=NONE guibg='.s:normal_bg.' gui=NONE cterm=NONE'
-  silent! exe 'hi StatuslineNC guifg='.s:normal_fg.' guibg=NONE gui=NONE cterm=NONE'
 endfunction
 
 function! s:sep(item, ...) abort
