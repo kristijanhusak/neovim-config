@@ -32,7 +32,7 @@ function! s:sep(item, ...) abort
   let l:sep_color = get(l:opts, 'sep_color', '%#StSep#')
   let l:color = get(l:opts, 'color', '%#StItem#')
 
-  return l:before.l:sep_color.''.l:color.a:item.l:sep_color.'%*'
+  return l:before.l:sep_color.'█'.l:color.a:item.l:sep_color.'█%*'
 endfunction
 
 function! s:sep_if(item, condition, ...) abort
