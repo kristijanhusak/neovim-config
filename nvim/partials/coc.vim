@@ -23,6 +23,7 @@ let g:coc_global_extensions = [
       \ 'coc-snippets',
       \ 'coc-vimlsp',
       \ 'coc-pairs',
+      \ 'coc-phpls',
       \ ]
 
 inoremap <silent><expr> <TAB>

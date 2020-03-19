@@ -27,7 +27,6 @@ Plugins
 * [kristijanhusak/vim-js-file-import](https://github.com/kristijanhusak/vim-js-file-import)
 * [kristijanhusak/defx-git](https://github.com/kristijanhusak/defx-git)
 * [kristijanhusak/defx-icons](https://github.com/kristijanhusak/defx-icons)
-* [phpactor/phpactor](https://github.com/phpactor/phpactor)
 * [fatih/vim-go](https://github.com/fatih/vim-go)
 * [vimwiki/vimwiki](https://github.com/vimwiki/vimwiki)
 * [Shougo/defx.nvim](https://github.com/Shougo/defx.nvim)
