@@ -301,7 +301,7 @@ exec --no-startup-id i3-msg 'workspace 1; exec kitty'
 # exec_always --no-startup-id sbxkb
 # exec --no-startup-id start_conky_maia
 # exec --no-startup-id start_conky_green
-exec --no-startup-id xautolock -time 10 -locker blurlock
+exec --no-startup-id xautolock -time 20 -locker blurlock
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 exec --no-startup-id "setxkbmap -layout 'us,rs' -variant ',latin' -option 'grp:lctrl_lwin_toggle'"
