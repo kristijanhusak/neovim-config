@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-dark_colorscheme='~/.config/kitty/xcodelight.conf'
+dark_colorscheme='~/.config/kitty/xcodedark.conf'
 light_colorscheme='~/.config/kitty/xcodelight.conf'
 
 set_bg () {
