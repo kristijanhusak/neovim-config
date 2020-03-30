@@ -100,3 +100,5 @@ let g:vimwiki_list = [{
 let g:matchup_matchparen_status_offscreen = 0                                   "Do not show offscreen closing match in statusline
 let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   "Enable matchup only in normal mode
 let g:matchup_matchparen_deferred = 1                                           "Defer matchup highlights to allow better cursor movement performance
+
+let g:db_ui_show_help = 0                                                       "Hide Press ? for help in dbui drawer
