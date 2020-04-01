@@ -9,7 +9,10 @@ augroup END
 let g:coc_user_config = {
       \ 'javascript.suggestionActions.enabled': v:false,
       \ 'prettier.printWidth': 100,
-      \ 'prettier.singleQuote': v:true
+      \ 'prettier.singleQuote': v:true,
+      \ 'sql.lintOnOpen': v:false,
+      \ 'sql.lintOnChange': v:false,
+      \ 'sql.lintOnSave': v:false,
       \ }
 
 let g:coc_global_extensions = [
@@ -24,6 +27,7 @@ let g:coc_global_extensions = [
       \ 'coc-vimlsp',
       \ 'coc-pairs',
       \ 'coc-phpls',
+      \ 'coc-sql',
       \ ]
 
 inoremap <silent><expr> <TAB>
