@@ -52,6 +52,7 @@ export LESS=R
 export EDITOR=nvim
 export MANPAGER="nvim -c 'set ft=man' -"
 export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_DEFAULT_OPTS='--layout=reverse'
 export LESS=R
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=magenta,bold,underline"
 setopt HIST_IGNORE_ALL_DUPS

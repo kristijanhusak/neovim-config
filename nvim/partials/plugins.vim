@@ -8,7 +8,6 @@ function! s:packager_init() abort
   call packager#add('fatih/vim-go', { 'do': ':GoUpdateBinaries', 'type': 'opt' })
   call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
   call packager#add('Shougo/defx.nvim')
-  call packager#add('Shougo/neomru.vim')
   call packager#add('tpope/vim-commentary')
   call packager#add('tpope/vim-surround')
   call packager#add('tpope/vim-repeat')
@@ -22,7 +21,7 @@ function! s:packager_init() abort
   call packager#add('airblade/vim-gitgutter')
   call packager#add('sheerun/vim-polyglot')
   call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
-  call packager#add('yuki-ycino/fzf-preview.vim')
+  call packager#add('junegunn/fzf.vim')
   call packager#add('ludovicchabant/vim-gutentags')
   call packager#add('editorconfig/editorconfig-vim')
   call packager#add('andymass/vim-matchup')
@@ -67,14 +66,6 @@ nnoremap <silent><Leader>ww :unmap <Leader>ww<BAR>packadd vimwiki<BAR>VimwikiInd
 nnoremap <Leader>R :ALEFix<CR>
 nnoremap <silent>[e :ALEPrevious<CR>
 nnoremap <silent>]e :ALENext<CR>
-
-" Fzf mappings
-nnoremap <silent><C-p> :FzfPreviewProjectFiles<CR>
-nnoremap <silent><Leader>b :FzfPreviewBuffers<CR>
-nnoremap <silent><Leader>t :FzfPreviewBufferTags<CR>
-nnoremap <silent><Leader>m :FzfPreviewFromResources buffer old<CR>
-nnoremap <silent><Leader>g :FzfPreviewGitStatus<CR>
-nnoremap <silent><Leader>r :FzfPreviewProjectGrep .<CR>
 
 " Open fugitive git status in vertical split
 nnoremap <silent> <Leader>G :vert G<CR>
