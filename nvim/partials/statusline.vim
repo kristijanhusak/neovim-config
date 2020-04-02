@@ -3,10 +3,9 @@ let s:cache = {'branch': ''}
 
 augroup custom_statusline
   autocmd!
-  autocmd VimEnter * silent! call fugitive#detect(expand('<afile>'))
+  autocmd VimEnter * silent! call FugitiveDetect(expand('<afile>')) | let s:cache.branch = fugitive#head()
   autocmd BufEnter,WinEnter * setlocal statusline=%!Statusline()
   autocmd BufLeave,WinLeave * setlocal statusline=%f\ %y\ %m
-  autocmd VimEnter,BufEnter * if exists('*fugitive#head') | let s:cache.branch = fugitive#head() | endif
   autocmd User FugitiveChanged let s:cache.branch = fugitive#head()
   autocmd VimEnter,ColorScheme * call s:set_statusline_colors()
 augroup END
