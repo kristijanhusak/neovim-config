@@ -1,30 +1,20 @@
 scriptencoding utf-8
+let $FZF_DEFAULT_OPTS='--layout=reverse --border'
 let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' }
 
 function! CreateCenteredFloatingWindow()
     let width = float2nr(&columns * 0.9)
     let height = float2nr(&lines * 0.9)
-    let top = ((&lines - height) / 2) - 1
-    let left = (&columns - width) / 2
-    let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
-
-    let top = '╭' . repeat('─', width - 2) . '╮'
-    let mid = '│' . repeat(' ', width - 2) . '│'
-    let bot = '╰' . repeat('─', width - 2) . '╯'
-    let lines = [top] + repeat([mid], height - 2) + [bot]
-    let s:buf = nvim_create_buf(v:false, v:true)
-    call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
-    call nvim_open_win(s:buf, v:true, opts)
+    let opts = {
+          \ 'relative': 'editor',
+          \ 'row': (&lines - height) / 2,
+          \ 'col': (&columns - width) / 2,
+          \ 'width': width,
+          \ 'height': height,
+          \ 'style': 'minimal'
+          \ }
     set winhl=Normal:Floating
-    let opts.row += 1
-    let opts.height -= 2
-    let opts.col += 2
-    let opts.width -= 4
     call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
-    augroup float_window
-      autocmd!
-      autocmd BufWipeout <buffer> exe 'bw '.s:buf
-    augroup END
 endfunction
 
 nnoremap <silent><C-p> :Files<CR>
