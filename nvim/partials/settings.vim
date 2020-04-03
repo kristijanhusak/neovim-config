@@ -34,7 +34,7 @@ set undofile                                                                    
 set noswapfile                                                                  "Disable creating swap file
 set nobackup                                                                    "Disable saving backup file
 set nowritebackup                                                               "Disable writing backup file
-
+set fillchars+=vert:│                                                           "Use vertical line for vertical split
 set breakindent                                                                 "Preserve indent on line wrap
 set smartindent                                                                 "Use smarter indenting
 set expandtab                                                                   "Use spaces for indentation
