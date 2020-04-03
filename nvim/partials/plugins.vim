@@ -93,3 +93,5 @@ let g:matchup_matchparen_nomode = "ivV\<c-v>"                                   
 let g:matchup_matchparen_deferred = 1                                           "Defer matchup highlights to allow better cursor movement performance
 
 let g:db_ui_show_help = 0                                                       "Hide Press ? for help in dbui drawer
+
+let g:js_file_import_use_fzf = 1                                                "Use FZF for js file import prompts
