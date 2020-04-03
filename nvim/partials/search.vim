@@ -8,8 +8,16 @@ augroup END
 
 " Search mappings
 nnoremap <expr><Leader>f ':grep '
-nnoremap <expr><Leader>F ':grep '.expand('<cword>').' '
+nnoremap <expr><Leader>F ':grep '.<sid>esc(expand('<cword>')).' '
 vnoremap <Leader>F :<C-u>call <sid>get_visual_search_cmd()<CR>
+
+function s:esc(val) abort
+  let l:val = fnameescape(a:val)
+  for i in range(1, 3)
+    let l:val = escape(l:val, '()')
+  endfor
+  return l:val
+endfunction
 
 function s:save_search(timer) abort
   let l:search = getreg(':')
@@ -31,7 +39,7 @@ function s:get_visual_search_cmd() abort
   let lines = getline(lnum1, lnum2)
   let lines[-1] = lines[-1][:col2 - (&selection ==? 'inclusive' ? 1 : 2)]
   let lines[0] = lines[0][col1 - 1:]
-  return feedkeys(':grep '.join(lines, "\n").' ')
+  return feedkeys(':grep '.s:esc(join(lines, "\n")).' ')
 endfunction
 
 

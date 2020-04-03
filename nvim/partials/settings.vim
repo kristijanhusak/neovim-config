@@ -26,7 +26,7 @@ set splitbelow                                                                  
 set inccommand=nosplit                                                          "Show substitute changes immidiately in separate split
 set exrc                                                                        "Allow using local vimrc
 set secure                                                                      "Forbid autocmd in local vimrc
-set grepprg=rg\ --vimgrep                                                       "Use ripgrep for grepping
+set grepprg=rg\ --smart-case\ --vimgrep                                         "Use ripgrep for grepping
 set tagcase=smart                                                               "Use smarcase for tags
 set updatetime=300                                                              "Cursor hold timeout
 set shortmess+=c                                                                "Disable completion menu messages in command line
