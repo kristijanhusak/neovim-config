@@ -49,7 +49,6 @@ augroup packager_filetype
   autocmd FileType javascript,javascriptreact,typescript packadd vim-js-file-import
   autocmd FileType defx packadd defx-git | packadd defx-icons
   autocmd FileType go packadd vim-go
-  autocmd FileType fugitive nmap <buffer><silent> <Space> =
 augroup END
 
 " Better search status

@@ -1,6 +1,8 @@
 augroup gitcommit
   autocmd!
   autocmd FileType gitcommit call s:add_commit_prefix_from_branch()
+  autocmd FileType fugitive nmap <buffer><silent> <Space> =
+  autocmd FileType git setlocal foldenable foldmethod=syntax | nnoremap <buffer><silent> <Space> za
 augroup END
 
 function! s:add_commit_prefix_from_branch() abort

@@ -51,7 +51,6 @@ set pyxversion=3                                                                
 
 augroup vimrc
   autocmd!
-  autocmd QuickFixCmdPost [^l]* cwindow | doautocmd BufReadPost quickfix        "Open quickfix window after grepping
   autocmd BufWritePre * call s:strip_trailing_whitespace()                      "Auto-remove trailing spaces
   autocmd InsertEnter * set nocul                                               "Remove cursorline highlight
   autocmd InsertLeave * set cul                                                 "Add cursorline highlight in normal mode
@@ -59,7 +58,6 @@ augroup vimrc
   autocmd FileType vim inoremap <buffer><silent><C-Space> <C-x><C-v>
   autocmd FileType markdown setlocal spell
   autocmd FileType json setlocal equalprg=python\ -m\ json.tool
-  autocmd FileType git setlocal foldenable foldmethod=syntax | nnoremap <buffer><silent> <Space> za
   autocmd TermOpen * setlocal nonumber norelativenumber
   autocmd VimEnter * call s:set_path()
 augroup END
