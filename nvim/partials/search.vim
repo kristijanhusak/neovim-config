@@ -20,7 +20,15 @@ function! Grep(arg)
   endif
 
   let s:last_search = join([grepprg, a:arg])
-  return system(s:last_search)
+  let results = system(s:last_search)
+  if empty(results)
+    echom 'No results for search -> '.a:arg
+  endif
+  if !empty(v:shell_error) && ! empty(results)
+    echom 'Search error (status: '.v:shell_error.'): '.string(results)
+  endif
+
+  return results
 endfunction
 
 function s:execute_search() abort
