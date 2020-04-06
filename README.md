@@ -34,7 +34,6 @@ Plugins
 * [tpope/vim-repeat](https://github.com/tpope/vim-repeat)
 * [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
 * [tpope/vim-sleuth](https://github.com/tpope/vim-sleuth)
-* [tpope/vim-rsi](https://github.com/tpope/vim-rsi)
 * [tpope/vim-dadbod](https://github.com/tpope/vim-dadbod)
 * [kristijanhusak/vim-dadbod-ui](https://github.com/kristijanhusak/vim-dadbod-ui)
 * [lambdalisue/vim-backslash](https://github.com/lambdalisue/vim-backslash)

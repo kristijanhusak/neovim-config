@@ -100,6 +100,11 @@ nnoremap ]b :bnext
 nnoremap [B :bfirst
 nnoremap ]B :blast
 
+"rsi mappings
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-B> <End>
+
 function! s:close_buffer(...) abort
   if &buftype !=? ''
     return execute('q!')
