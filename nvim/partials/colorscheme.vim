@@ -8,8 +8,11 @@ syntax on
 let s:colorscheme = $NVIM_COLORSCHEME_BG ==? 'light' ? 'xcodelight' : 'xcodedark'
 silent! exe  'colorscheme '.s:colorscheme
 hi VertSplit guibg=NONE guifg=#8a99a6
+hi! Comment gui=italic
+
 
 augroup vimrc_colorscheme
   autocmd!
   autocmd BufEnter * :syntax sync fromstart
+  autocmd FileType dbout syn match dbout_null /(null)/ | hi link dbout_null Comment
 augroup END
