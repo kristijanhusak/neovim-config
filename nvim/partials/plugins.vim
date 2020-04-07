@@ -5,7 +5,7 @@ function! s:packager_init() abort
   call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install', 'type': 'opt' })
   call packager#add('kristijanhusak/defx-git', { 'type': 'opt' })
   call packager#add('kristijanhusak/defx-icons', { 'type': 'opt' })
-  call packager#add('fatih/vim-go', { 'do': ':GoUpdateBinaries', 'type': 'opt' })
+  call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries', 'type': 'opt' })
   call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
   call packager#add('Shougo/defx.nvim')
   call packager#add('tpope/vim-commentary')
