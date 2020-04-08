@@ -41,8 +41,6 @@ command! -bang PackagerUpdate call s:packager_init() | call packager#update({ 'f
 command! PackagerClean call s:packager_init() | call packager#clean()
 command! PackagerStatus call s:packager_init() | call packager#status()
 
-let g:mapleader = ','                                                           "Change leader to a comma
-
 augroup packager_filetype
   autocmd!
   autocmd FileType javascript,javascriptreact,typescript packadd vim-js-file-import

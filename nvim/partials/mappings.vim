@@ -91,14 +91,14 @@ nnoremap [l :lprevious<CR>
 nnoremap ]l :lnext<CR>
 nnoremap [L :lfirst<CR>
 nnoremap ]L :llast<CR>
-nnoremap [t :tprevious
-nnoremap ]t :tnext
-nnoremap [T :tfirst
-nnoremap ]T :tlast
-nnoremap [b :bprevious
-nnoremap ]b :bnext
-nnoremap [B :bfirst
-nnoremap ]B :blast
+nnoremap [t :tprevious<CR>
+nnoremap ]t :tnext<CR>
+nnoremap [T :tfirst<CR>
+nnoremap ]T :tlast<CR>
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
+nnoremap [B :bfirst<CR>
+nnoremap ]B :blast<CR>
 
 "rsi mappings
 cnoremap <C-A> <Home>
