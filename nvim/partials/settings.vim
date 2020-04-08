@@ -1,5 +1,3 @@
-let g:mapleader = ','                                                           "Change leader to a comma
-
 let g:loaded_netrwPlugin = 1                                                    "Do not load netrw
 let g:loaded_matchit = 1                                                        "Do not load matchit, use matchup plugin
 

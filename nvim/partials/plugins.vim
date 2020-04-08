@@ -36,6 +36,8 @@ function! s:packager_init() abort
   call packager#add('arzg/vim-colors-xcode')
 endfunction
 
+let g:mapleader = ','                                                           "Change leader to a comma
+
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()
 command! -bang PackagerUpdate call s:packager_init() | call packager#update({ 'force_hooks': '<bang>' })
 command! PackagerClean call s:packager_init() | call packager#clean()
