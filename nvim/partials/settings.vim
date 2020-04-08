@@ -60,7 +60,6 @@ augroup vimrc
   autocmd FileType json setlocal equalprg=python\ -m\ json.tool
   autocmd TermOpen * setlocal nonumber norelativenumber
   autocmd VimEnter * call s:set_path()
-  autocmd BufNewFile,BufRead *.dbout set filetype=dbout
 augroup END
 
 augroup numbertoggle

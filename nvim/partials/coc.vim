@@ -4,6 +4,7 @@ set pumheight=15                                                                
 augroup vimrc_autocomplete
   autocmd CursorHold * silent! call CocActionAsync('highlight')
   autocmd CursorHoldI * silent! call CocActionAsync('showSignatureHelp')
+  autocmd BufNewFile,BufRead *.dbout let b:coc_enabled = 0
 augroup END
 
 let g:coc_user_config = {

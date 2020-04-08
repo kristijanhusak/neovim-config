@@ -14,5 +14,6 @@ hi! Comment gui=italic
 augroup vimrc_colorscheme
   autocmd!
   autocmd BufEnter * :syntax sync fromstart
+  autocmd BufNewFile,BufRead *.dbout set filetype=dbout
   autocmd FileType dbout syn match dbout_null /(null)/ | hi link dbout_null Comment
 augroup END
