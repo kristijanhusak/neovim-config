@@ -17,6 +17,7 @@ let g:coc_user_config = {
       \ }
 
 let g:coc_global_extensions = [
+      \ 'coc-go',
       \ 'coc-tag',
       \ 'coc-css',
       \ 'coc-html',

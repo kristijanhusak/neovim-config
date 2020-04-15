@@ -1,4 +1,5 @@
 let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
+let g:go_echo_go_info = 0
 let g:go_highlight_extra_types = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_parameters = 1
