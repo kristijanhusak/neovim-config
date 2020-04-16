@@ -93,6 +93,7 @@ function! s:defx_mappings() abort
   nnoremap <silent><buffer><expr> p defx#do_action('paste')
   nnoremap <nowait><silent><buffer><expr> d defx#do_action('remove')
   nnoremap <silent><buffer><expr> q defx#do_action('quit')
+  nnoremap <silent><buffer><expr> <Leader>n defx#do_action('quit')
   silent exe 'nnoremap <silent><buffer><expr> tt defx#do_action("toggle_columns", "'.s:default_columns.':size:time")'
 endfunction
 
