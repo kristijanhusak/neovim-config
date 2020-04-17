@@ -60,7 +60,11 @@ setopt HIST_IGNORE_ALL_DUPS
 # zsh-autosuggestions is designed to be unobtrusive)
 export KEYTIMEOUT=1
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=250'
+if [ $NVIM_COLORSCHEME_BG = 'dark' ]; then
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=239'
+else
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=250'
+fi
 [ -f ~/.zsh_secret ] && source ~/.zsh_secret
 
 export NVM_DIR="/home/kristijan/.nvm"
