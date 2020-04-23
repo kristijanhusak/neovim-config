@@ -30,6 +30,7 @@ let g:coc_global_extensions = [
       \ 'coc-pairs',
       \ 'coc-phpls',
       \ 'coc-sql',
+      \ 'coc-db',
       \ ]
 
 inoremap <silent><expr> <TAB>
