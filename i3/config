@@ -32,7 +32,7 @@ bindsym $mod+Return exec kitty
 bindsym $mod+q kill
 
 # start program launcher
-bindsym $mod+d exec "rofi -combi-modi window,run -show combi -modi combi -theme gruvbox-light"
+bindsym $mod+d exec "rofi -combi-modi window,run -show combi -modi combi -theme Paper"
 
 # launch categorized menu
 bindsym $mod+z exec --no-startup-id morc_menu
