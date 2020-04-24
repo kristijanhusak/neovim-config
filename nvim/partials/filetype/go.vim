@@ -1,3 +1,7 @@
+augroup vimrc_go
+  autocmd!
+  autocmd FileType go setlocal noexpandtab tabstop=4
+augroup END
 let g:go_fmt_command = 'goimports'                                              "Auto import go packages on save
 let g:go_echo_go_info = 0
 let g:go_highlight_extra_types = 1
