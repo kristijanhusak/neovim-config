@@ -14,7 +14,7 @@ set showmatch                                                                   
 set nostartofline                                                               "Jump to first non-blank character
 set timeoutlen=1000 ttimeoutlen=0                                               "Reduce Command timeout for faster escape and O
 set fileencoding=utf-8                                                          "Set utf-8 encoding on write
-set wrap                                                                        "Enable word wrap
+set nowrap                                                                      "Disable word wrap by default
 set linebreak                                                                   "Wrap lines at convenient points
 set listchars=tab:>\ ,trail:·                                                   "Set trails for tabs and spaces
 set list                                                                        "Enable listchars
