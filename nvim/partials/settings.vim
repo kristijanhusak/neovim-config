@@ -16,7 +16,7 @@ set timeoutlen=1000 ttimeoutlen=0                                               
 set fileencoding=utf-8                                                          "Set utf-8 encoding on write
 set nowrap                                                                      "Disable word wrap by default
 set linebreak                                                                   "Wrap lines at convenient points
-set listchars=tab:>\ ,trail:·                                                   "Set trails for tabs and spaces
+set listchars=tab:│\ ,trail:·                                                   "Set trails for tabs and spaces
 set list                                                                        "Enable listchars
 set lazyredraw                                                                  "Do not redraw on registers and macros
 set hidden                                                                      "Hide buffers in background

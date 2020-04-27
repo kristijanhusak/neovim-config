@@ -11,7 +11,7 @@ nnoremap <expr><Leader>f ":Grep ''\<Left>"
 nnoremap <expr><Leader>F ":Grep '".expand('<cword>')."' "
 vnoremap <Leader>F :<C-u>call <sid>get_visual_search_cmd()<CR>
 
-command -nargs=+ -complete=file -bar Grep cgetexpr Grep(<q-args>)
+command! -nargs=+ -complete=file -bar Grep cgetexpr Grep(<q-args>)
 
 function! Grep(arg)
   let grepprg = &grepprg
