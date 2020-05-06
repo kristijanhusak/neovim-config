@@ -27,7 +27,7 @@ function! s:packager_init() abort
   call packager#add('haya14busa/vim-asterisk')
   call packager#add('osyo-manga/vim-anzu')
   call packager#add('stefandtw/quickfix-reflector.vim')
-  call packager#add('neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile' })
+  call packager#add('neoclide/coc.nvim', { 'branch': 'release' })
   call packager#add('w0rp/ale')
   call packager#add('honza/vim-snippets')
   call packager#add('AndrewRadev/tagalong.vim')
