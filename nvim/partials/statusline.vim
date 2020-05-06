@@ -63,9 +63,8 @@ function! Statusline() abort
   let l:statusline .= s:sep_if(l:anzu, !empty(l:anzu))                          "Search status
   let l:ft = &filetype
   let l:statusline .= s:sep_if(l:ft, !empty(l:ft))                              "Filetype
-  let l:statusline .= s:sep('%{&expandtab?"spaces":"tabs"}: %{&sw}')            "Are spaces or tabs used for indentation and how much spaces is single indent
-  let l:statusline .= s:sep('col: %c', s:st_mode)                               "Column number
-  let l:statusline .= s:sep('ln: %l/%L', s:st_mode)                             "Current line number/Total line numbers
+  let l:statusline .= s:sep(' : %c', s:st_mode)                                "Column number
+  let l:statusline .= s:sep(': %l/%L', s:st_mode)                              "Current line number/Total line numbers
   let l:statusline .= s:sep('%p%%', s:st_mode)                                  "Percentage
   let l:err = s:ale_status('error')
   let l:warn = s:ale_status('warning')
@@ -98,14 +97,14 @@ endfunction
 
 function! s:git_statusline() abort
   if !exists('b:gitgutter')
-    return s:cache.branch
+    return s:with_icon(s:cache.branch, "\ue0a0")
   endif
   let [l:added, l:modified, l:removed] = get(b:gitgutter, 'summary', [0, 0, 0])
   let l:result = l:added == 0 ? '' : ' +'.l:added
   let l:result .= l:modified == 0 ? '' : ' ~'.l:modified
   let l:result .= l:removed == 0 ? '' : ' -'.l:removed
   let l:result = join(filter([s:cache.branch, l:result], {-> !empty(v:val) }), '')
-  return l:result
+  return s:with_icon(l:result, "\ue0a0")
 endfunction
 
 function! s:mode_statusline() abort
@@ -142,4 +141,11 @@ function! s:mode_highlight(mode) abort
     silent! exe 'hi StMode guibg='.s:normal_fg.' guifg='.s:normal_bg.' gui=NONE'
     silent! exe 'hi StModeSep guifg='.s:normal_fg.' guibg=NONE gui=NONE'
   endif
+endfunction
+
+function! s:with_icon(value, icon) abort
+  if empty(a:value)
+    return a:value
+  endif
+  return a:icon.' '.a:value
 endfunction
