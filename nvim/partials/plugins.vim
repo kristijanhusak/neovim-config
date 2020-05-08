@@ -93,5 +93,6 @@ let g:matchup_matchparen_deferred = 1                                           
 let g:db_ui_show_help = 0                                                       "Hide Press ? for help in dbui drawer
 let g:db_ui_win_position = 'right'                                              "Open DBUI drawer on right
 let g:db_ui_use_nerd_fonts = 1                                                  "Use nerd fonts for DBUI
+let g:db_async = 1                                                              "Use async for dadbod
 
 let g:js_file_import_use_fzf = 1                                                "Use FZF for js file import prompts
