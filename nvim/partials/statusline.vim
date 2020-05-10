@@ -63,7 +63,7 @@ function! Statusline() abort
   let l:statusline .= s:sep_if(l:anzu, !empty(l:anzu))                          "Search status
   let l:ft = &filetype
   let l:statusline .= s:sep_if(l:ft, !empty(l:ft))                              "Filetype
-  let l:statusline .= s:sep(' : %c', s:st_mode)                                "Column number
+  let l:statusline .= s:sep(': %c', s:st_mode)                                "Column number
   let l:statusline .= s:sep(': %l/%L', s:st_mode)                              "Current line number/Total line numbers
   let l:statusline .= s:sep('%p%%', s:st_mode)                                  "Percentage
   let l:err = s:ale_status('error')
