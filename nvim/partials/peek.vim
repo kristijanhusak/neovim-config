@@ -8,7 +8,7 @@ let s:state = {
       \ }
 
 function! s:get_word_tag() abort
-  return get(taglist('^'.expand('<cword>').'$'), 0, {})
+  return get(taglist(expand('<cword>')), 0, {})
 endfunction
 
 function! s:peek() abort
@@ -34,7 +34,8 @@ function! s:peek() abort
 
   let win = nvim_open_win(0, v:true, opts)
   silent! exe 'edit '.tag.filename
-  echo 'Viewing filename '.tag.filename
+  silent! exe 'redraw!'
+  echom 'Viewing filename '.tag.filename
   let s:state.buf = bufnr('')
   call search(tag.cmd[1:-2])
   let s:state.line = line('.')
