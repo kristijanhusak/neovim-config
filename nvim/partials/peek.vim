@@ -19,7 +19,6 @@ function! s:peek() abort
     return 0
   endif
 
-  silent! exe 'redraw!'
   let curr_win = win_getid()
   let height = float2nr(&lines * 0.3)
   let width = &columns - 20
@@ -34,7 +33,6 @@ function! s:peek() abort
 
   let win = nvim_open_win(0, v:true, opts)
   silent! exe 'edit '.tag.filename
-  silent! exe 'redraw!'
   echom 'Viewing filename '.tag.filename
   let s:state.buf = bufnr('')
   call search(tag.cmd[1:-2])
