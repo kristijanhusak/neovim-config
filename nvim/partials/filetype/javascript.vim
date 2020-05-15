@@ -47,6 +47,23 @@ endfunction
 
 nnoremap <silent><Plug>(JsConsoleLog) :<C-u>call <sid>console_log()<CR>
 nnoremap <nowait><silent><Plug>(JsInjectDependency) :<C-u>call <sid>inject_dependency()<CR>
+nnoremap <nowait><Plug>(JsGotoFile) :<C-u>call <sid>js_goto_file()<CR>
+
+function! s:js_goto_file() abort
+  let full_path = printf('%s/%s', expand('%:p:h'), expand('<cfile>'))
+  if !isdirectory(full_path)
+    norm! gf
+    return
+  endif
+
+  for suffix in split(&suffixesadd, ',')
+    let index_file = full_path.'/index'.suffix
+    if filereadable(index_file)
+      exe 'edit '.index_file
+      return
+    endif
+  endfor
+endfunction
 
 augroup javascript
   autocmd!
@@ -56,4 +73,5 @@ augroup javascript
   autocmd FileType javascript,javascriptreact xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
   autocmd FileType javascript,javascriptreact nmap <buffer><silent><Leader>ll <Plug>(JsConsoleLog)
   autocmd FileType javascript,javascriptreact nmap <nowait><buffer><silent><Leader>d <Plug>(JsInjectDependency)
+  autocmd FileType javascript,javascriptreact nmap <nowait><buffer><silent> gf <Plug>(JsGotoFile)
 augroup END
