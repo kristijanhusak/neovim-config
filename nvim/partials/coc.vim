@@ -7,6 +7,10 @@ augroup vimrc_autocomplete
   autocmd FileType dbout let b:coc_enabled = 0
 augroup END
 
+let g:coc_sources_disable_map = {
+      \ 'sql': ['tag']
+      \ }
+
 let g:coc_user_config = {
       \ 'javascript.suggestionActions.enabled': v:false,
       \ 'prettier.printWidth': 100,
