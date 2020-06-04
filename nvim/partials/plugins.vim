@@ -34,6 +34,7 @@ function! s:packager_init() abort
   call packager#add('kristijanhusak/vim-create-pr')
   call packager#add('wakatime/vim-wakatime')
   call packager#add('arzg/vim-colors-xcode')
+  call packager#add('romgrk/todoist.nvim', { 'do': ':TodoistInstall' })
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
@@ -96,3 +97,8 @@ let g:db_ui_use_nerd_fonts = 1                                                  
 let g:db_async = 1                                                              "Use async for dadbod
 
 let g:js_file_import_use_fzf = 1                                                "Use FZF for js file import prompts
+
+let todoist = {
+      \ 'key': $TODOIST_API_KEY,
+      \ 'icons': { 'unchecked': '  ', 'checked': '  ', 'loading': '  ', 'error': '  ' },
+      \ }
