@@ -15,12 +15,18 @@ command! -nargs=+ -complete=file -bar Grep cgetexpr Grep(<q-args>)
 
 function! Grep(arg)
   let grepprg = &grepprg
+  if a:arg ==? "''"
+    echom 'Empty search.'
+    return []
+  endif
+
   if a:arg =~? "^'"
     let grepprg .= ' --fixed-strings'
   endif
 
-  let s:last_search = join([grepprg, a:arg])
-  let results = system(s:last_search)
+  let cmd = join([grepprg, a:arg])
+  let s:last_search = a:arg
+  let results = system(cmd)
   if empty(results)
     echom 'No results for search -> '.a:arg
   endif
@@ -33,7 +39,7 @@ endfunction
 
 function s:execute_search() abort
   if !empty(s:last_search)
-    call execute(':'.s:last_search)
+    cgetexpr Grep(s:last_search)
   endif
 endfunction
 
