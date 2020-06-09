@@ -34,7 +34,7 @@ function! s:packager_init() abort
   call packager#add('kristijanhusak/vim-create-pr')
   call packager#add('wakatime/vim-wakatime')
   call packager#add('arzg/vim-colors-xcode')
-  call packager#add('romgrk/todoist.nvim', { 'do': ':TodoistInstall' })
+  call packager#add('romgrk/todoist.nvim', { 'do': 'npm install' })
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
