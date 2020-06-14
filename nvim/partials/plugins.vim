@@ -46,7 +46,7 @@ command! PackagerStatus call s:packager_init() | call packager#status()
 
 augroup packager_filetype
   autocmd!
-  autocmd FileType javascript,javascriptreact,typescript packadd vim-js-file-import
+  autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import
   autocmd FileType defx packadd defx-git | packadd defx-icons
   autocmd FileType go packadd vim-go
 augroup END
