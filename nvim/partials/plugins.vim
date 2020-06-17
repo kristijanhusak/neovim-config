@@ -29,7 +29,6 @@ function! s:packager_init() abort
   call packager#add('stefandtw/quickfix-reflector.vim')
   call packager#add('neoclide/coc.nvim', { 'branch': 'release' })
   call packager#add('w0rp/ale')
-  call packager#add('honza/vim-snippets')
   call packager#add('AndrewRadev/tagalong.vim')
   call packager#add('kristijanhusak/vim-create-pr')
   call packager#add('wakatime/vim-wakatime')

@@ -27,7 +27,6 @@ let g:coc_global_extensions = [
       \ 'coc-jest',
       \ 'coc-prettier',
       \ 'coc-tsserver',
-      \ 'coc-snippets',
       \ 'coc-vimlsp',
       \ 'coc-pairs',
       \ 'coc-phpls',
@@ -36,10 +35,26 @@ let g:coc_global_extensions = [
       \ 'coc-spell-checker',
       \ ]
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+
+
+function s:tab_completion() abort
+  let snippet = snippets#check()
+  if !empty(snippet)
+    return snippets#expand(snippet)
+  endif
+
+  if pumvisible()
+    return "\<C-n>"
+  endif
+
+  if s:check_back_space()
+    return "\<TAB>"
+  endif
+
+  return coc#refresh()
+endfunction
+
+inoremap <silent><expr> <TAB> <sid>tab_completion()
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 vmap <leader>lf <Plug>(coc-format-selected)
