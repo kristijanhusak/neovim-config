@@ -1,11 +1,10 @@
 let s:is_toggle = 0
-let s:modes = ['term', 'regex']
 let s:mode = 'term'
 let s:last_search = ''
 
 augroup init_vim_search
   autocmd!
-  autocmd FileType qf nnoremap <buffer><Leader>r :call <sid>do_search('')<CR>
+  autocmd FileType qf nnoremap <silent><buffer><Leader>r :call <sid>do_search('')<CR>
   autocmd QuickFixCmdPost [^l]* cwindow
   autocmd QuickFixCmdPost l* lwindow
 augroup END
@@ -15,39 +14,39 @@ nnoremap <Leader>f :call <sid>search('')<CR>
 nnoremap <Leader>F :call <sid>search(expand('<cword>'))<CR>
 vnoremap <Leader>F :<C-u>call <sid>search(<sid>get_visual_search_cmd())<CR>
 
-function! s:toggle_mode() abort
+function! s:toggle_search_mode() abort
   let s:is_toggle = 1
-  let s:mode = s:modes[!index(s:modes, s:mode)]
+  let s:mode = s:mode ==? 'regex' ? 'term' : 'regex'
 
   return getcmdline()
 endfunction
 
-function! s:search(term, ...) abort
+function! s:search(term) abort
   let term = a:term
-  let is_from_toggle = get(a:, 1, 0)
-  let default = is_from_toggle ? term : ''
 
-  cmap <tab> <C-\>e<sid>toggle_mode()<CR><CR>
+  cmap <tab> <C-\>e<sid>toggle_search_mode()<CR><CR>
 
-  call inputsave()
-  if empty(term) || is_from_toggle
-    let term = input('Enter '.s:mode.': ', default)
-  endif
-  call inputrestore()
+  try
+    call inputsave()
+    let term = input('Enter '.s:mode.': ', term)
+    call inputrestore()
 
-  if s:is_toggle
-    let s:is_toggle = 0
-    return s:search(term, 1)
-  endif
+    if s:is_toggle
+      let s:is_toggle = 0
+      return s:search(term)
+    endif
 
-  if empty(term)
-    echom 'Empty search.'
+    if empty(term)
+      echom 'Empty search.'
+      return s:cleanup()
+    endif
+
+    redraw!
+    echo 'Searching for word -> '.term
+    let dir = input('Path: ', '', 'file')
+  catch /^Vim:Interrupt$/
     return s:cleanup()
-  endif
-
-  redraw!
-  echo 'Searching for word -> '.term
-  let dir = input('Path: ', '', 'file')
+  endtry
 
   let grepprg = &grepprg
   if s:mode ==? 'term'
