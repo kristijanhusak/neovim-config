@@ -13,7 +13,7 @@ function! s:packager_init() abort
   call packager#add('tpope/vim-repeat')
   call packager#add('tpope/vim-fugitive')
   call packager#add('tpope/vim-sleuth')
-  call packager#add('tpope/vim-dadbod')
+  call packager#add('kristijanhusak/vim-dadbod')
   call packager#add('kristijanhusak/vim-dadbod-ui')
   call packager#add('lambdalisue/vim-backslash')
   call packager#add('AndrewRadev/splitjoin.vim')
