@@ -8,7 +8,7 @@ augroup vimrc_autocomplete
 augroup END
 
 let g:coc_sources_disable_map = {
-      \ 'sql': ['tag']
+      \ 'sql': ['tag', 'buffer']
       \ }
 
 let g:coc_user_config = {
