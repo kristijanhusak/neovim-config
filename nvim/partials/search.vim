@@ -5,8 +5,8 @@ let s:last_search = ''
 augroup init_vim_search
   autocmd!
   autocmd FileType qf nnoremap <silent><buffer><Leader>r :call <sid>do_search('')<CR>
-  autocmd QuickFixCmdPost [^l]* cwindow
-  autocmd QuickFixCmdPost l* lwindow
+  autocmd QuickFixCmdPost [^l]* nested cwindow
+  autocmd QuickFixCmdPost l* nested lwindow
 augroup END
 
 " Search mappings
@@ -36,9 +36,10 @@ function! s:search(term) abort
       return s:search(term)
     endif
 
+    call s:cleanup()
     if empty(term)
       echom 'Empty search.'
-      return s:cleanup()
+      return
     endif
 
     redraw!
