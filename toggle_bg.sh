@@ -10,6 +10,7 @@ set_bg () {
     kitty @ set-colors --all --configured $dark_colorscheme
   fi
   export NVIM_COLORSCHEME_BG=$1
+  source ~/.zshrc
 }
 
 if [[ $1 = 'toggle' ]]; then
