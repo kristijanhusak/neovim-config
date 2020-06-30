@@ -1,6 +1,6 @@
 let s:snippets = {
       \ 'cl': "console.log();\<Left>\<Left>",
-      \ 'class': "class {\<CR>}\<C-o>% \<Left>",
+      \ 'clax': "class {\<CR>}\<C-o>% \<Left>",
       \ }
 
 function snippets#check() abort
