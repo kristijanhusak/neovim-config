@@ -60,7 +60,8 @@ setopt HIST_IGNORE_ALL_DUPS
 # zsh-autosuggestions is designed to be unobtrusive)
 export KEYTIMEOUT=1
 
-if [ $NVIM_COLORSCHEME_BG = 'dark' ]; then
+NVIM_BG=${NVIM_COLORSCHEME_BG:-'dark'}
+if [ $NVIM_BG = 'dark' ]; then
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=239'
 else
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=250'
