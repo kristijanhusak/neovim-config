@@ -96,3 +96,5 @@ let g:db_ui_use_nerd_fonts = 1                                                  
 let g:db_async = 1                                                              "Use async for dadbod
 
 let g:js_file_import_use_fzf = 1                                                "Use FZF for js file import prompts
+
+let g:db_ui_save_location = '~/Dropbox/dbui'                                    "Use dropbox as save location for dbui
