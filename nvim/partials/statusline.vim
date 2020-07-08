@@ -51,8 +51,7 @@ function! Statusline() abort
   let l:statusline = s:sep(l:mode, extend({'before': ''}, s:st_mode))
   let l:git_status = s:git_statusline()
   let l:statusline .= s:sep_if(l:git_status, !empty(l:git_status))
-  let l:path = isdirectory(expand('%')) ? '%F': '%f'
-  let l:statusline .= s:sep(l:path, &modified ? s:st_err : {})                  "File path
+  let l:statusline .= s:sep(s:get_path(), &modified ? s:st_err : {})            "File path
   let l:statusline .= s:sep_if(' + ', &modified, s:st_err)                      "Modified indicator
   let l:statusline .= s:sep_if(' - ', !&modifiable, s:st_err)                   "Modifiable indicator
   let l:statusline .= s:sep_if('%w', &previewwindow)                            "Preview indicator
@@ -148,4 +147,19 @@ function! s:with_icon(value, icon) abort
     return a:value
   endif
   return a:icon.' '.a:value
+endfunction
+
+function! s:get_path() abort
+  let l:path = expand('%')
+  if isdirectory(l:path)
+    return '%F'
+  endif
+
+  let l:path = substitute(expand('%'), '^'.getcwd(), '', '')
+
+  if len(l:path) < 40
+    return '%f'
+  endif
+
+  return pathshorten(l:path)
 endfunction
