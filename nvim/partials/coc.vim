@@ -32,7 +32,6 @@ let g:coc_global_extensions = [
       \ 'coc-phpls',
       \ 'coc-sql',
       \ 'coc-db',
-      \ 'coc-spell-checker',
       \ ]
 
 
