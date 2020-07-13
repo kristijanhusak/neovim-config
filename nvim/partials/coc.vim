@@ -16,6 +16,11 @@ let g:coc_user_config = {
       \ 'prettier.printWidth': 100,
       \ 'prettier.singleQuote': v:true,
       \ 'sql.database': 'postgresql',
+      \ 'diagnostic.errorSign': '✖',
+      \ 'diagnostic.infoSign': '🛈',
+      \ 'diagnostic.hintSign': '🛈',
+      \ 'cSpell.diagnosticLevel': 'Hint',
+      \ 'cSpell.allowCompoundWords': v:true,
       \ }
 
 let g:coc_global_extensions = [
@@ -32,6 +37,7 @@ let g:coc_global_extensions = [
       \ 'coc-phpls',
       \ 'coc-sql',
       \ 'coc-db',
+      \ 'coc-spell-checker',
       \ ]
 
 
