@@ -34,6 +34,7 @@ function! s:packager_init() abort
   call packager#add('wakatime/vim-wakatime')
   call packager#add('arzg/vim-colors-xcode')
   call packager#add('gruvbox-community/gruvbox')
+  call packager#add('voldikss/vim-floaterm')
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
@@ -65,8 +66,7 @@ nnoremap <Leader>R :ALEFix<CR>
 nnoremap <silent>[e :ALEPrevious<CR>
 nnoremap <silent>]e :ALENext<CR>
 
-" Open fugitive git status in vertical split
-nnoremap <silent> <Leader>G :vert G<CR>
+nnoremap <silent><Leader>G :FloatermNew --width=0.9 --height=0.9 lazygit<CR>
 
 let g:ale_virtualtext_cursor = 1
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
@@ -98,3 +98,5 @@ let g:db_async = 1                                                              
 let g:js_file_import_use_fzf = 1                                                "Use FZF for js file import prompts
 
 let g:db_ui_save_location = '~/Dropbox/dbui'                                    "Use dropbox as save location for dbui
+
+let g:floaterm_keymap_toggle = '<Leader>T'                                      "Mapping for toggling floaterm
