@@ -2,7 +2,7 @@
 
 dark_colorscheme='~/.config/kitty/gruvbox.conf'
 light_colorscheme='~/.config/kitty/xcodelight.conf'
-local_path=~/.config/kitty/local.conf
+local_path=~/.config/kitty/local_color.conf
 
 set_bg () {
   if [[ $1 = 'light' ]]; then
