@@ -3,11 +3,8 @@ function! s:packager_init() abort
   call packager#init()
   call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
   call packager#add('kristijanhusak/vim-js-file-import', { 'do': 'npm install', 'type': 'opt' })
-  call packager#add('kristijanhusak/defx-git', { 'type': 'opt' })
-  call packager#add('kristijanhusak/defx-icons', { 'type': 'opt' })
   call packager#add('fatih/vim-go', { 'do': ':GoInstallBinaries', 'type': 'opt' })
   call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
-  call packager#add('Shougo/defx.nvim')
   call packager#add('tpope/vim-commentary')
   call packager#add('tpope/vim-surround')
   call packager#add('tpope/vim-repeat')
@@ -35,6 +32,8 @@ function! s:packager_init() abort
   call packager#add('arzg/vim-colors-xcode')
   call packager#add('gruvbox-community/gruvbox')
   call packager#add('voldikss/vim-floaterm')
+  call packager#add('kyazdani42/nvim-web-devicons')
+  call packager#local('~/github/nvim-tree')
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
@@ -47,9 +46,18 @@ command! PackagerStatus call s:packager_init() | call packager#status()
 augroup packager_filetype
   autocmd!
   autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import
-  autocmd FileType defx packadd defx-git | packadd defx-icons
   autocmd FileType go packadd vim-go
+  autocmd FileType LuaTree call s:setup_luatree()
 augroup END
+
+function! s:setup_luatree() abort
+  setlocal signcolumn=yes
+  nnoremap <buffer><silent> R :LuaTreeRefresh<CR>
+  nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
+  nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
+  nnoremap <silent><buffer> J :call search('[]')<CR>
+  nnoremap <silent><buffer> K :call search('[]', 'b')<CR>
+endfunction
 
 " Better search status
 nnoremap <silent><Leader><space> :AnzuClearSearchStatus<BAR>noh<CR>
@@ -67,6 +75,22 @@ nnoremap <silent>[e :ALEPrevious<CR>
 nnoremap <silent>]e :ALENext<CR>
 
 nnoremap <silent><Leader>G :FloatermNew --width=0.9 --height=0.9 lazygit<CR>
+
+nnoremap <silent><Leader>n :LuaTreeToggle<CR>
+nnoremap <silent><Leader>hf :LuaTreeFindFile<CR>
+
+let g:lua_tree_bindings = {
+    \ 'edit':        'o',
+    \ 'edit_vsplit': 's',
+    \ 'cd':          'C',
+    \ }
+let g:lua_tree_ignore = ['.git']
+let g:lua_tree_icons = {
+      \ 'default': '',
+      \ 'git': {
+      \   'unstaged': '✹',
+      \ }}
+let g:lua_tree_follow = 1
 
 let g:ale_virtualtext_cursor = 1
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
