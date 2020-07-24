@@ -11,6 +11,9 @@ let s:default_columns = 'indent:git:icons:filename'
 function! s:setup_defx() abort
   silent! call defx#custom#option('_', {
         \ 'columns': s:default_columns,
+        \ 'winwidth': 40,
+        \ 'direction': 'topleft',
+        \ 'split': 'vertical',
         \ })
 
   silent! call defx#custom#column('filename', {
@@ -18,7 +21,7 @@ function! s:setup_defx() abort
         \ 'max_width': 80,
         \ })
 
-  silent! call s:defx_open({ 'dir': expand('<afile>') })
+  call s:defx_open({ 'dir': expand('<afile>') })
 endfunction
 
 function s:get_project_root() abort
@@ -50,12 +53,10 @@ function! s:defx_open(...) abort
     let l:path = l:opts.dir
   endif
 
-  let l:args = '-winwidth=40 -direction=topleft -split=vertical'
-
   if has_key(l:opts, 'find_current_file')
-    call execute(printf('Defx %s -search=%s %s', l:args, expand('%:p'), l:path))
+    call execute(printf('Defx -search=%s %s', expand('%:p'), l:path))
   else
-    call execute(printf('Defx -toggle %s %s', l:args, l:path))
+    call execute(printf('Defx -toggle %s', l:path))
     call execute('wincmd p')
   endif
 
