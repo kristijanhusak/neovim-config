@@ -33,7 +33,7 @@ function! s:packager_init() abort
   call packager#add('gruvbox-community/gruvbox')
   call packager#add('voldikss/vim-floaterm')
   call packager#add('kyazdani42/nvim-web-devicons')
-  call packager#local('~/github/nvim-tree')
+  call packager#add('kyazdani42/nvim-tree.lua')
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
