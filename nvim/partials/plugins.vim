@@ -37,8 +37,6 @@ function! s:packager_init() abort
   call packager#add('neovim/nvim-lsp')
   call packager#add('nvim-lua/completion-nvim')
   call packager#add('kristijanhusak/vim-dadbod-completion')
-  call packager#add('nvim-treesitter/nvim-treesitter')
-  call packager#add('nvim-treesitter/completion-treesitter')
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
