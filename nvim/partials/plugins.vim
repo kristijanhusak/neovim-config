@@ -60,6 +60,7 @@ function! s:setup_luatree() abort
   nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
   nnoremap <silent><buffer> J :call search('[]')<CR>
   nnoremap <silent><buffer> K :call search('[]', 'b')<CR>
+  call feedkeys("\<C-w>w")
 endfunction
 
 " Better search status
@@ -94,6 +95,7 @@ let g:lua_tree_icons = {
       \   'unstaged': '✹',
       \ }}
 let g:lua_tree_follow = 1
+let g:lua_tree_auto_open = 1
 
 let g:ale_virtualtext_cursor = 1
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
