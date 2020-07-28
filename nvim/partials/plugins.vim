@@ -129,3 +129,5 @@ let g:js_file_import_use_fzf = 1                                                
 let g:db_ui_save_location = '~/Dropbox/dbui'                                    "Use dropbox as save location for dbui
 
 let g:floaterm_keymap_toggle = '<Leader>T'                                      "Mapping for toggling floaterm
+
+let g:pear_tree_repeatable_expand = 0
