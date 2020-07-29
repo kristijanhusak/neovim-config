@@ -2,18 +2,12 @@ set pumheight=15                                                                
 
 augroup vimrc_autocomplete
   autocmd!
-  autocmd VimEnter * call s:setup_lsp()
+  autocmd VimEnter * lua require'lsp_setup'
   autocmd FileType javascript,javascriptreact,vim,php,gopls setlocal omnifunc=v:lua.vim.lsp.omnifunc
   autocmd BufEnter * lua require'completion'.on_attach()
   autocmd FileType sql let g:completion_trigger_character = ['.', '"']
 augroup END
 
-function! s:setup_lsp() abort
-  lua require'nvim_lsp'.tsserver.setup{on_attach=require'completion'.on_attach}
-  lua require'nvim_lsp'.vimls.setup{on_attach=require'completion'.on_attach}
-  lua require'nvim_lsp'.intelephense.setup{on_attach=require'completion'.on_attach}
-  lua require'nvim_lsp'.gopls.setup{on_attach=require'completion'.on_attach}
-endfunction
 set completeopt=menuone,noinsert,noselect
 
 let g:completion_confirm_key = "\<C-y>"
@@ -27,7 +21,7 @@ let g:completion_chain_complete_list = {
       \   {'mode': '<c-n>'},
       \],
       \ 'default': [
-      \    {'complete_items': ['lsp']},
+      \    {'complete_items': ['lsp', 'ts']},
       \    {'mode': '<c-n>'},
       \  ]}
 

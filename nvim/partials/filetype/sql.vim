@@ -1,4 +1,4 @@
 augroup vimrc_sql
   autocmd!
-  autocmd FileType sql nmap <buffer><silent><Leader>R :call CocAction('format')<CR>
+  autocmd FileType sql setlocal omnifunc=vim_dadbod_completion#omni equalprg=pg_format
 augroup END
