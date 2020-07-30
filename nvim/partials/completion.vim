@@ -12,7 +12,6 @@ set completeopt=menuone,noinsert,noselect
 
 let g:completion_confirm_key = "\<C-y>"
 let g:completion_sorting = 'none'
-let g:completion_auto_change_source = 1
 let g:completion_matching_strategy_list = ['exact', 'substring']
 let g:completion_matching_ignore_case = 1
 let g:completion_chain_complete_list = {
@@ -45,15 +44,16 @@ function s:tab_completion() abort
     return "\<TAB>"
   endif
 
-  return completion#trigger_completion()
+  call feedkeys("\<Plug>(completion_next_source)")
+  return ''
 endfunction
 
 inoremap <silent><expr> <TAB> <sid>tab_completion()
 
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-imap <c-j> <cmd>lua require'source'.prevCompletion()<CR>
-imap <c-k> <cmd>lua require'source'.nextCompletion()<CR>
+imap  <c-j> <Plug>(completion_next_source)
+imap  <c-k> <Plug>(completion_prev_source)
 
 nmap <leader>ld <cmd>lua vim.lsp.buf.definition()<CR>
 nmap <leader>lc <cmd>lua vim.lsp.buf.declaration()<CR>
