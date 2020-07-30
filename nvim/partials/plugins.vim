@@ -96,6 +96,7 @@ let g:lua_tree_icons = {
       \ }}
 let g:lua_tree_follow = 1
 let g:lua_tree_auto_open = 1
+let g:lua_tree_size = 40
 
 let g:ale_virtualtext_cursor = 1
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
