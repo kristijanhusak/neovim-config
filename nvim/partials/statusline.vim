@@ -15,7 +15,7 @@ function! s:set_statusline_colors() abort
   let s:normal_fg = synIDattr(hlID('Normal'), 'fg')
   let s:statusline_bg = synIDattr(hlID('Statusline'), &background ==? 'dark' ? 'fg' : 'bg')
   let s:comment_fg = &background ==? 'light' ? '#5c6873' : '#a89984'
-  let s:warning_fg = synIDattr(hlID(&background ==? 'dark' ? 'GruvboxYellow' : 'PreProc'), 'fg')
+  let s:warning_fg = synIDattr(hlID(&background ==? 'dark' ? 'GruvboxYellow' : 'WarningMsg'), 'fg')
   let s:error_fg = synIDattr(hlID('ErrorMsg'), &background ==? 'dark' ? 'bg' : 'fg')
 
   silent! exe 'hi StItem guibg='.s:normal_fg.' guifg='.s:normal_bg.' gui=NONE'
