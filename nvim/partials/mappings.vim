@@ -80,7 +80,7 @@ nnoremap <Leader>] <C-W>v<C-]>
 " Close all other buffers except current one
 nnoremap <Leader>db :silent w <BAR> :silent %bd <BAR> e#<CR>
 
-nnoremap gx :call netrw#BrowseX(expand('<cfile>'), netrw#CheckIfRemote())<CR>
+nnoremap gx :call <sid>open_url()<CR>
 
 " Unimpaired mappings
 nnoremap [q :cprevious<CR>
@@ -193,4 +193,11 @@ function! s:open_file_on_line_and_column() abort
     silent! exe 'vsplit '.l:path
   endif
   call cursor(l:row, l:col)
+endfunction
+
+function! s:open_url() abort
+  unlet! g:loaded_netrw
+  unlet! g:loaded_netrwPlugin
+  runtime! plugin/netrwPlugin.vim
+  return netrw#BrowseX(expand('<cfile>'), netrw#CheckIfRemote())
 endfunction
