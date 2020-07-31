@@ -13,27 +13,32 @@ augroup END
 function! s:set_statusline_colors() abort
   let s:normal_bg = synIDattr(hlID('Normal'), 'bg')
   let s:normal_fg = synIDattr(hlID('Normal'), 'fg')
+  let s:statusline_bg = synIDattr(hlID('Statusline'), &background ==? 'dark' ? 'fg' : 'bg')
+  let s:comment_fg = &background ==? 'light' ? '#5c6873' : '#a89984'
   let s:warning_fg = synIDattr(hlID(&background ==? 'dark' ? 'GruvboxYellow' : 'PreProc'), 'fg')
   let s:error_fg = synIDattr(hlID('ErrorMsg'), &background ==? 'dark' ? 'bg' : 'fg')
 
   silent! exe 'hi StItem guibg='.s:normal_fg.' guifg='.s:normal_bg.' gui=NONE'
-  silent! exe 'hi StSep guifg='.s:normal_fg.' guibg=NONE gui=NONE'
+  silent! exe 'hi StItem2 guibg='.s:comment_fg.' guifg='.s:normal_bg.' gui=NONE'
+  silent! exe 'hi StSep guifg='.s:normal_fg.' guibg='.s:statusline_bg.' gui=NONE'
+  silent! exe 'hi StSep2 guifg='.s:comment_fg.' guibg='.s:statusline_bg.' gui=NONE'
   silent! exe 'hi StErr guibg='.s:error_fg.' guifg='.s:normal_bg.' gui=bold'
-  silent! exe 'hi StErrSep guifg='.s:error_fg.' guibg=NONE gui=NONE'
+  silent! exe 'hi StErrSep guifg='.s:error_fg.' guibg='.s:statusline_bg.' gui=NONE'
   silent! exe 'hi StWarn guibg='.s:warning_fg.' guifg='.s:normal_bg.' gui=bold'
   silent! exe 'hi StWarnSep guifg='.s:warning_fg.' guibg=NONE gui=NONE'
-  silent! exe 'hi Statusline guifg=NONE guibg='.s:normal_bg.' gui=NONE cterm=NONE'
 endfunction
 
 function! s:sep(item, ...) abort
   let l:opts = get(a:, '1', {})
+  let l:show = get(a:, '2', 1)
+  if !l:show | return '' | endif
   let l:no_after = get(l:opts, 'no_after', 0)
   let l:no_before = get(l:opts, 'no_before', 0)
   let l:sep_color = get(l:opts, 'sep_color', '%#StSep#')
-  let l:sep_before = '█'
-  let l:sep_after = '█'
   let l:color = get(l:opts, 'color', '%#StItem#')
   let l:side = get(l:opts, 'side', 'left')
+  let l:sep_before = '█'
+  let l:sep_after = '█'
   if l:side !=? 'left'
     let l:sep_before = '█'
     let l:sep_after = '█'
@@ -50,43 +55,36 @@ function! s:sep(item, ...) abort
   return l:sep_color.l:sep_before.l:color.a:item.l:sep_color.l:sep_after.'%*'
 endfunction
 
-function! s:sep_if(item, condition, ...) abort
-  if !a:condition
-    return ''
-  endif
-  let l:opts = get(a:, '1', {})
-  return s:sep(a:item, l:opts)
-endfunction
-
-let s:st_mode = {'color': '%#StMode#', 'sep_color': '%#StModeSep#'}
+let s:st_mode = {'color': '%#StMode#', 'sep_color': '%#StModeSep#', 'no_before': 1 }
 let s:st_err = {'color': '%#StErr#', 'sep_color': '%#StErrSep#'}
-let s:st_mode_right = extend({'side': 'right'}, s:st_mode)
-let s:st_err_right = extend({'side': 'right'}, s:st_err)
+let s:st_mode_right = extend(copy(s:st_mode), { 'side': 'right', 'no_before': 0 })
+let s:st_err_right = extend(copy(s:st_err), {'side': 'right'})
 let s:st_warn = {'color': '%#StWarn#', 'sep_color': '%#StWarnSep#', 'side': 'right', 'no_after': 1}
+let s:sec_2 = {'color': '%#StItem2#', 'sep_color': '%#StSep2#'}
 
 function! Statusline() abort
   let l:mode = s:mode_statusline()
-  let l:statusline = s:sep(l:mode, extend({'no_before': 1}, s:st_mode))
+  let l:statusline = s:sep(l:mode, s:st_mode)
   let l:git_status = s:git_statusline()
-  let l:statusline .= s:sep_if(l:git_status, !empty(l:git_status))
-  let l:statusline .= s:sep(s:get_path(), &modified ? s:st_err : {})                                                    "File path
-  let l:statusline .= s:sep_if(' + ', &modified, s:st_err)                                                              "Modified indicator
-  let l:statusline .= s:sep_if(' - ', !&modifiable, s:st_err)                                                           "Modifiable indicator
-  let l:statusline .= s:sep_if('%w', &previewwindow)                                                                    "Preview indicator
-  let l:statusline .= s:sep_if('%r', &readonly)                                                                         "Read only indicator
-  let l:statusline .= s:sep_if('%q', &buftype ==? 'quickfix')                                                           "Quickfix list indicator
-  let l:statusline .= '%='                                                                                              "Start right side layout
+  let l:statusline .= s:sep(l:git_status, s:sec_2, !empty(l:git_status))
+  let l:statusline .= s:sep(s:get_path(), &modified ? s:st_err : s:sec_2)
+  let l:statusline .= s:sep(' + ', s:st_err, &modified)
+  let l:statusline .= s:sep(' - ', s:st_err, !&modifiable)
+  let l:statusline .= s:sep('%w', {}, &previewwindow)
+  let l:statusline .= s:sep('%r', {}, &readonly)
+  let l:statusline .= s:sep('%q', {}, &buftype ==? 'quickfix')
+  let l:statusline .= '%='
   let l:anzu = exists('*anzu#search_status') ? anzu#search_status() : ''
-  let l:statusline .= s:sep_if(l:anzu, !empty(l:anzu), {'side': 'right'})                                               "Search status
+  let l:statusline .= s:sep(l:anzu, {'side': 'right'}, !empty(l:anzu))
   let l:ft = &filetype
-  let l:statusline .= s:sep_if(l:ft, !empty(l:ft), {'side': 'right'})                                                   "Filetype
-  let l:statusline .= s:sep(': %c', s:st_mode_right)                                              "Column number
-  let l:statusline .= s:sep(': %l/%L', s:st_mode_right)                                           "Current line number/Total line numbers
+  let l:statusline .= s:sep(l:ft, extend({'side': 'right'}, s:sec_2), !empty(l:ft))
+  let l:statusline .= s:sep(': %c', s:st_mode_right)
+  let l:statusline .= s:sep(': %l/%L', s:st_mode_right)
   let l:err = s:ale_status('error')
   let l:warn = s:ale_status('warning')
-  let l:statusline .= s:sep('%p%%', extend({'no_after': empty(l:err) && empty(l:warn)}, s:st_mode_right))    "Percentage
-  let l:statusline .= s:sep_if(l:err, !empty(l:err), extend({ 'no_after': empty(l:warn) }, s:st_err_right))
-  let l:statusline .= s:sep_if(l:warn, !empty(l:warn), s:st_warn)
+  let l:statusline .= s:sep('%p%%', extend({'no_after': empty(l:err) && empty(l:warn)}, s:st_mode_right))
+  let l:statusline .= s:sep(l:err, extend({ 'no_after': empty(l:warn) }, s:st_err_right), !empty(l:err))
+  let l:statusline .= s:sep(l:warn, s:st_warn, !empty(l:warn))
   let l:statusline .= '%<'
   return l:statusline
 endfunction
@@ -147,16 +145,16 @@ endfunction
 function! s:mode_highlight(mode) abort
   if a:mode ==? 'i'
     hi StMode guibg=#83a598 guifg=#3c3836
-    hi StModeSep guifg=#83a598 guibg=NONE
+    hi StModeSep guifg=#83a598
   elseif a:mode =~? '\(v\|V\|\)'
     hi StMode guibg=#fe8019 guifg=#3c3836
-    hi StModeSep guifg=#fe8019 guibg=NONE
+    hi StModeSep guifg=#fe8019
   elseif a:mode ==? 'R'
     hi StMode guibg=#8ec07c guifg=#3c3836
-    hi StModeSep guifg=#8ec07c guibg=NONE
+    hi StModeSep guifg=#8ec07c
   else
     silent! exe 'hi StMode guibg='.s:normal_fg.' guifg='.s:normal_bg.' gui=NONE'
-    silent! exe 'hi StModeSep guifg='.s:normal_fg.' guibg=NONE gui=NONE'
+    silent! exe 'hi StModeSep guifg='.s:normal_fg.' guibg='.s:statusline_bg.' gui=NONE'
   endif
 endfunction
 
