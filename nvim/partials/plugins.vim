@@ -128,6 +128,7 @@ let g:db_async = 1                                                              
 let g:js_file_import_use_fzf = 1                                                "Use FZF for js file import prompts
 
 let g:db_ui_save_location = '~/Dropbox/dbui'                                    "Use dropbox as save location for dbui
+let g:db_ui_tmp_query_location = '~/code/queries'                               "Save all dbui queries in this location
 
 let g:floaterm_keymap_toggle = '<Leader>T'                                      "Mapping for toggling floaterm
 
