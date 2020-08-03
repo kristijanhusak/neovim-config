@@ -95,7 +95,6 @@ let g:lua_tree_bindings = {
     \ 'edit_vsplit': 's',
     \ 'cd':          'C',
     \ }
-let g:lua_tree_ignore = ['.git']
 let g:lua_tree_icons = {
       \ 'default': '',
       \ 'git': {
@@ -105,6 +104,7 @@ let g:lua_tree_follow = 1
 let g:lua_tree_auto_open = 1
 let g:lua_tree_size = 40
 let g:lua_tree_git_hl = 1
+let g:lua_tree_hide_dotfiles = 1
 
 let g:ale_virtualtext_cursor = 1
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
