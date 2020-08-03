@@ -91,7 +91,6 @@ imap <CR> <Plug>(PearTreeExpand)
 imap <Esc> <Plug>(PearTreeFinishExpansion)
 
 let g:lua_tree_bindings = {
-    \ 'edit':        'o',
     \ 'edit_vsplit': 's',
     \ 'cd':          'C',
     \ }
