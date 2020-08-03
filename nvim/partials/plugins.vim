@@ -56,7 +56,6 @@ augroup END
 
 function! s:setup_luatree() abort
   setlocal signcolumn=yes
-  nnoremap <buffer><silent> R :LuaTreeRefresh<CR>
   nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
   nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
   nnoremap <silent><buffer> J :call search('[]')<CR>
