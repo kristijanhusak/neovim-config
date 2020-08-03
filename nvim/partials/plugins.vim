@@ -78,7 +78,8 @@ nnoremap <Leader>R :ALEFix<CR>
 nnoremap <silent>[e :ALEPrevious<CR>
 nnoremap <silent>]e :ALENext<CR>
 
-nnoremap <silent><Leader>G :FloatermNew --width=0.9 --height=0.9 lazygit<CR>
+nnoremap <silent><Leader>G :vert G<CR>
+nnoremap <silent><Leader>z :FloatermNew --width=0.9 --height=0.9 lazygit<CR>
 
 " Tree mappings
 nnoremap <silent><Leader>n :LuaTreeToggle<CR>
