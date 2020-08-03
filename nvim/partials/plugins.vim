@@ -80,8 +80,14 @@ nnoremap <silent>]e :ALENext<CR>
 
 nnoremap <silent><Leader>G :FloatermNew --width=0.9 --height=0.9 lazygit<CR>
 
+" Tree mappings
 nnoremap <silent><Leader>n :LuaTreeToggle<CR>
 nnoremap <silent><Leader>hf :LuaTreeFindFile<CR>
+
+" Pear tree mappings
+imap <BS> <Plug>(PearTreeBackspace)
+imap <CR> <Plug>(PearTreeExpand)
+imap <Esc> <Plug>(PearTreeFinishExpansion)
 
 let g:lua_tree_bindings = {
     \ 'edit':        'o',
@@ -133,3 +139,4 @@ let g:db_ui_tmp_query_location = '~/code/queries'                               
 let g:floaterm_keymap_toggle = '<Leader>T'                                      "Mapping for toggling floaterm
 
 let g:pear_tree_repeatable_expand = 0
+let g:pear_tree_map_special_keys = 0
