@@ -13,6 +13,7 @@ function! s:packager_init() abort
   call packager#add('kristijanhusak/vim-dadbod')
   call packager#add('kristijanhusak/vim-dadbod-ui')
   call packager#add('lambdalisue/vim-backslash')
+  call packager#add('lambdalisue/reword.vim')
   call packager#add('AndrewRadev/splitjoin.vim')
   call packager#add('airblade/vim-gitgutter')
   call packager#add('sheerun/vim-polyglot')
