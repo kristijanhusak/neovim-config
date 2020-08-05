@@ -85,6 +85,6 @@ function! s:set_path() abort
         \ })
 
   if !empty(l:dirs)
-    let &path = &path.','.join(map(l:dirs, 'v:val[2:]."/**/*"'), ',')
+    let &path = &path.','.join(map(l:dirs, 'v:val[2:]."/**"'), ',')
   endif
 endfunction
