@@ -31,7 +31,9 @@ endfunction
 function! s:sep(item, ...) abort
   let l:opts = get(a:, '1', {})
   let l:show = get(a:, '2', 1)
-  if !l:show | return '' | endif
+  if !l:show
+    return ''
+  endif
   let l:no_after = get(l:opts, 'no_after', 0)
   let l:no_before = get(l:opts, 'no_before', 0)
   let l:sep_color = get(l:opts, 'sep_color', '%#StSep#')
