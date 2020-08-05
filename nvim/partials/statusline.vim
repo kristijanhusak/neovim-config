@@ -75,7 +75,7 @@ function! Statusline() abort
   let l:statusline .= s:sep('%q', {}, &buftype ==? 'quickfix')
   let l:statusline .= '%='
   let l:anzu = exists('*anzu#search_status') ? anzu#search_status() : ''
-  let l:statusline .= s:sep(l:anzu, {'side': 'right'}, !empty(l:anzu))
+  let l:statusline .= s:sep(l:anzu, extend({'side': 'right'}, s:sec_2), !empty(l:anzu))
   let l:ft = &filetype
   let l:statusline .= s:sep(l:ft, extend({'side': 'right'}, s:sec_2), !empty(l:ft))
   let l:statusline .= s:sep(': %c', s:st_mode_right)
