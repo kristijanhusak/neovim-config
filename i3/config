@@ -395,3 +395,9 @@ assign [class="Google-chrome"] 2
 assign [class="Brave-browser"] 2
 assign [class="Slack"] 4
 assign [class="DBeaver"] 5
+
+
+gaps inner 8
+gaps outer 0
+smart_gaps on
+smart_borders on
