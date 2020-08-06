@@ -48,6 +48,7 @@ set scrolloff=8                                                                 
 set sidescrolloff=15
 set sidescroll=5
 set pyxversion=3                                                                "Always use python 3
+let g:python3_host_prog = '/usr/bin/python3'
 
 augroup vimrc
   autocmd!
