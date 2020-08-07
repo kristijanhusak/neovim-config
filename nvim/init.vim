@@ -4,7 +4,6 @@ runtime! partials/colorscheme.vim
 runtime! partials/statusline.vim
 runtime! partials/filetype/*.vim
 runtime! partials/fzf.vim
-runtime! partials/snippets.vim
 runtime! partials/completion.vim
 runtime! partials/mappings.vim
 runtime! partials/abbreviations.vim

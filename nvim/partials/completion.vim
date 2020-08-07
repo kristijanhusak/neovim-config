@@ -10,9 +10,10 @@ augroup END
 
 set completeopt=menuone,noinsert,noselect
 
-let g:completion_confirm_key = "\<C-y>"
+let g:completion_confirm_key = ''
 let g:completion_sorting = 'none'
 let g:completion_matching_strategy_list = ['exact', 'substring']
+let g:completion_enable_snippet = 'vim-vsnip'
 let g:completion_matching_ignore_case = 1
 let g:completion_chain_complete_list = {
       \ 'sql': [
@@ -20,7 +21,7 @@ let g:completion_chain_complete_list = {
       \   {'mode': '<c-n>'},
       \],
       \ 'default': [
-      \    {'complete_items': ['lsp']},
+      \    {'complete_items': ['lsp', 'snippet']},
       \    {'mode': '<c-n>'},
       \  ]}
 
@@ -29,12 +30,10 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-
 function s:tab_completion() abort
-   let snippet = snippets#check()
-   if !empty(snippet)
-     return snippets#expand(snippet)
-   endif
+  if vsnip#jumpable(1)
+    return "\<Plug>(vsnip-jump-next)"
+  endif
 
   if pumvisible()
     return "\<C-n>"
@@ -44,13 +43,20 @@ function s:tab_completion() abort
     return "\<TAB>"
   endif
 
-  call feedkeys("\<Plug>(completion_next_source)")
-  return ''
+  if vsnip#expandable()
+    return "\<Plug>(vsnip-expand)"
+  endif
+
+  return "\<Plug>(completion_next_source)"
 endfunction
 
-inoremap <silent><expr> <TAB> <sid>tab_completion()
+imap <expr> <TAB> <sid>tab_completion()
 
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+smap <expr><TAB> vsnip#available(1)  ? "\<Plug>(vsnip-expand-or-jump)" : "\<TAB>"
+imap <expr> <CR> pumvisible() && complete_info()['selected'] != '-1'
+      \ ? "\<Plug>(completion_confirm_completion)"
+      \ : vsnip#expandable() ? "\<Plug>(vsnip-expand)" : "\<Plug>(PearTreeExpand)"
 
 imap  <c-j> <Plug>(completion_next_source)
 imap  <c-k> <Plug>(completion_prev_source)

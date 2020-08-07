@@ -38,6 +38,8 @@ function! s:packager_init() abort
   call packager#add('neovim/nvim-lsp')
   call packager#add('nvim-lua/completion-nvim')
   call packager#add('kristijanhusak/vim-dadbod-completion')
+  call packager#add('hrsh7th/vim-vsnip')
+  call packager#add('hrsh7th/vim-vsnip-integ')
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
@@ -87,7 +89,6 @@ nnoremap <silent><Leader>hf :LuaTreeFindFile<CR>
 
 " Pear tree mappings
 imap <BS> <Plug>(PearTreeBackspace)
-imap <CR> <Plug>(PearTreeExpand)
 imap <Esc> <Plug>(PearTreeFinishExpansion)
 
 let g:lua_tree_bindings = {
@@ -142,3 +143,5 @@ let g:floaterm_keymap_toggle = '<Leader>T'                                      
 
 let g:pear_tree_repeatable_expand = 0
 let g:pear_tree_map_special_keys = 0
+
+let g:vsnip_snippet_dir = printf('%s/partials/snippets', fnamemodify($MYVIMRC, ':p:h'))

@@ -1,0 +1,50 @@
+{
+  "Class": {
+    "prefix": ["clax"],
+    "body": [
+      "class $1 ${2:extends ${3:Parent} }{",
+      "\tconstructor() {",
+      "\t\t$0",
+      "\t}",
+      "}"
+    ],
+    "description": "Class definition template."
+  },
+  "method": {
+    "prefix": ["mtd"],
+    "body": [
+      "${1:async ${2:method}}(${3:params}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "method"
+  },
+  "function": {
+    "prefix": ["fun"],
+    "body": [
+      "${1:async }${2:(${3:params})} => {$0}"
+    ],
+    "description": "function"
+  },
+  "const": {
+    "prefix": ["const"],
+    "body": [
+      "const $1 = $0;"
+    ],
+    "description": "const"
+  },
+  "let": {
+    "prefix": ["let"],
+    "body": [
+      "let $1 = $0;"
+    ],
+    "description": "let"
+  },
+  "Console log": {
+    "prefix": ["cl"],
+    "body": [
+      "console.log($0)"
+    ],
+    "description": "Console log"
+  }
+}
