@@ -3,10 +3,14 @@
     "prefix": ["clax"],
     "body": [
       "class $1 ${2:extends ${3:Parent} }{",
-      "\tconstructor() {",
-      "\t\t$0",
+      "\tconstructor(${4:props}) {",
+      "\t\tthis.$4 = $4;",
       "\t}",
-      "}"
+      "",
+      "\t$0",
+      "}",
+      "",
+      "module.exports = $1;"
     ],
     "description": "Class definition template."
   },

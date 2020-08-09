@@ -21,7 +21,7 @@ let g:completion_chain_complete_list = {
       \   {'mode': '<c-n>'},
       \],
       \ 'default': [
-      \    {'complete_items': ['lsp', 'snippet']},
+      \    {'complete_items': ['snippet', 'lsp']},
       \    {'mode': '<c-n>'},
       \  ]}
 
@@ -52,8 +52,9 @@ endfunction
 
 imap <expr> <TAB> <sid>tab_completion()
 
-imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+imap <expr><S-TAB> pumvisible() ? "\<C-p>" : vsnip#jumpable(-1) ? "\<Plug>(vsnip-jump-prev)" : "\<S-TAB>"
 smap <expr><TAB> vsnip#available(1)  ? "\<Plug>(vsnip-expand-or-jump)" : "\<TAB>"
+smap <expr><S-TAB> vsnip#available(-1)  ? "\<Plug>(vsnip-jump-prev)" : "\<S-TAB>"
 imap <expr> <CR> pumvisible() && complete_info()['selected'] != '-1'
       \ ? "\<Plug>(completion_confirm_completion)"
       \ : vsnip#expandable() ? "\<Plug>(vsnip-expand)" : "\<Plug>(PearTreeExpand)"

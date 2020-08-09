@@ -1,0 +1,28 @@
+{
+  "function": {
+    "prefix": ["fun"],
+    "body": [
+      "function! $1(${2:args}) abort",
+      "\t$0",
+      "endfunction"
+    ],
+    "description": "Function"
+  },
+  "autocmd": {
+    "prefix": ["aut"],
+    "body": [
+      "autocmd $1 ${2:* $0}"
+    ],
+    "description": "Function"
+  },
+  "augroup": {
+    "prefix": ["aug"],
+    "body": [
+      "augroup $1",
+      "\tautocmd!",
+      "\tautocmd $2 ${3:* $0}",
+      "augroup END"
+    ],
+    "description": "Function"
+  }
+}
