@@ -141,7 +141,9 @@ let g:db_ui_tmp_query_location = '~/code/queries'                               
 
 let g:floaterm_keymap_toggle = '<Leader>T'                                      "Mapping for toggling floaterm
 
-let g:pear_tree_repeatable_expand = 0
-let g:pear_tree_map_special_keys = 0
+let g:pear_tree_repeatable_expand = 0                                           "Disable smart expanding
+let g:pear_tree_map_special_keys = 0                                            "DIsable automatic mappings for peartree
 
-let g:vsnip_snippet_dir = printf('%s/partials/snippets', fnamemodify($MYVIMRC, ':p:h'))
+let g:vsnip_snippet_dir = printf(
+      \ '%s/partials/snippets', fnamemodify($MYVIMRC, ':p:h')
+      \ )                                                                       "Set vsnip path
