@@ -25,7 +25,7 @@ function! s:packager_init() abort
   call packager#add('haya14busa/vim-asterisk')
   call packager#add('osyo-manga/vim-anzu')
   call packager#add('stefandtw/quickfix-reflector.vim')
-  call packager#add('w0rp/ale')
+  call packager#add('dense-analysis/ale')
   call packager#add('AndrewRadev/tagalong.vim')
   call packager#add('kristijanhusak/vim-create-pr')
   call packager#add('wakatime/vim-wakatime')
