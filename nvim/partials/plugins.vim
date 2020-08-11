@@ -40,6 +40,7 @@ function! s:packager_init() abort
   call packager#add('kristijanhusak/vim-dadbod-completion')
   call packager#add('hrsh7th/vim-vsnip')
   call packager#add('hrsh7th/vim-vsnip-integ')
+  call packager#add('overcache/NeoSolarized')
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma

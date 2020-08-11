@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-dark_colorscheme='~/.config/kitty/gruvbox.conf'
-light_colorscheme='~/.config/kitty/xcodelight.conf'
+dark_colorscheme='~/.config/kitty/solarized_dark.conf'
+light_colorscheme='~/.config/kitty/solarized_light.conf'
 local_path=~/.config/kitty/local_color.conf
 
 set_bg () {

@@ -1,4 +1,3 @@
-scriptencoding utf-8
 let s:cache = {'branch': ''}
 
 augroup custom_statusline
@@ -13,20 +12,19 @@ augroup END
 function! s:set_statusline_colors() abort
   let s:normal_bg = synIDattr(hlID('Normal'), 'bg')
   let s:normal_fg = synIDattr(hlID('Normal'), 'fg')
-  let l:st_reverse = synIDattr(hlID('Statusline'), 'reverse')
-  let s:statusline_bg = synIDattr(hlID('Statusline'), l:st_reverse ? 'fg' : 'bg')
-  let s:comment_fg = &background ==? 'light' ? '#5c6873' : '#a89984'
-  let s:warning_fg = synIDattr(hlID(&background ==? 'dark' ? 'GruvboxYellow' : 'WarningMsg'), 'fg')
-  let s:error_fg = synIDattr(hlID('ErrorMsg'), &background ==? 'dark' ? 'bg' : 'fg')
+  let s:statusline_bg = synIDattr(hlID('Statusline'), 'fg')
+  let s:comment_fg = synIDattr(hlID('Comment'), 'fg')
+  let s:warning_fg = synIDattr(hlID('Type'), 'fg')
+  let s:error_fg = synIDattr(hlID('Error'), 'fg')
 
-  silent! exe 'hi StItem guibg='.s:normal_fg.' guifg='.s:normal_bg.' gui=NONE'
-  silent! exe 'hi StItem2 guibg='.s:comment_fg.' guifg='.s:normal_bg.' gui=NONE'
-  silent! exe 'hi StSep guifg='.s:normal_fg.' guibg='.s:statusline_bg.' gui=NONE'
-  silent! exe 'hi StSep2 guifg='.s:comment_fg.' guibg='.s:statusline_bg.' gui=NONE'
+  silent! exe 'hi StItem guibg='.s:comment_fg.' guifg='.s:normal_bg.' gui=NONE'
+  silent! exe 'hi StItem2 guibg='.s:normal_fg.' guifg='.s:normal_bg.' gui=NONE'
+  silent! exe 'hi StSep guifg='.s:comment_fg.' guibg='.s:statusline_bg.' gui=NONE'
+  silent! exe 'hi StSep2 guifg='.s:normal_fg.' guibg='.s:statusline_bg.' gui=NONE'
   silent! exe 'hi StErr guibg='.s:error_fg.' guifg='.s:normal_bg.' gui=bold'
   silent! exe 'hi StErrSep guifg='.s:error_fg.' guibg='.s:statusline_bg.' gui=NONE'
   silent! exe 'hi StWarn guibg='.s:warning_fg.' guifg='.s:normal_bg.' gui=bold'
-  silent! exe 'hi StWarnSep guifg='.s:warning_fg.' guibg=NONE gui=NONE'
+  silent! exe 'hi StWarnSep guifg='.s:warning_fg.' guibg='.s:statusline_bg.' gui=NONE'
 endfunction
 
 function! s:sep(item, ...) abort
@@ -156,8 +154,8 @@ function! s:mode_highlight(mode) abort
     hi StMode guibg=#8ec07c guifg=#3c3836
     hi StModeSep guifg=#8ec07c
   else
-    silent! exe 'hi StMode guibg='.s:normal_fg.' guifg='.s:normal_bg.' gui=NONE'
-    silent! exe 'hi StModeSep guifg='.s:normal_fg.' guibg='.s:statusline_bg.' gui=NONE'
+    silent! exe 'hi StMode guibg='.s:comment_fg.' guifg='.s:normal_bg.' gui=NONE'
+    silent! exe 'hi StModeSep guifg='.s:comment_fg.' guibg='.s:statusline_bg.' gui=NONE'
   endif
 endfunction
 
