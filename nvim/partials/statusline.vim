@@ -13,7 +13,8 @@ augroup END
 function! s:set_statusline_colors() abort
   let s:normal_bg = synIDattr(hlID('Normal'), 'bg')
   let s:normal_fg = synIDattr(hlID('Normal'), 'fg')
-  let s:statusline_bg = synIDattr(hlID('Statusline'), &background ==? 'dark' ? 'fg' : 'bg')
+  let l:st_reverse = synIDattr(hlID('Statusline'), 'reverse')
+  let s:statusline_bg = synIDattr(hlID('Statusline'), l:st_reverse ? 'fg' : 'bg')
   let s:comment_fg = &background ==? 'light' ? '#5c6873' : '#a89984'
   let s:warning_fg = synIDattr(hlID(&background ==? 'dark' ? 'GruvboxYellow' : 'WarningMsg'), 'fg')
   let s:error_fg = synIDattr(hlID('ErrorMsg'), &background ==? 'dark' ? 'bg' : 'fg')
