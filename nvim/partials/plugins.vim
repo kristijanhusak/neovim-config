@@ -15,7 +15,7 @@ function! s:packager_init() abort
   call packager#add('lambdalisue/vim-backslash')
   call packager#add('lambdalisue/reword.vim')
   call packager#add('AndrewRadev/splitjoin.vim')
-  call packager#add('airblade/vim-gitgutter')
+  call packager#add('mhinz/vim-signify')
   call packager#add('sheerun/vim-polyglot')
   call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
   call packager#add('junegunn/fzf.vim')
@@ -91,6 +91,10 @@ nnoremap <silent><Leader>hf :LuaTreeFindFile<CR>
 " Pear tree mappings
 imap <BS> <Plug>(PearTreeBackspace)
 imap <Esc> <Plug>(PearTreeFinishExpansion)
+
+" Signify mappings
+nnoremap <silent><Leader>hp :SignifyHunkDiff<CR>
+nnoremap <silent><Leader>hu :SignifyHunkUndo<CR>
 
 let g:lua_tree_bindings = {
     \ 'edit_vsplit': 's',

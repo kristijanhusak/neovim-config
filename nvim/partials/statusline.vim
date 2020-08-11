@@ -112,14 +112,11 @@ function! s:ale_status(type) abort
 endfunction
 
 function! s:git_statusline() abort
-  if !exists('b:gitgutter')
+  if !exists('*sy#repo#get_stats_decorated')
     return s:with_icon(s:cache.branch, "\ue0a0")
   endif
-  let [l:added, l:modified, l:removed] = get(b:gitgutter, 'summary', [0, 0, 0])
-  let l:result = l:added == 0 ? '' : ' +'.l:added
-  let l:result .= l:modified == 0 ? '' : ' ~'.l:modified
-  let l:result .= l:removed == 0 ? '' : ' -'.l:removed
-  let l:result = join(filter([s:cache.branch, l:result], {-> !empty(v:val) }), '')
+  let l:stats = sy#repo#get_stats_decorated()[1:-2]
+  let l:result = join(filter([s:cache.branch, l:stats], {-> !empty(v:val) }), ' ')
   return s:with_icon(l:result, "\ue0a0")
 endfunction
 
