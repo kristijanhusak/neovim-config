@@ -152,3 +152,5 @@ let g:pear_tree_map_special_keys = 0                                            
 let g:vsnip_snippet_dir = printf(
       \ '%s/partials/snippets', fnamemodify($MYVIMRC, ':p:h')
       \ )                                                                       "Set vsnip path
+
+let g:sql_type_default = 'pgsql'                                                "Use pgsql by default for sql filetype
