@@ -30,10 +30,10 @@
 ;background = ${xrdb:color0:#222}
 ; background = #002b36
 background = ${xrdb:polybar_bg:#fdf6e3}
-background-alt = #073642
+background-alt = ${colors.background}
 ;foreground = ${xrdb:color7:#222}
 foreground = ${xrdb:polybar_fg:#657b83}
-foreground-alt = #eee8d5
+foreground-alt = ${colors.foreground}
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
@@ -57,7 +57,7 @@ border-bottom-size = 3
 border-color = #00000000
 
 padding-left = 0
-padding-right = 0
+padding-right = 2
 
 module-margin-left = 1
 module-margin-right = 2
@@ -220,7 +220,7 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = "CPU: "
+format-prefix = "C: "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #f90000
 label = %percentage:2%%
@@ -228,7 +228,7 @@ label = %percentage:2%%
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = "MEM: "
+format-prefix = "M: "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
 label = %gb_used%/%gb_free%
@@ -261,7 +261,6 @@ interface = eno1
 interval = 3.0
 
 format-connected-underline = #55aa55
-format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 
