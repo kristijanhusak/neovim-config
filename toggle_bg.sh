@@ -3,17 +3,23 @@
 dark_colorscheme='~/.config/kitty/solarized_dark.conf'
 light_colorscheme='~/.config/kitty/solarized_light.conf'
 local_path=~/.config/kitty/local_color.conf
+custom_xresource=~/.config/polybar/xresource
+
 
 set_bg () {
   if [[ $1 = 'light' ]]; then
     echo "env NVIM_COLORSCHEME_BG=light\ninclude $light_colorscheme" > $local_path
     kitty @ set-colors --all --configured $light_colorscheme
+    echo "" > $custom_xresource
   else
     echo "env NVIM_COLORSCHEME_BG=dark\ninclude $dark_colorscheme" > $local_path
     kitty @ set-colors --all --configured $dark_colorscheme
+    echo "*polybar_bg: #002b36\npolybar_fg:#839496" > $custom_xresource
   fi
   export NVIM_COLORSCHEME_BG=$1
   source ~/.zshrc
+  xrdb ~/.Xresources
+  ~/.config/polybar/start.sh
 }
 
 if [[ $1 = 'toggle' ]]; then

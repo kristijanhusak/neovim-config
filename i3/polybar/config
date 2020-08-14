@@ -28,10 +28,11 @@
 ; alert = #bd2c40
 
 ;background = ${xrdb:color0:#222}
-background = #002b36
+; background = #002b36
+background = ${xrdb:polybar_bg:#fdf6e3}
 background-alt = #073642
 ;foreground = ${xrdb:color7:#222}
-foreground = #93a1a1
+foreground = ${xrdb:polybar_fg:#657b83}
 foreground-alt = #eee8d5
 primary = #ffb52a
 secondary = #e60053
@@ -157,7 +158,8 @@ label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
 label-focused = %index%
-label-focused-background = ${colors.background-alt}
+label-focused-background = ${colors.foreground}
+label-focused-foreground = ${colors.background}
 label-focused-underline= ${colors.primary}
 label-focused-padding = 1
 

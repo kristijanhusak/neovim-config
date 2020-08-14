@@ -66,8 +66,10 @@ export KEYTIMEOUT=1
 NVIM_BG=${NVIM_COLORSCHEME_BG:-'light'}
 if [ $NVIM_BG = 'dark' ]; then
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=239'
+  NVIM_COLORSCHEME_BG_COLOR=#002b36
 else
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=250'
+  NVIM_COLORSCHEME_BG_COLOR=#fdf6e3
 fi
 [ -f ~/.zsh_secret ] && source ~/.zsh_secret
 
