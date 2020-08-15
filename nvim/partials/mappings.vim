@@ -3,6 +3,7 @@ nmap <Leader>c gcc
 " Line comment command
 xmap <Leader>c gc
 
+
 " Map save to Ctrl + S
 map <c-s> :w<CR>
 imap <c-s> <C-o>:w<CR>
@@ -105,6 +106,9 @@ cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
 cnoremap <C-B> <End>
 
+nnoremap <silent><leader>T :call <sid>toggle_terminal()<CR>
+tnoremap <silent><leader>T <C-\><C-n><C-w>c
+
 " Taken from https://gist.github.com/romainl/c0a8b57a36aec71a986f1120e1931f20
 for char in [ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '-', '#' ]
   execute 'xnoremap i' . char . ' :<C-u>normal! T' . char . 'vt' . char . '<CR>'
@@ -200,4 +204,24 @@ function! s:open_url() abort
   unlet! g:loaded_netrwPlugin
   runtime! plugin/netrwPlugin.vim
   return netrw#BrowseX(expand('<cfile>'), netrw#CheckIfRemote())
+endfunction
+
+let s:terminal_bufnr = 0
+function! s:toggle_terminal() abort
+  if !s:terminal_bufnr
+    autocmd TermOpen * ++once startinsert
+    exe 'sp | term'
+    autocmd BufDelete <buffer> let s:terminal_bufnr = 0
+    let s:terminal_bufnr = bufnr('')
+    return
+  endif
+
+  let win = bufwinnr(s:terminal_bufnr)
+
+  if win > -1
+    exe win.'close'
+    return
+  endif
+
+  exe 'sp | b'.s:terminal_bufnr.' | startinsert'
 endfunction

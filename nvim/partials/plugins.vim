@@ -31,7 +31,6 @@ function! s:packager_init() abort
   call packager#add('wakatime/vim-wakatime')
   call packager#add('arzg/vim-colors-xcode')
   call packager#add('gruvbox-community/gruvbox')
-  call packager#add('voldikss/vim-floaterm')
   call packager#add('kyazdani42/nvim-web-devicons')
   call packager#add('kyazdani42/nvim-tree.lua')
   call packager#add('tmsvg/pear-tree')
@@ -82,7 +81,6 @@ nnoremap <silent>[e :ALEPrevious<CR>
 nnoremap <silent>]e :ALENext<CR>
 
 nnoremap <silent><Leader>G :vert G<CR>
-nnoremap <silent><Leader>z :FloatermNew --width=0.9 --height=0.9 lazygit<CR>
 
 " Tree mappings
 nnoremap <silent><Leader>n :LuaTreeToggle<CR>
@@ -143,8 +141,6 @@ let g:js_file_import_use_fzf = 1                                                
 
 let g:db_ui_save_location = '~/Dropbox/dbui'                                    "Use dropbox as save location for dbui
 let g:db_ui_tmp_query_location = '~/code/queries'                               "Save all dbui queries in this location
-
-let g:floaterm_keymap_toggle = '<Leader>T'                                      "Mapping for toggling floaterm
 
 let g:pear_tree_repeatable_expand = 0                                           "Disable smart expanding
 let g:pear_tree_map_special_keys = 0                                            "DIsable automatic mappings for peartree
