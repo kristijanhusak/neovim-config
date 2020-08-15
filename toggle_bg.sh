@@ -14,7 +14,7 @@ set_bg () {
   else
     echo "env NVIM_COLORSCHEME_BG=dark\ninclude $dark_colorscheme" > $local_path
     kitty @ set-colors --all --configured $dark_colorscheme
-    echo "*polybar_bg: #002b36\npolybar_fg:#839496" > $custom_xresource
+    echo "*polybar_bg: #FA002b36\npolybar_fg:#839496" > $custom_xresource
   fi
   export NVIM_COLORSCHEME_BG=$1
   source ~/.zshrc

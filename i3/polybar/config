@@ -29,7 +29,7 @@
 
 ;background = ${xrdb:color0:#222}
 ; background = #002b36
-background = ${xrdb:polybar_bg:#fdf6e3}
+background = ${xrdb:polybar_bg:#fafdf6e3}
 background-alt = ${colors.background}
 ;foreground = ${xrdb:color7:#222}
 foreground = ${xrdb:polybar_fg:#657b83}
