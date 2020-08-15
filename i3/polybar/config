@@ -281,7 +281,7 @@ click-left = ~/.config/polybar/popup-calendar.sh --popup &
 type = custom/script
 exec = curl -Ss --fail 'https://wttr.in?format=3'
 interval = 3600
-format-foreground=#A4C2F4
+format-foreground=${colors.foreground}
 
 [module/date]
 type = internal/date
