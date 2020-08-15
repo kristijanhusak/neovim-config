@@ -72,7 +72,7 @@ font-3 = Noto Sans Symbols2:style=Regular:pixelsize=9;1
 ; font-2 = siji:pixelsize=10;1
 
 modules-left = i3
-modules-right = weather filesystem memory cpu calendar xkeyboard alsa battery wlan powermenu
+modules-right = weather filesystem memory cpu xkeyboard battery wlan alsa calendar powermenu
 
 tray-position = right
 tray-padding = 2
