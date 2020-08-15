@@ -3,7 +3,7 @@
 dark_colorscheme='~/.config/kitty/solarized_dark.conf'
 light_colorscheme='~/.config/kitty/solarized_light.conf'
 local_path=~/.config/kitty/local_color.conf
-custom_xresource=~/.config/polybar/xresource
+custom_xresource=~/.Xresources_custom
 
 
 set_bg () {
