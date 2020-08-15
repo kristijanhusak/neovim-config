@@ -6,5 +6,6 @@ killall -q polybar > /dev/null
 # Wait until the processes have been shut down
 while pgrep -x polybar >/dev/null; do sleep 1; done
 
-# Launch polybar
-polybar bar &> /dev/null &
+for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
+    MONITOR=$m polybar bar &> /dev/null &
+done
