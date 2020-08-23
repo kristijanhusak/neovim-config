@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-dark_colorscheme='~/.config/kitty/solarized_dark.conf'
-light_colorscheme='~/.config/kitty/solarized_light.conf'
+dark_colorscheme='~/.config/kitty/gruvbox.conf'
+light_colorscheme='~/.config/kitty/xcodelight.conf'
 local_path=~/.config/kitty/local_color.conf
 custom_xresource=~/.Xresources_custom
 
@@ -14,7 +14,7 @@ set_bg () {
   else
     echo "env NVIM_COLORSCHEME_BG=dark\ninclude $dark_colorscheme" > $local_path
     kitty @ set-colors --all --configured $dark_colorscheme
-    echo "*polybar_bg: #FA002b36\npolybar_fg:#839496" > $custom_xresource
+    echo "*polybar_bg: #FA282828\npolybar_fg:#ebdbb2" > $custom_xresource
   fi
   export NVIM_COLORSCHEME_BG=$1
   source ~/.zshrc
