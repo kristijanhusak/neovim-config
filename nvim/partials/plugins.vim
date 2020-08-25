@@ -150,3 +150,5 @@ let g:vsnip_snippet_dir = printf(
       \ )                                                                       "Set vsnip path
 
 let g:sql_type_default = 'pgsql'                                                "Use pgsql by default for sql filetype
+
+let g:signify_sign_change = '~'                                                 "Change git modified sign
