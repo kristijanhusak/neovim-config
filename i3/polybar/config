@@ -447,5 +447,6 @@ type = custom/ipc
 hook-0 = echo ""
 ; Playing/paused show song name and artist
 hook-1 = spotifyctl -q status --format ' %artist%: %title%' --max-length 60
+click-left = i3-msg '[class="Spotify"] focus'
 
 ; vim:ft=dosini
