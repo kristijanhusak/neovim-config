@@ -65,13 +65,18 @@ function! s:js_goto_file() abort
   endfor
 endfunction
 
+function! s:setup() abort
+  nmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
+  xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
+  nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
+  xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
+  nmap <buffer><silent><Leader>ll <Plug>(JsConsoleLog)
+  nmap <nowait><buffer><silent><Leader>d <Plug>(JsInjectDependency)
+  nmap <nowait><buffer><silent> gf <Plug>(JsGotoFile)
+  setlocal isfname+=@-@
+endfunction
+
 augroup javascript
   autocmd!
-  autocmd FileType javascript,javascriptreact,typescript,typescriptreact nmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
-  autocmd FileType javascript,javascriptreact,typescript,typescriptreact xmap <buffer><silent><C-]> <Plug>(JsGotoDefinition)
-  autocmd FileType javascript,javascriptreact,typescript,typescriptreact nmap <buffer><silent><Leader>] <C-W>v<Plug>(JsGotoDefinition)
-  autocmd FileType javascript,javascriptreact,typescript,typescriptreact xmap <buffer><silent><Leader>] <C-W>vgv<Plug>(JsGotoDefinition)
-  autocmd FileType javascript,javascriptreact,typescript,typescriptreact nmap <buffer><silent><Leader>ll <Plug>(JsConsoleLog)
-  autocmd FileType javascript,javascriptreact,typescript,typescriptreact nmap <nowait><buffer><silent><Leader>d <Plug>(JsInjectDependency)
-  autocmd FileType javascript,javascriptreact,typescript,typescriptreact nmap <nowait><buffer><silent> gf <Plug>(JsGotoFile)
+  autocmd FileType javascript,javascriptreact,typescript,typescriptreact call s:setup()
 augroup END
