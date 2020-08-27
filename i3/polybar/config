@@ -234,7 +234,7 @@ interval = 2
 format-prefix = "M: "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
-label = %gb_used%/%gb_free%
+label = %gb_used%/%gb_total%
 
 [module/wlan]
 type = internal/network
