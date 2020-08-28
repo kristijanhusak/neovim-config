@@ -60,8 +60,8 @@ function! s:setup_luatree() abort
   setlocal signcolumn=yes
   nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
   nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
-  nnoremap <silent><buffer> J :call search('[]')<CR>
-  nnoremap <silent><buffer> K :call search('[]', 'b')<CR>
+  nnoremap <silent><buffer> J :call search('[]')<CR>
+  nnoremap <silent><buffer> K :call search('[]', 'b')<CR>
 endfunction
 
 " Better search status
