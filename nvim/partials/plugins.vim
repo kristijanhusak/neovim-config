@@ -110,7 +110,10 @@ let g:lua_tree_hide_dotfiles = 1
 
 let g:ale_virtualtext_cursor = 1
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
-let g:ale_fixers = {'javascript': ['prettier', 'eslint']}                       "Fix eslint errors
+let g:ale_fixers = {
+      \ 'javascript': ['prettier', 'eslint'],
+      \ 'javascriptreact': ['prettier', 'eslint'],
+      \ }                                                                       "Fix eslint errors
 let g:ale_javascript_prettier_options = '--print-width 120'                     "Set max width to 120 chars for prettier
 let g:ale_lint_delay = 400                                                      "Increase linting delay
 let g:ale_sign_error = '✖'                                                      "Lint error sign
