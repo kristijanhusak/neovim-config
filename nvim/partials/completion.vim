@@ -3,7 +3,7 @@ set pumheight=15                                                                
 augroup vimrc_autocomplete
   autocmd!
   autocmd VimEnter * lua require'lsp_setup'
-  autocmd FileType javascript,javascriptreact,vim,php,gopls setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  autocmd FileType javascript,javascriptreact,vim,php,gopls,lua setlocal omnifunc=v:lua.vim.lsp.omnifunc
   autocmd BufEnter * lua require'completion'.on_attach()
   autocmd FileType sql let g:completion_trigger_character = ['.', '"']
 augroup END
