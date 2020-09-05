@@ -36,6 +36,8 @@ function! s:packager_init() abort
   call packager#add('tmsvg/pear-tree')
   call packager#add('neovim/nvim-lsp')
   call packager#add('nvim-lua/completion-nvim')
+  call packager#add('nvim-treesitter/nvim-treesitter')
+  call packager#add('nvim-treesitter/completion-treesitter')
   call packager#add('kristijanhusak/vim-dadbod-completion')
   call packager#add('hrsh7th/vim-vsnip')
   call packager#add('hrsh7th/vim-vsnip-integ')
