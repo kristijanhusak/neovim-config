@@ -74,6 +74,7 @@ function! s:setup() abort
   nmap <nowait><buffer><silent><Leader>d <Plug>(JsInjectDependency)
   nmap <nowait><buffer><silent> gf <Plug>(JsGotoFile)
   setlocal isfname+=@-@
+  setlocal foldmethod=manual "Improves performance of commenting out bunch of lines
 endfunction
 
 augroup javascript
