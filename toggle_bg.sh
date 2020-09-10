@@ -18,15 +18,17 @@ set_bg () {
   fi
   export NVIM_COLORSCHEME_BG=$1
   source ~/.zshrc
-  xrdb ~/.Xresources
-  ~/.config/polybar/start.sh
+  if [[ $2 = 'reset_polybar' ]]; then
+    xrdb ~/.Xresources
+    ~/.config/polybar/start.sh
+  fi
 }
 
 if [[ $1 = 'toggle' ]]; then
   if [[ $NVIM_COLORSCHEME_BG = 'light' ]]; then
-    set_bg 'dark'
+    set_bg 'dark' 'reset_polybar'
   else
-    set_bg 'light'
+    set_bg 'light' 'reset_polybar'
   fi
 else
   current_bg='light'
