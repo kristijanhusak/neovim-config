@@ -12,6 +12,7 @@ set synmaxcol=300                                                               
 
 let g:gruvbox_sign_column = 'bg0'
 let g:gruvbox_invert_selection = 0
+let g:gruvbox_italic = 1
 filetype plugin indent on
 syntax on
 let s:colorscheme = $NVIM_COLORSCHEME_BG ==? 'light' ? 'xcodelight' : 'gruvbox'
