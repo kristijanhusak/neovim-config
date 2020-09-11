@@ -36,13 +36,12 @@ function! s:search(term) abort
       return s:search(term)
     endif
 
-    call s:cleanup()
+    redraw!
     if empty(term)
       echom 'Empty search.'
       return
     endif
 
-    redraw!
     echo 'Searching for word -> '.term
     let dir = input('Path: ', '', 'file')
   catch /^Vim:Interrupt$/
