@@ -41,6 +41,7 @@ function! s:packager_init() abort
   call packager#add('nvim-treesitter/completion-treesitter')
   call packager#add('hrsh7th/vim-vsnip')
   call packager#add('hrsh7th/vim-vsnip-integ')
+  call packager#add('pechorin/any-jump.vim')
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
