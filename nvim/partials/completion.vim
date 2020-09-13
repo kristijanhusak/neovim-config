@@ -15,6 +15,7 @@ let g:completion_sorting = 'none'
 let g:completion_matching_strategy_list = ['exact', 'substring']
 let g:completion_enable_snippet = 'vim-vsnip'
 let g:completion_matching_ignore_case = 1
+let g:completion_auto_change_source = 1
 let g:completion_chain_complete_list = {
       \ 'sql': [
       \   {'complete_items': ['vim-dadbod-completion']},
@@ -22,8 +23,8 @@ let g:completion_chain_complete_list = {
       \],
       \ 'default': [
       \    {'complete_items': ['snippet', 'ts', 'lsp']},
-      \    {'mode': '<c-n>'},
-      \    {'complete_items': ['path'], 'triggered_only': ['/']},
+      \    {'complete_items': ['buffer', 'buffers', 'tags']},
+      \    {'complete_items': ['path']},
       \  ]}
 
 function! s:check_back_space() abort
