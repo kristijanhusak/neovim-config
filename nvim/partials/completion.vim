@@ -23,8 +23,9 @@ let g:completion_chain_complete_list = {
       \],
       \ 'default': [
       \    {'complete_items': ['snippet', 'ts', 'lsp']},
-      \    {'complete_items': ['buffer', 'buffers', 'tags']},
+      \    {'complete_items': ['tags']},
       \    {'complete_items': ['path']},
+      \    {'mode': '<c-n>'},
       \  ]}
 
 function! s:check_back_space() abort
