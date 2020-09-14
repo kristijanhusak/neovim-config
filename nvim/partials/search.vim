@@ -36,6 +36,7 @@ function! s:search(term) abort
       return s:search(term)
     endif
 
+    call s:cleanup('no_reset_mode')
     redraw!
     if empty(term)
       echom 'Empty search.'
@@ -92,9 +93,11 @@ function s:get_visual_search_cmd() abort
 endfunction
 
 
-function! s:cleanup() abort
+function! s:cleanup(...) abort
   let s:is_toggle = 0
-  let s:mode = 'term'
+  if a:0 ==? 0
+    let s:mode = 'term'
+  endif
   silent! cunmap <tab>
   return
 endfunction

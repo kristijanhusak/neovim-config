@@ -1,7 +1,9 @@
 function! s:console_log() abort
+  let view = winsaveview()
   let l:word = expand('<cword>')
   keepjumps execute 'norm!oconsole.log('''.l:word.''', '.l:word.'); // eslint-disable-line no-console'
   silent! call repeat#set("\<Plug>(JsConsoleLog)")
+  call winrestview(view)
 endfunction
 
 function! s:inject_dependency() abort
