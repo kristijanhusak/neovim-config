@@ -43,6 +43,7 @@ function! s:packager_init() abort
   call packager#add('hrsh7th/vim-vsnip-integ')
   call packager#add('pechorin/any-jump.vim')
   call packager#add('kristijanhusak/completion-tags')
+  call packager#add('steelsojka/completion-buffers')
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
