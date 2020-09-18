@@ -6,8 +6,6 @@ augroup vimrc_colorscheme
 augroup END
 
 function! s:setup_xcodelight() abort
-  hi link ALEVirtualTextError ErrorMsg
-  hi link ALEVirtualTextWarning WarningMsg
   hi VertSplit guibg=NONE guifg=#8a99a6
   hi Comment gui=italic
 endfunction
