@@ -2,8 +2,15 @@ augroup vimrc_colorscheme
   autocmd!
   autocmd BufEnter * :syntax sync fromstart
   autocmd FileType dbout syn match dbout_null /(null)/ | hi link dbout_null Comment
-  autocmd ColorScheme xcodelight hi VertSplit guibg=NONE guifg=#8a99a6 | hi Comment gui=italic
+  autocmd ColorScheme xcodelight call s:setup_xcodelight()
 augroup END
+
+function! s:setup_xcodelight() abort
+  hi link ALEVirtualTextError ErrorMsg
+  hi link ALEVirtualTextWarning WarningMsg
+  hi VertSplit guibg=NONE guifg=#8a99a6
+  hi Comment gui=italic
+endfunction
 
 let s:bg_color = $NVIM_COLORSCHEME_BG ==? 'light' ? 'light' : 'dark'
 set termguicolors                                                               "Enable true colors
