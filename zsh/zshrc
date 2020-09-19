@@ -44,8 +44,8 @@ alias weather="curl http://wttr.in/Novi sad"
 alias gs="git status"
 alias code="cd ~/code"
 alias lg="lazygit"
-alias resetbg="source ~/neovim-config/toggle_bg.sh"
-alias togglebg="source ~/neovim-config/toggle_bg.sh toggle"
+alias resetbg="colors"
+alias togglebg="colors toggle"
 
 export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin
 export LESS=R
@@ -63,14 +63,6 @@ eval "$(pyenv init -)"
 # zsh-autosuggestions is designed to be unobtrusive)
 export KEYTIMEOUT=1
 
-NVIM_BG=${NVIM_COLORSCHEME_BG:-'light'}
-if [ $NVIM_BG = 'dark' ]; then
-  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=239'
-  NVIM_COLORSCHEME_BG_COLOR=#002b36
-else
-  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=250'
-  NVIM_COLORSCHEME_BG_COLOR=#fdf6e3
-fi
 [ -f ~/.zsh_secret ] && source ~/.zsh_secret
 
 export NVM_DIR="/home/kristijan/.nvm"
@@ -136,6 +128,11 @@ fbr() {
   branch=$(echo "$branches" |
            fzf -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+colors() {
+  color_vars=$(~/neovim-config/colors $1)
+  eval ${color_vars}
 }
 
 # Autocomplete Z items

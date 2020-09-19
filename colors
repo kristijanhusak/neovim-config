@@ -1,0 +1,94 @@
+#!/usr/bin/python3
+
+# Where to store kitty configuration
+color_file = '/home/kristijan/.cache/main_colorscheme.conf'
+# Hash with dark/light colorschemes, absolute paths
+colorschemes = {
+    'dark': '/home/kristijan/.config/nvim/pack/packager/start/gruvbox/colors/gruvbox.vim',
+    'light': '/home/kristijan/.config/nvim/pack/packager/start/vim-colors-xcode/colors/xcodelight.vim',
+}
+
+import pynvim
+import argparse
+import os
+import sys
+from pathlib import Path
+
+parser = argparse.ArgumentParser()
+parser.add_argument('bg', nargs='?', default=None, choices=['dark', 'light', 'toggle'])
+
+args = parser.parse_args()
+bg = args.bg
+current_bg = os.getenv('NVIM_COLORSCHEME_BG')
+
+def set_env(background):
+    os.system('kitty @ set-colors --all --configured ' + color_file)
+    cscheme = Path(colorschemes[background]).stem
+    cmd = ['export NVIM_COLORSCHEME_BG=' + background]
+    cmd += ['export NVIM_COLORSCHEME=' + cscheme]
+    return cmd
+
+if Path(color_file).exists():
+    cfile = open(color_file, 'r')
+    first_line = cfile.readline().rstrip()
+    current_bg = first_line.split('=')[1]
+elif not bg:
+    print('You must provide background type argument on first run', file=sys.stderr)
+    exit()
+
+if not bg:
+    print(';'.join(set_env(current_bg)))
+    exit()
+
+if bg == 'toggle':
+    bg = 'dark' if current_bg == 'light' else 'light'
+
+nvim = pynvim.attach('child', argv=["/bin/env", "nvim", "--embed", "--headless"])
+nvim.command('set bg=' + bg)
+nvim.command('source ' + colorschemes[bg])
+
+def get_hl_color(name):
+    hl_output = nvim.call('execute', 'hi ' + name)
+    bgcolor = None
+    fgcolor = None
+    for item in hl_output.split('\n')[1].split():
+        if item.startswith('guifg'):
+            fgcolor = item.split('=')[1]
+        if item.startswith('guibg'):
+            bgcolor = item.split('=')[1]
+    return fgcolor, bgcolor
+
+normal_fg, normal_bg = get_hl_color('Normal')
+cursor_fg, cursor_bg = get_hl_color('Cursor')
+selection_fg, selection_bg = get_hl_color('Visual')
+
+command = [
+    'env NVIM_COLORSCHEME_BG=' + bg,
+    'env NVIM_COLORSCHEME=' + Path(colorschemes[bg]).stem,
+    'foreground ' + normal_fg,
+    'background ' + normal_bg,
+    'cursor ' + (cursor_bg or normal_fg),
+    'cursor_text_color ' + (cursor_fg or normal_bg),
+    'selection_foreground ' + (selection_fg or normal_bg),
+    'selection_background ' + (selection_bg or normal_fg)
+]
+for i in range(0, 15):
+    command.append('color' + str(i) + ' ' + nvim.eval('g:terminal_color_' + str(i)))
+
+nvim.close()
+
+file = open(color_file, 'w')
+file.write('\n'.join(command))
+file.close()
+
+cmd = set_env(bg)
+is_bg_changed = bg != current_bg
+if is_bg_changed:
+    xresource_file = open('/home/kristijan/.Xresources_custom', 'w')
+    xresource_file.write('*polybar_bg: #FA' + normal_bg[1:] + '\n*polybar_fg:' + normal_fg)
+    xresource_file.close()
+    cmd += ['xrdb ~/.Xresources']
+    cmd += ['~/.config/polybar/start.sh']
+
+print(';'.join(cmd))
+nvim.close()

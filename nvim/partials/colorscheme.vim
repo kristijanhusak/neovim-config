@@ -10,9 +10,8 @@ function! s:setup_xcodelight() abort
   hi Comment gui=italic
 endfunction
 
-let s:bg_color = $NVIM_COLORSCHEME_BG ==? 'light' ? 'light' : 'dark'
 set termguicolors                                                               "Enable true colors
-silent exe 'set background='.s:bg_color
+silent exe 'set background='.$NVIM_COLORSCHEME_BG
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
 let g:gruvbox_sign_column = 'bg0'
@@ -20,5 +19,4 @@ let g:gruvbox_invert_selection = 0
 let g:gruvbox_italic = 1
 filetype plugin indent on
 syntax on
-let s:colorscheme = $NVIM_COLORSCHEME_BG ==? 'light' ? 'xcodelight' : 'gruvbox'
-silent! exe  'colorscheme '.s:colorscheme
+silent! exe  'colorscheme '.$NVIM_COLORSCHEME
