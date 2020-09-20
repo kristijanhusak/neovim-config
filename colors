@@ -4,8 +4,8 @@
 color_file = '/home/kristijan/.cache/main_colorscheme.conf'
 # Hash with dark/light colorschemes, absolute paths
 colorschemes = {
-    'dark': '/home/kristijan/.config/nvim/pack/packager/start/gruvbox/colors/gruvbox.vim',
-    'light': '/home/kristijan/.config/nvim/pack/packager/start/vim-colors-xcode/colors/xcodelight.vim',
+    'dark': 'gruvbox',
+    'light': 'xcodelight',
 }
 
 import pynvim
@@ -23,9 +23,8 @@ current_bg = os.getenv('NVIM_COLORSCHEME_BG')
 
 def set_env(background):
     os.system('kitty @ set-colors --all --configured ' + color_file)
-    cscheme = Path(colorschemes[background]).stem
     cmd = ['export NVIM_COLORSCHEME_BG=' + background]
-    cmd += ['export NVIM_COLORSCHEME=' + cscheme]
+    cmd += ['export NVIM_COLORSCHEME=' + colorschemes[background]]
     return cmd
 
 if Path(color_file).exists():
@@ -45,7 +44,7 @@ if bg == 'toggle':
 
 nvim = pynvim.attach('child', argv=["/bin/env", "nvim", "--embed", "--headless"])
 nvim.command('set bg=' + bg)
-nvim.command('source ' + colorschemes[bg])
+nvim.command('colorscheme ' + colorschemes[bg])
 
 def get_hl_color(name):
     hl_output = nvim.call('execute', 'hi ' + name)
@@ -64,7 +63,7 @@ selection_fg, selection_bg = get_hl_color('Visual')
 
 command = [
     'env NVIM_COLORSCHEME_BG=' + bg,
-    'env NVIM_COLORSCHEME=' + Path(colorschemes[bg]).stem,
+    'env NVIM_COLORSCHEME=' + colorschemes[bg],
     'foreground ' + normal_fg,
     'background ' + normal_bg,
     'cursor ' + (cursor_bg or normal_fg),
