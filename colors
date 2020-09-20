@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 
-# Where to store kitty configuration
 color_file = '/home/kristijan/.cache/main_colorscheme.conf'
-# Hash with dark/light colorschemes, absolute paths
 colorschemes = {
     'dark': 'gruvbox',
     'light': 'xcodelight',
@@ -90,4 +88,3 @@ if is_bg_changed:
     cmd += ['~/.config/polybar/start.sh']
 
 print(';'.join(cmd))
-nvim.close()
