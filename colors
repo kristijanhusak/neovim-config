@@ -40,7 +40,7 @@ if not bg:
 if bg == 'toggle':
     bg = 'dark' if current_bg == 'light' else 'light'
 
-nvim = pynvim.attach('child', argv=["/bin/env", "nvim", "--embed", "--headless"])
+nvim = pynvim.attach('child', argv=["/usr/bin/env", "nvim", "--embed", "--headless"])
 nvim.command('set bg=' + bg)
 nvim.command('colorscheme ' + colorschemes[bg])
 
