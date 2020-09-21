@@ -74,6 +74,11 @@ nmap <leader>lf <cmd>lua vim.lsp.buf.formatting()<CR>
 vmap <leader>lf :<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>
 nmap <leader>la <cmd>lua vim.lsp.buf.code_action()<CR>
 vmap <leader>la :<C-u>call v:lua.vim.lsp.buf.code_action()<CR>
+nmap <leader>li <cmd>lua vim.lsp.buf.incoming_calls()<CR>
+nmap <leader>lo <cmd>lua vim.lsp.buf.outgoing_calls()<CR>
+nmap <leader>le <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
+nmap <leader>lt <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nmap <leader>lT <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
 set wildoptions=pum
 set wildignore=*.o,*.obj,*~                                                     "stuff to ignore when tab completing

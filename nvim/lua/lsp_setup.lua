@@ -26,3 +26,28 @@ nvim_lsp.sumneko_lua.setup{
     }
   }
 }
+
+local custom_symbol_callback = function(_, _, result, _, bufnr)
+  if not result or vim.tbl_isempty(result) then return end
+
+  local items = vim.lsp.util.symbols_to_items(result, bufnr)
+  local items_by_name = {}
+  for _, item in ipairs(items) do
+    items_by_name[item.text] = item
+  end
+
+  local opts = vim.fn['fzf#wrap']({
+      source = vim.tbl_keys(items_by_name),
+      sink = function() end,
+      options = {'--prompt', 'Symbol > '},
+    })
+  opts.sink = function(item)
+    local selected = items_by_name[item]
+    vim.fn.cursor(selected.lnum, selected.col)
+  end
+  vim.fn['fzf#run'](opts)
+end
+
+vim.lsp.callbacks['textDocument/documentSymbol'] = custom_symbol_callback
+vim.lsp.callbacks['workspace/symbol'] = custom_symbol_callback
+
