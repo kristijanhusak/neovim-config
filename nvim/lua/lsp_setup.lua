@@ -27,5 +27,3 @@ nvim_lsp.sumneko_lua.setup{
     }
   }
 }
-
-vim.lsp.set_log_level('trace')
