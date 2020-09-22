@@ -72,8 +72,8 @@ nmap <leader>lr <cmd>lua vim.lsp.buf.rename()<CR>
 nmap <leader>lh <cmd>lua vim.lsp.buf.hover()<CR>
 nmap <leader>lf <cmd>lua vim.lsp.buf.formatting()<CR>
 vmap <leader>lf :<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>
-nmap <leader>la <cmd>lua vim.lsp.buf.code_action()<CR>
-vmap <leader>la :<C-u>call v:lua.vim.lsp.buf.code_action()<CR>
+nmap <leader>la :call v:lua.custom_code_action()<CR>
+vmap <leader>la :<C-u>call v:lua.custom_code_action()<CR>
 nmap <leader>li <cmd>lua vim.lsp.buf.incoming_calls()<CR>
 nmap <leader>lo <cmd>lua vim.lsp.buf.outgoing_calls()<CR>
 nmap <leader>le <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
