@@ -33,29 +33,29 @@ vim.lsp.callbacks['_typescript.rename'] = function(_, _, result)
   return vim.lsp.buf_request(0, 'textDocument/rename', result)
 end
 
-function _G.custom_code_action(context)
-  vim.validate { context = { context, 't', true } }
-  context = context or { diagnostics = util.get_line_diagnostics() }
-  local A = api.nvim_buf_get_mark(0, '<')
-  local B = api.nvim_buf_get_mark(0, '>')
-  -- convert to 0-index
-  A[1] = A[1] - 1
-  B[1] = B[1] - 1
-  -- account for encoding.
-  if A[2] > 0 then
-    A = {A[1], util.character_offset(0, A[1], A[2])}
-  end
-  if B[2] > 0 then
-    B = {B[1], util.character_offset(0, B[1], B[2])}
-  end
-  local params = {
-    textDocument = { uri = vim.uri_from_bufnr(0) };
-    range = {
+function _G.custom_code_action(visual_mode)
+  local context = { diagnostics = util.get_line_diagnostics() }
+  local params = util.make_range_params()
+  params.context = context
+
+  if visual_mode then
+    local A = api.nvim_buf_get_mark(0, '<')
+    local B = api.nvim_buf_get_mark(0, '>')
+    -- convert to 0-index
+    A[1] = A[1] - 1
+    B[1] = B[1] - 1
+    -- account for encoding.
+    if A[2] > 0 then
+      A = {A[1], util.character_offset(0, A[1], A[2])}
+    end
+    if B[2] > 0 then
+      B = {B[1], util.character_offset(0, B[1], B[2])}
+    end
+    params.range = {
       start = { line = A[1]; character = A[2]; };
       ["end"] = { line = B[1]; character = B[2]; };
     };
-    context = context;
-  }
+  end
   vim.lsp.buf_request(0, 'textDocument/codeAction', params)
 end
 
