@@ -54,6 +54,7 @@ export MANPAGER="nvim -c 'set ft=man' -"
 export FZF_DEFAULT_COMMAND='rg --files'
 export LESS=R
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=magenta,bold,underline"
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=251'
 setopt HIST_IGNORE_ALL_DUPS
 
 export PATH="$HOME/.pyenv/bin:$PATH"
