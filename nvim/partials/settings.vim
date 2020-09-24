@@ -61,7 +61,6 @@ augroup vimrc
   autocmd FileType json setlocal equalprg=python\ -m\ json.tool
   autocmd TermOpen * setlocal nonumber norelativenumber
   autocmd VimEnter * call s:set_path()
-  autocmd FileType * if &ft !=? 'vim' | nnoremap <buffer><silent>K :call execute('!xdg-open https://devdocs.io/\#q='.expand('<cword>'))<CR> | endif
 augroup END
 
 augroup numbertoggle
