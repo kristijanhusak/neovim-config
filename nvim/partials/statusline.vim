@@ -76,6 +76,8 @@ function! Statusline() abort
   let l:statusline .= s:sep('%w', {}, &previewwindow)
   let l:statusline .= s:sep('%r', {}, &readonly)
   let l:statusline .= s:sep('%q', {}, &buftype ==? 'quickfix')
+  let l:position = v:lua.get_ts_statusline(80)
+  let l:statusline .= s:sep(l:position, s:sec_2, !empty(l:position))
   let l:statusline .= '%='
   let l:anzu = exists('*anzu#search_status') ? anzu#search_status() : ''
   let l:statusline .= s:sep(l:anzu, extend({'side': 'right'}, s:sec_2), !empty(l:anzu))
