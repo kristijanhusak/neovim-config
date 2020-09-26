@@ -1,12 +1,20 @@
 local ts_utils = require'nvim-treesitter.ts_utils'
 local parsers = require'nvim-treesitter.parsers'
 
+local valid_rgx = {'class', 'function', 'method'}
+
 local get_line_for_node = function(node)
+  local node_type = node:type()
+  local is_valid = false
+  for _, rgx in ipairs(valid_rgx) do
+    if node_type:find(rgx) then
+      is_valid = true
+      break
+    end
+  end
+  if not is_valid then return '' end
   local range = {node:range()}
-  if range[1] == 0 then return '' end
-  local line = vim.trim(vim.fn.getline(range[1] + 1))
-  local no_expression = line:gsub('[%[%]%(%)%{%}%s]+', '') == ''
-  if no_expression then return '' end
+  local line = vim.fn.getline(range[1] + 1)
   return vim.trim(line:gsub('[%[%(%{]*%s*$', ''))
 end
 
@@ -17,10 +25,7 @@ function _G.get_ts_statusline(length)
   if not current_node then return "" end
 
   local lines = {}
-  local expr = current_node:parent()
-  if expr and expr:type() == 'program' then
-    expr = current_node
-  end
+  local expr = current_node
   local prefix = " -> "
 
   while expr do
