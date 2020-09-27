@@ -69,6 +69,7 @@ function! Statusline() abort
   let l:mode = s:mode_statusline()
   let l:statusline = s:sep(l:mode, s:st_mode)
   let l:git_status = s:git_statusline()
+  let l:statusline .= '%<'
   let l:statusline .= s:sep(l:git_status, s:sec_2, !empty(l:git_status))
   let l:statusline .= s:sep(s:get_path(), &modified ? s:st_err : s:sec_2)
   let l:statusline .= s:sep(' + ', s:st_err, &modified)
