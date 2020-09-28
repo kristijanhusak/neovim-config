@@ -8,6 +8,8 @@ augroup END
 function! s:setup_xcodelight() abort
   hi VertSplit guibg=NONE guifg=#8a99a6
   hi Comment gui=italic
+  hi link ALEWarningSign WarningMsg
+  hi link ALEErrorSign ErrorMsg
 endfunction
 
 set termguicolors                                                               "Enable true colors
