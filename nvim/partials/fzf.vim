@@ -1,6 +1,7 @@
 scriptencoding utf-8
 let $FZF_DEFAULT_OPTS='--layout=reverse --border'
 let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' }
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 function! CreateCenteredFloatingWindow()
     let width = float2nr(&columns * 0.9)
