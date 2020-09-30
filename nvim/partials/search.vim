@@ -51,7 +51,7 @@ function! s:search(term) abort
 
   let grepprg = &grepprg
   if s:mode ==? 'term'
-    let cmd = join([&grepprg, '--fixed-strings', "'".term."'", dir])
+    let cmd = join([&grepprg, '--fixed-strings', shellescape(term), dir])
   else
     let cmd = join([&grepprg, term, dir])
   endif
