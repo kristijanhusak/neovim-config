@@ -117,8 +117,8 @@ let g:ale_fixers = {
       \ }                                                                       "Fix eslint errors
 let g:ale_javascript_prettier_options = '--print-width 120'                     "Set max width to 120 chars for prettier
 let g:ale_lint_delay = 400                                                      "Increase linting delay
-let g:ale_sign_error = '✖'                                                      "Lint error sign
-let g:ale_sign_warning = '⚠'                                                    "Lint warning sign
+let g:ale_sign_error = ''                                                      "Lint error sign
+let g:ale_sign_warning = ''                                                    "Lint warning sign
 let g:ale_disable_lsp = 1                                                       "Disable ale lsp
 
 let g:jsx_ext_required = 1                                                      "Force jsx extension for jsx filetype
