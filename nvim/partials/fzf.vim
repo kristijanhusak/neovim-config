@@ -1,22 +1,7 @@
 scriptencoding utf-8
-let $FZF_DEFAULT_OPTS='--layout=reverse --border'
-let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' }
+let $FZF_DEFAULT_OPTS='--layout=reverse'
+let g:fzf_layout = { 'window': {'width': 0.9, 'height': 0.9 } }
 let g:fzf_history_dir = '~/.local/share/fzf-history'
-
-function! CreateCenteredFloatingWindow()
-    let width = float2nr(&columns * 0.9)
-    let height = float2nr(&lines * 0.9)
-    let opts = {
-          \ 'relative': 'editor',
-          \ 'row': (&lines - height) / 2,
-          \ 'col': (&columns - width) / 2,
-          \ 'width': width,
-          \ 'height': height,
-          \ 'style': 'minimal'
-          \ }
-    set winhl=Normal:Floating
-    call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
-endfunction
 
 nnoremap <silent><C-p> :Files<CR>
 nnoremap <silent><Leader>b :Buffers<CR>
