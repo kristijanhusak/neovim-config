@@ -2,14 +2,18 @@ augroup vimrc_colorscheme
   autocmd!
   autocmd BufEnter * :syntax sync fromstart
   autocmd FileType dbout syn match dbout_null /(null)/ | hi link dbout_null Comment
-  autocmd ColorScheme xcodelight call s:setup_xcodelight()
+  autocmd ColorScheme polar call s:setup_polar()
 augroup END
 
-function! s:setup_xcodelight() abort
+function! s:setup_polar() abort
   hi VertSplit guibg=NONE guifg=#8a99a6
   hi Comment gui=italic
   hi link ALEWarningSign WarningMsg
   hi link ALEErrorSign ErrorMsg
+  hi ALEVirtualTextError guifg=#d70000
+  hi ALEVirtualTextWarning guifg=#c18401
+  hi clear ALEError
+  hi clear ALEWarning
 endfunction
 
 set termguicolors                                                               "Enable true colors

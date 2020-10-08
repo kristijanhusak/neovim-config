@@ -18,7 +18,7 @@ function! s:packager_init() abort
   call packager#add('lambdalisue/reword.vim')
   call packager#add('AndrewRadev/tagalong.vim')
   call packager#add('AndrewRadev/splitjoin.vim')
-  call packager#add('mhinz/vim-signify')
+  call packager#add('airblade/vim-gitgutter')
   call packager#add('sheerun/vim-polyglot')
   call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
   call packager#add('junegunn/fzf.vim')
@@ -30,7 +30,6 @@ function! s:packager_init() abort
   call packager#add('stefandtw/quickfix-reflector.vim')
   call packager#add('dense-analysis/ale')
   call packager#add('wakatime/vim-wakatime')
-  call packager#add('arzg/vim-colors-xcode')
   call packager#add('gruvbox-community/gruvbox')
   call packager#add('kyazdani42/nvim-web-devicons')
   call packager#add('kyazdani42/nvim-tree.lua')
@@ -44,6 +43,7 @@ function! s:packager_init() abort
   call packager#add('pechorin/any-jump.vim')
   call packager#add('kristijanhusak/completion-tags')
   call packager#add('steelsojka/completion-buffers')
+  call packager#add('habamax/vim-polar')
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
@@ -93,10 +93,6 @@ nnoremap <silent><Leader>hf :LuaTreeFindFile<CR>
 " Pear tree mappings
 imap <BS> <Plug>(PearTreeBackspace)
 imap <Esc> <Plug>(PearTreeFinishExpansion)
-
-" Signify mappings
-nnoremap <silent><Leader>hp :SignifyHunkDiff<CR>
-nnoremap <silent><Leader>hu :SignifyHunkUndo<CR>
 
 let g:lua_tree_bindings = {
     \ 'edit_vsplit': 's',
@@ -156,5 +152,3 @@ let g:vsnip_snippet_dir = printf(
       \ )                                                                       "Set vsnip path
 
 let g:sql_type_default = 'pgsql'                                                "Use pgsql by default for sql filetype
-
-let g:signify_sign_change = '~'                                                 "Change git modified sign
