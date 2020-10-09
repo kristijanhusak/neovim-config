@@ -21,8 +21,8 @@ tnoremap <c-h> <C-\><C-n><C-w>h
 tnoremap <c-l> <C-\><C-n><C-w>l
 
 " Down is really the next line
-nnoremap j gj
-nnoremap k gk
+nnoremap <silent>j gj
+nnoremap <silent>k gk
 
 " Map for Escape key
 inoremap jj <Esc>
