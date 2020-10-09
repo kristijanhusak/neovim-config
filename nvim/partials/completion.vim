@@ -18,7 +18,7 @@ let g:completion_matching_ignore_case = 1
 let g:completion_word_ignored_ft = ['dbout']
 let g:completion_chain_complete_list = {
       \ 'sql': [
-      \   {'complete_items': ['vim-dadbod-completion']},
+      \   {'complete_items': ['snippet', 'vim-dadbod-completion']},
       \   {'mode': '<c-n>'},
       \],
       \ 'default': [
