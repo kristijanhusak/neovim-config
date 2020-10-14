@@ -44,6 +44,7 @@ function! s:packager_init() abort
   call packager#add('kristijanhusak/completion-tags')
   call packager#add('steelsojka/completion-buffers')
   call packager#add('habamax/vim-polar')
+  call packager#add('tommcdo/vim-exchange')
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
