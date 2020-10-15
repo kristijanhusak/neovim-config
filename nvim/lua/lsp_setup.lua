@@ -2,7 +2,6 @@ local completion = require'completion'.on_attach
 local nvim_lsp = require'nvim_lsp'
 require'treesitter_setup'
 require'lsp_overrides'
-require'ts_statusline'
 
 nvim_lsp.tsserver.setup{on_attach=completion}
 nvim_lsp.vimls.setup{on_attach=completion}
