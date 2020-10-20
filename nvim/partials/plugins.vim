@@ -37,6 +37,8 @@ function! s:packager_init() abort
   call packager#add('neovim/nvim-lspconfig')
   call packager#add('nvim-lua/completion-nvim')
   call packager#add('nvim-treesitter/nvim-treesitter')
+  call packager#add('nvim-treesitter/nvim-treesitter-refactor')
+  call packager#add('nvim-treesitter/nvim-treesitter-textobjects')
   call packager#add('nvim-treesitter/completion-treesitter')
   call packager#add('hrsh7th/vim-vsnip')
   call packager#add('hrsh7th/vim-vsnip-integ')
