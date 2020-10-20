@@ -50,5 +50,12 @@
       "console.log($0);"
     ],
     "description": "Console log"
+  },
+  "Console log all": {
+    "prefix": ["clj"],
+    "body": [
+      "console.log(JSON.stringify($0, null, 2));"
+    ],
+    "description": "Console log whole object"
   }
 }

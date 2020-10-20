@@ -25,7 +25,6 @@ nnoremap <silent>j gj
 nnoremap <silent>k gk
 
 " Map for Escape key
-inoremap jj <Esc>
 tnoremap <Leader>jj <C-\><C-n>
 
 " Yank to the end of the line

@@ -22,7 +22,7 @@ let g:completion_chain_complete_list = {
       \   {'mode': '<c-n>'},
       \],
       \ 'default': [
-      \    {'complete_items': ['snippet', 'ts', 'lsp', 'buffer', 'buffers', 'tags']},
+      \    {'complete_items': ['snippet', 'ts', 'lsp', 'buffers', 'tags']},
       \    {'complete_items': ['path']},
       \    {'mode': '<c-n>'},
       \  ]}
