@@ -43,7 +43,7 @@ function! s:inject_dependency() abort
   endif
 
   call winrestview(view)
-  call setreg('@z', old_reg)
+  let @z = old_reg
   silent! call repeat#set("\<Plug>(JsInjectDependency)")
 endfunction
 
