@@ -14,6 +14,7 @@ function! s:setup_polar() abort
   hi ALEVirtualTextWarning guifg=#c18401
   hi clear ALEError
   hi clear ALEWarning
+  set winhl=Normal:Floating
 endfunction
 
 set termguicolors                                                               "Enable true colors

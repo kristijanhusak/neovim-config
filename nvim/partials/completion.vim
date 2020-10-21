@@ -12,8 +12,7 @@ augroup END
 set completeopt=menuone,noinsert,noselect
 
 let g:completion_confirm_key = ''
-let g:completion_sorting = 'none'
-let g:completion_matching_strategy_list = ['exact', 'substring']
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 let g:completion_enable_snippet = 'vim-vsnip'
 let g:completion_matching_ignore_case = 1
 let g:completion_word_ignored_ft = ['dbout']
