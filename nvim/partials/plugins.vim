@@ -111,6 +111,7 @@ let g:lua_tree_auto_open = 1
 let g:lua_tree_size = 40
 let g:lua_tree_git_hl = 1
 let g:lua_tree_hide_dotfiles = 1
+let g:lua_tree_width_allow_resize = v:true
 
 let g:ale_virtualtext_cursor = 1
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
