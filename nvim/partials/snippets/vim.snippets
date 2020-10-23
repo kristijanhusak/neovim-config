@@ -1,0 +1,9 @@
+snippet fun "Function"
+function! $1(${2:args}) abort
+  $0
+endfunction
+endsnippet
+
+snippet aut "autocmd"
+autocmd $1 ${2:* $0}
+endsnippet

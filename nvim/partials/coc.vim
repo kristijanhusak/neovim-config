@@ -1,6 +1,7 @@
 set completeopt-=preview                                                        "Disable preview window for autocompletion
 set pumheight=15                                                                "Maximum number of entries in autocomplete popup
 
+
 augroup vimrc_autocomplete
   autocmd CursorHold * silent! call CocActionAsync('highlight')
   autocmd CursorHoldI * silent! call CocActionAsync('showSignatureHelp')
@@ -11,6 +12,9 @@ let g:coc_sources_disable_map = {
       \ 'sql': ['tag', 'buffer']
       \ }
 
+let g:coc_snippet_next = '<tab>'
+let g:coc_snippet_prev = '<s-tab>'
+
 let g:coc_user_config = {
       \ 'javascript.suggestionActions.enabled': v:false,
       \ 'prettier.printWidth': 100,
@@ -19,8 +23,8 @@ let g:coc_user_config = {
       \ 'diagnostic.errorSign': '✖',
       \ 'diagnostic.infoSign': '🛈',
       \ 'diagnostic.hintSign': '🛈',
-      \ 'cSpell.diagnosticLevel': 'Hint',
-      \ 'cSpell.allowCompoundWords': v:true,
+      \ 'snippets.userSnippetsDirectory': '~/.config/nvim/partials/snippets',
+      \ 'coc.preferences.currentFunctionSymbolAutoUpdate': v:true,
       \ }
 
 let g:coc_global_extensions = [
@@ -37,20 +41,18 @@ let g:coc_global_extensions = [
       \ 'coc-phpls',
       \ 'coc-sql',
       \ 'coc-db',
-      \ 'coc-spell-checker',
+      \ 'coc-snippets'
       \ ]
 
-
-
 function s:tab_completion() abort
-  let snippet = snippets#check()
-  if !empty(snippet)
-    return snippets#expand(snippet)
-  endif
-
   if pumvisible()
     return "\<C-n>"
   endif
+
+  if coc#expandableOrJumpable()
+    return "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>"
+  endif
+
 
   if s:check_back_space()
     return "\<TAB>"

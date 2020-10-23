@@ -1,0 +1,9 @@
+snippet selid "select by id
+select * from "${1:table}" where id = '${2:id}';
+endsnippet
+
+snippet cte "Cte
+with ${1:cte} as (
+  select * from "${2:table}"
+)
+endsnippet

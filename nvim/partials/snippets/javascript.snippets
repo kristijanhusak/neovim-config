@@ -1,0 +1,38 @@
+snippet cl "console.log"
+console.log($0); // eslint-disable-line
+endsnippet
+
+snippet clj "console.log json"
+console.log(JSON.stringify($0, null, 2)); // eslint-disable-line
+endsnippet
+
+snippet clax "clax
+class $1 ${2:extends ${3:Parent} }{
+  constructor(${4:props}) {
+    this.$4 = $4;
+  }
+
+  $0
+}
+
+module.exports = $1;
+endsnippet
+
+snippet mtd "method"
+${1:async ${2:method}}(${3:params}) {
+  $0
+}
+endsnippet
+
+snippet fun "function"
+${1:async }${2:(${3:params})} => {$0}
+endsnippet
+
+
+snippet const "const"
+const $1 = $0
+endsnippet
+
+snippet let "let"
+let $1 = $0
+endsnippet

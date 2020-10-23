@@ -82,10 +82,6 @@ nnoremap <silent><Leader>G :vert G<CR>
 nnoremap <silent><Leader>n :LuaTreeToggle<CR>
 nnoremap <silent><Leader>hf :LuaTreeFindFile<CR>
 
-" Pear tree mappings
-imap <BS> <Plug>(PearTreeBackspace)
-imap <Esc> <Plug>(PearTreeFinishExpansion)
-
 let g:lua_tree_bindings = {
     \ 'edit_vsplit': 's',
     \ 'cd':          'C',
@@ -136,12 +132,5 @@ let g:js_file_import_use_fzf = 1                                                
 
 let g:db_ui_save_location = '~/Dropbox/dbui'                                    "Use dropbox as save location for dbui
 let g:db_ui_tmp_query_location = '~/code/queries'                               "Save all dbui queries in this location
-
-let g:pear_tree_repeatable_expand = 0                                           "Disable smart expanding
-let g:pear_tree_map_special_keys = 0                                            "DIsable automatic mappings for peartree
-
-let g:vsnip_snippet_dir = printf(
-      \ '%s/partials/snippets', fnamemodify($MYVIMRC, ':p:h')
-      \ )                                                                       "Set vsnip path
 
 let g:sql_type_default = 'pgsql'                                                "Use pgsql by default for sql filetype
