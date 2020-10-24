@@ -65,8 +65,7 @@ inoremap <silent><expr> <TAB> <sid>tab_completion()
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 vmap <leader>lf <Plug>(coc-format-selected)
-nmap <leader>lf <Plug>(coc-format-selected)
-nmap <leader>lF <Plug>(coc-format)
+nmap <leader>lf <Plug>(coc-format)
 nmap <leader>ld <Plug>(coc-definition)
 nmap <leader>lc <Plug>(coc-declaration)
 nmap <leader>lg <Plug>(coc-implementation)
@@ -75,10 +74,23 @@ nmap <leader>lr <Plug>(coc-rename)
 nmap <leader>lq <Plug>(coc-fix-current)
 nmap <silent><leader>lh :call CocAction('doHover')<CR>
 vmap <leader>la <Plug>(coc-codeaction-selected)
-nmap <leader>la <Plug>(coc-codeaction-selected)
-inoremap <silent><C-Space> <C-x><C-o>
+nmap <leader>lA <Plug>(coc-codeaction)
+nmap <leader>la <Plug>(coc-codeaction-line)
+nmap <leader>lt <Plug>(coc-refactor)
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap gnn <Plug>(coc-range-select)
+xmap . <Plug>(coc-range-select)
+xmap , <Plug>(coc-range-select-backward)
+
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
 
 function! s:check_back_space() abort
   let col = col('.') - 1
