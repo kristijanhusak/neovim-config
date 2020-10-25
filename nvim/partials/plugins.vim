@@ -43,8 +43,6 @@ function! s:packager_init() abort
   call packager#add('hrsh7th/vim-vsnip')
   call packager#add('hrsh7th/vim-vsnip-integ')
   call packager#add('pechorin/any-jump.vim')
-  call packager#add('kristijanhusak/completion-tags')
-  call packager#add('steelsojka/completion-buffers')
   call packager#add('habamax/vim-polar')
   call packager#add('tommcdo/vim-exchange')
 endfunction

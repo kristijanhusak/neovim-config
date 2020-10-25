@@ -3,8 +3,7 @@ set pumheight=15                                                                
 augroup vimrc_autocomplete
   autocmd!
   autocmd VimEnter * lua require'lsp_setup'
-  autocmd FileType javascript,javascriptreact,vim,php,gopls,lua setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  autocmd CursorHold * lua vim.lsp.util.show_line_diagnostics()
+  autocmd FileType javascript,javascriptreact,vim,php,go,lua setlocal omnifunc=v:lua.vim.lsp.omnifunc
   autocmd BufEnter * lua require'completion'.on_attach()
   autocmd FileType sql let g:completion_trigger_character = ['.', '"']
 augroup END
@@ -22,9 +21,9 @@ let g:completion_chain_complete_list = {
       \   {'mode': '<c-n>'},
       \],
       \ 'default': [
-      \    {'complete_items': ['snippet', 'ts', 'lsp', 'buffers', 'tags']},
-      \    {'complete_items': ['path']},
+      \    {'complete_items': ['snippet', 'lsp', 'ts']},
       \    {'mode': '<c-n>'},
+      \    {'complete_items': ['path']},
       \  ]}
 
 function! s:check_back_space() abort
