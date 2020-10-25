@@ -88,5 +88,5 @@ require'nvim-treesitter.configs'.setup {
       },
     }
   },
-  ensure_installed = {"javascript", "typescript"}
+  ensure_installed = {"javascript", "typescript", "php", "go", "python", "lua"}
 }
