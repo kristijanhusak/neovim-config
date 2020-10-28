@@ -24,6 +24,10 @@ let g:coc_user_config = {
       \ 'diagnostic.infoSign': '🛈',
       \ 'diagnostic.hintSign': '🛈',
       \ 'snippets.userSnippetsDirectory': '~/.config/nvim/partials/snippets',
+      \ 'snippets.extends': {
+      \   'javascriptreact': ['javascript'],
+      \   'typescript': ['javascript'],
+      \ },
       \ 'coc.preferences.currentFunctionSymbolAutoUpdate': v:true,
       \ }
 
