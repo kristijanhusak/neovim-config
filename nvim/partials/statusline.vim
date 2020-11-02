@@ -16,7 +16,7 @@ function! s:set_statusline_colors() abort
   let s:statusline_reverse = synIDattr(hlID('Statusline'), 'reverse')
   let s:statusline_bg = synIDattr(hlID('Statusline'), s:statusline_reverse ? 'fg' : 'bg')
   let s:comment_fg = synIDattr(hlID('Comment'), 'fg')
-  let s:warning_fg = synIDattr(hlID(is_dark ? 'GruvboxYellow' : 'WarningMsg'), 'fg')
+  let s:warning_fg = synIDattr(hlID('WarningMsg'), is_dark ? 'bg' : 'fg')
   let s:error_fg = synIDattr(hlID('ErrorMsg'), is_dark ? 'bg' : 'fg')
 
   silent! exe 'hi StItem guibg='.s:normal_fg.' guifg='.s:normal_bg.' gui=NONE'

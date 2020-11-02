@@ -29,13 +29,13 @@ function! s:packager_init() abort
   call packager#add('stefandtw/quickfix-reflector.vim')
   call packager#add('dense-analysis/ale')
   call packager#add('wakatime/vim-wakatime')
-  call packager#add('gruvbox-community/gruvbox')
   call packager#add('kyazdani42/nvim-web-devicons')
   call packager#add('kyazdani42/nvim-tree.lua')
   call packager#add('neoclide/coc.nvim', {'branch': 'release'})
   call packager#add('pechorin/any-jump.vim')
   call packager#add('habamax/vim-polar')
   call packager#add('tommcdo/vim-exchange')
+  call packager#add('arcticicestudio/nord-vim')
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
