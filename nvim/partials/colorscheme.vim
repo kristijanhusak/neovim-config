@@ -3,7 +3,17 @@ augroup vimrc_colorscheme
   autocmd BufEnter * :syntax sync fromstart
   autocmd FileType dbout syn match dbout_null /(null)/ | hi link dbout_null Comment
   autocmd ColorScheme polar call s:setup_polar()
+  autocmd ColorScheme nord call s:setup_nord()
 augroup END
+
+function! s:setup_nord() abort
+  hi Comment gui=italic
+  hi ALEVirtualTextError guifg=#BF616A
+  hi ALEVirtualTextWarning guifg=#EBCB8B
+  hi clear ALEError
+  hi clear ALEWarning
+  set winhl=Normal:Floating
+endfunction
 
 function! s:setup_polar() abort
   hi VertSplit guibg=NONE guifg=#8a99a6
@@ -21,9 +31,6 @@ set termguicolors                                                               
 silent exe 'set background='.$NVIM_COLORSCHEME_BG
 set synmaxcol=300                                                               "Use syntax highlighting only for 300 columns
 
-let g:gruvbox_sign_column = 'bg0'
-let g:gruvbox_invert_selection = 0
-let g:gruvbox_italic = 1
 filetype plugin indent on
 syntax on
 silent! exe  'colorscheme '.$NVIM_COLORSCHEME
