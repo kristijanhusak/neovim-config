@@ -19,7 +19,7 @@ function! s:setup_polar() abort
   hi VertSplit guibg=NONE guifg=#8a99a6
   hi Comment gui=italic
   hi link ALEWarningSign WarningMsg
-  hi link ALEErrorSign ErrorMsg
+  hi ALEErrorSign guifg=#d70000
   hi ALEVirtualTextError guifg=#d70000
   hi ALEVirtualTextWarning guifg=#c18401
   hi clear ALEError
