@@ -1,0 +1,26 @@
+gui:
+  theme:
+    lightTheme: true
+    activebordercolor:
+    - cyan
+    - bold
+    inactivebordercolor:
+    - default
+reporting: "off"
+startuppopupversion: 1
+git:
+  pull:
+    mode: 'rebase'
+  commitPrefixes:
+    api:
+      pattern: "^\\w+\\/(\\w+-\\w+)"
+      replace: "[$1] "
+    app:
+      pattern: "^\\w+\\/(\\w+-\\w+)"
+      replace: "[$1] "
+    web:
+      pattern: "^\\w+\\/(\\w+-\\w+)"
+      replace: "[$1] "
+keybinding:
+  universal:
+    nextBlock-alt: '<tab>'

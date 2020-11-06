@@ -46,7 +46,10 @@ install_i3() {
 }
 
 install_lazygit() {
-  yay -S go && go get github.com/jesseduffield/lazygit
+  yay -S go && go get github.com/jesseduffield/lazygit \
+    && rm -rf ~/.config/jesseduffield/lazygit \
+    && mkdir -p ~/.config/jesseduffield \
+    && ln -s $(pwd)/lazygit ~/.config/jesseduffield/lazygit
 }
 
 if [[ -z $1 ]]; then
@@ -60,6 +63,7 @@ if [[ -z $1 ]]; then
     && install_packages \
     && install_diff_so_fancy \
     && install_kitty \
+    && install_lazygit \
     && echo "Finished installation."
   fi
 else
