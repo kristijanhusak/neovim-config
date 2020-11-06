@@ -17,22 +17,13 @@ install_neovim() {
   && rm -rf ~/.config/nvim $(pwd)/nvim/pack ~/.fzf \
   && ln -s $(pwd)/nvim ~/.config/nvim \
   && git clone https://github.com/kristijanhusak/vim-packager.git ~/.config/nvim/pack/packager/opt/vim-packager \
+  && yay -S ripgrep universal-ctags ttf-jetbrains-mono \
   && nvim -c 'PackagerInstall'
 }
 
-install_ripgrep() {
-  echo "Installing ripgrep..." \
-  && rm -f /usr/local/bin/rg \
-  && curl -L https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep-0.10.0-x86_64-unknown-linux-musl.tar.gz | tar zx \
-  && cp ripgrep-0.10.0-x86_64-unknown-linux-musl/rg /usr/local/bin \
-  && rm -rf ripgrep-0.10.0-x86_64-unknown-linux-musl
-}
-
-install_ctags() {
-  echo "Installing universal ctags..." \
-    && rm -rf ./ctags \
-    && git clone https://github.com/universal-ctags/ctags \
-    && cd ctags && ./autogen.sh && ./configure && make && sudo make install && cd ../ && rm -rf ctags
+install_packages() {
+  ehco"Installing packages..." \
+    && yay -S ripgrep universal-ctags pyenv keychain polybar
 }
 
 install_diff_so_fancy() {
@@ -44,15 +35,18 @@ install_diff_so_fancy() {
 install_kitty() {
   echo "Installing kitty..." \
     && rm -rf ~/.local/kitty.app ~/.config/kitty \
-    && sudo pacman -S kitty \
+    && yay -S kitty \
     && ln -s $(pwd)/kitty ~/.config/kitty
 }
 
 install_i3() {
   rm -rf ~/.i3 \
-    && yaourt -S i3blocks-git kbdd-git \
-    && sudo pacman -S sysstat yad \
+    && yay -S rofi polybar polybar-spotify-module nerd-fonts-roboto-mono nerd-fonts-noto-sans-mono otf-hasklig \
     && ln -s $(pwd)/i3 ~/.i3
+}
+
+install_lazygit() {
+  yay -S go && go get github.com/jesseduffield/lazygit
 }
 
 if [[ -z $1 ]]; then
@@ -63,8 +57,7 @@ if [[ -z $1 ]]; then
     && install_i3 \
     && install_oh_my_zsh \
     && install_neovim \
-    && install_ripgrep \
-    && install_ctags \
+    && install_packages \
     && install_diff_so_fancy \
     && install_kitty \
     && echo "Finished installation."
