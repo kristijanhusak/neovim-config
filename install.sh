@@ -49,7 +49,7 @@ install_lazygit() {
   go get -u github.com/jesseduffield/lazygit \
     && rm -rf ~/.config/jesseduffield/lazygit \
     && mkdir -p ~/.config/jesseduffield \
-    && ln -s $(pwd)/lazygit ~/.config/jesseduffield/lazygit
+    && cp -r $(pwd)/lazygit ~/.config/jesseduffield/lazygit
 }
 
 if [[ -z $1 ]]; then
