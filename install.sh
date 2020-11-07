@@ -23,7 +23,7 @@ install_neovim() {
 
 install_packages() {
   ehco"Installing packages..." \
-    && yay -S ripgrep universal-ctags pyenv keychain polybar
+    && yay -S ripgrep universal-ctags pyenv keychain polybar go
 }
 
 install_diff_so_fancy() {
@@ -46,7 +46,7 @@ install_i3() {
 }
 
 install_lazygit() {
-  yay -S go && go get github.com/jesseduffield/lazygit \
+  go get -u github.com/jesseduffield/lazygit \
     && rm -rf ~/.config/jesseduffield/lazygit \
     && mkdir -p ~/.config/jesseduffield \
     && ln -s $(pwd)/lazygit ~/.config/jesseduffield/lazygit
