@@ -45,6 +45,7 @@ function! s:packager_init() abort
   call packager#add('habamax/vim-polar')
   call packager#add('tommcdo/vim-exchange')
   call packager#add('arcticicestudio/nord-vim')
+  call packager#add('unblevable/quick-scope')
 endfunction
 
 let g:mapleader = ','                                                           "Change leader to a comma
@@ -154,3 +155,6 @@ let g:vsnip_snippet_dir = printf(
       \ )                                                                       "Set vsnip path
 
 let g:sql_type_default = 'pgsql'                                                "Use pgsql by default for sql filetype
+
+let g:qs_second_highlight = 0                                                   "Do not show second jump for quick scope
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']                               "Show only when these keys are pressed

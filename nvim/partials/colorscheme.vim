@@ -4,6 +4,7 @@ augroup vimrc_colorscheme
   autocmd FileType dbout syn match dbout_null /(null)/ | hi link dbout_null Comment
   autocmd ColorScheme polar call s:setup_polar()
   autocmd ColorScheme nord call s:setup_nord()
+  autocmd ColorScheme * hi QuickScopePrimary gui=bold,undercurl
 augroup END
 
 function! s:setup_nord() abort
