@@ -18,7 +18,8 @@ function! s:packager_init() abort
   call packager#add('lambdalisue/reword.vim')
   call packager#add('AndrewRadev/tagalong.vim')
   call packager#add('AndrewRadev/splitjoin.vim')
-  call packager#add('airblade/vim-gitgutter')
+  call packager#add('nvim-lua/plenary.nvim')
+  call packager#add('lewis6991/gitsigns.nvim')
   call packager#add('sheerun/vim-polyglot')
   call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
   call packager#add('junegunn/fzf.vim')
@@ -47,6 +48,8 @@ function! s:packager_init() abort
   call packager#add('arcticicestudio/nord-vim')
   call packager#add('unblevable/quick-scope')
 endfunction
+
+lua require'init'
 
 let g:mapleader = ','                                                           "Change leader to a comma
 

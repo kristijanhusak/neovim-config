@@ -117,11 +117,10 @@ function! s:ale_status(type) abort
 endfunction
 
 function! s:git_statusline() abort
-  if !exists('*sy#repo#get_stats_decorated')
+  if !exists('b:gitsigns_status')
     return s:with_icon(s:cache.branch, "\ue0a0")
   endif
-  let l:stats = sy#repo#get_stats_decorated()[1:-2]
-  let l:result = join(filter([s:cache.branch, l:stats], {-> !empty(v:val) }), ' ')
+  let l:result = join(filter([s:cache.branch, b:gitsigns_status], {-> !empty(v:val) }), ' ')
   return s:with_icon(l:result, "\ue0a0")
 endfunction
 
