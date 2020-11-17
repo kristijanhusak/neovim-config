@@ -38,7 +38,7 @@ Plugins
 * [kristijanhusak/vim-dadbod-ui](https://github.com/kristijanhusak/vim-dadbod-ui)
 * [lambdalisue/vim-backslash](https://github.com/lambdalisue/vim-backslash)
 * [AndrewRadev/splitjoin.vim](https://github.com/AndrewRadev/splitjoin.vim)
-* [airblade/vim-gitgutter](https://github.com/airblade/vim-gitgutter)
+* [lewis6991/gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
 * [sheerun/vim-polyglot](https://github.com/sheerun/vim-polyglot)
 * [junegunn/fzf](https://github.com/junegunn/fzf)
 * [junegunn/fzf.vim](https://github.com/junegunn/fzf.vim)
