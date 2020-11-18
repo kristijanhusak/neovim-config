@@ -62,7 +62,6 @@ augroup packager_filetype
   autocmd!
   autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import
   autocmd FileType go packadd vim-go
-  autocmd VimEnter * call feedkeys("\<C-w>w")
   autocmd FileType LuaTree call s:setup_luatree()
 augroup END
 
@@ -72,6 +71,7 @@ function! s:setup_luatree() abort
   nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
   nnoremap <silent><buffer> J :call search('[]')<CR>
   nnoremap <silent><buffer> K :call search('[]', 'b')<CR>
+  call feedkeys("\<C-w>w")
 endfunction
 
 " Better search status

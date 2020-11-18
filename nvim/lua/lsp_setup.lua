@@ -1,5 +1,5 @@
 local completion = require'completion'.on_attach
-local nvim_lsp = require'nvim_lsp'
+local nvim_lsp = require'lspconfig'
 require'treesitter_setup'
 require'lsp_overrides'
 
