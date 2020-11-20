@@ -2,29 +2,23 @@ set pumheight=15                                                                
 
 augroup vimrc_autocomplete
   autocmd!
-  autocmd VimEnter * lua require'lsp_setup'
+  autocmd VimEnter * call s:setup_completion()
   autocmd FileType javascript,javascriptreact,vim,php,go,lua setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  autocmd BufEnter * lua require'completion'.on_attach()
-  autocmd FileType sql let g:completion_trigger_character = ['.', '"']
 augroup END
 
 set completeopt=menuone,noinsert,noselect
 
-let g:completion_confirm_key = ''
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-let g:completion_enable_snippet = 'vim-vsnip'
-let g:completion_matching_ignore_case = 1
-let g:completion_word_ignored_ft = ['dbout']
-let g:completion_chain_complete_list = {
-      \ 'sql': [
-      \   {'complete_items': ['snippet', 'vim-dadbod-completion']},
-      \   {'mode': '<c-n>'},
-      \],
-      \ 'default': [
-      \    {'complete_items': ['snippet', 'lsp', 'ts']},
-      \    {'mode': '<c-n>'},
-      \    {'complete_items': ['path']},
-      \  ]}
+let g:compe_enabled = v:true
+let g:compe_min_length = 1
+let g:compe_auto_preselect = v:false
+let g:compe_source_timeout = 200
+let g:compe_incomplete_delay = 400
+
+function! s:setup_completion() abort
+  lua require'lsp_setup'
+  call compe#source#vim_bridge#register('path', compe_path#source#create())
+  call compe#source#vim_bridge#register('vsnip', compe_vsnip#source#create())
+endfunction
 
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -48,7 +42,7 @@ function s:tab_completion() abort
     return "\<Plug>(vsnip-expand)"
   endif
 
-  return "\<Plug>(completion_next_source)"
+  return compe#complete()
 endfunction
 
 imap <expr> <TAB> <sid>tab_completion()
@@ -57,11 +51,8 @@ imap <expr><S-TAB> pumvisible() ? "\<C-p>" : vsnip#jumpable(-1) ? "\<Plug>(vsnip
 smap <expr><TAB> vsnip#available(1)  ? "\<Plug>(vsnip-expand-or-jump)" : "\<TAB>"
 smap <expr><S-TAB> vsnip#available(-1)  ? "\<Plug>(vsnip-jump-prev)" : "\<S-TAB>"
 imap <expr> <CR> pumvisible() && complete_info()['selected'] != '-1'
-      \ ? "\<Plug>(completion_confirm_completion)"
+      \ ? compe#confirm('<CR>')
       \ : vsnip#expandable() ? "\<Plug>(vsnip-expand)" : "\<Plug>(PearTreeExpand)"
-
-imap  <c-j> <Plug>(completion_next_source)
-imap  <c-k> <Plug>(completion_prev_source)
 
 nmap <leader>ld <cmd>lua vim.lsp.buf.definition()<CR>
 nmap <leader>lc <cmd>lua vim.lsp.buf.declaration()<CR>

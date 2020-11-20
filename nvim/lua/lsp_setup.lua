@@ -1,15 +1,13 @@
-local completion = require'completion'.on_attach
 local nvim_lsp = require'lspconfig'
 require'treesitter_setup'
 require'lsp_overrides'
 
-nvim_lsp.tsserver.setup{on_attach=completion}
-nvim_lsp.vimls.setup{on_attach=completion}
-nvim_lsp.intelephense.setup{on_attach=completion}
-nvim_lsp.gopls.setup{on_attach=completion}
-nvim_lsp.pyls.setup{on_attach=completion}
+nvim_lsp.tsserver.setup{}
+nvim_lsp.vimls.setup{}
+nvim_lsp.intelephense.setup{}
+nvim_lsp.gopls.setup{}
+nvim_lsp.pyls.setup{}
 nvim_lsp.sumneko_lua.setup{
-  on_attach=completion,
   settings = {
     Lua = {
       runtime = {
@@ -27,3 +25,6 @@ nvim_lsp.sumneko_lua.setup{
     }
   }
 }
+
+require'compe_nvim_lsp'.attach()
+require'compe':register_lua_source('buffer', require'compe_buffer')

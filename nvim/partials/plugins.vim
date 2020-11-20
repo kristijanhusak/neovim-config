@@ -32,11 +32,9 @@ function! s:packager_init() abort
   call packager#add('wakatime/vim-wakatime')
   call packager#add('tmsvg/pear-tree')
   call packager#add('neovim/nvim-lspconfig')
-  call packager#add('nvim-lua/completion-nvim')
   call packager#add('nvim-treesitter/nvim-treesitter')
   call packager#add('nvim-treesitter/nvim-treesitter-refactor')
   call packager#add('nvim-treesitter/nvim-treesitter-textobjects')
-  call packager#add('nvim-treesitter/completion-treesitter')
   call packager#add('hrsh7th/vim-vsnip')
   call packager#add('hrsh7th/vim-vsnip-integ')
   call packager#add('kyazdani42/nvim-tree.lua', {'requires': 'kyazdani42/nvim-web-devicons'})
@@ -45,6 +43,7 @@ function! s:packager_init() abort
   call packager#add('tommcdo/vim-exchange')
   call packager#add('arcticicestudio/nord-vim')
   call packager#add('unblevable/quick-scope')
+  call packager#add('hrsh7th/nvim-compe')
 endfunction
 
 lua pcall(require, 'init')
