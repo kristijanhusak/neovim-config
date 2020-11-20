@@ -14,6 +14,9 @@ function! s:setup_nord() abort
   hi clear ALEError
   hi clear ALEWarning
   set winhl=Normal:Floating
+  hi GitSignAdd guifg=#A3BE8C
+  hi link GitSignChange PreProc
+  hi GitSignRemove guifg=#BF616A
 endfunction
 
 function! s:setup_polar() abort
@@ -26,6 +29,9 @@ function! s:setup_polar() abort
   hi clear ALEError
   hi clear ALEWarning
   set winhl=Normal:Floating
+  hi link GitSignAdd diffAdded
+  hi link GitSignChange PreProc
+  hi link GitSignRemove diffRemoved
 endfunction
 
 set termguicolors                                                               "Enable true colors
