@@ -18,6 +18,7 @@ function! s:setup_completion() abort
   lua require'lsp_setup'
   call compe#source#vim_bridge#register('path', compe_path#source#create())
   call compe#source#vim_bridge#register('vsnip', compe_vsnip#source#create())
+  call compe#source#vim_bridge#register('tags', compe_tags#source#create())
 endfunction
 
 function! s:check_back_space() abort
