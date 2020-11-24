@@ -90,3 +90,21 @@ require'nvim-treesitter.configs'.setup {
   },
   ensure_installed = {"javascript", "typescript", "php", "go", "python", "lua", "jsdoc"}
 }
+
+local patterns = {
+  '%s*[%[%(%{]*%s*$',
+  '%(.*%)',
+  '%s*=>%s*$',
+  '^async%s*',
+  '^static%s*',
+  '^function%s*'
+}
+function _G.custom_statusline()
+return require'nvim-treesitter'.statusline({
+    indicator_size = 80,
+    transform_fn = function(line)
+      for _, p in ipairs(patterns) do line = line:gsub(p, '') end
+      return line
+    end
+  })
+end
