@@ -1,10 +1,10 @@
 gui:
   theme:
     lightTheme: true
-    activebordercolor:
+    activeBorderColor:
     - cyan
     - bold
-    inactivebordercolor:
+    inactiveBorderColor:
     - default
 reporting: "off"
 startuppopupversion: 1
