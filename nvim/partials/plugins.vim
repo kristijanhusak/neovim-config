@@ -31,10 +31,10 @@ function! s:packager_init() abort
   call packager#add('kyazdani42/nvim-tree.lua', {'requires': 'kyazdani42/nvim-web-devicons'})
   call packager#add('neoclide/coc.nvim', {'branch': 'release'})
   call packager#add('kristijanhusak/any-jump.vim')
-  call packager#add('habamax/vim-polar')
   call packager#add('tommcdo/vim-exchange')
-  call packager#add('arcticicestudio/nord-vim')
   call packager#add('unblevable/quick-scope')
+  call packager#add('hrsh7th/nvim-compe')
+  call packager#add('sainnhe/edge')
 endfunction
 
 lua pcall(require, 'init')

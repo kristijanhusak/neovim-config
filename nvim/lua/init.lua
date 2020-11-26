@@ -1,9 +1,9 @@
 require'gitsigns'.setup({
   signs = {
-    add          = {hl = 'GitSignAdd', text = '▌'},
-    change       = {hl = 'GitSignChange', text = '▌'},
-    delete       = {hl = 'GitSignRemove', text = '_'},
-    topdelete    = {hl = 'GitSignRemove', text = '‾'},
-    changedelete = {hl = 'GitSignChange', text = '▌'},
+    add          = {hl = 'diffAdded', text = '▌'},
+    change       = {hl = 'diffChanged', text = '▌'},
+    delete       = {hl = 'diffRemoved', text = '_'},
+    topdelete    = {hl = 'diffRemoved', text = '‾'},
+    changedelete = {hl = 'diffChanged', text = '▌'},
   },
 })
