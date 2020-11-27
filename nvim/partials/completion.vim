@@ -1,4 +1,5 @@
 set pumheight=15                                                                "Maximum number of entries in autocomplete popup
+set completeopt-=preview
 
 augroup vimrc_autocomplete
   autocmd!
