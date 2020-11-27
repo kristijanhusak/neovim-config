@@ -92,6 +92,7 @@ require'nvim-treesitter.configs'.setup {
 }
 
 local patterns = {
+  '//.*$',
   '%s*[%[%(%{]*%s*$',
   '%(.*%)',
   '%s*=>%s*$',
