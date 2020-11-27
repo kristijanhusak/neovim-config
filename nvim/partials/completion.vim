@@ -4,7 +4,6 @@ augroup vimrc_autocomplete
   autocmd!
   autocmd VimEnter * call s:setup_completion()
   autocmd FileType javascript,javascriptreact,vim,php,go,lua setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  autocmd CursorHold,CursorHoldI *.js,*.jsx,*.ts,*.vim,*.php,*.go lua vim.lsp.buf.signature_help()
 augroup END
 
 set completeopt=menuone,noinsert,noselect
@@ -62,6 +61,7 @@ nmap <leader>lg <cmd>lua vim.lsp.buf.implementation()<CR>
 nmap <leader>lu <cmd>lua vim.lsp.buf.references()<CR>
 nmap <leader>lr <cmd>lua vim.lsp.buf.rename()<CR>
 nmap <leader>lh <cmd>lua vim.lsp.buf.hover()<CR>
+nmap <leader>ls <cmd>lua vim.lsp.buf.signature_help()<CR>
 nmap <leader>lf <cmd>lua vim.lsp.buf.formatting()<CR>
 vmap <leader>lf :<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>
 nmap <leader>la :call v:lua.vim.lsp.buf.code_action()<CR>
