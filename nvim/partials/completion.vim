@@ -4,6 +4,7 @@ augroup vimrc_autocomplete
   autocmd!
   autocmd VimEnter * call s:setup_completion()
   autocmd FileType javascript,javascriptreact,vim,php,go,lua setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  autocmd CursorHold,CursorHoldI *.js,*.jsx,*.ts,*.vim,*.php,*.go lua vim.lsp.buf.signature_help()
 augroup END
 
 set completeopt=menuone,noinsert,noselect

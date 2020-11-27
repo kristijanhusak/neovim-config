@@ -22,12 +22,22 @@ local custom_symbol_callback = function(_, _, result, _, bufnr)
   vim.fn['fzf#run'](opts)
 end
 
-vim.lsp.callbacks['textDocument/documentSymbol'] = custom_symbol_callback
-vim.lsp.callbacks['workspace/symbol'] = custom_symbol_callback
-vim.lsp.callbacks['_typescript.rename'] = function(_, _, result)
+vim.lsp.handlers['textDocument/documentSymbol'] = custom_symbol_callback
+vim.lsp.handlers['workspace/symbol'] = custom_symbol_callback
+vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
   if not result then return end
   vim.fn.cursor(result.position.line + 1, result.position.character + 1)
   local new_name = vim.fn.input('New Name: ', vim.fn.expand('<cword>'))
   result.newName = new_name
   return vim.lsp.buf_request(0, 'textDocument/rename', result)
+end
+
+vim.lsp.handlers['textDocument/signatureHelp'] = function(_, method, result)
+  if not (result and result.signatures and result.signatures[1]) then return end
+  local lines = util.convert_signature_help_to_markdown_lines(result)
+  lines = util.trim_empty_lines(lines)
+  if vim.tbl_isempty(lines) then return end
+  util.focusable_preview(method, function()
+    return lines, util.try_trim_markdown_code_blocks(lines)
+  end)
 end
