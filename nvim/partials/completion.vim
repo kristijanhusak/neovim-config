@@ -6,8 +6,6 @@ augroup vimrc_autocomplete
   autocmd FileType javascript,javascriptreact,vim,php,go,lua setlocal omnifunc=v:lua.vim.lsp.omnifunc
 augroup END
 
-set completeopt=menuone,noinsert,noselect
-
 let g:compe_enabled = v:true
 let g:compe_min_length = 1
 let g:compe_auto_preselect = v:false
