@@ -18,7 +18,7 @@ function! s:packager_init() abort
   call packager#add('lambdalisue/reword.vim')
   call packager#add('AndrewRadev/tagalong.vim')
   call packager#add('AndrewRadev/splitjoin.vim')
-  call packager#add('lewis6991/gitsigns.nvim', {'requires': ['nvim-lua/plenary.nvim']})
+  call packager#add('lewis6991/gitsigns.nvim', {'requires': 'nvim-lua/plenary.nvim'})
   call packager#add('sheerun/vim-polyglot')
   call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
   call packager#add('junegunn/fzf.vim')
@@ -43,6 +43,7 @@ function! s:packager_init() abort
   call packager#add('unblevable/quick-scope')
   call packager#add('hrsh7th/nvim-compe')
   call packager#add('sainnhe/edge')
+  call packager#add('voldikss/vim-skylight')
 endfunction
 
 lua pcall(require, 'init')
@@ -94,6 +95,8 @@ nnoremap <silent><Leader>hf :LuaTreeFindFile<CR>
 " Pear tree mappings
 imap <BS> <Plug>(PearTreeBackspace)
 imap <Esc> <Plug>(PearTreeFinishExpansion)
+
+nnoremap <silent><Leader>y :SkylightPreview<CR>
 
 let g:lua_tree_bindings = {
     \ 'edit_vsplit': 's',
@@ -157,3 +160,5 @@ let g:sql_type_default = 'pgsql'                                                
 
 let g:qs_second_highlight = 0                                                   "Do not show second jump for quick scope
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']                               "Show only when these keys are pressed
+
+let g:skylight_position = 'auto'                                                "Position preview at cursor

@@ -81,11 +81,7 @@ require'nvim-treesitter.configs'.setup {
       },
     },
     lsp_interop = {
-      enable = true,
-      peek_definition_code = {
-        ["<Leader>y"] = "@function.outer",
-        ["<Leader>Y"] = "@class.outer",
-      },
+      enable = false,
     }
   },
   ensure_installed = {"javascript", "typescript", "php", "go", "python", "lua", "jsdoc"}

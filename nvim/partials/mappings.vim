@@ -14,8 +14,8 @@ nnoremap <Leader>v <C-w>v
 
 " Move between slits
 nnoremap <c-h> <C-w>h
-nnoremap <c-j> <C-w>j
-nnoremap <c-k> <C-w>k
+nnoremap <silent><expr><c-j> skylight#float#has_scroll() ? skylight#float#scroll(1) : "\<C-w>j"
+nnoremap <silent><expr><c-k> skylight#float#has_scroll() ? skylight#float#scroll(1) : "\<C-w>k"
 nnoremap <c-l> <C-w>l
 tnoremap <c-h> <C-\><C-n><C-w>h
 tnoremap <c-l> <C-\><C-n><C-w>l
