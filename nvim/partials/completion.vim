@@ -14,7 +14,6 @@ let g:compe_source_timeout = 200
 let g:compe_incomplete_delay = 400
 
 function! s:setup_completion() abort
-  lua require'lsp_setup'
   call compe#source#vim_bridge#register('path', compe_path#source#create())
   call compe#source#vim_bridge#register('vsnip', compe_vsnip#source#create())
   call compe#source#vim_bridge#register('tags', compe_tags#source#create())

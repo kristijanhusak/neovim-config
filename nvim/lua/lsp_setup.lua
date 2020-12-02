@@ -1,6 +1,4 @@
 local nvim_lsp = require'lspconfig'
-require'treesitter_setup'
-require'lsp_overrides'
 
 nvim_lsp.tsserver.setup{}
 nvim_lsp.vimls.setup{}

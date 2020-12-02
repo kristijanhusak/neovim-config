@@ -1,3 +1,7 @@
+require'lsp_setup'
+require'treesitter_setup'
+require'lsp_overrides'
+
 require'gitsigns'.setup({
   signs = {
     add          = {hl = 'diffAdded', text = '▌'},
