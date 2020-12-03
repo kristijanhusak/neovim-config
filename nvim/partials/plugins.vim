@@ -46,7 +46,6 @@ function! s:packager_init() abort
   call packager#add('voldikss/vim-skylight')
 endfunction
 
-
 let g:mapleader = ','                                                           "Change leader to a comma
 
 command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()
@@ -54,12 +53,13 @@ command! -bang PackagerUpdate call s:packager_init() | call packager#update({ 'f
 command! PackagerClean call s:packager_init() | call packager#clean()
 command! PackagerStatus call s:packager_init() | call packager#status()
 
+lua pcall(require, 'init')
+
 augroup packager_filetype
   autocmd!
   autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import
   autocmd FileType go packadd vim-go
   autocmd FileType LuaTree call s:setup_luatree()
-  autocmd VimEnter * lua pcall(require, 'init')
 augroup END
 
 function! s:setup_luatree() abort
