@@ -1,13 +1,4 @@
-require'lsp_setup'
-require'treesitter_setup'
-require'lsp_overrides'
-
-require'gitsigns'.setup({
-  signs = {
-    add          = {hl = 'diffAdded', text = '▌'},
-    change       = {hl = 'diffChanged', text = '▌'},
-    delete       = {hl = 'diffRemoved', text = '_'},
-    topdelete    = {hl = 'diffRemoved', text = '‾'},
-    changedelete = {hl = 'diffChanged', text = '▌'},
-  },
-})
+require'partials/treesitter'
+require'partials/plugins'
+require'partials/lsp'
+require'partials/gitsigns'

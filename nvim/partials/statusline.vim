@@ -1,11 +1,8 @@
-let s:cache = {'branch': ''}
 
 augroup custom_statusline
   autocmd!
-  autocmd VimEnter * silent! call FugitiveDetect(expand('<afile>')) | let s:cache.branch = fugitive#head()
   autocmd BufEnter,WinEnter * setlocal statusline=%!Statusline()
   autocmd BufLeave,WinLeave * setlocal statusline=%f\ %y\ %m
-  autocmd User FugitiveChanged let s:cache.branch = fugitive#head()
   autocmd VimEnter,ColorScheme * call s:set_statusline_colors()
 augroup END
 
@@ -116,10 +113,9 @@ function! s:ale_status(type) abort
 endfunction
 
 function! s:git_statusline() abort
-  if !exists('b:gitsigns_status')
-    return s:with_icon(s:cache.branch, "\ue0a0")
-  endif
-  let l:result = join(filter([s:cache.branch, b:gitsigns_status], {-> !empty(v:val) }), ' ')
+  let branch = get(b:, 'gitsigns_head', '')
+  let status = get(b:, 'gitsigns_status', '')
+  let l:result = join(filter([branch, status], {-> !empty(v:val) }), ' ')
   return s:with_icon(l:result, "\ue0a0")
 endfunction
 
