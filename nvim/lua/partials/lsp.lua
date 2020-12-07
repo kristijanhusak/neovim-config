@@ -25,9 +25,6 @@ nvim_lsp.sumneko_lua.setup{
   }
 }
 
-require'compe_nvim_lsp'.attach()
-require'compe':register_lua_source('buffer', require'compe_buffer')
-
 local custom_symbol_callback = function(_, _, result, _, bufnr)
   if not result or vim.tbl_isempty(result) then return end
 
