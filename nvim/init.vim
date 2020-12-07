@@ -1,4 +1,4 @@
-runtime! partials/plugins.vim
+lua require'init'
 runtime! partials/settings.vim
 runtime! partials/colorscheme.vim
 runtime! partials/statusline.vim

@@ -75,7 +75,7 @@ utils.keymap('', '*', '<Plug>(asterisk-z*)<Plug>(anzu-update-search-status)', {n
 utils.keymap('', '#', '<Plug>(asterisk-z#)<Plug>(anzu-update-search-status)', {noremap = false})
 utils.keymap('', 'g*', '<Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)', {noremap = false})
 utils.keymap('', 'g#', '<Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)', {noremap = false})
-utils.keymap('n', 'Leader>ww', ':unmap <Leader>ww<BAR>packadd vimwiki<BAR>VimwikiIndex<CR>')
+utils.keymap('n', '<Leader>ww', ':unmap <Leader>ww<BAR>packadd vimwiki<BAR>VimwikiIndex<CR>')
 
 utils.keymap('n', '<Leader>R', ':ALEFix<CR>')
 utils.keymap('n', '<silent>[e', ':ALEPrevious<CR>')
