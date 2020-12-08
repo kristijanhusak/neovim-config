@@ -2,11 +2,11 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_matchit = 1
 
 vim.o.title = true
-vim.o.number = true
-vim.o.relativenumber = true
+vim.wo.number = true
+vim.wo.relativenumber = true
 vim.o.showmode = false
 vim.o.gdefault = true
-vim.o.cursorline = true
+vim.wo.cursorline = true
 vim.o.smartcase = true
 vim.o.ignorecase = true
 vim.o.mouse='a'
@@ -15,9 +15,9 @@ vim.o.startofline = false
 vim.o.timeoutlen= 1000
 vim.o.ttimeoutlen= 0
 vim.o.fileencoding= 'utf-8'
-vim.o.wrap = false
-vim.o.linebreak = true
-vim.o.listchars='tab:│ ,trail:·'
+vim.wo.wrap = false
+vim.wo.linebreak = true
+vim.wo.listchars='tab:│ ,trail:·'
 vim.o.list = true
 vim.o.lazyredraw = true
 vim.o.hidden = true
@@ -60,7 +60,6 @@ vim.cmd[[augroup vimrc]]
   vim.cmd[[ autocmd FileType markdown setlocal spell ]]
   vim.cmd[[ autocmd FileType json setlocal equalprg=python\ -m\ json.tool ]]
   vim.cmd[[ autocmd TermOpen * setlocal nonumber norelativenumber ]]
-  -- vim.cmd[[ autocmd VimEnter * call s:set_path() ]]
 vim.cmd[[ augroup END ]]
 
 vim.cmd[[augroup numbertoggle]]
@@ -70,7 +69,7 @@ vim.cmd[[augroup numbertoggle]]
 vim.cmd[[augroup END]]
 
 function _G.kris.strip_trailing_whitespace()
-  if vim.api.nvim_buf_get_option(vim.api.nvim_get_current_buf(), 'modifiable') then
+  if vim.bo.modifiable then
     local line = vim.fn.line('.')
     local col = vim.fn.col('.')
     vim.cmd[[%s/\s\+$//e]]
