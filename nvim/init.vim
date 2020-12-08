@@ -1,6 +1,4 @@
 lua require'init'
-runtime! partials/settings.vim
-runtime! partials/colorscheme.vim
 runtime! partials/statusline.vim
 runtime! partials/filetype/*.vim
 runtime! partials/mappings.vim
