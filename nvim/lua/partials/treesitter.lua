@@ -97,7 +97,7 @@ local patterns = {
   '^function%s*'
 }
 
-function _G.custom_statusline()
+function _G.kris.custom_statusline()
   return require'nvim-treesitter'.statusline({
       indicator_size = 80,
       transform_fn = function(line)

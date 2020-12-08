@@ -1,4 +1,3 @@
-
 augroup custom_statusline
   autocmd!
   autocmd BufEnter,WinEnter * setlocal statusline=%!Statusline()
@@ -73,7 +72,7 @@ function! Statusline() abort
   let l:statusline .= s:sep('%w', {}, &previewwindow)
   let l:statusline .= s:sep('%r', {}, &readonly)
   let l:statusline .= s:sep('%q', {}, &buftype ==? 'quickfix')
-  let l:position = v:lua.custom_statusline()
+  let l:position = v:lua.kris.custom_statusline()
   let l:statusline .= s:sep(l:position, s:sec_2, !empty(l:position))
   let l:statusline .= '%='
   let l:anzu = exists('*anzu#search_status') ? anzu#search_status() : ''

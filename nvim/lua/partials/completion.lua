@@ -22,7 +22,7 @@ local function check_back_space()
   return col <= 0 or vim.fn.getline('.'):sub(col, col):match('%s')
 end
 
-function _G.tab_completion()
+function _G.kris.tab_completion()
   if vim.fn['vsnip#jumpable'](1) > 0 then
     return utils.esc('<Plug>(vsnip-jump-next)')
   end
@@ -42,7 +42,7 @@ function _G.tab_completion()
   return vim.fn['compe#complete']()
 end
 
-utils.keymap('i', '<TAB>', 'v:lua.tab_completion()', { expr = true, noremap = false })
+utils.keymap('i', '<TAB>', 'v:lua.kris.tab_completion()', { expr = true, noremap = false })
 
 utils.keymap('i', '<S-TAB>', 'pumvisible() ? "<C-p>" : vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-TAB>"', {
   expr = true,
