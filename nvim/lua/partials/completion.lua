@@ -13,6 +13,7 @@ require'compe'.setup({
     tags = true,
     vsnip = true,
     nvim_lsp = true,
+    vim_dadbod_completion = true,
     nvim_lua = false
   }
 })
