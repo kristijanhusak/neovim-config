@@ -10,6 +10,10 @@ let s:chars = {
 nnoremap R :call <sid>handle_replace()<CR>
 
 function! s:handle_replace() abort
+  if &diff
+    diffupdate
+    return ''
+  endif
   let char = getline('.')[col('.') - 1]
   let new_char = nr2char(getchar())
   if has_key(s:chars, char) && has_key(s:chars, new_char)

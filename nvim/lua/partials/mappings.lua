@@ -1,0 +1,229 @@
+local utils = require'partials/utils'
+-- Comment map
+utils.keymap('n', '<Leader>c', 'gcc', { noremap = false })
+-- Line comment command
+utils.keymap('x', '<Leader>c', 'gc', { noremap = false })
+
+-- Map save to Ctrl + S
+utils.keymap('', '<c-s>', ':w<CR>', { noremap = false })
+utils.keymap('i', '<c-s>', '<C-o>:w<CR>', { noremap = false })
+utils.keymap('n', '<Leader>s', ':w<CR>')
+
+-- Open vertical split
+utils.keymap('n', '<Leader>v', '<C-w>v')
+
+-- Move between slits
+utils.keymap('n', '<c-h>', '<C-w>h')
+utils.keymap('n', '<c-j>', 'skylight#float#has_scroll() ? skylight#float#scroll(1, 1) : "<C-w>j"', { expr = true })
+utils.keymap('n', '<c-k>', 'skylight#float#has_scroll() ? skylight#float#scroll(0, 1) : "<C-w>k"', { expr = true })
+utils.keymap('n', '<c-l>', '<C-w>l')
+utils.keymap('n', '<c-h>', '<C-\\><C-n><C-w>h')
+utils.keymap('n', '<c-l>', '<C-\\><C-n><C-w>l')
+
+-- Down is really the next line
+utils.keymap('n', 'j', 'gj')
+utils.keymap('n', 'k', 'gk')
+
+-- Map for Escape key
+utils.keymap('t', '<Leader>jj', '<C-\\><C-n>')
+
+-- Yank to the end of the line
+utils.keymap('n', 'Y', 'y$')
+
+-- Copy to system clipboard
+utils.keymap('v', '<C-c>', '"+y')
+-- Paste from system clipboard with Ctrl + v
+utils.keymap('i', '<C-v>', '<Esc>"+p')
+utils.keymap('n', '<Leader>p', '"0p')
+utils.keymap('v', '<Leader>p', '"0p')
+utils.keymap('n', '<Leader>h', 'viw"0p')
+
+-- Move to the end of yanked text after yank and paste
+utils.keymap('n', 'p', 'p`]')
+utils.keymap('v', 'y', 'y`]')
+utils.keymap('v', 'p', 'p`]')
+-- Select last pasted text
+utils.keymap('n', 'gp', "'`[' . strpart(getregtype(), 0, 1) . '`]'", { expr = true })
+
+-- Move selected lines up and down
+utils.keymap('v', 'J', ":m '>+1<CR>gv=gv")
+utils.keymap('v', 'K', ":m '<-2<CR>gv=gv")
+
+-- Handle ale error window
+utils.keymap('n', '<Leader>e', ':lopen<CR>')
+utils.keymap('n', '<Leader>E', ':copen<CR>')
+
+utils.keymap('n', '<Leader>q', ':call v:lua.kris.close_buffer()<CR>')
+utils.keymap('n', '<Leader>Q', ':call v:lua.kris.close_buffer(v:true)<CR>')
+
+-- Toggle between last 2 buffers
+utils.keymap('n', '<leader><tab>', '<c-^>')
+
+-- Indenting in visual mode
+utils.keymap('x', '<s-tab>', '<gv')
+utils.keymap('x', '<tab>', '>gv')
+
+-- Resize window with shift + and shift -
+utils.keymap('n', '_', '<c-w>5<')
+utils.keymap('n', '+', '<c-w>5>')
+
+-- Disable ex mode mapping
+utils.keymap('', 'Q', '<Nop>', { noremap = false })
+
+-- Jump to definition in vertical split
+utils.keymap('n', '<Leader>]', '<C-W>v<C-]>')
+
+-- Close all other buffers except current one
+utils.keymap('n', '<Leader>db', ':silent w <BAR> :silent %bd <BAR> e#<CR>')
+
+utils.keymap('n', 'gx', ':call v:lua.kris.open_url()<CR>')
+
+-- Unimpaired mappings
+utils.keymap('n', '[q', ':cprevious<CR>')
+utils.keymap('n', ']q', ':cnext<CR>')
+utils.keymap('n', '[Q', ':cfirst<CR>')
+utils.keymap('n', ']Q', ':clast<CR>')
+utils.keymap('n', '[l', ':lprevious<CR>')
+utils.keymap('n', ']l', ':lnext<CR>')
+utils.keymap('n', '[L', ':lfirst<CR>')
+utils.keymap('n', ']L', ':llast<CR>')
+utils.keymap('n', '[t', ':tprevious<CR>')
+utils.keymap('n', ']t', ':tnext<CR>')
+utils.keymap('n', '[T', ':tfirst<CR>')
+utils.keymap('n', ']T', ':tlast<CR>')
+utils.keymap('n', '[b', ':bprevious<CR>')
+utils.keymap('n', ']b', ':bnext<CR>')
+utils.keymap('n', '[B', ':bfirst<CR>')
+utils.keymap('n', ']B', ':blast<CR>')
+
+--rsi mappings
+utils.keymap('c', '<C-A>', '<Home>')
+utils.keymap('c', '<C-E>', '<End>')
+utils.keymap('c', '<C-B>', '<End>')
+
+utils.keymap('n', '<leader>T', ':call v:lua.kris.toggle_terminal()<CR>')
+utils.keymap('t', '<leader>T', '<C-\\><C-n><C-w>c')
+
+-- Taken from https://gist.github.com/romainl/c0a8b57a36aec71a986f1120e1931f20
+for _, char in ipairs({'_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '-', '#'}) do
+  utils.keymap('x', 'i'..char, ':<C-u>normal! T' ..char..'vt'..char..'<CR>')
+  utils.keymap('o', 'i'..char, ':normal vi'..char..'<CR>')
+  utils.keymap('x', 'a'..char, ':<C-u>normal! F'..char..'vf'..char..'<CR>')
+  utils.keymap('o', 'a'..char, ':normal va'..char..'<CR>')
+end
+
+function _G.kris.close_buffer(bang)
+  if vim.bo.buftype ~= '' then
+    return vim.cmd('q!')
+  end
+
+  local windowCount = vim.fn.winnr('$')
+  local totalBuffers = #vim.fn.getbufinfo({ buflisted = 1 })
+  local noSplits = windowCount == 1
+  bang = bang and '!' or ''
+  if totalBuffers > 1 and noSplits then
+    local command = 'bp'
+    if vim.fn.buflisted(vim.fn.bufnr('#')) then
+      command = command..'|bd'..bang..'#'
+    end
+    return vim.cmd(command)
+  end
+  return vim.cmd('q'..bang)
+end
+
+utils.keymap('n', 'gF', ':call v:lua.kris.open_file_or_create_new()<CR>')
+
+local function open_file_on_line_and_column()
+  local path = vim.fn.expand('<cfile>')
+  local line = vim.fn.getline('.')
+  local row = 1
+  local col = 1
+  if vim.fn.match(line, vim.fn.escape(path, '/')..':\\d*:\\d*') > -1 then
+    local matchlist = vim.fn.matchlist(line, vim.fn.escape(path, '/')..':\\(\\d*\\):\\(\\d*\\)')
+    row = matchlist[2] or 1
+    col = matchlist[3] or 1
+  end
+
+  local bufnr = vim.fn.bufnr(path)
+  local winnr = vim.fn.bufwinnr(bufnr)
+  if winnr > -1 and vim.fn.getbufvar(bufnr, '&buftype') ~= 'terminal' then
+    vim.cmd(winnr..'wincmd w')
+  else
+    vim.cmd('vsplit '..path)
+  end
+  vim.fn.cursor(row, col)
+end
+
+function _G.kris.open_file_or_create_new()
+  local path = vim.fn.expand('<cfile>')
+  if not path or path == '' then
+    return false
+  end
+
+  if vim.bo.buftype == 'terminal' then
+    return open_file_on_line_and_column()
+  end
+
+  if pcall(vim.cmd, 'norm!gf') then
+    return true
+  end
+
+  vim.fn.nvim_out_write('New file.\n')
+  local new_path = vim.fn.fnamemodify(vim.fn.expand('%:p:h')..'/'..path, ':p')
+  local ext = vim.fn.fnamemodify(new_path, ':e')
+
+  if ext and ext ~= '' then
+    return vim.cmd('edit '..new_path)
+  end
+
+  local suffixes = vim.fn.split(vim.bo.suffixesadd, ',')
+
+  for _, suffix in ipairs(suffixes) do
+    if vim.fn.filereadable(new_path..suffix) then
+      return vim.cmd('edit '..new_path..suffix)
+    end
+  end
+
+  return vim.cmd('edit '..new_path..suffixes[1])
+end
+
+vim.cmd[[ command! Json call v:lua.kris.paste_to_json_buffer() ]]
+
+function _G.kris.paste_to_json_buffer()
+  vim.cmd[[ vsplit ]]
+  vim.cmd[[ enew ]]
+  vim.bo.filetype = 'json'
+  vim.cmd[[ norm!"+p ]]
+  vim.cmd[[ norm!gg=G ]]
+end
+
+function _G.kris.open_url()
+    vim.cmd [[unlet! g:loaded_netrw]]
+    vim.cmd [[unlet! g:loaded_netrwPlugin]]
+    vim.cmd [[runtime! plugin/netrwPlugin.vim]]
+    return vim.fn['netrw#BrowseX'](vim.fn.expand('<cfile>'), vim.fn['netrw#CheckIfRemote']())
+end
+
+local terminal_bufnr = 0
+function _G.kris.toggle_terminal(close)
+  if close then
+    terminal_bufnr = 0
+    return
+  end
+  if terminal_bufnr <= 0 then
+    vim.cmd[[ autocmd TermOpen * ++once startinsert ]]
+    vim.cmd[[sp | term]]
+    vim.cmd[[ autocmd BufDelete <buffer> call v:lua.kris.toggle_terminal(v:true) ]]
+    terminal_bufnr = vim.api.nvim_get_current_buf()
+    return
+  end
+
+  local win = vim.fn.bufwinnr(terminal_bufnr)
+
+  if win > -1 then
+    vim.cmd(win..'close')
+    return
+  end
+
+  vim.cmd('sp | b'..terminal_bufnr..' | startinsert')
+end
