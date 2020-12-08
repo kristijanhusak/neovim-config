@@ -9,8 +9,8 @@ require'compe'.setup({
   auto_preselect = false,
   source = {
     path = true,
-    buffer = true,
-    tags = true,
+    buffer = { ignored_filetypes = {'sql'} },
+    tags = { ignored_filetypes = {'sql'} },
     vsnip = true,
     nvim_lsp = true,
     vim_dadbod_completion = true,
