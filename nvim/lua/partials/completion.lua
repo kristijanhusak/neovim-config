@@ -75,7 +75,7 @@ utils.keymap('n', '<leader>ls', '<cmd>lua vim.lsp.buf.signature_help()<CR>', { n
 utils.keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>', { noremap = false })
 utils.keymap('n', '<leader>la', ':call v:lua.vim.lsp.buf.code_action()<CR>', { noremap = false })
-utils.keymap('n', '<leader>la', ':<C-u>call v:lua.vim.lsp.buf.range_code_action()<CR>', { noremap = false })
+utils.keymap('v', '<leader>la', ':<C-u>call v:lua.vim.lsp.buf.range_code_action()<CR>', { noremap = false })
 utils.keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', { noremap = false })
 utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', { noremap = false })
