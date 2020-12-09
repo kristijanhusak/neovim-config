@@ -145,7 +145,7 @@ vim.g.db_ui_tmp_query_location = '~/code/queries'
 
 vim.g.pear_tree_repeatable_expand = 0
 vim.g.pear_tree_map_special_keys = 0
-vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h')..'/partials/snippets'
+vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h')..'/snippets'
 
 vim.g.sql_type_default = 'pgsql'
 
