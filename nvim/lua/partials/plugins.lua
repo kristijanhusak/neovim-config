@@ -91,6 +91,16 @@ utils.keymap('i', '<Esc>', '<Plug>(PearTreeFinishExpansion)', {noremap = false})
 
 utils.keymap('n', '<Leader>y', ':SkylightPreview<CR>')
 
+require'gitsigns'.setup({
+  signs = {
+    add          = {hl = 'diffAdded', text = '▌'},
+    change       = {hl = 'diffChanged', text = '▌'},
+    delete       = {hl = 'diffRemoved', text = '_'},
+    topdelete    = {hl = 'diffRemoved', text = '‾'},
+    changedelete = {hl = 'diffChanged', text = '▌'},
+  },
+})
+
 vim.g.lua_tree_bindings = {
   edit_vsplit = 's',
   cd = 'C',

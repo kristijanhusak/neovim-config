@@ -1,14 +1,15 @@
+_G.kris.statusline = {}
 local treesitter = require'nvim-treesitter'
 vim.cmd[[augroup custom_statusline]]
   vim.cmd[[ autocmd! ]]
-  vim.cmd[[ autocmd BufWinEnter,WinEnter * setlocal statusline=%!v:lua.kris.statusline() ]]
+  vim.cmd[[ autocmd BufWinEnter,WinEnter * setlocal statusline=%!v:lua.kris.statusline.setup() ]]
   vim.cmd[[ autocmd BufWinLeave,WinLeave * setlocal statusline=%f\ %y\ %m ]]
-  vim.cmd[[ autocmd VimEnter,ColorScheme * call v:lua.kris.set_statusline_colors() ]]
+  vim.cmd[[ autocmd VimEnter,ColorScheme * call v:lua.kris.statusline.set_colors() ]]
 vim.cmd[[ augroup END ]]
 
 local c = {}
 
-function _G.kris.set_statusline_colors()
+function _G.kris.statusline.set_colors()
   c.normal_bg = vim.fn.synIDattr(vim.fn.hlID('Normal'), 'bg')
   c.normal_fg = vim.fn.synIDattr(vim.fn.hlID('Normal'), 'fg')
   c.statusline_bg = vim.fn.synIDattr(vim.fn.hlID('Statusline'), 'bg')
@@ -168,7 +169,7 @@ local function ale_status(type)
   return ''
 end
 
-function _G.kris.statusline()
+function _G.kris.statusline.setup()
   local mode = mode_statusline()
   local git_status = git_statusline()
   local ts_status = ts_statusline()

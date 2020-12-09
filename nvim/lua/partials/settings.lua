@@ -1,3 +1,4 @@
+_G.kris.settings = {}
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_matchit = 1
 
@@ -52,7 +53,7 @@ vim.g.python3_host_prog = '/usr/bin/python3'
 
 vim.cmd[[augroup vimrc]]
   vim.cmd[[ autocmd! ]]
-  vim.cmd[[ autocmd BufWritePre * call v:lua.kris.strip_trailing_whitespace() ]]
+  vim.cmd[[ autocmd BufWritePre * call v:lua.kris.settings.strip_trailing_whitespace() ]]
   vim.cmd[[ autocmd InsertEnter * set nocul ]]
   vim.cmd[[ autocmd InsertLeave * set cul ]]
   vim.cmd[[ autocmd FocusGained,BufEnter * silent! exe 'checktime' ]]
@@ -68,7 +69,7 @@ vim.cmd[[augroup numbertoggle]]
   vim.cmd[[ autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif ]]
 vim.cmd[[augroup END]]
 
-function _G.kris.strip_trailing_whitespace()
+function _G.kris.settings.strip_trailing_whitespace()
   if vim.bo.modifiable then
     local line = vim.fn.line('.')
     local col = vim.fn.col('.')

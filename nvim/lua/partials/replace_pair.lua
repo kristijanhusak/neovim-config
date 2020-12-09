@@ -1,3 +1,4 @@
+_G.kris.replace_pair = {}
 local fn = vim.fn
 local utils = require'partials/utils'
 local chars = {
@@ -9,9 +10,9 @@ local chars = {
   [')'] = {'(', 'right'},
 }
 
-utils.keymap('n', 'R', ':call v:lua.kris.replace_pair()<CR>')
+utils.keymap('n', 'R', ':call v:lua.kris.replace_pair.run()<CR>')
 
-function _G.kris.replace_pair()
+function _G.kris.replace_pair.run()
   if vim.wo.diff then
     return vim.cmd[[diffupdate]]
   end

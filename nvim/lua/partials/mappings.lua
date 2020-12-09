@@ -1,3 +1,4 @@
+_G.kris.mappings = {}
 local utils = require'partials/utils'
 -- Comment map
 utils.keymap('n', '<Leader>c', 'gcc', { noremap = false })
@@ -53,8 +54,8 @@ utils.keymap('v', 'K', ":m '<-2<CR>gv=gv")
 utils.keymap('n', '<Leader>e', ':lopen<CR>')
 utils.keymap('n', '<Leader>E', ':copen<CR>')
 
-utils.keymap('n', '<Leader>q', ':call v:lua.kris.close_buffer()<CR>')
-utils.keymap('n', '<Leader>Q', ':call v:lua.kris.close_buffer(v:true)<CR>')
+utils.keymap('n', '<Leader>q', ':call v:lua.kris.mappings.close_buffer()<CR>')
+utils.keymap('n', '<Leader>Q', ':call v:lua.kris.mappings.close_buffer(v:true)<CR>')
 
 -- Toggle between last 2 buffers
 utils.keymap('n', '<leader><tab>', '<c-^>')
@@ -76,7 +77,7 @@ utils.keymap('n', '<Leader>]', '<C-W>v<C-]>')
 -- Close all other buffers except current one
 utils.keymap('n', '<Leader>db', ':silent w <BAR> :silent %bd <BAR> e#<CR>')
 
-utils.keymap('n', 'gx', ':call v:lua.kris.open_url()<CR>')
+utils.keymap('n', 'gx', ':call v:lua.kris.mappings.open_url()<CR>')
 
 -- Unimpaired mappings
 utils.keymap('n', '[q', ':cprevious<CR>')
@@ -101,7 +102,7 @@ utils.keymap('c', '<C-a>', '<Home>', { silent = false })
 utils.keymap('c', '<C-e>', '<End>', { silent = false })
 utils.keymap('c', '<C-b>', '<End>', { silent = false })
 
-utils.keymap('n', '<leader>T', ':call v:lua.kris.toggle_terminal()<CR>')
+utils.keymap('n', '<leader>T', ':call v:lua.kris.mappings.toggle_terminal()<CR>')
 utils.keymap('t', '<leader>T', '<C-\\><C-n><C-w>c')
 
 -- Taken from https://gist.github.com/romainl/c0a8b57a36aec71a986f1120e1931f20
@@ -112,7 +113,7 @@ for _, char in ipairs({'_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '
   utils.keymap('o', 'a'..char, ':normal va'..char..'<CR>')
 end
 
-function _G.kris.close_buffer(bang)
+function _G.kris.mappings.close_buffer(bang)
   if vim.bo.buftype ~= '' then
     return vim.cmd('q!')
   end
@@ -131,7 +132,7 @@ function _G.kris.close_buffer(bang)
   return vim.cmd('q'..bang)
 end
 
-utils.keymap('n', 'gF', ':call v:lua.kris.open_file_or_create_new()<CR>')
+utils.keymap('n', 'gF', ':call v:lua.kris.mappings.open_file_or_create_new()<CR>')
 
 local function open_file_on_line_and_column()
   local path = vim.fn.expand('<cfile>')
@@ -154,7 +155,7 @@ local function open_file_on_line_and_column()
   vim.fn.cursor(row, col)
 end
 
-function _G.kris.open_file_or_create_new()
+function _G.kris.mappings.open_file_or_create_new()
   local path = vim.fn.expand('<cfile>')
   if not path or path == '' then
     return false
@@ -187,9 +188,9 @@ function _G.kris.open_file_or_create_new()
   return vim.cmd('edit '..new_path..suffixes[1])
 end
 
-vim.cmd[[ command! Json call v:lua.kris.paste_to_json_buffer() ]]
+vim.cmd[[ command! Json call v:lua.kris.mappings.paste_to_json_buffer() ]]
 
-function _G.kris.paste_to_json_buffer()
+function _G.kris.mappings.paste_to_json_buffer()
   vim.cmd[[ vsplit ]]
   vim.cmd[[ enew ]]
   vim.bo.filetype = 'json'
@@ -197,7 +198,7 @@ function _G.kris.paste_to_json_buffer()
   vim.cmd[[ norm!gg=G ]]
 end
 
-function _G.kris.open_url()
+function _G.kris.mappings.open_url()
     vim.cmd [[unlet! g:loaded_netrw]]
     vim.cmd [[unlet! g:loaded_netrwPlugin]]
     vim.cmd [[runtime! plugin/netrwPlugin.vim]]
@@ -205,7 +206,7 @@ function _G.kris.open_url()
 end
 
 local terminal_bufnr = 0
-function _G.kris.toggle_terminal(close)
+function _G.kris.mappings.toggle_terminal(close)
   if close then
     terminal_bufnr = 0
     return
@@ -213,7 +214,7 @@ function _G.kris.toggle_terminal(close)
   if terminal_bufnr <= 0 then
     vim.cmd[[ autocmd TermOpen * ++once startinsert ]]
     vim.cmd[[sp | term]]
-    vim.cmd[[ autocmd BufDelete <buffer> call v:lua.kris.toggle_terminal(v:true) ]]
+    vim.cmd[[ autocmd BufDelete <buffer> call v:lua.kris.mappings.toggle_terminal(v:true) ]]
     terminal_bufnr = vim.api.nvim_get_current_buf()
     return
   end
