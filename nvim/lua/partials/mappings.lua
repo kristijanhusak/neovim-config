@@ -97,9 +97,9 @@ utils.keymap('n', '[B', ':bfirst<CR>')
 utils.keymap('n', ']B', ':blast<CR>')
 
 --rsi mappings
-utils.keymap('c', '<C-A>', '<Home>')
-utils.keymap('c', '<C-E>', '<End>')
-utils.keymap('c', '<C-B>', '<End>')
+utils.keymap('c', '<C-a>', '<Home>', { silent = false })
+utils.keymap('c', '<C-e>', '<End>', { silent = false })
+utils.keymap('c', '<C-b>', '<End>', { silent = false })
 
 utils.keymap('n', '<leader>T', ':call v:lua.kris.toggle_terminal()<CR>')
 utils.keymap('t', '<leader>T', '<C-\\><C-n><C-w>c')

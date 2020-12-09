@@ -16,6 +16,10 @@ function M.buf_keymap(buf, mode, lhs, rhs, opts)
     }))
 end
 
+function M.unmap(mode, lhs)
+  return vim.api.nvim_del_keymap(mode, lhs)
+end
+
 function M.esc(cmd)
   return vim.api.nvim_replace_termcodes(cmd, true, false, true)
 end
