@@ -109,7 +109,7 @@ local function git_statusline()
   if vim.b.gitsigns_head then table.insert(result, vim.b.gitsigns_head) end
   if vim.b.gitsigns_status then table.insert(result, vim.b.gitsigns_status) end
   if #result == 0 then return '' end
-  return with_icon(table.concat(result, ' '), "\u{e0a0}")
+  return with_icon(table.concat(result, ' '), '')
 end
 
 local function get_path()
