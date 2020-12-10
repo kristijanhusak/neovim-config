@@ -17,7 +17,6 @@ vim.o.background = vim.env.NVIM_COLORSCHEME_BG
 vim.o.synmaxcol =300
 
 vim.g.edge_sign_column_background = 'none'
-vim.g.edge_better_performance = 1
 vim.cmd[[filetype plugin indent on]]
 vim.cmd[[syntax on]]
 vim.cmd('colorscheme '..vim.env.NVIM_COLORSCHEME)
