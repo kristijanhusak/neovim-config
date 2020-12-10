@@ -1,9 +1,9 @@
-vim.cmd[[ augroup vimrc_go ]]
-  vim.cmd[[ autocmd! ]]
-  vim.cmd[[ autocmd FileType go setlocal noexpandtab tabstop=4 ]]
-  vim.cmd[[ autocmd FileType go nnoremap <Leader>xt :GoTest<CR> ]]
-  vim.cmd[[ autocmd FileType go nnoremap <Leader>xx :GoTestFunc<CR> ]]
-vim.cmd[[ augroup END ]]
+vim.cmd [[augroup vimrc_go]]
+  vim.cmd [[autocmd!]]
+  vim.cmd [[autocmd FileType go setlocal noexpandtab tabstop=4]]
+  vim.cmd [[autocmd FileType go nnoremap <Leader>xt :GoTest<CR>]]
+  vim.cmd [[autocmd FileType go nnoremap <Leader>xx :GoTestFunc<CR>]]
+vim.cmd [[augroup END]]
 
 vim.g.go_fmt_command = 'goimports'
 vim.g.go_echo_go_info = 0

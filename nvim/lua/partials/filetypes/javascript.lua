@@ -66,9 +66,9 @@ function _G.kris.javascript.goto_file()
   end
 end
 
-vim.cmd[[ nnoremap <silent><Plug>(JsConsoleLog) :<C-u>call v:lua.kris.javascript.console_log()<CR> ]]
-vim.cmd[[ nnoremap <nowait><silent><Plug>(JsInjectDependency) :<C-u>call v:lua.kris.javascript.inject_dependency()<CR> ]]
-vim.cmd[[ nnoremap <nowait><Plug>(JsGotoFile) :<C-u>call v:lua.kris.javascript.goto_file()<CR> ]]
+vim.cmd [[nnoremap <silent><Plug>(JsConsoleLog) :<C-u>call v:lua.kris.javascript.console_log()<CR>]]
+vim.cmd [[nnoremap <nowait><silent><Plug>(JsInjectDependency) :<C-u>call v:lua.kris.javascript.inject_dependency()<CR>]]
+vim.cmd [[nnoremap <nowait><Plug>(JsGotoFile) :<C-u>call v:lua.kris.javascript.goto_file()<CR>]]
 
 function _G.kris.javascript.setup()
   local buf = vim.api.nvim_get_current_buf()
@@ -83,8 +83,8 @@ function _G.kris.javascript.setup()
   vim.wo.foldmethod = 'manual'
 end
 
-vim.cmd[[ augroup javascript ]]
-  vim.cmd[[ autocmd! ]]
-  vim.cmd[[ autocmd FileType javascript,javascriptreact,typescript,typescriptreact call v:lua.kris.javascript.setup() ]]
-vim.cmd[[ augroup END ]]
+vim.cmd [[augroup javascript]]
+  vim.cmd [[autocmd!]]
+  vim.cmd [[autocmd FileType javascript,javascriptreact,typescript,typescriptreact call v:lua.kris.javascript.setup()]]
+vim.cmd [[augroup END]]
 

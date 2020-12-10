@@ -188,14 +188,14 @@ function _G.kris.mappings.open_file_or_create_new()
   return vim.cmd('edit '..new_path..suffixes[1])
 end
 
-vim.cmd[[ command! Json call v:lua.kris.mappings.paste_to_json_buffer() ]]
+vim.cmd [[command! Json call v:lua.kris.mappings.paste_to_json_buffer()]]
 
 function _G.kris.mappings.paste_to_json_buffer()
-  vim.cmd[[ vsplit ]]
-  vim.cmd[[ enew ]]
+  vim.cmd [[vsplit]]
+  vim.cmd [[enew]]
   vim.bo.filetype = 'json'
-  vim.cmd[[ norm!"+p ]]
-  vim.cmd[[ norm!gg=G ]]
+  vim.cmd [[norm!"+p]]
+  vim.cmd [[norm!gg=G]]
 end
 
 function _G.kris.mappings.open_url()
@@ -212,9 +212,9 @@ function _G.kris.mappings.toggle_terminal(close)
     return
   end
   if terminal_bufnr <= 0 then
-    vim.cmd[[ autocmd TermOpen * ++once startinsert ]]
+    vim.cmd [[autocmd TermOpen * ++once startinsert]]
     vim.cmd[[sp | term]]
-    vim.cmd[[ autocmd BufDelete <buffer> call v:lua.kris.mappings.toggle_terminal(v:true) ]]
+    vim.cmd [[autocmd BufDelete <buffer> call v:lua.kris.mappings.toggle_terminal(v:true)]]
     terminal_bufnr = vim.api.nvim_get_current_buf()
     return
   end

@@ -1,11 +1,11 @@
 _G.kris.statusline = {}
 local treesitter = require'nvim-treesitter'
 vim.cmd[[augroup custom_statusline]]
-  vim.cmd[[ autocmd! ]]
-  vim.cmd[[ autocmd BufWinEnter,WinEnter * setlocal statusline=%!v:lua.kris.statusline.setup() ]]
-  vim.cmd[[ autocmd BufWinLeave,WinLeave * setlocal statusline=%f\ %y\ %m ]]
-  vim.cmd[[ autocmd VimEnter,ColorScheme * call v:lua.kris.statusline.set_colors() ]]
-vim.cmd[[ augroup END ]]
+  vim.cmd [[autocmd!]]
+  vim.cmd [[autocmd BufWinEnter,WinEnter * setlocal statusline=%!v:lua.kris.statusline.setup()]]
+  vim.cmd [[autocmd BufWinLeave,WinLeave * setlocal statusline=%f\ %y\ %m]]
+  vim.cmd [[autocmd VimEnter,ColorScheme * call v:lua.kris.statusline.set_colors()]]
+vim.cmd [[augroup END]]
 
 local c = {}
 
@@ -66,14 +66,14 @@ local sec_2 = {color = '%#StItem2#', sep_color = '%#StSep2#'}
 
 local function mode_highlight(mode)
   if mode == 'i' then
-    vim.cmd[[ hi StMode guibg=#83a598 guifg=#3c3836 ]]
-    vim.cmd[[ hi StModeSep guifg=#83a598 ]]
+    vim.cmd [[hi StMode guibg=#83a598 guifg=#3c3836]]
+    vim.cmd [[hi StModeSep guifg=#83a598]]
   elseif vim.tbl_contains({'v', 'V', ''}, mode) then
-    vim.cmd[[ hi StMode guibg=#fe8019 guifg=#3c3836 ]]
-    vim.cmd[[ hi StModeSep guifg=#fe8019 ]]
+    vim.cmd [[hi StMode guibg=#fe8019 guifg=#3c3836]]
+    vim.cmd [[hi StModeSep guifg=#fe8019]]
   elseif mode == 'R' then
-    vim.cmd[[ hi StMode guibg=#8ec07c guifg=#3c3836 ]]
-    vim.cmd[[ hi StModeSep guifg=#8ec07c ]]
+    vim.cmd [[hi StMode guibg=#8ec07c guifg=#3c3836]]
+    vim.cmd [[hi StModeSep guifg=#8ec07c]]
   else
     vim.cmd('hi StMode guibg='..c.normal_fg..' guifg='..c.normal_bg..' gui=NONE')
     vim.cmd('hi StModeSep guifg='..c.normal_fg..' guibg='..c.statusline_bg..' gui=NONE')

@@ -4,12 +4,12 @@ local is_toggle = false
 local mode = 'term'
 local last_search = ''
 
-vim.cmd[[ augroup init_vim_search ]]
-  vim.cmd[[ autocmd! ]]
-  vim.cmd[[ autocmd FileType qf nnoremap <silent><buffer><Leader>r :cgetexpr v:lua.kris.search.do_search()<CR> ]]
-  vim.cmd[[ autocmd QuickFixCmdPost [^l]* nested cwindow ]]
-  vim.cmd[[ autocmd QuickFixCmdPost l* nested lwindow ]]
-vim.cmd[[ augroup END ]]
+vim.cmd [[augroup init_vim_search]]
+  vim.cmd [[autocmd!]]
+  vim.cmd [[autocmd FileType qf nnoremap <silent><buffer><Leader>r :cgetexpr v:lua.kris.search.do_search()<CR>]]
+  vim.cmd [[autocmd QuickFixCmdPost [^l]* nested cwindow]]
+  vim.cmd [[autocmd QuickFixCmdPost l* nested lwindow]]
+vim.cmd [[augroup END]]
 
 utils.keymap('n', '<Leader>f', ':call v:lua.kris.search.run("")<CR>')
 utils.keymap('n', '<Leader>F', ':call v:lua.kris.search.run(expand("<cword>"))<CR>')
@@ -67,7 +67,7 @@ function _G.kris.search.run(search, is_visual)
   end
 
   cleanup('no_reset_mode')
-  vim.cmd[[ redraw! ]]
+  vim.cmd [[redraw!]]
 
   if term == '' then
     return msg('Empty search.')
@@ -105,7 +105,7 @@ function _G.kris.search.run(search, is_visual)
     return cleanup()
   end
 
-  vim.cmd[[ cgetexpr v:lua.kris.search.do_search() ]]
+  vim.cmd [[cgetexpr v:lua.kris.search.do_search()]]
   return cleanup()
 end
 
