@@ -5,7 +5,7 @@ local utils = require'partials/utils'
 function _G.kris.javascript.console_log()
   local view = fn.winsaveview()
   local word = fn.expand('<cword>')
-  vim.cmd(string.format("keepjumps norm!oconsole.log('%s', %s); // eslint-disable-line no-console'", word, word))
+  vim.cmd(string.format("keepjumps norm!oconsole.log('%s', %s); // eslint-disable-line no-console", word, word))
   fn['repeat#set'](utils.esc('<Plug>(JsConsoleLog)'))
   fn.winrestview(view)
 end
