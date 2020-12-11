@@ -37,7 +37,7 @@ utils.keymap('v', '<C-c>', '"+y')
 utils.keymap('i', '<C-v>', '<Esc>"+p')
 utils.keymap('n', '<Leader>p', '"0p')
 utils.keymap('v', '<Leader>p', '"0p')
-utils.keymap('n', '<Leader>h', 'viw"0p')
+utils.keymap('n', '<Leader>h', 'viw"0p', { nowait = false })
 
 -- Move to the end of yanked text after yank and paste
 utils.keymap('n', 'p', 'p`]')
