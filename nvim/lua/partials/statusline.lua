@@ -2,8 +2,8 @@ _G.kris.statusline = {}
 local treesitter = require'nvim-treesitter'
 vim.cmd[[augroup custom_statusline]]
   vim.cmd [[autocmd!]]
-  vim.cmd [[autocmd BufWinEnter,WinEnter * setlocal statusline=%!v:lua.kris.statusline.setup()]]
-  vim.cmd [[autocmd BufWinLeave,WinLeave * setlocal statusline=%f\ %y\ %m]]
+  vim.cmd [[autocmd BufEnter,WinEnter * setlocal statusline=%!v:lua.kris.statusline.setup()]]
+  vim.cmd [[autocmd BufLeave,WinLeave * setlocal statusline=%f\ %y\ %m]]
   vim.cmd [[autocmd VimEnter,ColorScheme * call v:lua.kris.statusline.set_colors()]]
 vim.cmd [[augroup END]]
 
