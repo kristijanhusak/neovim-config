@@ -78,8 +78,8 @@ utils.keymap('', 'g#', '<Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)', 
 utils.keymap('n', '<Leader>ww', ':unmap <Leader>ww<BAR>packadd vimwiki<BAR>VimwikiIndex<CR>')
 
 utils.keymap('n', '<Leader>R', ':ALEFix<CR>')
-utils.keymap('n', '<silent>[e', ':ALEPrevious<CR>')
-utils.keymap('n', '<silent>]e', ':ALENext<CR>')
+utils.keymap('n', '[e', ':ALEPrevious<CR>')
+utils.keymap('n', ']e', ':ALENext<CR>')
 
 utils.keymap('n', '<Leader>G', ':vert G<CR>')
 
