@@ -7,7 +7,7 @@ require'compe'.setup({
   enabled = true,
   debug = false,
   min_length = 1,
-  auto_preselect = false,
+  preselect = 'disable',
   source = {
     path = true,
     buffer = { ignored_filetypes = {'sql'} },
