@@ -55,3 +55,11 @@ vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
   result.newName = new_name
   return vim.lsp.buf_request(0, 'textDocument/rename', result)
 end
+
+local old_range_params = vim.lsp.util.make_given_range_params
+function vim.lsp.util.make_given_range_params(start_pos, end_pos)
+  local params = old_range_params(start_pos, end_pos)
+  local add = vim.o.selection ~= 'exclusive' and 1 or 0
+  params.range['end'].character = params.range['end'].character + add
+  return params
+end
