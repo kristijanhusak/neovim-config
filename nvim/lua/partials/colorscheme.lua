@@ -13,10 +13,10 @@ function _G.kris.colorscheme.setup_edge()
 end
 
 vim.o.termguicolors = true
-vim.o.background = vim.env.NVIM_COLORSCHEME_BG
-vim.o.synmaxcol =300
+vim.o.background = vim.env.NVIM_COLORSCHEME_BG or 'dark'
+vim.o.synmaxcol = 300
 
 vim.g.edge_sign_column_background = 'none'
 vim.cmd[[filetype plugin indent on]]
 vim.cmd[[syntax on]]
-vim.cmd('colorscheme '..vim.env.NVIM_COLORSCHEME)
+vim.cmd('colorscheme '..(vim.env.NVIM_COLORSCHEME or 'edge'))
