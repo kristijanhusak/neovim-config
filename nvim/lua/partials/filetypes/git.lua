@@ -5,6 +5,7 @@ vim.cmd [[augroup gitcommit]]
   vim.cmd [[autocmd!]]
   vim.cmd [[autocmd FileType fugitive nmap <buffer><silent> <Space> =]]
   vim.cmd [[autocmd FileType git setlocal foldenable foldmethod=syntax | nnoremap <buffer><silent> <Space> za]]
+  vim.cmd [[autocmd VimEnter * call v:lua.kris.git.add_commit_prefix_from_branch()]]
 vim.cmd [[augroup END]]
 
 vim.cmd [[command! DiffHistory call v:lua.kris.git.view_git_history()]]
@@ -46,3 +47,15 @@ function _G.kris.git.diff_current_quickfix_entry()
   end
 end
 
+function _G.kris.git.add_commit_prefix_from_branch()
+  if vim.bo.filetype ~= 'gitcommit' then return end
+
+  if vim.fn.expand('%') == '.git/COMMIT_EDITMSG' and vim.fn.getline(1) == '' then
+    local head = vim.fn['fugitive#head']()
+    print(head)
+    if head and head:find('/') then
+      vim.fn.setline(1, '['..vim.fn.split(head, '/')[2]..'] ')
+      vim.cmd('startinsert!')
+    end
+  end
+end
