@@ -89,7 +89,7 @@ utils.keymap('n', '<Leader>hf', ':LuaTreeFindFile<CR>')
 utils.keymap('i', '<BS>', '<Plug>(PearTreeBackspace)', {noremap = false})
 utils.keymap('i', '<Esc>', '<Plug>(PearTreeFinishExpansion)', {noremap = false})
 
-utils.keymap('n', '<Leader>y', ':SkylightPreview<CR>')
+utils.keymap('n', '<Leader>y', ':Skylight tag<CR>')
 
 require'gitsigns'.setup({
   signs = {
