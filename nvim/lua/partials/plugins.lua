@@ -1,3 +1,4 @@
+_G.kris.plugins = {}
 local api = vim.api
 local utils = require'partials/utils'
 vim.cmd [[packadd vim-packager]]
@@ -55,10 +56,11 @@ vim.cmd[[augroup packager_filetype]]
   vim.cmd[[autocmd!]]
   vim.cmd[[autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import]]
   vim.cmd[[autocmd FileType go packadd vim-go]]
-  vim.cmd[[autocmd FileType NvimTree lua require'partials/plugins'.setup_nvimtree() ]]
+  vim.cmd[[autocmd FileType NvimTree call v:lua.kris.plugins.setup_nvimtree() ]]
+  vim.cmd[[autocmd VimEnter * call v:lua.kris.plugins.handle_vimenter() ]]
 vim.cmd[[augroup END]]
 
-local function setup_nvimtree()
+function _G.kris.plugins.setup_nvimtree()
   vim.wo.signcolumn = 'yes'
   local buf = api.nvim_get_current_buf()
   utils.buf_keymap(buf, 'n', 'j', 'line(".") == line("$") ? "gg" : "j"', { expr = true })
@@ -66,6 +68,10 @@ local function setup_nvimtree()
   utils.buf_keymap(buf, 'n', 'J', ':call search("[]")<CR>')
   utils.buf_keymap(buf, 'n', 'K', ':call search("[]", "b")<CR>')
   api.nvim_feedkeys(api.nvim_replace_termcodes('<C-w>w', true, false, true), 'n', true)
+end
+
+function _G.kris.plugins.handle_vimenter()
+  vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h')..'/snippets'
 end
 
 utils.keymap('n', '<Leader><space>', ':AnzuClearSearchStatus<BAR>noh<CR>')
@@ -163,7 +169,6 @@ vim.g.db_ui_tmp_query_location = '~/code/queries'
 
 vim.g.pear_tree_repeatable_expand = 0
 vim.g.pear_tree_map_special_keys = 0
-vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h')..'/snippets'
 
 vim.g.sql_type_default = 'pgsql'
 
@@ -171,7 +176,3 @@ vim.g.qs_second_highlight = 0
 vim.g.qs_highlight_on_keys = {'f', 'F', 't', 'T'}
 
 vim.g.skylight_position = 'auto'
-
-return {
-  setup_nvimtree = setup_nvimtree,
-}
