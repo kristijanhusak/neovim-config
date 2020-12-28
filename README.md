@@ -1,8 +1,11 @@
 Neovim and terminal configuration
 ------
 
-**NOTE**: I recently switched to [Manjaro i3](https://manjaro.github.io/homepage/public/download/i3/)
-which removed my necessity for tmux. If you want to see my old setup with tmux, checkout [tmux](https://github.com/kristijanhusak/neovim-config/tree/tmux) branch.
+**This branch currently contains setup using CoC completion/lsp.**
+
+**Configuration compatible with latest Neovim (with lua configuration) is on [bleeding-edge](https://github.com/kristijanhusak/neovim-config/tree/bleeding-edge) branch.**
+
+Old tmux setup: [tmux](https://github.com/kristijanhusak/neovim-config/tree/tmux) branch.
 
 This is my Neovim editor setup, with zsh and i3 configurations.
 Feel free to fork it
