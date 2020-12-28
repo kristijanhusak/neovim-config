@@ -51,10 +51,10 @@ augroup packager_filetype
   autocmd!
   autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import
   autocmd FileType go packadd vim-go
-  autocmd FileType LuaTree call s:setup_luatree()
+  autocmd FileType NvimTree call s:setup_nvimtree()
 augroup END
 
-function! s:setup_luatree() abort
+function! s:setup_nvimtree() abort
   setlocal signcolumn=yes
   nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
   nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
@@ -81,24 +81,24 @@ nnoremap <silent>]e :ALENext<CR>
 nnoremap <silent><Leader>G :vert G<CR>
 
 " Tree mappings
-nnoremap <silent><Leader>n :LuaTreeToggle<CR>
-nnoremap <silent><Leader>hf :LuaTreeFindFile<CR>
+nnoremap <silent><Leader>n :NvimTreeToggle<CR>
+nnoremap <silent><Leader>hf :NvimTreeFindFile<CR>
 
-let g:lua_tree_bindings = {
+let g:nvim_tree_bindings = {
     \ 'edit_vsplit': 's',
     \ 'cd':          'C',
     \ }
-let g:lua_tree_icons = {
+let g:nvim_tree_icons = {
       \ 'default': '',
       \ 'git': {
       \   'unstaged': '✹',
       \ }}
-let g:lua_tree_follow = 1
-let g:lua_tree_auto_open = 1
-let g:lua_tree_size = 40
-let g:lua_tree_git_hl = 1
-let g:lua_tree_hide_dotfiles = 1
-let g:lua_tree_width_allow_resize = v:true
+let g:nvim_tree_follow = 1
+let g:nvim_tree_auto_open = 1
+let g:nvim_tree_size = 40
+let g:nvim_tree_git_hl = 1
+let g:nvim_tree_hide_dotfiles = 1
+let g:nvim_tree_width_allow_resize = v:true
 
 let g:ale_virtualtext_cursor = 1
 let g:ale_linters = {'javascript': ['eslint']}                                  "Lint js with eslint
