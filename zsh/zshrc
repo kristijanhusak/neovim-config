@@ -58,6 +58,7 @@ eval "$(pyenv init -)"
 # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
 # zsh-autosuggestions is designed to be unobtrusive)
 NVIM_BG=${NVIM_COLORSCHEME_BG:-'light'}
+BAT_THEME="ansi-$NVIM_COLORSCHEME_BG"
 if [ $NVIM_BG = 'dark' ]; then
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 else
