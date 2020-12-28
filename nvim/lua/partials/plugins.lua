@@ -54,10 +54,10 @@ vim.cmd[[augroup packager_filetype]]
   vim.cmd[[autocmd!]]
   vim.cmd[[autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import]]
   vim.cmd[[autocmd FileType go packadd vim-go]]
-  vim.cmd[[autocmd FileType LuaTree lua require'partials/plugins'.setup_luatree() ]]
+  vim.cmd[[autocmd FileType NvimTree lua require'partials/plugins'.setup_nvimtree() ]]
 vim.cmd[[augroup END]]
 
-local function setup_luatree()
+local function setup_nvimtree()
   vim.wo.signcolumn = 'yes'
   local buf = api.nvim_get_current_buf()
   utils.buf_keymap(buf, 'n', 'j', 'line(".") == line("$") ? "gg" : "j"', { expr = true })
@@ -83,13 +83,20 @@ utils.keymap('n', ']e', ':ALENext<CR>')
 
 utils.keymap('n', '<Leader>G', ':vert G<CR>')
 
-utils.keymap('n', '<Leader>n', ':LuaTreeToggle<CR>')
-utils.keymap('n', '<Leader>hf', ':LuaTreeFindFile<CR>')
+utils.keymap('n', '<Leader>n', ':NvimTreeToggle<CR>')
+utils.keymap('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
 
 utils.keymap('i', '<BS>', '<Plug>(PearTreeBackspace)', {noremap = false})
 utils.keymap('i', '<Esc>', '<Plug>(PearTreeFinishExpansion)', {noremap = false})
 
 utils.keymap('n', '<Leader>y', ':Skylight tag<CR>')
+
+-- Load .nvimrc manually until this PR is merged.
+-- https://github.com/neovim/neovim/pull/13503
+local local_vimrc = vim.fn.getcwd()..'/.nvimrc'
+if vim.loop.fs_stat(local_vimrc) then
+  vim.cmd('source '..local_vimrc)
+end
 
 require'gitsigns'.setup({
   signs = {
@@ -101,22 +108,22 @@ require'gitsigns'.setup({
   },
 })
 
-vim.g.lua_tree_bindings = {
+vim.g.nvim_tree_bindings = {
   edit_vsplit = 's',
   cd = 'C',
 }
-vim.g.lua_tree_icons = {
+vim.g.nvim_tree_icons = {
   default = '',
   git = {
     unstaged = '✹',
   }
 }
-vim.g.lua_tree_follow = 1
-vim.g.lua_tree_auto_open = 1
-vim.g.lua_tree_size = 40
-vim.g.lua_tree_git_hl = 1
-vim.g.lua_tree_hide_dotfiles = 1
-vim.g.lua_tree_width_allow_resize = true
+vim.g.nvim_tree_follow = 1
+vim.g.nvim_tree_auto_open = 1
+vim.g.nvim_tree_size = 40
+vim.g.nvim_tree_git_hl = 1
+vim.g.nvim_tree_hide_dotfiles = 1
+vim.g.nvim_tree_width_allow_resize = true
 
 vim.g.ale_virtualtext_cursor = 1
 vim.g.ale_linters = {javascript = {'eslint'}}
@@ -165,5 +172,5 @@ vim.g.qs_highlight_on_keys = {'f', 'F', 't', 'T'}
 vim.g.skylight_position = 'auto'
 
 return {
-  setup_luatree = setup_luatree,
+  setup_nvimtree = setup_nvimtree,
 }
