@@ -25,29 +25,30 @@ nvim_lsp.sumneko_lua.setup{
   }
 }
 
-local custom_symbol_callback = function(_, _, result, _, bufnr)
-  if not result or vim.tbl_isempty(result) then return end
+local opts = {
+  height = 24,
+	mode = 'editor',
+	prompt = {},
+	keymaps = {
+		i = {
+			['<C-j>'] = '<C-n>',
+			['<C-k>'] = '<C-p>',
+		}
+	}
+}
 
-  local items = util.symbols_to_items(result, bufnr)
-  local items_by_name = {}
-  for _, item in ipairs(items) do
-    items_by_name[item.text] = item
-  end
+vim.g.lsp_utils_location_opts = opts
+vim.g.lsp_utils_symbols_opts = opts
 
-  local opts = vim.fn['fzf#wrap']({
-      source = vim.tbl_keys(items_by_name),
-      sink = function() end,
-      options = {'--prompt', 'Symbol > '},
-    })
-  opts.sink = function(item)
-    local selected = items_by_name[item]
-    vim.fn.cursor(selected.lnum, selected.col)
-  end
-  vim.fn['fzf#run'](opts)
-end
+vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 
-vim.lsp.handlers['textDocument/documentSymbol'] = custom_symbol_callback
-vim.lsp.handlers['workspace/symbol'] = custom_symbol_callback
 vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
   if not result then return end
   vim.fn.cursor(result.position.line + 1, result.position.character + 1)
