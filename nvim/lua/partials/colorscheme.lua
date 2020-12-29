@@ -14,3 +14,7 @@ vim.g.edge_sign_column_background = 'none'
 vim.cmd[[filetype plugin indent on]]
 vim.cmd[[syntax on]]
 vim.cmd('colorscheme '..(vim.env.NVIM_COLORSCHEME or 'edge'))
+vim.cmd[[
+  hi ErrorLine gui=undercurl
+  hi WarningLine gui=undercurl
+]]
