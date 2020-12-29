@@ -31,7 +31,6 @@ require('packager').setup(function(packager)
  packager.add('haya14busa/vim-asterisk')
  packager.add('osyo-manga/vim-anzu')
  packager.add('stefandtw/quickfix-reflector.vim')
- packager.add('dense-analysis/ale')
  packager.add('wakatime/vim-wakatime')
  packager.add('tmsvg/pear-tree')
  packager.add('neovim/nvim-lspconfig')
@@ -84,10 +83,6 @@ utils.keymap('', 'g*', '<Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)', 
 utils.keymap('', 'g#', '<Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)', {noremap = false})
 utils.keymap('n', '<Leader>ww', ':unmap <Leader>ww<BAR>packadd vimwiki<BAR>VimwikiIndex<CR>')
 
-utils.keymap('n', '<Leader>R', ':ALEFix<CR>')
-utils.keymap('n', '[e', ':ALEPrevious<CR>')
-utils.keymap('n', ']e', ':ALENext<CR>')
-
 utils.keymap('n', '<Leader>G', ':vert G<CR>')
 
 utils.keymap('n', '<Leader>n', ':NvimTreeToggle<CR>')
@@ -131,18 +126,6 @@ vim.g.nvim_tree_size = 40
 vim.g.nvim_tree_git_hl = 1
 vim.g.nvim_tree_hide_dotfiles = 1
 vim.g.nvim_tree_width_allow_resize = true
-
-vim.g.ale_virtualtext_cursor = 1
-vim.g.ale_linters = {javascript = {'eslint'}}
-vim.g.ale_fixers = {
-  javascript = {'prettier', 'eslint'},
-  javascriptreact = {'prettier', 'eslint'},
-}
-vim.g.ale_javascript_prettier_options = '--print-width 120'
-vim.g.ale_lint_delay = 400
-vim.g.ale_sign_error = ''
-vim.g.ale_sign_warning = ''
-vim.g.ale_disable_lsp = 1
 
 vim.g.jsx_ext_required = 1
 vim.g.javascript_plugin_jsdoc = 1

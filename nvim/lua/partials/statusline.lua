@@ -152,31 +152,12 @@ local function ts_statusline()
     }) or ''
 end
 
-local function ale_status(type)
-  if not vim.g.loaded_ale then return '' end
-  local count = vim.fn['ale#statusline#Count'](vim.api.nvim_get_current_buf())
-  local errors = count.error + count.style_error
-  local warnings = count.warning + count.style_warning
-
-  if type == 'error' and errors > 0 then
-    return errors..' E'
-  end
-
-  if type == 'warning' and warnings > 0 then
-    return warnings..' W'
-  end
-
-  return ''
-end
-
 function _G.kris.statusline.setup()
   local mode = mode_statusline()
   local git_status = git_statusline()
   local ts_status = ts_statusline()
   local anzu = vim.fn['anzu#search_status']() or ''
   local ft = vim.bo.filetype
-  local err = ale_status('error')
-  local warn = ale_status('warning')
   local statusline = {
     sep(mode, st_mode),
     '%<',
@@ -193,9 +174,7 @@ function _G.kris.statusline.setup()
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
     sep(': %c', st_mode_right),
     sep(': %l/%L', st_mode_right),
-    sep('%p%%', vim.tbl_extend('keep', { no_after = err == '' and warn == '' }, st_mode_right)),
-    sep(err, vim.tbl_extend('keep', { no_after = warn == '' }, st_err_right), err ~= ''),
-    sep(warn, st_warn, warn ~= ''),
+    sep('%p%%', vim.tbl_extend('keep', { no_after = true }, st_mode_right)),
     '%<'
   }
 

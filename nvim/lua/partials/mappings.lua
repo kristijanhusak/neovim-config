@@ -50,10 +50,6 @@ utils.keymap('n', 'gp', "'`[' . strpart(getregtype(), 0, 1) . '`]'", { expr = tr
 utils.keymap('v', 'J', ":m '>+1<CR>gv=gv")
 utils.keymap('v', 'K', ":m '<-2<CR>gv=gv")
 
--- Handle ale error window
-utils.keymap('n', '<Leader>e', ':lopen<CR>')
-utils.keymap('n', '<Leader>E', ':copen<CR>')
-
 utils.keymap('n', '<Leader>q', ':call v:lua.kris.mappings.close_buffer()<CR>')
 utils.keymap('n', '<Leader>Q', ':call v:lua.kris.mappings.close_buffer(v:true)<CR>')
 
