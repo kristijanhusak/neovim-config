@@ -131,7 +131,13 @@ function vim.lsp.util.make_given_range_params(start_pos, end_pos)
 end
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = false,
+    signs = function(bufnr, client_id)
+      local client = vim.lsp.get_client_by_id(client_id)
+      return client.name ~= 'tsserver'
+    end
+  }
 )
 
 vim.cmd[[sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=]]
