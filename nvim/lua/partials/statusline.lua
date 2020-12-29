@@ -152,12 +152,23 @@ local function ts_statusline()
     }) or ''
 end
 
+
+local function lsp_status(type)
+  local count = vim.lsp.diagnostic.get_count(0, type)
+  if count > 0 then
+    return count..' '..type:sub(1, 1)
+  end
+  return ''
+end
+
 function _G.kris.statusline.setup()
   local mode = mode_statusline()
   local git_status = git_statusline()
   local ts_status = ts_statusline()
   local anzu = vim.fn['anzu#search_status']() or ''
   local ft = vim.bo.filetype
+  local err = lsp_status('Error')
+  local warn = lsp_status('Warning')
   local statusline = {
     sep(mode, st_mode),
     '%<',
@@ -174,10 +185,11 @@ function _G.kris.statusline.setup()
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
     sep(': %c', st_mode_right),
     sep(': %l/%L', st_mode_right),
-    sep('%p%%', vim.tbl_extend('keep', { no_after = true }, st_mode_right)),
+    sep('%p%%', vim.tbl_extend('keep', { no_after = err == '' and warn == '' }, st_mode_right)),
+    sep(err, vim.tbl_extend('keep', { no_after = warn == '' }, st_err_right), err ~= ''),
+    sep(warn, st_warn, warn ~= ''),
     '%<'
   }
 
   return table.concat(statusline, '')
 end
-
