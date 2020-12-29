@@ -91,7 +91,7 @@ utils.keymap('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
 utils.keymap('i', '<BS>', '<Plug>(PearTreeBackspace)', {noremap = false})
 utils.keymap('i', '<Esc>', '<Plug>(PearTreeFinishExpansion)', {noremap = false})
 
-utils.keymap('n', '<Leader>y', ':Skylight tag<CR>')
+utils.keymap('n', '<Leader>y', ':Skylight<CR>')
 
 -- Load .nvimrc manually until this PR is merged.
 -- https://github.com/neovim/neovim/pull/13503
