@@ -3,6 +3,7 @@ local nvim_lsp = require'lspconfig'
 vim.cmd [[augroup vimrc_lsp ]]
   vim.cmd [[autocmd!]]
   vim.cmd [[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()]]
+  vim.cmd [[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
 vim.cmd [[augroup END]]
 
 nvim_lsp.diagnosticls.setup({

@@ -11,6 +11,7 @@ function _G.kris.colorscheme.setup_edge()
   vim.cmd[[
     hi WarningText guibg=NONE
     hi ErrorText guibg=NONE
+    hi HintText guibg=NONE
   ]]
 end
 
