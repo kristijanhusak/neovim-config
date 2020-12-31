@@ -51,6 +51,28 @@ function _G.kris.javascript.inject_dependency()
   fn['repeat#set'](utils.esc('<Plug>(JsInjectDependency)'))
 end
 
+function _G.kris.javascript.generate_docblock()
+  vim.api.nvim_exec([[let g:js_inject_dependency_old_reg = getreg('@z')]], false)
+  local indent = fn['repeat'](' ', fn.shiftwidth())
+  local view = fn.winsaveview()
+  local line = fn.line('.')
+  local is_async = fn.getline('.'):match('^%s*async')
+  vim.cmd [[silent! norm!f("zyib]]
+  fn.winrestview(view)
+  local items = fn.filter(fn.map(fn.split(fn.getreg('@z'), ','), 'trim(v:val)'), 'v:val !=? ""')
+  vim.api.nvim_exec([[let @z = g:js_inject_dependency_old_reg]], false)
+  local content = {string.format('%s/**', indent)}
+  if is_async then
+    table.insert(content, string.format('%s * @async',indent))
+  end
+  for _, item in ipairs(items) do
+    table.insert(content, string.format('%s * @param {%s} %s',indent, item, item))
+  end
+  table.insert(content, string.format('%s * @returns {%s}', indent, is_async and 'Promise<this>' or 'this'))
+  table.insert(content, string.format('%s */', indent))
+  fn.append(line - 1, content)
+end
+
 function _G.kris.javascript.goto_file()
   local full_path = fn.printf('%s/%s', fn.expand('%:p:h'), fn.expand('<cfile>'))
   local stats = vim.loop.fs_stat(full_path)
@@ -60,7 +82,7 @@ function _G.kris.javascript.goto_file()
 
   for _, suffix in ipairs(fn.split(vim.bo.suffixesadd, ',')) do
     local index_file = full_path..'/index'..suffix
-    if vim.fn.filereadable(index_file) then
+    if fn.filereadable(index_file) then
       return vim.cmd('edit '..index_file)
     end
   end
@@ -68,6 +90,7 @@ end
 
 vim.cmd [[nnoremap <silent><Plug>(JsConsoleLog) :<C-u>call v:lua.kris.javascript.console_log()<CR>]]
 vim.cmd [[nnoremap <nowait><silent><Plug>(JsInjectDependency) :<C-u>call v:lua.kris.javascript.inject_dependency()<CR>]]
+vim.cmd [[nnoremap <nowait><silent><Plug>(JsGenerateDocblock) :<C-u>call v:lua.kris.javascript.generate_docblock()<CR>]]
 vim.cmd [[nnoremap <nowait><Plug>(JsGotoFile) :<C-u>call v:lua.kris.javascript.goto_file()<CR>]]
 
 function _G.kris.javascript.setup()
@@ -78,6 +101,7 @@ function _G.kris.javascript.setup()
   utils.buf_keymap(buf, 'x', '<Leader>]', '<C-W>vgv<Plug>(JsGotoDefinition)', { noremap = false })
   utils.buf_keymap(buf, 'n', '<Leader>ll', '<Plug>(JsConsoleLog)', { noremap = false })
   utils.buf_keymap(buf, 'n', '<Leader>d', '<Plug>(JsInjectDependency)', { noremap = false })
+  utils.buf_keymap(buf, 'n', '<Leader>D', '<Plug>(JsGenerateDocblock)', { noremap = false })
   utils.buf_keymap(buf, 'n', 'gf', '<Plug>(JsGotoFile)', { noremap = false })
   vim.o.isfname = vim.o.isfname..',@-@'
   vim.wo.foldmethod = 'manual'
