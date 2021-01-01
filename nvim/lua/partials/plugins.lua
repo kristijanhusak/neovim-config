@@ -91,7 +91,14 @@ utils.keymap('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
 utils.keymap('i', '<BS>', '<Plug>(PearTreeBackspace)', {noremap = false})
 utils.keymap('i', '<Esc>', '<Plug>(PearTreeFinishExpansion)', {noremap = false})
 
-utils.keymap('n', '<Leader>y', ':Skylight<CR>')
+utils.keymap('n', '<Leader>y', '<cmd>lua kris.plugins.run_skylight()<CR>')
+
+function _G.kris.plugins.run_skylight()
+  if #vim.fn.taglist(vim.fn.expand('<cword>')) > 2 then
+    return vim.cmd[[Skylight]]
+  end
+  return vim.cmd[[Skylight!]]
+end
 
 -- Load .nvimrc manually until this PR is merged.
 -- https://github.com/neovim/neovim/pull/13503
