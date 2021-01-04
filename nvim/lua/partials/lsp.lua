@@ -1,6 +1,6 @@
 local nvim_lsp = require'lspconfig'
 
-vim.cmd [[augroup vimrc_lsp ]]
+vim.cmd [[augroup vimrc_lsp]]
   vim.cmd [[autocmd!]]
   vim.cmd [[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()]]
   vim.cmd [[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
@@ -9,9 +9,7 @@ vim.cmd [[augroup END]]
 nvim_lsp.diagnosticls.setup({
   filetypes={
     'javascript',
-    'typescript',
     'javascriptreact',
-    'typescriptreact',
   },
   init_options = {
     linters = {
@@ -44,9 +42,7 @@ nvim_lsp.diagnosticls.setup({
     },
     filetypes = {
       javascript = 'eslint',
-      typescript = 'eslint',
       javascriptreact = 'eslint',
-      typescriptreact = 'eslint',
     },
     formatters = {
       prettierEslint = {
@@ -62,9 +58,7 @@ nvim_lsp.diagnosticls.setup({
     },
     formatFiletypes = {
       javascript = 'prettierEslint',
-      typescript = 'prettierEslint',
       javascriptreact = 'prettierEslint',
-      typescriptreact = 'prettierEslint'
     },
   }
 })
@@ -133,7 +127,8 @@ end
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, method, params, client_id, bufnr, config)
   local client = vim.lsp.get_client_by_id(client_id)
-  if client and client.name == 'tsserver' then return end
+  local is_js = vim.tbl_contains({'javascript', 'javascriptreact'}, vim.bo.filetype)
+  if client and client.name == 'tsserver' and is_js then return end
 
   return vim.lsp.diagnostic.on_publish_diagnostics(
     err, method, params, client_id, bufnr, vim.tbl_deep_extend("force", config or {}, { virtual_text = false })
