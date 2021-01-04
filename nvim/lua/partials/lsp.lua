@@ -67,24 +67,33 @@ nvim_lsp.vimls.setup{}
 nvim_lsp.intelephense.setup{}
 nvim_lsp.gopls.setup{}
 nvim_lsp.pyls.setup{}
-nvim_lsp.sumneko_lua.setup{
+
+local lua_lsp_path = '/home/kristijan/github/lua-language-server'
+local lua_lsp_bin = lua_lsp_path..'/bin/Linux/lua-language-server'
+nvim_lsp.sumneko_lua.setup {
+  cmd = {lua_lsp_bin, '-E', lua_lsp_path..'/main.lua'};
   settings = {
     Lua = {
       runtime = {
-        version = "LuaJIT",
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+        -- Setup your lua path
+        path = vim.split(package.path, ';'),
       },
       diagnostics = {
-        globals = {'vim'}
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
       },
       workspace = {
+        -- Make the server aware of Neovim runtime files
         library = {
-          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-        }
+          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+        },
       },
-    }
-  }
+    },
+  },
 }
-
 local opts = {
   height = 24,
 	mode = 'editor',
