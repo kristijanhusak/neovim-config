@@ -136,8 +136,8 @@ end
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, method, params, client_id, bufnr, config)
   local client = vim.lsp.get_client_by_id(client_id)
-  local is_js = vim.tbl_contains({'javascript', 'javascriptreact'}, vim.bo.filetype)
-  if client and client.name == 'tsserver' and is_js then return end
+  local is_ts = vim.tbl_contains({'typescript', 'typescriptreact'}, vim.bo.filetype)
+  if client and client.name == 'tsserver' and not is_ts then return end
 
   return vim.lsp.diagnostic.on_publish_diagnostics(
     err, method, params, client_id, bufnr, vim.tbl_deep_extend("force", config or {}, { virtual_text = false })
