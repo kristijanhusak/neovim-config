@@ -72,7 +72,8 @@ export KEYTIMEOUT=1
 export NVM_DIR="/home/kristijan/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ $- == *i* ]] && source "/usr/share/fzf/completion.zsh" 2> /dev/null
+source "/usr/share/fzf/key-bindings.zsh"
 
 eval $(keychain --eval --quiet ~/.ssh/id_rsa)
 
