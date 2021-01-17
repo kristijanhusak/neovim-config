@@ -46,6 +46,7 @@ require('packager').setup(function(packager)
  packager.add('hrsh7th/nvim-compe')
  packager.add('sainnhe/edge')
  packager.add('voldikss/vim-skylight')
+ packager.add('git@github.com:kristijanhusak/line-notes.nvim')
 end)
 
 vim.g.mapleader = ','
@@ -115,6 +116,8 @@ require'gitsigns'.setup({
     changedelete = {hl = 'diffChanged', text = '▌'},
   },
 })
+
+require'line_notes'.setup()
 
 vim.g.nvim_tree_bindings = {
   edit_vsplit = 's',
