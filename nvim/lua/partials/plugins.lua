@@ -168,3 +168,7 @@ vim.g.qs_second_highlight = 0
 vim.g.qs_highlight_on_keys = {'f', 'F', 't', 'T'}
 
 vim.g.skylight_position = 'auto'
+
+vim.g.vsnip_filetypes = {
+  typescript = {'javascript'}
+}
