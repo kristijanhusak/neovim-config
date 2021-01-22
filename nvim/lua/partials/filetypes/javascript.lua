@@ -1,6 +1,7 @@
 local fn = vim.fn
 _G.kris.javascript = {}
 local utils = require'partials/utils'
+local ts_utils = require'nvim-treesitter/ts_utils'
 
 function _G.kris.javascript.console_log()
   local view = fn.winsaveview()
@@ -52,25 +53,27 @@ function _G.kris.javascript.inject_dependency()
 end
 
 function _G.kris.javascript.generate_docblock()
-  vim.api.nvim_exec([[let g:js_inject_dependency_old_reg = getreg('@z')]], false)
-  local indent = fn['repeat'](' ', fn.shiftwidth())
-  local view = fn.winsaveview()
-  local line = fn.line('.')
+  local node = ts_utils.get_node_at_cursor()
+  if not node then return end
+  while node and node:type() ~= 'formal_parameters' do
+    node = ts_utils.get_next_node(node)
+  end
+  if not node then return end
   local is_async = fn.getline('.'):match('^%s*async')
-  vim.cmd [[silent! norm!f("zyib]]
-  fn.winrestview(view)
-  local items = fn.filter(fn.map(fn.split(fn.getreg('@z'), ','), 'trim(v:val)'), 'v:val !=? ""')
-  vim.api.nvim_exec([[let @z = g:js_inject_dependency_old_reg]], false)
+  local indent = fn['repeat'](' ', fn.shiftwidth())
   local content = {string.format('%s/**', indent)}
   if is_async then
     table.insert(content, string.format('%s * @async',indent))
   end
-  for _, item in ipairs(items) do
-    table.insert(content, string.format('%s * @param {%s} %s',indent, item, item))
+
+  for _, child_node in ipairs(ts_utils.get_named_children(node)) do
+    local node_text = ts_utils.get_node_text(child_node)[1]
+    table.insert(content, string.format('%s * @param {%s} %s',indent, node_text, node_text))
   end
-  table.insert(content, string.format('%s * @returns {%s}', indent, is_async and 'Promise<this>' or 'this'))
+
+  table.insert(content, string.format('%s * @returns {%s}', indent, is_async and 'Promise<any>' or 'any'))
   table.insert(content, string.format('%s */', indent))
-  fn.append(line - 1, content)
+  fn.append(fn.line('.') - 1, content)
 end
 
 function _G.kris.javascript.goto_file()
