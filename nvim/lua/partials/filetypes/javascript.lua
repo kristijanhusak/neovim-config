@@ -6,6 +6,11 @@ local ts_utils = require'nvim-treesitter/ts_utils'
 function _G.kris.javascript.console_log()
   local view = fn.winsaveview()
   local word = fn.expand('<cword>')
+  local node = ts_utils.get_next_node(ts_utils.get_node_at_cursor(), true, true)
+  if node then
+    local _, _, end_line, _ = ts_utils.get_node_range(node)
+    fn.cursor(end_line + 1, 0)
+  end
   vim.cmd(string.format("keepjumps norm!oconsole.log('%s', %s); // eslint-disable-line no-console", word, word))
   fn['repeat#set'](utils.esc('<Plug>(JsConsoleLog)'))
   fn.winrestview(view)
