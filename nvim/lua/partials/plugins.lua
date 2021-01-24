@@ -47,6 +47,8 @@ require('packager').setup(function(packager)
  packager.add('sainnhe/edge')
  packager.add('voldikss/vim-skylight')
  packager.add('git@github.com:kristijanhusak/line-notes.nvim')
+ packager.add('mfussenegger/nvim-dap')
+ packager.add('theHamsta/nvim-dap-virtual-text')
 end)
 
 vim.g.mapleader = ','
