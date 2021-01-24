@@ -1,5 +1,6 @@
 _G.kris.completion = {}
 local utils = require'partials/utils'
+local npairs = require'nvim-autopairs'
 vim.o.pumheight = 15
 vim.cmd('set completeopt-=preview')
 
@@ -61,7 +62,19 @@ utils.keymap('s', '<S-TAB>', 'vsnip#available(-1)  ? "<Plug>(vsnip-jump-prev)" :
   noremap = false
 })
 
-utils.keymap('i', '<CR>', 'pumvisible() && complete_info()["selected"] != "-1" ? compe#confirm("<CR>") : vsnip#expandable() ? "<Plug>(vsnip-expand)" : "<Plug>(PearTreeExpand)"', {
+function _G.kris.completion.handle_cr()
+  if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info()['selected'] ~= -1 then
+    return vim.fn['compe#confirm']('<CR>')
+  end
+
+  if vim.fn['vsnip#expandable']() ~= 0 then
+    return npairs.esc('<Plug>(vsnip-expand)')
+  end
+
+  return npairs.check_break_line_char()
+end
+
+utils.keymap('i', '<CR>', 'v:lua.kris.completion.handle_cr()', {
   expr = true,
   noremap = false
 })

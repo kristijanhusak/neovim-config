@@ -32,7 +32,7 @@ require('packager').setup(function(packager)
  packager.add('osyo-manga/vim-anzu')
  packager.add('stefandtw/quickfix-reflector.vim')
  packager.add('wakatime/vim-wakatime')
- packager.add('tmsvg/pear-tree')
+ packager.add('windwp/nvim-autopairs')
  packager.add('neovim/nvim-lspconfig')
  packager.add('nvim-treesitter/nvim-treesitter')
  packager.add('nvim-treesitter/nvim-treesitter-refactor')
@@ -88,9 +88,6 @@ utils.keymap('n', '<Leader>G', ':vert G<CR>')
 utils.keymap('n', '<Leader>n', ':NvimTreeToggle<CR>')
 utils.keymap('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
 
-utils.keymap('i', '<BS>', '<Plug>(PearTreeBackspace)', {noremap = false})
-utils.keymap('i', '<Esc>', '<Plug>(PearTreeFinishExpansion)', {noremap = false})
-
 utils.keymap('n', '<Leader>y', '<cmd>lua kris.plugins.run_skylight()<CR>')
 
 function _G.kris.plugins.run_skylight()
@@ -118,6 +115,7 @@ require'gitsigns'.setup({
 })
 
 require'line_notes'.setup()
+require'nvim-autopairs'.setup()
 
 vim.g.nvim_tree_bindings = {
   edit_vsplit = 's',
@@ -158,9 +156,6 @@ vim.g.js_file_import_use_fzf = 1
 
 vim.g.db_ui_save_location = '~/Dropbox/dbui'
 vim.g.db_ui_tmp_query_location = '~/code/queries'
-
-vim.g.pear_tree_repeatable_expand = 0
-vim.g.pear_tree_map_special_keys = 0
 
 vim.g.sql_type_default = 'pgsql'
 
