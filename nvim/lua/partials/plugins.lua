@@ -62,7 +62,6 @@ vim.cmd[[augroup packager_filetype]]
 vim.cmd[[augroup END]]
 
 function _G.kris.plugins.setup_nvimtree()
-  vim.wo.signcolumn = 'yes'
   local buf = api.nvim_get_current_buf()
   utils.buf_keymap(buf, 'n', 'j', 'line(".") == line("$") ? "gg" : "j"', { expr = true })
   utils.buf_keymap(buf, 'n', 'k', 'line(".") == 1 ? "G" : "k"', { expr = true })

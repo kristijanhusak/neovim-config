@@ -6,7 +6,11 @@ local ts_utils = require'nvim-treesitter/ts_utils'
 function _G.kris.javascript.console_log()
   local view = fn.winsaveview()
   local word = fn.expand('<cword>')
-  local node = ts_utils.get_next_node(ts_utils.get_node_at_cursor(), true, true)
+  local node = ts_utils.get_node_at_cursor()
+  while not node or node:type() == 'lexical_declaration' do
+    node = node:parent()
+  end
+  node = node and node:parent()
   if node then
     local _, _, end_line, _ = ts_utils.get_node_range(node)
     fn.cursor(end_line + 1, 0)
