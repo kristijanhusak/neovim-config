@@ -49,6 +49,7 @@ vim.o.scrolloff = 8
 vim.o.sidescrolloff = 15
 vim.o.sidescroll = 5
 vim.o.pyxversion = 3
+vim.o.matchtime = 0
 vim.g.python3_host_prog = '/usr/bin/python3'
 
 vim.cmd[[augroup vimrc]]

@@ -123,7 +123,10 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, method, para
   )
 end
 
-saga.init_lsp_saga()
+saga.init_lsp_saga({
+  use_saga_diagnostic_handler = false,
+  use_saga_diagnostic_sign = false,
+})
 
 vim.cmd[[sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=]]
 vim.cmd[[sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl=]]
