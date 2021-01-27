@@ -1,9 +1,10 @@
 local nvim_lsp = require'lspconfig'
+local saga = require'lspsaga'
 
 vim.cmd [[augroup vimrc_lsp]]
   vim.cmd [[autocmd!]]
   vim.cmd [[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()]]
-  vim.cmd [[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
+  vim.cmd [[autocmd CursorHoldI * silent! lua require'lspsaga.signaturehelp'.signature_help()]]
   vim.cmd [[autocmd FocusGained * ++nested if !&modified | :silent! e | endif]]
 vim.cmd [[augroup END]]
 
@@ -121,6 +122,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, method, para
     err, method, params, client_id, bufnr, vim.tbl_deep_extend("force", config or {}, { virtual_text = false })
   )
 end
+
+saga.init_lsp_saga()
 
 vim.cmd[[sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=]]
 vim.cmd[[sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl=]]
