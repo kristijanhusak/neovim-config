@@ -1,4 +1,5 @@
 local nvim_lsp = require'lspconfig'
+local utils = require'partials/utils'
 local saga = require'lspsaga'
 
 vim.cmd [[augroup vimrc_lsp]]
@@ -127,6 +128,8 @@ saga.init_lsp_saga({
   use_saga_diagnostic_handler = false,
   use_saga_diagnostic_sign = false,
 })
+
+utils.keymap('n', '<leader>lr', '<cmd>lua require"lspsaga.rename".rename()<CR>', { noremap = false })
 
 vim.cmd[[sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=]]
 vim.cmd[[sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl=]]
