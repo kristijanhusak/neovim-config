@@ -101,9 +101,8 @@ nvim_lsp.sumneko_lua.setup {
 vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
   if not result then return end
   vim.fn.cursor(result.position.line + 1, result.position.character + 1)
-  local new_name = vim.fn.input('New Name: ', vim.fn.expand('<cword>'))
-  result.newName = new_name
-  return vim.lsp.buf_request(0, 'textDocument/rename', result)
+  require"lspsaga.rename".rename()
+  return {}
 end
 
 local old_range_params = vim.lsp.util.make_given_range_params
@@ -125,7 +124,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, method, para
 end
 
 saga.init_lsp_saga({
-  use_saga_diagnostic_handler = false,
   use_saga_diagnostic_sign = false,
 })
 
@@ -139,8 +137,8 @@ utils.keymap('v', '<leader>lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()
 utils.keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', { noremap = false })
 utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', { noremap = false })
-utils.keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', { noremap = false })
-utils.keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', { noremap = false })
+utils.keymap('n', '[g', '<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_prev()<CR>')
+utils.keymap('n', ']g', '<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_next()<CR>')
 utils.keymap('n', '<Leader>e', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', { noremap = false })
 
 vim.cmd[[sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=]]
