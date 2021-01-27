@@ -98,7 +98,6 @@ telescope.setup({
     }
   }
 })
-telescope.load_extension('fzy_native')
 
 utils.keymap('n', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ find_command = { "rg", "--files" } })<cr>')
 utils.keymap('n', '<Leader>b', "<cmd>lua require('telescope.builtin').buffers({ sort_lastused = true })<cr>")
