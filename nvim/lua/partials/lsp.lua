@@ -98,6 +98,11 @@ nvim_lsp.sumneko_lua.setup {
   },
 }
 
+saga.init_lsp_saga({
+  use_saga_diagnostic_sign = false,
+  rename_prompt_prefix = ''
+})
+
 vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
   if not result then return end
   vim.fn.cursor(result.position.line + 1, result.position.character + 1)
@@ -122,11 +127,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, method, para
     err, method, params, client_id, bufnr, vim.tbl_deep_extend("force", config or {}, { virtual_text = false })
   )
 end
-
-saga.init_lsp_saga({
-  use_saga_diagnostic_sign = false,
-  rename_prompt_prefix = ''
-})
 
 utils.keymap('n', '<leader>lr', '<cmd>lua require"lspsaga.rename".rename()<CR>', { noremap = false })
 utils.keymap('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = false })
