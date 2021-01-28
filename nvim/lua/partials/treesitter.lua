@@ -6,7 +6,7 @@ vim.cmd [[augroup vimrc_treesitter]]
 vim.cmd [[augroup END]]
 
 function _G.kris.treesitter.reset_on_focus()
-  if not vim.bo.modifiable or vim.bo.buftype == 'quickfix' then return end
+  if not vim.bo.modifiable or vim.bo.buftype == 'quickfix' or vim.fn.filereadable(vim.fn.expand('%')) == 0 then return end
   if vim.bo.modified then
     vim.cmd[[write]]
   end
