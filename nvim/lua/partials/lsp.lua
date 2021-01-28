@@ -125,6 +125,7 @@ end
 
 saga.init_lsp_saga({
   use_saga_diagnostic_sign = false,
+  rename_prompt_prefix = ''
 })
 
 utils.keymap('n', '<leader>lr', '<cmd>lua require"lspsaga.rename".rename()<CR>', { noremap = false })
