@@ -1,3 +1,18 @@
+_G.kris.treesitter = {}
+
+vim.cmd [[augroup vimrc_treesitter]]
+  vim.cmd [[autocmd!]]
+  vim.cmd [[autocmd FocusGained * ++nested call v:lua.kris.treesitter.reset_on_focus()]]
+vim.cmd [[augroup END]]
+
+function _G.kris.treesitter.reset_on_focus()
+  if not vim.bo.modifiable or vim.bo.buftype == 'quickfix' then return end
+  if vim.bo.modified then
+    vim.cmd[[write]]
+  end
+  vim.cmd[[edit]]
+end
+
 require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,

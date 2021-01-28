@@ -1,3 +1,4 @@
+_G.kris.lsp = {}
 local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
 local saga = require'lspsaga'
@@ -6,7 +7,6 @@ vim.cmd [[augroup vimrc_lsp]]
   vim.cmd [[autocmd!]]
   vim.cmd [[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()]]
   vim.cmd [[autocmd CursorHoldI * silent! lua require'lspsaga.signaturehelp'.signature_help()]]
-  vim.cmd [[autocmd FocusGained * ++nested if !&modified | :silent! e | endif]]
 vim.cmd [[augroup END]]
 
 nvim_lsp.diagnosticls.setup({
