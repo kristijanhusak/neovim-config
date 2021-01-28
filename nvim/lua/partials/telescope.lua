@@ -108,5 +108,3 @@ utils.keymap('n', '<Leader>g', "<cmd>lua require('telescope.builtin').git_status
 utils.keymap('n', '<Leader>lu', "<cmd>lua require('telescope.builtin').lsp_references()<cr>")
 utils.keymap('n', '<Leader>lT', "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>")
 utils.keymap('n', '<Leader>lt', "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>")
-utils.keymap('n', '<Leader>la', "<cmd>lua require('telescope.builtin').lsp_code_actions()<cr>")
-utils.keymap('v', '<Leader>la', ":<C-u>lua require('telescope.builtin').lsp_range_code_actions()<cr>")

@@ -1,7 +1,6 @@
 _G.kris.lsp = {}
 local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
-local saga = require'lspsaga'
 
 vim.cmd [[augroup vimrc_lsp]]
   vim.cmd [[autocmd!]]
@@ -98,7 +97,7 @@ nvim_lsp.sumneko_lua.setup {
   },
 }
 
-saga.init_lsp_saga({
+require'lspsaga'.init_lsp_saga({
   use_saga_diagnostic_sign = false,
   rename_prompt_prefix = ''
 })
@@ -106,7 +105,7 @@ saga.init_lsp_saga({
 vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
   if not result then return end
   vim.fn.cursor(result.position.line + 1, result.position.character + 1)
-  require"lspsaga.rename".rename()
+  vim.cmd [[:LspSagaRename]]
   return {}
 end
 
@@ -128,7 +127,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, method, para
   )
 end
 
-utils.keymap('n', '<leader>lr', '<cmd>lua require"lspsaga.rename".rename()<CR>', { noremap = false })
 utils.keymap('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lc', '<cmd>lua vim.lsp.buf.declaration()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lg', '<cmd>lua vim.lsp.buf.implementation()<CR>', { noremap = false })
@@ -138,9 +136,12 @@ utils.keymap('v', '<leader>lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()
 utils.keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', { noremap = false })
 utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', { noremap = false })
-utils.keymap('n', '[g', '<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_prev()<CR>')
-utils.keymap('n', ']g', '<cmd>lua require"lspsaga.diagnostic".lsp_jump_diagnostic_next()<CR>')
 utils.keymap('n', '<Leader>e', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', { noremap = false })
+utils.keymap('n', '<leader>lr', ':LspSagaRename<CR>', { noremap = false })
+utils.keymap('n', '[g', ':LspSagaDiagJumpPrev<CR>')
+utils.keymap('n', ']g', ':LspSagaDiagJumpNext<CR>')
+utils.keymap('n', '<Leader>la', ':LspSagaCodeAction<CR>')
+utils.keymap('v', '<Leader>la', ':LspSagaRangeCodeAction<CR>')
 
 vim.cmd[[sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=]]
 vim.cmd[[sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl=]]
