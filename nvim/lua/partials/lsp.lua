@@ -4,7 +4,7 @@ local utils = require'partials/utils'
 
 vim.cmd [[augroup vimrc_lsp]]
   vim.cmd [[autocmd!]]
-  vim.cmd [[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()]]
+  vim.cmd [[autocmd CursorHold * lua require'lspsaga.diagnostic'.show_line_diagnostics()]]
   vim.cmd [[autocmd CursorHoldI * silent! lua require'lspsaga.signaturehelp'.signature_help()]]
 vim.cmd [[augroup END]]
 
@@ -98,8 +98,11 @@ nvim_lsp.sumneko_lua.setup {
 }
 
 require'lspsaga'.init_lsp_saga({
-  use_saga_diagnostic_sign = false,
-  rename_prompt_prefix = ''
+  rename_prompt_prefix = '',
+  error_sign = '',
+  warn_sign = '',
+  hint_sign = '',
+  infor_sign = ''
 })
 
 vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
@@ -143,7 +146,3 @@ utils.keymap('n', ']g', ':LspSagaDiagJumpNext<CR>')
 utils.keymap('n', '<Leader>la', ':LspSagaCodeAction<CR>')
 utils.keymap('v', '<Leader>la', ':LspSagaRangeCodeAction<CR>')
 
-vim.cmd[[sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=]]
-vim.cmd[[sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl=]]
-vim.cmd[[sign define LspDiagnosticsSignInformation text= texthl=LspDiagnosticsSignInformation linehl= numhl=]]
-vim.cmd[[sign define LspDiagnosticsSignHint text= texthl=LspDiagnosticsSignHint linehl= numhl=]]
