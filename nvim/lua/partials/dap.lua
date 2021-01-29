@@ -9,6 +9,7 @@ utils.keymap('n', '<F1>', ':lua require"dap".toggle_breakpoint()<CR>')
 utils.keymap('n', '<F2>', ':lua require"dap".set_breakpoint(vim.fn.input("Breakpoint condition: "))<CR>')
 utils.keymap('n', '<F3>', ':lua require"dap".set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>')
 utils.keymap('n', '<F4>', ':lua require"dap.ui.variables".hover()<CR>')
+utils.keymap('n', '<F5>', ':lua require"dap".continue()<CR>')
 utils.keymap('n', '<F6>', ':lua require"dap".repl.toggle()<CR>')
 
 dap.adapters.node2 = {
