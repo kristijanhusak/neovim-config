@@ -15,8 +15,8 @@ utils.keymap('n', '<Leader>v', '<C-w>v')
 
 -- Move between slits
 utils.keymap('n', '<c-h>', '<C-w>h')
-utils.keymap('n', '<c-j>', 'skylight#float#has_scroll() ? skylight#float#scroll(1, 1) : "<C-w>j"', { expr = true })
-utils.keymap('n', '<c-k>', 'skylight#float#has_scroll() ? skylight#float#scroll(0, 1) : "<C-w>k"', { expr = true })
+utils.keymap('n', '<c-j>', '<C-w>j')
+utils.keymap('n', '<c-k>', '<C-w>k')
 utils.keymap('n', '<c-l>', '<C-w>l')
 utils.keymap('n', '<c-h>', '<C-\\><C-n><C-w>h')
 utils.keymap('n', '<c-l>', '<C-\\><C-n><C-w>l')

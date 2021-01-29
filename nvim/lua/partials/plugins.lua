@@ -45,7 +45,6 @@ require('packager').setup(function(packager)
  packager.add('unblevable/quick-scope')
  packager.add('hrsh7th/nvim-compe')
  packager.add('sainnhe/edge')
- packager.add('voldikss/vim-skylight')
  packager.add('git@github.com:kristijanhusak/line-notes.nvim')
  packager.add('mfussenegger/nvim-dap')
  packager.add('theHamsta/nvim-dap-virtual-text')
@@ -89,15 +88,6 @@ utils.keymap('n', '<Leader>G', ':vert G<CR>')
 
 utils.keymap('n', '<Leader>n', ':NvimTreeToggle<CR>')
 utils.keymap('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
-
-utils.keymap('n', '<Leader>y', '<cmd>lua kris.plugins.run_skylight()<CR>')
-
-function _G.kris.plugins.run_skylight()
-  if #vim.fn.taglist(vim.fn.expand('<cword>')) > 2 then
-    return vim.cmd[[Skylight]]
-  end
-  return vim.cmd[[Skylight!]]
-end
 
 -- Load .nvimrc manually until this PR is merged.
 -- https://github.com/neovim/neovim/pull/13503
@@ -163,8 +153,6 @@ vim.g.sql_type_default = 'pgsql'
 
 vim.g.qs_second_highlight = 0
 vim.g.qs_highlight_on_keys = {'f', 'F', 't', 'T'}
-
-vim.g.skylight_position = 'auto'
 
 vim.g.vsnip_filetypes = {
   typescript = {'javascript'}
