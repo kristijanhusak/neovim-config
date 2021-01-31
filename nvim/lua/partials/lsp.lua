@@ -4,7 +4,7 @@ local utils = require'partials/utils'
 
 vim.cmd [[augroup vimrc_lsp]]
   vim.cmd [[autocmd!]]
-  vim.cmd [[autocmd CursorHold * lua require'lspsaga.diagnostic'.show_line_diagnostics()]]
+  vim.cmd [[autocmd CursorHold * silent! lua require'lspsaga.diagnostic'.show_line_diagnostics()]]
   vim.cmd [[autocmd CursorHoldI * silent! lua require'lspsaga.signaturehelp'.signature_help()]]
 vim.cmd [[augroup END]]
 
