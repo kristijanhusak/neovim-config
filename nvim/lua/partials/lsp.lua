@@ -2,11 +2,17 @@ _G.kris.lsp = {}
 local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
 
+local filetypes = {'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'lua', 'go', 'vim', 'php', 'python'}
+
 vim.cmd [[augroup vimrc_lsp]]
   vim.cmd [[autocmd!]]
-  vim.cmd [[autocmd CursorHold * silent! lua require'lspsaga.diagnostic'.show_line_diagnostics()]]
-  vim.cmd [[autocmd CursorHoldI * silent! lua require'lspsaga.signaturehelp'.signature_help()]]
+  vim.cmd(string.format('autocmd FileType %s call v:lua.kris.lsp.setup()', table.concat(filetypes, ',')))
 vim.cmd [[augroup END]]
+
+function _G.kris.lsp.setup()
+  vim.cmd[[autocmd CursorHold <buffer> silent! lua require"lspsaga.diagnostic".show_line_diagnostics()]]
+  vim.cmd[[autocmd CursorHoldI <buffer> silent! lua require"lspsaga.signaturehelp".signature_help()]]
+end
 
 nvim_lsp.diagnosticls.setup({
   filetypes={
@@ -104,7 +110,6 @@ require'lspsaga'.init_lsp_saga({
   hint_sign = '',
   infor_sign = '',
   max_diag_msg_width = 80,
-  max_hover_width = 80,
 })
 
 vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
