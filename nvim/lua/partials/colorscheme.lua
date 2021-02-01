@@ -13,6 +13,11 @@ function _G.kris.colorscheme.setup_edge()
     hi ErrorText guibg=NONE
     hi HintText guibg=NONE
   ]]
+  if vim.o.background == 'light' then
+    vim.cmd[[hi DiffText guibg=#bdd4fc guifg=NONE]]
+  else
+    -- TODO
+  end
 end
 
 vim.o.termguicolors = true
