@@ -3,7 +3,8 @@ local utils = require'partials/utils'
 -- Comment map
 utils.keymap('n', '<Leader>c', 'gcc', { noremap = false })
 -- Line comment command
-utils.keymap('x', '<Leader>c', 'gc', { noremap = false })
+utils.keymap('x', '<Leader>c', '<Plug>kommentary_visual_singles<BAR><Esc>', { noremap = false })
+utils.keymap('x', '<Leader>C', 'gcc', { noremap = false })
 
 -- Map save to Ctrl + S
 utils.keymap('', '<c-s>', ':w<CR>', { noremap = false })
