@@ -115,7 +115,7 @@ require'lspsaga'.init_lsp_saga({
 vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
   if not result then return end
   vim.fn.cursor(result.position.line + 1, result.position.character + 1)
-  vim.cmd [[:LspSagaRename]]
+  vim.cmd [[:Lspsaga rename]]
   return {}
 end
 
@@ -147,9 +147,9 @@ utils.keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', { n
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', { noremap = false })
 utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', { noremap = false })
 utils.keymap('n', '<Leader>e', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', { noremap = false })
-utils.keymap('n', '<leader>lr', ':LspSagaRename<CR>', { noremap = false })
-utils.keymap('n', '[g', ':LspSagaDiagJumpPrev<CR>')
-utils.keymap('n', ']g', ':LspSagaDiagJumpNext<CR>')
-utils.keymap('n', '<Leader>la', ':LspSagaCodeAction<CR>')
-utils.keymap('v', '<Leader>la', ':LspSagaRangeCodeAction<CR>')
+utils.keymap('n', '<leader>lr', ':Lspsaga rename<CR>', { noremap = false })
+utils.keymap('n', '[g', ':LspSaga diagnostic_jump_prev<CR>')
+utils.keymap('n', ']g', ':Lspsaga diagnostic_jump_next<CR>')
+utils.keymap('n', '<Leader>la', ':Lspsaga code_action<CR>')
+utils.keymap('v', '<Leader>la', ':<C-U>Lspsaga range_code_action<CR>')
 
