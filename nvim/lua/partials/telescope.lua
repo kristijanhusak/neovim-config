@@ -47,7 +47,8 @@ local custom_actions = transform_mod({
 function _G.kris.telescope.oldfiles_buffers()
   local bufnrs = vim.tbl_filter(function(b)
     local bufnr = tonumber(b)
-    return vim.api.nvim_buf_is_loaded(bufnr) and 1 == vim.fn.buflisted(bufnr) and vim.fn.bufname(bufnr) ~= ''
+    local bufname = vim.fn.bufname(bufnr)
+    return vim.api.nvim_buf_is_loaded(bufnr) and 1 == vim.fn.buflisted(bufnr) and bufname ~= '' and vim.fn.isdirectory(bufname) ~= 1
   end, vim.tbl_keys(buffers))
 
   local bufs = vim.fn.sort(bufnrs, function(b1, b2)
