@@ -44,6 +44,7 @@ vim.o.expandtab = true
 vim.o.shiftwidth = 2
 vim.o.foldenable = false
 vim.o.foldmethod = 'syntax'
+vim.o.foldenable = false
 vim.o.diffopt=vim.o.diffopt..',vertical'
 vim.o.scrolloff = 8
 vim.o.sidescrolloff = 15
