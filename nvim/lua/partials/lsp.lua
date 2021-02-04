@@ -148,7 +148,7 @@ utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', { n
 utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', { noremap = false })
 utils.keymap('n', '<Leader>e', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lr', ':Lspsaga rename<CR>', { noremap = false })
-utils.keymap('n', '[g', ':LspSaga diagnostic_jump_prev<CR>')
+utils.keymap('n', '[g', ':Lspsaga diagnostic_jump_prev<CR>')
 utils.keymap('n', ']g', ':Lspsaga diagnostic_jump_next<CR>')
 utils.keymap('n', '<Leader>la', ':Lspsaga code_action<CR>')
 utils.keymap('v', '<Leader>la', ':<C-U>Lspsaga range_code_action<CR>')
