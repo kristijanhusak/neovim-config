@@ -108,6 +108,11 @@ require'gitsigns'.setup({
 
 require'line_notes'.setup()
 require'nvim-autopairs'.setup()
+require'kommentary.config'.configure_language('default', {
+  prefer_single_line_comments = true,
+  ignore_whitespace = true,
+  use_consistent_indentation = true,
+})
 
 vim.g.nvim_tree_bindings = {
   edit_vsplit = 's',
