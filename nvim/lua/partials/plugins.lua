@@ -46,9 +46,8 @@ require('packager').setup(function(packager)
  packager.add('hrsh7th/nvim-compe')
  packager.add('sainnhe/edge')
  packager.add('git@github.com:kristijanhusak/line-notes.nvim')
- packager.add('mfussenegger/nvim-dap')
- packager.add('theHamsta/nvim-dap-virtual-text')
  packager.add('glepnir/lspsaga.nvim')
+ packager.add('puremourning/vimspector')
 end)
 
 vim.g.mapleader = ','
