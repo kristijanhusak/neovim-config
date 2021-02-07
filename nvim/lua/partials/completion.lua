@@ -19,6 +19,7 @@ require'compe'.setup({
     nvim_lua = false,
     calc = true,
     treesitter = true,
+    ripgrep = true,
   }
 })
 
