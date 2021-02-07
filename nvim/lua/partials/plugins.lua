@@ -17,7 +17,6 @@ require('packager').setup(function(packager)
  packager.add('kristijanhusak/vim-dadbod')
  packager.add('kristijanhusak/vim-dadbod-completion', { requires = 'kristijanhusak/vim-dadbod' })
  packager.add('kristijanhusak/vim-dadbod-ui', { requires = 'kristijanhusak/vim-dadbod' })
- packager.add('lambdalisue/vim-backslash')
  packager.add('lambdalisue/reword.vim')
  packager.add('AndrewRadev/tagalong.vim')
  packager.add('AndrewRadev/splitjoin.vim')
@@ -147,8 +146,6 @@ vim.g.db_ui_show_help = 0
 vim.g.db_ui_win_position = 'right'
 vim.g.db_ui_use_nerd_fonts = 1
 vim.g.db_async = 1
-
-vim.g.js_file_import_use_fzf = 1
 
 vim.g.db_ui_save_location = '~/Dropbox/dbui'
 vim.g.db_ui_tmp_query_location = '~/code/queries'
