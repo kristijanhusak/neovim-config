@@ -16,7 +16,9 @@ require'compe'.setup({
     vsnip = true,
     nvim_lsp = true,
     vim_dadbod_completion = true,
-    nvim_lua = false
+    nvim_lua = false,
+    calc = true,
+    treesitter = true,
   }
 })
 
