@@ -4,7 +4,7 @@ local compe = require'compe'
 local jobs = {}
 local result = {}
 local notified_missing_executable = false
-local base_cmd = {'rg', '--trim', '--no-filename', '--vimgrep', '--no-line-number', '--no-column', '--no-heading', '--smart-case'}
+local base_cmd = {'rg', '--trim', '--vimgrep', '--no-line-number', '--no-column', '--smart-case'}
 
 local function handle(word)
   return function(_, data, event)
@@ -15,8 +15,13 @@ local function handle(word)
     if type(data) == 'table' and not vim.tbl_isempty(data) then
       for _, line in ipairs(data) do
         local m = line:match(word..'[A-Za-z0-9]*')
-        if m and m ~= '' and not result[m] then
-          result[m] = true
+        if m and m ~= '' then
+          local path = vim.split(line, ':')[1]
+          if not result[m] then
+            result[m] = {path}
+          elseif not vim.tbl_contains(result[m], path) then
+            table.insert(result[m], path)
+          end
         end
       end
     end
@@ -85,6 +90,20 @@ function Source.complete(self, context)
       incomplete = incomplete,
       items = items
   })
+end
+
+function Source.documentation(_, context)
+  local entry = result[context.completed_item.word]
+  if not entry then return end
+  local document = {}
+  for i, item in ipairs(entry) do
+    if i > 10 then
+      table.insert(document, ('...and %d more'):format(#entry - 10))
+      break
+    end
+    table.insert(document, item)
+  end
+  context.callback(document)
 end
 
 compe.register_source('ripgrep', Source)
