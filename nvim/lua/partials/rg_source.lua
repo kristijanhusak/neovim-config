@@ -76,7 +76,7 @@ function Source.determine(_, context)
 end
 
 function Source.complete(self, context)
-  if not self.has_executable or #context.input < 4 then return context.abort() end
+  if not self.has_executable or #context.input < 5 then return context.abort() end
 
   local incomplete = false
   if should_search(context.input) then
