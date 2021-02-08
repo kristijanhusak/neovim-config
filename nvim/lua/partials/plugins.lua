@@ -47,6 +47,7 @@ require('packager').setup(function(packager)
  packager.add('git@github.com:kristijanhusak/line-notes.nvim')
  packager.add('glepnir/lspsaga.nvim')
  packager.add('puremourning/vimspector')
+ packager.add('kosayoda/nvim-lightbulb')
 end)
 
 vim.g.mapleader = ','

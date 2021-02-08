@@ -1,6 +1,7 @@
 _G.kris.lsp = {}
 local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
+local lightbulb = require'nvim-lightbulb'
 
 local filetypes = {'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'lua', 'go', 'vim', 'php', 'python'}
 
@@ -12,6 +13,22 @@ vim.cmd [[augroup END]]
 function _G.kris.lsp.setup()
   vim.cmd[[autocmd CursorHold <buffer> silent! lua require"lspsaga.diagnostic".show_line_diagnostics()]]
   vim.cmd[[autocmd CursorHoldI <buffer> silent! lua require"lspsaga.signaturehelp".signature_help()]]
+  vim.cmd[[autocmd CursorHold,CursorHoldI * lua kris.lsp.show_bulb() ]]
+end
+
+function _G.kris.lsp.show_bulb()
+  return lightbulb.update_lightbulb({
+      sign = { enabled = false },
+      float = {
+        enabled = true,
+        text = '',
+        win_opts = {
+          offset_x = -(vim.fn.col('.') + 2),
+          offset_y = -1,
+          winblend = 99
+        },
+      },
+  });
 end
 
 nvim_lsp.diagnosticls.setup({
