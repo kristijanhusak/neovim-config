@@ -41,6 +41,8 @@ local function search_word(word)
 end
 
 local function should_search(word)
+  if #vim.fn.complete_info().items > 3 then return false end
+
   local searched = false
   for item, _ in pairs(result) do
     if item:find(word) then
@@ -76,18 +78,16 @@ function Source.determine(_, context)
 end
 
 function Source.complete(self, context)
-  if not self.has_executable or #context.input < 5 then return context.abort() end
+  if not self.has_executable or #context.input < 3 then return context.abort() end
 
-  local incomplete = false
   if should_search(context.input) then
-    incomplete = true
     vim.schedule_wrap(search_word(context.input))
   end
 
   local items = vim.tbl_map(function(item) return {word = item} end, vim.tbl_keys(result))
 
   context.callback({
-      incomplete = incomplete,
+      incomplete = true,
       items = items
   })
 end
