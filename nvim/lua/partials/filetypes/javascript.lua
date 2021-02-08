@@ -115,7 +115,7 @@ function _G.kris.javascript.setup()
   utils.buf_keymap(buf, 'n', '<Leader>d', '<Plug>(JsInjectDependency)', { noremap = false })
   utils.buf_keymap(buf, 'n', '<Leader>D', '<Plug>(JsGenerateDocblock)', { noremap = false })
   utils.buf_keymap(buf, 'n', 'gf', '<Plug>(JsGotoFile)', { noremap = false })
-  vim.o.isfname = vim.o.isfname..',@-@'
+  utils.opt('o', 'isfname', vim.o.isfname..',@-@')
 end
 
 vim.cmd [[augroup javascript]]

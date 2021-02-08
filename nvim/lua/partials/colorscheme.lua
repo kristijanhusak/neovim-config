@@ -1,4 +1,6 @@
 _G.kris.colorscheme = {}
+local opt = require'partials/utils'.opt
+
 vim.cmd [[augroup vimrc_colorscheme]]
   vim.cmd [[autocmd!]]
   vim.cmd [[autocmd BufEnter * :syntax sync fromstart]]
@@ -20,9 +22,9 @@ function _G.kris.colorscheme.setup_edge()
   end
 end
 
-vim.o.termguicolors = true
-vim.o.background = vim.env.NVIM_COLORSCHEME_BG or 'dark'
-vim.o.synmaxcol = 300
+opt('o', 'termguicolors', true)
+opt('o', 'background', vim.env.NVIM_COLORSCHEME_BG or 'dark')
+opt('o', 'synmaxcol', 300)
 
 vim.g.edge_sign_column_background = 'none'
 vim.cmd[[filetype plugin indent on]]

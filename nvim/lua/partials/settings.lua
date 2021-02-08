@@ -1,55 +1,56 @@
+local opt = require'partials/utils'.opt
 _G.kris.settings = {}
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_matchit = 1
 
-vim.o.title = true
-vim.wo.number = true
-vim.wo.relativenumber = true
-vim.o.showmode = false
-vim.o.gdefault = true
-vim.wo.cursorline = true
-vim.o.smartcase = true
-vim.o.ignorecase = true
-vim.o.mouse='a'
-vim.o.showmatch = true
-vim.o.startofline = false
-vim.o.timeoutlen= 1000
-vim.o.ttimeoutlen= 0
-vim.o.fileencoding= 'utf-8'
-vim.wo.wrap = false
-vim.wo.linebreak = true
-vim.o.listchars='tab:│ ,trail:·'
-vim.o.list = true
-vim.o.lazyredraw = true
-vim.o.hidden = true
-vim.o.conceallevel = 2
-vim.o.concealcursor = 'i'
-vim.o.splitright = true
-vim.o.splitbelow = true
-vim.o.inccommand='nosplit'
-vim.o.exrc = true
-vim.o.secure = true
-vim.o.grepprg = 'rg --smart-case --color=never --no-heading -H -n --column'
-vim.o.tagcase = 'smart'
-vim.o.updatetime= 300
-vim.o.shortmess=vim.o.shortmess..'c'
-vim.o.undofile = true
-vim.o.swapfile = false
-vim.o.backup = false
-vim.o.writebackup = false
-vim.o.fillchars='vert:│'
-vim.o.breakindent = true
-vim.o.smartindent = true
-vim.o.expandtab = true
-vim.o.shiftwidth = 2
-vim.o.foldmethod = 'syntax'
-vim.wo.foldenable = false
-vim.o.diffopt=vim.o.diffopt..',vertical'
-vim.o.scrolloff = 8
-vim.o.sidescrolloff = 15
-vim.o.sidescroll = 5
-vim.o.pyxversion = 3
-vim.o.matchtime = 0
+opt('o', 'title', true)
+opt('wo', 'number', true)
+opt('wo', 'relativenumber', true)
+opt('o', 'showmode', false)
+opt('o', 'gdefault', true)
+opt('wo', 'cursorline', true)
+opt('o', 'smartcase', true)
+opt('o', 'ignorecase', true)
+opt('o', 'mouse', 'a')
+opt('o', 'showmatch', true)
+opt('o', 'startofline', false)
+opt('o', 'timeoutlen', 1000)
+opt('o', 'ttimeoutlen', 0)
+opt('o', 'fileencoding', 'utf-8')
+opt('wo', 'wrap', false)
+opt('wo', 'linebreak', true)
+opt('o', 'listchars', 'tab:│ ,trail:·')
+opt('o', 'list', true)
+opt('o', 'lazyredraw', true)
+opt('o', 'hidden', true)
+opt('o', 'conceallevel', 2)
+opt('o', 'concealcursor', 'i')
+opt('o', 'splitright', true)
+opt('o', 'splitbelow', true)
+opt('o', 'inccommand', 'nosplit')
+opt('o', 'exrc', true)
+opt('o', 'secure', true)
+opt('o', 'grepprg', 'rg --smart-case --color=never --no-heading -H -n --column')
+opt('o', 'tagcase', 'smart')
+opt('o', 'updatetime', 300)
+opt('o', 'shortmess', vim.o.shortmess..'c')
+opt('o', 'undofile', true)
+opt('o', 'swapfile', false)
+opt('o', 'backup', false)
+opt('o', 'writebackup', false)
+opt('o', 'fillchars', 'vert:│')
+opt('o', 'breakindent', true)
+opt('o', 'smartindent', true)
+opt('o', 'expandtab', true)
+opt('o', 'shiftwidth', 2)
+opt('o', 'foldmethod', 'syntax')
+opt('wo', 'foldenable', false)
+opt('o', 'diffopt', vim.o.diffopt..',vertical')
+opt('o', 'scrolloff', 8)
+opt('o', 'sidescrolloff', 15)
+opt('o', 'sidescroll', 5)
+opt('o', 'pyxversion', 3)
+opt('o', 'matchtime', 0)
 vim.g.python3_host_prog = '/usr/bin/python3'
 
 vim.cmd[[augroup vimrc]]

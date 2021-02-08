@@ -1,7 +1,7 @@
 _G.kris.completion = {}
 local utils = require'partials/utils'
 local npairs = require'nvim-autopairs'
-vim.o.pumheight = 15
+utils.opt('o', 'pumheight' , 15)
 vim.cmd('set completeopt-=preview')
 
 require'compe'.setup({
@@ -101,4 +101,4 @@ local ignores = {
   'tmp/**',
 }
 
-vim.o.wildignore = table.concat(ignores, ',')
+utils.opt('o', 'wildignore', table.concat(ignores, ','))
