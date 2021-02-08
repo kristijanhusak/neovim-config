@@ -80,7 +80,9 @@ function _G.kris.javascript.generate_docblock()
     table.insert(content, string.format('%s * @param {%s} %s',indent, node_text, node_text))
   end
 
-  table.insert(content, string.format('%s * @returns {%s}', indent, is_async and 'Promise<any>' or 'any'))
+  if vim.fn.expand('<cword>') ~= 'constructor' then
+    table.insert(content, string.format('%s * @returns {%s}', indent, is_async and 'Promise<any>' or 'any'))
+  end
   table.insert(content, string.format('%s */', indent))
   fn.append(fn.line('.') - 1, content)
 end
