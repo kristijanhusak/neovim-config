@@ -12,7 +12,7 @@ vim.cmd [[augroup END]]
 
 function _G.kris.lsp.setup()
   vim.cmd[[autocmd CursorHold <buffer> silent! lua require"lspsaga.diagnostic".show_line_diagnostics()]]
-  vim.cmd[[autocmd CursorHoldI <buffer> silent! lua require"lspsaga.signaturehelp".signature_help()]]
+  vim.cmd[[autocmd CursorHoldI <buffer> silent! lua kris.lsp.signature_help()]]
   vim.cmd[[autocmd CursorHold,CursorHoldI * lua kris.lsp.show_bulb() ]]
 end
 
@@ -29,6 +29,31 @@ function _G.kris.lsp.show_bulb()
         },
       },
   });
+end
+
+local function do_tag_signature()
+  local content = {}
+  for _, item in ipairs(vim.fn.taglist('^'..vim.v.completed_item.word..'$')) do
+    if item.kind == 'm' then
+      table.insert(content, string.format('%s - %s', item.cmd:match('%([^%)]*%)'), vim.fn.fnamemodify(item.filename, ':t:r')))
+    end
+  end
+
+  if not vim.tbl_isempty(content) then
+    vim.lsp.util.open_floating_preview(content, 'markdown')
+    return true
+  end
+
+  return false
+end
+
+function _G.kris.lsp.signature_help()
+  local is_tag = type(vim.v.completed_item) == 'table' and vim.v.completed_item.menu == '[Tag]'
+  if is_tag then
+    local show_tag_signature = do_tag_signature()
+    if show_tag_signature then return end
+  end
+  return require('lspsaga.signaturehelp').signature_help()
 end
 
 nvim_lsp.diagnosticls.setup({
