@@ -4,44 +4,63 @@ local compe = require'compe'
 local jobs = {}
 local result = {}
 local notified_missing_executable = false
-local base_cmd = {'rg', '--trim', '--vimgrep', '--no-line-number', '--no-column', '--smart-case'}
+local base_args = {'--trim', '--vimgrep', '--no-line-number', '--no-column', '--smart-case'}
 
-local function handle(word)
-  return function(_, data, event)
-    if event == 'exit' then
-      jobs[word] = nil
-      return
-    end
-    if type(data) == 'table' and not vim.tbl_isempty(data) then
-      for _, line in ipairs(data) do
-        local m = line:match(word..'[A-Za-z0-9]*')
-        if m and m ~= '' then
-          local path = vim.split(line, ':')[1]
-          if not result[m] then
-            result[m] = {path}
-          elseif not vim.tbl_contains(result[m], path) then
-            table.insert(result[m], path)
-          end
-        end
+local function trigger_callback(context)
+  local items = vim.tbl_map(function(item) return {word = item} end, vim.tbl_keys(result))
+
+  context.callback({
+      incomplete = true,
+      items = items
+    })
+end
+
+local function cache(context, data)
+  local word = context.input
+  if not data then return end
+  for line in data:gmatch('[^\r\n]+') do
+    local m = line:match(word..'[A-Za-z0-9]*')
+    if m and m ~= '' then
+      local path = vim.split(line, ':')[1]
+      if not result[m] then
+        result[m] = {path}
+      elseif not vim.tbl_contains(result[m], path) then
+        table.insert(result[m], path)
       end
     end
   end
 end
 
-local function search_word(word)
+local function search_word(context)
+  local word = context.input
   if jobs[word] ~= nil or result[word] then return false end
-  local rg_cmd = {unpack(base_cmd)}
-  table.insert(rg_cmd, word)
-  jobs[word] = vim.fn.jobstart(rg_cmd, {
-    on_exit = handle(word),
-    on_stdout = handle(word),
-    on_stderr = handle(word),
-  })
-  return true
+  local rg_args = {unpack(base_args)}
+  table.insert(rg_args, word)
+  local stdout = vim.loop.new_pipe(false)
+  local stderr = vim.loop.new_pipe(false)
+  jobs[word] = true
+  local handle
+  handle = vim.loop.spawn('rg', { args = rg_args, stdio = { stdout, stderr } }, vim.schedule_wrap(function()
+    stdout:read_stop()
+    stderr:read_stop()
+    stdout:close()
+    stderr:close()
+    handle:close()
+    jobs[word] = nil
+    trigger_callback(context)
+  end))
+  vim.loop.read_start(stdout, function(err, data)
+    if err then return end
+    cache(context, data)
+  end)
+  vim.loop.read_start(stderr, function(err, data)
+    if err then return end
+    cache(context, data)
+  end)
 end
 
 local function should_search(word)
-  if #vim.fn.complete_info().items > 3 then return false end
+  if #vim.fn.complete_info().items > 5 then return false end
 
   local searched = false
   for item, _ in pairs(result) do
@@ -78,18 +97,13 @@ function Source.determine(_, context)
 end
 
 function Source.complete(self, context)
-  if not self.has_executable or #context.input < 3 then return context.abort() end
+  if not self.has_executable or #context.input < 5 then return context.abort() end
 
   if should_search(context.input) then
-    vim.schedule_wrap(search_word(context.input))
+    search_word(context)
   end
 
-  local items = vim.tbl_map(function(item) return {word = item} end, vim.tbl_keys(result))
-
-  context.callback({
-      incomplete = true,
-      items = items
-  })
+  trigger_callback(context)
 end
 
 function Source.documentation(_, context)
