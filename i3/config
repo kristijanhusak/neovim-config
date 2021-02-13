@@ -296,7 +296,6 @@ exec --no-startup-id clipit
 exec --no-startup-id dropbox
 exec --no-startup-id google-chrome-stable
 exec --no-startup-id i3-msg 'workspace 1; exec kitty'
-exec --no-startup-id teamviewer
 # exec --no-startup-id blueman-applet
 # exec_always --no-startup-id sbxkb
 # exec --no-startup-id start_conky_maia
