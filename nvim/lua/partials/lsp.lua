@@ -40,7 +40,9 @@ local function do_tag_signature()
   end
 
   if not vim.tbl_isempty(content) then
-    vim.lsp.util.open_floating_preview(content, 'markdown')
+    require'lspsaga.signaturehelp'.focusable_preview('tag_signature', function()
+      return content, vim.lsp.util.try_trim_markdown_code_blocks(content)
+    end)
     return true
   end
 
