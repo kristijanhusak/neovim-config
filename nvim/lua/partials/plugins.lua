@@ -44,7 +44,7 @@ require('packager').setup(function(packager)
  packager.add('unblevable/quick-scope')
  packager.add('hrsh7th/nvim-compe')
  packager.add('sainnhe/edge')
- packager.add('git@github.com:kristijanhusak/line-notes.nvim')
+ packager.add('kristijanhusak/line-notes.nvim')
  packager.add('glepnir/lspsaga.nvim')
  packager.add('puremourning/vimspector')
  packager.add('kosayoda/nvim-lightbulb')
@@ -105,7 +105,7 @@ require'gitsigns'.setup({
   },
 })
 
-require'line_notes'.setup()
+require'line-notes'.setup()
 require'nvim-autopairs'.setup()
 require'kommentary.config'.configure_language('default', {
   prefer_single_line_comments = true,
