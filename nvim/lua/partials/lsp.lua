@@ -153,7 +153,6 @@ require'lspsaga'.init_lsp_saga({
   warn_sign = '',
   hint_sign = '',
   infor_sign = '',
-  max_diag_msg_width = 80,
 })
 
 vim.lsp.handlers['_typescript.rename'] = function(_, _, result)

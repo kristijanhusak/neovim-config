@@ -129,6 +129,7 @@ vim.g.nvim_tree_size = 40
 vim.g.nvim_tree_git_hl = 1
 vim.g.nvim_tree_hide_dotfiles = 1
 vim.g.nvim_tree_width_allow_resize = true
+vim.g.nvim_tree_disable_netrw = 0
 
 vim.g.jsx_ext_required = 1
 vim.g.javascript_plugin_jsdoc = 1

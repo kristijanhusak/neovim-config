@@ -73,8 +73,6 @@ utils.keymap('n', '<Leader>]', '<C-W>v<C-]>')
 -- Close all other buffers except current one
 utils.keymap('n', '<Leader>db', ':silent w <BAR> :silent %bd <BAR> e#<CR>')
 
-utils.keymap('n', 'gx', ':call v:lua.kris.mappings.open_url()<CR>')
-
 -- Unimpaired mappings
 utils.keymap('n', '[q', ':cprevious<CR>')
 utils.keymap('n', ']q', ':cnext<CR>')
@@ -192,13 +190,6 @@ function _G.kris.mappings.paste_to_json_buffer()
   vim.bo.filetype = 'json'
   vim.cmd [[norm!"+p]]
   vim.cmd [[norm!gg=G]]
-end
-
-function _G.kris.mappings.open_url()
-    vim.cmd [[unlet! g:loaded_netrw]]
-    vim.cmd [[unlet! g:loaded_netrwPlugin]]
-    vim.cmd [[runtime! plugin/netrwPlugin.vim]]
-    return vim.fn['netrw#BrowseX'](vim.fn.expand('<cfile>'), vim.fn['netrw#CheckIfRemote']())
 end
 
 local terminal_bufnr = 0

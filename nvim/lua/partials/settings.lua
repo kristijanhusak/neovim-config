@@ -1,7 +1,5 @@
 local opt = require'partials/utils'.opt
 _G.kris.settings = {}
-vim.g.loaded_netrwPlugin = 1
-vim.g.loaded_matchit = 1
 
 opt('o', 'title', true)
 opt('wo', 'number', true)
