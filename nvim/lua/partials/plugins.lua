@@ -105,7 +105,9 @@ require'gitsigns'.setup({
   },
 })
 
-require'line-notes'.setup()
+require'line-notes'.setup({
+  path = vim.fn.expand('~/Dropbox/line-notes.json')
+})
 require'nvim-autopairs'.setup()
 require'kommentary.config'.configure_language('default', {
   prefer_single_line_comments = true,
