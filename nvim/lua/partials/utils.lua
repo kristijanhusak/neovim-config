@@ -31,4 +31,20 @@ function M.opt(scope, key, value)
   end
 end
 
+local patterns = {
+  '//.*$',
+  '%s*[%[%(%{]*%s*$',
+  '%(.*%)',
+  '%s*=>%s*$',
+  '^async%s*',
+  '^static%s*',
+  '^function%s*',
+  '^class%s*',
+  '%s*extends.*$'
+  }
+function M.cleanup_ts_node(line)
+  for _, p in ipairs(patterns) do line = line:gsub(p, '') end
+  return line
+end
+
 return M

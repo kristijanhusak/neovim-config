@@ -1,5 +1,6 @@
 local fn = vim.fn
 _G.kris.javascript = {}
+local treesitter = require'nvim-treesitter'
 local utils = require'partials/utils'
 local ts_utils = require'nvim-treesitter/ts_utils'
 
@@ -14,7 +15,13 @@ function _G.kris.javascript.console_log()
     local _, _, end_line, _ = ts_utils.get_node_range(node)
     fn.cursor(end_line + 1, 0)
   end
-  vim.cmd(string.format("keepjumps norm!oconsole.log('%s', %s); // eslint-disable-line no-console", word, word))
+  local scope = treesitter.statusline({
+    indicator_size = 300,
+    transform_fn = utils.cleanup_ts_node,
+    separator = '->'
+  }) or ''
+  scope = scope ~= '' and scope..'->' or ''
+  vim.cmd(string.format("keepjumps norm!oconsole.log('%s', %s); // eslint-disable-line no-console", scope..word, word))
   fn['repeat#set'](utils.esc('<Plug>(JsConsoleLog)'))
   fn.winrestview(view)
 end

@@ -1,5 +1,6 @@
 _G.kris.statusline = {}
 local treesitter = require'nvim-treesitter'
+local utils = require'partials/utils'
 vim.cmd[[augroup custom_statusline]]
   vim.cmd [[autocmd!]]
   vim.cmd [[autocmd BufEnter,WinEnter * setlocal statusline=%!v:lua.kris.statusline.setup()]]
@@ -132,23 +133,10 @@ local function get_path()
   return vim.fn.pathshorten(path)
 end
 
-local patterns = {
-  '//.*$',
-  '%s*[%[%(%{]*%s*$',
-  '%(.*%)',
-  '%s*=>%s*$',
-  '^async%s*',
-  '^static%s*',
-  '^function%s*'
-}
-
 local function ts_statusline()
   return treesitter.statusline({
       indicator_size = 80,
-      transform_fn = function(line)
-        for _, p in ipairs(patterns) do line = line:gsub(p, '') end
-        return line
-      end
+      transform_fn = utils.cleanup_ts_node
     }) or ''
 end
 
