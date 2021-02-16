@@ -6,7 +6,6 @@ vim.cmd [[packadd vim-packager]]
 require('packager').setup(function(packager)
  packager.add('kristijanhusak/vim-packager', { type = 'opt' })
  packager.add('kristijanhusak/vim-js-file-import', { ['do'] = 'npm install', type = 'opt' })
- packager.add('fatih/vim-go', { ['do'] = ':GoInstallBinaries', type = 'opt' })
  packager.add('vimwiki/vimwiki', { type = 'opt' })
  packager.add('b3nj5m1n/kommentary')
  packager.add('tpope/vim-surround')
@@ -55,7 +54,6 @@ vim.g.mapleader = ','
 vim.cmd[[augroup packager_filetype]]
   vim.cmd[[autocmd!]]
   vim.cmd[[autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import]]
-  vim.cmd[[autocmd FileType go packadd vim-go]]
   vim.cmd[[autocmd FileType NvimTree call v:lua.kris.plugins.setup_nvimtree() ]]
   vim.cmd[[autocmd VimEnter * call v:lua.kris.plugins.handle_vimenter() ]]
 vim.cmd[[augroup END]]
