@@ -31,9 +31,9 @@ function _G.kris.lsp.show_bulb()
   });
 end
 
-local function do_tag_signature()
+function _G.kris.lsp.tag_signature(word)
   local content = {}
-  for _, item in ipairs(vim.fn.taglist('^'..vim.v.completed_item.word..'$')) do
+  for _, item in ipairs(vim.fn.taglist('^'..word..'$')) do
     if item.kind == 'm' then
       table.insert(content, string.format('%s - %s', item.cmd:match('%([^%)]*%)'), vim.fn.fnamemodify(item.filename, ':t:r')))
     end
@@ -52,7 +52,7 @@ end
 function _G.kris.lsp.signature_help()
   local is_tag = type(vim.v.completed_item) == 'table' and vim.v.completed_item.menu == '[Tag]'
   if is_tag then
-    local show_tag_signature = do_tag_signature()
+    local show_tag_signature = _G.kris.lsp.tag_signature(vim.v.completed_item.word)
     if show_tag_signature then return end
   end
   return require('lspsaga.signaturehelp').signature_help()
@@ -184,6 +184,7 @@ utils.keymap('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<CR>', { norem
 utils.keymap('n', '<leader>lc', '<cmd>lua vim.lsp.buf.declaration()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lg', '<cmd>lua vim.lsp.buf.implementation()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lh', ':Lspsaga hover_doc<CR>', { noremap = false })
+utils.keymap('n', '<leader>lH', '<cmd>lua kris.lsp.tag_signature(vim.fn.expand("<cword>"))<CR>')
 utils.keymap('n', '<leader>lp', ':Lspsaga preview_definition<CR>', { noremap = false })
 utils.keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', { noremap = false })
 utils.keymap('v', '<leader>lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>', { noremap = false })
