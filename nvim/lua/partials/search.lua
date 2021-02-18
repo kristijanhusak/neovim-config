@@ -49,8 +49,8 @@ function search.toggle_search_mode()
 end
 
 
-function search.run(search, is_visual)
-  local term = search
+function search.run(search_term, is_visual)
+  local term = search_term
   if is_visual then
     term = get_visual_selection()
   end
