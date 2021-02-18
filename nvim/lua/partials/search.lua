@@ -1,4 +1,4 @@
-_G.kris.search = {}
+local search = {}
 local utils = require'partials/utils'
 local is_toggle = false
 local mode = 'term'
@@ -41,7 +41,7 @@ local function msg(txt)
   return vim.api.nvim_out_write(txt..'\n')
 end
 
-function _G.kris.search.toggle_search_mode()
+function search.toggle_search_mode()
   is_toggle = true
   mode = mode == 'regex' and 'term' or 'regex'
 
@@ -49,7 +49,7 @@ function _G.kris.search.toggle_search_mode()
 end
 
 
-function _G.kris.search.run(search, is_visual)
+function search.run(search, is_visual)
   local term = search
   if is_visual then
     term = get_visual_selection()
@@ -63,7 +63,7 @@ function _G.kris.search.run(search, is_visual)
 
   if is_toggle then
     is_toggle = false
-    return _G.kris.search.run(term)
+    return search.run(term)
   end
 
   cleanup('no_reset_mode')
@@ -109,6 +109,8 @@ function _G.kris.search.run(search, is_visual)
   return cleanup()
 end
 
-function _G.kris.search.do_search()
+function search.do_search()
   return vim.fn.systemlist(last_search)
 end
+
+_G.kris.search = search

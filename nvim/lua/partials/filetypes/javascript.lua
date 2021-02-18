@@ -1,10 +1,10 @@
+local javascript = {}
 local fn = vim.fn
-_G.kris.javascript = {}
 local treesitter = require'nvim-treesitter'
 local utils = require'partials/utils'
 local ts_utils = require'nvim-treesitter/ts_utils'
 
-function _G.kris.javascript.console_log()
+function javascript.console_log()
   local view = fn.winsaveview()
   local word = fn.expand('<cword>')
   local node = ts_utils.get_node_at_cursor()
@@ -26,7 +26,7 @@ function _G.kris.javascript.console_log()
   fn.winrestview(view)
 end
 
-function _G.kris.javascript.inject_dependency()
+function javascript.inject_dependency()
   local view = fn.winsaveview()
   local word = fn.expand('<cword>')
   vim.api.nvim_exec([[let g:js_inject_dependency_old_reg = getreg('@z')]], false)
@@ -67,7 +67,7 @@ function _G.kris.javascript.inject_dependency()
   fn['repeat#set'](utils.esc('<Plug>(JsInjectDependency)'))
 end
 
-function _G.kris.javascript.generate_docblock()
+function javascript.generate_docblock()
   local node = ts_utils.get_node_at_cursor()
   if not node then return end
   while node and node:type() ~= 'formal_parameters' do
@@ -93,7 +93,7 @@ function _G.kris.javascript.generate_docblock()
   fn.append(fn.line('.') - 1, content)
 end
 
-function _G.kris.javascript.goto_file()
+function javascript.goto_file()
   local full_path = fn.printf('%s/%s', fn.expand('%:p:h'), fn.expand('<cfile>'))
   local stats = vim.loop.fs_stat(full_path)
   if not stats or stats.type ~= 'directory' then
@@ -113,7 +113,7 @@ vim.cmd [[nnoremap <nowait><silent><Plug>(JsInjectDependency) :<C-u>call v:lua.k
 vim.cmd [[nnoremap <nowait><silent><Plug>(JsGenerateDocblock) :<C-u>call v:lua.kris.javascript.generate_docblock()<CR>]]
 vim.cmd [[nnoremap <nowait><Plug>(JsGotoFile) :<C-u>call v:lua.kris.javascript.goto_file()<CR>]]
 
-function _G.kris.javascript.setup()
+function javascript.setup()
   local buf = vim.api.nvim_get_current_buf()
   utils.buf_keymap(buf, 'n', '<C-]>', '<Plug>(JsGotoDefinition)', { noremap = false })
   utils.buf_keymap(buf, 'x', '<C-]>', '<Plug>(JsGotoDefinition)', { noremap = false })
@@ -131,3 +131,4 @@ vim.cmd [[augroup javascript]]
   vim.cmd [[autocmd FileType javascript,javascriptreact,typescript,typescriptreact call v:lua.kris.javascript.setup()]]
 vim.cmd [[augroup END]]
 
+_G.kris.javascript = javascript

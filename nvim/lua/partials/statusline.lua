@@ -1,4 +1,4 @@
-_G.kris.statusline = {}
+local statusline = {}
 local treesitter = require'nvim-treesitter'
 local utils = require'partials/utils'
 vim.cmd[[augroup custom_statusline]]
@@ -10,7 +10,7 @@ vim.cmd [[augroup END]]
 
 local c = {}
 
-function _G.kris.statusline.set_colors()
+function statusline.set_colors()
   c.normal_bg = vim.fn.synIDattr(vim.fn.hlID('Normal'), 'bg')
   c.normal_fg = vim.fn.synIDattr(vim.fn.hlID('Normal'), 'fg')
   c.statusline_bg = vim.fn.synIDattr(vim.fn.hlID('Statusline'), 'bg')
@@ -149,7 +149,7 @@ local function lsp_status(type)
   return ''
 end
 
-function _G.kris.statusline.setup()
+function statusline.setup()
   local mode = mode_statusline()
   local git_status = git_statusline()
   local ts_status = ts_statusline()
@@ -181,3 +181,5 @@ function _G.kris.statusline.setup()
 
   return table.concat(statusline, '')
 end
+
+_G.kris.statusline = statusline

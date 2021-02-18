@@ -1,4 +1,4 @@
-_G.kris.plugins = {}
+local plugins = {}
 local api = vim.api
 local utils = require'partials/utils'
 vim.cmd [[packadd vim-packager]]
@@ -58,7 +58,7 @@ vim.cmd[[augroup packager_filetype]]
   vim.cmd[[autocmd VimEnter * call v:lua.kris.plugins.handle_vimenter() ]]
 vim.cmd[[augroup END]]
 
-function _G.kris.plugins.setup_nvimtree()
+function plugins.setup_nvimtree()
   local buf = api.nvim_get_current_buf()
   utils.buf_keymap(buf, 'n', 'j', 'line(".") == line("$") ? "gg" : "j"', { expr = true })
   utils.buf_keymap(buf, 'n', 'k', 'line(".") == 1 ? "G" : "k"', { expr = true })
@@ -67,7 +67,7 @@ function _G.kris.plugins.setup_nvimtree()
   api.nvim_feedkeys(api.nvim_replace_termcodes('<C-w>w', true, false, true), 'n', true)
 end
 
-function _G.kris.plugins.handle_vimenter()
+function plugins.handle_vimenter()
   vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h')..'/snippets'
 end
 
@@ -160,3 +160,5 @@ vim.g.qs_highlight_on_keys = {'f', 'F', 't', 'T'}
 vim.g.vsnip_filetypes = {
   typescript = {'javascript'}
 }
+
+_G.kris.plugins = plugins

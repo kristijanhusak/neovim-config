@@ -1,6 +1,5 @@
-_G.kris.telescope = {}
+local telescope = {}
 local utils = require('partials/utils')
-local telescope = require('telescope')
 local builtin = require('telescope.builtin')
 local actions = require('telescope.actions')
 local sorters = require('telescope.sorters')
@@ -16,12 +15,12 @@ vim.cmd[[augroup telescope_buffers]]
 vim.cmd[[augroup END]]
 
 local buffers = {}
-function _G.kris.telescope.save_buf(bufnr)
+function telescope.save_buf(bufnr)
   buffers[tostring(bufnr)] = vim.fn.reltimefloat(vim.fn.reltime())
   return buffers
 end
 
-function _G.kris.telescope.remove_buf(bufnr)
+function telescope.remove_buf(bufnr)
   buffers[tostring(bufnr)] = nil
   return buffers
 end
@@ -44,7 +43,7 @@ local custom_actions = transform_mod({
 })
 
 
-function _G.kris.telescope.oldfiles_buffers()
+function telescope.oldfiles_buffers()
   local bufnrs = vim.tbl_filter(function(b)
     local bufnr = tonumber(b)
     local bufname = vim.fn.bufname(bufnr)
@@ -83,7 +82,7 @@ function _G.kris.telescope.oldfiles_buffers()
   }):find()
 end
 
-telescope.setup({
+require'telescope'.setup({
   defaults = {
     prompt_position = 'top',
     sorting_strategy = 'ascending',
@@ -112,3 +111,5 @@ utils.keymap('n', '<Leader>g', "<cmd>lua require('telescope.builtin').git_status
 utils.keymap('n', '<Leader>lu', "<cmd>lua require('telescope.builtin').lsp_references()<cr>")
 utils.keymap('n', '<Leader>lT', "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>")
 utils.keymap('n', '<Leader>lt', "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>")
+
+_G.kris.telescope = telescope

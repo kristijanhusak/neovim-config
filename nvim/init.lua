@@ -1,9 +1,9 @@
 _G.kris = {}
+require'partials/abbreviations'
 require'partials/plugins'
 require'partials/treesitter'
 require'partials/lsp'
 require'partials/completion'
-require'partials/abbreviations'
 require'partials/telescope'
 require'partials/settings'
 require'partials/colorscheme'

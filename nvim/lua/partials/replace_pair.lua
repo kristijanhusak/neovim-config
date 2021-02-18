@@ -1,4 +1,4 @@
-_G.kris.replace_pair = {}
+local replace_pair = {}
 local fn = vim.fn
 local utils = require'partials/utils'
 local chars = {
@@ -12,7 +12,7 @@ local chars = {
 
 utils.keymap('n', 'R', ':call v:lua.kris.replace_pair.run()<CR>')
 
-function _G.kris.replace_pair.run()
+function replace_pair.run()
   if vim.wo.diff then
     return vim.cmd[[diffupdate]]
   end
@@ -38,3 +38,5 @@ function _G.kris.replace_pair.run()
 
   return fn.feedkeys('R', 'n')
 end
+
+_G.kris.replace_pair = replace_pair

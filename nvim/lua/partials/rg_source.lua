@@ -1,4 +1,3 @@
-_G.kris.rg = {}
 local compe = require'compe'
 
 local jobs = {}

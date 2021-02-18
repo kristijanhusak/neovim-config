@@ -1,4 +1,4 @@
-_G.kris.completion = {}
+local completion = {}
 local utils = require'partials/utils'
 local npairs = require'nvim-autopairs'
 utils.opt('o', 'pumheight' , 15)
@@ -28,7 +28,7 @@ local function check_back_space()
   return col <= 0 or vim.fn.getline('.'):sub(col, col):match('%s')
 end
 
-function _G.kris.completion.tab_completion()
+function completion.tab_completion()
   if vim.fn['vsnip#jumpable'](1) > 0 then
     return utils.esc('<Plug>(vsnip-jump-next)')
   end
@@ -65,7 +65,7 @@ utils.keymap('s', '<S-TAB>', 'vsnip#available(-1)  ? "<Plug>(vsnip-jump-prev)" :
   noremap = false
 })
 
-function _G.kris.completion.handle_cr()
+function completion.handle_cr()
   if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info()['selected'] ~= -1 then
     return vim.fn['compe#confirm']('<CR>')
   end
@@ -102,3 +102,5 @@ local ignores = {
 }
 
 utils.opt('o', 'wildignore', table.concat(ignores, ','))
+
+_G.kris.completion = completion

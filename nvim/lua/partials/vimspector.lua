@@ -1,4 +1,3 @@
-_G.kris.vimspector = {}
 local utils = require'partials/utils'
 
 utils.keymap('n', '<F1>', '<Plug>VimspectorToggleBreakpoint', { noremap = false })

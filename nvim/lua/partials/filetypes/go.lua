@@ -1,4 +1,4 @@
-_G.kris.go = {}
+local go = {}
 local utils = require'partials/utils'
 vim.cmd [[augroup vimrc_go]]
   vim.cmd [[autocmd!]]
@@ -8,13 +8,13 @@ vim.cmd [[augroup END]]
 
 vim.cmd[[command! GoAddTags lua kris.go.add_tags()]]
 
-function _G.kris.go.setup()
+function go.setup()
   vim.bo.expandtab = false
   vim.bo.tabstop = 4
   utils.buf_keymap(0, 'n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = false })
 end
 
-function _G.kris.go.add_tags()
+function go.add_tags()
   local struct = vim.fn.expand('<cword>')
   local file = vim.fn.expand('%:p')
   local view = vim.fn.winsaveview()
@@ -23,7 +23,7 @@ function _G.kris.go.add_tags()
   vim.fn.winrestview(view)
 end
 
-function _G.kris.go.format()
+function go.format()
   vim.lsp.buf.formatting_sync()
   local params = vim.lsp.util.make_range_params()
   params.context  = { source = { organizeImports = true } }
@@ -33,3 +33,5 @@ function _G.kris.go.format()
   if not result then return end
   vim.lsp.util.apply_workspace_edit(result[1].edit)
 end
+
+_G.kris.go = go

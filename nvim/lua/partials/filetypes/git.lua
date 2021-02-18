@@ -1,4 +1,4 @@
-_G.kris.git = {}
+local git = {}
 local utils = require'partials/utils'
 
 vim.cmd [[augroup gitcommit]]
@@ -18,16 +18,16 @@ local function add_mappings()
   vim.cmd [[wincmd p]]
 end
 
-function _G.kris.git.view_git_history()
+function git.view_git_history()
   vim.cmd [[only]]
   vim.cmd [[Git difftool --name-only ! !^@]]
-  _G.kris.git.diff_current_quickfix_entry()
+  git.diff_current_quickfix_entry()
   vim.cmd [[copen]]
   utils.buf_keymap(vim.api.nvim_get_current_buf(), 'n', '<CR>', '<CR><BAR>:call v:lua.kris.git.diff_current_quickfix_entry()<CR>')
   vim.cmd [[wincmd p]]
 end
 
-function _G.kris.git.diff_current_quickfix_entry()
+function git.diff_current_quickfix_entry()
   local win = vim.fn.winnr()
   for _, window in ipairs(vim.fn.getwininfo()) do
     if window.winnr ~= win and vim.fn.bufname(window.bufnr):match('^fugitive:') then
@@ -47,7 +47,7 @@ function _G.kris.git.diff_current_quickfix_entry()
   end
 end
 
-function _G.kris.git.add_commit_prefix_from_branch()
+function git.add_commit_prefix_from_branch()
   if vim.bo.filetype ~= 'gitcommit' then return end
 
   if vim.fn.expand('%') == '.git/COMMIT_EDITMSG' and vim.fn.getline(1) == '' then
@@ -59,3 +59,5 @@ function _G.kris.git.add_commit_prefix_from_branch()
     end
   end
 end
+
+_G.kris.git = git

@@ -1,4 +1,4 @@
-_G.kris.lsp = {}
+local lsp = {}
 local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
 local lightbulb = require'nvim-lightbulb'
@@ -10,13 +10,13 @@ vim.cmd [[augroup vimrc_lsp]]
   vim.cmd(string.format('autocmd FileType %s call v:lua.kris.lsp.setup()', table.concat(filetypes, ',')))
 vim.cmd [[augroup END]]
 
-function _G.kris.lsp.setup()
+function lsp.setup()
   vim.cmd[[autocmd CursorHold <buffer> silent! lua require"lspsaga.diagnostic".show_line_diagnostics()]]
   vim.cmd[[autocmd CursorHoldI <buffer> silent! lua kris.lsp.signature_help()]]
   vim.cmd[[autocmd CursorHold,CursorHoldI * lua kris.lsp.show_bulb() ]]
 end
 
-function _G.kris.lsp.show_bulb()
+function lsp.show_bulb()
   return lightbulb.update_lightbulb({
       sign = { enabled = false },
       float = {
@@ -31,7 +31,7 @@ function _G.kris.lsp.show_bulb()
   });
 end
 
-function _G.kris.lsp.tag_signature(word)
+function lsp.tag_signature(word)
   local content = {}
   for _, item in ipairs(vim.fn.taglist('^'..word..'$')) do
     if item.kind == 'm' then
@@ -40,6 +40,7 @@ function _G.kris.lsp.tag_signature(word)
   end
 
   if not vim.tbl_isempty(content) then
+    table.insert(content, 1, 'Tag signature')
     require'lspsaga.signaturehelp'.focusable_preview('tag_signature', function()
       return content, vim.lsp.util.try_trim_markdown_code_blocks(content)
     end)
@@ -49,10 +50,10 @@ function _G.kris.lsp.tag_signature(word)
   return false
 end
 
-function _G.kris.lsp.signature_help()
+function lsp.signature_help()
   local is_tag = type(vim.v.completed_item) == 'table' and vim.v.completed_item.menu == '[Tag]'
   if is_tag then
-    local show_tag_signature = _G.kris.lsp.tag_signature(vim.v.completed_item.word)
+    local show_tag_signature = lsp.tag_signature(vim.v.completed_item.word)
     if show_tag_signature then return end
   end
   return require('lspsaga.signaturehelp').signature_help()
@@ -198,3 +199,4 @@ utils.keymap('n', ']g', ':Lspsaga diagnostic_jump_next<CR>')
 utils.keymap('n', '<Leader>la', ':Lspsaga code_action<CR>')
 utils.keymap('v', '<Leader>la', ':<C-U>Lspsaga range_code_action<CR>')
 
+_G.kris.lsp = lsp

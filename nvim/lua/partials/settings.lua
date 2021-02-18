@@ -1,5 +1,5 @@
+local settings = {}
 local opt = require'partials/utils'.opt
-_G.kris.settings = {}
 
 opt('o', 'title', true)
 opt('wo', 'number', true)
@@ -69,7 +69,7 @@ vim.cmd[[augroup numbertoggle]]
   vim.cmd [[autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif]]
 vim.cmd[[augroup END]]
 
-function _G.kris.settings.strip_trailing_whitespace()
+function settings.strip_trailing_whitespace()
   if vim.bo.modifiable then
     local line = vim.fn.line('.')
     local col = vim.fn.col('.')
@@ -92,3 +92,5 @@ while true do
 end
 
 vim.o.path = vim.o.path..','..table.concat(paths, ',')
+
+_G.kris.settings = settings

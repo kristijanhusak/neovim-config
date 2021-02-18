@@ -1,4 +1,4 @@
-_G.kris.mappings = {}
+local mappings = {}
 local utils = require'partials/utils'
 -- Comment map
 utils.keymap('n', '<Leader>c', 'gcc', { noremap = false })
@@ -107,7 +107,7 @@ for _, char in ipairs({'_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '
   utils.keymap('o', 'a'..char, ':normal va'..char..'<CR>')
 end
 
-function _G.kris.mappings.close_buffer(bang)
+function mappings.close_buffer(bang)
   if vim.bo.buftype ~= '' then
     return vim.cmd('q!')
   end
@@ -149,7 +149,7 @@ local function open_file_on_line_and_column()
   vim.fn.cursor(row, col)
 end
 
-function _G.kris.mappings.open_file_or_create_new()
+function mappings.open_file_or_create_new()
   local path = vim.fn.expand('<cfile>')
   if not path or path == '' then
     return false
@@ -184,7 +184,7 @@ end
 
 vim.cmd [[command! Json call v:lua.kris.mappings.paste_to_json_buffer()]]
 
-function _G.kris.mappings.paste_to_json_buffer()
+function mappings.paste_to_json_buffer()
   vim.cmd [[vsplit]]
   vim.cmd [[enew]]
   vim.bo.filetype = 'json'
@@ -193,7 +193,7 @@ function _G.kris.mappings.paste_to_json_buffer()
 end
 
 local terminal_bufnr = 0
-function _G.kris.mappings.toggle_terminal(close)
+function mappings.toggle_terminal(close)
   if close then
     terminal_bufnr = 0
     return
@@ -215,3 +215,5 @@ function _G.kris.mappings.toggle_terminal(close)
 
   vim.cmd('sp | b'..terminal_bufnr..' | startinsert')
 end
+
+_G.kris.mappings = mappings
