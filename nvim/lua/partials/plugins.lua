@@ -161,4 +161,6 @@ vim.g.vsnip_filetypes = {
   typescript = {'javascript'}
 }
 
+vim.g.js_file_import_use_telescope = 1
+
 _G.kris.plugins = plugins
