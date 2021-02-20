@@ -46,6 +46,7 @@ require('packager').setup(function(packager)
  packager.add('glepnir/lspsaga.nvim')
  packager.add('puremourning/vimspector')
  packager.add('kosayoda/nvim-lightbulb')
+ packager.add('phaazon/hop.nvim')
 end)
 
 vim.g.mapleader = ','
@@ -111,6 +112,8 @@ require'kommentary.config'.configure_language('default', {
   ignore_whitespace = true,
   use_consistent_indentation = true,
 })
+
+utils.keymap('n', '<Space>', ':HopWord<CR>')
 
 vim.g.nvim_tree_bindings = {
   edit_vsplit = 's',
