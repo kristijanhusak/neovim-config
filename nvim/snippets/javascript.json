@@ -57,5 +57,14 @@
       "console.log(JSON.stringify($0, null, 2));"
     ],
     "description": "Console log whole object"
+  },
+  "docblock": {
+    "prefix": ["/**"],
+    "body": [
+      "/**",
+      " * $0",
+      " */"
+    ]
   }
+
 }
