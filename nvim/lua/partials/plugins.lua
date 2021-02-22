@@ -113,6 +113,7 @@ require'kommentary.config'.configure_language('default', {
   ignore_whitespace = true,
   use_consistent_indentation = true,
 })
+require'hop'.setup({})
 
 utils.keymap('n', '<Space>', ':HopWord<CR>')
 
