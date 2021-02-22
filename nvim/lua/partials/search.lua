@@ -7,6 +7,7 @@ local last_search = ''
 vim.cmd [[augroup init_vim_search]]
   vim.cmd [[autocmd!]]
   vim.cmd [[autocmd FileType qf nnoremap <silent><buffer><Leader>r :cgetexpr v:lua.kris.search.do_search()<CR>]]
+  vim.cmd [[autocmd FileType qf wincmd J]]
   vim.cmd [[autocmd QuickFixCmdPost [^l]* nested cwindow]]
   vim.cmd [[autocmd QuickFixCmdPost l* nested lwindow]]
 vim.cmd [[augroup END]]
@@ -105,7 +106,7 @@ function search.run(search_term, is_visual)
     return cleanup()
   end
 
-  vim.cmd [[cgetexpr v:lua.kris.search.do_search()]]
+  vim.cmd [[botright cgetexpr v:lua.kris.search.do_search()]]
   return cleanup()
 end
 
