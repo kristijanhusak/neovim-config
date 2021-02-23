@@ -28,14 +28,14 @@ end
 local transform_mod = require('telescope.actions.mt').transform_mod
 local custom_actions = transform_mod({
   jump_to_symbol = function(prompt_bufnr)
-    actions.goto_file_selection_edit(prompt_bufnr)
+    actions.file_edit(prompt_bufnr)
     builtin.current_buffer_tags()
     vim.defer_fn(function()
       vim.cmd('startinsert')
     end, 0)
   end,
   jump_to_line = function(prompt_bufnr)
-    actions.goto_file_selection_edit(prompt_bufnr)
+    actions.file_edit(prompt_bufnr)
     vim.defer_fn(function()
       vim.api.nvim_feedkeys(':', 'n', true)
     end, 100)
