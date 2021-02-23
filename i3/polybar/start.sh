@@ -10,7 +10,7 @@ killall -q polybar > /dev/null
 while pgrep -x polybar >/dev/null; do sleep 1; done
 MONITOR=$PRIMARY polybar bar &> /dev/null &
 
-sleep 1;
+sleep 3;
 
 for m in $OTHERS; do
     MONITOR=$m polybar bar &> /dev/null &
