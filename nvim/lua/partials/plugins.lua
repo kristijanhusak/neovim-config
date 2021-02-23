@@ -116,8 +116,8 @@ require'hop'.setup({})
 utils.keymap('n', '<Space>', ':HopWord<CR>')
 
 vim.g.nvim_tree_bindings = {
-  edit_vsplit = 's',
-  cd = 'C',
+  s = ':lua require"nvim-tree".on_keypress("vsplit")<CR>',
+  C = ':lua require"nvim-tree".on_keypress("cd")<CR>',
 }
 vim.g.nvim_tree_icons = {
   default = '',
