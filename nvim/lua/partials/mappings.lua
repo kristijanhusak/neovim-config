@@ -25,8 +25,14 @@ utils.keymap('n', '<c-l>', '<C-\\><C-n><C-w>l')
 utils.keymap('n', 'j', 'gj')
 utils.keymap('n', 'k', 'gk')
 
--- Map for Escape key
+-- Map for Escape key in terminal
 utils.keymap('t', '<Leader>jj', '<C-\\><C-n>')
+
+vim.cmd[[augroup vimrc_terminal_mappings]]
+  vim.cmd[[autocmd!]]
+  -- Focus first file:line:col pattern in the terminal output
+  vim.cmd[[autocmd TermOpen * nnoremap <buffer> F :silent! call search('\f\+:\d\+:\d\+')<CR>]]
+vim.cmd[[augroup END]]
 
 -- Yank to the end of the line
 utils.keymap('n', 'Y', 'y$')
