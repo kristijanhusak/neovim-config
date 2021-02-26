@@ -44,7 +44,6 @@ require('packager').setup(function(packager)
  packager.add('glepnir/lspsaga.nvim')
  packager.add('puremourning/vimspector')
  packager.add('kosayoda/nvim-lightbulb')
- packager.add('phaazon/hop.nvim')
  packager.add('lukas-reineke/indent-blankline.nvim', { branch = 'lua' })
 end)
 
@@ -111,9 +110,6 @@ require'kommentary.config'.configure_language('default', {
   ignore_whitespace = true,
   use_consistent_indentation = true,
 })
-require'hop'.setup({})
-
-utils.keymap('n', '<Space>', ':HopWord<CR>')
 
 vim.g.nvim_tree_bindings = {
   s = ':lua require"nvim-tree".on_keypress("vsplit")<CR>',
