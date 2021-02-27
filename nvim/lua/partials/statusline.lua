@@ -154,6 +154,7 @@ function statusline.setup()
   local git_status = git_statusline()
   local ts_status = ts_statusline()
   local anzu = vim.fn['anzu#search_status']() or ''
+  local db_ui = vim.fn['db_ui#statusline']() or ''
   local ft = vim.bo.filetype
   local err = lsp_status('Error')
   local warn = lsp_status('Warning')
@@ -167,6 +168,7 @@ function statusline.setup()
     sep('%w', nil, vim.wo.previewwindow),
     sep('%r', nil, vim.bo.readonly),
     sep('%q', nil, vim.bo.buftype == 'quickfix'),
+    sep(db_ui, sec_2, db_ui ~= ''),
     sep(ts_status, sec_2, ts_status ~= ''),
     '%=',
     sep(anzu, vim.tbl_extend('keep', { side = 'right' }, sec_2), anzu ~= ''),
