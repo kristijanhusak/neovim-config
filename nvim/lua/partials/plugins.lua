@@ -156,6 +156,5 @@ vim.g.vsnip_filetypes = {
 vim.g.js_file_import_use_telescope = 1
 
 vim.g.indent_blankline_char = '▏'
-vim.g.indent_blankline_char_highlight = 'IndentLineChar'
 
 _G.kris.plugins = plugins

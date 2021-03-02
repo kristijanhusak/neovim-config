@@ -14,7 +14,6 @@ function colorscheme.setup_edge()
     hi ErrorText guibg=NONE
     hi HintText guibg=NONE
     hi LightBulbFloatWin guifg=Yellow guibg=NONE
-    hi link IndentLineChar VertSplit
   ]]
   if vim.o.background == 'light' then
     vim.cmd[[hi DiffText guibg=#bdd4fc guifg=NONE]]
