@@ -22,7 +22,6 @@ require('packager').setup(function(packager)
  packager.add('AndrewRadev/splitjoin.vim')
  packager.add('lewis6991/gitsigns.nvim', { requires = 'nvim-lua/plenary.nvim' })
  packager.add('nvim-telescope/telescope.nvim', { requires = {'nvim-lua/popup.nvim'} })
- packager.add('sheerun/vim-polyglot')
  packager.add('ludovicchabant/vim-gutentags')
  packager.add('editorconfig/editorconfig-vim')
  packager.add('andymass/vim-matchup')
@@ -128,10 +127,6 @@ vim.g.nvim_tree_git_hl = 1
 vim.g.nvim_tree_hide_dotfiles = 1
 vim.g.nvim_tree_width_allow_resize = true
 vim.g.nvim_tree_disable_netrw = 0
-
-vim.g.jsx_ext_required = 1
-vim.g.javascript_plugin_jsdoc = 1
-vim.g.vim_markdown_conceal = 0
 
 vim.g.vimwiki_list = {{
     path = '~/Dropbox/vimwiki',
