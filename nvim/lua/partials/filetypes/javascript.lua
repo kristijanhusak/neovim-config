@@ -77,9 +77,6 @@ function javascript.generate_docblock()
   local is_async = fn.getline('.'):match('^%s*async')
   local indent = fn['repeat'](' ', fn.shiftwidth())
   local content = {string.format('%s/**', indent)}
-  if is_async then
-    table.insert(content, string.format('%s * @async',indent))
-  end
 
   for _, child_node in ipairs(ts_utils.get_named_children(node)) do
     local node_text = ts_utils.get_node_text(child_node)[1]
