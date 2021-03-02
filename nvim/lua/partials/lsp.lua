@@ -2,6 +2,7 @@ local lsp = {}
 local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
 local lightbulb = require'nvim-lightbulb'
+local diagnostic = require'lspsaga.diagnostic'
 
 local filetypes = {'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'lua', 'go', 'vim', 'php', 'python'}
 
@@ -11,9 +12,20 @@ vim.cmd [[augroup vimrc_lsp]]
 vim.cmd [[augroup END]]
 
 function lsp.setup()
-  vim.cmd[[autocmd CursorHold <buffer> silent! lua require"lspsaga.diagnostic".show_line_diagnostics()]]
-  vim.cmd[[autocmd CursorHoldI <buffer> silent! lua kris.lsp.signature_help()]]
-  vim.cmd[[autocmd CursorHold,CursorHoldI * lua kris.lsp.show_bulb() ]]
+  vim.cmd[[autocmd CursorMoved <buffer> lua kris.utils.debounce('CursorHold', kris.lsp.on_cursor_hold) ]]
+  vim.cmd[[autocmd CursorMovedI,InsertEnter <buffer> lua kris.utils.debounce('CursorHoldI', kris.lsp.on_cursor_hold_i) ]]
+end
+
+-- Use custom implementation of CursorHold and CursorHoldI
+-- until https://github.com/neovim/neovim/issues/12587 is resolved
+function lsp.on_cursor_hold()
+  diagnostic.show_line_diagnostics()
+  lsp.show_bulb()
+end
+
+function lsp.on_cursor_hold_i()
+  lsp.signature_help()
+  lsp.show_bulb()
 end
 
 function lsp.show_bulb()

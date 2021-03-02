@@ -2,7 +2,7 @@ local completion = {}
 local utils = require'partials/utils'
 local npairs = require'nvim-autopairs'
 utils.opt('o', 'pumheight' , 15)
-vim.cmd('set completeopt-=preview')
+vim.cmd('set completeopt=menuone,noselect')
 
 require'compe'.setup({
   enabled = true,
