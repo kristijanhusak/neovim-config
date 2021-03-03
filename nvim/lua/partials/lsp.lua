@@ -3,6 +3,7 @@ local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
 local lightbulb = require'nvim-lightbulb'
 local diagnostic = require'lspsaga.diagnostic'
+local last_completed_item = { menu = nil, word = nil }
 
 local filetypes = {'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'lua', 'go', 'vim', 'php', 'python'}
 
@@ -14,6 +15,12 @@ vim.cmd [[augroup END]]
 function lsp.setup()
   vim.cmd[[autocmd CursorMoved <buffer> lua kris.utils.debounce('CursorHold', kris.lsp.on_cursor_hold) ]]
   vim.cmd[[autocmd CursorMovedI,InsertEnter <buffer> lua kris.utils.debounce('CursorHoldI', kris.lsp.signature_help) ]]
+  vim.cmd[[autocmd CompleteDone <buffer> lua kris.lsp.save_completed_item()]]
+end
+
+function lsp.save_completed_item()
+  if type(vim.v.completed_item) ~= 'table' or not vim.v.completed_item.word then return end
+  last_completed_item = vim.v.completed_item
 end
 
 -- Use custom implementation of CursorHold and CursorHoldI
@@ -60,9 +67,13 @@ function lsp.tag_signature(word)
 end
 
 function lsp.signature_help()
-  local is_tag = type(vim.v.completed_item) == 'table' and vim.v.completed_item.menu == '[Tag]'
-  if is_tag then
-    local show_tag_signature = lsp.tag_signature(vim.v.completed_item.word)
+  local line = vim.fn.getline('.')
+  if last_completed_item.menu == '[Tag]' and vim.fn.pumvisible() == 0 then
+    local last_method = vim.fn.matchlist(line, [[\(\w\+\)();\?]])[2]
+    local show_tag_signature = false
+    if vim.fn.expand('<cword>'):match('%(%);?') and last_method == last_completed_item.word then
+      show_tag_signature = lsp.tag_signature(last_completed_item.word)
+    end
     if show_tag_signature then return end
   end
   return require('lspsaga.signaturehelp').signature_help()
