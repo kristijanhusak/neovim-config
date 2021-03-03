@@ -13,18 +13,15 @@ vim.cmd [[augroup END]]
 
 function lsp.setup()
   vim.cmd[[autocmd CursorMoved <buffer> lua kris.utils.debounce('CursorHold', kris.lsp.on_cursor_hold) ]]
-  vim.cmd[[autocmd CursorMovedI,InsertEnter <buffer> lua kris.utils.debounce('CursorHoldI', kris.lsp.on_cursor_hold_i) ]]
+  vim.cmd[[autocmd CursorMovedI,InsertEnter <buffer> lua kris.utils.debounce('CursorHoldI', kris.lsp.signature_help) ]]
 end
 
 -- Use custom implementation of CursorHold and CursorHoldI
 -- until https://github.com/neovim/neovim/issues/12587 is resolved
 function lsp.on_cursor_hold()
-  diagnostic.show_line_diagnostics()
-  lsp.show_bulb()
-end
-
-function lsp.on_cursor_hold_i()
-  lsp.signature_help()
+  if vim.fn.mode() ~= 'i' then
+    diagnostic.show_line_diagnostics()
+  end
   lsp.show_bulb()
 end
 
