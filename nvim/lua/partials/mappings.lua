@@ -31,7 +31,7 @@ utils.keymap('t', '<Leader>jj', '<C-\\><C-n>')
 vim.cmd[[augroup vimrc_terminal_mappings]]
   vim.cmd[[autocmd!]]
   -- Focus first file:line:col pattern in the terminal output
-  vim.cmd[[autocmd TermOpen * nnoremap <buffer> F :silent! call search('\f\+:\d\+:\d\+')<CR>]]
+  vim.cmd[[autocmd TermOpen * nnoremap <silent><buffer> F :call search('\f\+:\d\+:\d\+')<CR>]]
 vim.cmd[[augroup END]]
 
 -- Yank to the end of the line
