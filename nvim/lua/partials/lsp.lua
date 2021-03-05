@@ -79,61 +79,25 @@ function lsp.signature_help()
   return require('lspsaga.signaturehelp').signature_help()
 end
 
-nvim_lsp.diagnosticls.setup({
-  filetypes={
-    'javascript',
-    'javascriptreact',
-  },
-  init_options = {
-    linters = {
-      eslint = {
-        command = './node_modules/.bin/eslint',
-        rootPatterns = { '.git' },
-        debounce = 100,
-        args = {
-          '--stdin',
-          '--stdin-filename',
-          '%filepath',
-          '--format',
-          'json'
-        },
-        sourceName = 'eslint',
-        parseJson = {
-          errorsRoot = '[0].messages',
-          line = 'line',
-          column = 'column',
-          endLine = 'endLine',
-          endColumn = 'endColumn',
-          message = '${message} [${ruleId}]',
-          security = 'severity'
-        },
-        securities = {
-          ['1'] = 'warning',
-          ['2'] = 'error',
-        },
-      },
-    },
-    filetypes = {
-      javascript = 'eslint',
-      javascriptreact = 'eslint',
-    },
-    formatters = {
-      prettierEslint = {
-        command = './node_modules/.bin/prettier-eslint',
-        args = {
-          '--stdin',
-          '--single-quote',
-          '--print-width',
-          '120',
-        },
-        rootPatterns = { '.git' },
-      },
-    },
-    formatFiletypes = {
-      javascript = 'prettierEslint',
-      javascriptreact = 'prettierEslint',
-    },
-  }
+local eslint = {
+  lintCommand = './node_modules/.bin/eslint -f compact --stdin --stdin-filename ${INPUT}',
+  lintStdin = true,
+  lintFormats = {'%f: line %l, col %c, %trror - %m', '%f: line %l, col %c, %tarning - %m'},
+  lintIgnoreExitCode = true,
+  formatCommand = './node_modules/.bin/prettier-eslint --stdin --single-quote --print-width 120',
+  formatStdin = true,
+}
+
+nvim_lsp.efm.setup({
+    init_options = { documentFormatting = true },
+    root_dir = nvim_lsp.util.root_pattern('.git/'),
+    filetypes = {'javascript', 'javascriptreact'},
+    settings = {
+      languages = {
+        javascript = {eslint},
+        javascriptreact = {eslint},
+      }
+    }
 })
 nvim_lsp.tsserver.setup{}
 nvim_lsp.vimls.setup{}
