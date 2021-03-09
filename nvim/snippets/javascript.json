@@ -65,6 +65,16 @@
       " * $0",
       " */"
     ]
+  },
+  "trycatch": {
+    "prefix": ["tc"],
+    "body": [
+      "try {",
+      "\t$0",
+      "} catch (e) {",
+      "\tthrow e;",
+      "}"
+    ],
+    "description": "Try catch block"
   }
-
 }
