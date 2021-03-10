@@ -42,7 +42,6 @@ require('packager').setup(function(packager)
  packager.add('sainnhe/edge')
  packager.add('glepnir/lspsaga.nvim')
  packager.add('puremourning/vimspector')
- packager.add('kosayoda/nvim-lightbulb')
  packager.add('lukas-reineke/indent-blankline.nvim', { branch = 'lua' })
 end)
 

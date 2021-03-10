@@ -1,7 +1,6 @@
 local lsp = {}
 local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
-local lightbulb = require'nvim-lightbulb'
 local diagnostic = require'lspsaga.diagnostic'
 local last_completed_item = { menu = nil, word = nil }
 
@@ -29,22 +28,6 @@ function lsp.on_cursor_hold()
   if vim.fn.mode() ~= 'i' then
     diagnostic.show_line_diagnostics()
   end
-  lsp.show_bulb()
-end
-
-function lsp.show_bulb()
-  return lightbulb.update_lightbulb({
-      sign = { enabled = false },
-      float = {
-        enabled = true,
-        text = '',
-        win_opts = {
-          offset_x = -(vim.fn.col('.') + 2),
-          offset_y = -1,
-          winblend = 99
-        },
-      },
-  });
 end
 
 function lsp.tag_signature(word)
@@ -134,6 +117,11 @@ require'lspsaga'.init_lsp_saga({
   warn_sign = '',
   hint_sign = '',
   infor_sign = '',
+  code_action_prompt = {
+    enable = true,
+    sign = false,
+    virtual_text = true,
+  },
 })
 
 vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
