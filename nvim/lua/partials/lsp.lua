@@ -3,6 +3,7 @@ local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
 local diagnostic = require'lspsaga.diagnostic'
 local last_completed_item = { menu = nil, word = nil }
+local ts_utils = require'nvim-treesitter/ts_utils'
 
 local filetypes = {'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'lua', 'go', 'vim', 'php', 'python'}
 
@@ -50,11 +51,14 @@ function lsp.tag_signature(word)
 end
 
 function lsp.signature_help()
-  local line = vim.fn.getline('.')
   if last_completed_item.menu == '[Tag]' and vim.fn.pumvisible() == 0 then
-    local last_method = vim.fn.matchlist(line, [[\(\w\+\)();\?]])[2]
+    local node = ts_utils.get_node_at_cursor()
+    local current_node = ts_utils.get_node_text(node)[1]
+    local last_node = ts_utils.get_node_text(ts_utils.get_previous_node(node))[1]
+    local last_method = vim.fn.split(last_node, '\\.')
+    last_method = last_method[#last_method]
     local show_tag_signature = false
-    if vim.fn.expand('<cword>'):match('%(%);?') and last_method == last_completed_item.word then
+    if current_node:match('%(.*%)') and last_method == last_completed_item.word then
       show_tag_signature = lsp.tag_signature(last_completed_item.word)
     end
     if show_tag_signature then return end
