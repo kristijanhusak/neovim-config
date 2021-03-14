@@ -33,6 +33,7 @@ bindsym $mod+q kill
 
 # start program launcher
 bindsym $mod+d exec "rofi -combi-modi window,run -show combi -modi combi -theme Paper"
+bindsym $mod+x exec "PINENTRY_PROGRAM=pinentry-rofi rofi-1pass && rofi -modi 1pass:rofi-1pass -show 1pass -theme Paper"
 
 # launch categorized menu
 bindsym $mod+z exec --no-startup-id morc_menu
