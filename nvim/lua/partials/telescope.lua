@@ -8,23 +8,6 @@ local make_entry = require('telescope.make_entry')
 local pickers = require('telescope.pickers')
 local conf = require('telescope.config').values
 
-vim.cmd[[augroup telescope_buffers]]
-  vim.cmd[[autocmd!]]
-  vim.cmd[[autocmd BufWinEnter,WinEnter * call v:lua.kris.telescope.save_buf(bufnr(''))]]
-  vim.cmd[[autocmd BufDelete * silent! call v:lua.kris.telescope.remove_buf(expand('<abuf>'))]]
-vim.cmd[[augroup END]]
-
-local buffers = {}
-function telescope.save_buf(bufnr)
-  buffers[tostring(bufnr)] = vim.fn.reltimefloat(vim.fn.reltime())
-  return buffers
-end
-
-function telescope.remove_buf(bufnr)
-  buffers[tostring(bufnr)] = nil
-  return buffers
-end
-
 local transform_mod = require('telescope.actions.mt').transform_mod
 local custom_actions = transform_mod({
   jump_to_symbol = function(prompt_bufnr)
@@ -42,31 +25,27 @@ local custom_actions = transform_mod({
   end
 })
 
+local function is_file_valid(file)
+  local stat = vim.loop.fs_stat(file)
+  return stat and stat.type ~= 'directory'
+end
 
 function telescope.oldfiles_buffers()
-  local bufnrs = vim.tbl_filter(function(b)
-    local bufnr = tonumber(b)
-    local bufname = vim.fn.bufname(bufnr)
-    return vim.api.nvim_buf_is_loaded(bufnr) and 1 == vim.fn.buflisted(bufnr) and bufname ~= '' and vim.fn.isdirectory(bufname) ~= 1
-  end, vim.tbl_keys(buffers))
-
-  local bufs = vim.fn.sort(bufnrs, function(b1, b2)
-    local buf1 = buffers[b1]
-    local buf2 = buffers[b2]
-    return buf1 < buf2 and 1 or -1
-  end)
-
-  bufs = vim.tbl_map(function(bufnr)
-    return vim.fn.bufname(tonumber(bufnr))
-  end, bufs)
+  local buffers = {}
+  for _, line in ipairs(vim.fn.split(vim.fn.execute('buffers! t'), '\n')) do
+    local file = line:match('"([^"]+)"')
+    if is_file_valid(file) and vim.fn.buflisted(file) == 1 then
+      table.insert(buffers, file)
+    end
+  end
 
   local oldfiles = vim.tbl_filter(function(val)
-    return 0 ~= vim.fn.filereadable(val)
+    return is_file_valid(val) and not vim.tbl_contains(buffers, val)
   end, vim.v.oldfiles)
 
   local default_selection_index = 1
-  local results = vim.tbl_extend('keep', bufs, oldfiles)
-  if #bufs > 0 then
+  local results = vim.tbl_extend('keep', buffers, oldfiles)
+  if #buffers > 0 then
     default_selection_index = 2
   end
 
