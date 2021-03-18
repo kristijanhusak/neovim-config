@@ -3,10 +3,6 @@ local utils = require('partials/utils')
 local builtin = require('telescope.builtin')
 local actions = require('telescope.actions')
 local sorters = require('telescope.sorters')
-local finders = require('telescope.finders')
-local make_entry = require('telescope.make_entry')
-local pickers = require('telescope.pickers')
-local conf = require('telescope.config').values
 
 local transform_mod = require('telescope.actions.mt').transform_mod
 local custom_actions = transform_mod({
@@ -24,42 +20,6 @@ local custom_actions = transform_mod({
     end, 100)
   end
 })
-
-local function is_file_valid(file)
-  local stat = vim.loop.fs_stat(file)
-  return stat and stat.type ~= 'directory'
-end
-
-function telescope.oldfiles_buffers()
-  local buffers = {}
-  for _, line in ipairs(vim.fn.split(vim.fn.execute('buffers! t'), '\n')) do
-    local file = line:match('"([^"]+)"')
-    if is_file_valid(file) and vim.fn.buflisted(file) == 1 then
-      table.insert(buffers, file)
-    end
-  end
-
-  local oldfiles = vim.tbl_filter(function(val)
-    return is_file_valid(val) and not vim.tbl_contains(buffers, val)
-  end, vim.v.oldfiles)
-
-  local default_selection_index = 1
-  local results = vim.tbl_extend('keep', buffers, oldfiles)
-  if #buffers > 0 then
-    default_selection_index = 2
-  end
-
-  pickers.new({}, {
-    prompt_title = 'History',
-    finder = finders.new_table{
-      results = results,
-      entry_maker = make_entry.gen_from_file({}),
-    },
-    sorter = conf.file_sorter({}),
-    previewer = conf.file_previewer({}),
-    default_selection_index = default_selection_index
-  }):find()
-end
 
 require'telescope'.setup({
   defaults = {
@@ -84,7 +44,7 @@ require'telescope'.setup({
 utils.keymap('n', '<C-p>', '<cmd>lua require("telescope.builtin").find_files({ find_command = { "rg", "--files" } })<cr>')
 utils.keymap('n', '<Leader>b', "<cmd>lua require('telescope.builtin').buffers({ sort_lastused = true })<cr>")
 utils.keymap('n', '<Leader>t', "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>")
-utils.keymap('n', '<Leader>m', "<cmd>call v:lua.kris.telescope.oldfiles_buffers()<cr>")
+utils.keymap('n', '<Leader>m', "<cmd>lua require('telescope.builtin').oldfiles()<cr>")
 utils.keymap('n', '<Leader>g', "<cmd>lua require('telescope.builtin').git_status()<cr>")
 
 utils.keymap('n', '<Leader>lu', "<cmd>lua require('telescope.builtin').lsp_references()<cr>")
