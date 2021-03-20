@@ -22,7 +22,7 @@ function colorscheme.setup_edge()
 end
 
 opt('o', 'termguicolors', true)
-opt('o', 'background', vim.env.NVIM_COLORSCHEME_BG or 'dark')
+opt('o', 'background', vim.env.NVIM_COLORSCHEME_BG or 'light')
 opt('o', 'synmaxcol', 300)
 
 
