@@ -128,9 +128,9 @@ vim.g.nvim_tree_width_allow_resize = true
 vim.g.nvim_tree_disable_netrw = 0
 
 vim.g.vimwiki_list = {{
-    path = '~/Dropbox/vimwiki',
-    syntax = 'markdown',
-    ext = '.md'
+  path = '~/Dropbox/vimwiki',
+  syntax = 'markdown',
+  ext = '.md'
 }}
 vim.g.matchup_matchparen_status_offscreen = 0
 vim.g.matchup_matchparen_nomode = "ivV"
@@ -155,5 +155,7 @@ vim.g.vsnip_filetypes = {
 vim.g.js_file_import_use_telescope = 1
 
 vim.g.indent_blankline_char = '▏'
+vim.g.indent_blankline_show_current_context = true
+vim.g.indent_blankline_context_patterns = {'class', 'function', 'method', '^if', '^while', '^for', '^object', '^table', 'block', 'arguments'}
 
 _G.kris.plugins = plugins
