@@ -27,7 +27,7 @@ end
 -- until https://github.com/neovim/neovim/issues/12587 is resolved
 function lsp.on_cursor_hold()
   if vim.fn.mode() ~= 'i' then
-    diagnostic.show_line_diagnostics()
+    diagnostic.show_cursor_diagnostics()
   end
 end
 
@@ -199,7 +199,7 @@ utils.keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', { norem
 utils.keymap('v', '<leader>lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>', { noremap = false })
 utils.keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', { noremap = false })
-utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', { noremap = false })
+utils.keymap('n', '<leader>le', '<cmd>lua require"lspsaga.diagnostic".show_line_diagnostics()<CR>', { noremap = false })
 utils.keymap('n', '<Leader>e', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lr', ':Lspsaga rename<CR>', { noremap = false })
 utils.keymap('n', '[g', ':Lspsaga diagnostic_jump_prev<CR>')
