@@ -27,7 +27,7 @@ end
 -- until https://github.com/neovim/neovim/issues/12587 is resolved
 function lsp.on_cursor_hold()
   if vim.fn.mode() ~= 'i' then
-    diagnostic.show_cursor_diagnostics()
+    diagnostic.show_line_diagnostics()
   end
 end
 
