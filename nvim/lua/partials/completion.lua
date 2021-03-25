@@ -18,7 +18,6 @@ require'compe'.setup({
     vim_dadbod_completion = true,
     nvim_lua = false,
     calc = true,
-    treesitter = true,
     ripgrep = true,
   }
 })
