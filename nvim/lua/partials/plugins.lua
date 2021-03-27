@@ -43,6 +43,7 @@ require('packager').setup(function(packager)
  packager.add('glepnir/lspsaga.nvim')
  packager.add('puremourning/vimspector')
  packager.add('lukas-reineke/indent-blankline.nvim', { branch = 'lua' })
+ packager.add('dhruvasagar/vim-dotoo')
 end)
 
 vim.g.mapleader = ','
@@ -157,5 +158,8 @@ vim.g.js_file_import_use_telescope = 1
 vim.g.indent_blankline_char = '▏'
 vim.g.indent_blankline_show_current_context = true
 vim.g.indent_blankline_context_patterns = {'class', 'function', 'method', '^if', '^while', '^for', '^object', '^table', 'block', 'arguments'}
+
+vim.g['dotoo#agenda#files'] = {'~/Dropbox/dotoo/**/*.dotoo'}
+vim.g['dotoo#capture#refile'] = vim.fn.expand('~/Dropbox/dotoo/refile.dotoo')
 
 _G.kris.plugins = plugins
