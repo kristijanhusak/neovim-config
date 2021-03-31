@@ -62,7 +62,7 @@ bindsym $mod+F3 exec pcmanfm
 bindsym $mod+Shift+F3 exec gksu pcmanfm
 bindsym $mod+F5 exec terminal -e 'mocp'
 bindsym $mod+t exec --no-startup-id pkill picom
-bindsym $mod+Ctrl+t exec --no-startup-id picom -b --inactive-dim 0.1
+bindsym $mod+Ctrl+t exec --no-startup-id picom
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
 bindsym Print exec --no-startup-id i3-scrot
 bindsym Ctrl+Print exec --no-startup-id imgur-screenshot
@@ -288,7 +288,7 @@ bindsym Control+$mod+l exec i3lock -c 000000
 
 # Autostart applications
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nitrogen --restore; sleep 1; picom -b --inactive-dim 0.1
+exec --no-startup-id nitrogen --restore; sleep 1; picom
 #exec --no-startup-id manjaro-hello
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
@@ -372,24 +372,13 @@ set_from_resource $term_color15    color15
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
-  client.focused          #556064 #16a085 #80FFF9 #FDF6E3
+  client.focused          #556064 #16a085 #80FFF9 #FDF6E3 #FF0000
   client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
   client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
   client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
   client.placeholder      #000000 #0c0c0c #ffffff #000000
 
   client.background       #2B2C2B
-
-bindsym Mod4+1 exec ~/.i3/focus_win.py -n 1
-bindsym Mod4+2 exec ~/.i3/focus_win.py -n 2
-bindsym Mod4+3 exec ~/.i3/focus_win.py -n 3
-bindsym Mod4+4 exec ~/.i3/focus_win.py -n 4
-bindsym Mod4+5 exec ~/.i3/focus_win.py -n 5
-bindsym Mod4+6 exec ~/.i3/focus_win.py -n 6
-bindsym Mod4+7 exec ~/.i3/focus_win.py -n 7
-bindsym Mod4+8 exec ~/.i3/focus_win.py -n 8
-bindsym Mod4+9 exec ~/.i3/focus_win.py -n 9
-bindsym Mod4+0 exec ~/.i3/focus_win.py -n 0
 
 assign [class="Google-chrome"] 2
 assign [class="Brave-browser"] 2
