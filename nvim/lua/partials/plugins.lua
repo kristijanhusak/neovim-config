@@ -16,7 +16,6 @@ require('packager').setup(function(packager)
  packager.add('kristijanhusak/vim-dadbod', { branch = 'development' })
  packager.add('kristijanhusak/vim-dadbod-completion')
  packager.add('kristijanhusak/vim-dadbod-ui')
- packager.add('kristijanhusak/line-notes.nvim')
  packager.add('lambdalisue/reword.vim')
  packager.add('AndrewRadev/tagalong.vim')
  packager.add('AndrewRadev/splitjoin.vim')
@@ -100,9 +99,6 @@ require'gitsigns'.setup({
   },
 })
 
-require'line-notes'.setup({
-  path = vim.fn.expand('~/Dropbox/line-notes.json')
-})
 require'nvim-autopairs'.setup()
 require'kommentary.config'.configure_language('default', {
   prefer_single_line_comments = true,
@@ -145,9 +141,6 @@ vim.g.db_ui_save_location = '~/Dropbox/dbui'
 vim.g.db_ui_tmp_query_location = '~/code/queries'
 
 vim.g.sql_type_default = 'pgsql'
-
-vim.g.qs_second_highlight = 0
-vim.g.qs_highlight_on_keys = {'f', 'F', 't', 'T'}
 
 vim.g.vsnip_filetypes = {
   typescript = {'javascript'}
