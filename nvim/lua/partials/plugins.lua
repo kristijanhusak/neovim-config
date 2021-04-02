@@ -140,8 +140,6 @@ vim.g.db_async = 1
 vim.g.db_ui_save_location = '~/Dropbox/dbui'
 vim.g.db_ui_tmp_query_location = '~/code/queries'
 
-vim.g.sql_type_default = 'pgsql'
-
 vim.g.vsnip_filetypes = {
   typescript = {'javascript'}
 }

@@ -24,7 +24,7 @@ local function cleanup(no_reset_mode)
   return pcall(utils.unmap, 'c', '<tab>')
 end
 
-function get_visual_selection()
+local function get_visual_selection()
   local s_start = vim.fn.getpos("'<")
   local s_end = vim.fn.getpos("'>")
   local n_lines = math.abs(s_end[2] - s_start[2]) + 1
