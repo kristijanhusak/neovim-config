@@ -195,7 +195,7 @@ function mappings.paste_to_json_buffer()
   vim.cmd [[enew]]
   vim.bo.filetype = 'json'
   vim.cmd [[norm!"+p]]
-  vim.cmd [[norm!gg=G]]
+  vim.cmd [[norm!VGgq]]
 end
 
 local terminal_bufnr = 0

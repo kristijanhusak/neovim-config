@@ -3,7 +3,6 @@ local opt = require'partials/utils'.opt
 
 vim.cmd [[augroup vimrc_colorscheme]]
   vim.cmd [[autocmd!]]
-  vim.cmd [[autocmd BufEnter * :syntax sync fromstart]]
   vim.cmd [[autocmd FileType dbout syn match dbout_null /(null)/ | hi link dbout_null Comment]]
   vim.cmd [[autocmd ColorScheme edge lua kris.colorscheme.setup_edge()]]
 vim.cmd [[augroup END]]
