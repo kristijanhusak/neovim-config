@@ -11,8 +11,8 @@ require'compe'.setup({
   preselect = 'disable',
   source = {
     path = true,
-    buffer = { ignored_filetypes = {'sql'} },
-    tags = { ignored_filetypes = {'sql'} },
+    buffer = { ignored_filetypes = {'sql'}, priority = 90 },
+    tags = { ignored_filetypes = {'sql'}, priority = 80 },
     vsnip = true,
     nvim_lsp = true,
     vim_dadbod_completion = true,
