@@ -65,7 +65,15 @@ utils.keymap('s', '<S-TAB>', 'vsnip#available(-1)  ? "<Plug>(vsnip-jump-prev)" :
 })
 
 function completion.handle_cr()
-  if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info()['selected'] ~= -1 then
+  local complete_info = vim.fn.complete_info()
+  local selected = complete_info.selected
+  local item = complete_info.items[selected + 1]
+
+  if vim.bo.filetype == 'javascript' and selected >= 0 and item and item.menu == '[Tag]' then
+    return utils.esc(string.format('<Esc>:JsFileImport %s<CR>', item.word))
+  end
+
+  if vim.fn.pumvisible() ~= 0 and selected ~= -1 then
     return vim.fn['compe#confirm']('<CR>')
   end
 
