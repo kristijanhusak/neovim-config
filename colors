@@ -87,7 +87,6 @@ if is_bg_changed:
     is_light = 'true' if bg == 'light' else 'false'
     cmd += ['xrdb ~/.Xresources']
     cmd += ['~/.config/polybar/start.sh']
-    cmd += ['sed -i "s/lightTheme.*/lightTheme: ' + is_light + '/g" ~/.config/jesseduffield/lazygit/config.yml']
     cmd += ['source ~/.zshrc']
 
 print(';'.join(cmd))
