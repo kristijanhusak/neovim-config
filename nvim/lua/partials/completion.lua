@@ -18,7 +18,7 @@ require'compe'.setup({
     vim_dadbod_completion = true,
     nvim_lua = false,
     calc = true,
-    ripgrep = true,
+    ripgrep = { ignored_filetypes = {'sql'} },
   }
 })
 

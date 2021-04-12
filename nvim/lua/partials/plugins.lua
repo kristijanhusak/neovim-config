@@ -14,7 +14,7 @@ require('packager').setup(function(packager)
  packager.add('tpope/vim-sleuth')
  packager.add('kristijanhusak/vim-create-pr')
  packager.add('kristijanhusak/vim-dadbod', { branch = 'development' })
- packager.add('kristijanhusak/vim-dadbod-completion')
+ packager.add('kristijanhusak/vim-dadbod-completion', { type = 'opt'})
  packager.add('kristijanhusak/vim-dadbod-ui')
  packager.add('lambdalisue/reword.vim')
  packager.add('AndrewRadev/tagalong.vim')
@@ -51,6 +51,7 @@ vim.cmd[[augroup packager_filetype]]
   vim.cmd[[autocmd!]]
   vim.cmd[[autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import]]
   vim.cmd[[autocmd FileType NvimTree call v:lua.kris.plugins.setup_nvimtree() ]]
+  vim.cmd[[autocmd FileType sql packadd vim-dadbod-completion | runtime after/plugin/vim_dadbod_completion.vim]]
   vim.cmd[[autocmd VimEnter * call v:lua.kris.plugins.handle_vimenter() ]]
 vim.cmd[[augroup END]]
 
