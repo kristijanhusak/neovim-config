@@ -61,7 +61,9 @@ function plugins.setup_nvimtree()
   utils.buf_keymap(buf, 'n', 'k', 'line(".") == 1 ? "G" : "k"', { expr = true })
   utils.buf_keymap(buf, 'n', 'J', ':call search("[]")<CR>')
   utils.buf_keymap(buf, 'n', 'K', ':call search("[]", "b")<CR>')
-  api.nvim_feedkeys(api.nvim_replace_termcodes('<C-w>w', true, false, true), 'n', true)
+  vim.defer_fn(function()
+    api.nvim_feedkeys(api.nvim_replace_termcodes('<C-w>w', true, false, true), 'n', true)
+  end, 0)
 end
 
 function plugins.handle_vimenter()
