@@ -169,7 +169,7 @@ function mappings.open_file_or_create_new()
     return true
   end
 
-  vim.fn.nvim_out_write('New file.\n')
+  vim.api.nvim_out_write('New file.\n')
   local new_path = vim.fn.fnamemodify(vim.fn.expand('%:p:h')..'/'..path, ':p')
   local ext = vim.fn.fnamemodify(new_path, ':e')
 
