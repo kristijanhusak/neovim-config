@@ -105,10 +105,39 @@ function javascript.goto_file()
   end
 end
 
+function javascript.generate_getter_setter()
+  local word = vim.fn.input('Enter word: ', vim.fn.expand('<cword>'))
+  local type = vim.fn.input('Enter type: ', 'any')
+  local capitalized = word:gsub('^%l', string.upper)
+  local lines = {
+      "/**",
+      string.format(" * @returns {%s}", type),
+      " */",
+      string.format("get%s() {", capitalized),
+      string.format("return this.%s;", word),
+      "}",
+      "",
+      "/**",
+      string.format(" * @param {%s} %s", type, word),
+      " */",
+      string.format("set%s(%s) {", capitalized, word),
+      string.format("this.%s = %s;", word, word),
+      "}",
+      ""
+  }
+
+  vim.fn.search([[^\s*$]])
+  vim.fn.append(vim.fn.line('.'), lines)
+  vim.cmd(string.format('norm!v%dj', #lines))
+  vim.api.nvim_feedkeys(utils.esc('<leader>lf'), 'v', true)
+end
+
 vim.cmd [[nnoremap <silent><Plug>(JsConsoleLog) :<C-u>call v:lua.kris.javascript.console_log()<CR>]]
 vim.cmd [[nnoremap <nowait><silent><Plug>(JsInjectDependency) :<C-u>call v:lua.kris.javascript.inject_dependency()<CR>]]
 vim.cmd [[nnoremap <nowait><silent><Plug>(JsGenerateDocblock) :<C-u>call v:lua.kris.javascript.generate_docblock()<CR>]]
 vim.cmd [[nnoremap <nowait><Plug>(JsGotoFile) :<C-u>call v:lua.kris.javascript.goto_file()<CR>]]
+
+vim.cmd[[command! JsGenGetSet :call v:lua.kris.javascript.generate_getter_setter()]]
 
 function javascript.setup()
   local buf = vim.api.nvim_get_current_buf()

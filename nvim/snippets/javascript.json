@@ -76,5 +76,27 @@
       "}"
     ],
     "description": "Try catch block"
+  },
+  "getter": {
+    "prefix": ["getter"],
+    "body": [
+      "/**",
+      " * @returns {${3:$1}}",
+      " */",
+      "get$1() {",
+      "\treturn this.${2:$1};",
+      "}"
+    ]
+  },
+  "setter": {
+    "prefix": ["setter"],
+    "body": [
+      "/**",
+      " * @param {${3:$1}} ${2:val}",
+      " */",
+      "set$1($2) {",
+      "\tthis.${4:$1} = $2;",
+      "}"
+    ]
   }
 }
