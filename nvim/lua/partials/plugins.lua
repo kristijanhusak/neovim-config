@@ -153,5 +153,6 @@ vim.g.indent_blankline_context_patterns = {'class', 'function', 'method', '^if',
 
 vim.g['dotoo#agenda#files'] = {'~/Dropbox/dotoo/**/*.dotoo'}
 vim.g['dotoo#capture#refile'] = vim.fn.expand('~/Dropbox/dotoo/refile.dotoo')
+vim.g['dotoo#capture#clock'] = 0
 
 _G.kris.plugins = plugins
