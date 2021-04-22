@@ -43,6 +43,7 @@ require('packager').setup(function(packager)
  packager.add('puremourning/vimspector')
  packager.add('lukas-reineke/indent-blankline.nvim', { branch = 'lua' })
  packager.add('dhruvasagar/vim-dotoo')
+ packager.add('folke/lsp-trouble.nvim')
 end)
 
 vim.g.mapleader = ','
@@ -105,6 +106,9 @@ require'kommentary.config'.configure_language('default', {
   prefer_single_line_comments = true,
   ignore_whitespace = true,
   use_consistent_indentation = true,
+})
+require("trouble").setup({
+  auto_close = true
 })
 
 vim.g.nvim_tree_bindings = {
