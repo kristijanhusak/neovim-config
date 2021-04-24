@@ -120,9 +120,16 @@ nvim_lsp.diagnosticls.setup({
       javascript = 'prettierEslint',
       javascriptreact = 'prettierEslint',
     },
-  }
+  },
 })
-nvim_lsp.tsserver.setup{}
+nvim_lsp.tsserver.setup{
+  handlers = {
+    ['textDocument/publishDiagnostics'] = function() end,
+  },
+  on_attach = function(client, _)
+    client.resolved_capabilities.document_formatting = false
+  end
+}
 nvim_lsp.vimls.setup{}
 nvim_lsp.intelephense.setup{}
 nvim_lsp.gopls.setup{}
@@ -180,10 +187,6 @@ function vim.lsp.util.make_given_range_params(start_pos, end_pos)
 end
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, method, params, client_id, bufnr, config)
-  local client = vim.lsp.get_client_by_id(client_id)
-  local is_ts = vim.tbl_contains({'typescript', 'typescriptreact'}, vim.bo.filetype)
-  if client and client.name == 'tsserver' and not is_ts then return end
-
   return vim.lsp.diagnostic.on_publish_diagnostics(
     err, method, params, client_id, bufnr, vim.tbl_deep_extend("force", config or {}, { virtual_text = false })
   )
