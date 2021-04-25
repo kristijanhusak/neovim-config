@@ -105,6 +105,8 @@ utils.keymap('c', '<C-b>', '<End>', { silent = false })
 utils.keymap('n', '<leader>T', ':call v:lua.kris.mappings.toggle_terminal()<CR>')
 utils.keymap('t', '<leader>T', '<C-\\><C-n><C-w>c')
 
+utils.keymap('n', 'gx', ':call netrw#BrowseX(expand("<cfile>"), netrw#CheckIfRemote())<CR>')
+
 -- Taken from https://gist.github.com/romainl/c0a8b57a36aec71a986f1120e1931f20
 for _, char in ipairs({'_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '-', '#'}) do
   utils.keymap('x', 'i'..char, ':<C-u>normal! T' ..char..'vt'..char..'<CR>')
