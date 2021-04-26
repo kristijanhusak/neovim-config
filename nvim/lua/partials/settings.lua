@@ -61,7 +61,7 @@ vim.cmd[[augroup vimrc]]
   vim.cmd [[autocmd FocusGained,BufEnter * silent! exe 'checktime']]
   vim.cmd [[autocmd FileType vim inoremap <buffer><silent><C-Space> <C-x><C-v>]]
   vim.cmd [[autocmd FileType markdown setlocal spell]]
-  vim.cmd [[autocmd FileType json setlocal formatprg=python\ -m\ json.tool]]
+  vim.cmd [[autocmd FileType json setlocal conceallevel=0 formatprg=python\ -m\ json.tool]]
   vim.cmd [[autocmd TermOpen * setlocal nonumber norelativenumber]]
 vim.cmd [[augroup END]]
 
