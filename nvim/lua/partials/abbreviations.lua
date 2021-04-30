@@ -10,7 +10,8 @@ local abbreviations = {
   nowrap = 'set nowrap',
   E = 'e',
   Gco = 'Git checkout',
-  Gcb = 'Git checkout -b'
+  Gcb = 'Git checkout -b',
+  Gblame = 'Git blame'
 }
 
 for left,right in pairs(abbreviations) do
