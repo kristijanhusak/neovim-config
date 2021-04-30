@@ -132,6 +132,18 @@ function javascript.generate_getter_setter()
   vim.api.nvim_feedkeys(utils.esc('<leader>lf'), 'v', true)
 end
 
+function javascript.goto_definition()
+  local fname = vim.api.nvim_buf_get_name(0)
+  local pos = vim.fn.getpos('.')
+  vim.lsp.buf.definition()
+  vim.defer_fn(function()
+    local p = vim.fn.getpos('.')
+    if vim.api.nvim_buf_get_name(0) == fname and p[2] == pos[2] and p[3] == pos[3] then
+      vim.cmd[[JsGotoDefinition]]
+    end
+  end, 100)
+end
+
 vim.cmd [[nnoremap <silent><Plug>(JsConsoleLog) :<C-u>call v:lua.kris.javascript.console_log()<CR>]]
 vim.cmd [[nnoremap <nowait><silent><Plug>(JsInjectDependency) :<C-u>call v:lua.kris.javascript.inject_dependency()<CR>]]
 vim.cmd [[nnoremap <nowait><silent><Plug>(JsGenerateDocblock) :<C-u>call v:lua.kris.javascript.generate_docblock()<CR>]]
@@ -141,7 +153,7 @@ vim.cmd[[command! JsGenGetSet :call v:lua.kris.javascript.generate_getter_setter
 
 function javascript.setup()
   local buf = vim.api.nvim_get_current_buf()
-  utils.buf_keymap(buf, 'n', '<C-]>', '<Plug>(JsGotoDefinition)', { noremap = false })
+  utils.buf_keymap(buf, 'n', '<C-]>', ':call v:lua.kris.javascript.goto_definition()<CR>', { noremap = false })
   utils.buf_keymap(buf, 'x', '<C-]>', '<Plug>(JsGotoDefinition)', { noremap = false })
   utils.buf_keymap(buf, 'n', '<Leader>]', '<C-W>v<Plug>(JsGotoDefinition)', { noremap = false })
   utils.buf_keymap(buf, 'x', '<Leader>]', '<C-W>vgv<Plug>(JsGotoDefinition)', { noremap = false })
