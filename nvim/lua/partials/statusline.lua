@@ -115,16 +115,22 @@ local function git_statusline()
 end
 
 local function get_path()
-  local path = vim.fn.expand('%:p')
+  local full_path = vim.fn.expand('%:p')
+  local path = full_path
+  local cwd = vim.fn.getcwd()
   if path == '' then
-    path = vim.fn.getcwd()
+    path = cwd
   end
   local stats = vim.loop.fs_stat(path)
   if stats and stats.type == 'directory' then
     return vim.fn.fnamemodify(path, ':~')
   end
 
-  path = vim.fn.expand('%')
+  if full_path:match('^'..cwd) then
+    path = vim.fn.expand('%:.')
+  else
+    path = vim.fn.expand('%:~')
+  end
 
   if #path < 20 then
     return '%f'
