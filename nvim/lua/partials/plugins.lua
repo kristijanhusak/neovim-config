@@ -54,7 +54,6 @@ vim.cmd[[augroup packager_filetype]]
   vim.cmd[[autocmd FileType NvimTree call v:lua.kris.plugins.setup_nvimtree() ]]
   vim.cmd[[autocmd FileType sql packadd vim-dadbod-completion | runtime after/plugin/vim_dadbod_completion.vim]]
   vim.cmd[[autocmd VimEnter * call v:lua.kris.plugins.handle_vimenter() ]]
-  vim.cmd[[autocmd BufNewFile,BufRead *.org setf dotoo]]
 vim.cmd[[augroup END]]
 
 function plugins.setup_nvimtree()
@@ -155,10 +154,5 @@ vim.g.js_file_import_use_telescope = 1
 vim.g.indent_blankline_char = '▏'
 vim.g.indent_blankline_show_current_context = true
 vim.g.indent_blankline_context_patterns = {'class', 'function', 'method', '^if', '^while', '^for', '^object', '^table', 'block', 'arguments'}
-
-vim.g['dotoo#agenda#files'] = {'~/Dropbox/dotoo/**/*.org'}
-vim.g['dotoo#capture#refile'] = vim.fn.expand('~/Dropbox/dotoo/refile.org')
-vim.g['dotoo#capture#clock'] = 0
-vim.g['dotoo#agenda_views#agenda#span'] = 'week'
 
 _G.kris.plugins = plugins

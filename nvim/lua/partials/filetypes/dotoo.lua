@@ -1,14 +1,22 @@
 local dotoo = {}
 local utils = require'partials/utils'
 
+vim.g['dotoo#agenda#files'] = {'~/Dropbox/dotoo/**/*.org'}
+vim.g['dotoo#capture#refile'] = vim.fn.expand('~/Dropbox/dotoo/refile.org')
+vim.g['dotoo#capture#clock'] = 0
+vim.g['dotoo#agenda_views#agenda#span'] = 'week'
+
 vim.cmd [[augroup custom_dotoo]]
   vim.cmd [[autocmd!]]
+  vim.cmd [[autocmd BufNewFile,BufRead *.org setf dotoo]]
   vim.cmd [[autocmd FileType dotoo,dotoocapture lua kris.dotoo.setup()]]
 vim.cmd [[augroup END]]
 
 function dotoo.setup()
   utils.buf_keymap(0, 'n', '<leader>o', '<cmd> lua kris.dotoo.handle_o("o")<CR>')
   utils.buf_keymap(0, 'n', '<leader>O', '<cmd> lua kris.dotoo.handle_o("O")<CR>')
+  utils.buf_keymap(0, 'n', '<S-TAB>', 'zc')
+  vim.wo.foldenable = true
 end
 
 function dotoo.handle_o(mapping)
