@@ -17,6 +17,7 @@ function dotoo.setup()
   utils.buf_keymap(0, 'n', '<leader>O', '<cmd> lua kris.dotoo.handle_o("O")<CR>')
   utils.buf_keymap(0, 'n', '<S-TAB>', 'zc')
   vim.wo.foldenable = true
+  vim.wo.concealcursor = 'nc'
 end
 
 function dotoo.handle_o(mapping)
