@@ -11,14 +11,20 @@ vim.cmd [[augroup custom_dotoo]]
   vim.cmd [[autocmd!]]
   vim.cmd [[autocmd BufNewFile,BufRead *.org setf dotoo]]
   vim.cmd [[autocmd FileType dotoo,dotoocapture lua kris.dotoo.setup()]]
+  vim.cmd [[autocmd FileType dotooagenda lua kris.dotoo.setup_agenda()]]
 vim.cmd [[augroup END]]
 
 function dotoo.setup()
   utils.buf_keymap(0, 'n', '<leader>o', '<cmd> lua kris.dotoo.handle_o("o")<CR>')
   utils.buf_keymap(0, 'n', '<leader>O', '<cmd> lua kris.dotoo.handle_o("O")<CR>')
   utils.buf_keymap(0, 'n', '<S-TAB>', 'zc')
+  utils.buf_keymap(0, 'i', '<C-space>', '<C-x><C-o>')
   vim.wo.foldenable = true
   vim.wo.concealcursor = 'nc'
+end
+
+function dotoo.setup_agenda()
+  utils.buf_keymap(0, 'n', '<CR>', ':<C-U>call dotoo#agenda#goto_headline("pedit")<CR>')
 end
 
 function dotoo.handle_o(mapping)
