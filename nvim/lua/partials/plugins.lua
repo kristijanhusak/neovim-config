@@ -6,13 +6,11 @@ vim.cmd [[packadd vim-packager]]
 require('packager').setup(function(packager)
  packager.add('kristijanhusak/vim-packager', { type = 'opt' })
  packager.add('kristijanhusak/vim-js-file-import', { ['do'] = 'npm install', type = 'opt' })
- packager.add('vimwiki/vimwiki', { type = 'opt' })
  packager.add('b3nj5m1n/kommentary')
  packager.add('tpope/vim-surround')
  packager.add('tpope/vim-repeat')
  packager.add('tpope/vim-fugitive')
  packager.add('tpope/vim-sleuth')
- packager.add('kristijanhusak/vim-create-pr')
  packager.add('kristijanhusak/vim-dadbod', { branch = 'async-query' })
  packager.add('kristijanhusak/vim-dadbod-completion', { type = 'opt', branch = 'async' })
  packager.add('kristijanhusak/vim-dadbod-ui', { branch = 'async' })
@@ -35,8 +33,6 @@ require('packager').setup(function(packager)
  packager.add('nvim-treesitter/nvim-treesitter-textobjects')
  packager.add('hrsh7th/vim-vsnip')
  packager.add('kyazdani42/nvim-tree.lua', { requires = 'kyazdani42/nvim-web-devicons' })
- packager.add('kristijanhusak/any-jump.vim')
- packager.add('tommcdo/vim-exchange')
  packager.add('hrsh7th/nvim-compe')
  packager.add('sainnhe/edge')
  packager.add('glepnir/lspsaga.nvim')
@@ -44,6 +40,7 @@ require('packager').setup(function(packager)
  packager.add('lukas-reineke/indent-blankline.nvim', { branch = 'lua' })
  packager.add('dhruvasagar/vim-dotoo')
  packager.add('folke/lsp-trouble.nvim')
+ packager.add('sindrets/diffview.nvim')
 end)
 
 vim.g.mapleader = ','
@@ -77,7 +74,6 @@ utils.keymap('', '*', '<Plug>(asterisk-z*)<Plug>(anzu-update-search-status)', {n
 utils.keymap('', '#', '<Plug>(asterisk-z#)<Plug>(anzu-update-search-status)', {noremap = false})
 utils.keymap('', 'g*', '<Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)', {noremap = false})
 utils.keymap('', 'g#', '<Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)', {noremap = false})
-utils.keymap('n', '<Leader>ww', ':unmap <Leader>ww<BAR>packadd vimwiki<BAR>VimwikiIndex<CR>')
 
 utils.keymap('n', '<Leader>G', ':vert G<CR>')
 
@@ -129,18 +125,12 @@ vim.g.nvim_tree_hide_dotfiles = 1
 vim.g.nvim_tree_width_allow_resize = true
 vim.g.nvim_tree_disable_netrw = 0
 
-vim.g.vimwiki_list = {{
-  path = '~/Dropbox/vimwiki',
-  syntax = 'markdown',
-  ext = '.md'
-}}
 vim.g.matchup_matchparen_status_offscreen = 0
 vim.g.matchup_matchparen_nomode = "ivV"
 
 vim.g.db_ui_show_help = 0
 vim.g.db_ui_win_position = 'right'
 vim.g.db_ui_use_nerd_fonts = 1
-vim.g.db_async = 1
 
 vim.g.db_ui_save_location = '~/Dropbox/dbui'
 vim.g.db_ui_tmp_query_location = '~/code/queries'
