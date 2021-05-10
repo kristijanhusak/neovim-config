@@ -164,7 +164,7 @@ function statusline.setup()
   local ft = vim.bo.filetype
   local err = lsp_status('Error')
   local warn = lsp_status('Warning')
-  local statusline = {
+  local statusline_sections = {
     sep(mode, st_mode),
     '%<',
     sep(git_status, sec_2, git_status ~= ''),
@@ -187,7 +187,7 @@ function statusline.setup()
     '%<'
   }
 
-  return table.concat(statusline, '')
+  return table.concat(statusline_sections, '')
 end
 
 _G.kris.statusline = statusline
