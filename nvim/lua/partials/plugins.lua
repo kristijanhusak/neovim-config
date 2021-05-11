@@ -40,7 +40,6 @@ require('packager').setup(function(packager)
  packager.add('lukas-reineke/indent-blankline.nvim', { branch = 'lua' })
  packager.add('dhruvasagar/vim-dotoo')
  packager.add('folke/lsp-trouble.nvim')
- packager.add('sindrets/diffview.nvim')
 end)
 
 vim.g.mapleader = ','
