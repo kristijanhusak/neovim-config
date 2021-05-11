@@ -6,6 +6,7 @@ vim.g['dotoo#capture#refile'] = vim.fn.expand('~/Dropbox/dotoo/refile.org')
 vim.g['dotoo#capture#clock'] = 0
 vim.g['dotoo_begin_src_languages'] = {'sql'}
 vim.g['dotoo#agenda_views#agenda#span'] = 'week'
+vim.g['dotoo#agenda_views#agenda#start_of'] = 'today'
 
 vim.cmd [[augroup custom_dotoo]]
   vim.cmd [[autocmd!]]
