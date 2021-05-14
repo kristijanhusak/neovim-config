@@ -146,7 +146,7 @@ nvim_lsp.sumneko_lua.setup {
         path = vim.split(package.path, ';'),
       },
       diagnostics = {
-        globals = {'vim'},
+        globals = {'vim', 'describe', 'it', 'before_each', 'after_each'},
       },
       workspace = {
         library = {
