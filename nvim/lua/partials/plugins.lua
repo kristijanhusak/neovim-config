@@ -26,7 +26,7 @@ require('packager').setup(function(packager)
  packager.add('osyo-manga/vim-anzu')
  packager.add('stefandtw/quickfix-reflector.vim')
  packager.add('wakatime/vim-wakatime')
- packager.add('windwp/nvim-autopairs')
+ packager.add('steelsojka/pears.nvim')
  packager.add('neovim/nvim-lspconfig')
  packager.add('nvim-treesitter/nvim-treesitter')
  packager.add('nvim-treesitter/nvim-treesitter-refactor')
@@ -96,7 +96,6 @@ require'gitsigns'.setup({
   },
 })
 
-require'nvim-autopairs'.setup()
 require'kommentary.config'.configure_language('default', {
   prefer_single_line_comments = true,
   ignore_whitespace = true,

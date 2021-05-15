@@ -1,6 +1,6 @@
 local completion = {}
 local utils = require'partials/utils'
-local npairs = require'nvim-autopairs'
+local pears = require'pears'
 utils.opt('o', 'pumheight' , 15)
 vim.cmd('set completeopt=menuone,noselect')
 
@@ -67,7 +67,7 @@ utils.keymap('s', '<S-TAB>', 'vsnip#available(-1)  ? "<Plug>(vsnip-jump-prev)" :
   noremap = false
 })
 
-function completion.handle_cr()
+function completion.handle_cr(pears_handle)
   local complete_info = vim.fn.complete_info()
   local selected = complete_info.selected
   local item = complete_info.items[selected + 1]
@@ -81,10 +81,10 @@ function completion.handle_cr()
   end
 
   if vim.fn['vsnip#expandable']() ~= 0 then
-    return npairs.esc('<Plug>(vsnip-expand)')
+    return vim.api.nvim_feedkeys(utils.esc('<Plug>(vsnip-expand)'), 'i', true)
   end
 
-  return npairs.check_break_line_char()
+  return pears_handle()
 end
 
 utils.keymap('i', '<CR>', 'v:lua.kris.completion.handle_cr()', {
@@ -112,5 +112,9 @@ local ignores = {
 }
 
 utils.opt('o', 'wildignore', table.concat(ignores, ','))
+
+pears.setup(function(conf)
+  conf.on_enter(completion.handle_cr)
+end)
 
 _G.kris.completion = completion
