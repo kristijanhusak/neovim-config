@@ -1,0 +1,9 @@
+{
+  "print-inspect": {
+    "prefix": ["ins"],
+    "body": [
+      "print(vim.inspect($0))"
+    ],
+    "description": "Print + vim.inspect"
+  }
+}
