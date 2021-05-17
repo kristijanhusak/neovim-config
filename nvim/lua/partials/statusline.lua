@@ -3,10 +3,9 @@ local treesitter = require'nvim-treesitter'
 local utils = require'partials/utils'
 vim.cmd[[augroup custom_statusline]]
   vim.cmd [[autocmd!]]
-  vim.cmd [[autocmd BufEnter,WinEnter * setlocal statusline=%!v:lua.kris.statusline.setup()]]
-  vim.cmd [[autocmd BufLeave,WinLeave * setlocal statusline=%f\ %y\ %m]]
   vim.cmd [[autocmd VimEnter,ColorScheme * call v:lua.kris.statusline.set_colors()]]
 vim.cmd [[augroup END]]
+vim.o.statusline = '%!v:lua.kris.statusline.setup()'
 
 local c = {}
 
@@ -155,7 +154,7 @@ local function lsp_status(type)
   return ''
 end
 
-function statusline.setup()
+local function statusline_active()
   local mode = mode_statusline()
   local git_status = git_statusline()
   local ts_status = ts_statusline()
@@ -189,5 +188,18 @@ function statusline.setup()
 
   return table.concat(statusline_sections, '')
 end
+
+local function statusline_inactive()
+  return [[%f %y %m]]
+end
+
+function statusline.setup()
+    local focus = vim.g.statusline_winid == vim.fn.win_getid()
+    if focus then
+        return statusline_active()
+    end
+    return statusline_inactive()
+end
+
 
 _G.kris.statusline = statusline
