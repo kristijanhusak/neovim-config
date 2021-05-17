@@ -303,7 +303,7 @@ exec --no-startup-id xautolock -time 20 -locker blurlock
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 exec --no-startup-id "setxkbmap -layout 'us,rs' -variant ',latin' -option 'grp:lctrl_lwin_toggle'"
-exec_always --no-startup-id ~/.config/polybar/start.sh
+# exec_always --no-startup-id ~/.config/polybar/start.sh
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
@@ -335,35 +335,38 @@ set_from_resource $term_color12    color12
 set_from_resource $term_color13    color13
 set_from_resource $term_color14    color14
 set_from_resource $term_color15    color15
+set_from_resource $bar_bg polybar_bg
+set_from_resource $bar_fg polybar_fg
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
-# bar {
-# 	i3bar_command i3bar
-# 	status_command SCRIPT_DIR=~/.i3/i3blocks/blocklets i3blocks -c ~/.i3/i3blocks/config
-# 	position bottom
-#
-# ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
-# #	tray_output primary
-# #	tray_output eDP1
-#
-# 	bindsym button4 nop
-# 	bindsym button5 nop
-# #   font xft:URWGothic-Book 11
-# 	strip_workspace_numbers yes
-#
-#     colors {
-#         background #222D31
-#         statusline #F9FAF9
-#         separator  #454947
-#
-# #                      border  backgr. text
-#         focused_workspace  #F9FAF9 #16a085 #292F34
-#         active_workspace   #595B5B #353836 #FDF6E3
-#         inactive_workspace #595B5B #222D31 #EEE8D5
-#         binding_mode       #16a085 #2C2C2C #F9FAF9
-#         urgent_workspace   #16a085 #FDF6E3 #E5201D
-#     }
-# }
+bar {
+	i3bar_command i3bar
+	status_command i3blocks -c ~/.i3/i3blocks/config
+	position bottom
+
+## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
+        tray_output primary
+#	tray_output eDP1
+
+	bindsym button4 nop
+	bindsym button5 nop
+        font pango:JetBrains Mono 9
+	strip_workspace_numbers yes
+        separator_symbol │
+
+    colors {
+        background $bar_bg
+        statusline $bar_fg
+        separator  $bar_fg
+
+#                      border  backgr. text
+        focused_workspace  $bar_fg $bar_fg $bar_bg
+        active_workspace   #595B5B #353836 #FDF6E3
+        inactive_workspace $bar_fg $bar_bg $bar_fg
+        binding_mode       #16a085 #2C2C2C #F9FAF9
+        urgent_workspace   #16a085 #FDF6E3 #E5201D
+    }
+}
 
 # hide/unhide i3status bar
 # bindsym $mod+m bar mode toggle
