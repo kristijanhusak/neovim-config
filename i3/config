@@ -199,6 +199,7 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 # assign [class="Skype"] $ws5
 
 # Open specific applications in floating mode
+for_window [class="^.*"] border pixel 1
 for_window [title="alsamixer"] floating enable border pixel 1
 for_window [class="calamares"] floating enable border normal
 for_window [class="Clipgrab"] floating enable
@@ -343,6 +344,7 @@ bar {
 	i3bar_command i3bar
 	status_command i3blocks -c ~/.i3/i3blocks/config
 	position bottom
+	height 22
 
 ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
         tray_output primary
@@ -387,7 +389,5 @@ assign [class="Slack"] 4
 assign [class="DBeaver"] 5
 
 
-gaps inner 8
-gaps outer 0
-smart_gaps on
+gaps bottom 1
 smart_borders on
