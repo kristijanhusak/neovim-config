@@ -137,26 +137,17 @@ nvim_lsp.pyls.setup{}
 
 local lua_lsp_path = '/home/kristijan/github/lua-language-server'
 local lua_lsp_bin = lua_lsp_path..'/bin/Linux/lua-language-server'
-nvim_lsp.sumneko_lua.setup {
-  cmd = {lua_lsp_bin, '-E', lua_lsp_path..'/main.lua'};
+local luadev = vim.tbl_deep_extend('force', require("lua-dev").setup(), {
+  cmd = {lua_lsp_bin, '-E', lua_lsp_path..'/main.lua'},
   settings = {
     Lua = {
-      runtime = {
-        version = 'LuaJIT',
-        path = vim.split(package.path, ';'),
-      },
       diagnostics = {
         globals = {'vim', 'describe', 'it', 'before_each', 'after_each'},
       },
-      workspace = {
-        library = {
-          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-        },
-      },
     },
   },
-}
+})
+nvim_lsp.sumneko_lua.setup(luadev)
 
 require'lspsaga'.init_lsp_saga({
   rename_prompt_prefix = '',
