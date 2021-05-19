@@ -133,15 +133,15 @@ function javascript.generate_getter_setter()
 end
 
 function javascript.goto_definition()
-  local fname = vim.api.nvim_buf_get_name(0)
-  local pos = vim.fn.getpos('.')
-  vim.lsp.buf.definition()
-  vim.defer_fn(function()
-    local p = vim.fn.getpos('.')
-    if vim.api.nvim_buf_get_name(0) == fname and p[2] == pos[2] and p[3] == pos[3] then
-      vim.cmd[[JsGotoDefinition]]
+  local params = vim.lsp.util.make_position_params()
+  local line = vim.fn.line('.')
+  vim.lsp.buf_request(0, 'textDocument/definition', params, function(a, b, result)
+    if result then
+      vim.lsp.handlers['textDocument/definition'](a, b, result)
     end
-  end, 100)
+    if line ~= vim.fn.line('.') then return end
+    vim.cmd[[JsGotoDefinition]]
+  end)
 end
 
 vim.cmd [[nnoremap <silent><Plug>(JsConsoleLog) :<C-u>call v:lua.kris.javascript.console_log()<CR>]]
