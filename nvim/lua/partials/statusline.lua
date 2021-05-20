@@ -1,5 +1,4 @@
 local statusline = {}
-local treesitter = require'nvim-treesitter'
 local utils = require'partials/utils'
 vim.cmd[[augroup custom_statusline]]
   vim.cmd [[autocmd!]]
@@ -138,14 +137,6 @@ local function get_path()
   return vim.fn.pathshorten(path)
 end
 
-local function ts_statusline()
-  return treesitter.statusline({
-      indicator_size = 80,
-      transform_fn = utils.cleanup_ts_node
-    }) or ''
-end
-
-
 local function lsp_status(type)
   local count = vim.lsp.diagnostic.get_count(0, type)
   if count > 0 then
@@ -157,7 +148,6 @@ end
 local function statusline_active()
   local mode = mode_statusline()
   local git_status = git_statusline()
-  local ts_status = ts_statusline()
   local anzu = vim.fn['anzu#search_status']() or ''
   local db_ui = vim.fn['db_ui#statusline']() or ''
   local ft = vim.bo.filetype
@@ -174,7 +164,6 @@ local function statusline_active()
     sep('%r', nil, vim.bo.readonly),
     sep('%q', nil, vim.bo.buftype == 'quickfix'),
     sep(db_ui, sec_2, db_ui ~= ''),
-    sep(ts_status, sec_2, ts_status ~= ''),
     '%=',
     sep(anzu, vim.tbl_extend('keep', { side = 'right' }, sec_2), anzu ~= ''),
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
