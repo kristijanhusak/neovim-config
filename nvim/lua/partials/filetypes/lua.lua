@@ -15,7 +15,13 @@ end
 
 function lua.generate_docblock()
   local node = ts_utils.get_node_at_cursor()
-  local param_node = ts_utils.get_next_node(node:parent():parent())
+  if node:type() ~= 'identifier' then
+    while node and node:type() ~= 'function_name' do
+      node = node:parent()
+    end
+  end
+  if not node then return end
+  local param_node = ts_utils.get_next_node(node)
   if not param_node or param_node:type() ~= 'parameters' then return end
   local content = {}
 
@@ -24,7 +30,7 @@ function lua.generate_docblock()
     table.insert(content, string.format('---@param %s string', node_text))
   end
 
-  table.insert(content, '---@returns string')
+  table.insert(content, '---@return string')
   fn.append(fn.line('.') - 1, content)
 end
 
