@@ -137,15 +137,17 @@ nvim_lsp.pyls.setup{}
 
 local lua_lsp_path = '/home/kristijan/github/lua-language-server'
 local lua_lsp_bin = lua_lsp_path..'/bin/Linux/lua-language-server'
-local luadev = vim.tbl_deep_extend('force', require("lua-dev").setup(), {
-  cmd = {lua_lsp_bin, '-E', lua_lsp_path..'/main.lua'},
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = {'vim', 'describe', 'it', 'before_each', 'after_each'},
+local luadev = require("lua-dev").setup({
+  lspconfig = {
+    cmd = {lua_lsp_bin, '-E', lua_lsp_path..'/main.lua'},
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = {'vim', 'describe', 'it', 'before_each', 'after_each'},
+        },
       },
-    },
-  },
+    }
+  }
 })
 nvim_lsp.sumneko_lua.setup(luadev)
 

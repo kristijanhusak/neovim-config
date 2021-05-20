@@ -11,6 +11,7 @@ vim.cmd [[augroup END]]
 function lua.setup()
   vim.bo.keywordprg = ':help'
   utils.buf_keymap(0, 'n', '<Leader>D', '<cmd>lua kris.lua.generate_docblock()<CR>')
+  utils.buf_keymap(0, 'n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = false })
 end
 
 function lua.generate_docblock()
