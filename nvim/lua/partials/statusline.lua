@@ -1,5 +1,4 @@
 local statusline = {}
-local utils = require'partials/utils'
 vim.cmd[[augroup custom_statusline]]
   vim.cmd [[autocmd!]]
   vim.cmd [[autocmd VimEnter,ColorScheme * call v:lua.kris.statusline.set_colors()]]
