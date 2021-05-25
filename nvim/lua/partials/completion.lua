@@ -17,9 +17,6 @@ require'compe'.setup({
     vim_dadbod_completion = true,
     nvim_lua = false,
     calc = true,
-    omni = {
-      filetypes = {'dotoo', 'dotoocapture'},
-    },
     ripgrep = { ignored_filetypes = {'sql'} },
   }
 })
