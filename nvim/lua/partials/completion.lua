@@ -88,7 +88,7 @@ utils.keymap('i', '<CR>', 'v:lua.kris.completion.handle_cr()', {
   noremap = false
 })
 
-vim.opt.wildignore:append({
+vim.opt.wildignore = {
   '*.o',
   '*.obj,*~',
   '*.git*',
@@ -105,6 +105,6 @@ vim.opt.wildignore:append({
   '*.gem',
   'log/**',
   'tmp/**',
-})
+}
 
 _G.kris.completion = completion
