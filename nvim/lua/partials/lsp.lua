@@ -122,14 +122,7 @@ nvim_lsp.diagnosticls.setup({
     },
   },
 })
-nvim_lsp.tsserver.setup{
-  handlers = {
-    ['textDocument/publishDiagnostics'] = function() end,
-  },
-  on_attach = function(client, _)
-    client.resolved_capabilities.document_formatting = false
-  end
-}
+nvim_lsp.tsserver.setup{}
 nvim_lsp.vimls.setup{}
 nvim_lsp.intelephense.setup{}
 nvim_lsp.gopls.setup{}
