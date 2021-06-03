@@ -12,6 +12,8 @@ function colorscheme.setup_edge()
     hi WarningText guibg=NONE
     hi ErrorText guibg=NONE
     hi HintText guibg=NONE
+    hi clear NormalFloat
+    hi link NormalFloat Normal
   ]]
   if vim.o.background == 'light' then
     vim.cmd[[hi DiffText guibg=#bdd4fc guifg=NONE]]
