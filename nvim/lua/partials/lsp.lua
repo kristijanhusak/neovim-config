@@ -152,7 +152,7 @@ end
 -- until https://github.com/neovim/neovim/issues/12587 is resolved
 function lsp.on_cursor_hold()
   if vim.fn.mode() ~= 'i' then
-    vim.lsp.diagnostic.show_line_diagnostics({ border = 'single', show_header = false })
+    vim.lsp.diagnostic.show_line_diagnostics({ border = 'single', show_header = false, focusable = false })
   end
 end
 
@@ -167,6 +167,7 @@ function lsp.tag_signature(word)
   if not vim.tbl_isempty(content) then
     vim.lsp.util.open_floating_preview(content, vim.lsp.util.try_trim_markdown_code_blocks(content), {
       border = 'single',
+      focusable = false,
     })
     return true
   end
