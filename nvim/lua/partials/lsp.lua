@@ -241,8 +241,8 @@ utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', { n
 utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', { noremap = false })
 utils.keymap('n', '<Leader>e', ':LspTroubleToggle lsp_document_diagnostics<CR>')
 utils.keymap('n', '<leader>lr', '<cmd>lua kris.lsp.rename()<CR>', { noremap = false })
-utils.keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.got_prev()<CR>')
-utils.keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.got_next()<CR>')
+utils.keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+utils.keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
 utils.keymap('n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 utils.keymap('v', '<Leader>la', ':<C-u>lua vim.lsp.buf.range_code_action()<CR>')
 
