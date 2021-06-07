@@ -122,6 +122,7 @@ vim.g.nvim_tree_hide_dotfiles = 1
 vim.g.nvim_tree_width_allow_resize = true
 vim.g.nvim_tree_disable_netrw = 0
 vim.g.nvim_tree_hijack_cursor = 0
+vim.g.nvim_tree_update_cwd = 0
 
 vim.g.matchup_matchparen_status_offscreen = 0
 vim.g.matchup_matchparen_nomode = "ivV"
