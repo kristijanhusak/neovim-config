@@ -110,11 +110,11 @@ vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
 end
 
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-  vim.lsp.handlers.signature_help, { border = "single" }
+  vim.lsp.handlers.signature_help, { border = "single", focusable = false }
 )
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-  vim.lsp.handlers.hover, { border = "single" }
+  vim.lsp.handlers.hover, { border = "single", focusable = false }
 )
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
