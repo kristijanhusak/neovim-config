@@ -135,13 +135,12 @@ end
 function javascript.goto_definition()
   local params = vim.lsp.util.make_position_params()
   local line = vim.fn.line('.')
-  vim.lsp.buf_request(0, 'textDocument/definition', params, function(a, b, result)
-    if result then
-      vim.lsp.handlers['textDocument/definition'](a, b, result)
-    end
-    if line ~= vim.fn.line('.') then return end
-    vim.cmd[[JsGotoDefinition]]
-  end)
+  local result = vim.lsp.buf_request_sync(0, 'textDocument/definition', params, 100)
+  if result and not vim.tbl_isempty(result) and result[1].result and not vim.tbl_isempty(result[1].result) then
+    vim.lsp.handlers['textDocument/definition'](a, b, result[1].result)
+  end
+  if line ~= vim.fn.line('.') then return end
+  vim.cmd[[JsGotoDefinition]]
 end
 
 vim.cmd [[nnoremap <silent><Plug>(JsConsoleLog) :<C-u>call v:lua.kris.javascript.console_log()<CR>]]
