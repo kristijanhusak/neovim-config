@@ -52,7 +52,9 @@ export LESS=R
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=magenta,bold,underline"
 setopt HIST_IGNORE_ALL_DUPS
 
+export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
 # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
