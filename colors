@@ -2,8 +2,8 @@
 
 color_file = '/home/kristijan/.cache/main_colorscheme.conf'
 colorschemes = {
-    'dark': 'edge',
-    'light': 'edge',
+    'dark': 'base16-gruvbox-dark-medium',
+    'light': 'base16-one-light',
 }
 
 import pynvim

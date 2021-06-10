@@ -33,12 +33,12 @@ require('packager').setup(function(packager)
  packager.add('hrsh7th/vim-vsnip')
  packager.add('kyazdani42/nvim-tree.lua', { requires = 'kyazdani42/nvim-web-devicons' })
  packager.add('hrsh7th/nvim-compe')
- packager.add('sainnhe/edge')
  packager.add('puremourning/vimspector')
  packager.add('lukas-reineke/indent-blankline.nvim', { branch = 'lua' })
  packager.add('folke/lsp-trouble.nvim')
  packager.add('Raimondi/delimitMate')
  packager.add('folke/lua-dev.nvim')
+ packager.add('RRethy/nvim-base16')
 end)
 
 vim.g.mapleader = ','
