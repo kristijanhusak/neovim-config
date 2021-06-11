@@ -229,8 +229,8 @@ function lsp.select_code_action()
 end
 
 
-utils.keymap('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = false })
-utils.keymap('n', '<leader>lu', '<cmd>lua vim.lsp.buf.references()<CR>', { noremap = false })
+utils.keymap('n', '<leader>ld', ':LspTroubleToggle lsp_definitions<CR>')
+utils.keymap('n', '<leader>lu', ':LspTroubleToggle lsp_references<CR>')
 utils.keymap('n', '<leader>lc', '<cmd>lua vim.lsp.buf.declaration()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lg', '<cmd>lua vim.lsp.buf.implementation()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lh', '<cmd>lua vim.lsp.buf.hover()<CR>', { noremap = false })
@@ -241,6 +241,7 @@ utils.keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', { n
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', { noremap = false })
 utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', { noremap = false })
 utils.keymap('n', '<Leader>e', ':LspTroubleToggle lsp_document_diagnostics<CR>')
+utils.keymap('n', '<Leader>E', ':LspTroubleToggle lsp_workspace_diagnostics<CR>')
 utils.keymap('n', '<leader>lr', '<cmd>lua kris.lsp.rename()<CR>', { noremap = false })
 utils.keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
 utils.keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
