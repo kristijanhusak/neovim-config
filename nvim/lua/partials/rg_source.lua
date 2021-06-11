@@ -16,9 +16,10 @@ end
 
 local function cache(context, data)
   local word = context.input
+  local word_esc = vim.pesc(word)
   if not data then return end
   for line in data:gmatch('[^\r\n]+') do
-    local m = line:match(word..'[A-Za-z0-9]*')
+    local m = line:match(word_esc..'[A-Za-z0-9]*')
     if m and m ~= '' then
       local path = vim.split(line, ':')[1]
       if not result[m] then
@@ -62,8 +63,9 @@ local function should_search(word)
   if #vim.fn.complete_info().items > 5 then return false end
 
   local searched = false
+  local word_esc = vim.pesc(word)
   for item, _ in pairs(result) do
-    if item:find(word) then
+    if item:find(word_esc) then
       searched = true
       break
     end
