@@ -14,8 +14,8 @@ vim.cmd [[augroup vimrc_lsp]]
 vim.cmd [[augroup END]]
 
 function lsp.setup()
-  vim.cmd[[autocmd CursorMoved <buffer> lua kris.utils.debounce('CursorHold', kris.lsp.on_cursor_hold) ]]
-  vim.cmd[[autocmd CursorMovedI,InsertEnter <buffer> lua kris.utils.debounce('CursorHoldI', kris.lsp.signature_help) ]]
+  vim.cmd[[autocmd CursorHold <buffer> lua kris.lsp.on_cursor_hold()]]
+  vim.cmd[[autocmd CursorHoldI <buffer> lua kris.lsp.signature_help()]]
   vim.cmd[[autocmd CompleteDone <buffer> lua kris.lsp.save_completed_item()]]
   vim.cmd[[
     sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=
@@ -148,12 +148,8 @@ function lsp.save_completed_item()
   last_completed_item = vim.v.completed_item
 end
 
--- Use custom implementation of CursorHold and CursorHoldI
--- until https://github.com/neovim/neovim/issues/12587 is resolved
 function lsp.on_cursor_hold()
-  if vim.fn.mode() ~= 'i' then
-    vim.lsp.diagnostic.show_line_diagnostics({ border = 'single', show_header = false, focusable = false })
-  end
+  vim.lsp.diagnostic.show_line_diagnostics({ border = 'single', show_header = false, focusable = false })
 end
 
 function lsp.tag_signature(word)

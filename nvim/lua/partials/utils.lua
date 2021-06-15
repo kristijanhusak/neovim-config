@@ -1,5 +1,4 @@
 local M = {}
-local debounce_timers = {}
 
 function M.keymap(mode, lhs, rhs, opts)
   return vim.api.nvim_set_keymap(mode, lhs, rhs, vim.tbl_extend('keep', opts or {}, {
@@ -15,17 +14,6 @@ function M.buf_keymap(buf, mode, lhs, rhs, opts)
         silent = true,
         noremap = true,
     }))
-end
-
-function M.debounce(name, fn, time)
-  if debounce_timers[name] then
-    pcall(vim.loop.timer_stop, debounce_timers[name])
-    debounce_timers[name] = nil
-  end
-  debounce_timers[name] = vim.defer_fn(function()
-    fn()
-    debounce_timers[name] = nil
-  end, time or vim.o.updatetime)
 end
 
 function M.unmap(mode, lhs)
