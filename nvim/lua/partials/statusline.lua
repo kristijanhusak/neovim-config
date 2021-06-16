@@ -166,9 +166,8 @@ local function statusline_active()
     '%=',
     sep(anzu, vim.tbl_extend('keep', { side = 'right' }, sec_2), anzu ~= ''),
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
-    sep(': %c', st_mode_right),
-    sep(': %l/%L', st_mode_right),
-    sep('%p%%', vim.tbl_extend('keep', { no_after = err == '' and warn == '' }, st_mode_right)),
+    sep('%l:%c', st_mode_right),
+    sep('%p%%/%L', vim.tbl_extend('keep', { no_after = err == '' and warn == '' }, st_mode_right)),
     sep(err, vim.tbl_extend('keep', { no_after = warn == '' }, st_err_right), err ~= ''),
     sep(warn, st_warn, warn ~= ''),
     '%<'
