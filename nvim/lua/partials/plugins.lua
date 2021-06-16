@@ -24,7 +24,7 @@ require('packager').setup(function(packager)
  packager.add('andymass/vim-matchup')
  packager.add('haya14busa/vim-asterisk')
  packager.add('osyo-manga/vim-anzu')
- packager.add('stefandtw/quickfix-reflector.vim')
+ packager.add('gabrielpoca/replacer.nvim')
  packager.add('wakatime/vim-wakatime')
  packager.add('neovim/nvim-lspconfig')
  packager.add('nvim-treesitter/nvim-treesitter')
@@ -49,6 +49,7 @@ vim.cmd[[augroup packager_filetype]]
   vim.cmd[[autocmd FileType NvimTree call v:lua.kris.plugins.setup_nvimtree() ]]
   vim.cmd[[autocmd FileType sql packadd vim-dadbod-completion | runtime after/plugin/vim_dadbod_completion.vim]]
   vim.cmd[[autocmd VimEnter * call v:lua.kris.plugins.handle_vimenter() ]]
+  vim.cmd[[autocmd FileType qf nnoremap <buffer><silent><nowait> <leader>h :lua require("replacer").run()<CR>]]
 vim.cmd[[augroup END]]
 
 function plugins.setup_nvimtree()
