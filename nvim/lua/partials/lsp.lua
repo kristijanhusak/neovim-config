@@ -143,6 +143,30 @@ vim.lsp.handlers['textDocument/codeAction'] = function(_, _, actions)
   utils.buf_keymap(bufnr, 'n', '<CR>', '<cmd>lua kris.lsp.select_code_action()<CR>')
 end
 
+local custom_symbol_callback = function(_, _, result, _, bufnr)
+  if not result or vim.tbl_isempty(result) then return end
+
+  local items = vim.lsp.util.symbols_to_items(result, bufnr)
+  local items_by_name = {}
+  for _, item in ipairs(items) do
+    items_by_name[item.text] = item
+  end
+
+  local opts = vim.fn['fzf#wrap']({
+      source = vim.tbl_keys(items_by_name),
+      sink = function() end,
+      options = {'--prompt', 'Symbol > '},
+    })
+  opts.sink = function(item)
+    local selected = items_by_name[item]
+    vim.fn.cursor(selected.lnum, selected.col)
+  end
+  vim.fn['fzf#run'](opts)
+end
+
+vim.lsp.handlers['textDocument/documentSymbol'] = custom_symbol_callback
+vim.lsp.handlers['workspace/symbol'] = custom_symbol_callback
+
 function lsp.save_completed_item()
   if type(vim.v.completed_item) ~= 'table' or not vim.v.completed_item.word then return end
   last_completed_item = vim.v.completed_item
@@ -234,6 +258,8 @@ utils.keymap('n', '<leader>lH', '<cmd>lua kris.lsp.tag_signature(vim.fn.expand("
 utils.keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', { noremap = false })
 utils.keymap('v', '<leader>lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>', { noremap = false })
 utils.keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', { noremap = false })
+utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', { noremap = false })
+utils.keymap('n', '<leader>lt', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', { noremap = false })
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', { noremap = false })
 utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', { noremap = false })
 utils.keymap('n', '<Leader>e', ':LspTroubleToggle lsp_document_diagnostics<CR>')
