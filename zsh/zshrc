@@ -74,9 +74,6 @@ export KEYTIMEOUT=1
 export NVM_DIR="/home/kristijan/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-[[ $- == *i* ]] && source "/usr/share/fzf/completion.zsh" 2> /dev/null
-source "/usr/share/fzf/key-bindings.zsh"
-
 eval $(keychain --eval --quiet ~/.ssh/id_rsa)
 
 bindkey '^[[Z' reverse-menu-complete # Use shift tab for backward autocompletion
@@ -150,3 +147,5 @@ z() {
 }
 
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
