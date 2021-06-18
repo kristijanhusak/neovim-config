@@ -24,7 +24,6 @@ require('packager').setup(function(packager)
  packager.add('editorconfig/editorconfig-vim')
  packager.add('andymass/vim-matchup')
  packager.add('haya14busa/vim-asterisk')
- packager.add('osyo-manga/vim-anzu')
  packager.add('gabrielpoca/replacer.nvim')
  packager.add('wakatime/vim-wakatime')
  packager.add('neovim/nvim-lspconfig')
@@ -66,14 +65,14 @@ function plugins.handle_vimenter()
   vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h')..'/snippets'
 end
 
-utils.keymap('n', '<Leader><space>', ':AnzuClearSearchStatus<BAR>noh<CR>')
+utils.keymap('n', '<Leader><space>', ':lua kris.statusline.search_hide()<CR>:noh<CR>')
 
-utils.keymap('n', 'n', '<Plug>(anzu-n)zz', {noremap = false})
-utils.keymap('n', 'N', '<Plug>(anzu-N)zz', {noremap = false})
-utils.keymap('', '*', '<Plug>(asterisk-z*)<Plug>(anzu-update-search-status)', {noremap = false})
-utils.keymap('', '#', '<Plug>(asterisk-z#)<Plug>(anzu-update-search-status)', {noremap = false})
-utils.keymap('', 'g*', '<Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)', {noremap = false})
-utils.keymap('', 'g#', '<Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)', {noremap = false})
+utils.keymap('n', 'n', ':lua kris.statusline.search_show()<CR>nzz')
+utils.keymap('n', 'N', ':lua kris.statusline.search_show()<CR>Nzz')
+utils.keymap('', '*', '<Plug>(asterisk-z*):lua kris.statusline.search_show()<CR>', { noremap = false })
+utils.keymap('', '#', '<Plug>(asterisk-z#):lua kris.statusline.search_show()<CR>', { noremap = false })
+utils.keymap('', 'g*', '<Plug>(asterisk-gz*):lua kris.statusline.search_show()<CR>', { noremap = false })
+utils.keymap('', 'g#', '<Plug>(asterisk-gz#):lua kris.statusline.search_show()<CR>', { noremap = false })
 
 utils.keymap('n', '<Leader>G', ':vert G<CR>')
 

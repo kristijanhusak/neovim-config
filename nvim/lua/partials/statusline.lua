@@ -1,7 +1,11 @@
-local statusline = {}
+local utils = require('partials/utils')
+local statusline = {
+  show_search = false
+}
 vim.cmd[[augroup custom_statusline]]
   vim.cmd [[autocmd!]]
   vim.cmd [[autocmd VimEnter,ColorScheme * call v:lua.kris.statusline.set_colors()]]
+  vim.cmd [[autocmd CmdlineLeave * call v:lua.kris.statusline.search_show_from_event(v:event)]]
 vim.cmd [[augroup END]]
 vim.o.statusline = '%!v:lua.kris.statusline.setup()'
 
@@ -136,6 +140,29 @@ local function get_path()
   return vim.fn.pathshorten(path)
 end
 
+function statusline.search_result()
+  if not statusline.show_search then return end
+  local last_search = vim.fn.getreg('/')
+  if not last_search or last_search == '' then return end
+  local searchcount = vim.fn.searchcount({ maxcount = 9999 });
+  return last_search..'('..searchcount.current..'/'..searchcount.total..')'
+end
+
+function statusline.search_show_from_event(event)
+  if event and event.cmdtype == '/' then
+    statusline.show_search = true
+  end
+end
+
+function statusline.search_show()
+  statusline.show_search = true
+  return ''
+end
+
+function statusline.search_hide()
+  statusline.show_search = false
+end
+
 local function lsp_status(type)
   local count = vim.lsp.diagnostic.get_count(0, type)
   if count > 0 then
@@ -147,7 +174,7 @@ end
 local function statusline_active()
   local mode = mode_statusline()
   local git_status = git_statusline()
-  local anzu = vim.fn['anzu#search_status']() or ''
+  local search = statusline.search_result() or ''
   local db_ui = vim.fn['db_ui#statusline']() or ''
   local ft = vim.bo.filetype
   local err = lsp_status('Error')
@@ -164,7 +191,7 @@ local function statusline_active()
     sep('%q', nil, vim.bo.buftype == 'quickfix'),
     sep(db_ui, sec_2, db_ui ~= ''),
     '%=',
-    sep(anzu, vim.tbl_extend('keep', { side = 'right' }, sec_2), anzu ~= ''),
+    sep(search, vim.tbl_extend('keep', { side = 'right' }, sec_2), search ~= ''),
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
     sep('%l:%c', st_mode_right),
     sep('%p%%/%L', vim.tbl_extend('keep', { no_after = err == '' and warn == '' }, st_mode_right)),
@@ -187,6 +214,5 @@ function statusline.setup()
     end
     return statusline_inactive()
 end
-
 
 _G.kris.statusline = statusline
