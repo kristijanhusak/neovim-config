@@ -35,7 +35,6 @@ require('packager').setup(function(packager)
  packager.add('hrsh7th/nvim-compe')
  packager.add('puremourning/vimspector')
  packager.add('lukas-reineke/indent-blankline.nvim', { branch = 'lua' })
- packager.add('folke/lsp-trouble.nvim')
  packager.add('Raimondi/delimitMate')
  packager.add('folke/lua-dev.nvim')
  packager.add('RRethy/nvim-base16')
@@ -79,13 +78,6 @@ utils.keymap('n', '<Leader>G', ':vert G<CR>')
 utils.keymap('n', '<Leader>n', ':NvimTreeToggle<CR>')
 utils.keymap('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
 
--- Load .nvimrc manually until this PR is merged.
--- https://github.com/neovim/neovim/pull/13503
-local local_vimrc = vim.fn.getcwd()..'/.nvimrc'
-if vim.loop.fs_stat(local_vimrc) then
-  vim.cmd('source '..local_vimrc)
-end
-
 require'gitsigns'.setup({
   signs = {
     add          = {hl = 'diffAdded', text = '▌'},
@@ -100,9 +92,6 @@ require'kommentary.config'.configure_language('default', {
   prefer_single_line_comments = true,
   ignore_whitespace = true,
   use_consistent_indentation = true,
-})
-require("trouble").setup({
-  auto_close = true
 })
 
 vim.g.nvim_tree_bindings = {
