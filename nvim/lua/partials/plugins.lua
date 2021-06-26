@@ -64,14 +64,14 @@ function plugins.handle_vimenter()
   vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h')..'/snippets'
 end
 
-utils.keymap('n', '<Leader><space>', ':lua kris.statusline.search_hide()<CR>:noh<CR>')
+utils.keymap('n', '<Leader><space>', ':noh<CR>')
 
-utils.keymap('n', 'n', ':lua kris.statusline.search_show()<CR>nzz')
-utils.keymap('n', 'N', ':lua kris.statusline.search_show()<CR>Nzz')
-utils.keymap('', '*', '<Plug>(asterisk-z*):lua kris.statusline.search_show()<CR>', { noremap = false })
-utils.keymap('', '#', '<Plug>(asterisk-z#):lua kris.statusline.search_show()<CR>', { noremap = false })
-utils.keymap('', 'g*', '<Plug>(asterisk-gz*):lua kris.statusline.search_show()<CR>', { noremap = false })
-utils.keymap('', 'g#', '<Plug>(asterisk-gz#):lua kris.statusline.search_show()<CR>', { noremap = false })
+utils.keymap('n', 'n', 'nzz')
+utils.keymap('n', 'N', 'Nzz')
+utils.keymap('', '*', '<Plug>(asterisk-z*)', { noremap = false })
+utils.keymap('', '#', '<Plug>(asterisk-z#)', { noremap = false })
+utils.keymap('', 'g*', '<Plug>(asterisk-gz*)', { noremap = false })
+utils.keymap('', 'g#', '<Plug>(asterisk-gz#)', { noremap = false })
 
 utils.keymap('n', '<Leader>G', ':vert G<CR>')
 
