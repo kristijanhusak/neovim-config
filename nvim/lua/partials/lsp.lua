@@ -11,6 +11,7 @@ local filetypes = {'javascript', 'javascriptreact', 'typescript', 'typescriptrea
 vim.cmd [[augroup vimrc_lsp]]
   vim.cmd [[autocmd!]]
   vim.cmd(string.format('autocmd FileType %s call v:lua.kris.lsp.setup()', table.concat(filetypes, ',')))
+  vim.cmd[[autocmd User LspDiagnosticsChanged :lua kris.lsp.refresh_diagnostics()]]
 vim.cmd [[augroup END]]
 
 function lsp.setup()
@@ -245,6 +246,13 @@ function lsp.select_code_action()
     end
   else
     vim.lsp.buf.execute_command(action_chosen)
+  end
+end
+
+function lsp.refresh_diagnostics()
+  vim.lsp.diagnostic.set_loclist({open_loclist = false})
+  if vim.tbl_isempty(vim.fn.getloclist(0)) then
+    vim.cmd[[lclose]]
   end
 end
 
