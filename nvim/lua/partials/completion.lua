@@ -18,6 +18,7 @@ require'compe'.setup({
     nvim_lua = false,
     calc = true,
     ripgrep = { ignored_filetypes = {'sql'} },
+    orgmode = true
   }
 })
 

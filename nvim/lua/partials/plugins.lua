@@ -14,6 +14,7 @@ require('packager').setup(function(packager)
  packager.add('kristijanhusak/vim-dadbod', { branch = 'async-query' })
  packager.add('kristijanhusak/vim-dadbod-completion', { type = 'opt', branch = 'async' })
  packager.add('kristijanhusak/vim-dadbod-ui', { branch = 'async' })
+ packager.add('kristijanhusak/orgmode.nvim')
  packager.add('lambdalisue/reword.vim')
  packager.add('AndrewRadev/tagalong.vim')
  packager.add('AndrewRadev/splitjoin.vim')
@@ -92,6 +93,11 @@ require'kommentary.config'.configure_language('default', {
   prefer_single_line_comments = true,
   ignore_whitespace = true,
   use_consistent_indentation = true,
+})
+
+require('orgmode').setup({
+  org_agenda_files = '~/Dropbox/org/*',
+  org_default_notes_file = '~/Dropbox/org/refile.org',
 })
 
 vim.g.nvim_tree_bindings = {
