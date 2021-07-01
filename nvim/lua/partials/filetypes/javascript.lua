@@ -136,6 +136,9 @@ function javascript.goto_definition()
   local params = vim.lsp.util.make_position_params()
   local line = vim.fn.line('.')
   local result = vim.lsp.buf_request_sync(0, 'textDocument/definition', params, 100)
+  if result then
+    result = vim.tbl_values(result)
+  end
   if result and not vim.tbl_isempty(result) and result[1].result and not vim.tbl_isempty(result[1].result) then
     vim.lsp.handlers['textDocument/definition'](a, b, result[1].result)
   end
