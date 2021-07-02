@@ -3,7 +3,7 @@ Neovim and terminal configuration
 
 **This branch currently contains setup using CoC completion/lsp.**
 
-**Configuration compatible with latest Neovim (with lua configuration) is on [bleeding-edge](https://github.com/kristijanhusak/neovim-config/tree/bleeding-edge) branch.**
+**Configuration compatible with latest Neovim (with lua configuration) is on [master](https://github.com/kristijanhusak/neovim-config/tree/master) branch.**
 
 Old tmux setup: [tmux](https://github.com/kristijanhusak/neovim-config/tree/tmux) branch.
 
