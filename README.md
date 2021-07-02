@@ -1,7 +1,7 @@
 Neovim and terminal configuration
 ------
 
-Neovim configuration is completely written in lua, thus it requires latest Neovim built from master.
+Neovim configuration is completely written in lua, thus it requires Neovim 0.5+.
 
 * Super old tmux setup: [tmux](https://github.com/kristijanhusak/neovim-config/tree/tmux) branch.
 
