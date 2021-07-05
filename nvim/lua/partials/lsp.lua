@@ -111,11 +111,11 @@ vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
 end
 
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-  vim.lsp.handlers.signature_help, { border = "single", focusable = false }
+  vim.lsp.handlers.signature_help, { border = "rounded", focusable = false }
 )
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-  vim.lsp.handlers.hover, { border = "single", focusable = false }
+  vim.lsp.handlers.hover, { border = "rounded", focusable = false }
 )
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -138,7 +138,7 @@ vim.lsp.handlers['textDocument/codeAction'] = function(_, _, actions)
   kris.lsp.last_actions = actions
 
   local bufnr, winnr = vim.lsp.util.open_floating_preview(option_strings, '', {
-    border = 'single',
+    border = 'rounded',
   })
   vim.api.nvim_set_current_win(winnr)
   utils.buf_keymap(bufnr, 'n', '<CR>', '<cmd>lua kris.lsp.select_code_action()<CR>')
@@ -174,7 +174,7 @@ function lsp.save_completed_item()
 end
 
 function lsp.on_cursor_hold()
-  vim.lsp.diagnostic.show_line_diagnostics({ border = 'single', show_header = false, focusable = false })
+  vim.lsp.diagnostic.show_line_diagnostics({ border = 'rounded', show_header = false, focusable = false })
 end
 
 function lsp.tag_signature(word)
@@ -187,7 +187,7 @@ function lsp.tag_signature(word)
 
   if not vim.tbl_isempty(content) then
     vim.lsp.util.open_floating_preview(content, vim.lsp.util.try_trim_markdown_code_blocks(content), {
-      border = 'single',
+      border = 'rounded',
       focusable = false,
     })
     return true
@@ -215,7 +215,7 @@ end
 function lsp.rename()
   local current_val = vim.fn.expand('<cword>')
   local bufnr, winnr = vim.lsp.util.open_floating_preview({ current_val }, '', {
-    border = 'single',
+    border = 'rounded',
     width = math.max(current_val:len() + 10, 30),
   })
   vim.api.nvim_set_current_win(winnr)

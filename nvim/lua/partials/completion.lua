@@ -19,7 +19,10 @@ require'compe'.setup({
     calc = true,
     ripgrep = { ignored_filetypes = {'sql'} },
     orgmode = true
-  }
+  },
+  documentation = {
+    border = 'rounded'
+  },
 })
 
 local function check_back_space()
