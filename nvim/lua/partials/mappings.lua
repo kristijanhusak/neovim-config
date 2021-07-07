@@ -71,7 +71,7 @@ utils.keymap('n', '_', '<c-w>5<')
 utils.keymap('n', '+', '<c-w>5>')
 
 -- Disable ex mode mapping
-utils.keymap('', 'Q', '<Nop>', { noremap = false })
+utils.keymap('', 'Q', '<c-z>', { noremap = false })
 
 -- Jump to definition in vertical split
 utils.keymap('n', '<Leader>]', '<C-W>v<C-]>')
