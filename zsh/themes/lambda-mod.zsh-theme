@@ -21,9 +21,13 @@ function check_git_prompt_info() {
     fi
 }
 
+function check_bg_jobs() {
+    if [ -n "$(jobs -p)" ]; then echo "  "; fi
+}
+
 PROMPT=$''$LAMBDA'\
  %{$fg_bold[$USERCOLOR]%}%n\
- %{$fg_no_bold[magenta]%}[%~]\
+ %{$fg_no_bold[magenta]%}[%~]$(check_bg_jobs)\
  $(check_git_prompt_info)\
 %{$reset_color%}'
 
