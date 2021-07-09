@@ -2,8 +2,8 @@
 
 color_file = '/home/kristijan/.cache/main_colorscheme.conf'
 colorschemes = {
-    'dark': 'base16-gruvbox-dark-medium',
-    'light': 'base16-one-light',
+    'dark': 'github',
+    'light': 'github',
 }
 
 import pynvim
@@ -40,9 +40,10 @@ if not bg:
 if bg == 'toggle':
     bg = 'dark' if current_bg == 'light' else 'light'
 
+
+os.environ['NVIM_COLORSCHEME_BG'] = bg
+os.environ['NVIM_COLORSCHEME'] = colorschemes[bg]
 nvim = pynvim.attach('child', argv=["/usr/bin/env", "nvim", "--embed", "--headless"])
-nvim.command('set bg=' + bg)
-nvim.command('colorscheme ' + colorschemes[bg])
 
 def get_hl_color(name):
     hl_output = nvim.call('execute', 'hi ' + name)
@@ -69,7 +70,7 @@ command = [
     'selection_foreground ' + (selection_fg.startswith('#') and selection_fg or 'none'),
     'selection_background ' + (selection_bg.startswith('#') and selection_bg or normal_fg)
 ]
-for i in range(0, 15):
+for i in range(0, 16):
     command.append('color' + str(i) + ' ' + nvim.eval('g:terminal_color_' + str(i)))
 
 nvim.close()

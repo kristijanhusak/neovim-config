@@ -39,6 +39,7 @@ require('packager').setup(function(packager)
  packager.add('Raimondi/delimitMate')
  packager.add('folke/lua-dev.nvim')
  packager.add('RRethy/nvim-base16')
+ packager.add('projekt0n/github-nvim-theme')
 end)
 
 vim.g.mapleader = ','
@@ -80,11 +81,11 @@ utils.keymap('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
 
 require'gitsigns'.setup({
   signs = {
-    add          = {hl = 'diffAdded', text = '▌'},
-    change       = {hl = 'diffChanged', text = '▌'},
-    delete       = {hl = 'diffRemoved', text = '_'},
-    topdelete    = {hl = 'diffRemoved', text = '‾'},
-    changedelete = {hl = 'diffChanged', text = '▌'},
+    add          = { text = '▌'},
+    change       = { text = '▌'},
+    delete       = { text = '_'},
+    topdelete    = { text = '‾'},
+    changedelete = { text = '▌'},
   },
 })
 
