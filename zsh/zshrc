@@ -134,6 +134,14 @@ fbr() {
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
+fst() {
+  local files file
+  files=$(git status --porcelain -u) &&
+  file=$(echo "$files" |
+           fzf -d $(( 2 + $(wc -l <<< "$files") )) +m) &&
+  nvim $(echo $file | sed "s/^...//")
+}
+
 colors() {
   color_vars=$(~/neovim-config/colors $1)
   eval ${color_vars}
