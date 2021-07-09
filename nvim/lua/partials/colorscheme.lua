@@ -5,6 +5,7 @@ vim.cmd [[augroup vimrc_colorscheme]]
   vim.cmd [[autocmd!]]
   vim.cmd [[autocmd FileType dbout syn match dbout_null /(null)/ | hi link dbout_null Comment]]
   vim.cmd [[autocmd ColorScheme base16-one-light lua kris.colorscheme.setup_one_light()]]
+  vim.cmd [[autocmd ColorScheme * hi link OrgAgendaDay Directory | hi link OrgAgendaScheduledPast Type]]
 vim.cmd [[augroup END]]
 
 function colorscheme.setup_one_light()
