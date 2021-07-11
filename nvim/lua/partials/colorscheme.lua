@@ -17,5 +17,7 @@ require('github-theme').setup({
   }
 })
 vim.cmd(string.format('hi StatusLineNC guibg=%s', colors[bg_statusline]))
+vim.cmd(string.format('hi OrgDONE guifg=%s gui=bold', colors.git.add))
+vim.cmd(string.format('hi OrgAgendaScheduled guifg=%s', colors.green))
 
 _G.kris.colorscheme = colorscheme
