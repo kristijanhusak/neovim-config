@@ -14,7 +14,8 @@ require('github-theme').setup({
   themeStyle = bg,
   colors = {
     bg_statusline = colors[bg_statusline],
-  }
+  },
+  darkFloat = false,
 })
 vim.cmd(string.format('hi StatusLineNC guibg=%s', colors[bg_statusline]))
 vim.cmd(string.format('hi OrgDONE guifg=%s gui=bold', colors.git.add))
