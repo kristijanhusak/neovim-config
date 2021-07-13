@@ -16,14 +16,8 @@ vim.cmd [[augroup END]]
 
 function lsp.setup()
   vim.cmd[[autocmd CursorHold <buffer> lua kris.lsp.on_cursor_hold()]]
-  vim.cmd[[autocmd CursorHoldI <buffer> lua kris.lsp.signature_help()]]
   vim.cmd[[autocmd CompleteDone <buffer> lua kris.lsp.save_completed_item()]]
-  vim.cmd[[
-    sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=
-    sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl=
-    sign define LspDiagnosticsSignInformation text= texthl=LspDiagnosticsSignInformation linehl= numhl=
-    sign define LspDiagnosticsSignHint text= texthl=LspDiagnosticsSignHint linehl= numhl=
-  ]]
+  require'lsp_signature'.on_attach()
 end
 
 nvim_lsp.diagnosticls.setup({
@@ -110,10 +104,6 @@ vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
   return {}
 end
 
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-  vim.lsp.handlers.signature_help, { border = "rounded", focusable = false }
-)
-
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
   vim.lsp.handlers.hover, { border = "rounded", focusable = false }
 )
@@ -196,22 +186,6 @@ function lsp.tag_signature(word)
   return false
 end
 
-function lsp.signature_help()
-  if last_completed_item.menu == '[Tag]' and vim.fn.pumvisible() == 0 then
-    local node = ts_utils.get_node_at_cursor()
-    local current_node = ts_utils.get_node_text(node)[1]
-    local last_node = ts_utils.get_node_text(ts_utils.get_previous_node(node))[1]
-    local last_method = vim.fn.split(last_node, '\\.')
-    last_method = last_method[#last_method]
-    local show_tag_signature = false
-    if current_node:match('%(.*%)') and last_method == last_completed_item.word then
-      show_tag_signature = lsp.tag_signature(last_completed_item.word)
-    end
-    if show_tag_signature then return end
-  end
-  return vim.lsp.buf.signature_help()
-end
-
 function lsp.rename()
   local current_val = vim.fn.expand('<cword>')
   local bufnr, winnr = vim.lsp.util.open_floating_preview({ current_val }, '', {
@@ -277,5 +251,12 @@ utils.keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
 utils.keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
 utils.keymap('n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 utils.keymap('v', '<Leader>la', ':<C-u>lua vim.lsp.buf.range_code_action()<CR>')
+
+vim.cmd[[
+sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=
+sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl=
+sign define LspDiagnosticsSignInformation text= texthl=LspDiagnosticsSignInformation linehl= numhl=
+sign define LspDiagnosticsSignHint text= texthl=LspDiagnosticsSignHint linehl= numhl=
+]]
 
 _G.kris.lsp = lsp
