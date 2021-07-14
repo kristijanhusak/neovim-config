@@ -3,8 +3,7 @@ local lsp = {
 }
 local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
-local last_completed_item = { menu = nil, word = nil }
-local ts_utils = require'nvim-treesitter/ts_utils'
+local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostic')
 
 local filetypes = {'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'lua', 'go', 'vim', 'php', 'python'}
 
@@ -15,8 +14,7 @@ vim.cmd [[augroup vimrc_lsp]]
 vim.cmd [[augroup END]]
 
 function lsp.setup()
-  vim.cmd[[autocmd CursorHold <buffer> lua kris.lsp.on_cursor_hold()]]
-  vim.cmd[[autocmd CompleteDone <buffer> lua kris.lsp.save_completed_item()]]
+  vim.cmd[[autocmd CursorHold,CursorHoldI <buffer> lua kris.lsp.show_diagnostics()]]
   require'lsp_signature'.on_attach()
 end
 
@@ -158,13 +156,15 @@ end
 vim.lsp.handlers['textDocument/documentSymbol'] = custom_symbol_callback
 vim.lsp.handlers['workspace/symbol'] = custom_symbol_callback
 
-function lsp.save_completed_item()
-  if type(vim.v.completed_item) ~= 'table' or not vim.v.completed_item.word then return end
-  last_completed_item = vim.v.completed_item
-end
 
-function lsp.on_cursor_hold()
-  vim.lsp.diagnostic.show_line_diagnostics({ border = 'rounded', show_header = false, focusable = false })
+function lsp.show_diagnostics()
+  local line = vim.api.nvim_win_get_cursor(0)[1] - 1
+  local diagnostics = vim.lsp.diagnostic.get_line_diagnostics()
+  if #diagnostics == 0 then
+    return vim.api.nvim_buf_clear_namespace(0, diagnostic_ns, 0, -1)
+  end
+  local virt_texts = vim.lsp.diagnostic.get_virtual_text_chunks_for_line(0, line, diagnostics)
+  vim.api.nvim_buf_set_virtual_text(0, diagnostic_ns, line, virt_texts, {})
 end
 
 function lsp.tag_signature(word)
@@ -225,6 +225,7 @@ end
 
 function lsp.refresh_diagnostics()
   vim.lsp.diagnostic.set_loclist({open_loclist = false})
+  lsp.show_diagnostics()
   if vim.tbl_isempty(vim.fn.getloclist(0)) then
     vim.cmd[[lclose]]
   end
@@ -243,12 +244,12 @@ utils.keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
 utils.keymap('n', '<leader>lt', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
-utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
+utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ border = "rounded", show_header = false, focusable = false })<CR>')
 utils.keymap('n', '<Leader>e', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
 utils.keymap('n', '<Leader>E', '<cmd>lua vim.lsp.diagnostic.set_loclist({ workspace = true })<CR>')
 utils.keymap('n', '<leader>lr', '<cmd>lua kris.lsp.rename()<CR>')
-utils.keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-utils.keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+utils.keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev({ enable_popup = false })<CR>')
+utils.keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next({ enable_popup = false })<CR>')
 utils.keymap('n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 utils.keymap('v', '<Leader>la', ':<C-u>lua vim.lsp.buf.range_code_action()<CR>')
 
