@@ -78,7 +78,7 @@ nvim_lsp.tsserver.setup{}
 nvim_lsp.vimls.setup{}
 nvim_lsp.intelephense.setup{}
 nvim_lsp.gopls.setup{}
-nvim_lsp.pyls.setup{}
+nvim_lsp.pylsp.setup{}
 local lua_lsp_path = '/home/kristijan/github/lua-language-server'
 local lua_lsp_bin = lua_lsp_path..'/bin/Linux/lua-language-server'
 nvim_lsp.sumneko_lua.setup(require("lua-dev").setup({
