@@ -1,6 +1,18 @@
 return {
   org_agenda_files = '~/Dropbox/org/*',
   org_default_notes_file = '~/Dropbox/org/refile.org',
+  org_agenda_templates = {
+    T = {
+      description = 'Todo',
+      template = '* TODO %?\n  DEADLINE: %T',
+      target = '~/Dropbox/org/todos.org'
+    },
+    w = {
+      description = 'Work todo',
+      template = '* TODO %?\n  DEADLINE: %T',
+      target = '~/Dropbox/org/work.org'
+    },
+  },
   notifications = {
     reminder_time = {0, 1, 5, 10},
     repeater_reminder_time = {0, 1, 5, 10},
