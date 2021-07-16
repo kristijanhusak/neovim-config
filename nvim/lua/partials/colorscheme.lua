@@ -9,7 +9,7 @@ vim.cmd[[filetype plugin indent on]]
 vim.cmd[[syntax on]]
 
 local colors = require('github-theme.colors').setup()
-local bg_statusline = bg == 'light' and 'fg_gutter' or 'black'
+local bg_statusline = bg == 'light' and 'fg_gutter' or 'bg2'
 require('github-theme').setup({
   themeStyle = bg,
   colors = {
