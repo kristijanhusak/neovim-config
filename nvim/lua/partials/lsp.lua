@@ -160,8 +160,9 @@ vim.lsp.handlers['workspace/symbol'] = custom_symbol_callback
 function lsp.show_diagnostics()
   local line = vim.api.nvim_win_get_cursor(0)[1] - 1
   local diagnostics = vim.lsp.diagnostic.get_line_diagnostics()
+  vim.api.nvim_buf_clear_namespace(0, diagnostic_ns, 0, -1)
   if #diagnostics == 0 then
-    return vim.api.nvim_buf_clear_namespace(0, diagnostic_ns, 0, -1)
+    return false
   end
   local virt_texts = vim.lsp.diagnostic.get_virtual_text_chunks_for_line(0, line, diagnostics)
   vim.api.nvim_buf_set_virtual_text(0, diagnostic_ns, line, virt_texts, {})
