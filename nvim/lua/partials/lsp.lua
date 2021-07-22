@@ -227,7 +227,7 @@ function lsp.select_code_action()
 end
 
 function lsp.refresh_diagnostics()
-  vim.lsp.diagnostic.set_loclist({open_loclist = false})
+  vim.lsp.diagnostic.set_loclist({open = false})
   lsp.show_diagnostics()
   if vim.tbl_isempty(vim.fn.getloclist(0)) then
     vim.cmd[[lclose]]
