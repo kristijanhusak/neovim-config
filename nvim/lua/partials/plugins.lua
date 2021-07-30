@@ -87,6 +87,7 @@ require'gitsigns'.setup({
     topdelete    = { text = '‾'},
     changedelete = { text = '▌'},
   },
+  numhl = true,
 })
 
 require'kommentary.config'.configure_language('default', {
