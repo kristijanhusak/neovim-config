@@ -100,7 +100,8 @@ require('orgmode').setup(require('partials.orgmode_config'))
 
 vim.g.nvim_tree_bindings = {
   { key = {'s'}, cb = ':lua require"nvim-tree".on_keypress("vsplit")<CR>' },
-  { key = {'C'}, cb = ':lua require"nvim-tree".on_keypress("cd")<CR>'}
+  { key = {'C'}, cb = ':lua require"nvim-tree".on_keypress("cd")<CR>'},
+  { key = {'X'}, cb = ':lua require"nvim-tree".on_keypress("system_open")<CR>'}
 }
 vim.g.nvim_tree_icons = {
   default = '',
