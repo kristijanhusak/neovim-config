@@ -34,9 +34,6 @@ vim.cmd[[augroup vimrc_terminal_mappings]]
   vim.cmd[[autocmd TermOpen * nnoremap <silent><buffer> F :call search('\f\+:\d\+:\d\+')<CR>]]
 vim.cmd[[augroup END]]
 
--- Yank to the end of the line
-utils.keymap('n', 'Y', 'y$')
-
 -- Copy to system clipboard
 utils.keymap('v', '<C-c>', '"+y')
 -- Paste from system clipboard with Ctrl + v

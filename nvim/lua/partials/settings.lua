@@ -50,7 +50,6 @@ opt('o', 'sidescrolloff', 15)
 opt('o', 'sidescroll', 5)
 opt('o', 'pyxversion', 3)
 opt('o', 'matchtime', 0)
-opt('o', 'switchbuf', 'uselast')
 vim.g.python3_host_prog = '/usr/bin/python3'
 
 vim.cmd[[augroup vimrc]]
