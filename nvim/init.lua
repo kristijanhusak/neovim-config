@@ -13,7 +13,6 @@ require'partials/filetypes'
 require'partials/replace_pair'
 require'partials/search'
 require'partials/vimspector'
-require'partials/rg_source'
 
 -- Load .nvimrc manually until this PR is merged.
 -- https://github.com/neovim/neovim/pull/13503

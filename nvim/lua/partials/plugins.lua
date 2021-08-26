@@ -34,12 +34,20 @@ require('packager').setup(function(packager)
  packager.add('nvim-treesitter/nvim-treesitter-textobjects')
  packager.add('hrsh7th/vim-vsnip')
  packager.add('kyazdani42/nvim-tree.lua', { requires = 'kyazdani42/nvim-web-devicons' })
- packager.add('hrsh7th/nvim-compe')
  packager.add('puremourning/vimspector')
  packager.add('lukas-reineke/indent-blankline.nvim')
  packager.add('Raimondi/delimitMate')
  packager.add('folke/lua-dev.nvim')
  packager.add('projekt0n/github-nvim-theme')
+ packager.add('hrsh7th/nvim-cmp', {
+   requires = {
+     'hrsh7th/cmp-buffer',
+     'hrsh7th/cmp-nvim-lsp',
+     'hrsh7th/cmp-path',
+     'hrsh7th/cmp-vsnip',
+     'quangnguyen30192/cmp-nvim-tags',
+   }
+ })
 end)
 
 vim.g.mapleader = ','
