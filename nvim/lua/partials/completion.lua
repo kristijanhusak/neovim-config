@@ -11,6 +11,30 @@ cmp.setup({
     { name = 'path' },
     { name = 'vsnip' },
     { name = 'tags' },
+    { name = 'orgmode' },
+  },
+  mapping = {
+    ['<CR>'] = function()
+      local complete_info = vim.fn.complete_info()
+      local selected = complete_info.selected
+
+      if vim.fn['vsnip#expandable']() ~= 0 then
+        vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
+        return
+      end
+
+      if vim.fn.pumvisible() ~= 0 and selected ~= -1 then
+        cmp.mapping.confirm()()
+        return
+      end
+
+      if vim.fn.pumvisible() ~= 0 then
+        vim.fn.feedkeys(utils.esc('<C-e><Plug>delimitMateCR'), '')
+        return
+      end
+
+      vim.fn.feedkeys(utils.esc('<Plug>delimitMateCR'), '')
+    end
   },
   documentation = {
     border = 'rounded'
@@ -60,27 +84,6 @@ utils.keymap('s', '<TAB>', 'vsnip#available(1)  ? "<Plug>(vsnip-expand-or-jump)"
 })
 
 utils.keymap('s', '<S-TAB>', 'vsnip#available(-1)  ? "<Plug>(vsnip-jump-prev)" : "<S-TAB>"', {
-  expr = true,
-  noremap = false
-})
-
-function completion.handle_cr()
-  local complete_info = vim.fn.complete_info()
-  local selected = complete_info.selected
-  local item = complete_info.items[selected + 1]
-
-  if vim.bo.filetype == 'javascript' and selected >= 0 and item and item.menu == '[Tag]' then
-    return utils.esc(string.format('<Esc>:JsFileImport %s<CR>', item.word))
-  end
-
-  if vim.fn['vsnip#expandable']() ~= 0 then
-    return utils.esc('<Plug>(vsnip-expand)')
-  end
-
-  return utils.esc('<Plug>delimitMateCR')
-end
-
-utils.keymap('i', '<CR>', 'v:lua.kris.completion.handle_cr()', {
   expr = true,
   noremap = false
 })
