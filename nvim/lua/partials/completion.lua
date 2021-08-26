@@ -17,6 +17,11 @@ cmp.setup({
   }
 })
 
+vim.cmd [[augroup vimrc_autocompletion]]
+  vim.cmd [[autocmd!]]
+  vim.cmd[[autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })]]
+vim.cmd [[augroup END]]
+
 local function check_back_space()
   local col = vim.fn.col('.') - 1
   return col <= 0 or vim.fn.getline('.'):sub(col, col):match('%s')
