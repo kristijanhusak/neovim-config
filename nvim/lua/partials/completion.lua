@@ -24,7 +24,7 @@ cmp.setup({
       end
 
       if vim.fn.pumvisible() ~= 0 and selected ~= -1 then
-        cmp.mapping.confirm()()
+        cmp.confirm()
         return
       end
 
