@@ -15,7 +15,7 @@ vim.cmd [[augroup END]]
 
 function lsp.setup()
   vim.cmd[[autocmd CursorHold,CursorHoldI <buffer> lua kris.lsp.show_diagnostics()]]
-  require'lsp_signature'.on_attach()
+  require'lsp_signature'.on_attach({ zindex = 50 })
 end
 
 nvim_lsp.diagnosticls.setup({
