@@ -14,7 +14,7 @@ cmp.setup({
     { name = 'orgmode' },
   },
   mapping = {
-    ['<CR>'] = function()
+    ['<CR>'] = function(fallback)
       local complete_info = vim.fn.complete_info()
       local selected = complete_info.selected
 
@@ -29,11 +29,12 @@ cmp.setup({
       end
 
       if vim.fn.pumvisible() ~= 0 then
-        vim.fn.feedkeys(utils.esc('<C-e><Plug>delimitMateCR'), '')
+        vim.fn.feedkeys(utils.esc('<C-e>'), '')
+        vim.schedule(fallback)
         return
       end
 
-      vim.fn.feedkeys(utils.esc('<Plug>delimitMateCR'), '')
+      fallback()
     end
   },
   documentation = {

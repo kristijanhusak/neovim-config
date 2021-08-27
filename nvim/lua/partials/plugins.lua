@@ -144,6 +144,8 @@ vim.g.vsnip_filetypes = {
 
 vim.g.js_file_import_use_fzf = 1
 
+vim.g.delimitMate_expand_cr = 1
+
 vim.g.indent_blankline_char = '▏'
 vim.g.indent_blankline_show_current_context = true
 vim.g.indent_blankline_context_patterns = {'class', 'function', 'method', '^if', '^while', '^for', '^object', '^table', 'block', 'arguments'}
