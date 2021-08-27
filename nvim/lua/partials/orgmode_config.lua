@@ -1,6 +1,7 @@
 return {
   org_agenda_files = '~/Dropbox/org/*',
   org_default_notes_file = '~/Dropbox/org/refile.org',
+  org_agenda_start_on_weekday = false,
   org_agenda_templates = {
     T = {
       description = 'Todo',
