@@ -1,3 +1,4 @@
+require('impatient')
 _G.kris = {}
 require'partials/abbreviations'
 require'partials/plugins'

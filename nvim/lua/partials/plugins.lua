@@ -40,6 +40,7 @@ require('packager').setup(function(packager)
  packager.add('Raimondi/delimitMate')
  packager.add('folke/lua-dev.nvim')
  packager.add('projekt0n/github-nvim-theme')
+ packager.add('lewis6991/impatient.nvim')
  packager.add('hrsh7th/nvim-cmp', {
    requires = {
      'hrsh7th/cmp-buffer',
