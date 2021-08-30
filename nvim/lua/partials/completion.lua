@@ -13,6 +13,11 @@ cmp.setup({
     { name = 'tags' },
     { name = 'orgmode' },
   },
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
   mapping = {
     ['<CR>'] = function(fallback)
       local complete_info = vim.fn.complete_info()

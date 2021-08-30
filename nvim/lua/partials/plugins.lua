@@ -67,6 +67,7 @@ function plugins.setup_nvimtree()
   utils.buf_keymap(buf, 'n', 'j', 'line(".") == line("$") ? "gg" : "j"', { expr = true })
   utils.buf_keymap(buf, 'n', 'k', 'line(".") == 1 ? "G" : "k"', { expr = true })
   vim.defer_fn(function()
+    vim.cmd[[NvimTreeToggle]]
     api.nvim_feedkeys(api.nvim_replace_termcodes('<C-w>w', true, false, true), 'n', true)
   end, 0)
 end
@@ -120,7 +121,6 @@ vim.g.nvim_tree_icons = {
   }
 }
 vim.g.nvim_tree_follow = 1
-vim.g.nvim_tree_auto_open = 1
 vim.g.nvim_tree_size = 40
 vim.g.nvim_tree_git_hl = 1
 vim.g.nvim_tree_hide_dotfiles = 1
