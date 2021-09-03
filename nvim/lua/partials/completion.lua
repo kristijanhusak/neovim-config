@@ -10,7 +10,7 @@ cmp.setup({
     { name = 'nvim_lsp' },
     { name = 'path' },
     { name = 'vsnip' },
-    { name = 'tags' },
+    { name = 'tags', keyword_length = 2 },
     { name = 'orgmode' },
   },
   snippet = {
