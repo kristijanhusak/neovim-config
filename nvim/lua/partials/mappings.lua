@@ -98,6 +98,8 @@ utils.keymap('n', ']B', ':blast<CR>')
 utils.keymap('c', '<C-a>', '<Home>', { silent = false })
 utils.keymap('c', '<C-e>', '<End>', { silent = false })
 utils.keymap('c', '<C-b>', '<End>', { silent = false })
+utils.keymap('c', '<C-j>', 'wildmenumode() ? "<c-j>" : "<down>"', { expr = true, silent = false })
+utils.keymap('c', '<C-k>', 'wildmenumode() ? "<c-k>" : "<up>"', { expr = true, silent = false })
 
 utils.keymap('n', '<leader>T', ':call v:lua.kris.mappings.toggle_terminal()<CR>')
 utils.keymap('t', '<leader>T', '<C-\\><C-n><C-w>c')
