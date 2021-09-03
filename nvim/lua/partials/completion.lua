@@ -6,11 +6,11 @@ vim.cmd('set completeopt=menuone,noselect')
 
 cmp.setup({
   sources = {
-    { name = 'buffer' },
     { name = 'nvim_lsp' },
-    { name = 'path' },
     { name = 'vsnip' },
+    { name = 'buffer' },
     { name = 'tags', keyword_length = 2 },
+    { name = 'path' },
     { name = 'orgmode' },
   },
   snippet = {
