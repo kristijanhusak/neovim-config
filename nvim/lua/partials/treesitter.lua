@@ -1,6 +1,16 @@
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.org = {
+  install_info = {
+    url = '~/github/tree-sitter-org',
+    files = {'src/parser.c', 'src/scanner.cc'},
+  },
+  filetype = 'org',
+}
+
 require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,
+    -- disable = {'org'},
     additional_vim_regex_highlighting = {'org'},
   },
   playground = {
@@ -103,14 +113,5 @@ require'nvim-treesitter.configs'.setup {
       enable = false,
     }
   },
-  ensure_installed = {"javascript", "typescript", "php", "go", "python", "lua", "jsdoc"}
-}
-
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.org = {
-  install_info = {
-    url = '~/github/tree-sitter-org',
-    files = {'src/parser.c', 'src/scanner.cc'},
-  },
-  filetype = 'org',
+  ensure_installed = {"javascript", "typescript", "php", "go", "python", "lua", "jsdoc", "org"}
 }
