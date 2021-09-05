@@ -94,7 +94,7 @@ nvim_lsp.sumneko_lua.setup(require("lua-dev").setup({
   }
 }))
 
-vim.lsp.handlers['_typescript.rename'] = function(_, _, result)
+vim.lsp.handlers['_typescript.rename'] = function(_, result)
   if not result then return end
   vim.fn.cursor(result.position.line + 1, result.position.character + 1)
   vim.api.nvim_feedkeys(utils.esc('<Esc>'), 'v', true)
@@ -110,7 +110,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
 )
 
-vim.lsp.handlers['textDocument/codeAction'] = function(_, _, actions)
+vim.lsp.handlers['textDocument/codeAction'] = function(_, actions)
   if actions == nil or vim.tbl_isempty(actions) then
     print("No code actions available")
     return
@@ -132,10 +132,10 @@ vim.lsp.handlers['textDocument/codeAction'] = function(_, _, actions)
   utils.buf_keymap(bufnr, 'n', '<CR>', '<cmd>lua kris.lsp.select_code_action()<CR>')
 end
 
-local custom_symbol_callback = function(_, _, result, _, bufnr)
+local custom_symbol_callback = function(_,result, ctx)
   if not result or vim.tbl_isempty(result) then return end
 
-  local items = vim.lsp.util.symbols_to_items(result, bufnr)
+  local items = vim.lsp.util.symbols_to_items(result, ctx.bufnr)
   local items_by_name = {}
   for _, item in ipairs(items) do
     items_by_name[item.text] = item
