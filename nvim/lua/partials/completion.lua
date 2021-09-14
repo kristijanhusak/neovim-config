@@ -5,6 +5,20 @@ utils.opt('o', 'pumheight' , 15)
 vim.cmd('set completeopt=menuone,noselect')
 
 cmp.setup({
+  formatting = {
+    format = function(entry, vim_item)
+      vim_item.menu = ({
+        buffer = '[Buffer]',
+        nvim_lsp = '[LSP]',
+        vsnip = '[Snippet]',
+        tags = '[Tag]',
+        path = '[Path]',
+        orgmode = '[Org]',
+        ['vim-dadbod-completion'] = '[DB]'
+      })[entry.source.name]
+      return vim_item
+    end,
+  },
   sources = {
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
