@@ -11,11 +11,11 @@ vim.cmd[[syntax on]]
 local colors = require('github-theme.colors').setup()
 local bg_statusline = bg == 'light' and 'fg_gutter' or 'bg2'
 require('github-theme').setup({
-  themeStyle = bg,
+  theme_style = bg,
   colors = {
     bg_statusline = colors[bg_statusline],
   },
-  darkFloat = false,
+  dark_float = false,
 })
 vim.cmd(string.format('hi StatusLineNC guibg=%s', colors[bg_statusline]))
 vim.cmd(string.format('hi OrgDONE guifg=%s gui=bold', colors.git.add))
