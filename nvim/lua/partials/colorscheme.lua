@@ -17,12 +17,17 @@ require('github-theme').setup({
   },
   dark_float = false,
 })
-vim.cmd(string.format('hi StatusLineNC guibg=%s', colors[bg_statusline]))
-vim.cmd(string.format('hi OrgDONE guifg=%s gui=bold', colors.git.add))
-vim.cmd(string.format('hi OrgAgendaScheduled guifg=%s', colors.green))
-vim.cmd('hi link OrgAgendaDay Directory')
+
 vim.defer_fn(function()
   vim.g.terminal_color_2 = colors.gitSigns.add
+  vim.cmd(string.format('hi StatusLineNC guibg=%s', colors[bg_statusline]))
+  vim.cmd(string.format('hi OrgDONE guifg=%s gui=bold', colors.git.add))
+  vim.cmd(string.format('hi OrgAgendaScheduled guifg=%s', colors.green))
+  vim.cmd([[
+    hi link OrgAgendaDay Directory
+    hi! link TSWarning WarningMsg
+    hi! link TSDanger ErrorMsg
+  ]])
 end, 1)
 
 _G.kris.colorscheme = colorscheme
