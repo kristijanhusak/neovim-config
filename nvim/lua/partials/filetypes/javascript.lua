@@ -152,6 +152,21 @@ function javascript.goto_definition()
   vim.cmd[[JsGotoDefinition]]
 end
 
+function javascript.indent()
+  local line = vim.fn.getline(vim.v.lnum)
+  local prev_line = vim.fn.getline(vim.v.lnum - 1)
+  if line:match('^%s*[%*/]%s*') then
+    if prev_line:match('^%s*%*%s*') then
+      return vim.fn.indent(vim.v.lnum - 1)
+    end
+    if prev_line:match('^%s*/%*%*%s*$') then
+      return vim.fn.indent(vim.v.lnum - 1) + 1
+    end
+  end
+
+  return vim.fn['GetJavascriptIndent']()
+end
+
 vim.cmd [[nnoremap <silent><Plug>(JsConsoleLog) :<C-u>call v:lua.kris.javascript.console_log()<CR>]]
 vim.cmd [[nnoremap <nowait><silent><Plug>(JsInjectDependency) :<C-u>call v:lua.kris.javascript.inject_dependency()<CR>]]
 vim.cmd [[nnoremap <nowait><silent><Plug>(JsGenerateDocblock) :<C-u>call v:lua.kris.javascript.generate_docblock()<CR>]]
@@ -170,6 +185,7 @@ function javascript.setup()
   utils.buf_keymap(buf, 'n', '<Leader>D', '<Plug>(JsGenerateDocblock)', { noremap = false })
   utils.buf_keymap(buf, 'n', 'gf', '<Plug>(JsGotoFile)', { noremap = false })
   utils.opt('o', 'isfname', vim.o.isfname..',@-@')
+  vim.bo.indentexpr = 'v:lua.kris.javascript.indent()'
 end
 
 vim.cmd [[augroup javascript]]
