@@ -16,6 +16,7 @@ require('github-theme').setup({
     bg_statusline = colors[bg_statusline],
   },
   dark_float = false,
+  hide_inactive_statusline = false,
 })
 
 vim.defer_fn(function()

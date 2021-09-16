@@ -83,7 +83,7 @@ function search.run(search_term, is_visual)
   if mode == 'term' then
     cmd = table.concat({grepprg, '--fixed-strings', vim.fn.shellescape(term), dir}, ' ')
   else
-    cmd = table.concat({grepprg, term, dir}, ' ')
+    cmd = table.concat({grepprg, string.format("'%s'", term), dir}, ' ')
   end
 
   if (not cmd or cmd == '') and last_search == '' then
@@ -95,6 +95,7 @@ function search.run(search_term, is_visual)
   last_search = cmd
 
   local results = vim.fn.systemlist(cmd)
+  vim.cmd[[redraw]]
 
   if #results <= 0 then
     msg('No results for search -> '..cmd)
