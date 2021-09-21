@@ -170,7 +170,7 @@ function lsp.show_diagnostics()
     if #diagnostics == 0 then
       return false
     end
-    local virt_texts = vim.lsp.diagnostic.get_virtual_text_chunks_for_line(0, line, diagnostics)
+    local virt_texts = vim.diagnostic.get_virt_text_chunks(diagnostics)
     vim.api.nvim_buf_set_virtual_text(0, diagnostic_ns, line, virt_texts, {})
   end)
 end
@@ -232,7 +232,7 @@ function lsp.select_code_action()
 end
 
 function lsp.refresh_diagnostics()
-  vim.lsp.diagnostic.set_loclist({open = false})
+  vim.diagnostic.setloclist({open = false})
   lsp.show_diagnostics()
   if vim.tbl_isempty(vim.fn.getloclist(0)) then
     vim.cmd[[lclose]]
@@ -253,8 +253,7 @@ utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
 utils.keymap('n', '<leader>lt', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
 utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ border = "rounded", show_header = false, focusable = false })<CR>')
-utils.keymap('n', '<Leader>e', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
-utils.keymap('n', '<Leader>E', '<cmd>lua vim.lsp.diagnostic.set_loclist({ workspace = true })<CR>')
+utils.keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.setloclist()<CR>')
 utils.keymap('n', '<leader>lr', '<cmd>lua kris.lsp.rename()<CR>')
 utils.keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev({ enable_popup = false })<CR>')
 utils.keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next({ enable_popup = false })<CR>')
@@ -262,10 +261,10 @@ utils.keymap('n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 utils.keymap('v', '<Leader>la', ':<C-u>lua vim.lsp.buf.range_code_action()<CR>')
 
 vim.cmd[[
-sign define LspDiagnosticsSignError text= texthl=LspDiagnosticsSignError linehl= numhl=
-sign define LspDiagnosticsSignWarning text= texthl=LspDiagnosticsSignWarning linehl= numhl=
-sign define LspDiagnosticsSignInformation text= texthl=LspDiagnosticsSignInformation linehl= numhl=
-sign define LspDiagnosticsSignHint text= texthl=LspDiagnosticsSignHint linehl= numhl=
+  sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=
+  sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=
+  sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=
+  sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=
 ]]
 
 _G.kris.lsp = lsp
