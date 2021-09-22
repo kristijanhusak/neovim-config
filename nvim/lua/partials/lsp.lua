@@ -19,62 +19,66 @@ function lsp.setup()
   -- require'lsp_signature'.on_attach({ zindex = 50 })
 end
 
-nvim_lsp.diagnosticls.setup({
-  filetypes={
-    'javascript',
-    'javascriptreact',
-  },
-  init_options = {
-    linters = {
-      eslint = {
-        command = './node_modules/.bin/eslint',
-        rootPatterns = { '.git' },
-        debounce = 100,
-        args = {
-          '--stdin',
-          '--stdin-filename',
-          '%filepath',
-          '--format',
-          'json'
-        },
-        sourceName = 'eslint',
-        parseJson = {
-          errorsRoot = '[0].messages',
-          line = 'line',
-          column = 'column',
-          endLine = 'endLine',
-          endColumn = 'endColumn',
-          message = '${message} [${ruleId}]',
-          security = 'severity'
-        },
-        securities = {
-          ['1'] = 'warning',
-          ['2'] = 'error',
+function lsp.setup_diagnosticls(init_opts)
+  nvim_lsp.diagnosticls.setup({
+    filetypes={
+      'javascript',
+      'javascriptreact',
+    },
+    init_options = vim.tbl_deep_extend('force', {
+      linters = {
+        eslint = {
+          command = './node_modules/.bin/eslint',
+          rootPatterns = { '.git' },
+          debounce = 100,
+          args = {
+            '--stdin',
+            '--stdin-filename',
+            '%filepath',
+            '--format',
+            'json'
+          },
+          sourceName = 'eslint',
+          parseJson = {
+            errorsRoot = '[0].messages',
+            line = 'line',
+            column = 'column',
+            endLine = 'endLine',
+            endColumn = 'endColumn',
+            message = '${message} [${ruleId}]',
+            security = 'severity'
+          },
+          securities = {
+            ['1'] = 'warning',
+            ['2'] = 'error',
+          },
         },
       },
-    },
-    filetypes = {
-      javascript = 'eslint',
-      javascriptreact = 'eslint',
-    },
-    formatters = {
-      prettierEslint = {
-        command = './node_modules/.bin/prettier-eslint',
-        args = {
-          '--stdin',
-          '--single-quote',
-          '--print-width',
-          '120',
-        },
-        rootPatterns = { '.git' },
+      filetypes = {
+        javascript = 'eslint',
+        javascriptreact = 'eslint',
       },
-    },
-    formatFiletypes = {
-      javascript = 'prettierEslint',
-      javascriptreact = 'prettierEslint',
-    },
-  },
-})
+      formatters = {
+        prettierEslint = {
+          command = './node_modules/.bin/prettier-eslint',
+          args = {
+            '--stdin',
+            '--single-quote',
+            '--print-width',
+            '120',
+          },
+          rootPatterns = { '.git' },
+        },
+      },
+      formatFiletypes = {
+        javascript = 'prettierEslint',
+        javascriptreact = 'prettierEslint',
+      },
+    }, init_opts or {}),
+  })
+end
+
+lsp.setup_diagnosticls()
 nvim_lsp.tsserver.setup{}
 nvim_lsp.vimls.setup{}
 nvim_lsp.intelephense.setup{}
