@@ -1,9 +1,9 @@
 local lsp = {
   last_actions = {},
+  last_diagnostic_ns = -1
 }
 local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
-local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostic')
 
 local filetypes = {'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'lua', 'go', 'vim', 'php', 'python'}
 
@@ -169,13 +169,18 @@ vim.lsp.handlers['workspace/symbol'] = custom_symbol_callback
 function lsp.show_diagnostics()
   vim.schedule(function()
     local line = vim.api.nvim_win_get_cursor(0)[1] - 1
-    local diagnostics = vim.lsp.diagnostic.get_line_diagnostics()
-    vim.api.nvim_buf_clear_namespace(0, diagnostic_ns, 0, -1)
+    local diagnostics = vim.diagnostic.get(0, { lnum = line })
+    if lsp.last_diagnostic_ns > -1 then
+      vim.api.nvim_buf_clear_namespace(0, lsp.last_diagnostic_ns, 0, -1)
+    end
     if #diagnostics == 0 then
       return false
     end
-    local virt_texts = vim.diagnostic.get_virt_text_chunks(diagnostics)
-    vim.api.nvim_buf_set_virtual_text(0, diagnostic_ns, line, virt_texts, {})
+    local ns = diagnostics[1] and diagnostics[1].namespace or -1
+    lsp.last_diagnostic_ns = ns
+    if ns > -1 then
+      vim.diagnostic.show(ns, 0, diagnostics)
+    end
   end)
 end
 
@@ -256,11 +261,11 @@ utils.keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
 utils.keymap('n', '<leader>lt', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
-utils.keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ border = "rounded", show_header = false, focusable = false })<CR>')
+utils.keymap('n', '<leader>le', '<cmd>lua vim.diagnostic.show_line_diagnostics({ border = "rounded", show_header = false, focusable = false })<CR>')
 utils.keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.setloclist()<CR>')
 utils.keymap('n', '<leader>lr', '<cmd>lua kris.lsp.rename()<CR>')
-utils.keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev({ enable_popup = false })<CR>')
-utils.keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next({ enable_popup = false })<CR>')
+utils.keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev({ enable_popup = false })<CR>')
+utils.keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next({ enable_popup = false })<CR>')
 utils.keymap('n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 utils.keymap('v', '<Leader>la', ':<C-u>lua vim.lsp.buf.range_code_action()<CR>')
 
