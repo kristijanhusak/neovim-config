@@ -1,9 +1,9 @@
 local lsp = {
   last_actions = {},
-  last_diagnostic_ns = -1
 }
 local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
+local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostics')
 
 local filetypes = {'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'lua', 'go', 'vim', 'php', 'python'}
 
@@ -169,18 +169,9 @@ vim.lsp.handlers['workspace/symbol'] = custom_symbol_callback
 function lsp.show_diagnostics()
   vim.schedule(function()
     local line = vim.api.nvim_win_get_cursor(0)[1] - 1
-    local diagnostics = vim.diagnostic.get(0, { lnum = line })
-    if lsp.last_diagnostic_ns > -1 then
-      vim.api.nvim_buf_clear_namespace(0, lsp.last_diagnostic_ns, 0, -1)
-    end
-    if #diagnostics == 0 then
-      return false
-    end
-    local ns = diagnostics[1] and diagnostics[1].namespace or -1
-    lsp.last_diagnostic_ns = ns
-    if ns > -1 then
-      vim.diagnostic.show(ns, 0, diagnostics)
-    end
+    local bufnr = vim.api.nvim_get_current_buf()
+    local diagnostics = vim.diagnostic.get(bufnr, { lnum = line })
+    vim.diagnostic.show(diagnostic_ns, bufnr, diagnostics, { virtual_text = true })
   end)
 end
 
