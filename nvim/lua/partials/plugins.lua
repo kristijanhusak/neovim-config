@@ -6,7 +6,7 @@ vim.cmd [[packadd vim-packager]]
 require('packager').setup(function(packager)
  packager.add('kristijanhusak/vim-packager', { type = 'opt' })
  packager.add('kristijanhusak/vim-js-file-import', { ['do'] = 'npm install', type = 'opt' })
- packager.add('terrortylor/nvim-comment')
+ packager.add('winston0410/commented.nvim')
  packager.add('tpope/vim-surround')
  packager.add('tpope/vim-repeat')
  packager.add('tpope/vim-fugitive')
@@ -102,7 +102,13 @@ require'gitsigns'.setup({
   numhl = true,
 })
 
-require('nvim_comment').setup()
+require('commented').setup({
+  keybindings = {
+    n = '<Leader>C',
+    v = '<Leader>c',
+    nl = '<Leader>c',
+  }
+})
 
 require('orgmode').setup(require('partials.orgmode_config'))
 
