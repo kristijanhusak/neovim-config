@@ -28,6 +28,7 @@ vim.defer_fn(function()
     hi link OrgAgendaDay Directory
     hi! link TSWarning WarningMsg
     hi! link TSDanger ErrorMsg
+    hi clear TsNote
   ]])
 end, 1)
 
