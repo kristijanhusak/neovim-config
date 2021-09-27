@@ -19,8 +19,16 @@ function lsp.setup()
   -- require'lsp_signature'.on_attach({ zindex = 50 })
 end
 
+local function init_setup(opts)
+  return vim.tbl_deep_extend('force', {
+    flags = {
+      debounce_text_changes = 300,
+    }
+  }, opts or {})
+end
+
 function lsp.setup_diagnosticls(init_opts)
-  nvim_lsp.diagnosticls.setup({
+  nvim_lsp.diagnosticls.setup(init_setup({
     filetypes={
       'javascript',
       'javascriptreact',
@@ -75,19 +83,19 @@ function lsp.setup_diagnosticls(init_opts)
         javascriptreact = 'prettierEslint',
       },
     }, init_opts or {}),
-  })
+  }))
 end
 
 lsp.setup_diagnosticls()
-nvim_lsp.tsserver.setup{}
-nvim_lsp.vimls.setup{}
-nvim_lsp.intelephense.setup{}
-nvim_lsp.gopls.setup{}
-nvim_lsp.pylsp.setup{}
+nvim_lsp.tsserver.setup(init_setup())
+nvim_lsp.vimls.setup(init_setup())
+nvim_lsp.intelephense.setup(init_setup())
+nvim_lsp.gopls.setup(init_setup())
+nvim_lsp.pylsp.setup(init_setup())
 local lua_lsp_path = '/home/kristijan/github/lua-language-server'
 local lua_lsp_bin = lua_lsp_path..'/bin/Linux/lua-language-server'
 nvim_lsp.sumneko_lua.setup(require("lua-dev").setup({
-  lspconfig = {
+  lspconfig = init_setup({
     cmd = {lua_lsp_bin, '-E', lua_lsp_path..'/main.lua'},
     settings = {
       Lua = {
@@ -96,7 +104,7 @@ nvim_lsp.sumneko_lua.setup(require("lua-dev").setup({
         },
       },
     }
-  }
+  })
 }))
 
 vim.lsp.handlers['_typescript.rename'] = function(_, result)
