@@ -58,23 +58,17 @@ vim.g.mapleader = ','
 vim.cmd[[augroup packager_filetype]]
   vim.cmd[[autocmd!]]
   vim.cmd[[autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import]]
-  vim.cmd[[autocmd FileType NvimTree call v:lua.kris.plugins.setup_nvimtree() ]]
   vim.cmd[[autocmd FileType sql packadd vim-dadbod-completion | runtime after/plugin/vim_dadbod_completion.lua]]
   vim.cmd[[autocmd VimEnter * call v:lua.kris.plugins.handle_vimenter() ]]
 vim.cmd[[augroup END]]
 
-function plugins.setup_nvimtree()
-  local buf = api.nvim_get_current_buf()
-  utils.buf_keymap(buf, 'n', 'j', 'line(".") == line("$") ? "gg" : "j"', { expr = true })
-  utils.buf_keymap(buf, 'n', 'k', 'line(".") == 1 ? "G" : "k"', { expr = true })
-  vim.defer_fn(function()
-    vim.cmd[[NvimTreeToggle]]
-    api.nvim_feedkeys(api.nvim_replace_termcodes('<C-w>w', true, false, true), 'n', true)
-  end, 0)
-end
-
 function plugins.handle_vimenter()
   vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h')..'/snippets'
+  local stats = vim.loop.fs_stat(vim.fn.expand('%:p'))
+  if not stats or stats.type == 'directory' then
+    vim.cmd[[NvimTreeToggle]]
+    vim.cmd[[wincmd p]]
+  end
 end
 
 utils.keymap('n', '<Leader><space>', ':noh<CR>')
@@ -112,24 +106,32 @@ require('commented').setup({
 
 require('orgmode').setup(require('partials.orgmode_config'))
 
-vim.g.nvim_tree_bindings = {
-  { key = {'s'}, cb = ':lua require"nvim-tree".on_keypress("vsplit")<CR>' },
-  { key = {'C'}, cb = ':lua require"nvim-tree".on_keypress("cd")<CR>'},
-  { key = {'X'}, cb = ':lua require"nvim-tree".on_keypress("system_open")<CR>'}
-}
 vim.g.nvim_tree_icons = {
   default = '',
   git = {
     unstaged = '✹',
   }
 }
-vim.g.nvim_tree_follow = 1
-vim.g.nvim_tree_size = 40
 vim.g.nvim_tree_git_hl = 1
 vim.g.nvim_tree_hide_dotfiles = 1
-vim.g.nvim_tree_disable_netrw = 0
-vim.g.nvim_tree_hijack_cursor = 0
-vim.g.nvim_tree_update_cwd = 0
+
+require('nvim-tree').setup({
+  disable_netrw = false,
+  lsp_diagnostics = true,
+  update_focused_file = {
+    enable = true,
+  },
+  view = {
+    auto_resize = true,
+  },
+  mappings = {
+    list = {
+      { key = {'s'}, cb = ':lua require"nvim-tree".on_keypress("vsplit")<CR>' },
+      { key = {'C'}, cb = ':lua require"nvim-tree".on_keypress("cd")<CR>'},
+      { key = {'X'}, cb = ':lua require"nvim-tree".on_keypress("system_open")<CR>'}
+    }
+  }
+})
 
 vim.g.matchup_matchparen_status_offscreen = 0
 vim.g.matchup_matchparen_nomode = "ivV"
