@@ -3,6 +3,7 @@ return {
   org_default_notes_file = '~/Dropbox/org/refile.org',
   org_hide_emphasis_markers = true,
   org_agenda_start_on_weekday = false,
+  org_todo_keywords = {'TODO(t)', 'PROGRESS(p)', '|', 'DONE(d)', 'REJECTED(r)'},
   org_agenda_templates = {
     T = {
       description = 'Todo',
