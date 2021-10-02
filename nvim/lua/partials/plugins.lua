@@ -123,14 +123,14 @@ require('nvim-tree').setup({
   },
   view = {
     auto_resize = true,
-  },
-  mappings = {
-    list = {
-      { key = {'s'}, cb = ':lua require"nvim-tree".on_keypress("vsplit")<CR>' },
-      { key = {'C'}, cb = ':lua require"nvim-tree".on_keypress("cd")<CR>'},
-      { key = {'X'}, cb = ':lua require"nvim-tree".on_keypress("system_open")<CR>'}
+    mappings = {
+      list = {
+        { key = {'s'}, cb = ':lua require"nvim-tree".on_keypress("vsplit")<CR>' },
+        { key = {'C'}, cb = ':lua require"nvim-tree".on_keypress("cd")<CR>'},
+        { key = {'X'}, cb = ':lua require"nvim-tree".on_keypress("system_open")<CR>'}
+      }
     }
-  }
+  },
 })
 
 vim.g.matchup_matchparen_status_offscreen = 0
