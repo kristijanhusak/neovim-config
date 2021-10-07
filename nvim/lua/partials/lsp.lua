@@ -71,6 +71,8 @@ function lsp.setup_diagnosticls(init_opts)
           command = './node_modules/.bin/prettier-eslint',
           args = {
             '--stdin',
+            '--stdin-filepath',
+            '%filepath',
             '--single-quote',
             '--print-width',
             '120',
