@@ -32,6 +32,7 @@ function lsp.setup_diagnosticls(init_opts)
     filetypes={
       'javascript',
       'javascriptreact',
+      'lua',
     },
     init_options = vim.tbl_deep_extend('force', {
       linters = {
@@ -79,10 +80,20 @@ function lsp.setup_diagnosticls(init_opts)
           },
           rootPatterns = { '.git' },
         },
+        stylua = {
+          command = 'stylua',
+          args = {
+            '--search-parent-directories',
+            '--stdin-filepath',
+            '%filepath',
+            '-'
+          },
+        },
       },
       formatFiletypes = {
         javascript = 'prettierEslint',
         javascriptreact = 'prettierEslint',
+        lua = 'stylua',
       },
     }, init_opts or {}),
   }))
