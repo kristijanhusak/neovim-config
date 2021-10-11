@@ -15,8 +15,10 @@ vim.cmd [[augroup END]]
 
 function lsp.setup()
   vim.cmd[[autocmd CursorHold,CursorHoldI <buffer> lua kris.lsp.show_diagnostics()]]
-  vim.cmd[[autocmd CursorHoldI <buffer> lua vim.lsp.buf.signature_help()]]
-  -- require'lsp_signature'.on_attach({ zindex = 50 })
+  require'lsp_signature'.on_attach({
+    zindex = 50,
+    hi_parameter = 'Search',
+  })
 end
 
 local function init_setup(opts)

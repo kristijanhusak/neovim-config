@@ -111,7 +111,6 @@ vim.g.nvim_tree_hide_dotfiles = 1
 
 require('nvim-tree').setup({
   disable_netrw = false,
-  lsp_diagnostics = true,
   update_focused_file = {
     enable = true,
   },
