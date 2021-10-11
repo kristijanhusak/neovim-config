@@ -15,10 +15,7 @@ vim.cmd [[augroup END]]
 
 function lsp.setup()
   vim.cmd[[autocmd CursorHold,CursorHoldI <buffer> lua kris.lsp.show_diagnostics()]]
-  require'lsp_signature'.on_attach({
-    zindex = 50,
-    hi_parameter = 'Search',
-  })
+  vim.cmd[[autocmd CursorHoldI <buffer> lua vim.lsp.buf.signature_help()]]
 end
 
 local function init_setup(opts)
@@ -139,7 +136,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-  vim.lsp.handlers.signature_help, { border = "single" }
+  vim.lsp.handlers.signature_help, { border = "single", focusable = false }
 )
 
 vim.lsp.handlers['textDocument/codeAction'] = function(_, actions)
