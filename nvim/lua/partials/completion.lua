@@ -33,28 +33,7 @@ cmp.setup({
     end,
   },
   mapping = {
-    ['<CR>'] = function(fallback)
-      local complete_info = vim.fn.complete_info()
-      local selected = complete_info.selected
-
-      if vim.fn['vsnip#expandable']() ~= 0 then
-        vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
-        return
-      end
-
-      if vim.fn.pumvisible() ~= 0 and selected ~= -1 then
-        cmp.confirm()
-        return
-      end
-
-      if vim.fn.pumvisible() ~= 0 then
-        vim.fn.feedkeys(utils.esc('<C-e>'), '')
-        vim.schedule(fallback)
-        return
-      end
-
-      fallback()
-    end
+    ['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
   },
   documentation = {
     border = 'rounded'
@@ -76,7 +55,7 @@ function completion.tab_completion()
     return utils.esc('<Plug>(vsnip-jump-next)')
   end
 
-  if vim.fn.pumvisible() > 0 then
+  if cmp.visible() then
     return utils.esc('<C-n>')
   end
 
@@ -93,7 +72,7 @@ end
 
 utils.keymap('i', '<TAB>', 'v:lua.kris.completion.tab_completion()', { expr = true, noremap = false })
 
-utils.keymap('i', '<S-TAB>', 'pumvisible() ? "<C-p>" : vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-TAB>"', {
+utils.keymap('i', '<S-TAB>', [[luaeval('require("cmp").visible()') ? "<C-p>" : vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-TAB>"]], {
   expr = true,
   noremap = false
 })
