@@ -28,6 +28,6 @@ vim.defer_fn(function()
     hi! link TSDanger ErrorMsg
     hi clear TsNote
   ]])
-end, 1)
+end, 150)
 
 _G.kris.colorscheme = colorscheme
