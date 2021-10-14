@@ -33,7 +33,13 @@ cmp.setup({
     end,
   },
   mapping = {
-    ['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
+    ['<CR>'] = function(fallback)
+      if vim.fn['vsnip#expandable']() ~= 0 then
+        vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
+        return
+      end
+      return cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })(fallback)
+    end,
   },
   documentation = {
     border = 'rounded'
