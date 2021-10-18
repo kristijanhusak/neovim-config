@@ -4,6 +4,7 @@ local bg = vim.env.NVIM_COLORSCHEME_BG or 'light'
 
 opt('o', 'termguicolors', true)
 opt('o', 'synmaxcol', 300)
+opt('o', 'background', bg)
 
 vim.cmd[[filetype plugin indent on]]
 vim.cmd[[syntax on]]
