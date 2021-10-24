@@ -50,6 +50,7 @@ export MANPAGER="nvim -c 'set ft=man' -"
 export FZF_DEFAULT_COMMAND='rg --files'
 export LESS=R
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=magenta,bold,underline"
+export GOPATH=$HOME/go
 setopt HIST_IGNORE_ALL_DUPS
 
 # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
@@ -70,6 +71,7 @@ export NVM_DIR="/home/kristijan/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 eval $(keychain --eval --quiet ~/.ssh/id_rsa)
+eval $(keychain --eval --quiet ~/.ssh/id_ed25519)
 
 bindkey '^[[Z' reverse-menu-complete # Use shift tab for backward autocompletion
 
