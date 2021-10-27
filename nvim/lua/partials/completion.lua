@@ -8,6 +8,7 @@ cmp.setup({
   formatting = {
     format = function(entry, vim_item)
       vim_item.menu = ({
+        rg = '[Rg]',
         buffer = '[Buffer]',
         nvim_lsp = '[LSP]',
         vsnip = '[Snippet]',
@@ -20,6 +21,7 @@ cmp.setup({
     end,
   },
   sources = {
+    { name = 'rg', opts = { debounce = 500 } },
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
     { name = 'buffer' },
