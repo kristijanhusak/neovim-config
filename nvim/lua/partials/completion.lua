@@ -48,6 +48,20 @@ cmp.setup({
   }
 })
 
+cmp.setup.cmdline('/', {
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+cmp.setup.cmdline(':', {
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline', keyword_length = 2 }
+  })
+})
+
 vim.cmd [[augroup vimrc_autocompletion]]
   vim.cmd [[autocmd!]]
   vim.cmd[[autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })]]

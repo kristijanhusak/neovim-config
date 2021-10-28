@@ -46,6 +46,7 @@ require('packager').setup(function(packager)
      'hrsh7th/cmp-nvim-lsp',
      'hrsh7th/cmp-path',
      'hrsh7th/cmp-vsnip',
+     'hrsh7th/cmp-cmdline',
      'quangnguyen30192/cmp-nvim-tags',
      'lukas-reineke/cmp-rg',
    }
