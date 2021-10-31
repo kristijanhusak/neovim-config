@@ -119,7 +119,6 @@ vim.g.nvim_tree_icons = {
   }
 }
 vim.g.nvim_tree_git_hl = 1
-vim.g.nvim_tree_hide_dotfiles = 1
 
 require('nvim-tree').setup({
   disable_netrw = false,
