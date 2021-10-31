@@ -40,6 +40,7 @@ require('packager').setup(function(packager)
  packager.add('folke/lua-dev.nvim')
  packager.add('projekt0n/github-nvim-theme')
  packager.add('lewis6991/impatient.nvim')
+ packager.add('gukz/ftFT.nvim')
  packager.add('hrsh7th/nvim-cmp', {
    requires = {
      'hrsh7th/cmp-buffer',
@@ -84,6 +85,17 @@ utils.keymap('n', '<Leader>G', ':vert G<CR>')
 
 utils.keymap('n', '<Leader>n', ':NvimTreeToggle<CR>')
 utils.keymap('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
+
+utils.keymap('n', 'f', '<cmd>lua require("ftFT").execute("f")<CR>')
+utils.keymap('n', 't', '<cmd>lua require("ftFT").execute("t")<CR>')
+utils.keymap('n', 'F', '<cmd>lua require("ftFT").execute("F")<CR>')
+utils.keymap('n', 'T', '<cmd>lua require("ftFT").execute("T")<CR>')
+utils.keymap('n', 'df', '<cmd>lua require("ftFT").execute("df")<CR>')
+utils.keymap('n', 'yf', '<cmd>lua require("ftFT").execute("yf")<CR>')
+utils.keymap('n', 'cf', '<cmd>lua require("ftFT").execute("cf")<CR>')
+utils.keymap('n', 'dt', '<cmd>lua require("ftFT").execute("dt")<CR>')
+utils.keymap('n', 'yt', '<cmd>lua require("ftFT").execute("yt")<CR>')
+utils.keymap('n', 'ct', '<cmd>lua require("ftFT").execute("ct")<CR>')
 
 require'gitsigns'.setup({
   signs = {
