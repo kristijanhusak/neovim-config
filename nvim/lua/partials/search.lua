@@ -74,6 +74,7 @@ function search.run(search_term, is_visual)
     return msg('Empty search.')
   end
 
+  vim.cmd[[cunmap <buffer><tab>]]
   msg('Searching for word -> '..term)
   local status_dir, dir = pcall(vim.fn.input, 'Path: ', '', 'file')
   if not status_dir then return cleanup() end
