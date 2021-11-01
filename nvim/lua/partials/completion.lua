@@ -21,8 +21,8 @@ cmp.setup({
     end,
   },
   sources = {
-    { name = 'rg', opts = { debounce = 500 } },
     { name = 'nvim_lsp' },
+    { name = 'rg' },
     { name = 'vsnip' },
     { name = 'buffer' },
     { name = 'tags', keyword_length = 2 },
