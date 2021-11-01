@@ -151,6 +151,8 @@ vim.g.vsnip_filetypes = {
   typescript = {'javascript'}
 }
 
+vim.g.ftFT_hl_group = 'LspDiagnosticsVirtualTextError'
+
 vim.g.js_file_import_use_fzf = 1
 
 vim.g.delimitMate_expand_cr = 1
