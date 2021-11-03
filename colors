@@ -2,8 +2,8 @@
 
 color_file = '/home/kristijan/.cache/main_colorscheme.conf'
 colorschemes = {
-    'dark': 'github',
-    'light': 'github',
+    'dark': 'base16-onedark',
+    'light': 'base16-one-light',
 }
 
 import pynvim
@@ -45,8 +45,6 @@ if bg == 'toggle':
 os.environ['NVIM_COLORSCHEME_BG'] = bg
 os.environ['NVIM_COLORSCHEME'] = colorschemes[bg]
 nvim = pynvim.attach('child', argv=["/usr/bin/env", "nvim", "--embed", "--headless"])
-
-time.sleep(0.15)
 
 def get_hl_color(name):
     hl_output = nvim.call('execute', 'hi ' + name)

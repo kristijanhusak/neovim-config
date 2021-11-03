@@ -1,34 +1,29 @@
 local colorscheme = {}
 local opt = require'partials/utils'.opt
-local bg = vim.env.NVIM_COLORSCHEME_BG or 'light'
+
+vim.cmd [[augroup vimrc_colorscheme]]
+  vim.cmd [[autocmd!]]
+  vim.cmd [[autocmd ColorScheme * lua kris.colorscheme.setup_colors()]]
+vim.cmd [[augroup END]]
+
+function colorscheme.setup_colors()
+  vim.cmd[[
+    hi clear VertSplit
+    hi link VertSplit Comment
+  ]]
+  if vim.o.background == 'light' then
+    vim.cmd[[hi IndentBlanklineChar guifg=#e5e5e6]]
+  end
+end
 
 opt('o', 'termguicolors', true)
+opt('o', 'background', vim.env.NVIM_COLORSCHEME_BG or 'light')
 opt('o', 'synmaxcol', 300)
-opt('o', 'background', bg)
+
 
 vim.cmd[[filetype plugin indent on]]
 vim.cmd[[syntax on]]
 
-local colors = require('github-theme.colors').setup()
-local bg_statusline = bg == 'light' and 'fg_gutter' or 'bg2'
-require('github-theme').setup({
-  theme_style = bg,
-  colors = {
-    bg_statusline = colors[bg_statusline],
-  },
-  dark_float = false,
-  hide_inactive_statusline = false,
-})
-
-vim.defer_fn(function()
-  vim.cmd(string.format('hi StatusLineNC guibg=%s', colors[bg_statusline]))
-  vim.cmd(string.format('hi OrgDONE guifg=%s gui=bold', colors.git.add))
-  vim.cmd(string.format('hi OrgAgendaScheduled guifg=%s', colors.green))
-  vim.cmd([[
-    hi! link TSWarning WarningMsg
-    hi! link TSDanger ErrorMsg
-    hi clear TsNote
-  ]])
-end, 150)
-
 _G.kris.colorscheme = colorscheme
+
+vim.cmd('colorscheme '..(vim.env.NVIM_COLORSCHEME or 'base16-one-light'))
