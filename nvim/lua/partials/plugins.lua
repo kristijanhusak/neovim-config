@@ -150,7 +150,7 @@ vim.g.vsnip_filetypes = {
   typescript = {'javascript'}
 }
 
-vim.g.ftFT_hl_group = 'LspDiagnosticsVirtualTextError'
+vim.g.ftFT_hl_group = 'Underlined'
 
 vim.g.js_file_import_use_fzf = 1
 
