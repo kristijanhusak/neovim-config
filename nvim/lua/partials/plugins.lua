@@ -39,7 +39,7 @@ require('packager').setup(function(packager)
  packager.add('Raimondi/delimitMate')
  packager.add('folke/lua-dev.nvim')
  packager.add('lewis6991/impatient.nvim')
- packager.add('gukz/ftFT.nvim')
+ packager.add('RRethy/nvim-base16')
  packager.add('hrsh7th/nvim-cmp', {
    requires = {
      'hrsh7th/cmp-buffer',
@@ -84,17 +84,6 @@ utils.keymap('n', '<Leader>G', ':vert G<CR>')
 
 utils.keymap('n', '<Leader>n', ':NvimTreeToggle<CR>')
 utils.keymap('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
-
-utils.keymap('n', 'f', '<cmd>lua require("ftFT").execute("f")<CR>')
-utils.keymap('n', 't', '<cmd>lua require("ftFT").execute("t")<CR>')
-utils.keymap('n', 'F', '<cmd>lua require("ftFT").execute("F")<CR>')
-utils.keymap('n', 'T', '<cmd>lua require("ftFT").execute("T")<CR>')
-utils.keymap('n', 'df', '<cmd>lua require("ftFT").execute("df")<CR>')
-utils.keymap('n', 'yf', '<cmd>lua require("ftFT").execute("yf")<CR>')
-utils.keymap('n', 'cf', '<cmd>lua require("ftFT").execute("cf")<CR>')
-utils.keymap('n', 'dt', '<cmd>lua require("ftFT").execute("dt")<CR>')
-utils.keymap('n', 'yt', '<cmd>lua require("ftFT").execute("yt")<CR>')
-utils.keymap('n', 'ct', '<cmd>lua require("ftFT").execute("ct")<CR>')
 
 require'gitsigns'.setup({
   signs = {
@@ -149,8 +138,6 @@ vim.g.db_ui_tmp_query_location = '~/code/queries'
 vim.g.vsnip_filetypes = {
   typescript = {'javascript'}
 }
-
-vim.g.ftFT_hl_group = 'Underlined'
 
 vim.g.js_file_import_use_fzf = 1
 
