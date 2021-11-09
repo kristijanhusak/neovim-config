@@ -1,6 +1,4 @@
-local lsp = {
-  last_actions = {},
-}
+local lsp = {}
 local nvim_lsp = require'lspconfig'
 local utils = require'partials/utils'
 local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostics')
@@ -122,9 +120,9 @@ nvim_lsp.sumneko_lua.setup(require("lua-dev").setup({
 
 vim.lsp.handlers['_typescript.rename'] = function(_, result)
   if not result then return end
-  vim.fn.cursor(result.position.line + 1, result.position.character + 1)
+  vim.fn.cursor(result.position.line + 1, result.position.character + 2)
   vim.api.nvim_feedkeys(utils.esc('<Esc>'), 'v', true)
-  lsp.rename()
+  vim.lsp.buf.rename()
   return {}
 end
 
@@ -146,20 +144,6 @@ vim.lsp.handlers['textDocument/codeAction'] = function(_, actions)
     return
   end
 
-  local option_strings = {}
-  for i, action in ipairs(actions) do
-    local title = action.title:gsub('\r\n', '\\r\\n')
-    title = title:gsub('\n', '\\n')
-    table.insert(option_strings, string.format("%d. %s", i, title))
-  end
-
-  kris.lsp.last_actions = actions
-
-  local bufnr, winnr = vim.lsp.util.open_floating_preview(option_strings, '', {
-    border = 'rounded',
-  })
-  vim.api.nvim_set_current_win(winnr)
-  utils.buf_keymap(bufnr, 'n', '<CR>', '<cmd>lua kris.lsp.select_code_action()<CR>')
 end
 
 local custom_symbol_callback = function(_,result, ctx)
@@ -215,43 +199,6 @@ function lsp.tag_signature(word)
   return false
 end
 
-function lsp.rename()
-  local current_val = vim.fn.expand('<cword>')
-  local bufnr, winnr = vim.lsp.util.open_floating_preview({ current_val }, '', {
-    border = 'rounded',
-    width = math.max(current_val:len() + 10, 30),
-  })
-  vim.api.nvim_set_current_win(winnr)
-  vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
-  vim.api.nvim_win_set_option(winnr, 'sidescrolloff', 0)
-  utils.buf_keymap(bufnr, 'i', '<CR>', '<cmd>lua kris.lsp.do_rename()<CR>')
-  vim.defer_fn(function()
-    vim.cmd[[startinsert!]]
-  end, 10)
-end
-
-function lsp.do_rename()
-  local new_name = vim.trim(vim.fn.getline('.'))
-  vim.api.nvim_win_close(0, true)
-  vim.api.nvim_feedkeys(utils.esc('<Esc>'), 'i', true)
-  vim.lsp.buf.rename(new_name)
-end
-
-function lsp.select_code_action()
-  local action_chosen = lsp.last_actions[vim.fn.line('.')]
-  vim.api.nvim_win_close(0, true)
-  if action_chosen.edit or type(action_chosen.command) == "table" then
-    if action_chosen.edit then
-      vim.lsp.util.apply_workspace_edit(action_chosen.edit)
-    end
-    if type(action_chosen.command) == "table" then
-      vim.lsp.buf.execute_command(action_chosen.command)
-    end
-  else
-    vim.lsp.buf.execute_command(action_chosen)
-  end
-end
-
 function lsp.refresh_diagnostics()
   vim.diagnostic.setloclist({open = false})
   lsp.show_diagnostics()
@@ -259,7 +206,6 @@ function lsp.refresh_diagnostics()
     vim.cmd[[lclose]]
   end
 end
-
 
 utils.keymap('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<CR>')
 utils.keymap('n', '<leader>lu', '<cmd>lua vim.lsp.buf.references()<CR>')
@@ -275,7 +221,7 @@ utils.keymap('n', '<leader>lt', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
 utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
 utils.keymap('n', '<leader>le', '<cmd>lua vim.diagnostic.open_float(nil, { scope = "line", show_header = false, focusable = false, border = "rounded" })<CR>')
 utils.keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.setloclist()<CR>')
-utils.keymap('n', '<leader>lr', '<cmd>lua kris.lsp.rename()<CR>')
+utils.keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.rename()<CR>')
 utils.keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev({ float = false })<CR>')
 utils.keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next({ float = false })<CR>')
 utils.keymap('n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>')
