@@ -45,6 +45,7 @@ vim.ui.input = function(opts, on_confirm)
   vim.api.nvim_set_current_win(winnr)
   vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
   vim.api.nvim_win_set_option(winnr, 'sidescrolloff', 0)
+  require('cmp').setup.buffer { enabled = false }
   utils.buf_keymap(bufnr, 'i', '<CR>', '<cmd>lua kris.ui.on_input()<CR>')
   vim.defer_fn(function()
     vim.cmd[[startinsert!]]
