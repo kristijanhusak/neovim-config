@@ -1,5 +1,5 @@
 return {
-  org_agenda_files = '~/Dropbox/org/*',
+  org_agenda_files = '~/Dropbox/org/**/*',
   org_default_notes_file = '~/Dropbox/org/refile.org',
   org_hide_emphasis_markers = true,
   org_agenda_text_search_extra_files = {'agenda-archives'},
