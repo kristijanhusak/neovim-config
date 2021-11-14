@@ -16,18 +16,18 @@ function fzf.goto_line(lines)
 end
 
 utils.keymap('n', '<C-p>', ':Files<CR>')
-utils.keymap('n', '<Leader>b', ":Buffers<CR>")
-utils.keymap('n', '<Leader>t', ":BTags<CR>")
-utils.keymap('n', '<Leader>m', ":History<CR>")
-utils.keymap('n', '<Leader>g', ":GFiles?<CR>")
-utils.keymap('n', '<Leader>lT', ":Tags<CR>")
+utils.keymap('n', '<Leader>b', ':Buffers<CR>')
+utils.keymap('n', '<Leader>t', ':BTags<CR>')
+utils.keymap('n', '<Leader>m', ':History<CR>')
+utils.keymap('n', '<Leader>g', ':GFiles?<CR>')
+utils.keymap('n', '<Leader>lT', ':Tags<CR>')
 
 vim.g.fzf_action = {
   ['ctrl-t'] = 'tab split',
   ['ctrl-x'] = 'split',
   ['ctrl-v'] = 'vsplit',
   ['@'] = fzf.goto_def,
-  [':'] = fzf.goto_line
+  [':'] = fzf.goto_line,
 }
 
 _G.kris.fzf = fzf

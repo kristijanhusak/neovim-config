@@ -1,7 +1,7 @@
 local completion = {}
-local utils = require'partials/utils'
-local cmp = require'cmp'
-utils.opt('o', 'pumheight' , 15)
+local utils = require('partials/utils')
+local cmp = require('cmp')
+utils.opt('o', 'pumheight', 15)
 vim.cmd('set completeopt=menuone,noselect')
 
 cmp.setup({
@@ -15,7 +15,7 @@ cmp.setup({
         tags = '[Tag]',
         path = '[Path]',
         orgmode = '[Org]',
-        ['vim-dadbod-completion'] = '[DB]'
+        ['vim-dadbod-completion'] = '[DB]',
       })[entry.source.name]
       return vim_item
     end,
@@ -31,7 +31,7 @@ cmp.setup({
   },
   snippet = {
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
+      vim.fn['vsnip#anonymous'](args.body)
     end,
   },
   mapping = {
@@ -44,14 +44,16 @@ cmp.setup({
     end,
   },
   documentation = {
-    border = 'rounded'
-  }
+    border = 'rounded',
+  },
 })
 
-vim.cmd [[augroup vimrc_autocompletion]]
-  vim.cmd [[autocmd!]]
-  vim.cmd[[autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })]]
-vim.cmd [[augroup END]]
+vim.cmd([[augroup vimrc_autocompletion]])
+vim.cmd([[autocmd!]])
+vim.cmd(
+  [[autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })]]
+)
+vim.cmd([[augroup END]])
 
 local function check_back_space()
   local col = vim.fn.col('.') - 1
@@ -80,19 +82,24 @@ end
 
 utils.keymap('i', '<TAB>', 'v:lua.kris.completion.tab_completion()', { expr = true, noremap = false })
 
-utils.keymap('i', '<S-TAB>', [[luaeval('require("cmp").visible()') ? "<C-p>" : vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-TAB>"]], {
-  expr = true,
-  noremap = false
-})
+utils.keymap(
+  'i',
+  '<S-TAB>',
+  [[luaeval('require("cmp").visible()') ? "<C-p>" : vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-TAB>"]],
+  {
+    expr = true,
+    noremap = false,
+  }
+)
 
 utils.keymap('s', '<TAB>', 'vsnip#available(1)  ? "<Plug>(vsnip-expand-or-jump)" : "<TAB>"', {
   expr = true,
-  noremap = false
+  noremap = false,
 })
 
 utils.keymap('s', '<S-TAB>', 'vsnip#available(-1)  ? "<Plug>(vsnip-jump-prev)" : "<S-TAB>"', {
   expr = true,
-  noremap = false
+  noremap = false,
 })
 
 vim.opt.wildignore = {

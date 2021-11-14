@@ -1,5 +1,5 @@
 local mappings = {}
-local utils = require'partials/utils'
+local utils = require('partials/utils')
 -- Comment map
 utils.keymap('n', '<Leader>c', 'gcc', { noremap = false })
 -- Line comment command
@@ -28,11 +28,11 @@ utils.keymap('n', 'k', 'gk')
 -- Map for Escape key in terminal
 utils.keymap('t', '<Leader>jj', '<C-\\><C-n>')
 
-vim.cmd[[augroup vimrc_terminal_mappings]]
-  vim.cmd[[autocmd!]]
-  -- Focus first file:line:col pattern in the terminal output
-  vim.cmd[[autocmd TermOpen * nnoremap <silent><buffer> F :call search('\f\+:\d\+:\d\+')<CR>]]
-vim.cmd[[augroup END]]
+vim.cmd([[augroup vimrc_terminal_mappings]])
+vim.cmd([[autocmd!]])
+-- Focus first file:line:col pattern in the terminal output
+vim.cmd([[autocmd TermOpen * nnoremap <silent><buffer> F :call search('\f\+:\d\+:\d\+')<CR>]])
+vim.cmd([[augroup END]])
 
 -- Copy to system clipboard
 utils.keymap('v', '<C-c>', '"+y')
@@ -107,11 +107,11 @@ utils.keymap('t', '<leader>T', '<C-\\><C-n><C-w>c')
 utils.keymap('n', 'gx', ':call netrw#BrowseX(expand("<cfile>"), netrw#CheckIfRemote())<CR>')
 
 -- Taken from https://gist.github.com/romainl/c0a8b57a36aec71a986f1120e1931f20
-for _, char in ipairs({'_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '-', '#'}) do
-  utils.keymap('x', 'i'..char, ':<C-u>normal! T' ..char..'vt'..char..'<CR>')
-  utils.keymap('o', 'i'..char, ':normal vi'..char..'<CR>')
-  utils.keymap('x', 'a'..char, ':<C-u>normal! F'..char..'vf'..char..'<CR>')
-  utils.keymap('o', 'a'..char, ':normal va'..char..'<CR>')
+for _, char in ipairs({ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '-', '#' }) do
+  utils.keymap('x', 'i' .. char, ':<C-u>normal! T' .. char .. 'vt' .. char .. '<CR>')
+  utils.keymap('o', 'i' .. char, ':normal vi' .. char .. '<CR>')
+  utils.keymap('x', 'a' .. char, ':<C-u>normal! F' .. char .. 'vf' .. char .. '<CR>')
+  utils.keymap('o', 'a' .. char, ':normal va' .. char .. '<CR>')
 end
 
 function mappings.close_buffer(bang)
@@ -126,11 +126,11 @@ function mappings.close_buffer(bang)
   if totalBuffers > 1 and noSplits then
     local command = 'bp'
     if vim.fn.buflisted(vim.fn.bufnr('#')) then
-      command = command..'|bd'..bang..'#'
+      command = command .. '|bd' .. bang .. '#'
     end
     return vim.cmd(command)
   end
-  return vim.cmd('q'..bang)
+  return vim.cmd('q' .. bang)
 end
 
 utils.keymap('n', 'gF', ':call v:lua.kris.mappings.open_file_or_create_new()<CR>')
@@ -140,8 +140,8 @@ local function open_file_on_line_and_column()
   local line = vim.fn.getline('.')
   local row = 1
   local col = 1
-  if vim.fn.match(line, vim.fn.escape(path, '/')..':\\d*:\\d*') > -1 then
-    local matchlist = vim.fn.matchlist(line, vim.fn.escape(path, '/')..':\\(\\d*\\):\\(\\d*\\)')
+  if vim.fn.match(line, vim.fn.escape(path, '/') .. ':\\d*:\\d*') > -1 then
+    local matchlist = vim.fn.matchlist(line, vim.fn.escape(path, '/') .. ':\\(\\d*\\):\\(\\d*\\)')
     row = matchlist[2] or 1
     col = matchlist[3] or 1
   end
@@ -149,9 +149,9 @@ local function open_file_on_line_and_column()
   local bufnr = vim.fn.bufnr(path)
   local winnr = vim.fn.bufwinnr(bufnr)
   if winnr > -1 and vim.fn.getbufvar(bufnr, '&buftype') ~= 'terminal' then
-    vim.cmd(winnr..'wincmd w')
+    vim.cmd(winnr .. 'wincmd w')
   else
-    vim.cmd('vsplit '..path)
+    vim.cmd('vsplit ' .. path)
   end
   vim.fn.cursor(row, col)
 end
@@ -171,32 +171,32 @@ function mappings.open_file_or_create_new()
   end
 
   vim.api.nvim_out_write('New file.\n')
-  local new_path = vim.fn.fnamemodify(vim.fn.expand('%:p:h')..'/'..path, ':p')
+  local new_path = vim.fn.fnamemodify(vim.fn.expand('%:p:h') .. '/' .. path, ':p')
   local ext = vim.fn.fnamemodify(new_path, ':e')
 
   if ext and ext ~= '' then
-    return vim.cmd('edit '..new_path)
+    return vim.cmd('edit ' .. new_path)
   end
 
   local suffixes = vim.fn.split(vim.bo.suffixesadd, ',')
 
   for _, suffix in ipairs(suffixes) do
-    if vim.fn.filereadable(new_path..suffix) then
-      return vim.cmd('edit '..new_path..suffix)
+    if vim.fn.filereadable(new_path .. suffix) then
+      return vim.cmd('edit ' .. new_path .. suffix)
     end
   end
 
-  return vim.cmd('edit '..new_path..suffixes[1])
+  return vim.cmd('edit ' .. new_path .. suffixes[1])
 end
 
-vim.cmd [[command! Json call v:lua.kris.mappings.paste_to_json_buffer()]]
+vim.cmd([[command! Json call v:lua.kris.mappings.paste_to_json_buffer()]])
 
 function mappings.paste_to_json_buffer()
-  vim.cmd [[vsplit]]
-  vim.cmd [[enew]]
+  vim.cmd([[vsplit]])
+  vim.cmd([[enew]])
   vim.bo.filetype = 'json'
-  vim.cmd [[norm!"+p]]
-  vim.cmd [[norm!VGgq]]
+  vim.cmd([[norm!"+p]])
+  vim.cmd([[norm!VGgq]])
 end
 
 local terminal_bufnr = 0
@@ -206,9 +206,9 @@ function mappings.toggle_terminal(close)
     return
   end
   if terminal_bufnr <= 0 then
-    vim.cmd [[autocmd TermOpen * ++once startinsert]]
-    vim.cmd[[sp | term]]
-    vim.cmd [[autocmd BufDelete <buffer> call v:lua.kris.mappings.toggle_terminal(v:true)]]
+    vim.cmd([[autocmd TermOpen * ++once startinsert]])
+    vim.cmd([[sp | term]])
+    vim.cmd([[autocmd BufDelete <buffer> call v:lua.kris.mappings.toggle_terminal(v:true)]])
     terminal_bufnr = vim.api.nvim_get_current_buf()
     return
   end
@@ -216,11 +216,11 @@ function mappings.toggle_terminal(close)
   local win = vim.fn.bufwinnr(terminal_bufnr)
 
   if win > -1 then
-    vim.cmd(win..'close')
+    vim.cmd(win .. 'close')
     return
   end
 
-  vim.cmd('sp | b'..terminal_bufnr..' | startinsert')
+  vim.cmd('sp | b' .. terminal_bufnr .. ' | startinsert')
 end
 
 _G.kris.mappings = mappings

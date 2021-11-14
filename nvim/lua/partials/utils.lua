@@ -1,19 +1,30 @@
 local M = {}
 
 function M.keymap(mode, lhs, rhs, opts)
-  return vim.api.nvim_set_keymap(mode, lhs, rhs, vim.tbl_extend('keep', opts or {}, {
-        nowait = true,
-        silent = true,
-        noremap = true,
-    }))
+  return vim.api.nvim_set_keymap(
+    mode,
+    lhs,
+    rhs,
+    vim.tbl_extend('keep', opts or {}, {
+      nowait = true,
+      silent = true,
+      noremap = true,
+    })
+  )
 end
 
 function M.buf_keymap(buf, mode, lhs, rhs, opts)
-  return vim.api.nvim_buf_set_keymap(buf, mode, lhs, rhs, vim.tbl_extend('keep', opts or {}, {
-        nowait = true,
-        silent = true,
-        noremap = true,
-    }))
+  return vim.api.nvim_buf_set_keymap(
+    buf,
+    mode,
+    lhs,
+    rhs,
+    vim.tbl_extend('keep', opts or {}, {
+      nowait = true,
+      silent = true,
+      noremap = true,
+    })
+  )
 end
 
 function M.unmap(mode, lhs)
@@ -27,7 +38,7 @@ end
 function M.opt(scope, key, value)
   vim[scope][key] = value
   if scope ~= 'o' then
-  vim['o'][key] = value
+    vim['o'][key] = value
   end
 end
 
@@ -40,10 +51,12 @@ local patterns = {
   '^static%s*',
   '^function%s*',
   '^class%s*',
-  '%s*extends.*$'
-  }
+  '%s*extends.*$',
+}
 function M.cleanup_ts_node(line)
-  for _, p in ipairs(patterns) do line = line:gsub(p, '') end
+  for _, p in ipairs(patterns) do
+    line = line:gsub(p, '')
+  end
   return line
 end
 

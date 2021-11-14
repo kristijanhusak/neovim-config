@@ -1,12 +1,12 @@
 local go = {}
-local utils = require'partials/utils'
-vim.cmd [[augroup vimrc_go]]
-  vim.cmd [[autocmd!]]
-  vim.cmd [[autocmd FileType go lua kris.go.setup()]]
-  vim.cmd [[autocmd BufWritePre *.go lua kris.go.format()]]
-vim.cmd [[augroup END]]
+local utils = require('partials/utils')
+vim.cmd([[augroup vimrc_go]])
+vim.cmd([[autocmd!]])
+vim.cmd([[autocmd FileType go lua kris.go.setup()]])
+vim.cmd([[autocmd BufWritePre *.go lua kris.go.format()]])
+vim.cmd([[augroup END]])
 
-vim.cmd[[command! GoAddTags lua kris.go.add_tags()]]
+vim.cmd([[command! GoAddTags lua kris.go.add_tags()]])
 
 function go.setup()
   vim.bo.expandtab = false
@@ -27,11 +27,15 @@ end
 function go.format()
   vim.lsp.buf.formatting_sync()
   local params = vim.lsp.util.make_range_params()
-  params.context  = { source = { organizeImports = true } }
+  params.context = { source = { organizeImports = true } }
   local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params)
-  if not result then return end
+  if not result then
+    return
+  end
   result = result[1].result
-  if not result then return end
+  if not result then
+    return
+  end
   vim.lsp.util.apply_workspace_edit(result[1].edit)
 end
 

@@ -11,9 +11,9 @@ local abbreviations = {
   E = 'e',
   Gco = 'Git checkout',
   Gcb = 'Git checkout -b',
-  Gblame = 'Git blame'
+  Gblame = 'Git blame',
 }
 
-for left,right in pairs(abbreviations) do
+for left, right in pairs(abbreviations) do
   vim.cmd(string.format('cnoreabbrev %s %s', left, right))
 end

@@ -1,14 +1,14 @@
 local ui = {
   last_select = {},
-  last_input = {}
+  last_input = {},
 }
 local utils = require('partials.utils')
 
 vim.ui.select = function(items, opts, on_choice)
-  vim.validate {
+  vim.validate({
     items = { items, 'table', false },
     on_choice = { on_choice, 'function', false },
-  }
+  })
   opts = opts or {}
   local choices = {}
   local format_item = opts.format_item or tostring
@@ -18,7 +18,7 @@ vim.ui.select = function(items, opts, on_choice)
 
   kris.ui.last_select = {
     items = items,
-    on_choice = on_choice
+    on_choice = on_choice,
   }
 
   local bufnr, winnr = vim.lsp.util.open_floating_preview(choices, '', {
@@ -29,9 +29,9 @@ vim.ui.select = function(items, opts, on_choice)
 end
 
 vim.ui.input = function(opts, on_confirm)
-  vim.validate {
+  vim.validate({
     on_confirm = { on_confirm, 'function', false },
-  }
+  })
   opts = opts or {}
   local current_val = opts.default or ''
   local bufnr, winnr = vim.lsp.util.open_floating_preview({ current_val }, '', {
@@ -40,15 +40,15 @@ vim.ui.input = function(opts, on_confirm)
   })
   ui.last_input = {
     val = current_val,
-    on_confirm = on_confirm
+    on_confirm = on_confirm,
   }
   vim.api.nvim_set_current_win(winnr)
   vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
   vim.api.nvim_win_set_option(winnr, 'sidescrolloff', 0)
-  require('cmp').setup.buffer { enabled = false }
+  require('cmp').setup.buffer({ enabled = false })
   utils.buf_keymap(bufnr, 'i', '<CR>', '<cmd>lua kris.ui.on_input()<CR>')
   vim.defer_fn(function()
-    vim.cmd[[startinsert!]]
+    vim.cmd([[startinsert!]])
   end, 10)
 end
 
