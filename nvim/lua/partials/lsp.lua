@@ -18,11 +18,11 @@ local filetypes = {
 vim.cmd([[augroup vimrc_lsp]])
 vim.cmd([[autocmd!]])
 vim.cmd(string.format('autocmd FileType %s call v:lua.kris.lsp.setup()', table.concat(filetypes, ',')))
-vim.cmd([[autocmd User LspDiagnosticsChanged :lua kris.lsp.refresh_diagnostics()]])
 vim.cmd([[augroup END]])
 
 function lsp.setup()
   vim.cmd([[autocmd CursorHold,CursorHoldI <buffer> lua kris.lsp.show_diagnostics()]])
+  vim.cmd([[autocmd DiagnosticChanged <buffer> lua kris.lsp.refresh_diagnostics()]])
   require('lsp_signature').on_attach({
     zindex = 50,
     hi_parameter = 'Search',
