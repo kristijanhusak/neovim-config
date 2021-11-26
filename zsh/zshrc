@@ -67,8 +67,7 @@ export KEYTIMEOUT=1
 
 [ -f ~/.zsh_secret ] && source ~/.zsh_secret
 
-export NVM_DIR="/home/kristijan/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+eval "$(fnm env)"
 
 eval $(keychain --eval --quiet ~/.ssh/id_rsa)
 eval $(keychain --eval --quiet ~/.ssh/id_ed25519)
