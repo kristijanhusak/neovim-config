@@ -42,6 +42,7 @@ alias code="cd ~/code"
 alias lg="lazygit"
 alias resetbg="colors"
 alias togglebg="colors toggle"
+alias ggf=ggfl
 
 export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin:~/.cargo/bin
 export LESS=R
