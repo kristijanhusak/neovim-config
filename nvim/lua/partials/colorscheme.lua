@@ -10,6 +10,7 @@ function colorscheme.setup_colors()
   vim.cmd([[
     hi clear VertSplit
     hi link VertSplit Comment
+    hi! link LspSignatureActiveParameter Search
   ]])
   if vim.o.background == 'light' then
     vim.cmd([[hi IndentBlanklineChar guifg=#e5e5e6]])

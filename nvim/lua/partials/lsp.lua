@@ -23,11 +23,7 @@ vim.cmd([[augroup END]])
 function lsp.setup()
   vim.cmd([[autocmd CursorHold,CursorHoldI <buffer> lua kris.lsp.show_diagnostics()]])
   vim.cmd([[autocmd DiagnosticChanged <buffer> lua kris.lsp.refresh_diagnostics()]])
-  require('lsp_signature').on_attach({
-    zindex = 50,
-    hi_parameter = 'Search',
-    hint_enable = false,
-  })
+  vim.cmd([[autocmd CursorHoldI <buffer> lua vim.lsp.buf.signature_help()]])
 end
 
 local function init_setup(opts)
@@ -115,8 +111,7 @@ nvim_lsp.tsserver.setup(init_setup())
 nvim_lsp.vimls.setup(init_setup())
 nvim_lsp.intelephense.setup(init_setup())
 nvim_lsp.gopls.setup(init_setup())
-nvim_lsp.pylsp.setup(init_setup())
-nvim_lsp.vuels.setup({ init_setup() })
+nvim_lsp.pyright.setup(init_setup())
 local lua_lsp_path = '/home/kristijan/github/lua-language-server'
 local lua_lsp_bin = lua_lsp_path .. '/bin/Linux/lua-language-server'
 nvim_lsp.sumneko_lua.setup(require('lua-dev').setup({
@@ -153,13 +148,6 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
   vim.lsp.handlers.signature_help,
   { border = 'single', focusable = false }
 )
-
-vim.lsp.handlers['textDocument/codeAction'] = function(_, actions)
-  if actions == nil or vim.tbl_isempty(actions) then
-    print('No code actions available')
-    return
-  end
-end
 
 local custom_symbol_callback = function(_, result, ctx)
   if not result or vim.tbl_isempty(result) then
