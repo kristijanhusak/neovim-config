@@ -105,6 +105,9 @@ utils.keymap('c', '<C-k>', 'wildmenumode() ? "<c-k>" : "<up>"', { expr = true, s
 utils.keymap('n', '<leader>T', ':call v:lua.kris.mappings.toggle_terminal()<CR>')
 utils.keymap('t', '<leader>T', '<C-\\><C-n><C-w>c')
 
+utils.keymap('n', 'gs', ':%s/', { silent = false })
+utils.keymap('x', 'gs', ':s/', { silent = false })
+
 utils.keymap('n', 'gx', ':call netrw#BrowseX(expand("<cfile>"), netrw#CheckIfRemote())<CR>')
 
 -- Taken from https://gist.github.com/romainl/c0a8b57a36aec71a986f1120e1931f20
