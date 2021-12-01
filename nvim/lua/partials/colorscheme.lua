@@ -18,7 +18,7 @@ function colorscheme.setup_colors()
 end
 
 opt('o', 'termguicolors', true)
-opt('o', 'background', vim.env.NVIM_COLORSCHEME_BG or 'light')
+opt('o', 'background', vim.env.NVIM_COLORSCHEME_BG or 'dark')
 opt('o', 'synmaxcol', 300)
 
 vim.cmd([[filetype plugin indent on]])
@@ -26,4 +26,4 @@ vim.cmd([[syntax on]])
 
 _G.kris.colorscheme = colorscheme
 
-vim.cmd('colorscheme ' .. (vim.env.NVIM_COLORSCHEME or 'base16-one-light'))
+vim.cmd('colorscheme ' .. (vim.env.NVIM_COLORSCHEME or 'base16-onedark'))
