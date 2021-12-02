@@ -107,7 +107,13 @@ function lsp.setup_diagnosticls(init_opts)
 end
 
 lsp.setup_diagnosticls()
-nvim_lsp.tsserver.setup(init_setup())
+nvim_lsp.tsserver.setup(init_setup({
+  init_options = {
+    preferences = {
+      quotePreference = 'single',
+    },
+  },
+}))
 nvim_lsp.vimls.setup(init_setup())
 nvim_lsp.intelephense.setup(init_setup())
 nvim_lsp.gopls.setup(init_setup())
