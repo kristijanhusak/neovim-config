@@ -113,6 +113,17 @@ nvim_lsp.tsserver.setup(init_setup({
       quotePreference = 'single',
     },
   },
+  commands = {
+    OrganizeImports = {
+      function()
+        vim.lsp.buf_request_sync(0, 'workspace/executeCommand', {
+          command = "_typescript.organizeImports",
+          arguments = {vim.api.nvim_buf_get_name(0)},
+        }, 5000)
+      end,
+      description = 'Organize imports',
+    }
+  }
 }))
 nvim_lsp.vimls.setup(init_setup())
 nvim_lsp.intelephense.setup(init_setup())
