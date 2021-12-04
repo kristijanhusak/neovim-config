@@ -32,7 +32,7 @@ vim.cmd([[augroup vimrc_terminal_mappings]])
 vim.cmd([[autocmd!]])
 -- Focus first file:line:col pattern in the terminal output
 vim.cmd([[autocmd TermOpen * nnoremap <silent><buffer> F :call search('\f\+:\d\+:\d\+')<CR>]])
-vim.cmd[[autocmd TermOpen * setlocal bufhidden=wipe]]
+vim.cmd([[autocmd TermOpen * setlocal bufhidden=wipe]])
 vim.cmd([[augroup END]])
 
 -- Copy to system clipboard
@@ -212,7 +212,7 @@ function mappings.toggle_terminal(close)
   if terminal_bufnr <= 0 then
     vim.cmd([[autocmd TermOpen * ++once startinsert]])
     vim.cmd([[sp | term]])
-    vim.cmd[[setlocal bufhidden=hide]]
+    vim.cmd([[setlocal bufhidden=hide]])
     vim.cmd([[autocmd BufDelete <buffer> call v:lua.kris.mappings.toggle_terminal(v:true)]])
     terminal_bufnr = vim.api.nvim_get_current_buf()
     return
