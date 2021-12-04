@@ -151,6 +151,7 @@ z() {
   cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
 }
 
-source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ $- == *i* ]] && source "/usr/share/fzf/completion.zsh" 2> /dev/null
+source "/usr/share/fzf/key-bindings.zsh"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

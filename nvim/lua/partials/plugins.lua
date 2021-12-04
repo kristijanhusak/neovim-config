@@ -19,8 +19,7 @@ require('packager').setup(function(packager)
   packager.add('AndrewRadev/tagalong.vim')
   packager.add('AndrewRadev/splitjoin.vim')
   packager.add('lewis6991/gitsigns.nvim', { requires = 'nvim-lua/plenary.nvim' })
-  packager.add('junegunn/fzf', { ['do'] = './install --all && ln -sf $(pwd) ~/.fzf' })
-  packager.add('junegunn/fzf.vim')
+  packager.add('nvim-telescope/telescope.nvim')
   packager.add('ludovicchabant/vim-gutentags')
   packager.add('gpanders/editorconfig.nvim')
   packager.add('andymass/vim-matchup')
@@ -139,7 +138,7 @@ vim.g.vsnip_filetypes = {
   typescript = { 'javascript' },
 }
 
-vim.g.js_file_import_use_fzf = 1
+vim.g.js_file_import_use_telescope = 1
 
 vim.g.delimitMate_expand_cr = 1
 
