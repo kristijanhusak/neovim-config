@@ -1,6 +1,7 @@
 local lsp = {}
 local nvim_lsp = require('lspconfig')
 local utils = require('partials/utils')
+local dlsconfig = require('diagnosticls-configs')
 local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostics')
 
 local filetypes = {
@@ -34,79 +35,6 @@ local function init_setup(opts)
   }, opts or {})
 end
 
-function lsp.setup_diagnosticls(init_opts)
-  nvim_lsp.diagnosticls.setup(init_setup({
-    filetypes = {
-      'javascript',
-      'javascriptreact',
-      'lua',
-    },
-    init_options = vim.tbl_deep_extend('force', {
-      linters = {
-        eslint = {
-          command = './node_modules/.bin/eslint',
-          rootPatterns = { '.git' },
-          debounce = 100,
-          args = {
-            '--stdin',
-            '--stdin-filename',
-            '%filepath',
-            '--format',
-            'json',
-          },
-          sourceName = 'eslint',
-          parseJson = {
-            errorsRoot = '[0].messages',
-            line = 'line',
-            column = 'column',
-            endLine = 'endLine',
-            endColumn = 'endColumn',
-            message = '${message} [${ruleId}]',
-            security = 'severity',
-          },
-          securities = {
-            ['1'] = 'warning',
-            ['2'] = 'error',
-          },
-        },
-      },
-      filetypes = {
-        javascript = 'eslint',
-        javascriptreact = 'eslint',
-      },
-      formatters = {
-        prettierEslint = {
-          command = './node_modules/.bin/prettier-eslint',
-          args = {
-            '--stdin',
-            '--stdin-filepath',
-            '%filepath',
-            '--single-quote',
-            '--print-width',
-            '120',
-          },
-          rootPatterns = { '.git' },
-        },
-        stylua = {
-          command = 'stylua',
-          args = {
-            '--search-parent-directories',
-            '--stdin-filepath',
-            '%filepath',
-            '-',
-          },
-        },
-      },
-      formatFiletypes = {
-        javascript = 'prettierEslint',
-        javascriptreact = 'prettierEslint',
-        lua = 'stylua',
-      },
-    }, init_opts or {}),
-  }))
-end
-
-lsp.setup_diagnosticls()
 nvim_lsp.tsserver.setup(init_setup({
   init_options = {
     preferences = {
@@ -129,11 +57,8 @@ nvim_lsp.vimls.setup(init_setup())
 nvim_lsp.intelephense.setup(init_setup())
 nvim_lsp.gopls.setup(init_setup())
 nvim_lsp.pyright.setup(init_setup())
-local lua_lsp_path = '/home/kristijan/github/lua-language-server'
-local lua_lsp_bin = lua_lsp_path .. '/bin/Linux/lua-language-server'
 nvim_lsp.sumneko_lua.setup(require('lua-dev').setup({
   lspconfig = init_setup({
-    cmd = { lua_lsp_bin, '-E', lua_lsp_path .. '/main.lua' },
     settings = {
       Lua = {
         diagnostics = {
@@ -143,6 +68,8 @@ nvim_lsp.sumneko_lua.setup(require('lua-dev').setup({
     },
   }),
 }))
+dlsconfig.init({ default_config = true })
+dlsconfig.setup()
 
 vim.lsp.handlers['_typescript.rename'] = function(_, result)
   if not result then

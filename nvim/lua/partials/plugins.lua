@@ -39,6 +39,7 @@ require('packager').setup(function(packager)
   packager.add('folke/lua-dev.nvim')
   packager.add('lewis6991/impatient.nvim')
   packager.add('RRethy/nvim-base16')
+  packager.add('creativenull/diagnosticls-configs-nvim')
   packager.add('hrsh7th/nvim-cmp', {
     requires = {
       'hrsh7th/cmp-buffer',
