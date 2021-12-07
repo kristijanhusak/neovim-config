@@ -67,7 +67,6 @@ command = [
     'foreground ' + normal_fg,
     'background ' + normal_bg,
     'cursor ' + (cursor_bg.startswith('#') and cursor_bg or normal_fg),
-    'cursor_text_color ' + (cursor_fg.startswith('#') and cursor_fg or 'background'),
     'selection_foreground ' + (selection_fg.startswith('#') and selection_fg or 'none'),
     'selection_background ' + (selection_bg.startswith('#') and selection_bg or normal_fg)
 ]
