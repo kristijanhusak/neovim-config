@@ -2,8 +2,8 @@
 
 color_file = '/home/kristijan/.cache/main_colorscheme.conf'
 colorschemes = {
-    'dark': 'base16-onedark',
-    'light': 'base16-one-light',
+    'dark': 'onenord',
+    'light': 'onenord',
 }
 
 import pynvim
