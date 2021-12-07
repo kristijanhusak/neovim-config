@@ -10,6 +10,9 @@ vim.cmd([[syntax on]])
 
 require('onenord').setup({
   style = vim.env.NVIM_COLORSCHEME_BG or 'dark',
+  italics = {
+    comments = true,
+  },
 })
 
 _G.kris.colorscheme = colorscheme
