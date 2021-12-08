@@ -9,10 +9,12 @@ vim.cmd([[filetype plugin indent on]])
 vim.cmd([[syntax on]])
 
 require('onenord').setup({
-  style = vim.env.NVIM_COLORSCHEME_BG or 'dark',
   italics = {
     comments = true,
   },
+  styles = {
+    diagnostics = 'undercurl',
+  }
 })
 
 _G.kris.colorscheme = colorscheme
