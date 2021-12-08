@@ -22,10 +22,10 @@ cmp.setup({
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'rg' },
     { name = 'vsnip' },
     { name = 'buffer' },
     { name = 'tags', keyword_length = 2 },
+    { name = 'rg', keyword_length = 3 },
     { name = 'path' },
     { name = 'orgmode' },
   },
