@@ -12,6 +12,9 @@ require('onenord').setup({
   styles = {
     diagnostics = 'undercurl',
     comments = 'italic',
+  },
+  custom_highlights = {
+    LspSignatureActiveParameter = { link = 'Visual' }
   }
 })
 
