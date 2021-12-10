@@ -6,6 +6,10 @@ return {
   org_agenda_start_on_weekday = false,
   org_todo_keywords = { 'TODO(t)', 'PROGRESS(p)', '|', 'DONE(d)', 'REJECTED(r)' },
   org_agenda_templates = {
+    t = {
+      description = 'Refile',
+      template = '* TODO %?\n  DEADLINE: %T',
+    },
     T = {
       description = 'Todo',
       template = '* TODO %?\n  DEADLINE: %T',
