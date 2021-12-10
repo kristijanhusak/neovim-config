@@ -13,9 +13,6 @@ require('onenord').setup({
     diagnostics = 'undercurl',
     comments = 'italic',
   },
-  custom_highlights = {
-    LspSignatureActiveParameter = { link = 'Visual' }
-  }
 })
 
 _G.kris.colorscheme = colorscheme
