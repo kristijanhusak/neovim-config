@@ -9,6 +9,7 @@ vim.cmd([[filetype plugin indent on]])
 vim.cmd([[syntax on]])
 
 require('onenord').setup({
+  fade_nc = false,
   styles = {
     diagnostics = 'undercurl',
     comments = 'italic',
