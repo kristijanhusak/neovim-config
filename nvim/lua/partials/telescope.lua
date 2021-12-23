@@ -32,7 +32,7 @@ require('telescope').setup({
         ['<C-k>'] = actions.move_selection_previous,
         ['<Esc>'] = actions.close,
         ['<C-w>'] = function()
-          vim.cmd[[normal! bcw]]
+          vim.cmd([[normal! bcw]])
         end,
         ['@'] = custom_actions.jump_to_symbol,
         [':'] = custom_actions.jump_to_line,

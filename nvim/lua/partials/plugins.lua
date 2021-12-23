@@ -40,6 +40,7 @@ require('packager').setup(function(packager)
   packager.add('lewis6991/impatient.nvim')
   packager.add('rmehri01/onenord.nvim')
   packager.add('creativenull/diagnosticls-configs-nvim')
+  packager.add('SmiteshP/nvim-gps')
   packager.add('hrsh7th/nvim-cmp', {
     requires = {
       'hrsh7th/cmp-buffer',

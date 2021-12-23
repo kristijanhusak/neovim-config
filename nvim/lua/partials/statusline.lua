@@ -1,9 +1,10 @@
-local utils = require('partials/utils')
 local statusline = {}
 vim.cmd([[augroup custom_statusline]])
 vim.cmd([[autocmd!]])
 vim.cmd([[autocmd VimEnter,ColorScheme * call v:lua.kris.statusline.set_colors()]])
 vim.cmd([[augroup END]])
+local gps = require('nvim-gps')
+gps.setup()
 vim.o.statusline = '%!v:lua.kris.statusline.setup()'
 
 local c = {}
@@ -177,6 +178,7 @@ local function statusline_active()
   local ft = vim.bo.filetype
   local err = lsp_status('ERROR')
   local warn = lsp_status('WARN')
+  local context = gps.is_available() and gps.get_location() or ''
   local statusline_sections = {
     sep(mode, st_mode),
     '%<',
@@ -188,6 +190,7 @@ local function statusline_active()
     sep('%r', nil, vim.bo.readonly),
     sep('%q', nil, vim.bo.buftype == 'quickfix'),
     sep(db_ui, sec_2, db_ui ~= ''),
+    sep(context, sec_2, context ~= ''),
     '%=',
     sep(search, vim.tbl_extend('keep', { side = 'right' }, sec_2), search ~= ''),
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
