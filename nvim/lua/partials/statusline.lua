@@ -112,6 +112,8 @@ local function git_statusline()
   local result = {}
   if vim.b.gitsigns_head then
     table.insert(result, vim.b.gitsigns_head)
+  elseif vim.g.gitsigns_head then
+    table.insert(result, vim.g.gitsigns_head)
   end
   if vim.b.gitsigns_status then
     table.insert(result, vim.b.gitsigns_status)
