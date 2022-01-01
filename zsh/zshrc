@@ -47,7 +47,7 @@ alias ggf=ggfl
 export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin:~/.cargo/bin
 export LESS=R
 export EDITOR=nvim
-export MANPAGER="nvim -c 'set ft=man' -"
+export MANPAGER="nvim +Man!"
 export FZF_DEFAULT_COMMAND='rg --files'
 export LESS=R
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=magenta,bold,underline"
