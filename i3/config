@@ -381,6 +381,7 @@ set_from_resource $term_color15    color15
 assign [class="Google-chrome"] 2
 assign [class="Brave-browser"] 2
 assign [class="Slack"] 4
+assign [class="Microsoft Teams"] 4
 assign [class="DBeaver"] 5
 
 
