@@ -1,8 +1,8 @@
 local completion = {}
 local utils = require('partials/utils')
 local cmp = require('cmp')
-utils.opt('o', 'pumheight', 15)
-vim.cmd('set completeopt=menuone,noselect')
+vim.opt.pumheight = 15
+vim.opt.completeopt = 'menuone,noselect'
 
 cmp.setup({
   formatting = {

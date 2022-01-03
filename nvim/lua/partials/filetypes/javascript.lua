@@ -196,7 +196,7 @@ function javascript.setup()
   utils.buf_keymap(buf, 'n', '<Leader>d', '<Plug>(JsInjectDependency)', { noremap = false })
   utils.buf_keymap(buf, 'n', '<Leader>D', '<Plug>(JsGenerateDocblock)', { noremap = false })
   utils.buf_keymap(buf, 'n', 'gf', '<Plug>(JsGotoFile)', { noremap = false })
-  utils.opt('o', 'isfname', vim.o.isfname .. ',@-@')
+  vim.opt_local.isfname:append('@-@')
   vim.b.old_indentexpr = vim.bo.indentexpr:gsub('%(%)$', '')
   vim.bo.indentexpr = 'v:lua.kris.javascript.indent()'
 end

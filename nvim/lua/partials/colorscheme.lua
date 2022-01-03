@@ -1,9 +1,9 @@
 local colorscheme = {}
 local opt = require('partials/utils').opt
 
-opt('o', 'termguicolors', true)
-opt('o', 'background', vim.env.NVIM_COLORSCHEME_BG or 'dark')
-opt('o', 'synmaxcol', 300)
+vim.opt.termguicolors = true
+vim.opt.background = vim.env.NVIM_COLORSCHEME_BG or 'dark'
+vim.opt.synmaxcol = 300
 
 vim.cmd([[filetype plugin indent on]])
 vim.cmd([[syntax on]])

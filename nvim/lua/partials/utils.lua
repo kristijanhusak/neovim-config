@@ -35,13 +35,6 @@ function M.esc(cmd)
   return vim.api.nvim_replace_termcodes(cmd, true, false, true)
 end
 
-function M.opt(scope, key, value)
-  vim[scope][key] = value
-  if scope ~= 'o' then
-    vim['o'][key] = value
-  end
-end
-
 local patterns = {
   '//.*$',
   '%s*[%[%(%{]*%s*$',
