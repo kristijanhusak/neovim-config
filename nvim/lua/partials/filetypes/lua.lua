@@ -1,7 +1,6 @@
 local lua = {}
 local fn = vim.fn
 local ts_utils = require('nvim-treesitter/ts_utils')
-local utils = require('partials.utils')
 
 vim.cmd([[augroup init_lua]])
 vim.cmd([[autocmd!]])
@@ -10,8 +9,8 @@ vim.cmd([[augroup END]])
 
 function lua.setup()
   vim.bo.keywordprg = ':help'
-  utils.buf_keymap(0, 'n', '<Leader>D', '<cmd>lua kris.lua.generate_docblock()<CR>')
-  utils.buf_keymap(0, 'n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = false })
+  vim.keymap.set('n', '<Leader>D', '<cmd>lua kris.lua.generate_docblock()<CR>', { buffer = true })
+  vim.keymap.set('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', { remap = true, buffer = true })
 end
 
 function lua.generate_docblock()

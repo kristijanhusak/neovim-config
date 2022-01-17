@@ -1,32 +1,31 @@
 local mappings = {}
-local utils = require('partials/utils')
 -- Comment map
-utils.keymap('n', '<Leader>c', 'gcc', { noremap = false })
+vim.keymap.set('n', '<Leader>c', 'gcc', { remap = true })
 -- Line comment command
-utils.keymap('v', '<Leader>c', 'gc', { noremap = false })
+vim.keymap.set('v', '<Leader>c', 'gc', { remap = true })
 
 -- Map save to Ctrl + S
-utils.keymap('', '<c-s>', ':w<CR>', { noremap = false })
-utils.keymap('i', '<c-s>', '<C-o>:w<CR>', { noremap = false })
-utils.keymap('n', '<Leader>s', ':w<CR>')
+vim.keymap.set('', '<c-s>', ':w<CR>', { remap = true })
+vim.keymap.set('i', '<c-s>', '<C-o>:w<CR>', { remap = true })
+vim.keymap.set('n', '<Leader>s', ':w<CR>')
 
 -- Open vertical split
-utils.keymap('n', '<Leader>v', '<C-w>v')
+vim.keymap.set('n', '<Leader>v', '<C-w>v')
 
 -- Move between slits
-utils.keymap('n', '<c-h>', '<C-w>h')
-utils.keymap('n', '<c-j>', '<C-w>j')
-utils.keymap('n', '<c-k>', '<C-w>k')
-utils.keymap('n', '<c-l>', '<C-w>l')
-utils.keymap('n', '<c-h>', '<C-\\><C-n><C-w>h')
-utils.keymap('n', '<c-l>', '<C-\\><C-n><C-w>l')
+vim.keymap.set('n', '<c-h>', '<C-w>h')
+vim.keymap.set('n', '<c-j>', '<C-w>j')
+vim.keymap.set('n', '<c-k>', '<C-w>k')
+vim.keymap.set('n', '<c-l>', '<C-w>l')
+vim.keymap.set('n', '<c-h>', '<C-\\><C-n><C-w>h')
+vim.keymap.set('n', '<c-l>', '<C-\\><C-n><C-w>l')
 
 -- Down is really the next line
-utils.keymap('n', 'j', 'gj')
-utils.keymap('n', 'k', 'gk')
+vim.keymap.set('n', 'j', 'gj')
+vim.keymap.set('n', 'k', 'gk')
 
 -- Map for Escape key in terminal
-utils.keymap('t', '<Leader>jj', '<C-\\><C-n>')
+vim.keymap.set('t', '<Leader>jj', '<C-\\><C-n>')
 
 vim.cmd([[augroup vimrc_terminal_mappings]])
 vim.cmd([[autocmd!]])
@@ -36,89 +35,86 @@ vim.cmd([[autocmd TermOpen * setlocal bufhidden=wipe]])
 vim.cmd([[augroup END]])
 
 -- Copy to system clipboard
-utils.keymap('v', '<C-c>', '"+y')
+vim.keymap.set('v', '<C-c>', '"+y')
 -- Paste from system clipboard with Ctrl + v
-utils.keymap('i', '<C-v>', '<Esc>"+p')
-utils.keymap('n', '<Leader>p', '"0p')
-utils.keymap('v', '<Leader>p', '"0p')
-utils.keymap('n', '<Leader>h', 'viw"0p', { nowait = false })
+vim.keymap.set('i', '<C-v>', '<Esc>"+p')
+vim.keymap.set('n', '<Leader>p', '"0p')
+vim.keymap.set('v', '<Leader>p', '"0p')
+vim.keymap.set('n', '<Leader>h', 'viw"0p', { nowait = false })
 
 -- Move to the end of yanked text after yank and paste
-utils.keymap('n', 'p', 'p`]')
-utils.keymap('v', 'y', 'y`]')
-utils.keymap('v', 'p', 'p`]')
+vim.keymap.set('n', 'p', 'p`]')
+vim.keymap.set('v', 'y', 'y`]')
+vim.keymap.set('v', 'p', 'p`]')
 -- Select last pasted text
-utils.keymap('n', 'gp', "'`[' . strpart(getregtype(), 0, 1) . '`]'", { expr = true })
+vim.keymap.set('n', 'gp', "'`[' . strpart(getregtype(), 0, 1) . '`]'", { expr = true })
 
 -- Move selected lines up and down
-utils.keymap('v', 'J', ":m '>+1<CR>gv=gv")
-utils.keymap('v', 'K', ":m '<-2<CR>gv=gv")
-
-utils.keymap('n', '<Leader>q', ':call v:lua.kris.mappings.close_buffer()<CR>')
-utils.keymap('n', '<Leader>Q', ':call v:lua.kris.mappings.close_buffer(v:true)<CR>')
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
 -- Toggle between last 2 buffers
-utils.keymap('n', '<leader><tab>', '<c-^>')
+vim.keymap.set('n', '<leader><tab>', '<c-^>')
 
 -- Indenting in visual mode
-utils.keymap('x', '<s-tab>', '<gv')
-utils.keymap('x', '<tab>', '>gv')
+vim.keymap.set('x', '<s-tab>', '<gv')
+vim.keymap.set('x', '<tab>', '>gv')
 
 -- Resize window with shift + and shift -
-utils.keymap('n', '_', '<c-w>5<')
-utils.keymap('n', '+', '<c-w>5>')
+vim.keymap.set('n', '_', '<c-w>5<')
+vim.keymap.set('n', '+', '<c-w>5>')
 
 -- Disable ex mode mapping
-utils.keymap('', 'Q', '<c-z>', { noremap = false })
+vim.keymap.set('', 'Q', '<c-z>', { noremap = false })
 
 -- Jump to definition in vertical split
-utils.keymap('n', '<Leader>]', '<C-W>v<C-]>')
+vim.keymap.set('n', '<Leader>]', '<C-W>v<C-]>')
 
 -- Close all other buffers except current one
-utils.keymap('n', '<Leader>db', ':silent w <BAR> :silent %bd <BAR> e#<CR>')
+vim.keymap.set('n', '<Leader>db', ':silent w <BAR> :silent %bd <BAR> e#<CR>')
 
 -- Unimpaired mappings
-utils.keymap('n', '[q', ':cprevious<CR>')
-utils.keymap('n', ']q', ':cnext<CR>')
-utils.keymap('n', '[Q', ':cfirst<CR>')
-utils.keymap('n', ']Q', ':clast<CR>')
-utils.keymap('n', '[e', ':lprevious<CR>')
-utils.keymap('n', ']e', ':lnext<CR>')
-utils.keymap('n', '[L', ':lfirst<CR>')
-utils.keymap('n', ']L', ':llast<CR>')
-utils.keymap('n', '[t', ':tprevious<CR>')
-utils.keymap('n', ']t', ':tnext<CR>')
-utils.keymap('n', '[T', ':tfirst<CR>')
-utils.keymap('n', ']T', ':tlast<CR>')
-utils.keymap('n', '[b', ':bprevious<CR>')
-utils.keymap('n', ']b', ':bnext<CR>')
-utils.keymap('n', '[B', ':bfirst<CR>')
-utils.keymap('n', ']B', ':blast<CR>')
+vim.keymap.set('n', '[q', ':cprevious<CR>')
+vim.keymap.set('n', ']q', ':cnext<CR>')
+vim.keymap.set('n', '[Q', ':cfirst<CR>')
+vim.keymap.set('n', ']Q', ':clast<CR>')
+vim.keymap.set('n', '[e', ':lprevious<CR>')
+vim.keymap.set('n', ']e', ':lnext<CR>')
+vim.keymap.set('n', '[L', ':lfirst<CR>')
+vim.keymap.set('n', ']L', ':llast<CR>')
+vim.keymap.set('n', '[t', ':tprevious<CR>')
+vim.keymap.set('n', ']t', ':tnext<CR>')
+vim.keymap.set('n', '[T', ':tfirst<CR>')
+vim.keymap.set('n', ']T', ':tlast<CR>')
+vim.keymap.set('n', '[b', ':bprevious<CR>')
+vim.keymap.set('n', ']b', ':bnext<CR>')
+vim.keymap.set('n', '[B', ':bfirst<CR>')
+vim.keymap.set('n', ']B', ':blast<CR>')
 
 --rsi mappings
-utils.keymap('c', '<C-a>', '<Home>', { silent = false })
-utils.keymap('c', '<C-e>', '<End>', { silent = false })
-utils.keymap('c', '<C-b>', '<End>', { silent = false })
-utils.keymap('c', '<C-j>', 'wildmenumode() ? "<c-j>" : "<down>"', { expr = true, silent = false })
-utils.keymap('c', '<C-k>', 'wildmenumode() ? "<c-k>" : "<up>"', { expr = true, silent = false })
+vim.keymap.set('c', '<C-a>', '<Home>')
+vim.keymap.set('c', '<C-e>', '<End>')
+vim.keymap.set('c', '<C-b>', '<End>')
+vim.keymap.set('c', '<C-j>', 'wildmenumode() ? "<c-j>" : "<down>"', { expr = true })
+vim.keymap.set('c', '<C-k>', 'wildmenumode() ? "<c-k>" : "<up>"', { expr = true })
 
-utils.keymap('n', '<leader>T', ':call v:lua.kris.mappings.toggle_terminal()<CR>')
-utils.keymap('t', '<leader>T', '<C-\\><C-n><C-w>c')
+vim.keymap.set('n', '<leader>T', ':call v:lua.kris.mappings.toggle_terminal()<CR>')
+vim.keymap.set('t', '<leader>T', '<C-\\><C-n><C-w>c')
 
-utils.keymap('n', 'gs', ':%s/', { silent = false })
-utils.keymap('x', 'gs', ':s/', { silent = false })
+vim.keymap.set('n', 'gs', ':%s/')
+vim.keymap.set('x', 'gs', ':s/')
 
-utils.keymap('n', 'gx', ':call netrw#BrowseX(expand("<cfile>"), netrw#CheckIfRemote())<CR>')
+vim.keymap.set('n', 'gx', ':call netrw#BrowseX(expand("<cfile>"), netrw#CheckIfRemote())<CR>', { silent = true })
 
 -- Taken from https://gist.github.com/romainl/c0a8b57a36aec71a986f1120e1931f20
 for _, char in ipairs({ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '-', '#' }) do
-  utils.keymap('x', 'i' .. char, ':<C-u>normal! T' .. char .. 'vt' .. char .. '<CR>')
-  utils.keymap('o', 'i' .. char, ':normal vi' .. char .. '<CR>')
-  utils.keymap('x', 'a' .. char, ':<C-u>normal! F' .. char .. 'vf' .. char .. '<CR>')
-  utils.keymap('o', 'a' .. char, ':normal va' .. char .. '<CR>')
+  vim.keymap.set('x', 'i' .. char, ':<C-u>normal! T' .. char .. 'vt' .. char .. '<CR>')
+  vim.keymap.set('o', 'i' .. char, ':normal vi' .. char .. '<CR>')
+  vim.keymap.set('x', 'a' .. char, ':<C-u>normal! F' .. char .. 'vf' .. char .. '<CR>')
+  vim.keymap.set('o', 'a' .. char, ':normal va' .. char .. '<CR>')
 end
 
-function mappings.close_buffer(bang)
+local function close_buffer(bang)
   if vim.bo.buftype ~= '' then
     return vim.cmd('q!')
   end
@@ -136,8 +132,6 @@ function mappings.close_buffer(bang)
   end
   return vim.cmd('q' .. bang)
 end
-
-utils.keymap('n', 'gF', ':call v:lua.kris.mappings.open_file_or_create_new()<CR>')
 
 local function open_file_on_line_and_column()
   local path = vim.fn.expand('<cfile>')
@@ -160,7 +154,7 @@ local function open_file_on_line_and_column()
   vim.fn.cursor(row, col)
 end
 
-function mappings.open_file_or_create_new()
+local function open_file_or_create_new()
   local path = vim.fn.expand('<cfile>')
   if not path or path == '' then
     return false
@@ -194,6 +188,14 @@ function mappings.open_file_or_create_new()
 end
 
 vim.cmd([[command! Json call v:lua.kris.mappings.paste_to_json_buffer()]])
+
+vim.keymap.set('n', 'gF', open_file_or_create_new)
+vim.keymap.set('n', '<Leader>q', function()
+  return close_buffer()
+end)
+vim.keymap.set('n', '<Leader>Q', function()
+  return close_buffer(true)
+end)
 
 function mappings.paste_to_json_buffer()
   vim.cmd([[vsplit]])

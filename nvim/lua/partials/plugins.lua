@@ -73,19 +73,19 @@ function plugins.handle_vimenter()
   end
 end
 
-utils.keymap('n', '<Leader><space>', ':noh<CR>')
+vim.keymap.set('n', '<Leader><space>', ':noh<CR>')
 
-utils.keymap('n', 'n', 'nzz')
-utils.keymap('n', 'N', 'Nzz')
-utils.keymap('', '*', '<Plug>(asterisk-z*)', { noremap = false })
-utils.keymap('', '#', '<Plug>(asterisk-z#)', { noremap = false })
-utils.keymap('', 'g*', '<Plug>(asterisk-gz*)', { noremap = false })
-utils.keymap('', 'g#', '<Plug>(asterisk-gz#)', { noremap = false })
+vim.keymap.set('n', 'n', 'nzz')
+vim.keymap.set('n', 'N', 'Nzz')
+vim.keymap.set('', '*', '<Plug>(asterisk-z*)')
+vim.keymap.set('', '#', '<Plug>(asterisk-z#)')
+vim.keymap.set('', 'g*', '<Plug>(asterisk-gz*)')
+vim.keymap.set('', 'g#', '<Plug>(asterisk-gz#)')
 
-utils.keymap('n', '<Leader>G', ':vert G<CR>')
+vim.keymap.set('n', '<Leader>G', ':vert G<CR>')
 
-utils.keymap('n', '<Leader>n', ':NvimTreeToggle<CR>')
-utils.keymap('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
+vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>')
+vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
 
 require('gitsigns').setup({
   signs = {

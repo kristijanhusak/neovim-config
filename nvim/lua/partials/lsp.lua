@@ -133,6 +133,7 @@ function lsp.show_diagnostics()
 end
 
 function lsp.tag_signature(word)
+  word = word or vim.fn.expand('<cword>')
   local content = {}
   for _, item in ipairs(vim.fn.taglist('^' .. word .. '$')) do
     if item.kind == 'm' then
@@ -162,29 +163,32 @@ function lsp.refresh_diagnostics()
   end
 end
 
-utils.keymap('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<CR>')
-utils.keymap('n', '<leader>lu', '<cmd>lua vim.lsp.buf.references()<CR>')
-utils.keymap('n', '<leader>lc', '<cmd>lua vim.lsp.buf.declaration()<CR>')
-utils.keymap('n', '<leader>lg', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-utils.keymap('n', '<leader>lh', '<cmd>lua vim.lsp.buf.hover()<CR>')
-utils.keymap('n', '<leader>lH', '<cmd>lua kris.lsp.tag_signature(vim.fn.expand("<cword>"))<CR>')
-utils.keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>')
-utils.keymap('v', '<leader>lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>')
-utils.keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
-utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
-utils.keymap('n', '<leader>lt', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
-utils.keymap('n', '<leader>lo', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
-utils.keymap(
-  'n',
-  '<leader>le',
-  '<cmd>lua vim.diagnostic.open_float(nil, { scope = "line", show_header = false, focusable = false, border = "rounded" })<CR>'
-)
-utils.keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.setloclist()<CR>')
-utils.keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.rename()<CR>')
-utils.keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev({ float = false })<CR>')
-utils.keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next({ float = false })<CR>')
-utils.keymap('n', '<Leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-utils.keymap('v', '<Leader>la', ':<C-u>lua vim.lsp.buf.range_code_action()<CR>')
+vim.keymap.set('n', '<leader>ld', vim.lsp.buf.definition)
+vim.keymap.set('n', '<leader>lu', vim.lsp.buf.references)
+vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration)
+vim.keymap.set('n', '<leader>lg', vim.lsp.buf.implementation)
+vim.keymap.set('n', '<leader>lh', vim.lsp.buf.hover)
+vim.keymap.set('n', '<leader>lH', lsp.tag_signature)
+vim.keymap.set('n', '<leader>lf', vim.lsp.buf.formatting)
+vim.keymap.set('v', '<leader>lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>', { silent = true })
+vim.keymap.set('n', '<leader>li', vim.lsp.buf.incoming_calls)
+vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls)
+vim.keymap.set('n', '<leader>lt', vim.lsp.buf.document_symbol)
+vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls)
+vim.keymap.set('n', '<leader>le', function()
+  return vim.diagnostic.open_float({ scope = 'line', show_header = false, focusable = false, border = 'rounded' })
+end)
+vim.keymap.set('n', '<Leader>e', vim.diagnostic.setloclist)
+vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename)
+vim.keymap.set('n', '[g', function()
+  return vim.diagnostic.goto_prev({ float = false })
+end)
+vim.keymap.set('n', ']g', function()
+  return vim.diagnostic.goto_next({ float = false })
+end)
+vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action)
+vim.keymap.set('v', '<Leader>la', vim.lsp.buf.range_code_action)
+vim.keymap.set('v', '<Leader>la', ':<C-u>lua vim.lsp.buf.range_code_action()<CR>', { silent = true })
 
 vim.cmd([[
   sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=

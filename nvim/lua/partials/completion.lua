@@ -80,26 +80,39 @@ function completion.tab_completion()
   return utils.esc('<C-n>')
 end
 
-utils.keymap('i', '<TAB>', 'v:lua.kris.completion.tab_completion()', { expr = true, noremap = false })
+vim.keymap.set('i', '<TAB>', 'v:lua.kris.completion.tab_completion()', { expr = true, remap = true })
 
-utils.keymap(
-  'i',
-  '<S-TAB>',
-  [[luaeval('require("cmp").visible()') ? "<C-p>" : vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-TAB>"]],
-  {
-    expr = true,
-    noremap = false,
-  }
-)
-
-utils.keymap('s', '<TAB>', 'vsnip#available(1)  ? "<Plug>(vsnip-expand-or-jump)" : "<TAB>"', {
+vim.keymap.set('i', '<S-TAB>', function()
+  if cmp.visible() then
+    return '<c-p>'
+  end
+  if vim.fn['vsnip#jumpable'](-1) > 0 then
+    return '<Plug>(vsnip-jump-prev)'
+  end
+  return '<c-d>'
+end, {
   expr = true,
-  noremap = false,
+  remap = true,
 })
 
-utils.keymap('s', '<S-TAB>', 'vsnip#available(-1)  ? "<Plug>(vsnip-jump-prev)" : "<S-TAB>"', {
+vim.keymap.set('s', '<TAB>', function()
+  if vim.fn['vsnip#available'](1) > 0 then
+    return '<Plug>(vsnip-expand-or-jump)'
+  end
+  return '<TAB>'
+end, {
   expr = true,
-  noremap = false,
+  remap = true,
+})
+
+vim.keymap.set('s', '<S-TAB>', function()
+  if vim.fn['vsnip#available'](-1) > 0 then
+    return '<Plug>(vsnip-jump-prev)'
+  end
+  return '<S-TAB>'
+end, {
+  expr = true,
+  remap = true,
 })
 
 vim.opt.wildignore = {

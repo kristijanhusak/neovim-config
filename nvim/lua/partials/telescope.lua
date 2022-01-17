@@ -41,17 +41,17 @@ require('telescope').setup({
   },
 })
 
-utils.keymap(
-  'n',
-  '<C-p>',
-  '<cmd>lua require("telescope.builtin").find_files({ find_command = { "rg", "--files" } })<cr>'
-)
-utils.keymap('n', '<Leader>b', "<cmd>lua require('telescope.builtin').buffers({ sort_lastused = true })<cr>")
-utils.keymap('n', '<Leader>t', "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>")
-utils.keymap('n', '<Leader>m', "<cmd>lua require('telescope.builtin').oldfiles()<cr>")
-utils.keymap('n', '<Leader>g', "<cmd>lua require('telescope.builtin').git_status()<cr>")
+vim.keymap.set('n', '<C-p>', function()
+  return builtin.find_files({ find_command = { 'rg', '--files' } })
+end)
+vim.keymap.set('n', '<Leader>b', function()
+  return builtin.buffers({ sort_lastused = true })
+end)
+vim.keymap.set('n', '<Leader>t', builtin.lsp_document_symbols)
+vim.keymap.set('n', '<Leader>m', builtin.oldfiles)
+vim.keymap.set('n', '<Leader>g', builtin.git_status)
 
-utils.keymap('n', '<Leader>lT', "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>")
-utils.keymap('n', '<Leader>lt', "<cmd>lua require('telescope.builtin').current_buffer_tags()<cr>")
+vim.keymap.set('n', '<Leader>lT', builtin.lsp_workspace_symbols)
+vim.keymap.set('n', '<Leader>lt', builtin.current_buffer_tags)
 
 _G.kris.telescope = telescope

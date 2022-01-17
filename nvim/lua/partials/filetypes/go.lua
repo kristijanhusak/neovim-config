@@ -11,7 +11,7 @@ vim.cmd([[command! GoAddTags lua kris.go.add_tags()]])
 function go.setup()
   vim.bo.expandtab = false
   vim.bo.tabstop = 4
-  utils.buf_keymap(0, 'n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = false })
+  vim.keymap.set('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', { remap = true, buffer = true })
 end
 
 function go.add_tags()

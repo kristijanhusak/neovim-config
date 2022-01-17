@@ -25,7 +25,7 @@ vim.ui.select = function(items, opts, on_choice)
     border = 'rounded',
   })
   vim.api.nvim_set_current_win(winnr)
-  utils.buf_keymap(bufnr, 'n', '<CR>', '<cmd>lua kris.ui.on_select()<CR>')
+  vim.keymap.set('n', '<CR>', kris.ui.on_select, { buffer = bufnr })
 end
 
 vim.ui.input = function(opts, on_confirm)
@@ -46,7 +46,7 @@ vim.ui.input = function(opts, on_confirm)
   vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
   vim.api.nvim_win_set_option(winnr, 'sidescrolloff', 0)
   require('cmp').setup.buffer({ enabled = false })
-  utils.buf_keymap(bufnr, 'i', '<CR>', '<cmd>lua kris.ui.on_input()<CR>')
+  vim.keymap.set('i', '<CR>', kris.ui.on_input, { buffer = bufnr })
   vim.defer_fn(function()
     vim.cmd([[startinsert!]])
   end, 10)

@@ -12,16 +12,16 @@ vim.cmd([[autocmd QuickFixCmdPost [^l]* nested cwindow]])
 vim.cmd([[autocmd QuickFixCmdPost l* nested lwindow]])
 vim.cmd([[augroup END]])
 
-utils.keymap('n', '<Leader>f', ':call v:lua.kris.search.run("")<CR>')
-utils.keymap('n', '<Leader>F', ':call v:lua.kris.search.run(expand("<cword>"))<CR>')
-utils.keymap('v', '<Leader>F', ':<C-u>call v:lua.kris.search.run("", 1)<CR>')
+vim.keymap.set('n', '<Leader>f', ':call v:lua.kris.search.run("")<CR>', { silent = true })
+vim.keymap.set('n', '<Leader>F', ':call v:lua.kris.search.run(expand("<cword>"))<CR>', { silent = true })
+vim.keymap.set('v', '<Leader>F', ':<C-u>call v:lua.kris.search.run("", 1)<CR>', { silent = true })
 
 local function cleanup(no_reset_mode)
   is_toggle = false
   if not no_reset_mode then
     mode = 'term'
   end
-  return pcall(utils.unmap, 'c', '<tab>')
+  return pcall(vim.keymap.del, 'c', '<tab>')
 end
 
 local function get_visual_selection()
@@ -55,7 +55,7 @@ function search.run(search_term, is_visual)
     term = get_visual_selection()
   end
 
-  utils.keymap('c', '<tab>', '<C-\\>ev:lua.kris.search.toggle_search_mode()<CR><CR>', { noremap = false })
+  vim.keymap.set('c', '<tab>', '<C-\\>ev:lua.kris.search.toggle_search_mode()<CR><CR>', { remap = true })
 
   local status, t = pcall(vim.fn.input, 'Enter ' .. mode .. ': ', term)
   if not status then

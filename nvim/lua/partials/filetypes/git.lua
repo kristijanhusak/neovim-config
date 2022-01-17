@@ -11,9 +11,18 @@ vim.cmd([[augroup END]])
 vim.cmd([[command! DiffHistory call v:lua.kris.git.view_git_history()]])
 
 local function add_mappings()
-  local buf = vim.api.nvim_get_current_buf()
-  utils.buf_keymap(buf, 'n', ']q', ':cnext <BAR> :call v:lua.kris.git.diff_current_quickfix_entry()<CR>')
-  utils.buf_keymap(buf, 'n', '[q', ':cprevious <BAR> :call v:lua.kris.git.diff_current_quickfix_entry()<CR>')
+  vim.keymap.set(
+    'n',
+    ']q',
+    ':cnext <BAR> :call v:lua.kris.git.diff_current_quickfix_entry()<CR>',
+    { buffer = true, silent = true }
+  )
+  vim.keymap.set(
+    'n',
+    '[q',
+    ':cprevious <BAR> :call v:lua.kris.git.diff_current_quickfix_entry()<CR>',
+    { buffer = true, silent = true }
+  )
   vim.cmd([[11copen]])
   vim.cmd([[wincmd p]])
 end
@@ -23,12 +32,10 @@ function git.view_git_history()
   vim.cmd([[Git difftool --name-only ! !^@]])
   git.diff_current_quickfix_entry()
   vim.cmd([[copen]])
-  utils.buf_keymap(
-    vim.api.nvim_get_current_buf(),
-    'n',
-    '<CR>',
-    '<CR><BAR>:call v:lua.kris.git.diff_current_quickfix_entry()<CR>'
-  )
+  vim.keymap.set('n', '<CR>', '<CR><BAR>:call v:lua.kris.git.diff_current_quickfix_entry()<CR>', {
+    buffer = true,
+    silent = true,
+  })
   vim.cmd([[wincmd p]])
 end
 
