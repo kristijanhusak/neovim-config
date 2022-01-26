@@ -14,6 +14,7 @@ local filetypes = {
   'vim',
   'php',
   'python',
+  'terraform',
 }
 
 vim.cmd([[augroup vimrc_lsp]])
@@ -24,7 +25,9 @@ vim.cmd([[augroup END]])
 function lsp.setup()
   vim.cmd([[autocmd CursorHold,CursorHoldI <buffer> lua kris.lsp.show_diagnostics()]])
   vim.cmd([[autocmd DiagnosticChanged <buffer> lua kris.lsp.refresh_diagnostics()]])
-  vim.cmd([[autocmd CursorHoldI <buffer> lua vim.lsp.buf.signature_help()]])
+  if vim.bo.filetype ~= 'terraform' then
+    vim.cmd([[autocmd CursorHoldI <buffer> lua vim.lsp.buf.signature_help()]])
+  end
 end
 
 local function init_setup(opts)
@@ -61,6 +64,7 @@ nvim_lsp.vimls.setup(init_setup())
 nvim_lsp.intelephense.setup(init_setup())
 nvim_lsp.gopls.setup(init_setup())
 nvim_lsp.pyright.setup(init_setup())
+nvim_lsp.terraformls.setup(init_setup())
 nvim_lsp.sumneko_lua.setup(require('lua-dev').setup({
   lspconfig = init_setup({
     settings = {

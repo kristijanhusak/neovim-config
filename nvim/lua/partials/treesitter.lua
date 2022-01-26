@@ -13,6 +13,9 @@ require('nvim-treesitter.configs').setup({
     enable = true,
     additional_vim_regex_highlighting = { 'org' },
   },
+  indent = {
+    enable = {'terraform'},
+  },
   playground = {
     enable = true,
     disable = {},
@@ -113,5 +116,5 @@ require('nvim-treesitter.configs').setup({
       enable = false,
     },
   },
-  ensure_installed = { 'javascript', 'typescript', 'php', 'go', 'python', 'lua', 'jsdoc', 'org', 'comment' },
+  ensure_installed = { 'javascript', 'typescript', 'php', 'go', 'python', 'lua', 'jsdoc', 'org', 'comment', 'hcl' },
 })
