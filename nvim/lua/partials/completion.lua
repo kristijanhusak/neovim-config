@@ -4,6 +4,11 @@ local cmp = require('cmp')
 vim.opt.pumheight = 15
 vim.opt.completeopt = 'menuone,noselect'
 
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+end
+
 cmp.setup({
   formatting = {
     format = function(entry, vim_item)
@@ -42,6 +47,27 @@ cmp.setup({
       end
       return cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })(fallback)
     end,
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if vim.fn['vsnip#jumpable'](1) > 0 then
+        vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-next)'), '')
+      elseif cmp.visible() then
+        cmp.select_next_item()
+      elseif vim.fn['vsnip#expandable']() > 0 then
+        vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
+      elseif has_words_before() then
+        cmp.complete()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+
+    ['<S-Tab>'] = cmp.mapping(function()
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif vim.fn['vsnip#jumpable'](-1) == 1 then
+        vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-prev)'), '')
+      end
+    end, { 'i', 's' }),
   },
   documentation = {
     border = 'rounded',
@@ -54,66 +80,6 @@ vim.cmd(
   [[autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })]]
 )
 vim.cmd([[augroup END]])
-
-local function check_back_space()
-  local col = vim.fn.col('.') - 1
-  return col <= 0 or vim.fn.getline('.'):sub(col, col):match('%s')
-end
-
-function completion.tab_completion()
-  if vim.fn['vsnip#jumpable'](1) > 0 then
-    return utils.esc('<Plug>(vsnip-jump-next)')
-  end
-
-  if cmp.visible() then
-    return utils.esc('<C-n>')
-  end
-
-  if check_back_space() then
-    return utils.esc('<TAB>')
-  end
-
-  if vim.fn['vsnip#expandable']() > 0 then
-    return utils.esc('<Plug>(vsnip-expand)')
-  end
-
-  return utils.esc('<C-n>')
-end
-
-vim.keymap.set('i', '<TAB>', 'v:lua.kris.completion.tab_completion()', { expr = true, remap = true })
-
-vim.keymap.set('i', '<S-TAB>', function()
-  if cmp.visible() then
-    return '<c-p>'
-  end
-  if vim.fn['vsnip#jumpable'](-1) > 0 then
-    return '<Plug>(vsnip-jump-prev)'
-  end
-  return '<c-d>'
-end, {
-  expr = true,
-  remap = true,
-})
-
-vim.keymap.set('s', '<TAB>', function()
-  if vim.fn['vsnip#available'](1) > 0 then
-    return '<Plug>(vsnip-expand-or-jump)'
-  end
-  return '<TAB>'
-end, {
-  expr = true,
-  remap = true,
-})
-
-vim.keymap.set('s', '<S-TAB>', function()
-  if vim.fn['vsnip#available'](-1) > 0 then
-    return '<Plug>(vsnip-jump-prev)'
-  end
-  return '<S-TAB>'
-end, {
-  expr = true,
-  remap = true,
-})
 
 vim.opt.wildignore = {
   '*.o',
@@ -135,3 +101,4 @@ vim.opt.wildignore = {
 }
 
 _G.kris.completion = completion
+
