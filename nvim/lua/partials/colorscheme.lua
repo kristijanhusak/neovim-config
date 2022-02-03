@@ -1,5 +1,4 @@
 local colorscheme = {}
-local opt = require('partials/utils').opt
 
 vim.opt.termguicolors = true
 vim.opt.background = vim.env.NVIM_COLORSCHEME_BG or 'dark'

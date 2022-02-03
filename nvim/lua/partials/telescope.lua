@@ -1,5 +1,4 @@
 local telescope = {}
-local utils = require('partials/utils')
 local builtin = require('telescope.builtin')
 local actions = require('telescope.actions')
 

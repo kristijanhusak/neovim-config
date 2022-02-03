@@ -1,6 +1,4 @@
 local plugins = {}
-local api = vim.api
-local utils = require('partials/utils')
 vim.cmd([[packadd vim-packager]])
 
 require('packager').setup(function(packager)
@@ -103,21 +101,25 @@ gitsigns.setup({
       opts.buffer = bufnr
       vim.keymap.set(mode, l, r, opts)
     end
-    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
-    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
-    map({'n', 'v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>')
-    map({'n', 'v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>')
+    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
+    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
+    map({ 'n', 'v' }, '<leader>hs', ':Gitsigns stage_hunk<CR>')
+    map({ 'n', 'v' }, '<leader>hr', ':Gitsigns reset_hunk<CR>')
     map('n', '<leader>hS', gitsigns.stage_buffer)
     map('n', '<leader>hu', gitsigns.undo_stage_hunk)
     map('n', '<leader>hR', gitsigns.reset_buffer)
     map('n', '<leader>hp', gitsigns.preview_hunk)
-    map('n', '<leader>hb', function() gitsigns.blame_line{full=true} end)
+    map('n', '<leader>hb', function()
+      gitsigns.blame_line({ full = true })
+    end)
     map('n', '<leader>tb', gitsigns.toggle_current_line_blame)
     map('n', '<leader>hd', gitsigns.diffthis)
-    map('n', '<leader>hD', function() gitsigns.diffthis('~') end)
+    map('n', '<leader>hD', function()
+      gitsigns.diffthis('~')
+    end)
     map('n', '<leader>td', gitsigns.toggle_deleted)
-    map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-  end
+    map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+  end,
 })
 
 require('Comment').setup()
@@ -167,7 +169,7 @@ vim.g.js_file_import_use_telescope = 1
 
 vim.g.delimitMate_expand_cr = 1
 
-vim.g.tagalong_mappings = {'c', 'C', 'i', 'a'}
+vim.g.tagalong_mappings = { 'c', 'C', 'i', 'a' }
 
 vim.g.indent_blankline_char = '▏'
 vim.g.indent_blankline_show_current_context = true

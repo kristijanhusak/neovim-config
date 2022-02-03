@@ -1,5 +1,4 @@
 local search = {}
-local utils = require('partials/utils')
 local is_toggle = false
 local mode = 'term'
 local last_search = ''

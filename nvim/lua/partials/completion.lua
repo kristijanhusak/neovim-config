@@ -101,4 +101,3 @@ vim.opt.wildignore = {
 }
 
 _G.kris.completion = completion
-

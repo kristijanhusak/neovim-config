@@ -1,8 +1,8 @@
+local utils = require('partials.utils')
 local ui = {
   last_select = {},
   last_input = {},
 }
-local utils = require('partials.utils')
 
 vim.ui.select = function(items, opts, on_choice)
   vim.validate({

@@ -1,5 +1,3 @@
-local utils = require('partials/utils')
-
 vim.keymap.set('n', '<F1>', '<Plug>VimspectorToggleBreakpoint')
 vim.keymap.set('n', '<F2>', '<Plug>VimspectorToggleConditionalBreakpoint')
 vim.keymap.set('n', '<F3>', '<Plug>VimspectorAddFunctionBreakpoint')

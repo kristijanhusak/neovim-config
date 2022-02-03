@@ -1,5 +1,4 @@
 local settings = {}
-local opt = require('partials/utils').opt
 
 vim.opt.title = true
 vim.opt.number = true
