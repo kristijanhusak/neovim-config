@@ -1,16 +1,29 @@
 local lua = {}
 local fn = vim.fn
 local ts_utils = require('nvim-treesitter/ts_utils')
+local gps = require('nvim-gps')
 
 vim.cmd([[augroup init_lua]])
 vim.cmd([[autocmd!]])
 vim.cmd([[autocmd FileType lua lua kris.lua.setup()]])
 vim.cmd([[augroup END]])
 
+local function do_print()
+  local view = fn.winsaveview()
+  local word = fn.expand('<cword>')
+  local scope = gps.is_available() and gps.get_location() or ''
+  scope = scope ~= '' and scope .. ' > ' or ''
+  vim.cmd(
+    string.format("keepjumps norm!oprint('%s', vim.inspect(%s))", scope .. word, word)
+  )
+  fn.winrestview(view)
+end
+
 function lua.setup()
   vim.bo.keywordprg = ':help'
   vim.keymap.set('n', '<Leader>D', '<cmd>lua kris.lua.generate_docblock()<CR>', { buffer = true })
   vim.keymap.set('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', { remap = true, buffer = true })
+  vim.keymap.set('n', '<leader>ll', do_print, { buffer = true })
 end
 
 function lua.generate_docblock()
