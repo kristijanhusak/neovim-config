@@ -51,7 +51,6 @@ require('packager').setup(function(packager)
   })
 end)
 
-vim.cmd([[packadd splitjoin.vim]])
 vim.g.mapleader = ','
 
 vim.cmd([[augroup packager_filetype]])
