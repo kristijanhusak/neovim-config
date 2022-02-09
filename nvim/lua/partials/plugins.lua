@@ -62,13 +62,6 @@ vim.cmd([[augroup END]])
 
 function plugins.handle_vimenter()
   vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
-  local stats = vim.loop.fs_stat(vim.fn.expand('%:p'))
-  if not stats or stats.type == 'directory' then
-    vim.schedule(function()
-      vim.cmd([[NvimTreeToggle]])
-      vim.cmd([[wincmd p]])
-    end)
-  end
 end
 
 vim.keymap.set('n', '<Leader><space>', ':noh<CR>')
@@ -132,7 +125,11 @@ vim.g.nvim_tree_git_hl = 1
 
 require('nvim-tree').setup({
   disable_netrw = false,
+  open_on_setup = true,
   update_focused_file = {
+    enable = true,
+  },
+  diagnostics = {
     enable = true,
   },
   view = {
