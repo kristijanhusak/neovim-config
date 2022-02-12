@@ -104,7 +104,14 @@ vim.keymap.set('t', '<leader>T', '<C-\\><C-n><C-w>c')
 vim.keymap.set('n', 'gs', ':%s/')
 vim.keymap.set('x', 'gs', ':s/')
 
-vim.keymap.set('n', 'gx', ':call netrw#BrowseX(expand("<cfile>"), netrw#CheckIfRemote())<CR>', { silent = true })
+vim.keymap.set('n', 'gx', function()
+  vim.cmd([[
+    unlet! g:loaded_netrw
+    unlet! g:loaded_netrwPlugin
+    runtime! plugin/netrwPlugin.vim
+  ]])
+  return vim.fn['netrw#BrowseX'](vim.fn.expand('<cfile>'), vim.fn['netrw#CheckIfRemote']())
+end, { silent = true })
 
 -- Taken from https://gist.github.com/romainl/c0a8b57a36aec71a986f1120e1931f20
 for _, char in ipairs({ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '-', '#' }) do
@@ -231,3 +238,4 @@ function mappings.toggle_terminal(close)
 end
 
 _G.kris.mappings = mappings
+
