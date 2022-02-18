@@ -47,6 +47,17 @@ cmp.setup({
       end
       return cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })(fallback)
     end,
+    ['<C-Space>'] = cmp.mapping(
+      cmp.mapping.complete({
+        config = {
+          sources = {
+            { name = 'nvim_lsp' },
+            { name = 'path' },
+          },
+        },
+      }),
+      { 'i' }
+    ),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if vim.fn['vsnip#jumpable'](1) > 0 then
         vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-next)'), '')

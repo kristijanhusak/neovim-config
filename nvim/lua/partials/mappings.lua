@@ -238,4 +238,3 @@ function mappings.toggle_terminal(close)
 end
 
 _G.kris.mappings = mappings
-

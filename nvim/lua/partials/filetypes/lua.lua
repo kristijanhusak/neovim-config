@@ -13,9 +13,7 @@ local function do_print()
   local word = fn.expand('<cword>')
   local scope = gps.is_available() and gps.get_location() or ''
   scope = scope ~= '' and scope .. ' > ' or ''
-  vim.cmd(
-    string.format("keepjumps norm!oprint('%s', vim.inspect(%s))", scope .. word, word)
-  )
+  vim.cmd(string.format("keepjumps norm!oprint('%s', vim.inspect(%s))", scope .. word, word))
   fn.winrestview(view)
 end
 
