@@ -145,9 +145,9 @@ require('nvim-tree').setup({
     auto_resize = true,
     mappings = {
       list = {
-        { key = { 's' }, cb = ':lua require"nvim-tree".on_keypress("vsplit")<CR>' },
-        { key = { 'C' }, cb = ':lua require"nvim-tree".on_keypress("cd")<CR>' },
-        { key = { 'X' }, cb = ':lua require"nvim-tree".on_keypress("system_open")<CR>' },
+        { key = { 's' }, action = 'vsplit' },
+        { key = { 'C' }, action = 'cd' },
+        { key = { 'X' }, action = 'system_open' },
       },
     },
   },
