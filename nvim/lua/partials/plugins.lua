@@ -55,7 +55,9 @@ vim.g.mapleader = ','
 
 vim.cmd([[augroup packager_filetype]])
 vim.cmd([[autocmd!]])
-vim.cmd([[autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import]])
+vim.cmd(
+  [[autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import | exe 'runtime ftplugin/'.&ft.'.vim' ]]
+)
 vim.cmd([[autocmd FileType sql packadd vim-dadbod-completion | runtime after/plugin/vim_dadbod_completion.lua]])
 vim.cmd([[autocmd VimEnter * call v:lua.kris.plugins.handle_vimenter() ]])
 vim.cmd([[augroup END]])

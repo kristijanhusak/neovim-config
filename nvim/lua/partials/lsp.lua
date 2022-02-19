@@ -1,6 +1,6 @@
 local lsp = {}
 local nvim_lsp = require('lspconfig')
-local utils = require('partials/utils')
+local utils = require('partials.utils')
 local dlsconfig = require('diagnosticls-configs')
 local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostics')
 

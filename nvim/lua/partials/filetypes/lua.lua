@@ -1,7 +1,7 @@
 local lua = {}
 local fn = vim.fn
-local ts_utils = require('nvim-treesitter/ts_utils')
-local gps = require('nvim-gps')
+local ts_utils = require('nvim-treesitter.ts_utils')
+local utils = require('partials.utils')
 
 vim.cmd([[augroup init_lua]])
 vim.cmd([[autocmd!]])
@@ -11,8 +11,7 @@ vim.cmd([[augroup END]])
 local function do_print()
   local view = fn.winsaveview()
   local word = fn.expand('<cword>')
-  local scope = gps.is_available() and gps.get_location() or ''
-  scope = scope ~= '' and scope .. ' > ' or ''
+  local scope = utils.get_gps_scope()
   vim.cmd(string.format("keepjumps norm!oprint('%s', vim.inspect(%s))", scope .. word, word))
   fn.winrestview(view)
 end

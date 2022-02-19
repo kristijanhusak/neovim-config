@@ -1,5 +1,5 @@
 local git = {}
-local utils = require('partials/utils')
+local utils = require('partials.utils')
 
 vim.cmd([[augroup gitcommit]])
 vim.cmd([[autocmd!]])

@@ -1,5 +1,5 @@
 local completion = {}
-local utils = require('partials/utils')
+local utils = require('partials.utils')
 local cmp = require('cmp')
 vim.opt.pumheight = 15
 vim.opt.completeopt = 'menuone,noselect'

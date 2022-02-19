@@ -1,5 +1,5 @@
 local go = {}
-local utils = require('partials/utils')
+local utils = require('partials.utils')
 vim.cmd([[augroup vimrc_go]])
 vim.cmd([[autocmd!]])
 vim.cmd([[autocmd FileType go lua kris.go.setup()]])

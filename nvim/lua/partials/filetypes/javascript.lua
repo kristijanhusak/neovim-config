@@ -1,8 +1,8 @@
 local javascript = {}
 local fn = vim.fn
 local gps = require('nvim-gps')
-local utils = require('partials/utils')
-local ts_utils = require('nvim-treesitter/ts_utils')
+local utils = require('partials.utils')
+local ts_utils = require('nvim-treesitter.ts_utils')
 
 function javascript.console_log()
   local view = fn.winsaveview()
@@ -15,8 +15,7 @@ function javascript.console_log()
     local _, _, end_line, _ = ts_utils.get_node_range(node)
     fn.cursor(end_line + 1, 0)
   end
-  local scope = gps.is_available() and gps.get_location() or ''
-  scope = scope ~= '' and scope .. ' > ' or ''
+  local scope = utils.get_gps_scope()
   vim.cmd(
     string.format("keepjumps norm!oconsole.log('%s', %s); // eslint-disable-line no-console", scope .. word, word)
   )
