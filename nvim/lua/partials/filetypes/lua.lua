@@ -41,10 +41,10 @@ function lua.generate_docblock()
 
   for _, child_node in ipairs(ts_utils.get_named_children(param_node)) do
     local node_text = ts_utils.get_node_text(child_node)[1]
-    table.insert(content, string.format('--- @param %s string', node_text))
+    table.insert(content, string.format('---@param %s string', node_text))
   end
 
-  table.insert(content, '--- @return string')
+  table.insert(content, '---@return string')
   fn.append(fn.line('.') - 1, content)
 end
 
