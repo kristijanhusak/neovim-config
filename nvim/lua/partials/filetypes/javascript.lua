@@ -166,7 +166,6 @@ function javascript.indent()
       return vim.fn.indent(vim.v.lnum - 1) + 1
     end
   end
-
   return vim.fn[vim.b.old_indentexpr]()
 end
 
@@ -191,6 +190,8 @@ function javascript.setup()
   vim.keymap.set('n', '<Leader>D', '<Plug>(JsGenerateDocblock)', { remap = true, buffer = true })
   vim.keymap.set('n', 'gf', '<Plug>(JsGotoFile)', { remap = true, buffer = true })
   vim.opt_local.isfname:append('@-@')
+  local ft = vim.bo.filetype:find('javascript') and 'javascript' or 'typescript'
+  vim.cmd(string.format('runtime indent/%s.vim', ft))
   vim.b.old_indentexpr = vim.bo.indentexpr:gsub('%(%)$', '')
   vim.bo.indentexpr = 'v:lua.kris.javascript.indent()'
 end
