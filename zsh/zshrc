@@ -11,7 +11,7 @@ plugins=(
   zsh-syntax-highlighting
   history-substring-search
   command-not-found
-  copydir
+  copypath
   copyfile
   dircycle
   vi-mode
