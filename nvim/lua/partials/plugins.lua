@@ -173,6 +173,7 @@ vim.g.delimitMate_expand_cr = 1
 
 vim.g.tagalong_mappings = { 'c', 'C', 'i', 'a' }
 
+vim.g.loaded_indent_blankline = 1
 vim.g.indent_blankline_char = '▏'
 vim.g.indent_blankline_show_current_context = true
 vim.g.indent_blankline_context_patterns = {
