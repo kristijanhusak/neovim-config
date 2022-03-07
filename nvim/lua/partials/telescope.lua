@@ -41,7 +41,7 @@ require('telescope').setup({
 })
 
 vim.keymap.set('n', '<C-p>', function()
-  return builtin.find_files({ find_command = { 'rg', '--files' } })
+  return builtin.find_files({ find_command = { 'rg', '--files', '--hidden' } })
 end)
 vim.keymap.set('n', '<Leader>b', function()
   return builtin.buffers({ sort_lastused = true })
