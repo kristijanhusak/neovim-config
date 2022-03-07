@@ -9,11 +9,11 @@ function M.get_gps_scope()
   if not gps.is_available() then
     return ''
   end
-  local scope = gps.get_location() or ''
+  local scope = gps.get_location({ disable_icons = true }) or ''
   if scope == '' then
     return ''
   end
-  scope = scope:gsub('[\'"ﮅ炙]', ''):gsub('%s+', ' ')
+  scope = scope:gsub('[\'"]', ''):gsub('%s+', ' ')
   return vim.trim(scope) .. ' > '
 end
 
