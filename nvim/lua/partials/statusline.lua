@@ -181,7 +181,6 @@ local function statusline_active()
   local context = gps.is_available() and gps.get_location() or ''
   local statusline_sections = {
     sep(mode, st_mode),
-    '%<',
     sep(git_status, sec_2, git_status ~= ''),
     sep(get_path(), vim.bo.modified and st_err or sec_2),
     sep(' + ', st_err, vim.bo.modified),
@@ -190,6 +189,7 @@ local function statusline_active()
     sep('%r', nil, vim.bo.readonly),
     sep('%q', nil, vim.bo.buftype == 'quickfix'),
     sep(db_ui, sec_2, db_ui ~= ''),
+    '%<',
     sep(context, sec_2, context ~= ''),
     '%=',
     sep(search, vim.tbl_extend('keep', { side = 'right' }, sec_2), search ~= ''),
