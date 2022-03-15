@@ -11,6 +11,7 @@ require('onenord').setup({
   styles = {
     diagnostics = 'undercurl',
     comments = 'italic',
+    functions = 'bold',
   },
 })
 
