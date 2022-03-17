@@ -66,13 +66,6 @@ vim.cmd([[augroup END]])
 function plugins.handle_vimenter()
   vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
   local stats = vim.loop.fs_stat(vim.fn.expand('%:p'))
-  if stats and stats.type == 'directory' then
-    vim.defer_fn(function()
-      vim.cmd([[NvimTreeToggle]])
-      vim.cmd([[NvimTreeToggle]])
-    end, 40)
-  end
-
   if not stats or stats.type == 'directory' then
     vim.defer_fn(function()
       vim.cmd([[wincmd p]])
