@@ -10,10 +10,10 @@ require('packager').setup(function(packager)
   packager.add('tpope/vim-fugitive')
   packager.add('tpope/vim-sleuth')
   packager.add('tpope/vim-dadbod')
+  packager.add('tpope/vim-abolish')
   packager.add('kristijanhusak/vim-dadbod-completion', { type = 'opt' })
   packager.add('kristijanhusak/vim-dadbod-ui')
   packager.add('nvim-orgmode/orgmode')
-  packager.add('lambdalisue/reword.vim')
   packager.add('AndrewRadev/tagalong.vim')
   packager.add('AndrewRadev/splitjoin.vim')
   packager.add('lewis6991/gitsigns.nvim', { requires = 'nvim-lua/plenary.nvim' })
@@ -39,6 +39,7 @@ require('packager').setup(function(packager)
   packager.add('creativenull/diagnosticls-configs-nvim')
   packager.add('SmiteshP/nvim-gps')
   packager.add('antoinemadec/FixCursorHold.nvim')
+  packager.add('j-hui/fidget.nvim')
   packager.add('hrsh7th/nvim-cmp', {
     requires = {
       'hrsh7th/cmp-buffer',
@@ -67,8 +68,8 @@ function plugins.handle_vimenter()
   local stats = vim.loop.fs_stat(vim.fn.expand('%:p'))
   if stats and stats.type == 'directory' then
     vim.defer_fn(function()
-      vim.cmd[[NvimTreeToggle]]
-      vim.cmd[[NvimTreeToggle]]
+      vim.cmd([[NvimTreeToggle]])
+      vim.cmd([[NvimTreeToggle]])
     end, 40)
   end
 
@@ -129,6 +130,10 @@ gitsigns.setup({
 require('Comment').setup()
 
 require('orgmode').setup(require('partials.orgmode_config'))
+
+require('fidget').setup({
+  text = { spinner = 'dots' },
+})
 
 vim.g.nvim_tree_icons = {
   default = '',
