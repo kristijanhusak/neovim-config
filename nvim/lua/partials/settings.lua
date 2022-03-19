@@ -49,7 +49,6 @@ vim.opt.sidescrolloff = 15
 vim.opt.sidescroll = 5
 vim.opt.pyxversion = 3
 vim.opt.matchtime = 0
-vim.opt.laststatus = 3
 vim.g.python3_host_prog = '/usr/bin/python3'
 
 vim.cmd([[augroup vimrc]])

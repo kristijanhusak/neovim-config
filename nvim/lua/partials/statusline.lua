@@ -143,7 +143,7 @@ local function get_path()
     path = vim.fn.expand('%:~')
   end
 
-  if #path < 20 then
+  if #path < (vim.fn.winwidth(0) / 4) then
     return '%f'
   end
 
@@ -178,7 +178,6 @@ local function statusline_active()
   local ft = vim.bo.filetype
   local err = lsp_status('ERROR')
   local warn = lsp_status('WARN')
-  local context = gps.is_available() and gps.get_location() or ''
   local statusline_sections = {
     sep(mode, st_mode),
     sep(git_status, sec_2, git_status ~= ''),
@@ -190,7 +189,6 @@ local function statusline_active()
     sep('%q', nil, vim.bo.buftype == 'quickfix'),
     sep(db_ui, sec_2, db_ui ~= ''),
     '%<',
-    sep(context, sec_2, context ~= ''),
     '%=',
     sep(search, vim.tbl_extend('keep', { side = 'right' }, sec_2), search ~= ''),
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
