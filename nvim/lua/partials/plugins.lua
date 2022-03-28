@@ -171,6 +171,8 @@ vim.g.db_ui_tmp_query_location = '~/code/queries'
 
 vim.g.vsnip_filetypes = {
   typescript = { 'javascript' },
+  typescriptreact = { 'javascript' },
+  javascriptreact = { 'javascript' },
 }
 
 vim.g.js_file_import_use_telescope = 1
