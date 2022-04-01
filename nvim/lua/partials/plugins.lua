@@ -69,7 +69,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
   pattern = '*',
   callback = function()
     vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
-    vim.cmd([[NeoTreeShow]])
+    vim.cmd([[Neotree show]])
   end,
   group = plugins_group,
 })
@@ -85,8 +85,8 @@ vim.keymap.set('', 'g#', '<Plug>(asterisk-gz#)')
 
 vim.keymap.set('n', '<Leader>G', ':vert G<CR>')
 
-vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>')
-vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
+vim.keymap.set('n', '<Leader>n', ':Neotree show toggle<CR>')
+vim.keymap.set('n', '<Leader>hf', ':Neotree reveal<CR>')
 
 local gitsigns = require('gitsigns')
 
