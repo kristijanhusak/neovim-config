@@ -29,7 +29,7 @@ require('packager').setup(function(packager)
   packager.add('nvim-treesitter/nvim-treesitter-textobjects')
   packager.add('nvim-treesitter/playground')
   packager.add('hrsh7th/vim-vsnip')
-  packager.add('kyazdani42/nvim-tree.lua', { requires = 'kyazdani42/nvim-web-devicons' })
+  packager.add('nvim-neo-tree/neo-tree.nvim', { requires = { 'kyazdani42/nvim-web-devicons', 'MunifTanjim/nui.nvim' } })
   packager.add('puremourning/vimspector')
   packager.add('lukas-reineke/indent-blankline.nvim')
   packager.add('Raimondi/delimitMate')
@@ -128,33 +128,29 @@ require('fidget').setup({
   text = { spinner = 'dots' },
 })
 
-vim.g.nvim_tree_icons = {
-  default = '',
-  git = {
-    unstaged = '✹',
-  },
-}
-vim.g.nvim_tree_git_hl = 1
-
-require('nvim-tree').setup({
-  hijack_unnamed_buffer_when_opening = false,
-  disable_netrw = true,
-  open_on_setup = true,
-  update_focused_file = {
-    enable = true,
-  },
-  diagnostics = {
-    enable = true,
-  },
-  view = {
-    auto_resize = true,
-    mappings = {
-      list = {
-        { key = { 's' }, action = 'vsplit' },
-        { key = { 'C' }, action = 'cd' },
-        { key = { 'X' }, action = 'system_open' },
+require('neo-tree').setup({
+  default_component_configs = {
+    indent = {
+      with_markers = false,
+    },
+    git_status = {
+      symbols = {
+        unstaged = '✹',
       },
     },
+  },
+  window = {
+    width = 35,
+    mappings = {
+      o = 'open',
+      C = 'set_root',
+    },
+  },
+  filesystem = {
+    follow_current_file = true,
+  },
+  buffers = {
+    show_unloaded = false,
   },
 })
 
