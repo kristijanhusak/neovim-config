@@ -29,10 +29,7 @@ require('packager').setup(function(packager)
   packager.add('nvim-treesitter/nvim-treesitter-textobjects')
   packager.add('nvim-treesitter/playground')
   packager.add('hrsh7th/vim-vsnip')
-  packager.add('nvim-neo-tree/neo-tree.nvim', {
-    branch = 'main',
-    requires = { 'kyazdani42/nvim-web-devicons', 'MunifTanjim/nui.nvim' },
-  })
+  packager.add('kyazdani42/nvim-tree.lua', { requires = 'kyazdani42/nvim-web-devicons' })
   packager.add('puremourning/vimspector')
   packager.add('lukas-reineke/indent-blankline.nvim')
   packager.add('Raimondi/delimitMate')
@@ -72,7 +69,12 @@ vim.api.nvim_create_autocmd('VimEnter', {
   pattern = '*',
   callback = function()
     vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
-    vim.cmd([[Neotree show]])
+    local stats = vim.loop.fs_stat(vim.fn.expand('%:p'))
+    if not stats or stats.type == 'directory' then
+      vim.defer_fn(function()
+        vim.cmd([[wincmd p]])
+      end, 40)
+    end
   end,
   group = plugins_group,
 })
@@ -88,8 +90,8 @@ vim.keymap.set('', 'g#', '<Plug>(asterisk-gz#)')
 
 vim.keymap.set('n', '<Leader>G', ':vert G<CR>')
 
-vim.keymap.set('n', '<Leader>n', ':Neotree show toggle<CR>')
-vim.keymap.set('n', '<Leader>hf', ':Neotree reveal<CR>')
+vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>')
+vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
 
 local gitsigns = require('gitsigns')
 
@@ -132,33 +134,32 @@ require('fidget').setup({
   text = { spinner = 'dots' },
 })
 
-require('neo-tree').setup({
-  default_component_configs = {
-    indent = {
-      with_markers = false,
-    },
-    git_status = {
-      symbols = {
-        unstaged = '✹',
+vim.g.nvim_tree_icons = {
+  default = '',
+  git = {
+    unstaged = '✹',
+  },
+}
+vim.g.nvim_tree_git_hl = 1
+require('nvim-tree').setup({
+  hijack_unnamed_buffer_when_opening = false,
+  disable_netrw = true,
+  open_on_setup = true,
+  update_focused_file = {
+    enable = true,
+  },
+  diagnostics = {
+    enable = true,
+  },
+  view = {
+    auto_resize = true,
+    mappings = {
+      list = {
+        { key = { 's' }, action = 'vsplit' },
+        { key = { 'C' }, action = 'cd' },
+        { key = { 'X' }, action = 'system_open' },
       },
     },
-  },
-  window = {
-    width = 35,
-    mappings = {
-      o = 'open',
-      C = 'set_root',
-    },
-  },
-  filesystem = {
-    filtered_items = {
-      hide_dotfiles = false,
-      hide_gitignored = true,
-    },
-    follow_current_file = true,
-  },
-  buffers = {
-    show_unloaded = false,
   },
 })
 
