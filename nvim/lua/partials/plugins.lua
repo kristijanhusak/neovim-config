@@ -29,7 +29,10 @@ require('packager').setup(function(packager)
   packager.add('nvim-treesitter/nvim-treesitter-textobjects')
   packager.add('nvim-treesitter/playground')
   packager.add('hrsh7th/vim-vsnip')
-  packager.add('nvim-neo-tree/neo-tree.nvim', { requires = { 'kyazdani42/nvim-web-devicons', 'MunifTanjim/nui.nvim' } })
+  packager.add('nvim-neo-tree/neo-tree.nvim', {
+    branch = 'main',
+    requires = { 'kyazdani42/nvim-web-devicons', 'MunifTanjim/nui.nvim' },
+  })
   packager.add('puremourning/vimspector')
   packager.add('lukas-reineke/indent-blankline.nvim')
   packager.add('Raimondi/delimitMate')
@@ -148,6 +151,10 @@ require('neo-tree').setup({
     },
   },
   filesystem = {
+    filtered_items = {
+      hide_dotfiles = false,
+      hide_gitignored = true,
+    },
     follow_current_file = true,
   },
   buffers = {
