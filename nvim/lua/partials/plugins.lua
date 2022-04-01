@@ -71,7 +71,6 @@ vim.api.nvim_create_autocmd('VimEnter', {
     vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
     vim.cmd([[NeoTreeShow]])
   end,
-  -- command = 'packadd vim-dadbod-completion | runtime after/plugin/vim_dadbod_completion.lua',
   group = plugins_group,
 })
 
@@ -180,6 +179,7 @@ vim.g.tagalong_mappings = { 'c', 'C', 'i', 'a' }
 
 vim.g.indent_blankline_char = '▏'
 vim.g.indent_blankline_show_current_context = true
+vim.g.indent_blankline_disable_with_nolist = true
 vim.g.indent_blankline_context_patterns = {
   'class',
   'function',
