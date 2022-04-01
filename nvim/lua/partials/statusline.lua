@@ -1,8 +1,5 @@
 local statusline = {}
-vim.cmd([[augroup custom_statusline]])
-vim.cmd([[autocmd!]])
-vim.cmd([[autocmd VimEnter,ColorScheme * call v:lua.kris.statusline.set_colors()]])
-vim.cmd([[augroup END]])
+local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
 local gps = require('nvim-gps')
 gps.setup()
 vim.o.statusline = '%!v:lua.kris.statusline.setup()'
@@ -26,6 +23,12 @@ function statusline.set_colors()
   vim.cmd('hi StWarn guibg=' .. c.warning_fg .. ' guifg=' .. c.normal_bg .. ' gui=bold')
   vim.cmd('hi StWarnSep guifg=' .. c.warning_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
 end
+
+vim.api.nvim_create_autocmd({ 'VimEnter', 'ColorScheme' }, {
+  group = statusline_group,
+  pattern = '*',
+  callback = statusline.set_colors,
+})
 
 local function sep(item, opts, show)
   opts = opts or {}

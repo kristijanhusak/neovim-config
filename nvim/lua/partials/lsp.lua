@@ -17,16 +17,20 @@ local filetypes = {
   'terraform',
 }
 
-vim.cmd([[augroup vimrc_lsp]])
-vim.cmd([[autocmd!]])
-vim.cmd(string.format('autocmd FileType %s call v:lua.kris.lsp.setup()', table.concat(filetypes, ',')))
-vim.cmd([[augroup END]])
-
 function lsp.setup()
-  vim.cmd([[autocmd CursorHold,CursorHoldI <buffer> lua kris.lsp.show_diagnostics()]])
-  vim.cmd([[autocmd DiagnosticChanged <buffer> lua kris.lsp.refresh_diagnostics()]])
+  vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+    buffer = 0,
+    callback = lsp.show_diagnostics,
+  })
+  vim.api.nvim_create_autocmd('DiagnosticChanged', {
+    buffer = 0,
+    callback = lsp.refresh_diagnostics,
+  })
   if vim.bo.filetype ~= 'terraform' then
-    vim.cmd([[autocmd CursorHoldI <buffer> lua vim.lsp.buf.signature_help()]])
+    vim.api.nvim_create_autocmd('CursorHoldI', {
+      buffer = 0,
+      callback = vim.lsp.buf.signature_help,
+    })
   end
 end
 
@@ -200,5 +204,8 @@ vim.cmd([[
   sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=
   sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=
 ]])
+
+local lsp_group = vim.api.nvim_create_augroup('vimrc_lsp', { clear = true })
+vim.api.nvim_create_autocmd('FileType', { pattern = filetypes, group = lsp_group, callback = lsp.setup })
 
 _G.kris.lsp = lsp

@@ -54,24 +54,26 @@ end)
 
 vim.g.mapleader = ','
 
-vim.cmd([[augroup packager_filetype]])
-vim.cmd([[autocmd!]])
-vim.cmd(
-  [[autocmd FileType javascript,javascriptreact,typescript,typescriptreact packadd vim-js-file-import | exe 'runtime ftplugin/'.&ft.'.vim' ]]
-)
-vim.cmd([[autocmd FileType sql packadd vim-dadbod-completion | runtime after/plugin/vim_dadbod_completion.lua]])
-vim.cmd([[autocmd VimEnter * call v:lua.kris.plugins.handle_vimenter() ]])
-vim.cmd([[augroup END]])
-
-function plugins.handle_vimenter()
-  vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
-  local stats = vim.loop.fs_stat(vim.fn.expand('%:p'))
-  if not stats or stats.type == 'directory' then
-    vim.defer_fn(function()
-      vim.cmd([[wincmd p]])
-    end, 40)
-  end
-end
+local plugins_group = vim.api.nvim_create_augroup('packager_filetype', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+  command = [[packadd vim-js-file-import | exe 'runtime ftplugin/'.&ft.'.vim']],
+  group = plugins_group,
+})
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'sql',
+  command = 'packadd vim-dadbod-completion | runtime after/plugin/vim_dadbod_completion.lua',
+  group = plugins_group,
+})
+vim.api.nvim_create_autocmd('VimEnter', {
+  pattern = '*',
+  callback = function()
+    vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
+    vim.cmd([[NeoTreeShow]])
+  end,
+  -- command = 'packadd vim-dadbod-completion | runtime after/plugin/vim_dadbod_completion.lua',
+  group = plugins_group,
+})
 
 vim.keymap.set('n', '<Leader><space>', ':noh<CR>')
 

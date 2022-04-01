@@ -27,12 +27,16 @@ vim.keymap.set('n', 'k', 'gk')
 -- Map for Escape key in terminal
 vim.keymap.set('t', '<Leader>jj', '<C-\\><C-n>')
 
-vim.cmd([[augroup vimrc_terminal_mappings]])
-vim.cmd([[autocmd!]])
--- Focus first file:line:col pattern in the terminal output
-vim.cmd([[autocmd TermOpen * nnoremap <silent><buffer> F :call search('\f\+:\d\+:\d\+')<CR>]])
-vim.cmd([[autocmd TermOpen * setlocal bufhidden=wipe]])
-vim.cmd([[augroup END]])
+local mapping_group = vim.api.nvim_create_augroup('vimrc_terminal_mappings', { clear = true })
+vim.api.nvim_create_autocmd('TermOpen', {
+  pattern = '*',
+  callback = function()
+    -- Focus first file:line:col pattern in the terminal output
+    vim.keymap.set('n', 'F', [[:call search('\f\+:\d\+:\d\+')<CR>]], { buffer = true, silent = true })
+    vim.bo.bufhidden = 'wipe'
+  end,
+  group = mapping_group,
+})
 
 -- Copy to system clipboard
 vim.keymap.set('v', '<C-c>', '"+y')
@@ -65,7 +69,7 @@ vim.keymap.set('n', '_', '<c-w>5<')
 vim.keymap.set('n', '+', '<c-w>5>')
 
 -- Disable ex mode mapping
-vim.keymap.set('', 'Q', '<c-z>', { noremap = false })
+vim.keymap.set('', 'Q', '<c-z>', { remap = true })
 
 -- Jump to definition in vertical split
 vim.keymap.set('n', '<Leader>]', '<C-W>v<C-]>')
@@ -219,10 +223,19 @@ function mappings.toggle_terminal(close)
     return
   end
   if terminal_bufnr <= 0 then
-    vim.cmd([[autocmd TermOpen * ++once startinsert]])
+    vim.api.nvim_create_autocmd('TermOpen', {
+      pattern = '*',
+      command = 'startinsert',
+      once = true,
+    })
     vim.cmd([[sp | term]])
     vim.cmd([[setlocal bufhidden=hide]])
-    vim.cmd([[autocmd BufDelete <buffer> call v:lua.kris.mappings.toggle_terminal(v:true)]])
+    vim.api.nvim_create_autocmd('BufDelete', {
+      pattern = '<buffer>',
+      callback = function()
+        mappings.toggle_terminal(true)
+      end,
+    })
     terminal_bufnr = vim.api.nvim_get_current_buf()
     return
   end

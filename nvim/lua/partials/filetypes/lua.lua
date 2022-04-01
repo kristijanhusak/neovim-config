@@ -3,11 +3,6 @@ local fn = vim.fn
 local ts_utils = require('nvim-treesitter.ts_utils')
 local utils = require('partials.utils')
 
-vim.cmd([[augroup init_lua]])
-vim.cmd([[autocmd!]])
-vim.cmd([[autocmd FileType lua lua kris.lua.setup()]])
-vim.cmd([[augroup END]])
-
 local function do_print()
   local view = fn.winsaveview()
   local word = fn.expand('<cword>')
@@ -47,5 +42,12 @@ function lua.generate_docblock()
   table.insert(content, '---@return string')
   fn.append(fn.line('.') - 1, content)
 end
+
+local lua_group = vim.api.nvim_create_augroup('init_lua', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'lua',
+  callback = lua.setup,
+  group = lua_group,
+})
 
 _G.kris.lua = lua

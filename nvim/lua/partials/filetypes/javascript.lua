@@ -196,9 +196,11 @@ function javascript.setup()
   vim.bo.indentexpr = 'v:lua.kris.javascript.indent()'
 end
 
-vim.cmd([[augroup javascript]])
-vim.cmd([[autocmd!]])
-vim.cmd([[autocmd FileType javascript,javascriptreact,typescript,typescriptreact call v:lua.kris.javascript.setup()]])
-vim.cmd([[augroup END]])
+local js_group = vim.api.nvim_create_augroup('custom_javascript', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+  callback = javascript.setup,
+  group = js_group,
+})
 
 _G.kris.javascript = javascript

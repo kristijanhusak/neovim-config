@@ -1,4 +1,6 @@
-vim.cmd([[augroup python]])
-vim.cmd([[autocmd!]])
-vim.cmd([[autocmd FileType python setlocal textwidth=79]])
-vim.cmd([[augroup END]])
+local python_group = vim.api.nvim_create_augroup('vimrc_python', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'python',
+  command = [[setlocal textwidth=79]],
+  group = python_group,
+})

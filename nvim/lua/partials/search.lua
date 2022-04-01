@@ -3,13 +3,30 @@ local is_toggle = false
 local mode = 'term'
 local last_search = ''
 
-vim.cmd([[augroup init_vim_search]])
-vim.cmd([[autocmd!]])
-vim.cmd([[autocmd FileType qf nnoremap <silent><buffer><Leader>r :cgetexpr v:lua.kris.search.do_search()<CR>]])
-vim.cmd([[autocmd FileType qf wincmd J]])
-vim.cmd([[autocmd QuickFixCmdPost [^l]* nested cwindow]])
-vim.cmd([[autocmd QuickFixCmdPost l* nested lwindow]])
-vim.cmd([[augroup END]])
+local search_group = vim.api.nvim_create_augroup('init_vim_search', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'qf',
+  callback = function()
+    vim.keymap.set('n', '<Leader>r', ':cgetexpr v:lua.kris.search.do_search()<CR>', {
+      silent = true,
+      buffer = true,
+    })
+    vim.cmd([[wincmd J]])
+  end,
+  group = search_group,
+})
+vim.api.nvim_create_autocmd('QuickFixCmdPost', {
+  pattern = '[^l]*',
+  command = 'cwindow',
+  nested = true,
+  group = search_group,
+})
+vim.api.nvim_create_autocmd('QuickFixCmdPost', {
+  pattern = 'l*',
+  command = 'lwindow',
+  nested = true,
+  group = search_group,
+})
 
 vim.keymap.set('n', '<Leader>f', ':call v:lua.kris.search.run("")<CR>', { silent = true })
 vim.keymap.set('n', '<Leader>F', ':call v:lua.kris.search.run(expand("<cword>"))<CR>', { silent = true })

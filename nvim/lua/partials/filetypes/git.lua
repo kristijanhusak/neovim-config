@@ -1,12 +1,4 @@
 local git = {}
-local utils = require('partials.utils')
-
-vim.cmd([[augroup gitcommit]])
-vim.cmd([[autocmd!]])
-vim.cmd([[autocmd FileType fugitive nmap <buffer><silent> <Space> =]])
-vim.cmd([[autocmd FileType git setlocal foldenable foldmethod=syntax | nnoremap <buffer><silent> <Space> za]])
-vim.cmd([[autocmd VimEnter * call v:lua.kris.git.add_commit_prefix_from_branch()]])
-vim.cmd([[augroup END]])
 
 vim.cmd([[command! DiffHistory call v:lua.kris.git.view_git_history()]])
 
@@ -73,5 +65,28 @@ function git.add_commit_prefix_from_branch()
     end
   end
 end
+
+local git_group = vim.api.nvim_create_augroup('gitcommit', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'fugitive',
+  callback = function()
+    vim.keymap.set('n', '<Space>', '=', { remap = true, silent = true, buffer = true })
+  end,
+  group = git_group,
+})
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'git',
+  callback = function()
+    vim.wo.foldenable = true
+    vim.wo.foldmethod = 'syntax'
+    vim.keymap.set('n', '<Space>', 'za', { silent = true, buffer = true })
+  end,
+  group = git_group,
+})
+vim.api.nvim_create_autocmd('VimEnter', {
+  pattern = '*',
+  callback = git.add_commit_prefix_from_branch,
+  group = git_group,
+})
 
 _G.kris.git = git

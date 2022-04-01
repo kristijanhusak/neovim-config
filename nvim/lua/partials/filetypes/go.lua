@@ -1,10 +1,4 @@
 local go = {}
-local utils = require('partials.utils')
-vim.cmd([[augroup vimrc_go]])
-vim.cmd([[autocmd!]])
-vim.cmd([[autocmd FileType go lua kris.go.setup()]])
-vim.cmd([[autocmd BufWritePre *.go lua kris.go.format()]])
-vim.cmd([[augroup END]])
 
 vim.cmd([[command! GoAddTags lua kris.go.add_tags()]])
 
@@ -38,5 +32,17 @@ function go.format()
   end
   vim.lsp.util.apply_workspace_edit(result[1].edit)
 end
+
+local go_group = vim.api.nvim_create_augroup('vimrc_go', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'go',
+  callback = go.setup,
+  group = go_group,
+})
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*.go',
+  callback = go.format,
+  group = go_group,
+})
 
 _G.kris.go = go

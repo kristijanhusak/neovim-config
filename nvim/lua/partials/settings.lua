@@ -51,24 +51,6 @@ vim.opt.pyxversion = 3
 vim.opt.matchtime = 0
 vim.g.python3_host_prog = '/usr/bin/python3'
 
-vim.cmd([[augroup vimrc]])
-vim.cmd([[autocmd!]])
-vim.cmd([[autocmd BufWritePre * call v:lua.kris.settings.strip_trailing_whitespace()]])
-vim.cmd([[autocmd InsertEnter * set nocul]])
-vim.cmd([[autocmd InsertLeave * set cul]])
-vim.cmd([[autocmd FocusGained,BufEnter * silent! exe 'checktime']])
-vim.cmd([[autocmd FileType vim inoremap <buffer><silent><C-Space> <C-x><C-v>]])
-vim.cmd([[autocmd FileType markdown setlocal spell]])
-vim.cmd([[autocmd FileType json setlocal conceallevel=0 formatprg=python\ -m\ json.tool]])
-vim.cmd([[autocmd TermOpen * setlocal nonumber norelativenumber]])
-vim.cmd([[augroup END]])
-
-vim.cmd([[augroup numbertoggle]])
-vim.cmd([[autocmd!]])
-vim.cmd([[autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu   | endif]])
-vim.cmd([[autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu | set nornu | endif]])
-vim.cmd([[augroup END]])
-
 function settings.strip_trailing_whitespace()
   if vim.bo.modifiable then
     local line = vim.fn.line('.')
@@ -96,5 +78,52 @@ while true do
 end
 
 vim.o.path = vim.o.path .. ',' .. table.concat(paths, ',')
+
+local vimrc_group = vim.api.nvim_create_augroup('vimrc', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*',
+  callback = settings.strip_trailing_whitespace,
+  group = vimrc_group,
+})
+vim.api.nvim_create_autocmd('InsertEnter', {
+  pattern = '*',
+  command = 'set nocul',
+  group = vimrc_group,
+})
+vim.api.nvim_create_autocmd('InsertLeave', {
+  pattern = '*',
+  command = 'set cul',
+  group = vimrc_group,
+})
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
+  pattern = '*',
+  command = [[silent! exe 'checktime']],
+  group = vimrc_group,
+})
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  command = 'setlocal spell',
+  group = vimrc_group,
+})
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'json',
+  command = [[setlocal conceallevel=0 formatprg=python\ -m\ json.tool]],
+  group = vimrc_group,
+})
+vim.api.nvim_create_autocmd('TermOpen', {
+  pattern = '*',
+  command = [[setlocal nonumber norelativenumber]],
+  group = vimrc_group,
+})
+vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'InsertLeave', 'WinEnter' }, {
+  pattern = '*',
+  command = [[if &nu | set rnu | endif]],
+  group = vimrc_group,
+})
+vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'WinLeave' }, {
+  pattern = '*',
+  command = [[if &nu | set nornu | endif]],
+  group = vimrc_group,
+})
 
 _G.kris.settings = settings

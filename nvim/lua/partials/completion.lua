@@ -85,12 +85,14 @@ cmp.setup({
   },
 })
 
-vim.cmd([[augroup vimrc_autocompletion]])
-vim.cmd([[autocmd!]])
-vim.cmd(
-  [[autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })]]
-)
-vim.cmd([[augroup END]])
+local autocomplete_group = vim.api.nvim_create_augroup('vimrc_autocompletion', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'sql', 'mysql', 'plsql' },
+  callback = function()
+    cmp.setup.buffer({ sources = { { name = 'vim-dadbod-completion' } } })
+  end,
+  group = autocomplete_group,
+})
 
 vim.opt.wildignore = {
   '*.o',
