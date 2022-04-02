@@ -178,8 +178,6 @@ vim.cmd(
 )
 vim.cmd([[nnoremap <nowait><Plug>(JsGotoFile) :<C-u>call v:lua.kris.javascript.goto_file()<CR>]])
 
-vim.cmd([[command! JsGenGetSet :call v:lua.kris.javascript.generate_getter_setter()]])
-
 function javascript.setup()
   vim.keymap.set('n', '<C-]>', ':call v:lua.kris.javascript.goto_definition()<CR>', { remap = true, buffer = true })
   vim.keymap.set('x', '<C-]>', '<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
@@ -202,5 +200,8 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = javascript.setup,
   group = js_group,
 })
+
+
+vim.api.nvim_add_user_command('JsGenGetSet', javascript.generate_getter_setter, { force = true })
 
 _G.kris.javascript = javascript

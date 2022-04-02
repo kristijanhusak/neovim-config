@@ -1,7 +1,5 @@
 local git = {}
 
-vim.cmd([[command! DiffHistory call v:lua.kris.git.view_git_history()]])
-
 local function add_mappings()
   vim.keymap.set(
     'n',
@@ -88,5 +86,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
   callback = git.add_commit_prefix_from_branch,
   group = git_group,
 })
+
+vim.api.nvim_add_user_command('DiffHistory', git.view_git_history, { force = true })
 
 _G.kris.git = git

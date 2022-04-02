@@ -1,7 +1,5 @@
 local go = {}
 
-vim.cmd([[command! GoAddTags lua kris.go.add_tags()]])
-
 function go.setup()
   vim.bo.expandtab = false
   vim.bo.tabstop = 4
@@ -44,5 +42,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   callback = go.format,
   group = go_group,
 })
+
+vim.api.nvim_add_user_command('GoAddTags', go.add_tags, { force = true })
 
 _G.kris.go = go

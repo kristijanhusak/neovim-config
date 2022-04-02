@@ -198,7 +198,6 @@ local function open_file_or_create_new()
   return vim.cmd('edit ' .. new_path .. suffixes[1])
 end
 
-vim.cmd([[command! Json call v:lua.kris.mappings.paste_to_json_buffer()]])
 
 vim.keymap.set('n', 'gF', open_file_or_create_new)
 vim.keymap.set('n', '<Leader>q', function()
@@ -249,5 +248,7 @@ function mappings.toggle_terminal(close)
 
   vim.cmd('sp | b' .. terminal_bufnr .. ' | startinsert')
 end
+
+vim.api.nvim_add_user_command('Json', mappings.paste_to_json_buffer, { force = true })
 
 _G.kris.mappings = mappings
