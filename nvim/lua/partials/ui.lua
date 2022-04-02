@@ -37,11 +37,15 @@ vim.ui.input = function(opts, on_confirm)
   local bufnr, winnr = vim.lsp.util.open_floating_preview({ current_val }, '', {
     border = 'rounded',
     width = math.max(current_val:len() + 10, 30),
+    wrap = false,
   })
   ui.last_input = {
     val = current_val,
     on_confirm = on_confirm,
   }
+  vim.api.nvim_win_set_config(winnr, {
+    width = math.max(current_val:len() + 10, 30),
+  })
   vim.api.nvim_set_current_win(winnr)
   vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
   vim.api.nvim_win_set_option(winnr, 'sidescrolloff', 0)
