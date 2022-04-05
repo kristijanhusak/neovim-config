@@ -5,7 +5,7 @@ return {
   org_agenda_text_search_extra_files = { 'agenda-archives' },
   org_agenda_start_on_weekday = false,
   org_todo_keywords = { 'TODO(t)', 'PROGRESS(p)', '|', 'DONE(d)', 'REJECTED(r)' },
-  org_agenda_templates = {
+  org_capture_templates = {
     t = {
       description = 'Refile',
       template = '* TODO %?\n  DEADLINE: %T',
