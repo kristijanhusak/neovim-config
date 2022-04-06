@@ -50,7 +50,7 @@ vim.keymap.set('n', '<Leader>t', builtin.lsp_document_symbols)
 vim.keymap.set('n', '<Leader>m', builtin.oldfiles)
 vim.keymap.set('n', '<Leader>g', builtin.git_status)
 
-vim.keymap.set('n', '<Leader>lT', builtin.lsp_workspace_symbols)
+vim.keymap.set('n', '<Leader>lT', builtin.lsp_dynamic_workspace_symbols)
 vim.keymap.set('n', '<Leader>lt', builtin.current_buffer_tags)
 
 _G.kris.telescope = telescope
