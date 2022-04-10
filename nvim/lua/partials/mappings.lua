@@ -198,7 +198,6 @@ local function open_file_or_create_new()
   return vim.cmd('edit ' .. new_path .. suffixes[1])
 end
 
-
 vim.keymap.set('n', 'gF', open_file_or_create_new)
 vim.keymap.set('n', '<Leader>q', function()
   return close_buffer()

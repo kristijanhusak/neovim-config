@@ -118,5 +118,6 @@ require('nvim-treesitter.configs').setup({
     'hcl',
     'tsx',
     'json',
+    'yaml',
   },
 })
