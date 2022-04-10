@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
+
 install_oh_my_zsh() {
   echo "Setting up zsh..." \
-  && rm -rf ~/.zshrc ~/.oh-my-zsh \
+  && rm -rf ~/.zshrc \
   && ln -s $(pwd)/zsh/zshrc ~/.zshrc \
-  && git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh \
-  && chsh -s /bin/zsh \
   && git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
   && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
   && ln -s $(pwd)/zsh/themes/* ~/.oh-my-zsh/custom/themes \
@@ -23,7 +22,7 @@ install_neovim() {
 
 install_packages() {
   ehco"Installing packages..." \
-    && yay -S ripgrep universal-ctags pyenv keychain polybar go
+    && yay -S pyenv keychain go
 }
 
 install_diff_so_fancy() {
@@ -45,13 +44,6 @@ install_i3() {
     && ln -s $(pwd)/i3 ~/.i3
 }
 
-install_lazygit() {
-  go get -u github.com/jesseduffield/lazygit \
-    && rm -rf ~/.config/jesseduffield/lazygit \
-    && mkdir -p ~/.config/jesseduffield \
-    && cp -r $(pwd)/lazygit ~/.config/jesseduffield/lazygit
-}
-
 if [[ -z $1 ]]; then
   echo -n "This will delete all your previous nvim, zsh settings. Proceed? (y/n)? "
   read answer
@@ -63,7 +55,6 @@ if [[ -z $1 ]]; then
     && install_packages \
     && install_diff_so_fancy \
     && install_kitty \
-    && install_lazygit \
     && echo "Finished installation."
   fi
 else
