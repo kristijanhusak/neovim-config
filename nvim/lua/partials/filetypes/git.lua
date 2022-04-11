@@ -87,6 +87,6 @@ vim.api.nvim_create_autocmd('VimEnter', {
   group = git_group,
 })
 
-vim.api.nvim_add_user_command('DiffHistory', git.view_git_history, { force = true })
+vim.api.nvim_create_user_command('DiffHistory', git.view_git_history, { force = true })
 
 _G.kris.git = git

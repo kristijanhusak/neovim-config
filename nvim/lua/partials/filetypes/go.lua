@@ -43,6 +43,6 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   group = go_group,
 })
 
-vim.api.nvim_add_user_command('GoAddTags', go.add_tags, { force = true })
+vim.api.nvim_create_user_command('GoAddTags', go.add_tags, { force = true })
 
 _G.kris.go = go

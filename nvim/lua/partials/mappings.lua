@@ -248,6 +248,6 @@ function mappings.toggle_terminal(close)
   vim.cmd('sp | b' .. terminal_bufnr .. ' | startinsert')
 end
 
-vim.api.nvim_add_user_command('Json', mappings.paste_to_json_buffer, { force = true })
+vim.api.nvim_create_user_command('Json', mappings.paste_to_json_buffer, { force = true })
 
 _G.kris.mappings = mappings

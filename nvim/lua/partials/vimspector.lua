@@ -7,5 +7,5 @@ vim.keymap.set('n', '<Right>', '<Plug>VimspectorStepOver')
 vim.keymap.set('n', '<Up>', '<Plug>VimspectorStepOut')
 vim.keymap.set('n', '<Down>', '<Plug>VimspectorStepInto')
 
-vim.api.nvim_add_user_command('VimspectorPause', 'vimspector#Pause()', { force = true })
-vim.api.nvim_add_user_command('VimspectorStop', 'vimspector#Stop()', { force = true })
+vim.api.nvim_create_user_command('VimspectorPause', 'vimspector#Pause()', { force = true })
+vim.api.nvim_create_user_command('VimspectorStop', 'vimspector#Stop()', { force = true })

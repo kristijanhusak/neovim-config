@@ -201,6 +201,6 @@ vim.api.nvim_create_autocmd('FileType', {
   group = js_group,
 })
 
-vim.api.nvim_add_user_command('JsGenGetSet', javascript.generate_getter_setter, { force = true })
+vim.api.nvim_create_user_command('JsGenGetSet', javascript.generate_getter_setter, { force = true })
 
 _G.kris.javascript = javascript
