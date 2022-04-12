@@ -7,11 +7,16 @@ vim.opt.synmaxcol = 300
 vim.cmd([[filetype plugin indent on]])
 vim.cmd([[syntax on]])
 
+local colors = require('onenord.colors').load()
+
 require('onenord').setup({
   styles = {
     diagnostics = 'undercurl',
     comments = 'italic',
     functions = 'bold',
+  },
+  custom_highlights = {
+    QuickScopePrimary = { fg = colors.red, style = 'undercurl' },
   },
 })
 
