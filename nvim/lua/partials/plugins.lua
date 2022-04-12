@@ -40,7 +40,6 @@ require('packager').setup(function(packager)
   packager.add('SmiteshP/nvim-gps')
   packager.add('antoinemadec/FixCursorHold.nvim')
   packager.add('j-hui/fidget.nvim')
-  packager.add('unblevable/quick-scope')
   packager.add('hrsh7th/nvim-cmp', {
     requires = {
       'hrsh7th/cmp-buffer',
@@ -70,8 +69,6 @@ vim.api.nvim_create_autocmd('VimEnter', {
   pattern = '*',
   callback = function()
     vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
-    local qs_chars = { '_', '-', '(', ')', '[', ']', '{', '}' }
-    vim.g.qs_accepted_chars = vim.tbl_extend('force', vim.g.qs_accepted_chars, qs_chars)
     local stats = vim.loop.fs_stat(vim.fn.expand('%:p'))
     if not stats or stats.type == 'directory' then
       vim.defer_fn(function()
@@ -208,8 +205,5 @@ vim.g.indent_blankline_context_patterns = {
 -- @see https://neovim.discourse.group/t/introducing-filetype-lua-and-a-call-for-help/1806
 vim.g.did_load_filetypes = 0
 vim.g.do_filetype_lua = 1
-
-vim.g.qs_highlight_on_keys = { 'f', 'F', 't', 'T' }
-vim.g.qs_second_highlight = 0
 
 _G.kris.plugins = plugins

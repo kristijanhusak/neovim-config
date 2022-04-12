@@ -15,6 +15,7 @@ require('partials.replace_pair')
 require('partials.search')
 require('partials.vimspector')
 require('partials.ui')
+require('partials.simple_f')
 
 -- Load .nvimrc manually until this PR is merged.
 -- https://github.com/neovim/neovim/pull/13503

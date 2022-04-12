@@ -16,7 +16,7 @@ require('onenord').setup({
     functions = 'bold',
   },
   custom_highlights = {
-    QuickScopePrimary = { fg = colors.red, style = 'undercurl' },
+    SimpleF = { fg = colors.red, style = 'undercurl' },
   },
 })
 
