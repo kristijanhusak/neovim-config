@@ -138,6 +138,10 @@ colors() {
   eval ${color_vars}
 }
 
+remove_gone_branches() {
+  git fetch -p && for branch in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do git branch -D $branch; done
+}
+
 # Autocomplete Z items
 unalias z 2> /dev/null
 z() {

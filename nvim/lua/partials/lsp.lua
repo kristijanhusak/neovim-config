@@ -102,7 +102,7 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
 
 vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
   vim.lsp.handlers.signature_help,
-  { border = 'single', focusable = false }
+  { border = 'single', focusable = false, silent = true }
 )
 
 local custom_symbol_callback = function(_, result, ctx)
