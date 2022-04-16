@@ -80,9 +80,11 @@ cmp.setup({
       end
     end, { 'i', 's' }),
   },
-  documentation = {
-    border = 'rounded',
-  },
+  window = {
+    documentation = {
+      border = 'rounded',
+    },
+  }
 })
 
 local autocomplete_group = vim.api.nvim_create_augroup('vimrc_autocompletion', { clear = true })
