@@ -44,7 +44,7 @@ alias resetbg="colors"
 alias togglebg="colors toggle"
 alias ggf=ggfl
 
-export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin:~/.cargo/bin
+export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin:~/.cargo/bin:~/.local/share/neovim/bin
 export LESS=R
 export EDITOR=nvim
 export MANPAGER="nvim +Man!"
