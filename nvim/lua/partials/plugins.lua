@@ -78,6 +78,10 @@ vim.api.nvim_create_autocmd('VimEnter', {
   end,
   group = plugins_group,
 })
+vim.api.nvim_create_autocmd({'BufEnter', 'BufNewFile'}, {
+  pattern = '.env*',
+  command = 'set filetype=conf'
+})
 
 vim.keymap.set('n', '<Leader><space>', ':noh<CR>')
 
@@ -151,8 +155,12 @@ require('nvim-tree').setup({
   diagnostics = {
     enable = true,
   },
+  actions = {
+    open_file = {
+      resize_window = true,
+    },
+  },
   view = {
-    auto_resize = true,
     mappings = {
       list = {
         { key = { 's' }, action = 'vsplit' },
