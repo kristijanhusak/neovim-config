@@ -80,6 +80,9 @@ cmp.setup({
       end
     end, { 'i', 's' }),
   },
+  experimental = {
+    ghost_text = true,
+  },
   window = {
     documentation = {
       border = 'rounded',
