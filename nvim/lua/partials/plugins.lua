@@ -40,6 +40,7 @@ require('packager').setup(function(packager)
   packager.add('SmiteshP/nvim-gps')
   packager.add('antoinemadec/FixCursorHold.nvim')
   packager.add('j-hui/fidget.nvim')
+  packager.add('jose-elias-alvarez/typescript.nvim')
   packager.add('hrsh7th/nvim-cmp', {
     requires = {
       'hrsh7th/cmp-buffer',

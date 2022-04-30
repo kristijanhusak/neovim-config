@@ -42,28 +42,22 @@ local function init_setup(opts)
   }, opts or {})
 end
 
-nvim_lsp.tsserver.setup(init_setup({
-  init_options = {
-    preferences = {
-      quotePreference = 'single',
+local typescript_nvim = require('typescript')
+
+typescript_nvim.setup({
+  server = init_setup({
+    init_options = {
+      preferences = {
+        quotePreference = 'single',
+      },
     },
-  },
-  on_attach = function(client)
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
-  end,
-  commands = {
-    OrganizeImports = {
-      function()
-        vim.lsp.buf_request_sync(0, 'workspace/executeCommand', {
-          command = '_typescript.organizeImports',
-          arguments = { vim.api.nvim_buf_get_name(0) },
-        }, 5000)
-      end,
-      description = 'Organize imports',
-    },
-  },
-}))
+    on_attach = function(client)
+      client.resolved_capabilities.document_formatting = false
+      client.resolved_capabilities.document_range_formatting = false
+    end,
+  }),
+})
+
 nvim_lsp.vimls.setup(init_setup())
 nvim_lsp.intelephense.setup(init_setup())
 nvim_lsp.gopls.setup(init_setup())
