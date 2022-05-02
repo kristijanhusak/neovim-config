@@ -41,6 +41,8 @@ require('packager').setup(function(packager)
   packager.add('antoinemadec/FixCursorHold.nvim')
   packager.add('j-hui/fidget.nvim')
   packager.add('jose-elias-alvarez/typescript.nvim')
+  packager.add('https://gitlab.com/yorickpeterse/nvim-pqf')
+  packager.add('akinsho/git-conflict.nvim')
   packager.add('hrsh7th/nvim-cmp', {
     requires = {
       'hrsh7th/cmp-buffer',
@@ -131,10 +133,10 @@ gitsigns.setup({
   end,
 })
 
-require('Comment').setup()
-
+require('Comment').setup({})
+require('pqf').setup()
+require('git-conflict').setup()
 require('orgmode').setup(require('partials.orgmode_config'))
-
 require('fidget').setup({
   text = { spinner = 'dots' },
 })
