@@ -63,17 +63,34 @@ nvim_lsp.intelephense.setup(init_setup())
 nvim_lsp.gopls.setup(init_setup())
 nvim_lsp.pyright.setup(init_setup())
 nvim_lsp.terraformls.setup(init_setup())
+
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, 'lua/?.lua')
+table.insert(runtime_path, 'lua/?/init.lua')
+
 nvim_lsp.sumneko_lua.setup(require('lua-dev').setup({
   lspconfig = init_setup({
     settings = {
       Lua = {
+        runtime = {
+          version = 'LuaJIT',
+          path = runtime_path,
+        },
         diagnostics = {
           globals = { 'vim', 'describe', 'it', 'before_each', 'after_each' },
+        },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file('', true),
+          checkThirdParty = false,
+        },
+        telemetry = {
+          enable = false,
         },
       },
     },
   }),
 }))
+
 dlsconfig.init({ default_config = true })
 dlsconfig.setup()
 
