@@ -39,7 +39,7 @@ cmp.setup({
       vim.fn['vsnip#anonymous'](args.body)
     end,
   },
-  mapping = {
+  mapping = cmp.mapping.preset.insert({
     ['<CR>'] = function(fallback)
       if vim.fn['vsnip#expandable']() ~= 0 then
         vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
@@ -79,7 +79,7 @@ cmp.setup({
         vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-prev)'), '')
       end
     end, { 'i', 's' }),
-  },
+  }),
   experimental = {
     ghost_text = true,
   },
