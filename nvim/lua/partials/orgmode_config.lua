@@ -1,6 +1,6 @@
 return {
-  org_agenda_files = '~/Dropbox/org/**/*',
-  org_default_notes_file = '~/Dropbox/org/refile.org',
+  org_agenda_files = '~/orgfiles/**/*',
+  org_default_notes_file = '~/orgfiles/refile.org',
   org_hide_emphasis_markers = true,
   org_agenda_text_search_extra_files = { 'agenda-archives' },
   org_agenda_start_on_weekday = false,
@@ -13,12 +13,12 @@ return {
     T = {
       description = 'Todo',
       template = '* TODO %?\n  DEADLINE: %T',
-      target = '~/Dropbox/org/todos.org',
+      target = '~/orgfiles/todos.org',
     },
     w = {
       description = 'Work todo',
       template = '* TODO %?\n  DEADLINE: %T',
-      target = '~/Dropbox/org/work.org',
+      target = '~/orgfiles/work.org',
     },
   },
   notifications = {
