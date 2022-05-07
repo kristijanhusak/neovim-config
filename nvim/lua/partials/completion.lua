@@ -4,10 +4,33 @@ local cmp = require('cmp')
 vim.opt.pumheight = 15
 vim.opt.completeopt = 'menuone,noselect'
 
-local has_words_before = function()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
-end
+local icons = {
+  Text = '',
+  Method = '',
+  Function = '',
+  Constructor = '⌘',
+  Field = 'ﰠ',
+  Variable = '',
+  Class = 'ﴯ',
+  Interface = '',
+  Module = '',
+  Property = 'ﰠ',
+  Unit = '塞',
+  Value = '',
+  Enum = '',
+  Keyword = '廓',
+  Snippet = '',
+  Color = '',
+  File = '',
+  Reference = '',
+  Folder = '',
+  EnumMember = '',
+  Constant = '',
+  Struct = 'פּ',
+  Event = '',
+  Operator = '',
+  TypeParameter = '',
+}
 
 cmp.setup({
   formatting = {
@@ -22,6 +45,7 @@ cmp.setup({
         orgmode = '[Org]',
         ['vim-dadbod-completion'] = '[DB]',
       })[entry.source.name]
+      vim_item.kind = icons[vim_item.kind]
       return vim_item
     end,
   },
@@ -83,7 +107,7 @@ cmp.setup({
     documentation = {
       border = 'rounded',
     },
-  }
+  },
 })
 
 local autocomplete_group = vim.api.nvim_create_augroup('vimrc_autocompletion', { clear = true })
