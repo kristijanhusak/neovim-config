@@ -1,6 +1,5 @@
 local javascript = {}
 local fn = vim.fn
-local gps = require('nvim-gps')
 local utils = require('partials.utils')
 local ts_utils = require('nvim-treesitter.ts_utils')
 
@@ -169,6 +168,17 @@ function javascript.indent()
   return vim.fn[vim.b.old_indentexpr]()
 end
 
+---@param organize? boolean
+function javascript.setup_imports(organize)
+  local ts = require('typescript').actions
+  ts.removeUnused({ sync = true })
+  ts.addMissingImports({ sync = true })
+  ts.fixAll({ sync = true })
+  if organize then
+    ts.organizeImports({ sync = true })
+  end
+end
+
 vim.cmd([[nnoremap <silent><Plug>(JsConsoleLog) :<C-u>call v:lua.kris.javascript.console_log()<CR>]])
 vim.cmd(
   [[nnoremap <nowait><silent><Plug>(JsInjectDependency) :<C-u>call v:lua.kris.javascript.inject_dependency()<CR>]]
@@ -187,6 +197,8 @@ function javascript.setup()
   vim.keymap.set('n', '<Leader>d', '<Plug>(JsInjectDependency)', { remap = true, buffer = true })
   vim.keymap.set('n', '<Leader>D', '<Plug>(JsGenerateDocblock)', { remap = true, buffer = true })
   vim.keymap.set('n', 'gf', '<Plug>(JsGotoFile)', { remap = true, buffer = true })
+  vim.keymap.set('n', '<F1>', '<cmd>lua kris.javascript.setup_imports()<CR>', { buffer = true, silent = true })
+  vim.keymap.set('n', '<F2>', '<cmd>lua kris.javascript.setup_imports(true)<CR>', { buffer = true, silent = true })
   vim.opt_local.isfname:append('@-@')
   local ft = vim.bo.filetype:find('javascript') and 'javascript' or 'typescript'
   vim.cmd(string.format('runtime indent/%s.vim', ft))
