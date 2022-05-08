@@ -1,4 +1,6 @@
 local fzf = require('fzf-lua')
+vim.env.FZF_DEFAULT_OPTS = '--layout=reverse --bind ctrl-d:preview-down,ctrl-u:preview-up'
+
 
 local function run_cmd(selected, fn)
   vim.cmd(string.format('e %s', selected[1]))
