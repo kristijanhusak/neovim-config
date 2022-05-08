@@ -12,6 +12,11 @@ end
 
 local function show_lsp_tags(selected)
   return run_cmd(selected, function()
+    vim.wait(5000, function()
+      return #vim.tbl_filter(function(client)
+        return client.resolved_capabilities.document_symbol
+      end, vim.lsp.get_active_clients()) > 0
+    end)
     return fzf.lsp_document_symbols()
   end)
 end
