@@ -9,7 +9,11 @@ local abbreviations = {
   E = 'e',
   Gco = 'Git checkout',
   Gcb = 'Git checkout -b',
-  Gblame = 'Git blame',
+  Gblame = 'tab Git blame',
+  GcLog = [[tabnew \| Gclog]],
+  Gclog = [[tabnew \| Gclog]],
+  ['0Gclog'] = [[tabnew \| 0Gclog]],
+  ['0GcLog'] = [[tabnew \| 0Gclog]]
 }
 
 for left, right in pairs(abbreviations) do
