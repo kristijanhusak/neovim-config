@@ -135,6 +135,7 @@ end
 function javascript.goto_definition()
   local params = vim.lsp.util.make_position_params()
   local line = vim.fn.line('.')
+  local bufnr = vim.api.nvim_get_current_buf()
   local result = vim.lsp.buf_request_sync(0, 'textDocument/definition', params, 100)
   local client_id = nil
   if result then
@@ -148,7 +149,7 @@ function javascript.goto_definition()
       method = 'textDocument/definition',
     })
   end
-  if line ~= vim.fn.line('.') then
+  if line ~= vim.fn.line('.') or bufnr ~= vim.api.nvim_get_current_buf() then
     return
   end
   vim.cmd([[JsGotoDefinition]])
