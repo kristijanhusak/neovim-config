@@ -55,7 +55,7 @@ function git.add_commit_prefix_from_branch()
   end
 
   if vim.fn.expand('%') == '.git/COMMIT_EDITMSG' and vim.fn.getline(1) == '' then
-    local head = vim.fn['fugitive#head']()
+    local head = vim.fn['FugitiveHead']()
     print(head)
     if head and head:find('/') then
       vim.fn.setline(1, '[' .. vim.fn.split(head, '/')[2] .. '] ')
