@@ -48,6 +48,7 @@ fzf.setup({
   },
   git = {
     status = {
+      cmd = 'git status -s -u',
       no_header = true,
     },
   },
