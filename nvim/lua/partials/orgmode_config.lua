@@ -4,6 +4,7 @@ return {
   org_hide_emphasis_markers = true,
   org_agenda_text_search_extra_files = { 'agenda-archives' },
   org_agenda_start_on_weekday = false,
+  win_split_mode = 'auto',
   org_todo_keywords = { 'TODO(t)', 'PROGRESS(p)', '|', 'DONE(d)', 'REJECTED(r)' },
   org_capture_templates = {
     t = {
