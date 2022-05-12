@@ -39,7 +39,7 @@ for _, key in ipairs({ 'f', 't', 'F', 'T' }) do
   vim.keymap.set('n', key, function()
     return vim.cmd(string.format('normal!%s', simple_ft(key)))
   end)
-  vim.keymap.set({'x', 'o'}, key, function()
+  vim.keymap.set({ 'x', 'o' }, key, function()
     return simple_ft(key)
   end, { expr = true, remap = true })
 end

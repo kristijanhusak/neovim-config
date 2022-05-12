@@ -81,9 +81,9 @@ vim.api.nvim_create_autocmd('VimEnter', {
   end,
   group = plugins_group,
 })
-vim.api.nvim_create_autocmd({'BufEnter', 'BufNewFile'}, {
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
   pattern = '.env*',
-  command = 'set filetype=conf'
+  command = 'set filetype=conf',
 })
 
 vim.keymap.set('n', '<Leader><space>', ':noh<CR>')

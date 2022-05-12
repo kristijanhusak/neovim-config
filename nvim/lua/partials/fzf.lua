@@ -1,7 +1,6 @@
 local fzf = require('fzf-lua')
 vim.env.FZF_DEFAULT_OPTS = '--layout=reverse --bind ctrl-d:preview-down,ctrl-u:preview-up'
 
-
 local function run_cmd(selected, fn)
   vim.cmd(string.format('e %s', selected[1]))
   fn()
@@ -44,7 +43,7 @@ fzf.setup({
     files = vim.tbl_extend('force', fzf.config.globals.actions.files, {
       ['@'] = show_lsp_tags,
       [':'] = show_lines,
-    })
+    }),
   },
   git = {
     status = {
@@ -60,7 +59,7 @@ fzf.setup({
     fzf = vim.tbl_extend('force', fzf.config.globals.keymap.fzf, {
       ['ctrl-d'] = 'preview-page-down',
       ['ctrl-u'] = 'preview-page-up',
-    })
+    }),
   },
 })
 
