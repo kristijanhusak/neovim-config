@@ -111,6 +111,13 @@ require('nvim-treesitter.configs').setup({
   ensure_installed = {
     'javascript',
     'typescript',
+    'dockerfile',
+    'query',
+    'bash',
+    'html',
+    'css',
+    'scss',
+    'vim',
     'php',
     'go',
     'python',
