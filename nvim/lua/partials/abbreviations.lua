@@ -12,8 +12,8 @@ local abbreviations = {
   Gblame = 'tab Git blame',
   GcLog = [[tabnew \| Gclog]],
   Gclog = [[tabnew \| Gclog]],
-  ['0Gclog'] = [[tabnew \| 0Gclog]],
-  ['0GcLog'] = [[tabnew \| 0Gclog]]
+  ['0Gclog'] = [[tabe % \| 0Gclog]],
+  ['0GcLog'] = [[tabe % \| 0Gclog]]
 }
 
 for left, right in pairs(abbreviations) do
