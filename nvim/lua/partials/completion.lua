@@ -4,34 +4,6 @@ local cmp = require('cmp')
 vim.opt.pumheight = 15
 vim.opt.completeopt = 'menuone,noselect'
 
-local icons = {
-  Text = '',
-  Method = '',
-  Function = '',
-  Constructor = '⌘',
-  Field = 'ﰠ',
-  Variable = '',
-  Class = 'ﴯ',
-  Interface = '',
-  Module = '',
-  Property = 'ﰠ',
-  Unit = '塞',
-  Value = '',
-  Enum = '',
-  Keyword = '廓',
-  Snippet = '',
-  Color = '',
-  File = '',
-  Reference = '',
-  Folder = '',
-  EnumMember = '',
-  Constant = '',
-  Struct = 'פּ',
-  Event = '',
-  Operator = '',
-  TypeParameter = '',
-}
-
 cmp.setup({
   formatting = {
     format = function(entry, vim_item)
@@ -45,7 +17,6 @@ cmp.setup({
         orgmode = '[Org]',
         ['vim-dadbod-completion'] = '[DB]',
       })[entry.source.name]
-      vim_item.kind = icons[vim_item.kind]
       return vim_item
     end,
   },
