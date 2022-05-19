@@ -23,6 +23,7 @@ local function simple_ft(key)
   end
 
   -- Avoid error when canceling with <C-c>
+  local old_cc_keymap = vim.fn.maparg('<C-c>', 'n')
   vim.keymap.set('n', '<C-c>', '<C-c>', { buffer = true })
 
   vim.cmd([[redraw]])
@@ -30,7 +31,11 @@ local function simple_ft(key)
   local char = vim.fn.getchar()
   vim.schedule(function()
     vim.api.nvim_buf_clear_namespace(0, ns, line - 1, line)
-    vim.keymap.del('n', '<C-c>', { buffer = true })
+    if not old_cc_keymap or old_cc_keymap == '' then
+      vim.keymap.del('n', '<C-c>', { buffer = true })
+    else
+      vim.keymap.set('n', '<C-c>', old_cc_keymap, { buffer = true })
+    end
   end)
   return string.format('%s%s', key, vim.fn.nr2char(char))
 end
