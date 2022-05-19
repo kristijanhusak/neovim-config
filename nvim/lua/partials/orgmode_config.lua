@@ -20,6 +20,12 @@ return {
       template = '* TODO %?\n  DEADLINE: %T',
       target = '~/orgfiles/work.org',
     },
+    d = {
+      description = 'Daily',
+      template = '* Daily %U \n  %?',
+      target = '~/orgfiles/work.org',
+      headline = 'Meetings'
+    },
   },
   notifications = {
     reminder_time = { 0, 1, 5, 10 },
