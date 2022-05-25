@@ -174,6 +174,7 @@ require('nvim-tree').setup({
 
 vim.g.matchup_matchparen_status_offscreen = 0
 vim.g.matchup_matchparen_nomode = 'ivV'
+vim.g.matchup_matchparen_deferred = 100
 
 vim.g.db_ui_show_help = 0
 vim.g.db_ui_win_position = 'right'

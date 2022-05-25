@@ -7,6 +7,7 @@ local search_group = vim.api.nvim_create_augroup('init_vim_search', { clear = tr
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'qf',
   callback = function()
+    vim.b.matchup_matchparen_enabled = 0
     vim.keymap.set('n', '<Leader>r', ':cgetexpr v:lua.kris.search.do_search()<CR>', {
       silent = true,
       buffer = true,
