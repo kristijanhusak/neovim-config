@@ -139,13 +139,6 @@ require('fidget').setup({
   text = { spinner = 'dots' },
 })
 
-vim.g.nvim_tree_icons = {
-  default = '',
-  git = {
-    unstaged = '✹',
-  },
-}
-vim.g.nvim_tree_git_hl = 1
 require('nvim-tree').setup({
   hijack_unnamed_buffer_when_opening = false,
   disable_netrw = true,
@@ -170,6 +163,17 @@ require('nvim-tree').setup({
       },
     },
   },
+  renderer = {
+    highlight_git = true,
+    icons = {
+      glyphs = {
+        default = '',
+        git = {
+          unstaged = '✹',
+        },
+      }
+    }
+  }
 })
 
 vim.g.matchup_matchparen_status_offscreen = 0
