@@ -220,4 +220,6 @@ vim.g.indent_blankline_context_patterns = {
 vim.g.did_load_filetypes = 0
 vim.g.do_filetype_lua = 1
 
+vim.g.db_ui_hide_schemas = { 'pg_toast_temp.*' }
+
 _G.kris.plugins = plugins
