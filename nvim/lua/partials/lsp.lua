@@ -61,7 +61,7 @@ typescript_nvim.setup({
 nvim_lsp.vimls.setup(init_setup())
 nvim_lsp.intelephense.setup(init_setup())
 nvim_lsp.gopls.setup(init_setup())
-nvim_lsp.pyright.setup(init_setup())
+nvim_lsp.pylsp.setup(init_setup())
 nvim_lsp.terraformls.setup(init_setup())
 
 local runtime_path = vim.split(package.path, ';')
