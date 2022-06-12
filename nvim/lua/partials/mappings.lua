@@ -70,6 +70,9 @@ vim.keymap.set('x', '<tab>', '>gv')
 vim.keymap.set('n', '_', '<c-w>5<')
 vim.keymap.set('n', '+', '<c-w>5>')
 
+-- Use Q to take nvim to background
+vim.keymap.set('', 'Q', '<c-z>', { remap = true })
+
 -- Jump to definition in vertical split
 vim.keymap.set('n', '<Leader>]', '<C-W>v<C-]>')
 
