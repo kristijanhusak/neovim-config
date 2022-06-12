@@ -88,6 +88,10 @@ nvim_lsp.sumneko_lua.setup(require('lua-dev').setup({
         },
       },
     },
+    on_attach = function(client)
+      client.resolved_capabilities.document_formatting = false
+      client.resolved_capabilities.document_range_formatting = false
+    end,
   }),
 }))
 
