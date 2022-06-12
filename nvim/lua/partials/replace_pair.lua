@@ -17,8 +17,8 @@ function replace_pair.run()
   end
 
   local char = fn.getline('.'):sub(fn.col('.'), fn.col('.'))
-  local new_char = fn.nr2char(fn.getchar())
-  if chars[char] and chars[new_char] then
+  if chars[char] then
+    local new_char = fn.nr2char(fn.getchar())
     local flags = 'nW'
     local search_char = char
     if chars[char][2] == 'right' then
@@ -30,7 +30,7 @@ function replace_pair.run()
     local col = pos[2]
     vim.cmd('norm!r' .. new_char)
     local view = fn.winsaveview()
-    vim.fn.cursor(lnum, col)
+    vim.fn.cursor({ lnum, col })
     vim.cmd('norm!r' .. chars[new_char][1])
     return fn.winrestview(view)
   end

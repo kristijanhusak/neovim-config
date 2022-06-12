@@ -70,9 +70,6 @@ vim.keymap.set('x', '<tab>', '>gv')
 vim.keymap.set('n', '_', '<c-w>5<')
 vim.keymap.set('n', '+', '<c-w>5>')
 
--- Disable ex mode mapping
-vim.keymap.set('', 'Q', '<c-z>', { remap = true })
-
 -- Jump to definition in vertical split
 vim.keymap.set('n', '<Leader>]', '<C-W>v<C-]>')
 
@@ -164,7 +161,7 @@ local function open_file_on_line_and_column()
   else
     vim.cmd('vsplit ' .. path)
   end
-  vim.fn.cursor(row, col)
+  vim.fn.cursor({ row, col })
 end
 
 local function open_file_or_create_new()

@@ -172,9 +172,9 @@ require('nvim-tree').setup({
         git = {
           unstaged = '✹',
         },
-      }
-    }
-  }
+      },
+    },
+  },
 })
 
 vim.g.matchup_matchparen_status_offscreen = 0

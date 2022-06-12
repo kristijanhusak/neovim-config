@@ -24,7 +24,7 @@ return {
       description = 'Daily',
       template = '* Daily %U \n  %?',
       target = '~/orgfiles/work.org',
-      headline = 'Meetings'
+      headline = 'Meetings',
     },
   },
   notifications = {
