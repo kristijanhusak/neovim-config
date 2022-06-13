@@ -29,6 +29,8 @@ local function show_lines(selected)
 end
 
 fzf.setup({
+  global_git_icons = false,
+  global_file_icons = false,
   winopts = {
     width = 0.80,
     height = 0.90,
@@ -36,9 +38,6 @@ fzf.setup({
       default = 'bat_native',
       horizontal = 'right:45%',
     },
-  },
-  files = {
-    file_icons = false,
   },
   oldfiles = {
     include_current_session = true,
@@ -53,10 +52,6 @@ fzf.setup({
     status = {
       cmd = 'git status -s -u',
       no_header = true,
-      file_icons = false,
-    },
-    files = {
-      file_icons = false,
     },
   },
   keymap = {
