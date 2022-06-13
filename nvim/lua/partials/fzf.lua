@@ -33,8 +33,12 @@ fzf.setup({
     width = 0.80,
     height = 0.90,
     preview = {
+      default = 'bat_native',
       horizontal = 'right:45%',
     },
+  },
+  files = {
+    file_icons = false,
   },
   oldfiles = {
     include_current_session = true,
@@ -49,6 +53,10 @@ fzf.setup({
     status = {
       cmd = 'git status -s -u',
       no_header = true,
+      file_icons = false,
+    },
+    files = {
+      file_icons = false,
     },
   },
   keymap = {

@@ -57,13 +57,7 @@ setopt HIST_IGNORE_ALL_DUPS
 # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
 # zsh-autosuggestions is designed to be unobtrusive)
 NVIM_BG=${NVIM_COLORSCHEME_BG:-'light'}
-if [ $NVIM_BG = 'dark' ]; then
-  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
-  export BAT_THEME="OneHalfDark"
-else
-  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=249'
-  export BAT_THEME="OneHalfLight"
-fi
+export BAT_THEME="ansi"
 export KEYTIMEOUT=1
 
 [ -f ~/.zsh_secret ] && source ~/.zsh_secret
