@@ -52,6 +52,7 @@ require('packager').setup(function(packager)
       'lukas-reineke/cmp-rg',
     },
   })
+  packager.add('github/copilot.vim')
 end)
 
 vim.g.mapleader = ','
@@ -222,5 +223,8 @@ vim.g.did_load_filetypes = 0
 vim.g.do_filetype_lua = 1
 
 vim.g.db_ui_hide_schemas = { 'pg_toast_temp.*' }
+
+vim.g.copilot_no_tab_map = true
+vim.cmd[[imap <expr> <Plug>(vimrc:copilot-dummy-map) copilot#Accept("\<Tab>")]]
 
 _G.kris.plugins = plugins
