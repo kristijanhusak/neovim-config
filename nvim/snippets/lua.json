@@ -2,7 +2,7 @@
   "print-inspect": {
     "prefix": ["ins"],
     "body": [
-      "print(vim.inspect($0))"
+      "print('${2:${1}}', vim.inspect(${1:obj}))$0"
     ],
     "description": "Print + vim.inspect"
   }

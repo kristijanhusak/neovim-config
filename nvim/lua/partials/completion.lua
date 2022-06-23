@@ -59,7 +59,11 @@ cmp.setup({
       elseif vim.fn['vsnip#expandable']() > 0 then
         vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
       else
-        vim.api.nvim_feedkeys(vim.fn['copilot#Accept'](vim.api.nvim_replace_termcodes('<Tab>', true, true, true)), 'n', true)
+        vim.api.nvim_feedkeys(
+          vim.fn['copilot#Accept'](vim.api.nvim_replace_termcodes('<Tab>', true, true, true)),
+          'n',
+          true
+        )
       end
     end, { 'i', 's' }),
 

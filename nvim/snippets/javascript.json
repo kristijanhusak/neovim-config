@@ -2,17 +2,24 @@
   "Class": {
     "prefix": ["clax"],
     "body": [
-      "class $1 ${2:extends ${3:Parent} }{",
+      "export class $1 ${2:extends ${3:Parent} }{",
       "\tconstructor(${4:props}) {",
       "\t\tthis.$4 = $4;",
       "\t}",
       "",
       "\t$0",
-      "}",
-      "",
-      "module.exports = $1;"
+      "}"
     ],
     "description": "Class definition template."
+  },
+  "test": {
+    "prefix": ["it"],
+    "body": [
+      "it('${1:should ${2}}', async () => {",
+      "\t$0",
+      "});"
+    ],
+    "description": "Test template"
   },
   "method": {
     "prefix": ["mtd"],
@@ -76,27 +83,5 @@
       "}"
     ],
     "description": "Try catch block"
-  },
-  "getter": {
-    "prefix": ["getter"],
-    "body": [
-      "/**",
-      " * @returns {${3:$1}}",
-      " */",
-      "get$1() {",
-      "\treturn this.${2:$1};",
-      "}"
-    ]
-  },
-  "setter": {
-    "prefix": ["setter"],
-    "body": [
-      "/**",
-      " * @param {${3:$1}} ${2:val}",
-      " */",
-      "set$1($2) {",
-      "\tthis.${4:$1} = $2;",
-      "}"
-    ]
   }
 }

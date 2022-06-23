@@ -2,7 +2,7 @@
   "select-by-id": {
     "prefix": ["selid"],
     "body": [
-      "select * from \"${1:table}\" where id = '${2:id}';"
+      "select * from \"${1:table}\" where \"${2:id}\" = '${3:id}';"
     ],
     "description": "Select from table by id"
   },

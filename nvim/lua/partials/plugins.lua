@@ -225,6 +225,6 @@ vim.g.do_filetype_lua = 1
 vim.g.db_ui_hide_schemas = { 'pg_toast_temp.*' }
 
 vim.g.copilot_no_tab_map = true
-vim.cmd[[imap <expr> <Plug>(vimrc:copilot-dummy-map) copilot#Accept("\<Tab>")]]
+vim.cmd([[imap <expr> <Plug>(vimrc:copilot-dummy-map) copilot#Accept("\<Tab>")]])
 
 _G.kris.plugins = plugins
