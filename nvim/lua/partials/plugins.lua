@@ -178,6 +178,12 @@ require('nvim-tree').setup({
   },
 })
 
+require('indent_blankline').setup({
+  char = '▏',
+  show_current_context = true,
+  disable_with_nolist = true,
+})
+
 vim.g.matchup_matchparen_status_offscreen = 0
 vim.g.matchup_matchparen_nomode = 'ivV'
 vim.g.matchup_matchparen_deferred = 100
@@ -200,22 +206,6 @@ vim.g.js_file_import_use_fzf = 1
 vim.g.delimitMate_expand_cr = 1
 
 vim.g.tagalong_mappings = { 'c', 'C', 'i', 'a' }
-
-vim.g.indent_blankline_char = '▏'
-vim.g.indent_blankline_show_current_context = true
-vim.g.indent_blankline_disable_with_nolist = true
-vim.g.indent_blankline_context_patterns = {
-  'class',
-  'function',
-  'method',
-  '^if',
-  '^while',
-  '^for',
-  '^object',
-  '^table',
-  'block',
-  'arguments',
-}
 
 -- Test filetype.lua
 -- @see https://neovim.discourse.group/t/introducing-filetype-lua-and-a-call-for-help/1806
