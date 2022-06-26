@@ -42,6 +42,7 @@ require('packager').setup(function(packager)
   packager.add('j-hui/fidget.nvim')
   packager.add('jose-elias-alvarez/typescript.nvim')
   packager.add('https://gitlab.com/yorickpeterse/nvim-pqf')
+  packager.add('ggandor/leap.nvim')
   packager.add('hrsh7th/nvim-cmp', {
     requires = {
       'hrsh7th/cmp-buffer',
@@ -183,6 +184,8 @@ require('indent_blankline').setup({
   show_current_context = true,
   disable_with_nolist = true,
 })
+
+require('leap').set_default_keymaps()
 
 vim.g.matchup_matchparen_status_offscreen = 0
 vim.g.matchup_matchparen_nomode = 'ivV'
