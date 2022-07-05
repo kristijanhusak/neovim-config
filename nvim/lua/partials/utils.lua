@@ -1,5 +1,4 @@
 local gps = require('nvim-navic')
-gps.setup()
 local M = {}
 
 function M.esc(cmd)
@@ -15,7 +14,7 @@ function M.get_gps_scope(fallback)
     return fallback
   end
   local scope_string = vim.tbl_map(function(t)
-    return t.name
+    return t.name:gsub('[\'"]', ''):gsub('%s+', ' ')
   end, scope_data)
   return table.concat(scope_string, ' > ')
 end

@@ -19,19 +19,6 @@ local filetypes = {
 }
 
 function lsp.setup()
-  vim.api.nvim_create_autocmd('WinScrolled', {
-    buffer = 0,
-    callback = function()
-      local winbar = kris.statusline.winbar()
-      if winbar == '' then
-        vim.wo.winbar = nil
-        return
-      end
-      vim.wo.winbar  = '%!v:lua.kris.statusline.winbar()'
-    end,
-  })
-
-
   vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
     buffer = 0,
     callback = lsp.show_diagnostics,
