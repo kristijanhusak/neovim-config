@@ -1,7 +1,6 @@
 local statusline = {}
 local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
-local gps = require('nvim-gps')
-gps.setup()
+local navic = require('nvim-navic')
 vim.o.statusline = '%!v:lua.kris.statusline.setup()'
 
 local c = {}
@@ -215,6 +214,22 @@ function statusline.setup()
     return statusline_active()
   end
   return statusline_inactive()
+end
+
+function statusline.winbar()
+  local gps = navic.is_available()
+
+  if not gps then
+    return ''
+  end
+
+  local location = navic.get_location({ highlight = true })
+
+  if location == '' then
+    return ''
+  end
+
+  return (' %s'):format(location)
 end
 
 _G.kris.statusline = statusline

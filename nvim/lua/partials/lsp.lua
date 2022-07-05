@@ -1,5 +1,6 @@
 local lsp = {}
 local nvim_lsp = require('lspconfig')
+local navic = require('nvim-navic')
 local utils = require('partials.utils')
 local dlsconfig = require('diagnosticls-configs')
 local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostics')
@@ -18,6 +19,19 @@ local filetypes = {
 }
 
 function lsp.setup()
+  vim.api.nvim_create_autocmd('WinScrolled', {
+    buffer = 0,
+    callback = function()
+      local winbar = kris.statusline.winbar()
+      if winbar == '' then
+        vim.wo.winbar = nil
+        return
+      end
+      vim.wo.winbar  = '%!v:lua.kris.statusline.winbar()'
+    end,
+  })
+
+
   vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
     buffer = 0,
     callback = lsp.show_diagnostics,
@@ -39,6 +53,9 @@ local function init_setup(opts)
     flags = {
       debounce_text_changes = 300,
     },
+    on_attach = function(client, bufnr)
+      navic.attach(client, bufnr)
+    end,
   }, opts or {})
 end
 
@@ -51,7 +68,8 @@ typescript_nvim.setup({
         quotePreference = 'single',
       },
     },
-    on_attach = function(client)
+    on_attach = function(client, bufnr)
+      navic.attach(client, bufnr)
       client.resolved_capabilities.document_formatting = false
       client.resolved_capabilities.document_range_formatting = false
     end,
@@ -88,7 +106,8 @@ nvim_lsp.sumneko_lua.setup(require('lua-dev').setup({
         },
       },
     },
-    on_attach = function(client)
+    on_attach = function(client, bufnr)
+      navic.attach(client, bufnr)
       client.resolved_capabilities.document_formatting = false
       client.resolved_capabilities.document_range_formatting = false
     end,
