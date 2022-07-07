@@ -210,11 +210,6 @@ vim.g.delimitMate_expand_cr = 1
 
 vim.g.tagalong_mappings = { 'c', 'C', 'i', 'a' }
 
--- Test filetype.lua
--- @see https://neovim.discourse.group/t/introducing-filetype-lua-and-a-call-for-help/1806
-vim.g.did_load_filetypes = 0
-vim.g.do_filetype_lua = 1
-
 vim.g.db_ui_hide_schemas = { 'pg_toast_temp.*' }
 
 vim.g.copilot_no_tab_map = true
