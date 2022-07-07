@@ -57,8 +57,8 @@ typescript_nvim.setup({
     },
     on_attach = function(client, bufnr)
       navic.attach(client, bufnr)
-      client.resolved_capabilities.document_formatting = false
-      client.resolved_capabilities.document_range_formatting = false
+      client.server_capabilities.document_formatting = false
+      client.server_capabilities.document_range_formatting = false
     end,
   }),
 })
@@ -95,8 +95,8 @@ nvim_lsp.sumneko_lua.setup(require('lua-dev').setup({
     },
     on_attach = function(client, bufnr)
       navic.attach(client, bufnr)
-      client.resolved_capabilities.document_formatting = false
-      client.resolved_capabilities.document_range_formatting = false
+      client.server_capabilities.document_formatting = false
+      client.server_capabilities.document_range_formatting = false
     end,
   }),
 }))
