@@ -16,7 +16,7 @@ require('onenord').setup({
     functions = 'bold',
   },
   custom_highlights = {
-    SimpleF = { fg = colors.red, style = 'undercurl' },
+    SimpleF = { fg = colors.red, bg = colors.diff_add_bg, style = 'bold' },
     fugitiveStagedHeading = { fg = colors.green },
     fugitiveStagedSection = { fg = colors.blue },
     fugitiveUntrackedSection = { fg = colors.blue },
