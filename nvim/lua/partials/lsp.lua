@@ -18,6 +18,11 @@ local filetypes = {
   'terraform',
 }
 
+local function disable_lsp_formatting(client)
+  client.server_capabilities.documentFormattingProvider = false
+  client.server_capabilities.documentRangeFormattingProvider = false
+end
+
 function lsp.setup()
   vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
     buffer = 0,
@@ -56,9 +61,8 @@ typescript_nvim.setup({
       },
     },
     on_attach = function(client, bufnr)
+      disable_lsp_formatting(client)
       navic.attach(client, bufnr)
-      client.server_capabilities.document_formatting = false
-      client.server_capabilities.document_range_formatting = false
     end,
   }),
 })
@@ -94,9 +98,8 @@ nvim_lsp.sumneko_lua.setup(require('lua-dev').setup({
       },
     },
     on_attach = function(client, bufnr)
+      disable_lsp_formatting(client)
       navic.attach(client, bufnr)
-      client.server_capabilities.document_formatting = false
-      client.server_capabilities.document_range_formatting = false
     end,
   }),
 }))
@@ -198,7 +201,7 @@ vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration)
 vim.keymap.set('n', '<leader>lg', vim.lsp.buf.implementation)
 vim.keymap.set('n', '<Space>', vim.lsp.buf.hover)
 vim.keymap.set('n', '<leader>lH', lsp.tag_signature)
-vim.keymap.set('n', '<leader>lf', vim.lsp.buf.formatting)
+vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 vim.keymap.set('v', '<leader>lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>', { silent = true })
 vim.keymap.set('n', '<leader>li', vim.lsp.buf.incoming_calls)
 vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls)

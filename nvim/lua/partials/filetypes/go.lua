@@ -17,7 +17,7 @@ function go.add_tags()
 end
 
 function go.format()
-  vim.lsp.buf.formatting_sync()
+  vim.lsp.buf.format()
   local params = vim.lsp.util.make_range_params()
   params.context = { source = { organizeImports = true } }
   local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params)
