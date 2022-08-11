@@ -65,7 +65,7 @@ vim.ui.input = function(opts, on_confirm)
   local current_val = opts.default or ''
   local bufnr, winnr = vim.lsp.util.open_floating_preview({ current_val }, '', {
     border = 'rounded',
-    width = math.max(current_val:len() + 10, 30),
+    width = math.max(current_val:len() + 10, 30, (opts.prompt and opts.prompt:len() + 10 or 0)),
     wrap = false,
   })
 
@@ -78,7 +78,7 @@ vim.ui.input = function(opts, on_confirm)
     on_confirm = on_confirm,
   }
   vim.api.nvim_win_set_config(winnr, {
-    width = math.max(current_val:len() + 10, 30),
+    width = math.max(current_val:len() + 10, 30, (opts.prompt and opts.prompt:len() + 10 or 0)),
   })
   vim.api.nvim_set_current_win(winnr)
   vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
