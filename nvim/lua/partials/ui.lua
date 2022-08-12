@@ -28,6 +28,10 @@ local function add_title_to_win(winnr, bufnr, title)
   })
 end
 
+local function get_win_width(value_length, opts)
+  return math.max(value_length + 5, (opts.prompt and opts.prompt:len() + 5 or 0))
+end
+
 vim.ui.select = function(items, opts, on_choice)
   vim.validate({
     items = { items, 'table', false },
@@ -36,8 +40,11 @@ vim.ui.select = function(items, opts, on_choice)
   opts = opts or {}
   local choices = {}
   local format_item = opts.format_item or tostring
+  local longest_item = 0
   for i, item in pairs(items) do
-    table.insert(choices, string.format('%d. %s ', i, format_item(item)))
+    local choice = string.format('%d. %s ', i, format_item(item))
+    table.insert(choices, choice)
+    longest_item = math.max(longest_item, choice:len())
   end
 
   kris.ui.last_select = {
@@ -47,6 +54,10 @@ vim.ui.select = function(items, opts, on_choice)
 
   local bufnr, winnr = vim.lsp.util.open_floating_preview(choices, '', {
     border = 'rounded',
+  })
+
+  vim.api.nvim_win_set_config(winnr, {
+    width = get_win_width(longest_item, opts),
   })
 
   if opts.prompt then
@@ -63,9 +74,10 @@ vim.ui.input = function(opts, on_confirm)
   })
   opts = opts or {}
   local current_val = opts.default or ''
+  local win_width = get_win_width(current_val:len(), opts)
   local bufnr, winnr = vim.lsp.util.open_floating_preview({ current_val }, '', {
     border = 'rounded',
-    width = math.max(current_val:len() + 10, 30, (opts.prompt and opts.prompt:len() + 10 or 0)),
+    width = win_width,
     wrap = false,
   })
 
@@ -77,9 +89,7 @@ vim.ui.input = function(opts, on_confirm)
     val = current_val,
     on_confirm = on_confirm,
   }
-  vim.api.nvim_win_set_config(winnr, {
-    width = math.max(current_val:len() + 10, 30, (opts.prompt and opts.prompt:len() + 10 or 0)),
-  })
+  vim.api.nvim_win_set_config(winnr, { width = win_width })
   vim.api.nvim_set_current_win(winnr)
   vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
   vim.api.nvim_win_set_option(winnr, 'sidescrolloff', 0)
