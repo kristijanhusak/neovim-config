@@ -17,7 +17,6 @@ require('packager').setup(function(packager)
   packager.add('windwp/nvim-ts-autotag')
   packager.add('AndrewRadev/splitjoin.vim')
   packager.add('lewis6991/gitsigns.nvim', { requires = 'nvim-lua/plenary.nvim' })
-  packager.add('ibhagwan/fzf-lua')
   packager.add('nvim-telescope/telescope.nvim')
   packager.add('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make' })
   packager.add('ludovicchabant/vim-gutentags')
@@ -203,7 +202,7 @@ vim.g.vsnip_filetypes = {
   javascriptreact = { 'javascript' },
 }
 
-vim.g.js_file_import_use_fzf = 1
+vim.g.js_file_import_use_telescope = 1
 
 vim.g.delimitMate_expand_cr = 1
 
