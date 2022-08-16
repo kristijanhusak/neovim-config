@@ -5,7 +5,7 @@ require('packager').setup(function(packager)
   packager.add('kristijanhusak/vim-packager', { type = 'opt' })
   packager.add('kristijanhusak/vim-js-file-import', { ['do'] = 'npm install', type = 'opt' })
   packager.add('numToStr/Comment.nvim')
-  packager.add('tpope/vim-surround')
+  packager.add('kylechui/nvim-surround')
   packager.add('tpope/vim-repeat')
   packager.add('tpope/vim-fugitive')
   packager.add('tpope/vim-sleuth')
@@ -53,7 +53,9 @@ require('packager').setup(function(packager)
       'lukas-reineke/cmp-rg',
     },
   })
-  packager.add('github/copilot.vim')
+  packager.add('github/copilot.vim', { type = 'opt' })
+  packager.add('zbirenbaum/copilot.lua')
+  packager.add('zbirenbaum/copilot-cmp')
 end)
 
 vim.g.mapleader = ','
@@ -185,6 +187,14 @@ require('indent_blankline').setup({
   disable_with_nolist = true,
 })
 
+require('copilot').setup({
+  cmp = {
+    enabled = true,
+  },
+  plugin_manager_path = ('%s/pack/packager'):format(vim.fn.stdpath('config')),
+})
+require('nvim-surround').setup()
+
 vim.g.matchup_matchparen_status_offscreen = 0
 vim.g.matchup_matchparen_nomode = 'ivV'
 vim.g.matchup_matchparen_deferred = 100
@@ -209,8 +219,5 @@ vim.g.delimitMate_expand_cr = 1
 vim.g.tagalong_mappings = { 'c', 'C', 'i', 'a' }
 
 vim.g.db_ui_hide_schemas = { 'pg_toast_temp.*' }
-
-vim.g.copilot_no_tab_map = true
-vim.cmd([[imap <expr> <Plug>(vimrc:copilot-dummy-map) copilot#Accept("\<Tab>")]])
 
 _G.kris.plugins = plugins

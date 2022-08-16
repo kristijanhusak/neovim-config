@@ -21,13 +21,13 @@ cmp.setup({
     end,
   },
   sources = {
-    { name = 'nvim_lsp' },
-    { name = 'vsnip' },
-    { name = 'buffer' },
-    { name = 'tags', keyword_length = 2 },
-    { name = 'rg', keyword_length = 3 },
-    { name = 'path' },
-    { name = 'orgmode' },
+    { name = 'nvim_lsp', group_index = 1 },
+    { name = 'vsnip', group_index = 1 },
+    { name = 'buffer', group_index = 2 },
+    { name = 'tags', keyword_length = 2, group_index = 2 },
+    { name = 'rg', keyword_length = 3, group_index = 2 },
+    { name = 'path', group_index = 1 },
+    { name = 'orgmode', group_index = 1 },
   },
   snippet = {
     expand = function(args)
@@ -42,6 +42,16 @@ cmp.setup({
       end
       return cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })(fallback)
     end,
+    ['<C-i>'] = cmp.mapping(
+      cmp.mapping.complete({
+        config = {
+          sources = {
+            { name = 'copilot' },
+          },
+        },
+      }),
+      { 'i' }
+    ),
     ['<C-Space>'] = cmp.mapping(
       cmp.mapping.complete({
         config = {
@@ -53,17 +63,13 @@ cmp.setup({
       }),
       { 'i' }
     ),
-    ['<Tab>'] = cmp.mapping(function()
+    ['<Tab>'] = cmp.mapping(function(fallback)
       if vim.fn['vsnip#jumpable'](1) > 0 then
         vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-next)'), '')
       elseif vim.fn['vsnip#expandable']() > 0 then
         vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
       else
-        vim.api.nvim_feedkeys(
-          vim.fn['copilot#Accept'](vim.api.nvim_replace_termcodes('<Tab>', true, true, true)),
-          'n',
-          true
-        )
+        fallback()
       end
     end, { 'i', 's' }),
 
@@ -86,7 +92,7 @@ local autocomplete_group = vim.api.nvim_create_augroup('vimrc_autocompletion', {
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'sql', 'mysql', 'plsql' },
   callback = function()
-    cmp.setup.buffer({ sources = { { name = 'vim-dadbod-completion' } } })
+    cmp.setup.buffer({ sources = { { name = 'vim-dadbod-completion', group_index = 1 } } })
   end,
   group = autocomplete_group,
 })
