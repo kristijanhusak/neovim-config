@@ -21,6 +21,7 @@ cmp.setup({
     end,
   },
   sources = {
+    { name = 'copilot', group_index = 1 },
     { name = 'nvim_lsp', group_index = 1 },
     { name = 'vsnip', group_index = 1 },
     { name = 'buffer', group_index = 2 },
@@ -42,20 +43,11 @@ cmp.setup({
       end
       return cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })(fallback)
     end,
-    ['<C-i>'] = cmp.mapping(
-      cmp.mapping.complete({
-        config = {
-          sources = {
-            { name = 'copilot' },
-          },
-        },
-      }),
-      { 'i' }
-    ),
     ['<C-Space>'] = cmp.mapping(
       cmp.mapping.complete({
         config = {
           sources = {
+            { name = 'copilot' },
             { name = 'nvim_lsp' },
             { name = 'path' },
           },
