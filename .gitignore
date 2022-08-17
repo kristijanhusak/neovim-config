@@ -1,5 +1,6 @@
 nvim/pack
 kitty/local.conf
 kitty/local_color.conf
+i3/polybar/local
 lazygit/*
 !lazygit/config.yml
