@@ -14,7 +14,9 @@ require('packager').setup(function(packager)
   packager.add('kristijanhusak/vim-dadbod-completion', { type = 'opt' })
   packager.add('kristijanhusak/vim-dadbod-ui')
   packager.add('nvim-orgmode/orgmode')
+  packager.add('akinsho/org-bullets.nvim')
   packager.add('windwp/nvim-ts-autotag')
+  packager.add('axelvc/template-string.nvim')
   packager.add('AndrewRadev/splitjoin.vim')
   packager.add('lewis6991/gitsigns.nvim', { requires = 'nvim-lua/plenary.nvim' })
   packager.add('nvim-telescope/telescope.nvim')
@@ -194,6 +196,19 @@ require('copilot').setup({
   plugin_manager_path = ('%s/pack/packager'):format(vim.fn.stdpath('config')),
 })
 require('nvim-surround').setup()
+require('template-string').setup({
+  remove_template_string = true,
+})
+require('org-bullets').setup({
+  concealcursor = true,
+  symbols = {
+    checkboxes = {
+      half = {'', 'OrgTSCheckboxHalfChecked'},
+      done = { "✓", "OrgDone" },
+      todo = { " ", "OrgTODO" },
+    }
+  }
+})
 
 vim.g.matchup_matchparen_status_offscreen = 0
 vim.g.matchup_matchparen_nomode = 'ivV'
