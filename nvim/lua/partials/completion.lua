@@ -42,34 +42,25 @@ cmp.setup({
       end
       return cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })(fallback)
     end,
-    ['<C-i>'] = cmp.mapping(
-      cmp.mapping.complete({
-        config = {
-          sources = {
-            { name = 'copilot' },
-          },
+    ['<C-Space>'] = cmp.mapping.complete({
+      config = {
+        sources = {
+          { name = 'nvim_lsp', group_index = 1 },
+          { name = 'path', group_index = 1 },
         },
-      }),
-      { 'i' }
-    ),
-    ['<C-Space>'] = cmp.mapping(
-      cmp.mapping.complete({
-        config = {
-          sources = {
-            { name = 'nvim_lsp' },
-            { name = 'path' },
-          },
-        },
-      }),
-      { 'i' }
-    ),
-    ['<Tab>'] = cmp.mapping(function(fallback)
+      },
+    }),
+    ['<Tab>'] = cmp.mapping(function()
       if vim.fn['vsnip#jumpable'](1) > 0 then
         vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-next)'), '')
       elseif vim.fn['vsnip#expandable']() > 0 then
         vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
       else
-        fallback()
+        vim.api.nvim_feedkeys(
+          vim.fn['copilot#Accept'](vim.api.nvim_replace_termcodes('<Tab>', true, true, true)),
+          'n',
+          true
+        )
       end
     end, { 'i', 's' }),
 
@@ -92,7 +83,7 @@ local autocomplete_group = vim.api.nvim_create_augroup('vimrc_autocompletion', {
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'sql', 'mysql', 'plsql' },
   callback = function()
-    cmp.setup.buffer({ sources = { { name = 'vim-dadbod-completion', group_index = 1 } } })
+    cmp.setup.buffer({ sources = { { name = 'vim-dadbod-completion' } } })
   end,
   group = autocomplete_group,
 })
