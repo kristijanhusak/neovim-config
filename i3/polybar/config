@@ -142,10 +142,7 @@ label-urgent = %index%
 label-urgent-background = ${colors.alert}
 label-urgent-padding = ${self.label-focused-padding}
 
-label-empty = %index%
-label-empty-foreground = ${colors.foreground}
-label-empty-background = ${colors.background}
-label-empty-padding = 2
+label-empty =
 
 ; Separator in between workspaces
 ; label-separator = |
