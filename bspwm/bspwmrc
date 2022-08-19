@@ -2,7 +2,7 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-bspc monitor -d 1 2 3 4 5 6 7 8
+~/.config/bspwm/bspwmrc.layout.sh
 
 bspc config border_width         2
 bspc config window_gap          8
@@ -20,13 +20,13 @@ bspc config focused_border_color "#FF0000"
 bspc config remove_disabled_monitors true
 bspc config remove_unplugged_monitors true
 
-bspc rule -a Google-chrome desktop='^2'
-bspc rule -a 'Microsoft Teams - Preview' desktop='^2'
-bspc rule -a Dbeaver desktop='^5'
+bspc rule -a Google-chrome desktop='2'
+bspc rule -a 'Microsoft Teams - Preview' desktop='2'
+bspc rule -a Dbeaver desktop='5'
 bspc rule -a gnome-calculator state=floating
 bspc rule -a Nitrogen state=floating
 bspc rule -a Pamac-manager state=floating
 bspc rule -a Screenkey manage=off
 setxkbmap -layout 'us,rs' -variant ',latin' -option 'grp:lctrl_lwin_toggle'
-~/.config/bspwm/autostart.sh
 ~/.config/bspwm/bspwmrc.local
+~/.config/bspwm/autostart.sh
