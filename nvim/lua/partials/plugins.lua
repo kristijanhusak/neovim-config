@@ -42,6 +42,7 @@ require('packager').setup(function(packager)
   packager.add('creativenull/diagnosticls-configs-nvim')
   packager.add('SmiteshP/nvim-navic')
   packager.add('antoinemadec/FixCursorHold.nvim')
+  packager.add('nacro90/numb.nvim')
   packager.add('j-hui/fidget.nvim')
   packager.add('jose-elias-alvarez/typescript.nvim')
   packager.add('https://gitlab.com/yorickpeterse/nvim-pqf')
@@ -201,6 +202,7 @@ require('org-bullets').setup({
     }
   }
 })
+require('numb').setup()
 
 vim.g.matchup_matchparen_status_offscreen = 0
 vim.g.matchup_matchparen_nomode = 'ivV'
