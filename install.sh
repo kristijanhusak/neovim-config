@@ -44,6 +44,14 @@ install_i3() {
     && ln -s $(pwd)/i3 ~/.i3
 }
 
+install_bspwm() {
+  yay -S bspwm sxhkd \
+  && rm -rf ~/.config/bspwm \
+  && ln -s $(pwd)/bspwm ~/.config/bspwm \
+  && rm -rf ~/.config/sxhkd \
+  && ln -s $(pwd)/sxhkd ~/.config/sxhkd
+}
+
 if [[ -z $1 ]]; then
   echo -n "This will delete all your previous nvim, zsh settings. Proceed? (y/n)? "
   read answer
