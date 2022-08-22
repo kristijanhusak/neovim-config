@@ -232,4 +232,9 @@ vim.g.db_ui_hide_schemas = { 'pg_toast_temp.*' }
 vim.g.copilot_no_tab_map = true
 vim.cmd([[imap <expr> <Plug>(vimrc:copilot-dummy-map) copilot#Accept("\<Tab>")]])
 
+vim.g.copilot_filetypes = {
+  TelescopePrompt = false,
+  TelescopeResults = false,
+}
+
 _G.kris.plugins = plugins
