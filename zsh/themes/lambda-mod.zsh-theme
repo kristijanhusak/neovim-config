@@ -23,11 +23,12 @@ function check_git_prompt_info() {
 
 PROMPT=$''$LAMBDA'\
  %{$fg_bold[$USERCOLOR]%}%n\
+ %{$fg_no_bold[cyan][%}%D{%d.%m.%Y} %*]\
  %{$fg_no_bold[magenta]%}[%~]%(1j.  .)\
  $(check_git_prompt_info)\
 %{$reset_color%}'
 
-RPROMPT="[%{$fg[blue]%}%D{%d.%m.%Y} %*%{$reset_color%}]"
+# RPROMPT="[%{$fg[blue]%}%D{%d.%m.%Y} %*%{$reset_color%}]"
 
 # Format for git_prompt_info()
 ZSH_THEME_GIT_PROMPT_PREFIX="at %{$fg[blue]%} "
