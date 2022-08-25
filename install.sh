@@ -52,17 +52,24 @@ install_bspwm() {
   && ln -s $(pwd)/sxhkd ~/.config/sxhkd
 }
 
+install_rofi() {
+  yay -S rofi \
+    && rm -rf ~/.config/rofi \
+    && ln -s $(pwd)/rofi ~/.config/rofi
+}
+
 if [[ -z $1 ]]; then
   echo -n "This will delete all your previous nvim, zsh settings. Proceed? (y/n)? "
   read answer
   if echo "$answer" | grep -iq "^y" ;then
     echo "Installing dependencies..." \
-    && install_i3 \
+    && install_bspwm \
     && install_oh_my_zsh \
     && install_neovim \
     && install_packages \
     && install_diff_so_fancy \
     && install_kitty \
+    && install_rofi \
     && echo "Finished installation."
   fi
 else

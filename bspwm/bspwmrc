@@ -26,6 +26,7 @@ bspc rule -a 'Microsoft Teams - Preview' desktop='2'
 bspc rule -a ViberPC desktop='6'
 bspc rule -a Dbeaver desktop='5'
 bspc rule -a gnome-calculator state=floating
+bspc rule -a Yad state=floating
 bspc rule -a Nitrogen state=floating
 bspc rule -a Pamac-manager state=floating
 bspc rule -a Screenkey manage=off
