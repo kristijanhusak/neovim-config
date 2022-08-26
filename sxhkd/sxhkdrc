@@ -8,7 +8,7 @@ alt + Return
 
 # program launcher
 alt + d
-	rofi -combi-modi window,run -show combi -modi combi -theme ~/.config/rofi/spotlight-light.rasi
+	~/.config/rofi/launch.sh
 
 # make sxhkd reload its configuration files:
 alt + shift + e
