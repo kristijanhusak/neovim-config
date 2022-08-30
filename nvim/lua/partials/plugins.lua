@@ -230,7 +230,11 @@ vim.g.tagalong_mappings = { 'c', 'C', 'i', 'a' }
 vim.g.db_ui_hide_schemas = { 'pg_toast_temp.*' }
 
 vim.g.copilot_no_tab_map = true
-vim.cmd([[imap <expr> <Plug>(vimrc:copilot-dummy-map) copilot#Accept("\<Tab>")]])
+vim.keymap.set('i', '<C-y>', [[copilot#Accept("\<C-y>")]], {
+  expr = true,
+  remap = true,
+  silent = true,
+})
 
 vim.g.copilot_filetypes = {
   TelescopePrompt = false,

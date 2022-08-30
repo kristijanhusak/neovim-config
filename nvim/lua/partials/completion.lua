@@ -50,17 +50,13 @@ cmp.setup({
         },
       },
     }),
-    ['<Tab>'] = cmp.mapping(function()
+    ['<Tab>'] = cmp.mapping(function(fallback)
       if vim.fn['vsnip#jumpable'](1) > 0 then
         vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-next)'), '')
       elseif vim.fn['vsnip#expandable']() > 0 then
         vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
       else
-        vim.api.nvim_feedkeys(
-          vim.fn['copilot#Accept'](vim.api.nvim_replace_termcodes('<Tab>', true, true, true)),
-          'n',
-          true
-        )
+        fallback()
       end
     end, { 'i', 's' }),
 
