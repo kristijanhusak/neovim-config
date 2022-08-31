@@ -71,7 +71,7 @@ font-2 = RobotoMono Nerd Font Mono:style=Regular:pixelsize=9;1
 font-3 = Hasklig:style=Regular:pixelsize=9;1
 font-4 = Noto Sans Symbols2:style=Regular:pixelsize=9;1
 
-modules-left = bspwm
+modules-left = i3
 modules-right = spotify previous playpause next weather filesystem memory cpu xkeyboard battery wlan pulseaudio calendar date powermenu
 
 tray-position = right
@@ -79,7 +79,7 @@ tray-padding = 2
 ;tray-background = #0063ff
 
 ; wm-restack = bspwm
-wm-restack = bspwm
+wm-restack = i3
 
 ; override-redirect = true
 

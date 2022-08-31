@@ -36,7 +36,7 @@ bindsym $mod+minus resize shrink width 5 px or 5 ppt
 bindsym $mod+q kill
 
 # start program launcher
-bindsym $mod+d exec "rofi -combi-modi window,run -show combi -modi combi -theme Paper"
+bindsym $mod+d exec "~/.config/rofi/launch.sh"
 bindsym $mod+x exec "PINENTRY_PROGRAM=pinentry-rofi rofi-1pass && rofi -modi 1pass:rofi-1pass -show 1pass -theme Paper"
 
 # launch categorized menu
@@ -299,7 +299,7 @@ exec --no-startup-id i3-msg 'workspace 1; exec kitty'
 exec --no-startup-id xautolock -time 20 -locker blurlock
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
-exec --no-startup-id "setxkbmap -layout 'us,rs' -variant ',latin' -option 'grp:lctrl_lwin_toggle'"
+exec --no-startup-id "setxkbmap -layout 'us,rs' -variant ' ,latin' -option 'grp:lctrl_lwin_toggle'"
 exec_always --no-startup-id ~/.config/polybar/start.sh
 
 # Color palette used for the terminal ( ~/.Xresources file )
