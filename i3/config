@@ -29,8 +29,8 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec kitty
 
-bindsym $mod+equal resize grow width 5 px or 5 ppt
-bindsym $mod+minus resize shrink width 5 px or 5 ppt
+bindsym $mod+equal resize grow width 1 px or 1 ppt
+bindsym $mod+minus resize shrink width 1 px or 1 ppt
 
 # kill focused window
 bindsym $mod+q kill
@@ -87,16 +87,18 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $mod+Shift+h mark _last; focus left; swap with mark "_last"; focus left
+bindsym $mod+Shift+j mark _last; focus down; swap with mark "_last"; focus down
+bindsym $mod+Shift+k mark _last; focus up; swap with mark "_last"; focus up
+bindsym $mod+Shift+l mark _last; focus right; swap with mark "_last"; focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+
+bindsym $mod+shift+w exec i3_balance_workspace
 
 # workspace back and forth (with/without active container)
 # workspace_auto_back_and_forth yes
