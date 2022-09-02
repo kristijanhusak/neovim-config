@@ -29,7 +29,7 @@ window {
     location:       center;
     width:          800;
     height:         500;
-    y-offset:       -100;
+    y-offset:       -250;
     border-radius:  8;
 }
 
