@@ -171,6 +171,13 @@ local function lsp_status(severity)
   return ''
 end
 
+local function get_modified_count()
+  local bufnr = vim.api.nvim_get_current_buf()
+  return #vim.tbl_filter(function(buf)
+    return buf.changed and buf.bufnr ~= bufnr
+  end, vim.fn.getbufinfo({ bufmodified = 1, buflisted = 1, bufloaded = 1 }))
+end
+
 local function statusline_active()
   local mode = mode_statusline()
   local git_status = git_statusline()
@@ -179,11 +186,12 @@ local function statusline_active()
   local ft = vim.bo.filetype
   local err = lsp_status('ERROR')
   local warn = lsp_status('WARN')
+  local modified_count = get_modified_count()
   local statusline_sections = {
     sep(mode, st_mode),
     sep(git_status, sec_2, git_status ~= ''),
     sep(get_path(), vim.bo.modified and st_err or sec_2),
-    sep(' + ', st_err, vim.bo.modified),
+    sep(('+%d'):format(modified_count), st_err, modified_count > 0),
     sep(' - ', st_err, not vim.bo.modifiable),
     sep('%w', nil, vim.wo.previewwindow),
     sep('%r', nil, vim.bo.readonly),
