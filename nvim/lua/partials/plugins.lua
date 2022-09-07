@@ -100,10 +100,28 @@ vim.keymap.set('', '#', '<Plug>(asterisk-z#)')
 vim.keymap.set('', 'g*', '<Plug>(asterisk-gz*)')
 vim.keymap.set('', 'g#', '<Plug>(asterisk-gz#)')
 
-vim.keymap.set('n', '<Leader>G', ':vert G<CR>')
+vim.keymap.set('n', '<Leader>G', ':vert G<CR>', { silent = true })
 
-vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>')
-vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>')
+vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>', { silent = true })
+vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>', { silent = true })
+
+vim.keymap.set('n', '<leader>do', function()
+  if vim.t.diffview_view_initialized then
+    return vim.cmd('DiffviewClose')
+  end
+  return vim.cmd('DiffviewOpen')
+end, { silent = true })
+vim.keymap.set('n', '<leader>dh', ':DiffviewFileHistory %<CR>', { silent = true })
+vim.keymap.set('n', '<leader>dc', function()
+  vim.cmd[[DiffviewClose]]
+  vim.cmd[[botright Git commit]]
+end, { silent = true })
+vim.keymap.set('n', '<leader>da', function()
+  vim.cmd[[DiffviewClose]]
+  vim.cmd[[botright Git commit --amend]]
+end, { silent = true })
+vim.keymap.set('n', '<leader>dp', ':Git push<CR>', { silent = true })
+vim.keymap.set('n', '<leader>df', ':Git push --force-with-lease<CR>', { silent = true })
 
 local gitsigns = require('gitsigns')
 
@@ -197,11 +215,11 @@ require('org-bullets').setup({
   concealcursor = true,
   symbols = {
     checkboxes = {
-      half = {'', 'OrgTSCheckboxHalfChecked'},
-      done = { "✓", "OrgDone" },
-      todo = { " ", "OrgTODO" },
-    }
-  }
+      half = { '', 'OrgTSCheckboxHalfChecked' },
+      done = { '✓', 'OrgDone' },
+      todo = { ' ', 'OrgTODO' },
+    },
+  },
 })
 require('numb').setup()
 
