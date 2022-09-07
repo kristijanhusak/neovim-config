@@ -57,6 +57,7 @@ require('packager').setup(function(packager)
     },
   })
   packager.add('github/copilot.vim')
+  packager.add('sindrets/diffview.nvim')
 end)
 
 vim.g.mapleader = ','
