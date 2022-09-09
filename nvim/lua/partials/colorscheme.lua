@@ -9,6 +9,16 @@ vim.cmd([[syntax on]])
 
 local colors = require('onenord.colors').load()
 
+local telescope_normal = colors.active
+local telescope_prompt = colors.float
+
+if vim.o.background == 'light' then
+  -- telescope_prompt = '#f2f3f7'
+  -- telescope_normal = '#eaedf2'
+  telescope_normal = colors.highlight
+  telescope_prompt = colors.active
+end
+
 require('onenord').setup({
   styles = {
     diagnostics = 'undercurl',
@@ -19,6 +29,14 @@ require('onenord').setup({
     match_paren = true,
   },
   custom_highlights = {
+    TelescopeTitle = { bg = telescope_prompt, fg = colors.fg },
+    TelescopeNormal = { bg = telescope_normal },
+    TelescopePromptBorder = { bg = telescope_prompt, fg = telescope_prompt },
+    TelescopePromptNormal = { bg = telescope_prompt },
+    TelescopePromptTitle = { fg = colors.fg, bg = telescope_normal },
+    TelescopeSelection = { bg = telescope_prompt },
+    TelescopePreviewBorder = { fg = telescope_normal, bg = telescope_normal },
+    TelescopeResultsBorder = { fg = telescope_normal, bg = telescope_normal },
     NormalFloat = { bg = colors.bg },
     FloatBorder = { bg = colors.bg },
     SimpleF = { fg = colors.red, bg = colors.diff_add_bg, style = 'bold' },

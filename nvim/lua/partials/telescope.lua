@@ -38,6 +38,9 @@ require('telescope').setup({
       prompt_position = 'top',
     },
     prompt_prefix = '   ',
+    selection_caret = "  ",
+    entry_prefix = "  ",
+    results_title = false,
     sorting_strategy = 'ascending',
     mappings = {
       i = {
