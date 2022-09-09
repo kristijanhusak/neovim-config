@@ -16,6 +16,8 @@ require('onenord').setup({
     functions = 'bold',
   },
   custom_highlights = {
+    NormalFloat = { bg = colors.bg },
+    FloatBorder = { bg = colors.bg },
     SimpleF = { fg = colors.red, bg = colors.diff_add_bg, style = 'bold' },
     fugitiveStagedHeading = { fg = colors.green },
     fugitiveStagedSection = { fg = colors.blue },
