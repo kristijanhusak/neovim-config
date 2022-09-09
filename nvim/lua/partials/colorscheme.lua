@@ -15,6 +15,9 @@ require('onenord').setup({
     comments = 'italic',
     functions = 'bold',
   },
+  inverse = {
+    match_paren = true,
+  },
   custom_highlights = {
     NormalFloat = { bg = colors.bg },
     FloatBorder = { bg = colors.bg },
