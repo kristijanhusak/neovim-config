@@ -37,6 +37,7 @@ require('onenord').setup({
     TelescopeSelection = { bg = telescope_prompt },
     TelescopePreviewBorder = { fg = telescope_normal, bg = telescope_normal },
     TelescopeResultsBorder = { fg = telescope_normal, bg = telescope_normal },
+    MatchParenCur = { fg = colors.blue, style = 'inverse' },
     NormalFloat = { bg = colors.bg },
     FloatBorder = { bg = colors.bg },
     SimpleF = { fg = colors.red, bg = colors.diff_add_bg, style = 'bold' },
