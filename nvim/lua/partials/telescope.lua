@@ -1,6 +1,6 @@
-local telescope = {}
 local builtin = require('telescope.builtin')
 local actions = require('telescope.actions')
+local telescope = require('telescope')
 
 local transform_mod = require('telescope.actions.mt').transform_mod
 local custom_actions = transform_mod({
@@ -24,7 +24,7 @@ local custom_actions = transform_mod({
   end,
 })
 
-require('telescope').setup({
+telescope.setup({
   extensions = {
     fzf = {
       fuzzy = true,
@@ -55,7 +55,8 @@ require('telescope').setup({
   },
 })
 
-require('telescope').load_extension('fzf')
+telescope.load_extension('fzf')
+telescope.load_extension('recent_files')
 
 vim.keymap.set('n', '<C-p>', function()
   return builtin.find_files({ find_command = { 'rg', '--files', '--hidden' } })
@@ -65,11 +66,9 @@ vim.keymap.set('n', '<Leader>b', function()
 end)
 vim.keymap.set('n', '<Leader>t', builtin.lsp_document_symbols)
 vim.keymap.set('n', '<Leader>m', function()
-  return builtin.oldfiles({ include_current_session = true })
+  return telescope.extensions.recent_files.pick()
 end)
 vim.keymap.set('n', '<Leader>g', builtin.git_status)
 
 vim.keymap.set('n', '<Leader>lT', builtin.lsp_dynamic_workspace_symbols)
 vim.keymap.set('n', '<Leader>lt', builtin.current_buffer_tags)
-
-_G.kris.telescope = telescope
