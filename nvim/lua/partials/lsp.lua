@@ -77,31 +77,29 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
-nvim_lsp.sumneko_lua.setup(require('lua-dev').setup({
-  lspconfig = init_setup({
-    settings = {
-      Lua = {
-        runtime = {
-          version = 'LuaJIT',
-          path = runtime_path,
-        },
-        diagnostics = {
-          globals = { 'vim', 'describe', 'it', 'before_each', 'after_each' },
-        },
-        workspace = {
-          library = vim.api.nvim_get_runtime_file('', true),
-          checkThirdParty = false,
-        },
-        telemetry = {
-          enable = false,
-        },
+nvim_lsp.sumneko_lua.setup(init_setup({
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT',
+        path = runtime_path,
+      },
+      diagnostics = {
+        globals = { 'vim', 'describe', 'it', 'before_each', 'after_each' },
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file('', true),
+        checkThirdParty = false,
+      },
+      telemetry = {
+        enable = false,
       },
     },
-    on_attach = function(client, bufnr)
-      disable_lsp_formatting(client)
-      navic.attach(client, bufnr)
-    end,
-  }),
+  },
+  on_attach = function(client, bufnr)
+    disable_lsp_formatting(client)
+    navic.attach(client, bufnr)
+  end,
 }))
 
 dlsconfig.init({ default_config = true })
