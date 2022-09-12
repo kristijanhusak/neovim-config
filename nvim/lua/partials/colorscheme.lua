@@ -13,10 +13,8 @@ local telescope_normal = colors.active
 local telescope_prompt = colors.float
 
 if vim.o.background == 'light' then
-  -- telescope_prompt = '#f2f3f7'
-  -- telescope_normal = '#eaedf2'
-  telescope_normal = colors.highlight
-  telescope_prompt = colors.active
+  telescope_prompt = '#e9ebed'
+  telescope_normal = '#dfe1e5'
 end
 
 require('onenord').setup({
