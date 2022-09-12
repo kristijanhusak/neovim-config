@@ -252,11 +252,7 @@ vim.keymap.set('i', '<Plug>(vimrc:copilot-map)', [[copilot#Accept("\<Tab>")]], {
   expr = true,
   remap = true,
 })
-vim.keymap.set('i', '<C-y>', [[copilot#Accept("\<C-y>")]], {
-  expr = true,
-  remap = true,
-  silent = true,
-})
+vim.cmd[[imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")]]
 vim.g.copilot_no_tab_map = true
 
 vim.g.copilot_filetypes = {
