@@ -67,6 +67,16 @@ eval "$(fnm env)"
 eval $(keychain --eval --quiet ~/.ssh/id_rsa)
 eval $(keychain --eval --quiet ~/.ssh/id_ed25519)
 
+if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
+    alias nvim=nvr -cc split --remote-wait +'set bufhidden=wipe'
+fi
+
+if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
+    export EDITOR="nvr -cc split --remote-wait +'set bufhidden=wipe'"
+else
+    export EDITOR="nvim"
+fi
+
 bindkey '^[[Z' reverse-menu-complete # Use shift tab for backward autocompletion
 
 zle -N zle-line-init
