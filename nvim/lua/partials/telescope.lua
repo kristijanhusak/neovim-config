@@ -36,6 +36,7 @@ telescope.setup({
   defaults = {
     layout_config = {
       prompt_position = 'top',
+      preview_cutoff = 170,
     },
     prompt_prefix = '   ',
     selection_caret = "  ",
