@@ -66,6 +66,11 @@ bindsym $mod+Shift+j mark _last; focus down; swap with mark "_last"; focus down
 bindsym $mod+Shift+k mark _last; focus up; swap with mark "_last"; focus up
 bindsym $mod+Shift+l mark _last; focus right; swap with mark "_last"; focus right
 
+bindsym Mod4+Shift+h move left
+bindsym Mod4+Shift+j move down
+bindsym Mod4+Shift+k move up
+bindsym Mod4+Shift+l move right
+
 bindsym $mod+shift+w exec i3_balance_workspace
 
 # workspace back and forth (with/without active container)
