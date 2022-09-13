@@ -56,7 +56,6 @@ function git.add_commit_prefix_from_branch()
 
   if vim.fn.expand('%') == '.git/COMMIT_EDITMSG' and vim.fn.getline(1) == '' then
     local head = vim.fn['FugitiveHead']()
-    print(head)
     if head and head:find('/') then
       vim.fn.setline(1, '[' .. vim.fn.split(head, '/')[2] .. '] ')
       vim.cmd('startinsert!')
@@ -68,7 +67,9 @@ local git_group = vim.api.nvim_create_augroup('gitcommit', { clear = true })
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'fugitive',
   callback = function()
-    vim.keymap.set('n', '<Space>', '=', { remap = true, silent = true, buffer = true })
+    vim.keymap.set('n', '<Space>', '=zt', { remap = true, silent = true, buffer = true })
+    vim.keymap.set('n', '}', ']m=zt', { remap = true, silent = true, buffer = true })
+    vim.keymap.set('n', '{', '[m=zt', { remap = true, silent = true, buffer = true })
   end,
   group = git_group,
 })
