@@ -2,3 +2,4 @@ set sidebar_format = '%D  %?N?[%N]?'
 set sidebar_width = 25
 
 color sidebar_highlight yellow default
+macro index,pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"

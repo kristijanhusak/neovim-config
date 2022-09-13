@@ -28,6 +28,7 @@ if [[ -r ~/.phpbrew/bashrc ]]; then
 fi
 
 alias n='nvim'
+alias m='neomutt'
 alias install='sudo pacman -S'
 alias search='sudo pacman -Ss'
 alias remove='sudo pacman -R'
