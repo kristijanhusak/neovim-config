@@ -1,0 +1,4 @@
+set sidebar_format = '%D  %?N?[%N]?'
+set sidebar_width = 25
+
+color sidebar_highlight yellow default
