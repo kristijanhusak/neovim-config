@@ -28,7 +28,7 @@ window {
 
     anchor:         north;
     location:       center;
-    width:          40%;
+    width:          800px;
     height:         40%;
     y-offset:      -20%;
     border-radius:  0;
