@@ -58,6 +58,10 @@ install_rofi() {
     && ln -s $(pwd)/rofi ~/.config/rofi
 }
 
+install_mutt() {
+  yay -S neomutt mutt-wizard cyrus-sasl-xoauth2-git
+}
+
 if [[ -z $1 ]]; then
   echo -n "This will delete all your previous nvim, zsh settings. Proceed? (y/n)? "
   read answer
