@@ -59,7 +59,7 @@ install_rofi() {
 }
 
 install_mutt() {
-  yay -S neomutt mutt-wizard cyrus-sasl-xoauth2-git
+  yay -S neomutt mutt-wizard cyrus-sasl-xoauth2-git abook lynx
 }
 
 if [[ -z $1 ]]; then
