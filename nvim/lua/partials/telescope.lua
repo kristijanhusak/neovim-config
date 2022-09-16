@@ -7,7 +7,7 @@ local custom_actions = transform_mod({
   jump_to_symbol = function(prompt_bufnr)
     actions.file_edit(prompt_bufnr)
     local valid_clients = #vim.tbl_filter(function(client)
-      return client.resolved_capabilities.document_symbol
+      return client.server_capabilities.documentSymbolProvider
     end, vim.lsp.get_active_clients()) > 0
 
     if valid_clients then
