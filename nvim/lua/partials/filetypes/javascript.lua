@@ -155,20 +155,6 @@ function javascript.goto_definition()
   vim.cmd([[JsGotoDefinition]])
 end
 
-function javascript.indent()
-  local line = vim.fn.getline(vim.v.lnum)
-  local prev_line = vim.fn.getline(vim.v.lnum - 1)
-  if line:match('^%s*[%*/]%s*') then
-    if prev_line:match('^%s*%*%s*') then
-      return vim.fn.indent(vim.v.lnum - 1)
-    end
-    if prev_line:match('^%s*/%*%*%s*$') then
-      return vim.fn.indent(vim.v.lnum - 1) + 1
-    end
-  end
-  return vim.fn[vim.b.old_indentexpr]()
-end
-
 ---@param organize? boolean
 function javascript.setup_imports(organize)
   local ts = require('typescript').actions
@@ -201,10 +187,6 @@ function javascript.setup()
   vim.keymap.set('n', '<F1>', '<cmd>lua kris.javascript.setup_imports()<CR>', { buffer = true, silent = true })
   vim.keymap.set('n', '<F2>', '<cmd>lua kris.javascript.setup_imports(true)<CR>', { buffer = true, silent = true })
   vim.opt_local.isfname:append('@-@')
-  local ft = vim.bo.filetype:find('javascript') and 'javascript' or 'typescript'
-  vim.cmd(string.format('runtime indent/%s.vim', ft))
-  vim.b.old_indentexpr = vim.bo.indentexpr:gsub('%(%)$', '')
-  vim.bo.indentexpr = 'v:lua.kris.javascript.indent()'
 end
 
 local js_group = vim.api.nvim_create_augroup('custom_javascript', { clear = true })
