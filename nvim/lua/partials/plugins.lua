@@ -57,7 +57,6 @@ require('packager').setup(function(packager)
   })
   packager.add('github/copilot.vim')
   packager.add('sindrets/diffview.nvim')
-  packager.add('kdheepak/lazygit.nvim')
 end)
 
 vim.g.mapleader = ','
@@ -111,7 +110,6 @@ vim.keymap.set('n', '<leader>do', function()
   end
   return vim.cmd('DiffviewOpen')
 end, { silent = true })
-vim.keymap.set('n', '<leader>dd', ':LazyGit<CR>', { silent = true })
 vim.keymap.set('n', '<leader>dh', ':DiffviewFileHistory %<CR>', { silent = true })
 vim.keymap.set('n', '<leader>dc', function()
   vim.cmd[[DiffviewClose]]
