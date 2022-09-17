@@ -174,7 +174,10 @@ end
 local function get_modified_count()
   local bufnr = vim.api.nvim_get_current_buf()
   return #vim.tbl_filter(function(buf)
-    return buf.listed and buf.changed and buf.bufnr ~= bufnr and vim.api.nvim_buf_get_option(buf.bufnr, 'buftype') ~= 'terminal'
+    return buf.listed
+      and buf.changed
+      and buf.bufnr ~= bufnr
+      and vim.api.nvim_buf_get_option(buf.bufnr, 'buftype') ~= 'terminal'
   end, vim.fn.getbufinfo({ bufmodified = 1, buflisted = 1, bufloaded = 1 }))
 end
 

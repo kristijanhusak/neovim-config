@@ -15,9 +15,7 @@ function javascript.console_log()
     fn.cursor(end_line + 1, 0)
   end
   local scope = utils.get_gps_scope(word)
-  vim.cmd(
-    string.format("keepjumps norm!oconsole.log('%s', %s); // eslint-disable-line no-console", scope, word)
-  )
+  vim.cmd(string.format("keepjumps norm!oconsole.log('%s', %s); // eslint-disable-line no-console", scope, word))
   fn['repeat#set'](utils.esc('<Plug>(JsConsoleLog)'))
   fn.winrestview(view)
 end

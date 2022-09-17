@@ -112,12 +112,12 @@ vim.keymap.set('n', '<leader>do', function()
 end, { silent = true })
 vim.keymap.set('n', '<leader>dh', ':DiffviewFileHistory %<CR>', { silent = true })
 vim.keymap.set('n', '<leader>dc', function()
-  vim.cmd[[DiffviewClose]]
-  vim.cmd[[botright Git commit]]
+  vim.cmd([[DiffviewClose]])
+  vim.cmd([[botright Git commit]])
 end, { silent = true })
 vim.keymap.set('n', '<leader>da', function()
-  vim.cmd[[DiffviewClose]]
-  vim.cmd[[botright Git commit --amend]]
+  vim.cmd([[DiffviewClose]])
+  vim.cmd([[botright Git commit --amend]])
 end, { silent = true })
 vim.keymap.set('n', '<leader>dp', ':Git push<CR>', { silent = true })
 vim.keymap.set('n', '<leader>df', ':Git push --force-with-lease<CR>', { silent = true })
@@ -139,8 +139,8 @@ gitsigns.setup({
       opts.buffer = bufnr
       vim.keymap.set(mode, l, r, opts)
     end
-    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
-    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
+    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true, replace_keycodes = false })
+    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true, replace_keycodes = false })
     map({ 'n', 'v' }, '<leader>hs', ':Gitsigns stage_hunk<CR>')
     map({ 'n', 'v' }, '<leader>hr', ':Gitsigns reset_hunk<CR>')
     map('n', '<leader>hS', gitsigns.stage_buffer)
@@ -250,7 +250,7 @@ vim.keymap.set('i', '<Plug>(vimrc:copilot-map)', [[copilot#Accept("\<Tab>")]], {
   expr = true,
   remap = true,
 })
-vim.cmd[[imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")]]
+vim.cmd([[imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")]])
 vim.g.copilot_no_tab_map = true
 
 vim.g.copilot_filetypes = {

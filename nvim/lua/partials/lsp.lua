@@ -117,15 +117,11 @@ end
 
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded', focusable = false })
 
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics,
-  { virtual_text = false }
-)
+vim.lsp.handlers['textDocument/publishDiagnostics'] =
+  vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
 
-vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-  vim.lsp.handlers.signature_help,
-  { border = 'single', focusable = false, silent = true }
-)
+vim.lsp.handlers['textDocument/signatureHelp'] =
+  vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single', focusable = false, silent = true })
 
 local custom_symbol_callback = function(_, result, ctx)
   if not result or vim.tbl_isempty(result) then
@@ -199,8 +195,10 @@ vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration)
 vim.keymap.set('n', '<leader>lg', vim.lsp.buf.implementation)
 vim.keymap.set('n', '<Space>', vim.lsp.buf.hover)
 vim.keymap.set('n', '<leader>lH', lsp.tag_signature)
-vim.keymap.set('n', '<leader>lf', vim.lsp.buf.formatting)
-vim.keymap.set('v', '<leader>lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>', { silent = true })
+vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
+vim.keymap.set('v', '<leader>lf', function()
+  return vim.lsp.buf.format()
+end, { silent = true })
 vim.keymap.set('n', '<leader>li', vim.lsp.buf.incoming_calls)
 vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls)
 vim.keymap.set('n', '<leader>lt', vim.lsp.buf.document_symbol)
