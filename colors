@@ -24,6 +24,7 @@ def set_env(background):
     os.system('kitty @ set-colors --all --configured ' + color_file)
     cmd = ['export NVIM_COLORSCHEME_BG=' + background]
     cmd += ['export NVIM_COLORSCHEME=' + colorschemes[background]]
+    cmd += ['python ~/neovim-config/kitty/reload_colors.py']
     return cmd
 
 if Path(color_file).exists():
