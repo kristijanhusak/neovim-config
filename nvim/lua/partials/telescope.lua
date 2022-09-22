@@ -10,7 +10,7 @@ local custom_actions = transform_mod({
       return client.server_capabilities.documentSymbolProvider
     end, vim.lsp.get_active_clients()) > 0
 
-    if valid_clients and vim.lsp.buf.server_reaady() then
+    if valid_clients and vim.lsp.buf.server_ready() then
       return builtin.lsp_document_symbols()
     end
 

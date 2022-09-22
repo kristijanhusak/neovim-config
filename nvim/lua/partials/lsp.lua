@@ -4,6 +4,7 @@ local navic = require('nvim-navic')
 local utils = require('partials.utils')
 local dlsconfig = require('diagnosticls-configs')
 local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostics')
+local telescope = require('telescope.builtin')
 
 local filetypes = {
   'javascript',
@@ -35,7 +36,9 @@ function lsp.setup()
   if vim.bo.filetype ~= 'terraform' then
     vim.api.nvim_create_autocmd('CursorHoldI', {
       buffer = 0,
-      callback = vim.lsp.buf.signature_help,
+      callback = function()
+        vim.defer_fn(vim.lsp.buf.signature_help, 300)
+      end,
     })
   end
 end
@@ -189,10 +192,11 @@ function lsp.refresh_diagnostics()
   end
 end
 
-vim.keymap.set('n', '<leader>ld', vim.lsp.buf.definition)
+vim.keymap.set('n', '<leader>ld', telescope.lsp_definitions)
+vim.keymap.set('n', '<leader>lw', telescope.lsp_type_definitions)
 vim.keymap.set('n', '<leader>lu', vim.lsp.buf.references)
 vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration)
-vim.keymap.set('n', '<leader>lg', vim.lsp.buf.implementation)
+vim.keymap.set('n', '<leader>lg', telescope.lsp_implementations)
 vim.keymap.set('n', '<Space>', vim.lsp.buf.hover)
 vim.keymap.set('n', '<leader>lH', lsp.tag_signature)
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
