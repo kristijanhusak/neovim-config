@@ -51,6 +51,10 @@ alias lg="lazygit"
 alias resetbg="colors"
 alias togglebg="colors toggle"
 alias ggf=ggfl
+alias cpuavailablemodes='cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_available_governors'
+alias cpucurrentmode='cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
+alias cpusetperformance='echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
+alias cpusetpowersave='echo powersave | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 
 export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin:~/.cargo/bin:~/.local/share/neovim/bin:/home/kristijan/.meteor
 export LESS=R
