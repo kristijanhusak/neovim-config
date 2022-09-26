@@ -29,7 +29,7 @@ local function add_title_to_win(winnr, bufnr, title)
 end
 
 local function get_win_width(value_length, opts)
-  return math.max(value_length + 5, (opts.prompt and opts.prompt:len() + 5 or 0))
+  return math.max(value_length + 10, (opts.prompt and opts.prompt:len() + 10 or 0))
 end
 
 vim.ui.select = function(items, opts, on_choice)
