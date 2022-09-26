@@ -219,8 +219,9 @@ vim.keymap.set('n', ']g', function()
   return vim.diagnostic.goto_next({ float = false })
 end)
 vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action)
-vim.keymap.set('v', '<Leader>la', vim.lsp.buf.range_code_action)
-vim.keymap.set('v', '<Leader>la', ':<C-u>lua vim.lsp.buf.range_code_action()<CR>', { silent = true })
+vim.keymap.set('x', '<Leader>la', function()
+  return vim.lsp.buf.code_action()
+end)
 
 vim.cmd([[
   sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=

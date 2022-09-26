@@ -65,6 +65,9 @@ vim.ui.select = function(items, opts, on_choice)
   end
 
   vim.api.nvim_set_current_win(winnr)
+  if vim.fn.mode():lower() == 'v' then
+    vim.api.nvim_feedkeys(utils.esc('<Esc>'), 'n', false)
+  end
   vim.keymap.set('n', '<CR>', kris.ui.on_select, { buffer = bufnr })
 end
 
