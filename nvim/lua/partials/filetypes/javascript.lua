@@ -131,26 +131,16 @@ function javascript.generate_getter_setter()
 end
 
 function javascript.goto_definition()
-  local params = vim.lsp.util.make_position_params()
   local line = vim.fn.line('.')
   local bufnr = vim.api.nvim_get_current_buf()
-  local result = vim.lsp.buf_request_sync(0, 'textDocument/definition', params, 100)
-  local client_id = nil
-  if result then
-    client_id = vim.tbl_keys(result)[1]
-    result = vim.tbl_values(result)
-  end
-  if result and not vim.tbl_isempty(result) and result[1].result and not vim.tbl_isempty(result[1].result) then
-    vim.lsp.handlers['textDocument/definition'](nil, result[1].result, {
-      client_id = client_id,
-      bufnr = 0,
-      method = 'textDocument/definition',
-    })
-  end
-  if line ~= vim.fn.line('.') or bufnr ~= vim.api.nvim_get_current_buf() then
-    return
-  end
-  vim.cmd([[JsGotoDefinition]])
+  require('telescope.builtin').lsp_definitions()
+
+  vim.defer_fn(function()
+    -- We didn't jump anywhere in 300ms, fallback to JsGotoDefinition
+    if line == vim.fn.line('.') and bufnr == vim.api.nvim_get_current_buf() then
+      vim.cmd([[JsGotoDefinition]])
+    end
+  end, 300)
 end
 
 ---@param organize? boolean
