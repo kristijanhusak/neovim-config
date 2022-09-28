@@ -2,9 +2,9 @@ local lsp = {}
 local nvim_lsp = require('lspconfig')
 local navic = require('nvim-navic')
 local utils = require('partials.utils')
-local dlsconfig = require('diagnosticls-configs')
 local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostics')
 local telescope = require('telescope.builtin')
+local null_ls = require('null-ls')
 
 local filetypes = {
   'javascript',
@@ -105,8 +105,32 @@ nvim_lsp.sumneko_lua.setup(init_setup({
   end,
 }))
 
-dlsconfig.init({ default_config = true })
-dlsconfig.setup()
+null_ls.setup({
+  diagnostic_config = {
+    virtual_text = false,
+  },
+  sources = {
+    -- Code actions
+    null_ls.builtins.code_actions.eslint,
+
+    -- Diagnostics
+    null_ls.builtins.diagnostics.eslint,
+    null_ls.builtins.diagnostics.sqlfluff.with({
+      extra_args = { '--dialect', 'postgres' },
+    }),
+
+    -- Formatters
+    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.formatting.stylua,
+    null_ls.builtins.formatting.sqlfluff.with({
+      extra_args = { '--dialect', 'postgres' },
+    }),
+  },
+})
+
+vim.diagnostic.config({
+  virtual_text = false,
+})
 
 vim.lsp.handlers['_typescript.rename'] = function(_, result)
   if not result then
@@ -119,9 +143,6 @@ vim.lsp.handlers['_typescript.rename'] = function(_, result)
 end
 
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded', focusable = false })
-
-vim.lsp.handlers['textDocument/publishDiagnostics'] =
-  vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false })
 
 vim.lsp.handlers['textDocument/signatureHelp'] =
   vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single', focusable = false, silent = true })
