@@ -6,7 +6,6 @@ require('packager').setup(function(packager)
   packager.add('kristijanhusak/vim-js-file-import', { ['do'] = 'npm install', type = 'opt' })
   packager.add('numToStr/Comment.nvim')
   packager.add('kylechui/nvim-surround')
-  packager.add('vim-scripts/ReplaceWithRegister')
   packager.add('tpope/vim-repeat')
   packager.add('tpope/vim-fugitive')
   packager.add('tpope/vim-sleuth')
@@ -159,7 +158,9 @@ gitsigns.setup({
 require('Comment').setup({})
 require('pqf').setup()
 require('orgmode').setup(require('partials.orgmode_config'))
-require('notifier').setup()
+require('notifier').setup({
+  components = { 'lsp' },
+})
 
 require('nvim-tree').setup({
   hijack_unnamed_buffer_when_opening = false,
