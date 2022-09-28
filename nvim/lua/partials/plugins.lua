@@ -43,7 +43,7 @@ require('packager').setup(function(packager)
   packager.add('jose-elias-alvarez/null-ls.nvim')
   packager.add('SmiteshP/nvim-navic')
   packager.add('antoinemadec/FixCursorHold.nvim')
-  packager.add('j-hui/fidget.nvim')
+  packager.add('vigoux/notifier.nvim')
   packager.add('jose-elias-alvarez/typescript.nvim')
   packager.add('https://gitlab.com/yorickpeterse/nvim-pqf')
   packager.add('hrsh7th/nvim-cmp', {
@@ -159,9 +159,7 @@ gitsigns.setup({
 require('Comment').setup({})
 require('pqf').setup()
 require('orgmode').setup(require('partials.orgmode_config'))
-require('fidget').setup({
-  text = { spinner = 'dots' },
-})
+require('notifier').setup()
 
 require('nvim-tree').setup({
   hijack_unnamed_buffer_when_opening = false,
