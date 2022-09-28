@@ -91,7 +91,6 @@ nvim_lsp.sumneko_lua.setup(init_setup({
         globals = { 'vim', 'describe', 'it', 'before_each', 'after_each' },
       },
       workspace = {
-        library = vim.api.nvim_get_runtime_file('', true),
         checkThirdParty = false,
       },
       telemetry = {
