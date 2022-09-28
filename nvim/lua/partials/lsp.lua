@@ -111,16 +111,16 @@ null_ls.setup({
   },
   sources = {
     -- Code actions
-    null_ls.builtins.code_actions.eslint,
+    null_ls.builtins.code_actions.eslint_d,
 
     -- Diagnostics
-    null_ls.builtins.diagnostics.eslint,
+    null_ls.builtins.diagnostics.eslint_d,
     null_ls.builtins.diagnostics.sqlfluff.with({
       extra_args = { '--dialect', 'postgres' },
     }),
 
     -- Formatters
-    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.formatting.prettierd,
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.formatting.sqlfluff.with({
       extra_args = { '--dialect', 'postgres' },
