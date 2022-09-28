@@ -1,4 +1,4 @@
-return {
+local orgmode_config = {
   org_agenda_files = '~/orgfiles/**/*',
   org_default_notes_file = '~/orgfiles/refile.org',
   org_hide_emphasis_markers = true,
@@ -49,3 +49,28 @@ return {
     end,
   },
 }
+
+local orgmode = {
+  install = function(packager)
+    packager.add('nvim-orgmode/orgmode')
+    packager.add('akinsho/org-bullets.nvim')
+  end,
+  orgmode_config = orgmode_config,
+}
+
+orgmode.setup = function()
+  require('orgmode').setup(orgmode_config)
+  require('org-bullets').setup({
+    concealcursor = true,
+    symbols = {
+      checkboxes = {
+        half = { '', 'OrgTSCheckboxHalfChecked' },
+        done = { '✓', 'OrgDone' },
+        todo = { ' ', 'OrgTODO' },
+      },
+    },
+  })
+  return orgmode
+end
+
+return orgmode
