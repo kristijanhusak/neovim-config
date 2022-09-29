@@ -7,6 +7,9 @@ local function do_print()
   local view = fn.winsaveview()
   local word = fn.expand('<cword>')
   local scope = utils.get_gps_scope(word)
+  if not scope:match(vim.pesc(word)..'$') then
+    scope = ('%s > %s'):format(scope, word)
+  end
   vim.cmd(string.format("keepjumps norm!oprint('%s', vim.inspect(%s))", scope, word))
   fn.winrestview(view)
 end
