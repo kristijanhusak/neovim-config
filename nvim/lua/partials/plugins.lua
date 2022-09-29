@@ -16,8 +16,16 @@ local custom_plugins = {
   'partials.plugins.notifier',
 }
 
+local plugin_errors = {}
 for _, plugin in ipairs(custom_plugins) do
-  pcall(require(plugin).setup)
+  local ok = pcall(require(plugin).setup)
+  if not ok then
+    table.insert(plugin_errors, plugin)
+  end
+end
+
+if #plugin_errors > 0 then
+  vim.notify(('Error loading plugins:\n%s'):format(table.concat(plugin_errors, '\n')), vim.log.levels.WARN)
 end
 
 require('packager').setup(function(packager)
