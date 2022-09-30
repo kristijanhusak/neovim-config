@@ -27,6 +27,7 @@ require('onenord').setup({
     match_paren = true,
   },
   custom_highlights = {
+    CurSearch = { fg = colors.cyan, bg = colors.selection, style = 'bold' },
     TelescopeTitle = { bg = telescope_prompt, fg = colors.fg },
     TelescopeNormal = { bg = telescope_normal },
     TelescopePromptBorder = { bg = telescope_prompt, fg = telescope_prompt },
