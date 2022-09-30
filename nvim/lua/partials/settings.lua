@@ -126,4 +126,28 @@ vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'WinLeave'
   group = vimrc_group,
 })
 
+vim.opt.wildignore = {
+  '*.o',
+  '*.obj,*~',
+  '*.git*',
+  '*.meteor*',
+  '*vim/backups*',
+  '*sass-cache*',
+  '*mypy_cache*',
+  '*__pycache__*',
+  '*cache*',
+  '*logs*',
+  '*node_modules*',
+  '**/node_modules/**',
+  '*DS_Store*',
+  '*.gem',
+  'log/**',
+  'tmp/**',
+}
+
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
+  pattern = '.env*',
+  command = 'set filetype=conf',
+})
+
 _G.kris.settings = settings

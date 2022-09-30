@@ -3,6 +3,7 @@ vim.cmd([[packadd vim-packager]])
 vim.g.mapleader = ','
 
 local custom_plugins = {
+  'partials.plugins.treesitter',
   'partials.plugins.orgmode',
   'partials.plugins.comment',
   'partials.plugins.surround',
@@ -14,6 +15,7 @@ local custom_plugins = {
   'partials.plugins.indent_blankline',
   'partials.plugins.pqf',
   'partials.plugins.notifier',
+  'partials.plugins.completion',
 }
 
 local plugin_errors = {}
@@ -51,10 +53,6 @@ require('packager').setup(function(packager)
   packager.add('stefandtw/quickfix-reflector.vim')
   packager.add('wakatime/vim-wakatime')
   packager.add('neovim/nvim-lspconfig')
-  packager.add('nvim-treesitter/nvim-treesitter')
-  packager.add('nvim-treesitter/nvim-treesitter-refactor')
-  packager.add('nvim-treesitter/nvim-treesitter-textobjects')
-  packager.add('nvim-treesitter/playground')
   packager.add('hrsh7th/vim-vsnip')
   packager.add('puremourning/vimspector')
   packager.add('Raimondi/delimitMate')
@@ -65,16 +63,6 @@ require('packager').setup(function(packager)
   packager.add('antoinemadec/FixCursorHold.nvim')
   packager.add('jose-elias-alvarez/typescript.nvim')
   packager.add('https://gitlab.com/yorickpeterse/nvim-pqf')
-  packager.add('hrsh7th/nvim-cmp', {
-    requires = {
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-vsnip',
-      'quangnguyen30192/cmp-nvim-tags',
-      'lukas-reineke/cmp-rg',
-    },
-  })
   packager.add('github/copilot.vim')
   packager.add('sindrets/diffview.nvim')
 end)
@@ -91,11 +79,6 @@ vim.api.nvim_create_autocmd('FileType', {
   group = plugins_group,
 })
 vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
-
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
-  pattern = '.env*',
-  command = 'set filetype=conf',
-})
 
 vim.keymap.set('n', '<Leader><space>', ':noh<CR>')
 
@@ -146,8 +129,6 @@ vim.g.vsnip_filetypes = {
 vim.g.js_file_import_use_telescope = 1
 
 vim.g.delimitMate_expand_cr = 1
-
-vim.g.tagalong_mappings = { 'c', 'C', 'i', 'a' }
 
 vim.g.db_ui_hide_schemas = { 'pg_toast_temp.*' }
 

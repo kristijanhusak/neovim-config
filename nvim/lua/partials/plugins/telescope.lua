@@ -1,8 +1,4 @@
-local builtin = require('telescope.builtin')
-local actions = require('telescope.actions')
-local telescope = require('telescope')
-
-local function setup_mappings()
+local function setup_mappings(telescope, builtin)
   vim.keymap.set('n', '<C-p>', function()
     return builtin.find_files({ find_command = { 'rg', '--files', '--hidden' } })
   end)
@@ -19,7 +15,7 @@ local function setup_mappings()
   vim.keymap.set('n', '<Leader>lt', builtin.current_buffer_tags)
 end
 
-local function setup_custom_actions()
+local function setup_custom_actions(actions, builtin)
   local transform_mod = require('telescope.actions.mt').transform_mod
   return transform_mod({
     jump_to_symbol = function(prompt_bufnr)
@@ -51,7 +47,10 @@ local ts = {
   end,
 }
 ts.setup = function()
-  local custom_actions = setup_custom_actions()
+  local builtin = require('telescope.builtin')
+  local actions = require('telescope.actions')
+  local telescope = require('telescope')
+  local custom_actions = setup_custom_actions(actions, builtin)
 
   telescope.setup({
     extensions = {
@@ -87,7 +86,7 @@ ts.setup = function()
 
   telescope.load_extension('fzf')
   telescope.load_extension('recent_files')
-  setup_mappings()
+  setup_mappings(telescope, builtin)
   return ts
 end
 
