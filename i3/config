@@ -6,7 +6,7 @@ include ~/.config/i3/local
 set $mod Mod1
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
-new_window pixel 1
+new_window pixel 2
 new_float normal
 
 # Hide borders
