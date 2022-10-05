@@ -37,7 +37,7 @@ function lsp.setup()
     vim.api.nvim_create_autocmd('CursorHoldI', {
       buffer = 0,
       callback = function()
-        vim.defer_fn(vim.lsp.buf.signature_help, 300)
+        vim.defer_fn(vim.lsp.buf.signature_help, 1000)
       end,
     })
   end
