@@ -14,7 +14,6 @@ local custom_plugins = {
   'partials.plugins.nvim_tree',
   'partials.plugins.indent_blankline',
   'partials.plugins.pqf',
-  'partials.plugins.notifier',
   'partials.plugins.completion',
 }
 

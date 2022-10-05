@@ -3,6 +3,10 @@ local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clea
 vim.o.statusline = '%!v:lua.kris.statusline.setup()'
 
 local c = {}
+local lsp = {
+  message = '',
+  printed_done = false,
+}
 
 function statusline.set_colors()
   c.normal_bg = vim.fn.synIDattr(vim.fn.hlID('Normal'), 'bg')
@@ -22,10 +26,41 @@ function statusline.set_colors()
   vim.cmd('hi StWarnSep guifg=' .. c.warning_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
 end
 
+local function print_lsp_progress()
+  local message = vim.lsp.util.get_progress_messages()[1]
+  if message and not lsp.printed_done then
+    local percentage = message.percentage or 0
+    local message_text = ''
+    local percentage_text = ''
+    if percentage > 0 then
+      percentage_text = (' - %d%%%%'):format(percentage)
+    end
+    if message.message then
+      message_text = (' (%s)'):format(message.message)
+    end
+    lsp.message = ('%s: %s%s%s'):format(message.name, message.title, message_text, percentage_text)
+    if message.done then
+      vim.defer_fn(function()
+        lsp.printed_done = true
+        print_lsp_progress()
+      end, 300)
+    end
+  else
+    lsp.message = ''
+    lsp.printed_done = false
+  end
+end
+
 vim.api.nvim_create_autocmd({ 'VimEnter', 'ColorScheme' }, {
   group = statusline_group,
   pattern = '*',
   callback = statusline.set_colors,
+})
+
+vim.api.nvim_create_autocmd({ 'User' }, {
+  group = statusline_group,
+  pattern = 'LspProgressUpdate',
+  callback = print_lsp_progress,
 })
 
 local function sep(item, opts, show)
@@ -202,6 +237,7 @@ local function statusline_active()
     sep(db_ui, sec_2, db_ui ~= ''),
     '%<',
     '%=',
+    sep(lsp.message, vim.tbl_extend('keep', { side = 'right' }, sec_2), lsp.message ~= ''),
     sep(search, vim.tbl_extend('keep', { side = 'right' }, sec_2), search ~= ''),
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
     sep('%l:%c', st_mode_right),
