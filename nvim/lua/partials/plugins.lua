@@ -15,6 +15,7 @@ local custom_plugins = {
   'partials.plugins.indent_blankline',
   'partials.plugins.pqf',
   'partials.plugins.completion',
+  'partials.plugins.folds',
 }
 
 local plugin_errors = {}

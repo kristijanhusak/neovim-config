@@ -41,6 +41,8 @@ function lsp.setup()
       end,
     })
   end
+  vim.opt.foldmethod = 'expr'
+  vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 end
 
 local function init_setup(opts)

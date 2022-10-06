@@ -41,8 +41,6 @@ vim.opt.smartindent = true
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.shiftround = true
-vim.opt.foldmethod = 'syntax'
-vim.opt.foldenable = false
 vim.opt.diffopt:append('vertical')
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 15
