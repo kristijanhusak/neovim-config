@@ -47,6 +47,7 @@ vim.opt.sidescrolloff = 15
 vim.opt.sidescroll = 5
 vim.opt.pyxversion = 3
 vim.opt.matchtime = 0
+vim.opt.splitkeep = 'screen'
 vim.g.python3_host_prog = '/usr/bin/python3'
 
 function settings.strip_trailing_whitespace()
