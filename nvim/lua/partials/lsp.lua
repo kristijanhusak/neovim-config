@@ -52,6 +52,9 @@ local function init_setup(opts)
     },
     on_attach = function(client, bufnr)
       navic.attach(client, bufnr)
+      if opts.disableFormatting then
+        disable_lsp_formatting(client)
+      end
     end,
   }, opts or {})
 end
@@ -65,10 +68,7 @@ typescript_nvim.setup({
         quotePreference = 'single',
       },
     },
-    on_attach = function(client, bufnr)
-      disable_lsp_formatting(client)
-      navic.attach(client, bufnr)
-    end,
+    disableFormatting = true,
   }),
 })
 
@@ -100,10 +100,7 @@ nvim_lsp.sumneko_lua.setup(init_setup({
       },
     },
   },
-  on_attach = function(client, bufnr)
-    disable_lsp_formatting(client)
-    navic.attach(client, bufnr)
-  end,
+  disableFormatting = true,
 }))
 
 null_ls.setup({
