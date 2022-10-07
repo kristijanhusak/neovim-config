@@ -11,7 +11,10 @@ folds.setup = function()
   vim.o.foldenable = true
   local ufo = require('ufo')
   ufo.setup({
-    provider_selector = function()
+    provider_selector = function(_, filetype)
+      if filetype == 'org' then
+        return ''
+      end
       return { 'treesitter', 'indent' }
     end,
   })
