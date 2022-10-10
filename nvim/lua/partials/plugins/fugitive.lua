@@ -14,6 +14,8 @@ fugitive.setup = function()
     end,
     group = git_group,
   })
+  vim.keymap.set('n', '<Leader>G', ':vert G<CR>', { silent = true })
+
   return fugitive
 end
 

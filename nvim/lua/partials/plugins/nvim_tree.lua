@@ -56,7 +56,6 @@ nvim_tree.setup = function()
     group = nvim_tree_augroup,
   })
 
-
   vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>', { silent = true })
   vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>', { silent = true })
 

@@ -30,6 +30,8 @@ javascript.setup = function()
   vim.api.nvim_set_keymap('n', '<Plug>(JsGenerateDocblock)', handlers.generate_docblock)
   vim.api.nvim_set_keymap('n', '<Plug>(JsGotoFile)', handlers.goto_file)
 
+  vim.g.js_file_import_use_telescope = 1
+
   return javascript
 end
 

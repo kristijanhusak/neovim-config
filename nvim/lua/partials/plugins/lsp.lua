@@ -56,7 +56,6 @@ function setup.configure()
   ]])
 end
 
-
 function setup.mappings()
   local telescope = require('telescope.builtin')
   vim.keymap.set('n', '<leader>ld', telescope.lsp_definitions)
