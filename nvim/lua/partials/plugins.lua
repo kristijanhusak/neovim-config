@@ -21,6 +21,7 @@ local custom_plugins = {
   'partials.plugins.folds',
   'partials.plugins.db',
   'partials.plugins.vimspector',
+  'partials.plugins.javascript',
 }
 
 local plugin_errors = {}
@@ -42,7 +43,6 @@ require('packager').setup(function(packager)
     require(plugin).install(packager)
   end
 
-  packager.add('kristijanhusak/vim-js-file-import', { ['do'] = 'npm install', type = 'opt' })
   packager.add('tpope/vim-repeat')
   packager.add('tpope/vim-sleuth')
   packager.add('tpope/vim-abolish')
@@ -63,15 +63,7 @@ require('packager').setup(function(packager)
   packager.add('sindrets/diffview.nvim')
 end)
 
-local plugins_group = vim.api.nvim_create_augroup('packager_filetype', { clear = true })
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-  command = [[packadd vim-js-file-import | exe 'runtime ftplugin/'.&ft.'.vim']],
-  group = plugins_group,
-})
 vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
-
-vim.keymap.set('n', '<Leader><space>', ':noh<CR>')
 
 vim.keymap.set('n', 'n', 'nzz')
 vim.keymap.set('n', 'N', 'Nzz')

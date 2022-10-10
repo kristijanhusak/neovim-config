@@ -1,9 +1,56 @@
-local javascript = {}
-local fn = vim.fn
+local js_group = vim.api.nvim_create_augroup('custom_javascript', { clear = true })
 local utils = require('partials.utils')
-local ts_utils = require('nvim-treesitter.ts_utils')
+local fn = vim.fn
 
-function javascript.console_log()
+local setup = {}
+local handlers = {}
+
+local javascript = {
+  install = function(packager)
+    return packager.add('kristijanhusak/vim-js-file-import', { ['do'] = 'npm install', type = 'opt' })
+  end,
+}
+javascript.setup = function()
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+    command = [[packadd vim-js-file-import | exe 'runtime ftplugin/'.&ft.'.vim']],
+    group = js_group,
+  })
+
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+    callback = setup.buffer,
+    group = js_group,
+  })
+
+  vim.api.nvim_create_user_command('JsGenGetSet', setup.generate_getter_setter, { force = true })
+
+  vim.api.nvim_set_keymap('n', '<Plug>(JsConsoleLog)', handlers.console_log)
+  vim.api.nvim_set_keymap('n', '<Plug>(JsInjectDependency)', handlers.inject_dependency)
+  vim.api.nvim_set_keymap('n', '<Plug>(JsGenerateDocblock)', handlers.generate_docblock)
+  vim.api.nvim_set_keymap('n', '<Plug>(JsGotoFile)', handlers.goto_file)
+
+  return javascript
+end
+
+function setup.buffer()
+  vim.keymap.set('n', '<C-]>', handlers.goto_definition, { remap = true, buffer = true })
+  vim.keymap.set('x', '<C-]>', '<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
+  vim.keymap.set('n', '<Leader>]', '<C-W>v<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
+  vim.keymap.set('x', '<Leader>]', '<C-W>vgv<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
+  vim.keymap.set('n', '<Leader>ll', '<Plug>(JsConsoleLog)', { remap = true, buffer = true })
+  vim.keymap.set('n', '<Leader>d', '<Plug>(JsInjectDependency)', { remap = true, buffer = true })
+  vim.keymap.set('n', '<Leader>D', '<Plug>(JsGenerateDocblock)', { remap = true, buffer = true })
+  vim.keymap.set('n', 'gf', '<Plug>(JsGotoFile)', { remap = true, buffer = true })
+  vim.keymap.set('n', '<F1>', handlers.setup_imports, { buffer = true, silent = true })
+  vim.keymap.set('n', '<F2>', function()
+    return handlers.setup_imports(true)
+  end, { buffer = true, silent = true })
+  vim.opt_local.isfname:append('@-@')
+end
+
+function handlers.console_log()
+  local ts_utils = require('nvim-treesitter.ts_utils')
   local view = fn.winsaveview()
   local word = fn.expand('<cword>')
   local node = ts_utils.get_node_at_cursor()
@@ -15,7 +62,7 @@ function javascript.console_log()
     fn.cursor(end_line + 1, 0)
   end
   local scope = utils.get_gps_scope(word)
-  if not scope:match(vim.pesc(word)..'$') then
+  if not scope:match(vim.pesc(word) .. '$') then
     scope = ('%s > %s'):format(scope, word)
   end
   vim.cmd(string.format("keepjumps norm!oconsole.log('%s', %s); // eslint-disable-line no-console", scope, word))
@@ -23,7 +70,7 @@ function javascript.console_log()
   fn.winrestview(view)
 end
 
-function javascript.inject_dependency()
+function handlers.inject_dependency()
   local view = fn.winsaveview()
   local word = fn.expand('<cword>')
   vim.api.nvim_exec([[let g:js_inject_dependency_old_reg = getreg('@z')]], false)
@@ -64,7 +111,8 @@ function javascript.inject_dependency()
   fn['repeat#set'](utils.esc('<Plug>(JsInjectDependency)'))
 end
 
-function javascript.generate_docblock()
+function handlers.generate_docblock()
+  local ts_utils = require('nvim-treesitter.ts_utils')
   local node = ts_utils.get_node_at_cursor()
   if not node then
     return
@@ -91,7 +139,7 @@ function javascript.generate_docblock()
   fn.append(fn.line('.') - 1, content)
 end
 
-function javascript.goto_file()
+function handlers.goto_file()
   local full_path = fn.printf('%s/%s', fn.expand('%:p:h'), fn.expand('<cfile>'))
   local stats = vim.loop.fs_stat(full_path)
   if not stats or stats.type ~= 'directory' then
@@ -106,7 +154,7 @@ function javascript.goto_file()
   end
 end
 
-function javascript.generate_getter_setter()
+function handlers.generate_getter_setter()
   local word = vim.fn.input('Enter word: ', vim.fn.expand('<cword>'))
   local type = vim.fn.input('Enter type: ', 'any')
   local capitalized = word:gsub('^%l', string.upper)
@@ -133,7 +181,7 @@ function javascript.generate_getter_setter()
   vim.api.nvim_feedkeys(utils.esc('<leader>lf'), 'v', true)
 end
 
-function javascript.goto_definition()
+function handlers.goto_definition()
   local line = vim.fn.line('.')
   local bufnr = vim.api.nvim_get_current_buf()
   require('telescope.builtin').lsp_definitions()
@@ -147,7 +195,7 @@ function javascript.goto_definition()
 end
 
 ---@param organize? boolean
-function javascript.setup_imports(organize)
+function handlers.setup_imports(organize)
   local ts = require('typescript').actions
   ts.removeUnused({ sync = true })
   ts.addMissingImports({ sync = true })
@@ -157,36 +205,4 @@ function javascript.setup_imports(organize)
   end
 end
 
-vim.cmd([[nnoremap <silent><Plug>(JsConsoleLog) :<C-u>call v:lua.kris.javascript.console_log()<CR>]])
-vim.cmd(
-  [[nnoremap <nowait><silent><Plug>(JsInjectDependency) :<C-u>call v:lua.kris.javascript.inject_dependency()<CR>]]
-)
-vim.cmd(
-  [[nnoremap <nowait><silent><Plug>(JsGenerateDocblock) :<C-u>call v:lua.kris.javascript.generate_docblock()<CR>]]
-)
-vim.cmd([[nnoremap <nowait><Plug>(JsGotoFile) :<C-u>call v:lua.kris.javascript.goto_file()<CR>]])
-
-function javascript.setup()
-  vim.keymap.set('n', '<C-]>', ':call v:lua.kris.javascript.goto_definition()<CR>', { remap = true, buffer = true })
-  vim.keymap.set('x', '<C-]>', '<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
-  vim.keymap.set('n', '<Leader>]', '<C-W>v<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
-  vim.keymap.set('x', '<Leader>]', '<C-W>vgv<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
-  vim.keymap.set('n', '<Leader>ll', '<Plug>(JsConsoleLog)', { remap = true, buffer = true })
-  vim.keymap.set('n', '<Leader>d', '<Plug>(JsInjectDependency)', { remap = true, buffer = true })
-  vim.keymap.set('n', '<Leader>D', '<Plug>(JsGenerateDocblock)', { remap = true, buffer = true })
-  vim.keymap.set('n', 'gf', '<Plug>(JsGotoFile)', { remap = true, buffer = true })
-  vim.keymap.set('n', '<F1>', '<cmd>lua kris.javascript.setup_imports()<CR>', { buffer = true, silent = true })
-  vim.keymap.set('n', '<F2>', '<cmd>lua kris.javascript.setup_imports(true)<CR>', { buffer = true, silent = true })
-  vim.opt_local.isfname:append('@-@')
-end
-
-local js_group = vim.api.nvim_create_augroup('custom_javascript', { clear = true })
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-  callback = javascript.setup,
-  group = js_group,
-})
-
-vim.api.nvim_create_user_command('JsGenGetSet', javascript.generate_getter_setter, { force = true })
-
-_G.kris.javascript = javascript
+return javascript

@@ -29,6 +29,8 @@ vim.keymap.set('n', 'k', 'gk')
 -- Map for Escape key in terminal
 vim.keymap.set('t', '<Leader>jj', '<C-\\><C-n>')
 
+vim.keymap.set('n', '<Leader><space>', ':noh<CR>')
+
 local mapping_group = vim.api.nvim_create_augroup('vimrc_terminal_mappings', { clear = true })
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
