@@ -22,6 +22,7 @@ local custom_plugins = {
   'partials.plugins.db',
   'partials.plugins.vimspector',
   'partials.plugins.javascript',
+  'partials.plugins.diffview',
 }
 
 local plugin_errors = {}
