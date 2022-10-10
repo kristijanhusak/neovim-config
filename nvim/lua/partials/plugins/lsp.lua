@@ -1,5 +1,6 @@
 local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostics')
 local utils = require('partials.utils')
+local lsp_group = vim.api.nvim_create_augroup('vimrc_lsp', { clear = true })
 
 local setup = {}
 
@@ -12,14 +13,6 @@ local lsp = {
   end,
 }
 lsp.setup = function()
-  local lsp_group = vim.api.nvim_create_augroup('vimrc_lsp', { clear = true })
-  vim.api.nvim_create_autocmd('LspAttach', {
-    callback = function(args)
-      setup.attach_to_buffer(args.buf)
-    end,
-    group = lsp_group,
-  })
-
   setup.configure()
   setup.mappings()
   setup.servers()
@@ -100,6 +93,7 @@ function setup.servers()
       },
       on_attach = function(client, bufnr)
         navic.attach(client, bufnr)
+        setup.attach_to_buffer(client, bufnr)
         if opts.disableFormatting then
           client.server_capabilities.documentFormattingProvider = false
           client.server_capabilities.documentRangeFormattingProvider = false
@@ -192,21 +186,24 @@ local function refresh_diagnostics()
   end
 end
 
-function setup.attach_to_buffer(buf)
+function setup.attach_to_buffer(client, bufnr)
   vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-    buffer = buf,
+    buffer = bufnr,
     callback = show_diagnostics,
+    group = lsp_group,
   })
   vim.api.nvim_create_autocmd('DiagnosticChanged', {
-    buffer = buf,
+    buffer = bufnr,
     callback = refresh_diagnostics,
+    group = lsp_group,
   })
-  if vim.bo.filetype ~= 'terraform' then
+  if client.server_capabilities.signatureHelpProvider then
     vim.api.nvim_create_autocmd('CursorHoldI', {
-      buffer = buf,
+      buffer = bufnr,
       callback = function()
         vim.defer_fn(vim.lsp.buf.signature_help, 1000)
       end,
+      group = lsp_group,
     })
   end
   vim.opt.foldmethod = 'expr'
