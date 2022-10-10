@@ -3,6 +3,7 @@ vim.cmd([[packadd vim-packager]])
 vim.g.mapleader = ','
 
 local custom_plugins = {
+  'partials.plugins.notify',
   'partials.plugins.treesitter',
   'partials.plugins.orgmode',
   'partials.plugins.comment',
