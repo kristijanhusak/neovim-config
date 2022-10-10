@@ -114,7 +114,12 @@ treesitter.setup = function()
         },
       },
       lsp_interop = {
-        enable = false,
+        enable = true,
+        border = 'rounded',
+        peek_definition_code = {
+          ['<leader>dg'] = '@function.outer',
+          ['<leader>dG'] = '@class.outer',
+        },
       },
     },
     ensure_installed = 'all',
