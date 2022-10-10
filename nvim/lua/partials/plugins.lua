@@ -20,6 +20,7 @@ local custom_plugins = {
   'partials.plugins.completion',
   'partials.plugins.folds',
   'partials.plugins.db',
+  'partials.plugins.vimspector',
 }
 
 local plugin_errors = {}
@@ -54,7 +55,6 @@ require('packager').setup(function(packager)
   packager.add('stefandtw/quickfix-reflector.vim')
   packager.add('wakatime/vim-wakatime')
   packager.add('hrsh7th/vim-vsnip')
-  packager.add('puremourning/vimspector')
   packager.add('Raimondi/delimitMate')
   packager.add('lewis6991/impatient.nvim')
   packager.add('antoinemadec/FixCursorHold.nvim')
