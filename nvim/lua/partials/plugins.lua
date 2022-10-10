@@ -6,6 +6,7 @@ local custom_plugins = {
   'partials.plugins.notify',
   'partials.plugins.treesitter',
   'partials.plugins.lsp',
+  'partials.plugins.colorscheme',
   'partials.plugins.orgmode',
   'partials.plugins.comment',
   'partials.plugins.surround',
@@ -56,7 +57,6 @@ require('packager').setup(function(packager)
   packager.add('puremourning/vimspector')
   packager.add('Raimondi/delimitMate')
   packager.add('lewis6991/impatient.nvim')
-  packager.add('rmehri01/onenord.nvim')
   packager.add('antoinemadec/FixCursorHold.nvim')
   packager.add('https://gitlab.com/yorickpeterse/nvim-pqf')
   packager.add('github/copilot.vim')
@@ -113,7 +113,6 @@ vim.g.vsnip_filetypes = {
 vim.g.js_file_import_use_telescope = 1
 
 vim.g.delimitMate_expand_cr = 1
-
 
 vim.g.copilot_no_tab_map = true
 vim.keymap.set('i', '<Plug>(vimrc:copilot-map)', [[copilot#Accept("\<Tab>")]], {
