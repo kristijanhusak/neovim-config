@@ -107,17 +107,4 @@ require('partials.plugins.custom')
 
 vim.g.delimitMate_expand_cr = 1
 
-vim.g.copilot_no_tab_map = true
-vim.keymap.set('i', '<Plug>(vimrc:copilot-map)', [[copilot#Accept("\<Tab>")]], {
-  expr = true,
-  remap = true,
-})
-
-vim.g.copilot_filetypes = {
-  TelescopePrompt = false,
-  TelescopeResults = false,
-}
-
-vim.env.GIT_EDITOR = "nvr -cc tabedit --remote-wait +'set bufhidden=wipe'"
-
 _G.kris.plugins = plugins
