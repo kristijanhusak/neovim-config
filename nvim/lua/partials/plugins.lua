@@ -23,6 +23,9 @@ local custom_plugins = {
   'partials.plugins.vimspector',
   'partials.plugins.javascript',
   'partials.plugins.diffview',
+  'partials.plugins.snippets',
+  'partials.plugins.matchup',
+  'partials.plugins.copilot',
 }
 
 local plugin_errors = {}
