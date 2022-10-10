@@ -103,6 +103,7 @@ vim.g.vsnip_filetypes = {
 }
 
 vim.g.js_file_import_use_telescope = 1
+require('partials.plugins.custom')
 
 vim.g.delimitMate_expand_cr = 1
 
