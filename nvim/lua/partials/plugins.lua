@@ -5,6 +5,7 @@ vim.g.mapleader = ','
 local custom_plugins = {
   'partials.plugins.notify',
   'partials.plugins.treesitter',
+  'partials.plugins.lsp',
   'partials.plugins.orgmode',
   'partials.plugins.comment',
   'partials.plugins.surround',
@@ -51,16 +52,12 @@ require('packager').setup(function(packager)
   packager.add('haya14busa/vim-asterisk')
   packager.add('stefandtw/quickfix-reflector.vim')
   packager.add('wakatime/vim-wakatime')
-  packager.add('neovim/nvim-lspconfig')
   packager.add('hrsh7th/vim-vsnip')
   packager.add('puremourning/vimspector')
   packager.add('Raimondi/delimitMate')
   packager.add('lewis6991/impatient.nvim')
   packager.add('rmehri01/onenord.nvim')
-  packager.add('jose-elias-alvarez/null-ls.nvim')
-  packager.add('SmiteshP/nvim-navic')
   packager.add('antoinemadec/FixCursorHold.nvim')
-  packager.add('jose-elias-alvarez/typescript.nvim')
   packager.add('https://gitlab.com/yorickpeterse/nvim-pqf')
   packager.add('github/copilot.vim')
   packager.add('sindrets/diffview.nvim')

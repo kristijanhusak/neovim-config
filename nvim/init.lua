@@ -3,7 +3,6 @@ pcall(require, 'impatient')
 
 require('partials.abbreviations')
 require('partials.plugins')
-require('partials.lsp')
 require('partials.settings')
 require('partials.colorscheme')
 require('partials.statusline')
