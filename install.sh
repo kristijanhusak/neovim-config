@@ -45,14 +45,6 @@ install_i3() {
     && ln -s $(pwd)/i3 ~/.i3
 }
 
-install_bspwm() {
-  yay -S bspwm sxhkd \
-  && rm -rf ~/.config/bspwm \
-  && ln -s $(pwd)/bspwm ~/.config/bspwm \
-  && rm -rf ~/.config/sxhkd \
-  && ln -s $(pwd)/sxhkd ~/.config/sxhkd
-}
-
 install_rofi() {
   yay -S rofi \
     && rm -rf ~/.config/rofi \
