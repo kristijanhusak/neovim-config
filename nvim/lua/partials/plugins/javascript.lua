@@ -2,7 +2,6 @@ local js_group = vim.api.nvim_create_augroup('custom_javascript', { clear = true
 local utils = require('partials.utils')
 local fn = vim.fn
 
-local setup = {}
 local handlers = {}
 
 local javascript = {
@@ -19,23 +18,23 @@ javascript.setup = function()
 
   vim.api.nvim_create_autocmd('FileType', {
     pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-    callback = setup.buffer,
+    callback = handlers.setup_buffer,
     group = js_group,
   })
 
-  vim.api.nvim_create_user_command('JsGenGetSet', setup.generate_getter_setter, { force = true })
+  vim.api.nvim_create_user_command('JsGenGetSet', handlers.generate_getter_setter, { force = true })
 
-  vim.api.nvim_set_keymap('n', '<Plug>(JsConsoleLog)', handlers.console_log)
-  vim.api.nvim_set_keymap('n', '<Plug>(JsInjectDependency)', handlers.inject_dependency)
-  vim.api.nvim_set_keymap('n', '<Plug>(JsGenerateDocblock)', handlers.generate_docblock)
-  vim.api.nvim_set_keymap('n', '<Plug>(JsGotoFile)', handlers.goto_file)
+  vim.keymap.set('n', '<Plug>(JsConsoleLog)', handlers.console_log)
+  vim.keymap.set('n', '<Plug>(JsInjectDependency)', handlers.inject_dependency)
+  vim.keymap.set('n', '<Plug>(JsGenerateDocblock)', handlers.generate_docblock)
+  vim.keymap.set('n', '<Plug>(JsGotoFile)', handlers.goto_file)
 
   vim.g.js_file_import_use_telescope = 1
 
   return javascript
 end
 
-function setup.buffer()
+function handlers.setup_buffer()
   vim.keymap.set('n', '<C-]>', handlers.goto_definition, { remap = true, buffer = true })
   vim.keymap.set('x', '<C-]>', '<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
   vim.keymap.set('n', '<Leader>]', '<C-W>v<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
