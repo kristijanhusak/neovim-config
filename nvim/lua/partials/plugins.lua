@@ -17,6 +17,7 @@ local custom_plugins = {
   'partials.plugins.pqf',
   'partials.plugins.completion',
   'partials.plugins.folds',
+  'partials.plugins.db',
 }
 
 local plugin_errors = {}
@@ -41,10 +42,7 @@ require('packager').setup(function(packager)
   packager.add('kristijanhusak/vim-js-file-import', { ['do'] = 'npm install', type = 'opt' })
   packager.add('tpope/vim-repeat')
   packager.add('tpope/vim-sleuth')
-  packager.add('tpope/vim-dadbod')
   packager.add('tpope/vim-abolish')
-  packager.add('kristijanhusak/vim-dadbod-completion', { type = 'opt' })
-  packager.add('kristijanhusak/vim-dadbod-ui')
   packager.add('windwp/nvim-ts-autotag')
   packager.add('AndrewRadev/splitjoin.vim')
   packager.add('nvim-lua/plenary.nvim')
@@ -72,11 +70,6 @@ local plugins_group = vim.api.nvim_create_augroup('packager_filetype', { clear =
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
   command = [[packadd vim-js-file-import | exe 'runtime ftplugin/'.&ft.'.vim']],
-  group = plugins_group,
-})
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'sql',
-  command = 'packadd vim-dadbod-completion | runtime after/plugin/vim_dadbod_completion.lua',
   group = plugins_group,
 })
 vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
@@ -114,13 +107,6 @@ vim.g.matchup_matchparen_status_offscreen = 0
 vim.g.matchup_matchparen_nomode = 'ivV'
 vim.g.matchup_matchparen_deferred = 100
 
-vim.g.db_ui_show_help = 0
-vim.g.db_ui_win_position = 'right'
-vim.g.db_ui_use_nerd_fonts = 1
-
-vim.g.db_ui_save_location = '~/Dropbox/dbui'
-vim.g.db_ui_tmp_query_location = '~/code/queries'
-
 vim.g.vsnip_filetypes = {
   typescript = { 'javascript' },
   typescriptreact = { 'javascript' },
@@ -131,7 +117,6 @@ vim.g.js_file_import_use_telescope = 1
 
 vim.g.delimitMate_expand_cr = 1
 
-vim.g.db_ui_hide_schemas = { 'pg_toast_temp.*' }
 
 vim.g.copilot_no_tab_map = true
 vim.keymap.set('i', '<Plug>(vimrc:copilot-map)', [[copilot#Accept("\<Tab>")]], {
