@@ -12,7 +12,7 @@ vim.api.nvim_create_autocmd('FileType', {
       silent = true,
       buffer = true,
     })
-    vim.cmd([[wincmd J]])
+    vim.cmd.wincmd('J')
   end,
   group = search_group,
 })
@@ -86,7 +86,7 @@ function search.run(search_term, is_visual)
   end
 
   cleanup('no_reset_mode')
-  vim.cmd([[redraw!]])
+  vim.cmd.redraw({ bang = true })
 
   if term == '' then
     return msg('Empty search.')
@@ -115,7 +115,7 @@ function search.run(search_term, is_visual)
   last_search = cmd
 
   local results = vim.fn.systemlist(cmd)
-  vim.cmd([[redraw]])
+  vim.cmd.redraw()
 
   if #results <= 0 then
     msg('No results for search -> ' .. cmd)

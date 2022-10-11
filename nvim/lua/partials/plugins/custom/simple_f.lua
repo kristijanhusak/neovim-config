@@ -26,7 +26,7 @@ local function simple_ft(key)
   local old_cc_keymap = vim.fn.maparg('<C-c>', 'n')
   vim.keymap.set('n', '<C-c>', '<C-c>', { buffer = true })
 
-  vim.cmd([[redraw]])
+  vim.cmd.redraw()
 
   local char = vim.fn.getchar()
   vim.schedule(function()
@@ -42,7 +42,7 @@ end
 
 for _, key in ipairs({ 'f', 't', 'F', 'T' }) do
   vim.keymap.set('n', key, function()
-    return vim.cmd(string.format('normal!%s', simple_ft(key)))
+    return vim.cmd.normal({ simple_ft(key), bang = true })
   end)
   vim.keymap.set({ 'x', 'o' }, key, function()
     return simple_ft(key)

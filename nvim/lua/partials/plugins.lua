@@ -1,5 +1,5 @@
 local plugins = {}
-vim.cmd([[packadd vim-packager]])
+vim.cmd.packadd('vim-packager')
 vim.g.mapleader = ','
 
 local custom_plugins = {}

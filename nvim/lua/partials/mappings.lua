@@ -136,7 +136,7 @@ end
 
 local function close_buffer(bang)
   if vim.bo.buftype ~= '' then
-    return vim.cmd('q!')
+    return vim.cmd.q({ bang = true })
   end
 
   local windowCount = vim.fn.winnr('$')
@@ -216,11 +216,11 @@ vim.keymap.set('n', '<Leader>Q', function()
 end)
 
 function mappings.paste_to_json_buffer()
-  vim.cmd([[vsplit]])
-  vim.cmd([[enew]])
+  vim.cmd.vsplit()
+  vim.cmd.enew()
   vim.bo.filetype = 'json'
-  vim.cmd([[norm!"+p]])
-  vim.cmd([[norm!VGgq]])
+  vim.cmd.norm({ '"+p', bang = true })
+  vim.cmd.norm({ 'VGgq', bang = true })
 end
 
 local terminal_bufnr = 0

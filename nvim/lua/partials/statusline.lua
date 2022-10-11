@@ -16,14 +16,14 @@ function statusline.set_colors()
   c.warning_fg = vim.fn.synIDattr(vim.fn.hlID('WarningMsg'), 'fg')
   c.error_fg = vim.fn.synIDattr(vim.fn.hlID('ErrorMsg'), 'fg')
 
-  vim.cmd('hi StItem guibg=' .. c.normal_fg .. ' guifg=' .. c.normal_bg .. ' gui=NONE')
-  vim.cmd('hi StItem2 guibg=' .. c.comment_fg .. ' guifg=' .. c.normal_bg .. ' gui=NONE')
-  vim.cmd('hi StSep guifg=' .. c.normal_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
-  vim.cmd('hi StSep2 guifg=' .. c.comment_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
-  vim.cmd('hi StErr guibg=' .. c.error_fg .. ' guifg=' .. c.normal_bg .. ' gui=bold')
-  vim.cmd('hi StErrSep guifg=' .. c.error_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
-  vim.cmd('hi StWarn guibg=' .. c.warning_fg .. ' guifg=' .. c.normal_bg .. ' gui=bold')
-  vim.cmd('hi StWarnSep guifg=' .. c.warning_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
+  vim.cmd.hi('StItem guibg=' .. c.normal_fg .. ' guifg=' .. c.normal_bg .. ' gui=NONE')
+  vim.cmd.hi('StItem2 guibg=' .. c.comment_fg .. ' guifg=' .. c.normal_bg .. ' gui=NONE')
+  vim.cmd.hi('StSep guifg=' .. c.normal_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
+  vim.cmd.hi('StSep2 guifg=' .. c.comment_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
+  vim.cmd.hi('StErr guibg=' .. c.error_fg .. ' guifg=' .. c.normal_bg .. ' gui=bold')
+  vim.cmd.hi('StErrSep guifg=' .. c.error_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
+  vim.cmd.hi('StWarn guibg=' .. c.warning_fg .. ' guifg=' .. c.normal_bg .. ' gui=bold')
+  vim.cmd.hi('StWarnSep guifg=' .. c.warning_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
 end
 
 local function print_lsp_progress()
@@ -104,17 +104,17 @@ local sec_2 = { color = '%#StItem2#', sep_color = '%#StSep2#' }
 
 local function mode_highlight(mode)
   if mode == 'i' then
-    vim.cmd([[hi StMode guibg=#83a598 guifg=#3c3836]])
-    vim.cmd([[hi StModeSep guifg=#83a598]])
+    vim.cmd.hi('StMode guibg=#83a598 guifg=#3c3836')
+    vim.cmd.hi('StModeSep guifg=#83a598')
   elseif vim.tbl_contains({ 'v', 'V', '' }, mode) then
-    vim.cmd([[hi StMode guibg=#fe8019 guifg=#3c3836]])
-    vim.cmd([[hi StModeSep guifg=#fe8019]])
+    vim.cmd.hi('StMode guibg=#fe8019 guifg=#3c3836')
+    vim.cmd.hi('StModeSep guifg=#fe8019')
   elseif mode == 'R' then
-    vim.cmd([[hi StMode guibg=#8ec07c guifg=#3c3836]])
-    vim.cmd([[hi StModeSep guifg=#8ec07c]])
+    vim.cmd.hi('StMode guibg=#8ec07c guifg=#3c3836')
+    vim.cmd.hi('StModeSep guifg=#8ec07c')
   else
-    vim.cmd('hi StMode guibg=' .. c.normal_fg .. ' guifg=' .. c.normal_bg .. ' gui=NONE')
-    vim.cmd('hi StModeSep guifg=' .. c.normal_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
+    vim.cmd.hi('StMode guibg=' .. c.normal_fg .. ' guifg=' .. c.normal_bg .. ' gui=NONE')
+    vim.cmd.hi('StModeSep guifg=' .. c.normal_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
   end
 end
 

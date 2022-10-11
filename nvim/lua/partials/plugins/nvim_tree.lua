@@ -49,7 +49,7 @@ nvim_tree.setup = function()
       local stats = vim.loop.fs_stat(vim.fn.expand('%:p'))
       if not stats or stats.type == 'directory' then
         vim.defer_fn(function()
-          vim.cmd([[wincmd p]])
+          vim.cmd.wincmd('p')
         end, 40)
       end
     end,

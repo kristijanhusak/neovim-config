@@ -14,29 +14,29 @@ local function add_mappings()
     { buffer = true, silent = true }
   )
   vim.cmd([[11copen]])
-  vim.cmd([[wincmd p]])
+  vim.cmd.wincmd('p')
 end
 
 function git.view_git_history()
-  vim.cmd([[only]])
+  vim.cmd.only()
   vim.cmd([[Git difftool --name-only ! !^@]])
   git.diff_current_quickfix_entry()
-  vim.cmd([[copen]])
+  vim.cmd.copen()
   vim.keymap.set('n', '<CR>', '<CR><BAR>:call v:lua.kris.git.diff_current_quickfix_entry()<CR>', {
     buffer = true,
     silent = true,
   })
-  vim.cmd([[wincmd p]])
+  vim.cmd.wincmd('p')
 end
 
 function git.diff_current_quickfix_entry()
   local win = vim.fn.winnr()
   for _, window in ipairs(vim.fn.getwininfo()) do
     if window.winnr ~= win and vim.fn.bufname(window.bufnr):match('^fugitive:') then
-      vim.cmd('bdelete ' .. window.bufnr)
+      vim.cmd.bdelete(window.bufnr)
     end
   end
-  vim.cmd([[cc]])
+  vim.cmd.cc()
   add_mappings()
 
   local qf = vim.fn.getqflist({ context = 0, idx = 0 })
@@ -58,7 +58,7 @@ function git.add_commit_prefix_from_branch()
     local head = vim.fn['FugitiveHead']()
     if head and head:find('/') then
       vim.fn.setline(1, '[' .. vim.fn.split(head, '/')[2] .. '] ')
-      vim.cmd('startinsert!')
+      vim.cmd.startinsert({ bang = true })
     end
   end
 end

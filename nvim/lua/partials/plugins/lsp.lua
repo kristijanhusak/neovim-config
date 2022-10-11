@@ -182,7 +182,7 @@ local function refresh_diagnostics()
   vim.diagnostic.setloclist({ open = false })
   show_diagnostics()
   if vim.tbl_isempty(vim.fn.getloclist(0)) then
-    vim.cmd([[lclose]])
+    vim.cmd.lclose()
   end
 end
 

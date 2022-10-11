@@ -13,7 +13,7 @@ vim.keymap.set('n', 'R', ':call v:lua.kris.replace_pair.run()<CR>', { silent = t
 
 function replace_pair.run()
   if vim.wo.diff then
-    return vim.cmd([[diffupdate]])
+    return vim.cmd.diffupdate()
   end
 
   local char = fn.getline('.'):sub(fn.col('.'), fn.col('.'))

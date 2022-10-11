@@ -150,7 +150,7 @@ function handlers.goto_file()
   for _, suffix in ipairs(fn.split(vim.bo.suffixesadd, ',')) do
     local index_file = full_path .. '/index' .. suffix
     if fn.filereadable(index_file) then
-      return vim.cmd('edit ' .. index_file)
+      return vim.cmd.edit(index_file)
     end
   end
 end
@@ -190,7 +190,7 @@ function handlers.goto_definition()
   vim.defer_fn(function()
     -- We didn't jump anywhere in 300ms, fallback to JsGotoDefinition
     if line == vim.fn.line('.') and bufnr == vim.api.nvim_get_current_buf() then
-      vim.cmd([[JsGotoDefinition]])
+      vim.cmd.JsGotoDefinition()
     end
   end, 300)
 end

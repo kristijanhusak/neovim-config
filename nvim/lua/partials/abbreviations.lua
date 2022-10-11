@@ -17,5 +17,5 @@ local abbreviations = {
 }
 
 for left, right in pairs(abbreviations) do
-  vim.cmd(string.format('cnoreabbrev %s %s', left, right))
+  vim.cmd.cnoreabbrev(('%s %s'):format(left, right))
 end

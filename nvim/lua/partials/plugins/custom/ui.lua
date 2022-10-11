@@ -5,7 +5,7 @@ local ui = {
 }
 
 local function add_title_to_win(winnr, bufnr, title)
-  vim.cmd([[redraw]])
+  vim.cmd.redraw()
   local title_bufnr = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(title_bufnr, 0, -1, true, { (' %s'):format(vim.trim(title)) })
   local title_winnr = vim.api.nvim_open_win(title_bufnr, false, {
@@ -99,7 +99,7 @@ vim.ui.input = function(opts, on_confirm)
   require('cmp').setup.buffer({ enabled = false })
   vim.keymap.set('i', '<CR>', kris.ui.on_input, { buffer = bufnr })
   vim.defer_fn(function()
-    vim.cmd([[startinsert!]])
+    vim.cmd.startinsert({ bang = true })
   end, 10)
 end
 
