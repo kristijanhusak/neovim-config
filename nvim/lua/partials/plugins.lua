@@ -2,31 +2,15 @@ local plugins = {}
 vim.cmd([[packadd vim-packager]])
 vim.g.mapleader = ','
 
-local custom_plugins = {
-  'partials.plugins.notify',
-  'partials.plugins.treesitter',
-  'partials.plugins.lsp',
-  'partials.plugins.colorscheme',
-  'partials.plugins.orgmode',
-  'partials.plugins.comment',
-  'partials.plugins.surround',
-  'partials.plugins.fugitive',
-  'partials.plugins.template_string',
-  'partials.plugins.gitsigns',
-  'partials.plugins.telescope',
-  'partials.plugins.nvim_tree',
-  'partials.plugins.indent_blankline',
-  'partials.plugins.pqf',
-  'partials.plugins.completion',
-  'partials.plugins.folds',
-  'partials.plugins.db',
-  'partials.plugins.vimspector',
-  'partials.plugins.javascript',
-  'partials.plugins.diffview',
-  'partials.plugins.snippets',
-  'partials.plugins.matchup',
-  'partials.plugins.copilot',
-}
+local custom_plugins = {}
+
+local plugins_dir = ('%s/lua/partials/plugins'):format(vim.fn.stdpath('config'))
+for file in vim.fs.dir(plugins_dir) do
+  local stat = vim.loop.fs_stat(('%s/%s'):format(plugins_dir, file))
+  if stat and stat.type == 'file' then
+    table.insert(custom_plugins, ('partials.plugins.%s'):format(file:sub(0, -5)))
+  end
+end
 
 local plugin_errors = {}
 for _, plugin in ipairs(custom_plugins) do
