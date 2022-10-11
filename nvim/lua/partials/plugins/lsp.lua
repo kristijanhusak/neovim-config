@@ -87,6 +87,7 @@ function setup.servers()
   local navic = require('nvim-navic')
 
   local function lsp_setup(opts)
+    opts = opts or {}
     return vim.tbl_deep_extend('force', {
       flags = {
         debounce_text_changes = 300,
