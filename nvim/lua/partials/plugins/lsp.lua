@@ -80,6 +80,10 @@ function setup.mappings()
   vim.keymap.set('x', '<Leader>la', function()
     return vim.lsp.buf.code_action()
   end)
+  vim.keymap.set('i', '<C-k>', function()
+    vim.lsp.buf.signature_help()
+    return ''
+  end, { expr = true })
 end
 
 function setup.servers()
@@ -202,7 +206,17 @@ function setup.attach_to_buffer(client, bufnr)
     vim.api.nvim_create_autocmd('CursorHoldI', {
       buffer = bufnr,
       callback = function()
-        vim.defer_fn(vim.lsp.buf.signature_help, 1000)
+        vim.defer_fn(function()
+          local line = vim.api.nvim_get_current_line()
+          line = vim.trim(line:sub(1, vim.api.nvim_win_get_cursor(0)[2] + 1))
+          local len = line:len()
+          local char_post = line:sub(len, len)
+          local char_pre = line:sub(len - 1, len - 1)
+          local show_signature = char_pre == '(' or char_pre == ',' or char_post == ')'
+          if show_signature then
+            vim.lsp.buf.signature_help()
+          end
+        end, 500)
       end,
       group = lsp_group,
     })
