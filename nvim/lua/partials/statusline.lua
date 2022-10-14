@@ -99,8 +99,6 @@ end
 local st_mode = { color = '%#StMode#', sep_color = '%#StModeSep#', no_before = true }
 local st_err = { color = '%#StErr#', sep_color = '%#StErrSep#' }
 local st_mode_right = vim.tbl_extend('force', st_mode, { side = 'right', no_before = false })
-local st_err_right = vim.tbl_extend('force', st_err, { side = 'right' })
-local st_warn = { color = '%#StWarn#', sep_color = '%#StWarnSep#', side = 'right', no_after = true }
 local sec_2 = { color = '%#StItem2#', sep_color = '%#StSep2#' }
 
 local function mode_highlight(mode)
@@ -199,12 +197,20 @@ function statusline.search_result()
   return last_search .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
 end
 
-local function lsp_status(severity, icon)
-  local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity[severity] })
-  if count > 0 then
-    return icon .. ' ' .. count
+local function lsp_diagnostics()
+  local err_count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+  local warn_count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+  local items = {}
+
+  if err_count > 0 then
+    table.insert(items, '%#StError# ' .. err_count .. '%* ')
   end
-  return ''
+
+  if warn_count > 0 then
+    table.insert(items, '%#StWarning# ' .. warn_count .. '%* ')
+  end
+
+  return table.concat(items, '')
 end
 
 local function get_modified_count()
@@ -223,8 +229,7 @@ local function statusline_active()
   local search = statusline.search_result()
   local db_ui = vim.fn['db_ui#statusline']() or ''
   local ft = vim.bo.filetype
-  local err = lsp_status('ERROR', '')
-  local warn = lsp_status('WARN', '')
+  local diagnostics = lsp_diagnostics()
   local modified_count = get_modified_count()
   local statusline_sections = {
     sep(mode, st_mode),
@@ -240,11 +245,10 @@ local function statusline_active()
     '%=',
     sep(lsp.message, vim.tbl_extend('keep', { side = 'right' }, sec_2), lsp.message ~= ''),
     sep(search, vim.tbl_extend('keep', { side = 'right' }, sec_2), search ~= ''),
+    diagnostics,
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
     sep('%l:%c', st_mode_right),
-    sep('%p%%/%L', vim.tbl_extend('keep', { no_after = err == '' and warn == '' }, st_mode_right)),
-    sep(err, vim.tbl_extend('keep', { no_after = warn == '' }, st_err_right), err ~= ''),
-    sep(warn, st_warn, warn ~= ''),
+    sep('%p%%/%L', vim.tbl_extend('keep', { no_after = true }, st_mode_right)),
     '%<',
   }
 
