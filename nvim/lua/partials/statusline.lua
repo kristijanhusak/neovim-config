@@ -198,10 +198,10 @@ function statusline.search_result()
   return last_search .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
 end
 
-local function lsp_status(severity)
+local function lsp_status(severity, icon)
   local count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity[severity] })
   if count > 0 then
-    return count .. ' ' .. severity:sub(1, 1)
+    return icon .. ' ' .. count
   end
   return ''
 end
@@ -222,8 +222,8 @@ local function statusline_active()
   local search = statusline.search_result()
   local db_ui = vim.fn['db_ui#statusline']() or ''
   local ft = vim.bo.filetype
-  local err = lsp_status('ERROR')
-  local warn = lsp_status('WARN')
+  local err = lsp_status('ERROR', '')
+  local warn = lsp_status('WARN', '')
   local modified_count = get_modified_count()
   local statusline_sections = {
     sep(mode, st_mode),
