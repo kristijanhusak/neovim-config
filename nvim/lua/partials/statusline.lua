@@ -15,15 +15,16 @@ function statusline.set_colors()
   c.comment_fg = vim.fn.synIDattr(vim.fn.hlID('Comment'), 'fg')
   c.warning_fg = vim.fn.synIDattr(vim.fn.hlID('WarningMsg'), 'fg')
   c.error_fg = vim.fn.synIDattr(vim.fn.hlID('ErrorMsg'), 'fg')
-
-  vim.cmd.hi('StItem guibg=' .. c.normal_fg .. ' guifg=' .. c.normal_bg .. ' gui=NONE')
-  vim.cmd.hi('StItem2 guibg=' .. c.comment_fg .. ' guifg=' .. c.normal_bg .. ' gui=NONE')
-  vim.cmd.hi('StSep guifg=' .. c.normal_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
-  vim.cmd.hi('StSep2 guifg=' .. c.comment_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
-  vim.cmd.hi('StErr guibg=' .. c.error_fg .. ' guifg=' .. c.normal_bg .. ' gui=bold')
-  vim.cmd.hi('StErrSep guifg=' .. c.error_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
-  vim.cmd.hi('StWarn guibg=' .. c.warning_fg .. ' guifg=' .. c.normal_bg .. ' gui=bold')
-  vim.cmd.hi('StWarnSep guifg=' .. c.warning_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
+  vim.api.nvim_set_hl(0, 'StItem', { bg = c.normal_fg, fg = c.normal_bg })
+  vim.api.nvim_set_hl(0, 'StItem2', { bg = c.comment_fg, fg = c.normal_bg })
+  vim.api.nvim_set_hl(0, 'StSep', { bg = c.statusline_bg, fg = c.normal_bg })
+  vim.api.nvim_set_hl(0, 'StSep2', { bg = c.statusline_bg, fg = c.comment_fg })
+  vim.api.nvim_set_hl(0, 'StErr', { bg = c.error_fg, fg = c.normal_bg, bold = true })
+  vim.api.nvim_set_hl(0, 'StErrSep', { bg = c.statusline_bg, fg = c.error_fg })
+  vim.api.nvim_set_hl(0, 'StWarn', { bg = c.warning_fg, fg = c.normal_bg, bold = true })
+  vim.api.nvim_set_hl(0, 'StWarnSep', { bg = c.statusline_bg, fg = c.warning_fg })
+  vim.api.nvim_set_hl(0, 'StError', { bg = c.statusline_bg, fg = c.error_fg, bold = true })
+  vim.api.nvim_set_hl(0, 'StWarning', { bg = c.statusline_bg, fg = c.warning_fg, bold = true })
 end
 
 local function print_lsp_progress()
@@ -104,17 +105,17 @@ local sec_2 = { color = '%#StItem2#', sep_color = '%#StSep2#' }
 
 local function mode_highlight(mode)
   if mode == 'i' then
-    vim.cmd.hi('StMode guibg=#83a598 guifg=#3c3836')
-    vim.cmd.hi('StModeSep guifg=#83a598')
+    vim.api.nvim_set_hl(0, 'StMode', { bg = '#83a598', fg = '#3c3836' })
+    vim.api.nvim_set_hl(0, 'StModeSep', { fg = '#83a598' })
   elseif vim.tbl_contains({ 'v', 'V', '' }, mode) then
-    vim.cmd.hi('StMode guibg=#fe8019 guifg=#3c3836')
-    vim.cmd.hi('StModeSep guifg=#fe8019')
+    vim.api.nvim_set_hl(0, 'StMode', { bg = '#fe8019', fg = '#3c3836' })
+    vim.api.nvim_set_hl(0, 'StModeSep', { fg = '#fe8019' })
   elseif mode == 'R' then
-    vim.cmd.hi('StMode guibg=#8ec07c guifg=#3c3836')
-    vim.cmd.hi('StModeSep guifg=#8ec07c')
+    vim.api.nvim_set_hl(0, 'StMode', { bg = '#8ec07c', fg = '#3c3836' })
+    vim.api.nvim_set_hl(0, 'StModeSep', { fg = '#8ec07c' })
   else
-    vim.cmd.hi('StMode guibg=' .. c.normal_fg .. ' guifg=' .. c.normal_bg .. ' gui=NONE')
-    vim.cmd.hi('StModeSep guifg=' .. c.normal_fg .. ' guibg=' .. c.statusline_bg .. ' gui=NONE')
+    vim.api.nvim_set_hl(0, 'StMode', { bg = c.normal_fg, fg = c.normal_bg })
+    vim.api.nvim_set_hl(0, 'StModeSep', { fg = c.normal_fg, bg = c.statusline_bg })
   end
 end
 
