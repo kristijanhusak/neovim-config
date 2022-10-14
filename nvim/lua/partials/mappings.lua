@@ -32,9 +32,11 @@ vim.keymap.set('t', '<Leader>jj', '<C-\\><C-n>')
 -- Clear search highlights
 vim.keymap.set('n', '<Leader><space>', ':noh<CR>')
 
--- Center screen while jumping through search results
-vim.keymap.set('n', 'n', 'nzz')
-vim.keymap.set('n', 'N', 'Nzz')
+-- Stay on same position when searching word under cursor
+vim.keymap.set('n', '*', '*Nzz')
+vim.keymap.set('n', '#', '#Nzz')
+vim.keymap.set('x', '*', [["yy/\V<C-R>y<CR>Nzz]])
+vim.keymap.set('x', '#', [["yy?\V<C-R>y<CR>Nzz]])
 
 local mapping_group = vim.api.nvim_create_augroup('vimrc_terminal_mappings', { clear = true })
 vim.api.nvim_create_autocmd('TermOpen', {
