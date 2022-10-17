@@ -23,8 +23,6 @@ function statusline.set_colors()
   pcall(vim.api.nvim_set_hl, 0, 'StErrSep', { bg = c.statusline_bg, fg = c.error_fg })
   pcall(vim.api.nvim_set_hl, 0, 'StWarn', { bg = c.warning_fg, fg = c.normal_bg, bold = true })
   pcall(vim.api.nvim_set_hl, 0, 'StWarnSep', { bg = c.statusline_bg, fg = c.warning_fg })
-  pcall(vim.api.nvim_set_hl, 0, 'StError', { bg = c.statusline_bg, fg = c.error_fg, bold = true })
-  pcall(vim.api.nvim_set_hl, 0, 'StWarning', { bg = c.statusline_bg, fg = c.warning_fg, bold = true })
 end
 
 local function print_lsp_progress()
@@ -100,6 +98,8 @@ local st_mode = { color = '%#StMode#', sep_color = '%#StModeSep#', no_before = t
 local st_err = { color = '%#StErr#', sep_color = '%#StErrSep#' }
 local st_mode_right = vim.tbl_extend('force', st_mode, { side = 'right', no_before = false })
 local sec_2 = { color = '%#StItem2#', sep_color = '%#StSep2#' }
+local st_err_right = vim.tbl_extend('force', st_err, { side = 'right' })
+local st_warn = { color = '%#StWarn#', sep_color = '%#StWarnSep#', side = 'right', no_after = true }
 
 local function mode_highlight(mode)
   if mode == 'i' then
@@ -203,11 +203,11 @@ local function lsp_diagnostics()
   local items = {}
 
   if err_count > 0 then
-    table.insert(items, '%#StError# ' .. err_count .. '%* ')
+    table.insert(items, sep(' '..err_count, vim.tbl_extend('keep', { no_after = warn_count == 0 }, st_err_right), err_count > 0))
   end
 
   if warn_count > 0 then
-    table.insert(items, '%#StWarning# ' .. warn_count .. '%* ')
+    table.insert(items, sep(' '..warn_count, st_warn, warn_count > 0))
   end
 
   return table.concat(items, '')
@@ -245,10 +245,10 @@ local function statusline_active()
     '%=',
     sep(lsp.message, vim.tbl_extend('keep', { side = 'right' }, sec_2), lsp.message ~= ''),
     sep(search, vim.tbl_extend('keep', { side = 'right' }, sec_2), search ~= ''),
-    diagnostics,
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
     sep('%l:%c', st_mode_right),
-    sep('%p%%/%L', vim.tbl_extend('keep', { no_after = true }, st_mode_right)),
+    sep('%p%%/%L', vim.tbl_extend('keep', { no_after = diagnostics == '' }, st_mode_right)),
+    diagnostics,
     '%<',
   }
 
