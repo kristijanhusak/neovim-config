@@ -1,19 +1,22 @@
 local copilot = {
   install = function(packager)
-    return packager.add('github/copilot.vim')
+    return packager.add('zbirenbaum/copilot.lua')
   end,
 }
 copilot.setup = function()
-  vim.g.copilot_no_tab_map = true
-  vim.keymap.set('i', '<Plug>(vimrc:copilot-map)', [[copilot#Accept("\<Tab>")]], {
-    expr = true,
-    remap = true,
+  require('copilot').setup({
+    panel = {
+      enabled = false,
+    },
+    filetypes = {
+      TelescopePrompt = false,
+      TelescopeResults = false,
+    },
+    suggestion = {
+      auto_trigger = true,
+    },
+    plugin_manager_path = vim.fn.stdpath('config') .. '/pack/packager',
   })
-
-  vim.g.copilot_filetypes = {
-    TelescopePrompt = false,
-    TelescopeResults = false,
-  }
 
   return copilot
 end
