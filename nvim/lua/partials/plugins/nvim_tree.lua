@@ -8,7 +8,6 @@ nvim_tree.setup = function()
     hijack_unnamed_buffer_when_opening = false,
     disable_netrw = true,
     open_on_setup = true,
-    focus_empty_on_setup = true,
     update_focused_file = {
       enable = true,
     },
@@ -41,6 +40,19 @@ nvim_tree.setup = function()
         },
       },
     },
+  })
+
+  local nvim_tree_augroup = vim.api.nvim_create_augroup('custom_nvim_tree', { clear = true })
+  vim.api.nvim_create_autocmd('VimEnter', {
+    pattern = '*',
+    group = nvim_tree_augroup,
+    callback = function()
+      vim.defer_fn(function()
+        if vim.bo.filetype == 'NvimTree' then
+          vim.cmd.wincmd('p')
+        end
+      end, 40)
+    end,
   })
 
   vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>', { silent = true })
