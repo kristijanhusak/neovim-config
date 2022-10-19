@@ -123,6 +123,7 @@ treesitter.setup = function()
       },
     },
     ensure_installed = 'all',
+    ignore_install = { 'sql' },
   })
   return treesitter
 end
