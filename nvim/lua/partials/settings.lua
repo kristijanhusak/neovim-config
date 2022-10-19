@@ -142,6 +142,10 @@ vim.opt.wildignore = {
   '*.gem',
   'log/**',
   'tmp/**',
+  '*package-lock.json*',
+  '**/dist/**',
+  '**/.next/**',
+  '**/.nx/**',
 }
 
 vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
