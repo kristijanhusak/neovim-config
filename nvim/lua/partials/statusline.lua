@@ -256,7 +256,7 @@ local function statusline_active()
 end
 
 local function statusline_inactive()
-  return [[%f %y %m]]
+  return [[ %f %m %= %y ]]
 end
 
 function statusline.setup()
