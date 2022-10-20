@@ -33,10 +33,13 @@ vim.keymap.set('t', '<Leader>jj', '<C-\\><C-n>')
 vim.keymap.set('n', '<Leader><space>', ':noh<CR>')
 
 -- Stay on same position when searching word under cursor
-vim.keymap.set('n', '*', '*Nzz')
-vim.keymap.set('n', '#', '#Nzz')
-vim.keymap.set('x', '*', [["yy/\V<C-R>y<CR>Nzz]])
-vim.keymap.set('x', '#', [["yy?\V<C-R>y<CR>Nzz]])
+vim.keymap.set('n', '*', '*N')
+vim.keymap.set('n', '#', '#N')
+vim.keymap.set('x', '*', [["yy/\V<C-R>y<CR>N]])
+vim.keymap.set('x', '#', [["yy?\V<C-R>y<CR>N]])
+
+vim.keymap.set('n', 'n', 'nzz')
+vim.keymap.set('n', 'N', 'Nzz')
 
 local mapping_group = vim.api.nvim_create_augroup('vimrc_terminal_mappings', { clear = true })
 vim.api.nvim_create_autocmd('TermOpen', {
