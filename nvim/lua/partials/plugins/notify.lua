@@ -4,7 +4,11 @@ local notify = {
   end,
 }
 notify.setup = function()
-  vim.notify = require('notify')
+  local n = require('notify')
+  n.setup({
+    top_down = false,
+  })
+  vim.notify = n
   return notify
 end
 
