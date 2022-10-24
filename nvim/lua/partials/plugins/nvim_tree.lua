@@ -23,8 +23,8 @@ nvim_tree.setup = function()
       mappings = {
         list = {
           { key = { 's' }, action = 'vsplit' },
-          { key = { 'C' }, action = 'cd' },
-          { key = { 'X' }, action = 'system_open' },
+          { key = { '<s-c>' }, action = 'cd' },
+          { key = { '<s-x>' }, action = 'system_open' },
         },
       },
     },
