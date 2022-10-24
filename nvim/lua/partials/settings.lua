@@ -47,8 +47,11 @@ vim.opt.sidescrolloff = 15
 vim.opt.sidescroll = 5
 vim.opt.pyxversion = 3
 vim.opt.matchtime = 0
-vim.opt.splitkeep = 'screen'
 vim.g.python3_host_prog = '/usr/bin/python3'
+
+if vim.fn.has('nvim-0.9.0') > 0 then
+  vim.opt.splitkeep = 'screen'
+end
 
 function settings.strip_trailing_whitespace()
   if vim.bo.modifiable then
