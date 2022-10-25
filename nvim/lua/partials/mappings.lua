@@ -5,9 +5,9 @@ vim.keymap.set('n', '<Leader>c', 'gcc', { remap = true })
 vim.keymap.set('v', '<Leader>c', 'gc', { remap = true })
 
 -- Map save to Ctrl + S
-vim.keymap.set('', '<c-s>', ':w<CR>', { remap = true })
-vim.keymap.set('i', '<c-s>', '<C-o>:w<CR>', { remap = true })
-vim.keymap.set('n', '<Leader>s', ':w<CR>')
+vim.keymap.set('', '<c-s>', ':w<CR>', { remap = true, silent = true })
+vim.keymap.set('i', '<c-s>', '<C-o>:w<CR>', { remap = true, silent = true })
+vim.keymap.set('n', '<Leader>s', ':w<CR>', { silent = true })
 
 -- Open vertical split
 vim.keymap.set('n', '<Leader>v', '<C-w>v')
@@ -68,8 +68,8 @@ vim.keymap.set('v', 'p', 'p`]')
 vim.keymap.set('n', 'gp', "'`[' . strpart(getregtype(), 0, 1) . '`]'", { expr = true })
 
 -- Move selected lines up and down
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { silent = true })
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { silent = true })
 
 -- Toggle between last 2 buffers
 vim.keymap.set('n', '<leader><tab>', '<c-^>')
