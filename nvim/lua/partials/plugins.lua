@@ -42,7 +42,6 @@ require('packager').setup(function(packager)
   packager.add('wakatime/vim-wakatime')
   packager.add('Raimondi/delimitMate')
   packager.add('lewis6991/impatient.nvim')
-  packager.add('antoinemadec/FixCursorHold.nvim')
   packager.add('https://gitlab.com/yorickpeterse/nvim-pqf')
 end)
 
