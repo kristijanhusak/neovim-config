@@ -53,7 +53,17 @@ function setup.mappings()
   local telescope = require('telescope.builtin')
   vim.keymap.set('n', '<leader>ld', telescope.lsp_definitions)
   vim.keymap.set('n', '<leader>lw', telescope.lsp_type_definitions)
-  vim.keymap.set('n', '<leader>lu', vim.lsp.buf.references)
+  vim.keymap.set('n', '<leader>lu', function()
+    return vim.lsp.buf.references({ includeDeclaration = false }, {
+      on_list = function(options)
+        vim.fn.setqflist({}, ' ', options)
+        if options.items and #options.items == 1 then
+          return vim.cmd.cfirst()
+        end
+        vim.cmd('botright copen')
+      end,
+    })
+  end)
   vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration)
   vim.keymap.set('n', '<leader>lg', telescope.lsp_implementations)
   vim.keymap.set('n', '<Space>', vim.lsp.buf.hover)
