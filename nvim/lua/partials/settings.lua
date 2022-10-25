@@ -18,7 +18,6 @@ vim.opt.wrap = false
 vim.opt.linebreak = true
 vim.opt.listchars = 'tab:│ ,trail:·'
 vim.opt.list = true
-vim.opt.lazyredraw = true
 vim.opt.hidden = true
 vim.opt.conceallevel = 2
 vim.opt.concealcursor = 'nc'
