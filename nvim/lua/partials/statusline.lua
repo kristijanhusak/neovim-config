@@ -98,7 +98,7 @@ local st_mode = { color = '%#StMode#', sep_color = '%#StModeSep#', no_before = t
 local st_err = { color = '%#StErr#', sep_color = '%#StErrSep#' }
 local st_mode_right = vim.tbl_extend('force', st_mode, { side = 'right', no_before = false })
 local sec_2 = { color = '%#StItem2#', sep_color = '%#StSep2#' }
-local st_warn = { color = '%#StWarn#', sep_color = '%#StWarnSep#'  }
+local st_warn = { color = '%#StWarn#', sep_color = '%#StWarnSep#' }
 
 local function mode_highlight(mode)
   if mode == 'i' then
@@ -202,11 +202,11 @@ local function lsp_diagnostics()
   local items = {}
 
   if err_count > 0 then
-    table.insert(items, sep(' '..err_count, st_err, err_count > 0))
+    table.insert(items, sep(' ' .. err_count, st_err, err_count > 0))
   end
 
   if warn_count > 0 then
-    table.insert(items, sep(' '..warn_count, st_warn, warn_count > 0))
+    table.insert(items, sep(' ' .. warn_count, st_warn, warn_count > 0))
   end
 
   return table.concat(items, '')
@@ -248,7 +248,7 @@ local function statusline_active()
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
     sep('%l:%c', st_mode_right),
     sep('%p%%/%L', st_mode_right),
-    sep(' '..os.date('%H:%M', os.time()), vim.tbl_extend('keep', { no_after = true }, st_mode_right)),
+    sep(' ' .. os.date('%H:%M', os.time()), vim.tbl_extend('keep', { no_after = true }, st_mode_right)),
     '%<',
   }
 
