@@ -47,11 +47,14 @@ nvim_tree.setup = function()
     pattern = '*',
     group = nvim_tree_augroup,
     callback = function()
+      if vim.bo.filetype == 'NvimTree' then
+        vim.cmd.wincmd('p')
+      end
       vim.defer_fn(function()
         if vim.bo.filetype == 'NvimTree' then
           vim.cmd.wincmd('p')
         end
-      end, 40)
+      end, 50)
     end,
   })
 
