@@ -35,6 +35,8 @@ vim.keymap.set('n', '<Leader><space>', ':noh<CR>', { silent = true })
 -- Stay on same position when searching word under cursor
 vim.keymap.set('n', '*', '*N')
 vim.keymap.set('n', '#', '#N')
+vim.keymap.set('n', 'g*', 'g*N')
+vim.keymap.set('n', 'g#', 'g#N')
 vim.keymap.set('x', '*', [["yy/\V<C-R>=escape(getreg('y'), '\/?')<CR><CR>N]])
 vim.keymap.set('x', '#', [["yy?\V<C-R>=escape(getreg('y'), '\/?')<CR><CR>N]])
 
