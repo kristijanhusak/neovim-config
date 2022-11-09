@@ -1,6 +1,11 @@
+local org_path = function(path)
+  local org_directory = '~/orgfiles'
+  return ('%s/%s'):format(org_directory, path)
+end
+
 local orgmode_config = {
-  org_agenda_files = '~/orgfiles/**/*',
-  org_default_notes_file = '~/orgfiles/refile.org',
+  org_agenda_files = org_path('**/*'),
+  org_default_notes_file = org_path('refile.org'),
   org_hide_emphasis_markers = true,
   org_agenda_text_search_extra_files = { 'agenda-archives' },
   org_agenda_start_on_weekday = false,
@@ -13,17 +18,17 @@ local orgmode_config = {
     T = {
       description = 'Todo',
       template = '* TODO %?\n  DEADLINE: %T',
-      target = '~/orgfiles/todos.org',
+      target = org_path('todos.org'),
     },
     w = {
       description = 'Work todo',
       template = '* TODO %?\n  DEADLINE: %T',
-      target = '~/orgfiles/work.org',
+      target = org_path('work.org'),
     },
     d = {
       description = 'Daily',
       template = '* Daily %U \n  %?',
-      target = '~/orgfiles/work.org',
+      target = org_path('work.org'),
       headline = 'Meetings',
     },
   },
