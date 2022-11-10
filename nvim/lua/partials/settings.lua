@@ -50,6 +50,7 @@ vim.g.python3_host_prog = '/usr/bin/python3'
 
 if vim.fn.has('nvim-0.9.0') > 0 then
   vim.opt.splitkeep = 'screen'
+  vim.opt.diffopt:append('linematch:60')
 end
 
 function settings.strip_trailing_whitespace()
