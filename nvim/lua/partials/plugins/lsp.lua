@@ -167,7 +167,7 @@ function setup.servers()
     sources = {
       -- Code actions
       null_ls.builtins.code_actions.eslint_d,
-      require('typescript.extensions.null-ls.code-actions'),
+      -- require('typescript.extensions.null-ls.code-actions'),
 
       -- Diagnostics
       null_ls.builtins.diagnostics.eslint_d,
