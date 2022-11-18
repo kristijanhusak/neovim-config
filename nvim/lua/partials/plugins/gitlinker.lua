@@ -4,7 +4,12 @@ local gitlinker = {
   end,
 }
 gitlinker.setup = function()
-  require"gitlinker".setup()
+  require('gitlinker').setup({
+    opts = {
+      action_callback = require('gitlinker.actions').open_in_browser,
+    },
+    mappings = '<leader>yg',
+  })
   return gitlinker
 end
 
