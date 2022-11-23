@@ -99,7 +99,13 @@ completion.setup = function()
   vim.api.nvim_create_autocmd('FileType', {
     pattern = { 'sql', 'mysql', 'plsql' },
     callback = function()
-      cmp.setup.buffer({ sources = { { name = 'vim-dadbod-completion' } } })
+      cmp.setup.buffer({
+        sources = {
+          { name = 'vim-dadbod-completion' },
+          { name = 'buffer' },
+          { name = 'vsnip' },
+        },
+      })
     end,
     group = autocomplete_group,
   })
