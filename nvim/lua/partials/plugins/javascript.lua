@@ -185,7 +185,7 @@ end
 function handlers.goto_definition()
   local line = vim.fn.line('.')
   local bufnr = vim.api.nvim_get_current_buf()
-  require('telescope.builtin').lsp_definitions()
+  vim.cmd.Glance('definitions')
 
   vim.defer_fn(function()
     -- We didn't jump anywhere in 300ms, fallback to JsGotoDefinition

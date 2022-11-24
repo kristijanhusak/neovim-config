@@ -8,6 +8,7 @@ local lsp = {
   install = function(packager)
     packager.add('jose-elias-alvarez/null-ls.nvim')
     packager.add('jose-elias-alvarez/typescript.nvim')
+    packager.add('DNLHC/glance.nvim')
     packager.add('SmiteshP/nvim-navic')
     return packager.add('neovim/nvim-lspconfig')
   end,
@@ -16,6 +17,7 @@ lsp.setup = function()
   setup.configure()
   setup.mappings()
   setup.servers()
+  require('glance').setup()
 
   return lsp
 end
@@ -50,22 +52,11 @@ function setup.configure()
 end
 
 function setup.mappings()
-  local telescope = require('telescope.builtin')
-  vim.keymap.set('n', '<leader>ld', telescope.lsp_definitions)
-  vim.keymap.set('n', '<leader>lw', telescope.lsp_type_definitions)
-  vim.keymap.set('n', '<leader>lu', function()
-    return vim.lsp.buf.references({ includeDeclaration = false }, {
-      on_list = function(options)
-        vim.fn.setqflist({}, ' ', options)
-        if options.items and #options.items == 1 then
-          return vim.cmd.cfirst()
-        end
-        vim.cmd('botright copen')
-      end,
-    })
-  end)
+  vim.keymap.set('n', '<leader>ld', ':Glance definitions<CR>', { silent = true })
+  vim.keymap.set('n', '<leader>lw', ':Glance type_definitions', { silent = true })
+  vim.keymap.set('n', '<leader>lu', ':Glance references<CR>', { silent = true })
   vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration)
-  vim.keymap.set('n', '<leader>lg', telescope.lsp_implementations)
+  vim.keymap.set('n', '<leader>lg', ':Glance implementations<CR>', { silent = true })
   vim.keymap.set('n', '<Space>', vim.lsp.buf.hover)
   vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
   vim.keymap.set('v', '<leader>lf', function()
