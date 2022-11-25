@@ -17,7 +17,17 @@ lsp.setup = function()
   setup.configure()
   setup.mappings()
   setup.servers()
-  require('glance').setup()
+  require('glance').setup({
+    hooks = {
+      before_open = function(results, open, jump)
+        if #results == 1 then
+          jump(results[1])
+        else
+          open(results)
+        end
+      end,
+    },
+  })
 
   return lsp
 end
