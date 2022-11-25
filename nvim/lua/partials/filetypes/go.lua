@@ -3,7 +3,7 @@ local go = {}
 function go.setup()
   vim.bo.expandtab = false
   vim.bo.tabstop = 4
-  vim.keymap.set('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', { remap = true, buffer = true })
+  vim.keymap.set('n', '<C-]>', ':Glance definitions<CR>', { silent = true })
 end
 
 function go.add_tags()
