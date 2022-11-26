@@ -25,7 +25,6 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.inccommand = 'nosplit'
 vim.opt.exrc = true
-vim.opt.secure = true
 vim.opt.grepprg = 'rg --smart-case --color=never --no-heading -H -n --column'
 vim.opt.tagcase = 'smart'
 vim.opt.updatetime = 100
