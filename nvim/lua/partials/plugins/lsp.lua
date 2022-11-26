@@ -18,6 +18,10 @@ lsp.setup = function()
   setup.mappings()
   setup.servers()
   require('glance').setup({
+    indent_lines = {
+      enable = true,
+      icon = '▏',
+    },
     hooks = {
       before_open = function(results, open, jump)
         if #results == 1 then
