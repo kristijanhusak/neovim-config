@@ -3,6 +3,7 @@ local treesitter = {
     packager.add('nvim-treesitter/nvim-treesitter')
     packager.add('nvim-treesitter/nvim-treesitter-refactor')
     packager.add('nvim-treesitter/nvim-treesitter-textobjects')
+    packager.add('yioneko/nvim-yati')
     return packager.add('nvim-treesitter/playground')
   end,
 }
@@ -13,6 +14,14 @@ treesitter.setup = function()
     highlight = {
       enable = true,
       additional_vim_regex_highlighting = { 'org' },
+    },
+    yati = {
+      enable = true,
+      default_lazy = true,
+      default_fallback = 'auto',
+    },
+    indent = {
+      enable = false,
     },
     playground = {
       enable = true,
