@@ -155,6 +155,7 @@ function setup.servers()
         },
         workspace = {
           checkThirdParty = false,
+          ignoreDir = { '.git' },
         },
         telemetry = {
           enable = false,
