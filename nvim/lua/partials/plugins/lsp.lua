@@ -22,6 +22,9 @@ lsp.setup = function()
       enable = true,
       icon = '▏',
     },
+    folds = {
+      folded = false,
+    },
     hooks = {
       before_open = function(results, open, jump)
         if #results == 1 then
