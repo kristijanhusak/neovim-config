@@ -22,6 +22,9 @@ lsp.setup = function()
       enable = true,
       icon = '▏',
     },
+    list = {
+      position = 'left',
+    },
     folds = {
       folded = false,
     },
