@@ -22,11 +22,7 @@ javascript.setup = function()
     group = js_group,
   })
 
-  vim.api.nvim_create_user_command('JsGenGetSet', handlers.generate_getter_setter, { force = true })
-
   vim.keymap.set('n', '<Plug>(JsConsoleLog)', handlers.console_log)
-  vim.keymap.set('n', '<Plug>(JsInjectDependency)', handlers.inject_dependency)
-  vim.keymap.set('n', '<Plug>(JsGenerateDocblock)', handlers.generate_docblock)
   vim.keymap.set('n', '<Plug>(JsGotoFile)', handlers.goto_file)
 
   vim.g.js_file_import_use_telescope = 1
@@ -40,8 +36,6 @@ function handlers.setup_buffer()
   vim.keymap.set('n', '<Leader>]', '<C-W>v<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
   vim.keymap.set('x', '<Leader>]', '<C-W>vgv<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
   vim.keymap.set('n', '<Leader>ll', '<Plug>(JsConsoleLog)', { remap = true, buffer = true })
-  vim.keymap.set('n', '<Leader>d', '<Plug>(JsInjectDependency)', { remap = true, buffer = true })
-  vim.keymap.set('n', '<Leader>D', '<Plug>(JsGenerateDocblock)', { remap = true, buffer = true })
   vim.keymap.set('n', 'gf', '<Plug>(JsGotoFile)', { remap = true, buffer = true })
   vim.keymap.set('n', '<F1>', handlers.setup_imports, { buffer = true, silent = true })
   vim.keymap.set('n', '<F2>', function()
@@ -71,75 +65,6 @@ function handlers.console_log()
   fn.winrestview(view)
 end
 
-function handlers.inject_dependency()
-  local view = fn.winsaveview()
-  local word = fn.expand('<cword>')
-  vim.api.nvim_exec([[let g:js_inject_dependency_old_reg = getreg('@z')]], false)
-  vim.cmd([[silent! norm!"zyib]])
-  local index_in_list = fn.index(fn.filter(fn.map(fn.split(fn.getreg('@z'), ','), 'trim(v:val)'), 'v:val !=? ""'), word)
-  local move_line = ''
-  if index_in_list > 0 then
-    move_line = index_in_list .. 'j'
-  end
-  fn.search('constructor(')
-  local content = 'this._' .. fn.tolower(word:sub(1, 1)) .. word:sub(2) .. ' = ' .. word .. ';'
-  vim.cmd([[norm!f(%f{%]])
-  local closing_bracket_line = fn.line('.')
-  vim.cmd([[norm!%]])
-
-  if index_in_list > 0 and ((fn.line('.') + index_in_list) >= closing_bracket_line) then
-    move_line = ''
-    fn.cursor(closing_bracket_line - 1, 0)
-  end
-
-  if move_line ~= '' then
-    vim.cmd('norm!' .. move_line)
-  end
-
-  local line_content = fn.getline(fn.line('.') + 1)
-  if not line_content:match(content) then
-    if fn.trim(line_content) == '' then
-      vim.cmd('norm!jcc' .. content)
-    else
-      vim.cmd('norm!o' .. content)
-    end
-  else
-    vim.api.nvim_out_write('Already injected.\n')
-  end
-
-  fn.winrestview(view)
-  vim.api.nvim_exec([[let @z = g:js_inject_dependency_old_reg]], false)
-  fn['repeat#set'](utils.esc('<Plug>(JsInjectDependency)'))
-end
-
-function handlers.generate_docblock()
-  local ts_utils = require('nvim-treesitter.ts_utils')
-  local node = ts_utils.get_node_at_cursor()
-  if not node then
-    return
-  end
-  while node and node:type() ~= 'formal_parameters' do
-    node = ts_utils.get_next_node(node)
-  end
-  if not node then
-    return
-  end
-  local is_async = fn.getline('.'):match('^%s*async')
-  local indent = fn['repeat'](' ', fn.shiftwidth())
-  local content = { string.format('%s/**', indent) }
-
-  for _, child_node in ipairs(ts_utils.get_named_children(node)) do
-    local node_text = ts_utils.get_node_text(child_node)[1]
-    table.insert(content, string.format('%s * @param {%s} %s', indent, node_text, node_text))
-  end
-
-  if vim.fn.expand('<cword>') ~= 'constructor' then
-    table.insert(content, string.format('%s * @returns {%s}', indent, is_async and 'Promise<any>' or 'any'))
-  end
-  table.insert(content, string.format('%s */', indent))
-  fn.append(fn.line('.') - 1, content)
-end
-
 function handlers.goto_file()
   local full_path = fn.printf('%s/%s', fn.expand('%:p:h'), fn.expand('<cfile>'))
   local stats = vim.loop.fs_stat(full_path)
@@ -153,33 +78,6 @@ function handlers.goto_file()
       return vim.cmd.edit(index_file)
     end
   end
-end
-
-function handlers.generate_getter_setter()
-  local word = vim.fn.input('Enter word: ', vim.fn.expand('<cword>'))
-  local type = vim.fn.input('Enter type: ', 'any')
-  local capitalized = word:gsub('^%l', string.upper)
-  local lines = {
-    '/**',
-    string.format(' * @returns {%s}', type),
-    ' */',
-    string.format('get%s() {', capitalized),
-    string.format('return this.%s;', word),
-    '}',
-    '',
-    '/**',
-    string.format(' * @param {%s} %s', type, word),
-    ' */',
-    string.format('set%s(%s) {', capitalized, word),
-    string.format('this.%s = %s;', word, word),
-    '}',
-    '',
-  }
-
-  vim.fn.search([[^\s*$]])
-  vim.fn.append(vim.fn.line('.'), lines)
-  vim.cmd(string.format('norm!v%dj', #lines))
-  vim.api.nvim_feedkeys(utils.esc('<leader>lf'), 'v', true)
 end
 
 function handlers.goto_definition()
