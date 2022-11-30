@@ -1,3 +1,4 @@
+local utils = require('partials.utils')
 local search = {}
 local is_toggle = false
 local mode = 'term'
@@ -41,20 +42,6 @@ local function cleanup(no_reset_mode)
   return pcall(vim.keymap.del, 'c', '<tab>')
 end
 
-local function get_visual_selection()
-  local s_start = vim.fn.getpos("'<")
-  local s_end = vim.fn.getpos("'>")
-  local n_lines = math.abs(s_end[2] - s_start[2]) + 1
-  local lines = vim.api.nvim_buf_get_lines(0, s_start[2] - 1, s_end[2], false)
-  lines[1] = string.sub(lines[1], s_start[3], -1)
-  if n_lines == 1 then
-    lines[n_lines] = string.sub(lines[n_lines], 1, s_end[3] - s_start[3] + 1)
-  else
-    lines[n_lines] = string.sub(lines[n_lines], 1, s_end[3])
-  end
-  return table.concat(lines, '\n')
-end
-
 local function msg(txt)
   return vim.api.nvim_out_write(txt .. '\n')
 end
@@ -69,7 +56,7 @@ end
 function search.run(search_term, is_visual)
   local term = search_term
   if is_visual then
-    term = get_visual_selection()
+    term = utils.get_visual_selection()
   end
 
   vim.keymap.set('c', '<tab>', '<C-\\>ev:lua.kris.search.toggle_search_mode()<CR><CR>', { remap = true })
