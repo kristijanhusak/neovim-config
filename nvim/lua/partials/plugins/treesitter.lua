@@ -4,6 +4,7 @@ local treesitter = {
     packager.add('nvim-treesitter/nvim-treesitter-refactor')
     packager.add('nvim-treesitter/nvim-treesitter-textobjects')
     packager.add('yioneko/nvim-yati')
+    packager.add('yioneko/vim-tmindent')
     return packager.add('nvim-treesitter/playground')
   end,
 }
@@ -18,7 +19,9 @@ treesitter.setup = function()
     yati = {
       enable = true,
       default_lazy = true,
-      default_fallback = 'auto',
+      default_fallback = function(lnum, computed, bufnr)
+        return require('tmindent').get_indent(lnum, bufnr) + computed
+      end,
     },
     indent = {
       enable = false,
