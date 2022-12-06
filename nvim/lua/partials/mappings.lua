@@ -171,12 +171,31 @@ local function open_file_on_line_and_column()
     col = matchlist[3] or 1
   end
 
-  local bufnr = vim.fn.bufnr(path)
-  local winnr = vim.fn.bufwinnr(bufnr)
-  if winnr > -1 and vim.fn.getbufvar(bufnr, '&buftype') ~= 'terminal' then
-    vim.cmd(winnr .. 'wincmd w')
+  local buffers = vim.tbl_filter(function(entry)
+    return entry.name:match(vim.pesc(path) .. '$') and vim.api.nvim_buf_get_option(entry.bufnr, 'buftype') == ''
+  end, vim.fn.getbufinfo({ buflisted = 1, bufloaded = 1 }))
+
+  local bufnr = -1
+  local bufname = ''
+
+  if #buffers == 0 then
+    if vim.fn.filereadable(path) == 1 then
+      vim.cmd('edit ' .. path)
+      bufnr = vim.fn.bufnr('')
+      bufname = vim.fn.bufname(bufnr)
+    else
+      return print('Unable to locate file/buffer for file ' .. path)
+    end
   else
-    vim.cmd('vsplit ' .. path)
+    bufnr = buffers[1].bufnr
+    bufname = buffers[1].name
+  end
+
+  local winnr = vim.fn.bufwinnr(bufnr)
+  if winnr < 0 then
+    vim.cmd('vsplit ' .. bufname)
+  else
+    vim.cmd(winnr .. 'wincmd w')
   end
   vim.fn.cursor({ row, col })
 end
