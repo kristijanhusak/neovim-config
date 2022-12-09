@@ -120,6 +120,7 @@ function setup.servers()
       on_attach = function(client, bufnr)
         navic.attach(client, bufnr)
         setup.attach_to_buffer(client, bufnr)
+        client.server_capabilities.semanticTokensProvider = nil
         if opts.disableFormatting then
           client.server_capabilities.documentFormattingProvider = false
           client.server_capabilities.documentRangeFormattingProvider = false
