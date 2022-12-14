@@ -15,7 +15,6 @@ local lsp = {
 }
 lsp.setup = function()
   setup.configure()
-  setup.mappings()
   setup.servers()
   require('glance').setup({
     indent_lines = {
@@ -72,39 +71,40 @@ function setup.configure()
 end
 
 function setup.mappings()
-  vim.keymap.set('n', '<leader>ld', ':Glance definitions<CR>', { silent = true })
-  vim.keymap.set('n', '<leader>lw', ':Glance type_definitions', { silent = true })
-  vim.keymap.set('n', '<leader>lu', ':Glance references<CR>', { silent = true })
-  vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration)
-  vim.keymap.set('n', '<leader>lg', ':Glance implementations<CR>', { silent = true })
-  vim.keymap.set('n', '<Space>', vim.lsp.buf.hover)
-  vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
+  local opts = { buffer = true, silent = true }
+  vim.keymap.set('n', '<leader>ld', ':Glance definitions<CR>', opts)
+  vim.keymap.set('n', '<leader>lw', ':Glance type_definitions', opts)
+  vim.keymap.set('n', '<leader>lu', ':Glance references<CR>', opts)
+  vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, opts)
+  vim.keymap.set('n', '<leader>lg', ':Glance implementations<CR>', opts)
+  vim.keymap.set('n', '<Space>', vim.lsp.buf.hover, { silent = true, buffer = true})
+  vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, opts)
   vim.keymap.set('v', '<leader>lf', function()
     return vim.lsp.buf.format()
-  end, { silent = true })
-  vim.keymap.set('n', '<leader>li', vim.lsp.buf.incoming_calls)
-  vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls)
-  vim.keymap.set('n', '<leader>lt', vim.lsp.buf.document_symbol)
-  vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls)
+  end, opts)
+  vim.keymap.set('n', '<leader>li', vim.lsp.buf.incoming_calls, opts)
+  vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls, opts)
+  vim.keymap.set('n', '<leader>lt', vim.lsp.buf.document_symbol, opts)
+  vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls, opts)
   vim.keymap.set('n', '<leader>le', function()
     return vim.diagnostic.open_float({ scope = 'line', show_header = false, focusable = false, border = 'rounded' })
-  end)
-  vim.keymap.set('n', '<Leader>e', vim.diagnostic.setloclist)
-  vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename)
+  end, opts)
+  vim.keymap.set('n', '<Leader>e', vim.diagnostic.setloclist, opts)
+  vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, opts)
   vim.keymap.set('n', '[g', function()
     return vim.diagnostic.goto_prev({ float = false })
-  end)
+  end, opts)
   vim.keymap.set('n', ']g', function()
     return vim.diagnostic.goto_next({ float = false })
-  end)
-  vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action)
+  end, opts)
+  vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action, opts)
   vim.keymap.set('x', '<Leader>la', function()
     return vim.lsp.buf.code_action()
-  end)
+  end, opts)
   vim.keymap.set('i', '<C-k>', function()
     vim.lsp.buf.signature_help()
     return ''
-  end, { expr = true })
+  end, { expr = true, buffer = true })
 end
 
 function setup.servers()
@@ -247,6 +247,7 @@ function setup.attach_to_buffer(client, bufnr)
   end
   vim.opt.foldmethod = 'expr'
   vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+  setup.mappings()
 end
 
 return lsp
