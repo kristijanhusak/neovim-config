@@ -15,7 +15,6 @@ copilot.setup = function()
     suggestion = {
       auto_trigger = true,
     },
-    plugin_manager_path = vim.fn.stdpath('config') .. '/pack/packager',
   })
 
   return copilot
