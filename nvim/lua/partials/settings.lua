@@ -28,6 +28,7 @@ vim.opt.exrc = true
 vim.opt.grepprg = 'rg --smart-case --color=never --no-heading -H -n --column'
 vim.opt.tagcase = 'smart'
 vim.opt.updatetime = 100
+vim.opt.foldenable = false
 vim.opt.shortmess = vim.o.shortmess .. 'c'
 vim.opt.undofile = true
 vim.opt.swapfile = false
