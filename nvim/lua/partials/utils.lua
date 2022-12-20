@@ -1,4 +1,3 @@
-local gps = require('nvim-navic')
 local M = {}
 
 function M.esc(cmd)
@@ -6,6 +5,7 @@ function M.esc(cmd)
 end
 
 function M.get_gps_scope(fallback)
+  local gps = require('nvim-navic')
   if not gps.is_available() then
     return fallback
   end

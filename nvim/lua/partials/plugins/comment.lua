@@ -1,11 +1,8 @@
 local comment = {
-  install = function(packager)
-    return packager.add('numToStr/Comment.nvim')
-  end,
+  'numToStr/Comment.nvim',
 }
-comment.setup = function()
+comment.config = function()
   require('Comment').setup()
-  return comment
 end
 
 return comment

@@ -1,51 +1,50 @@
 local plugins = {}
-vim.cmd.packadd('vim-packager')
 vim.g.mapleader = ','
 
-local custom_plugins = {}
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+    vim.cmd([[packadd packer.nvim]])
+    return true
+  end
+  return false
+end
+
+local packer_bootstrap = ensure_packer()
+
+local custom_plugins = {
+  'wbthomason/packer.nvim',
+  'tpope/vim-repeat',
+  'tpope/vim-sleuth',
+  'tpope/vim-abolish',
+  'tpope/vim-surround',
+  'windwp/nvim-ts-autotag',
+  'nvim-lua/plenary.nvim',
+  'ludovicchabant/vim-gutentags',
+  'stefandtw/quickfix-reflector.vim',
+  'wakatime/vim-wakatime',
+  'Raimondi/delimitMate',
+  'lewis6991/impatient.nvim',
+}
 
 local plugins_dir = ('%s/lua/partials/plugins'):format(vim.fn.stdpath('config'))
+
 for file in vim.fs.dir(plugins_dir) do
   local stat = vim.loop.fs_stat(('%s/%s'):format(plugins_dir, file))
   if stat and stat.type == 'file' then
-    table.insert(custom_plugins, ('partials.plugins.%s'):format(file:sub(0, -5)))
+    table.insert(custom_plugins, require(('partials.plugins.%s'):format(file:sub(0, -5))))
   end
 end
 
-local plugin_errors = {}
-for _, plugin in ipairs(custom_plugins) do
-  local ok = pcall(require(plugin).setup)
-  if not ok then
-    table.insert(plugin_errors, plugin)
-  end
+require('packer').startup({
+  custom_plugins,
+})
+
+if packer_bootstrap then
+  vim.cmd([[PackerSync]])
 end
-
-if #plugin_errors > 0 then
-  vim.notify(('Error loading plugins:\n%s'):format(table.concat(plugin_errors, '\n')), vim.log.levels.WARN)
-end
-
-require('packager').setup(function(packager)
-  packager.add('kristijanhusak/vim-packager', { type = 'opt' })
-
-  for _, plugin in ipairs(custom_plugins) do
-    require(plugin).install(packager)
-  end
-
-  packager.add('tpope/vim-repeat')
-  packager.add('tpope/vim-sleuth')
-  packager.add('tpope/vim-abolish')
-  packager.add('tpope/vim-surround')
-  packager.add('windwp/nvim-ts-autotag')
-  packager.add('nvim-lua/plenary.nvim')
-  packager.add('ludovicchabant/vim-gutentags')
-  packager.add('stefandtw/quickfix-reflector.vim')
-  packager.add('wakatime/vim-wakatime')
-  packager.add('Raimondi/delimitMate')
-  packager.add('lewis6991/impatient.nvim')
-  packager.add('https://gitlab.com/yorickpeterse/nvim-pqf')
-end)
-
-require('partials.plugins.custom')
 
 vim.g.delimitMate_expand_cr = 1
 

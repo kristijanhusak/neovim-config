@@ -1,9 +1,8 @@
 local pqf = {
-  install = function(packager)
-    return packager.add('https://gitlab.com/yorickpeterse/nvim-pqf')
-  end,
+  'https://gitlab.com/yorickpeterse/nvim-pqf',
+  ft = 'qf',
 }
-pqf.setup = function()
+pqf.config = function()
   require('pqf').setup()
   return pqf
 end

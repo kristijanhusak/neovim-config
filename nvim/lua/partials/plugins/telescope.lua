@@ -1,52 +1,53 @@
-local function setup_mappings(telescope, builtin)
-  vim.keymap.set('n', '<C-p>', function()
-    return builtin.find_files({ find_command = { 'rg', '--files', '--hidden' } })
-  end)
-  vim.keymap.set('n', '<Leader>b', function()
-    return builtin.buffers({ sort_lastused = true })
-  end)
-  vim.keymap.set('n', '<Leader>t', builtin.lsp_document_symbols)
-  vim.keymap.set('n', '<Leader>m', function()
-    return telescope.extensions.recent_files.pick()
-  end)
-  vim.keymap.set('n', '<Leader>g', builtin.git_status)
-
-  vim.keymap.set('n', '<Leader>lT', builtin.lsp_dynamic_workspace_symbols)
-  vim.keymap.set('n', '<Leader>lt', builtin.current_buffer_tags)
-end
-
-local function setup_custom_actions(actions, builtin)
-  local transform_mod = require('telescope.actions.mt').transform_mod
-  return transform_mod({
-    jump_to_symbol = function(prompt_bufnr)
-      actions.file_edit(prompt_bufnr)
-      local valid_clients = #vim.tbl_filter(function(client)
-        return client.server_capabilities.documentSymbolProvider
-      end, vim.lsp.get_active_clients()) > 0
-
-      if valid_clients and vim.lsp.buf.server_ready() then
-        return builtin.lsp_document_symbols()
-      end
-
-      return builtin.current_buffer_tags()
-    end,
-    jump_to_line = function(prompt_bufnr)
-      actions.file_edit(prompt_bufnr)
-      vim.defer_fn(function()
-        vim.api.nvim_feedkeys(':', 'n', true)
-      end, 100)
-    end,
-  })
-end
-
 local ts = {
-  install = function(packager)
-    packager.add('nvim-telescope/telescope.nvim')
-    packager.add('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make' })
-    packager.add('smartpde/telescope-recent-files')
-  end,
+  'nvim-telescope/telescope.nvim',
+  requires = {
+    { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+    'smartpde/telescope-recent-files',
+  },
+  keys = {'<C-p>', '<Leader>b', '<Leader>t', '<Leader>m', '<Leader>g', '<Leader>lT', '<Leader.lt'},
 }
-ts.setup = function()
+ts.config = function()
+  local function setup_mappings(telescope, builtin)
+    vim.keymap.set('n', '<C-p>', function()
+      return builtin.find_files({ find_command = { 'rg', '--files', '--hidden' } })
+    end)
+    vim.keymap.set('n', '<Leader>b', function()
+      return builtin.buffers({ sort_lastused = true })
+    end)
+    vim.keymap.set('n', '<Leader>t', builtin.lsp_document_symbols)
+    vim.keymap.set('n', '<Leader>m', function()
+      return telescope.extensions.recent_files.pick()
+    end)
+    vim.keymap.set('n', '<Leader>g', builtin.git_status)
+
+    vim.keymap.set('n', '<Leader>lT', builtin.lsp_dynamic_workspace_symbols)
+    vim.keymap.set('n', '<Leader>lt', builtin.current_buffer_tags)
+  end
+
+  local function setup_custom_actions(actions, builtin)
+    local transform_mod = require('telescope.actions.mt').transform_mod
+    return transform_mod({
+      jump_to_symbol = function(prompt_bufnr)
+        actions.file_edit(prompt_bufnr)
+        local valid_clients = #vim.tbl_filter(function(client)
+          return client.server_capabilities.documentSymbolProvider
+        end, vim.lsp.get_active_clients()) > 0
+
+        if valid_clients and vim.lsp.buf.server_ready() then
+          return builtin.lsp_document_symbols()
+        end
+
+        return builtin.current_buffer_tags()
+      end,
+      jump_to_line = function(prompt_bufnr)
+        actions.file_edit(prompt_bufnr)
+        vim.defer_fn(function()
+          vim.api.nvim_feedkeys(':', 'n', true)
+        end, 100)
+      end,
+    })
+  end
+
   local builtin = require('telescope.builtin')
   local actions = require('telescope.actions')
   local telescope = require('telescope')

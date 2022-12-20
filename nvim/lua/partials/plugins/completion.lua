@@ -1,18 +1,16 @@
 local completion = {
-  install = function(packager)
-    return packager.add('hrsh7th/nvim-cmp', {
-      requires = {
-        'hrsh7th/cmp-buffer',
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-path',
-        'hrsh7th/cmp-vsnip',
-        'quangnguyen30192/cmp-nvim-tags',
-        'lukas-reineke/cmp-rg',
-      },
-    })
-  end,
+  'hrsh7th/nvim-cmp',
+  requires = {
+    { 'hrsh7th/cmp-buffer', opt = true, after = 'nvim-cmp' },
+    { 'hrsh7th/cmp-nvim-lsp', opt = true, after = 'nvim-cmp' },
+    { 'hrsh7th/cmp-path', opt = true, after = 'nvim-cmp' },
+    { 'hrsh7th/cmp-vsnip', opt = true, after = 'nvim-cmp' },
+    { 'quangnguyen30192/cmp-nvim-tags', opt = true, after = 'nvim-cmp' },
+    { 'lukas-reineke/cmp-rg', opt = true, after = 'nvim-cmp' },
+  },
+  event = 'InsertEnter',
 }
-completion.setup = function()
+completion.config = function()
   local utils = require('partials.utils')
   local cmp = require('cmp')
 
@@ -71,7 +69,7 @@ completion.setup = function()
         elseif vim.fn['vsnip#expandable']() > 0 then
           vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
         elseif require('copilot.suggestion').is_visible() then
-          require("copilot.suggestion").accept()
+          require('copilot.suggestion').accept()
         else
           fallback()
         end

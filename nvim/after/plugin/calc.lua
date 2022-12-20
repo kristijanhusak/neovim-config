@@ -1,5 +1,4 @@
 local utils = require('partials.utils')
-local ns = vim.api.nvim_create_namespace('custom_calc')
 
 local function calculate_selection(append)
   local selection = utils.get_visual_selection()

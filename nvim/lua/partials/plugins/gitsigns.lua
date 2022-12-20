@@ -1,9 +1,7 @@
 local gitsigns_nvim = {
-  install = function(packager)
-    return packager.add('lewis6991/gitsigns.nvim')
-  end,
+  'lewis6991/gitsigns.nvim',
 }
-gitsigns_nvim.setup = function()
+gitsigns_nvim.config = function()
   local gitsigns = require('gitsigns')
 
   gitsigns.setup({

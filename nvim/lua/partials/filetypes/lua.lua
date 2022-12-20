@@ -1,6 +1,5 @@
 local lua = {}
 local fn = vim.fn
-local ts_utils = require('nvim-treesitter.ts_utils')
 local utils = require('partials.utils')
 
 local function do_print()
@@ -22,6 +21,7 @@ function lua.setup()
 end
 
 function lua.generate_docblock()
+  local ts_utils = require('nvim-treesitter.ts_utils')
   local node = ts_utils.get_node_at_cursor()
   if node:type() ~= 'identifier' then
     while node and node:type() ~= 'function_name' do

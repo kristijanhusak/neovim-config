@@ -1,14 +1,14 @@
 local treesitter = {
-  install = function(packager)
-    packager.add('nvim-treesitter/nvim-treesitter')
-    packager.add('nvim-treesitter/nvim-treesitter-refactor')
-    packager.add('nvim-treesitter/nvim-treesitter-textobjects')
-    packager.add('yioneko/nvim-yati')
-    packager.add('yioneko/vim-tmindent')
-    return packager.add('nvim-treesitter/playground')
-  end,
+  'nvim-treesitter/nvim-treesitter',
+  requires = {
+    { 'nvim-treesitter/nvim-treesitter-refactor', opt = true, after = 'nvim-treesitter' },
+    { 'nvim-treesitter/nvim-treesitter-textobjects', opt = true, after = 'nvim-treesitter' },
+    { 'yioneko/nvim-yati', opt = true, after = 'nvim-treesitter' },
+    { 'yioneko/vim-tmindent', opt = true, after = 'nvim-treesitter' },
+    { 'nvim-treesitter/playground', opt = true, after = 'nvim-treesitter' },
+  },
 }
-treesitter.setup = function()
+treesitter.config = function()
   require('orgmode').setup_ts_grammar()
 
   require('nvim-treesitter.configs').setup({
