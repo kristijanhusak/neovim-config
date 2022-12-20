@@ -227,7 +227,7 @@ local function statusline_active()
   local mode = mode_statusline()
   local git_status = git_statusline()
   local search = statusline.search_result()
-  local db_ui = vim.fn['db_ui#statusline']() or ''
+  -- local db_ui = vim.fn['db_ui#statusline'] and vim.fn['db_ui#statusline']() or ''
   local ft = vim.bo.filetype
   local diagnostics = lsp_diagnostics()
   local modified_count = get_modified_count()
@@ -240,7 +240,7 @@ local function statusline_active()
     sep('%w', nil, vim.wo.previewwindow),
     sep('%r', nil, vim.bo.readonly),
     sep('%q', nil, vim.bo.buftype == 'quickfix'),
-    sep(db_ui, sec_2, db_ui ~= ''),
+    -- sep(db_ui, sec_2, db_ui ~= ''),
     '%<',
     '%=',
     sep(lsp.message, vim.tbl_extend('keep', { side = 'right' }, sec_2), lsp.message ~= ''),

@@ -1,9 +1,8 @@
 local vimspector = {
-  install = function(packager)
-    return packager.add('puremourning/vimspector')
-  end,
+  'puremourning/vimspector',
+  event = 'VeryLazy',
 }
-vimspector.setup = function()
+vimspector.config = function()
   vim.keymap.set('n', '<F1>', '<Plug>VimspectorToggleBreakpoint')
   vim.keymap.set('n', '<F2>', '<Plug>VimspectorToggleConditionalBreakpoint')
   vim.keymap.set('n', '<F3>', '<Plug>VimspectorAddFunctionBreakpoint')

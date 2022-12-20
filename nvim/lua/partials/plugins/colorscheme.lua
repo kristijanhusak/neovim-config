@@ -1,10 +1,7 @@
 local colorscheme = {
-  install = function(packager)
-    return packager.add('rmehri01/onenord.nvim')
-  end,
+  'rmehri01/onenord.nvim',
 }
-colorscheme.setup = function()
-  vim.opt.termguicolors = true
+colorscheme.config = function()
   vim.opt.background = vim.env.NVIM_COLORSCHEME_BG or 'dark'
   vim.opt.synmaxcol = 300
 

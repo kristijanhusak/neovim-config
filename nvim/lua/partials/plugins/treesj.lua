@@ -1,9 +1,8 @@
 local treesj = {
-  install = function(packager)
-    return packager.add('Wansmer/treesj')
-  end,
+  'Wansmer/treesj',
+  event = 'VeryLazy',
 }
-treesj.setup = function()
+treesj.config = function()
   require('treesj').setup({
     use_default_keymaps = false,
     check_syntax_error = true,

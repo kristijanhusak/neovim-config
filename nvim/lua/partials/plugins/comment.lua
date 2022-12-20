@@ -1,11 +1,12 @@
 local comment = {
-  install = function(packager)
-    return packager.add('numToStr/Comment.nvim')
-  end,
+  'numToStr/Comment.nvim',
 }
-comment.setup = function()
+comment.config = function()
   require('Comment').setup()
-  return comment
+  -- Comment map
+  vim.keymap.set('n', '<Leader>c', 'gcc', { remap = true })
+  -- Line comment command
+  vim.keymap.set('v', '<Leader>c', 'gc', { remap = true })
 end
 
 return comment

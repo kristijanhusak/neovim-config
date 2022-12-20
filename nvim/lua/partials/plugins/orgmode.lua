@@ -3,6 +3,14 @@ local org_path = function(path)
   return ('%s/%s'):format(org_directory, path)
 end
 
+local orgmode = {
+  'nvim-orgmode/orgmode',
+  dependencies = {
+    'akinsho/org-bullets.nvim',
+  },
+  event = 'VeryLazy',
+}
+
 local orgmode_config = {
   org_agenda_files = org_path('**/*'),
   org_default_notes_file = org_path('refile.org'),
@@ -55,15 +63,9 @@ local orgmode_config = {
   },
 }
 
-local orgmode = {
-  install = function(packager)
-    packager.add('nvim-orgmode/orgmode')
-    packager.add('akinsho/org-bullets.nvim')
-  end,
-  orgmode_config = orgmode_config,
-}
+orgmode.orgmode_config = orgmode_config
 
-orgmode.setup = function()
+orgmode.config = function()
   require('orgmode').setup(orgmode_config)
   require('org-bullets').setup({
     concealcursor = true,

@@ -5,15 +5,16 @@ local lsp_group = vim.api.nvim_create_augroup('vimrc_lsp', { clear = true })
 local setup = {}
 
 local lsp = {
-  install = function(packager)
-    packager.add('jose-elias-alvarez/null-ls.nvim')
-    packager.add('jose-elias-alvarez/typescript.nvim')
-    packager.add('DNLHC/glance.nvim')
-    packager.add('SmiteshP/nvim-navic')
-    return packager.add('neovim/nvim-lspconfig')
-  end,
+  'neovim/nvim-lspconfig',
+  dependencies = {
+    'jose-elias-alvarez/null-ls.nvim',
+    'jose-elias-alvarez/typescript.nvim',
+    'DNLHC/glance.nvim',
+    'SmiteshP/nvim-navic',
+  },
+  event = 'VeryLazy',
 }
-lsp.setup = function()
+lsp.config = function()
   setup.configure()
   setup.servers()
   require('glance').setup({

@@ -1,27 +1,14 @@
-local js_group = vim.api.nvim_create_augroup('custom_javascript', { clear = true })
 local utils = require('partials.utils')
 local fn = vim.fn
 
 local handlers = {}
 
 local javascript = {
-  install = function(packager)
-    return packager.add('kristijanhusak/vim-js-file-import', { ['do'] = 'npm install', type = 'opt' })
-  end,
+  'kristijanhusak/vim-js-file-import',
+  build = 'npm install',
+  ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
 }
-javascript.setup = function()
-  vim.api.nvim_create_autocmd('FileType', {
-    pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-    command = [[packadd vim-js-file-import | exe 'runtime ftplugin/'.&ft.'.vim']],
-    group = js_group,
-  })
-
-  vim.api.nvim_create_autocmd('FileType', {
-    pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-    callback = handlers.setup_buffer,
-    group = js_group,
-  })
-
+javascript.config = function()
   vim.keymap.set('n', '<Plug>(JsConsoleLog)', handlers.console_log)
   vim.keymap.set('n', '<Plug>(JsGotoFile)', handlers.goto_file)
 

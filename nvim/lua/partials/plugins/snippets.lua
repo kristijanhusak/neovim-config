@@ -1,9 +1,8 @@
 local snippets = {
-  install = function(packager)
-    return packager.add('hrsh7th/vim-vsnip')
-  end,
+  'hrsh7th/vim-vsnip',
+  event = 'VeryLazy',
 }
-snippets.setup = function()
+snippets.config = function()
   vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
   vim.g.vsnip_filetypes = {
     typescript = { 'javascript' },

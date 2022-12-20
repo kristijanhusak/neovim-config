@@ -1,9 +1,8 @@
 local copilot = {
-  install = function(packager)
-    return packager.add('zbirenbaum/copilot.lua')
-  end,
+  'zbirenbaum/copilot.lua',
+  event = 'VeryLazy',
 }
-copilot.setup = function()
+copilot.config = function()
   require('copilot').setup({
     panel = {
       enabled = false,

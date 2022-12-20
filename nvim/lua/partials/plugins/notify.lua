@@ -1,9 +1,8 @@
 local notify = {
-  install = function(packager)
-    return packager.add('rcarriga/nvim-notify')
-  end,
+  'rcarriga/nvim-notify',
+  event = 'VeryLazy',
 }
-notify.setup = function()
+notify.config = function()
   local n = require('notify')
   n.setup({
     top_down = false,

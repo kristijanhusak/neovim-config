@@ -40,13 +40,14 @@ local function setup_custom_actions(actions, builtin)
 end
 
 local ts = {
-  install = function(packager)
-    packager.add('nvim-telescope/telescope.nvim')
-    packager.add('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make' })
-    packager.add('smartpde/telescope-recent-files')
-  end,
+  'nvim-telescope/telescope.nvim',
+  dependencies = {
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    'smartpde/telescope-recent-files',
+  },
+  event = 'VeryLazy'
 }
-ts.setup = function()
+ts.config = function()
   local builtin = require('telescope.builtin')
   local actions = require('telescope.actions')
   local telescope = require('telescope')

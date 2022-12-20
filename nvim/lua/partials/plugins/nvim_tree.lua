@@ -1,9 +1,8 @@
 local nvim_tree = {
-  install = function(packager)
-    return packager.add('kyazdani42/nvim-tree.lua', { requires = 'kyazdani42/nvim-web-devicons' })
-  end,
+  'kyazdani42/nvim-tree.lua',
+  dependencies = 'kyazdani42/nvim-web-devicons',
 }
-nvim_tree.setup = function()
+nvim_tree.config = function()
   require('nvim-tree').setup({
     hijack_unnamed_buffer_when_opening = false,
     disable_netrw = true,
@@ -42,21 +41,14 @@ nvim_tree.setup = function()
     },
   })
 
-  local nvim_tree_augroup = vim.api.nvim_create_augroup('custom_nvim_tree', { clear = true })
-  vim.api.nvim_create_autocmd('VimEnter', {
-    pattern = '*',
-    group = nvim_tree_augroup,
-    callback = function()
-      if vim.bo.filetype == 'NvimTree' then
-        vim.cmd.wincmd('p')
-      end
-      vim.defer_fn(function()
-        if vim.bo.filetype == 'NvimTree' then
-          vim.cmd.wincmd('p')
-        end
-      end, 50)
-    end,
-  })
+  local api = require('nvim-tree.api')
+  local Event = api.events.Event
+
+  api.events.subscribe(Event.Ready, function()
+    vim.schedule(function()
+      vim.cmd.wincmd('p')
+    end)
+  end)
 
   vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>', { silent = true })
   vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>', { silent = true })

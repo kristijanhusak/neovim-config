@@ -1,9 +1,8 @@
 local fugitive = {
-  install = function(packager)
-    return packager.add('tpope/vim-fugitive')
-  end,
+  'tpope/vim-fugitive',
+  event = 'VeryLazy',
 }
-fugitive.setup = function()
+fugitive.config = function()
   local git_group = vim.api.nvim_create_augroup('custom_fugitive', { clear = true })
   vim.api.nvim_create_autocmd('FileType', {
     pattern = 'fugitive',

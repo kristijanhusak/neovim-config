@@ -1,9 +1,8 @@
 local diffview = {
-  install = function(packager)
-    return packager.add('sindrets/diffview.nvim')
-  end,
+  'sindrets/diffview.nvim',
+  event = 'VeryLazy'
 }
-diffview.setup = function()
+diffview.config = function()
   vim.keymap.set('n', '<leader>do', function()
     if vim.t.diffview_view_initialized then
       return vim.cmd.DiffviewClose()

@@ -1,8 +1,4 @@
 local mappings = {}
--- Comment map
-vim.keymap.set('n', '<Leader>c', 'gcc', { remap = true })
--- Line comment command
-vim.keymap.set('v', '<Leader>c', 'gc', { remap = true })
 
 -- Map save to Ctrl + S
 vim.keymap.set('', '<c-s>', ':w<CR>', { remap = true, silent = true })

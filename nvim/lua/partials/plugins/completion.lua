@@ -1,18 +1,16 @@
 local completion = {
-  install = function(packager)
-    return packager.add('hrsh7th/nvim-cmp', {
-      requires = {
-        'hrsh7th/cmp-buffer',
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-path',
-        'hrsh7th/cmp-vsnip',
-        'quangnguyen30192/cmp-nvim-tags',
-        'lukas-reineke/cmp-rg',
-      },
-    })
-  end,
+  'hrsh7th/nvim-cmp',
+  event = 'VeryLazy',
+  dependencies = {
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-vsnip',
+    'quangnguyen30192/cmp-nvim-tags',
+    'lukas-reineke/cmp-rg',
+  }
 }
-completion.setup = function()
+completion.config = function()
   local utils = require('partials.utils')
   local cmp = require('cmp')
 

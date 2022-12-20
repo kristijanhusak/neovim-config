@@ -1,5 +1,6 @@
 local settings = {}
 
+vim.opt.termguicolors = true
 vim.opt.title = true
 vim.opt.number = true
 vim.opt.relativenumber = true
