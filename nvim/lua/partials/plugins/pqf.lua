@@ -1,5 +1,5 @@
 local pqf = {
-  url = 'git@gitlab.com:yorickpeterse/nvim-pqf.git',
+  url = 'https://gitlab.com/yorickpeterse/nvim-pqf',
   event = 'VeryLazy'
 }
 pqf.config = function()
