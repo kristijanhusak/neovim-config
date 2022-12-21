@@ -12,7 +12,6 @@ local lsp = {
     'DNLHC/glance.nvim',
     'SmiteshP/nvim-navic',
   },
-  event = 'VeryLazy',
 }
 lsp.config = function()
   setup.configure()
