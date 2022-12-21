@@ -17,4 +17,8 @@ require('lazy').setup('partials.plugins', {
   ui = {
     border = 'rounded',
   },
+  install = {
+    colorscheme = { 'onenord' },
+  },
+  lockfile = vim.fn.stdpath('data') .. '/lazy-lock.json',
 })
