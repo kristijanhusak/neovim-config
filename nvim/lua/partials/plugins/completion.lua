@@ -1,14 +1,14 @@
 local completion = {
   'hrsh7th/nvim-cmp',
-  event = 'VeryLazy',
+  event = 'InsertEnter',
   dependencies = {
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-vsnip',
-    'quangnguyen30192/cmp-nvim-tags',
-    'lukas-reineke/cmp-rg',
-  }
+    { 'hrsh7th/cmp-buffer', lazy = true },
+    { 'hrsh7th/cmp-nvim-lsp', lazy = true },
+    { 'hrsh7th/cmp-path', lazy = true },
+    { 'hrsh7th/cmp-vsnip', lazy = true },
+    { 'quangnguyen30192/cmp-nvim-tags', lazy = true },
+    { 'lukas-reineke/cmp-rg', lazy = true },
+  },
 }
 completion.config = function()
   local utils = require('partials.utils')
@@ -69,7 +69,7 @@ completion.config = function()
         elseif vim.fn['vsnip#expandable']() > 0 then
           vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
         elseif require('copilot.suggestion').is_visible() then
-          require("copilot.suggestion").accept()
+          require('copilot.suggestion').accept()
         else
           fallback()
         end

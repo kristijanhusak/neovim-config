@@ -1,6 +1,6 @@
 local snippets = {
   'hrsh7th/vim-vsnip',
-  event = 'VeryLazy',
+  event = 'InsertEnter',
 }
 snippets.init = function()
   vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'

@@ -1,8 +1,8 @@
 local diffview = {
   'sindrets/diffview.nvim',
-  event = 'VeryLazy'
+  cmd = { 'DiffviewOpen', 'DiffviewClose', 'DiffviewFileHistory' },
 }
-diffview.config = function()
+diffview.init = function()
   vim.keymap.set('n', '<leader>do', function()
     if vim.t.diffview_view_initialized then
       return vim.cmd.DiffviewClose()

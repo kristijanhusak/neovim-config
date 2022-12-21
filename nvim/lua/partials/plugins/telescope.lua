@@ -1,20 +1,3 @@
-local function setup_mappings(telescope, builtin)
-  vim.keymap.set('n', '<C-p>', function()
-    return builtin.find_files({ find_command = { 'rg', '--files', '--hidden' } })
-  end)
-  vim.keymap.set('n', '<Leader>b', function()
-    return builtin.buffers({ sort_lastused = true })
-  end)
-  vim.keymap.set('n', '<Leader>t', builtin.lsp_document_symbols)
-  vim.keymap.set('n', '<Leader>m', function()
-    return telescope.extensions.recent_files.pick()
-  end)
-  vim.keymap.set('n', '<Leader>g', builtin.git_status)
-
-  vim.keymap.set('n', '<Leader>lT', builtin.lsp_dynamic_workspace_symbols)
-  vim.keymap.set('n', '<Leader>lt', builtin.current_buffer_tags)
-end
-
 local function setup_custom_actions(actions, builtin)
   local transform_mod = require('telescope.actions.mt').transform_mod
   return transform_mod({
@@ -42,11 +25,35 @@ end
 local ts = {
   'nvim-telescope/telescope.nvim',
   dependencies = {
-    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-    'smartpde/telescope-recent-files',
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', lazy = true },
+    { 'smartpde/telescope-recent-files', lazy = true },
   },
-  event = 'VeryLazy'
+  lazy = true,
 }
+ts.init = function()
+  vim.keymap.set('n', '<C-p>', function()
+    return require('telescope.builtin').find_files({ find_command = { 'rg', '--files', '--hidden' } })
+  end)
+  vim.keymap.set('n', '<Leader>b', function()
+    return require('telescope.builtin').buffers({ sort_lastused = true })
+  end)
+  vim.keymap.set('n', '<Leader>t', function()
+    return require('telescope.builtin').lsp_document_symbols()
+  end)
+  vim.keymap.set('n', '<Leader>m', function()
+    return require('telescope').extensions.recent_files.pick()
+  end)
+  vim.keymap.set('n', '<Leader>g', function()
+    return require('telescope.builtin').git_status()
+  end)
+
+  vim.keymap.set('n', '<Leader>lT', function()
+    return require('telescope.builtin').lsp_dynamic_workspace_symbols()
+  end)
+  vim.keymap.set('n', '<Leader>lt', function()
+    return require('telescope.builtin').current_buffer_tags()
+  end)
+end
 ts.config = function()
   local builtin = require('telescope.builtin')
   local actions = require('telescope.actions')
@@ -87,7 +94,6 @@ ts.config = function()
 
   telescope.load_extension('fzf')
   telescope.load_extension('recent_files')
-  setup_mappings(telescope, builtin)
   return ts
 end
 

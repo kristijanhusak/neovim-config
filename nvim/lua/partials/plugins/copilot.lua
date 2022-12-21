@@ -1,6 +1,6 @@
 local copilot = {
   'zbirenbaum/copilot.lua',
-  event = 'VeryLazy',
+  event = 'InsertEnter',
 }
 copilot.config = function()
   require('copilot').setup({

@@ -1,7 +1,11 @@
 local treesj = {
   'Wansmer/treesj',
-  event = 'VeryLazy',
+  cmd = { 'TSJSplit', 'TSJJoin' },
 }
+treesj.init = function()
+  vim.keymap.set('n', 'gS', ':TSJSplit<CR>', { silent = true })
+  vim.keymap.set('n', 'gJ', ':TSJJoin<CR>', { silent = true })
+end
 treesj.config = function()
   require('treesj').setup({
     use_default_keymaps = false,
@@ -10,9 +14,6 @@ treesj.config = function()
     cursor_behavior = 'hold',
     notify = true,
   })
-  vim.keymap.set('n', 'gS', ':TSJSplit<CR>', { silent = true })
-  vim.keymap.set('n', 'gJ', ':TSJJoin<CR>', { silent = true })
-  return treesj
 end
 
 return treesj

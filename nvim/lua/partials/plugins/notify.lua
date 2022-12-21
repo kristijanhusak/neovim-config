@@ -1,6 +1,6 @@
 local notify = {
   'rcarriga/nvim-notify',
-  event = 'VeryLazy',
+  lazy = true,
 }
 notify.config = function()
   local n = require('notify')

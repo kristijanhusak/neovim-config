@@ -1,7 +1,11 @@
 local fugitive = {
   'tpope/vim-fugitive',
-  event = 'VeryLazy',
+  cmd = { 'G', 'Git', 'Gdiffsplit' },
 }
+fugitive.init = function()
+  vim.keymap.set('n', '<Leader>G', ':vert G<CR>', { silent = true })
+end
+
 fugitive.config = function()
   local git_group = vim.api.nvim_create_augroup('custom_fugitive', { clear = true })
   vim.api.nvim_create_autocmd('FileType', {
@@ -13,7 +17,6 @@ fugitive.config = function()
     end,
     group = git_group,
   })
-  vim.keymap.set('n', '<Leader>G', ':vert G<CR>', { silent = true })
 
   return fugitive
 end
