@@ -1,3 +1,4 @@
+local js_group = vim.api.nvim_create_augroup('custom_javascript', { clear = true })
 local utils = require('partials.utils')
 local fn = vim.fn
 
@@ -11,6 +12,12 @@ local javascript = {
 javascript.config = function()
   vim.keymap.set('n', '<Plug>(JsConsoleLog)', handlers.console_log)
   vim.keymap.set('n', '<Plug>(JsGotoFile)', handlers.goto_file)
+
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+    callback = handlers.setup_buffer,
+    group = js_group,
+  })
 
   vim.g.js_file_import_use_telescope = 1
 
