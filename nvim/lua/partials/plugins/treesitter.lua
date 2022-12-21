@@ -1,11 +1,11 @@
 local treesitter = {
   'nvim-treesitter/nvim-treesitter',
   dependencies = {
-    'nvim-treesitter/nvim-treesitter-refactor',
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    'yioneko/nvim-yati',
-    'yioneko/vim-tmindent',
-    'nvim-treesitter/playground',
+    { 'nvim-treesitter/nvim-treesitter-refactor', lazy = true },
+    { 'nvim-treesitter/nvim-treesitter-textobjects', lazy = true },
+    { 'yioneko/nvim-yati', lazy = true },
+    { 'yioneko/vim-tmindent', lazy = true },
+    { 'nvim-treesitter/playground', lazy = true },
   },
   event = 'VeryLazy',
 }

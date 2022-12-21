@@ -13,4 +13,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 
-require('lazy').setup('partials.plugins')
+require('lazy').setup('partials.plugins', {
+  ui = {
+    border = 'rounded',
+  },
+})

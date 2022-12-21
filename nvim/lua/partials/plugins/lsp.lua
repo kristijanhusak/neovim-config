@@ -7,11 +7,12 @@ local setup = {}
 local lsp = {
   'neovim/nvim-lspconfig',
   dependencies = {
-    'jose-elias-alvarez/null-ls.nvim',
-    'jose-elias-alvarez/typescript.nvim',
-    'DNLHC/glance.nvim',
-    'SmiteshP/nvim-navic',
+    { 'jose-elias-alvarez/null-ls.nvim', lazy = true },
+    { 'jose-elias-alvarez/typescript.nvim', lazy = true },
+    { 'DNLHC/glance.nvim', lazy = true },
+    { 'SmiteshP/nvim-navic', lazy = true },
   },
+  event = 'VeryLazy',
 }
 lsp.config = function()
   setup.configure()
@@ -37,6 +38,11 @@ lsp.config = function()
       end,
     },
   })
+  -- Re-trigger filetype autocmd to enable LSP
+  -- if Neovim was opened with a file
+  if vim.bo.filetype ~= '' then
+    vim.cmd('doautocmd FileType ' .. vim.bo.filetype)
+  end
 
   return lsp
 end
@@ -77,7 +83,7 @@ function setup.mappings()
   vim.keymap.set('n', '<leader>lu', ':Glance references<CR>', opts)
   vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, opts)
   vim.keymap.set('n', '<leader>lg', ':Glance implementations<CR>', opts)
-  vim.keymap.set('n', '<Space>', vim.lsp.buf.hover, { silent = true, buffer = true})
+  vim.keymap.set('n', '<Space>', vim.lsp.buf.hover, { silent = true, buffer = true })
   vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, opts)
   vim.keymap.set('v', '<leader>lf', function()
     return vim.lsp.buf.format()
@@ -109,7 +115,6 @@ end
 
 function setup.servers()
   local nvim_lsp = require('lspconfig')
-  local navic = require('nvim-navic')
 
   local function lsp_setup(opts)
     opts = opts or {}
@@ -118,7 +123,7 @@ function setup.servers()
         debounce_text_changes = 300,
       },
       on_attach = function(client, bufnr)
-        navic.attach(client, bufnr)
+        require('nvim-navic').attach(client, bufnr)
         setup.attach_to_buffer(client, bufnr)
         client.server_capabilities.semanticTokensProvider = nil
         if opts.disableFormatting then
