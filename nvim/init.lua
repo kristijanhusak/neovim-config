@@ -1,6 +1,4 @@
 _G.kris = {}
-pcall(require, 'impatient')
-
 require('partials.abbreviations')
 require('partials.settings')
 require('partials.lazy')

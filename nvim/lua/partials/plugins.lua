@@ -27,5 +27,4 @@ return {
     end,
     event = 'VeryLazy',
   },
-  'lewis6991/impatient.nvim',
 }
