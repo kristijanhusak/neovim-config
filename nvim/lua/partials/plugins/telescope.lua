@@ -32,7 +32,7 @@ local ts = {
 }
 ts.init = function()
   vim.keymap.set('n', '<C-p>', function()
-    return require('telescope.builtin').find_files({ find_command = { 'rg', '--files', '--hidden' } })
+    return require('telescope.builtin').find_files({ find_command = { 'rg', '--files', '--hidden', '-g', '!.git/' } })
   end)
   vim.keymap.set('n', '<Leader>b', function()
     return require('telescope.builtin').buffers({ sort_lastused = true })
