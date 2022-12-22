@@ -139,9 +139,9 @@ function setup.servers()
         debounce_text_changes = 300,
       },
       on_attach = function(client, bufnr)
+        client.server_capabilities.semanticTokensProvider = nil
         require('nvim-navic').attach(client, bufnr)
         setup.attach_to_buffer(client, bufnr)
-        client.server_capabilities.semanticTokensProvider = nil
         if opts.disableFormatting then
           client.server_capabilities.documentFormattingProvider = false
           client.server_capabilities.documentRangeFormattingProvider = false
@@ -252,15 +252,7 @@ function setup.attach_to_buffer(client, bufnr)
       buffer = bufnr,
       callback = function()
         vim.defer_fn(function()
-          local line = vim.api.nvim_get_current_line()
-          line = vim.trim(line:sub(1, vim.api.nvim_win_get_cursor(0)[2] + 1))
-          local len = line:len()
-          local char_post = line:sub(len, len)
-          local char_pre = line:sub(len - 1, len - 1)
-          local show_signature = char_pre == '(' or char_pre == ',' or char_post == ')'
-          if show_signature then
-            vim.lsp.buf.signature_help()
-          end
+          vim.lsp.buf.signature_help()
         end, 500)
       end,
       group = lsp_group,
