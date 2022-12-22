@@ -157,4 +157,4 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
   command = 'set filetype=conf',
 })
 
-_G.kris.settings = settings
+return settings

@@ -32,11 +32,6 @@ function go.format()
 end
 
 local go_group = vim.api.nvim_create_augroup('vimrc_go', { clear = true })
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'go',
-  callback = go.setup,
-  group = go_group,
-})
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*.go',
   callback = go.format,
@@ -44,5 +39,4 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 })
 
 vim.api.nvim_create_user_command('GoAddTags', go.add_tags, { force = true })
-
-_G.kris.go = go
+go.setup()

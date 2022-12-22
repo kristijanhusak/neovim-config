@@ -47,7 +47,7 @@ vim.ui.select = function(items, opts, on_choice)
     longest_item = math.max(longest_item, choice:len())
   end
 
-  kris.ui.last_select = {
+  ui.last_select = {
     items = items,
     on_choice = on_choice,
   }
@@ -68,7 +68,7 @@ vim.ui.select = function(items, opts, on_choice)
   if vim.fn.mode():lower() == 'v' then
     vim.api.nvim_feedkeys(utils.esc('<Esc>'), 'n', false)
   end
-  vim.keymap.set('n', '<CR>', kris.ui.on_select, { buffer = bufnr })
+  vim.keymap.set('n', '<CR>', ui.on_select, { buffer = bufnr })
 end
 
 vim.ui.input = function(opts, on_confirm)
@@ -97,7 +97,7 @@ vim.ui.input = function(opts, on_confirm)
   vim.api.nvim_buf_set_option(bufnr, 'modifiable', true)
   vim.api.nvim_win_set_option(winnr, 'sidescrolloff', 0)
   require('cmp').setup.buffer({ enabled = false })
-  vim.keymap.set('i', '<CR>', kris.ui.on_input, { buffer = bufnr })
+  vim.keymap.set('i', '<CR>', ui.on_input, { buffer = bufnr })
   vim.defer_fn(function()
     vim.cmd.startinsert({ bang = true })
   end, 10)
@@ -124,4 +124,4 @@ function ui.on_input()
   return ui.last_input.on_confirm(nil)
 end
 
-_G.kris.ui = ui
+return ui

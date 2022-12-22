@@ -114,7 +114,9 @@ vim.keymap.set('c', '<C-b>', '<End>')
 vim.keymap.set('c', '<C-j>', 'wildmenumode() ? "<c-j>" : "<down>"', { expr = true, replace_keycodes = false })
 vim.keymap.set('c', '<C-k>', 'wildmenumode() ? "<c-k>" : "<up>"', { expr = true, replace_keycodes = false })
 
-vim.keymap.set('n', '<leader>T', ':call v:lua.kris.mappings.toggle_terminal()<CR>')
+vim.keymap.set('n', '<leader>T', function()
+  return mappings.toggle_terminal()
+end)
 vim.keymap.set('t', '<leader>T', '<C-\\><C-n><C-w>c')
 
 vim.keymap.set('n', 'gs', ':%s/')
@@ -280,5 +282,4 @@ function mappings.toggle_terminal(close)
 end
 
 vim.api.nvim_create_user_command('Json', mappings.paste_to_json_buffer, { force = true })
-
-_G.kris.mappings = mappings
+return mappings

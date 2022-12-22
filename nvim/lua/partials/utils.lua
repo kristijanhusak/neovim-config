@@ -33,6 +33,4 @@ function M.get_visual_selection()
   return table.concat(lines, '\n')
 end
 
-_G.kris.utils = M
-
 return M

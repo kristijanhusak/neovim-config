@@ -15,7 +15,7 @@ end
 
 function lua.setup()
   vim.bo.keywordprg = ':help'
-  vim.keymap.set('n', '<Leader>D', '<cmd>lua kris.lua.generate_docblock()<CR>', { buffer = true })
+  vim.keymap.set('n', '<Leader>D', lua.generate_docblock, { buffer = true })
   vim.keymap.set('n', '<C-]>', ':Glance definitions<CR>', { silent = true, buffer = true })
   vim.keymap.set('n', '<leader>ll', do_print, { buffer = true })
 end
@@ -46,11 +46,4 @@ function lua.generate_docblock()
   fn.append(fn.line('.') - 1, content)
 end
 
-local lua_group = vim.api.nvim_create_augroup('init_lua', { clear = true })
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'lua',
-  callback = lua.setup,
-  group = lua_group,
-})
-
-_G.kris.lua = lua
+lua.setup()

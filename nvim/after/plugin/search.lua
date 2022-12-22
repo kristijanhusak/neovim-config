@@ -1,3 +1,6 @@
+_G.kris = {
+  search = {}
+}
 local utils = require('partials.utils')
 local search = {}
 local is_toggle = false
@@ -123,3 +126,4 @@ function search.do_search()
 end
 
 _G.kris.search = search
+return search

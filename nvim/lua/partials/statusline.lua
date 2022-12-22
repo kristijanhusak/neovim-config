@@ -1,6 +1,6 @@
 local statusline = {}
 local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
-vim.o.statusline = '%!v:lua.kris.statusline.setup()'
+vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
 
 local c = {}
 local lsp = {
@@ -268,4 +268,4 @@ function statusline.setup()
   return statusline_inactive()
 end
 
-_G.kris.statusline = statusline
+return statusline

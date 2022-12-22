@@ -9,8 +9,6 @@ local chars = {
   [')'] = { '(', 'right' },
 }
 
-vim.keymap.set('n', 'R', ':call v:lua.kris.replace_pair.run()<CR>', { silent = true })
-
 function replace_pair.run()
   if vim.wo.diff then
     return vim.cmd.diffupdate()
@@ -38,4 +36,4 @@ function replace_pair.run()
   return fn.feedkeys('R', 'n')
 end
 
-_G.kris.replace_pair = replace_pair
+vim.keymap.set('n', 'R', replace_pair.run, { silent = true })
