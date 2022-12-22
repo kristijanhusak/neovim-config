@@ -1,5 +1,4 @@
 local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostics')
-local utils = require('partials.utils')
 local lsp_group = vim.api.nvim_create_augroup('vimrc_lsp', { clear = true })
 
 local setup = {}
@@ -11,12 +10,46 @@ local lsp = {
     { 'jose-elias-alvarez/typescript.nvim', lazy = true },
     { 'DNLHC/glance.nvim', lazy = true },
     { 'SmiteshP/nvim-navic', lazy = true },
+    { 'williamboman/mason.nvim', lazy = true },
+    { 'williamboman/mason-lspconfig.nvim', lazy = true },
   },
   event = 'VeryLazy',
 }
 lsp.config = function()
-  setup.configure()
+  setup.configure_handlers()
+  setup.mason()
   setup.servers()
+  setup.glance()
+
+  -- Re-trigger filetype autocmd to enable LSP
+  -- if Neovim was opened with a file
+  if vim.bo.filetype ~= '' then
+    vim.cmd('doautocmd FileType ' .. vim.bo.filetype)
+  end
+
+  return lsp
+end
+
+function setup.configure_handlers()
+  vim.diagnostic.config({
+    virtual_text = false,
+  })
+
+  vim.lsp.handlers['textDocument/hover'] =
+    vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded', focusable = false })
+
+  vim.lsp.handlers['textDocument/signatureHelp'] =
+    vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single', focusable = false, silent = true })
+
+  vim.cmd([[
+    sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=
+    sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=
+    sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=
+    sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=
+  ]])
+end
+
+function setup.glance()
   require('glance').setup({
     indent_lines = {
       enable = true,
@@ -38,42 +71,6 @@ lsp.config = function()
       end,
     },
   })
-  -- Re-trigger filetype autocmd to enable LSP
-  -- if Neovim was opened with a file
-  if vim.bo.filetype ~= '' then
-    vim.cmd('doautocmd FileType ' .. vim.bo.filetype)
-  end
-
-  return lsp
-end
-
-function setup.configure()
-  vim.diagnostic.config({
-    virtual_text = false,
-  })
-
-  vim.lsp.handlers['_typescript.rename'] = function(_, result)
-    if not result then
-      return
-    end
-    vim.fn.cursor(result.position.line + 1, result.position.character + 2)
-    vim.api.nvim_feedkeys(utils.esc('<Esc>'), 'v', true)
-    vim.lsp.buf.rename()
-    return {}
-  end
-
-  vim.lsp.handlers['textDocument/hover'] =
-    vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded', focusable = false })
-
-  vim.lsp.handlers['textDocument/signatureHelp'] =
-    vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single', focusable = false, silent = true })
-
-  vim.cmd([[
-    sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=
-    sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=
-    sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=
-    sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=
-  ]])
 end
 
 function setup.mappings()
@@ -111,6 +108,25 @@ function setup.mappings()
     vim.lsp.buf.signature_help()
     return ''
   end, { expr = true, buffer = true })
+end
+
+function setup.mason()
+  require('mason').setup({
+    ui = {
+      border = 'rounded',
+    },
+  })
+  require('mason-lspconfig').setup({
+    ensure_installed = {
+      'pylsp',
+      'terraformls',
+      'vimls',
+      'tsserver',
+      'intelephense',
+      'gopls',
+      'sumneko_lua',
+    },
+  })
 end
 
 function setup.servers()
