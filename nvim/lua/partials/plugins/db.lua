@@ -1,5 +1,6 @@
 local db = {
   'tpope/vim-dadbod',
+  branch = 'async',
   dependencies = {
     { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' } },
     { 'kristijanhusak/vim-dadbod-ui', cmd = { 'DBUI', 'DBUIFindBuffer' } },
