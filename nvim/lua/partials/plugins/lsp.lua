@@ -115,6 +115,12 @@ function setup.mason()
     ui = {
       border = 'rounded',
     },
+    -- Non-lsp items to install
+    -- prettierd
+    -- eslint_d
+    -- sqlfluff
+    -- sql-formatter
+    -- stylua
   })
   require('mason-lspconfig').setup({
     ensure_installed = {
