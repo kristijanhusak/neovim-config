@@ -253,7 +253,7 @@ function setup.attach_to_buffer(client, bufnr)
     callback = refresh_diagnostics,
     group = lsp_group,
   })
-  if client.server_capabilities.signatureHelpProvider then
+  if client.server_capabilities.signatureHelpProvider and not vim.tbl_isempty(client.server_capabilities.signatureHelpProvider) then
     vim.api.nvim_create_autocmd('CursorHoldI', {
       buffer = bufnr,
       callback = function()
