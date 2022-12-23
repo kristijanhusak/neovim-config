@@ -1,6 +1,6 @@
 local pqf = {
   url = 'https://gitlab.com/yorickpeterse/nvim-pqf',
-  event = 'VeryLazy'
+  event = 'VeryLazy',
 }
 pqf.config = function()
   require('pqf').setup()

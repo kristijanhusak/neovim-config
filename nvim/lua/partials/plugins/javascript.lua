@@ -7,7 +7,7 @@ local handlers = {}
 local javascript = {
   'kristijanhusak/vim-js-file-import',
   build = 'npm install',
-  ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
+  ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
 }
 javascript.config = function()
   vim.keymap.set('n', '<Plug>(JsConsoleLog)', handlers.console_log)

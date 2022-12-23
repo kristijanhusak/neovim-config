@@ -1,5 +1,6 @@
 local comment = {
   'numToStr/Comment.nvim',
+  event = 'VeryLazy',
 }
 comment.config = function()
   require('Comment').setup()

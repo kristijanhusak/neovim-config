@@ -203,11 +203,14 @@ local function lsp_diagnostics()
   local items = {}
 
   if err_count > 0 then
-    table.insert(items, sep(' '..err_count, vim.tbl_extend('keep', { no_after = warn_count == 0 }, st_err_right), err_count > 0))
+    table.insert(
+      items,
+      sep(' ' .. err_count, vim.tbl_extend('keep', { no_after = warn_count == 0 }, st_err_right), err_count > 0)
+    )
   end
 
   if warn_count > 0 then
-    table.insert(items, sep(' '..warn_count, st_warn, warn_count > 0))
+    table.insert(items, sep(' ' .. warn_count, st_warn, warn_count > 0))
   end
 
   return table.concat(items, '')
@@ -246,7 +249,7 @@ local function statusline_active()
     sep(lsp.message, vim.tbl_extend('keep', { side = 'right' }, sec_2), lsp.message ~= ''),
     sep(search, vim.tbl_extend('keep', { side = 'right' }, sec_2), search ~= ''),
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
-    sep(' '..os.date('%H:%M', os.time()), st_mode_right),
+    sep(' ' .. os.date('%H:%M', os.time()), st_mode_right),
     sep('%l:%c', st_mode_right),
     sep('%p%%/%L', vim.tbl_extend('keep', { no_after = diagnostics == '' }, st_mode_right)),
     diagnostics,

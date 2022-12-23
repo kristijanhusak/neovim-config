@@ -1,7 +1,7 @@
-  return {
-    'm4xshen/autoclose.nvim',
-    event = 'VeryLazy',
-    config = function()
-      require('autoclose').setup({})
-    end,
-  }
+return {
+  'm4xshen/autoclose.nvim',
+  event = 'InsertEnter',
+  config = function()
+    require('autoclose').setup({})
+  end,
+}

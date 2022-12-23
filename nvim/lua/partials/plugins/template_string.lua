@@ -10,7 +10,7 @@ template_string.config = function()
   })
 
   if vim.tbl_contains(filetypes, vim.bo.filetype) then
-    vim.cmd('doautocmd FileType '..vim.bo.filetype)
+    vim.cmd('doautocmd FileType ' .. vim.bo.filetype)
   end
 end
 
