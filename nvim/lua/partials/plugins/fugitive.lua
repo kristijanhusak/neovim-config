@@ -1,6 +1,6 @@
 local fugitive = {
   'tpope/vim-fugitive',
-  cmd = { 'G', 'Git', 'Gdiffsplit', 'Gclog', 'GcLog' },
+  cmd = { 'G', 'Git', 'Gdiffsplit', 'Gclog', 'GcLog', 'Gread' },
 }
 fugitive.init = function()
   vim.keymap.set('n', '<Leader>G', ':vert G<CR>', { silent = true })

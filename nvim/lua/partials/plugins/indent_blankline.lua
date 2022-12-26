@@ -1,13 +1,9 @@
-local indent_blankline = {
+return {
   'lukas-reineke/indent-blankline.nvim',
   event = 'VeryLazy',
-}
-indent_blankline.config = function()
-  require('indent_blankline').setup({
+  config = {
     char = '▏',
     show_current_context = true,
     disable_with_nolist = true,
-  })
-end
-
-return indent_blankline
+  },
+}

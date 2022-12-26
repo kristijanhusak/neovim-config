@@ -1,9 +1,7 @@
-local copilot = {
+return {
   'zbirenbaum/copilot.lua',
   event = 'InsertEnter',
-}
-copilot.config = function()
-  require('copilot').setup({
+  config = {
     panel = {
       enabled = false,
     },
@@ -14,9 +12,5 @@ copilot.config = function()
     suggestion = {
       auto_trigger = true,
     },
-  })
-
-  return copilot
-end
-
-return copilot
+  },
+}

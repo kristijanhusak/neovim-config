@@ -1,9 +1,5 @@
-local pqf = {
+return {
   url = 'https://gitlab.com/yorickpeterse/nvim-pqf',
   event = 'VeryLazy',
+  config = {},
 }
-pqf.config = function()
-  require('pqf').setup()
-end
-
-return pqf
