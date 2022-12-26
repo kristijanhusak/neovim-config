@@ -20,5 +20,19 @@ require('lazy').setup('partials.plugins', {
   install = {
     colorscheme = { 'onenord' },
   },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        'gzip',
+        'matchit',
+        'matchparen',
+        'netrwPlugin',
+        'tarPlugin',
+        'tohtml',
+        'tutor',
+        'zipPlugin',
+      },
+    },
+  },
   lockfile = vim.fn.stdpath('data') .. '/lazy-lock.json',
 })
