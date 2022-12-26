@@ -1,7 +1,14 @@
 local nvim_tree = {
   'kyazdani42/nvim-tree.lua',
   dependencies = 'kyazdani42/nvim-web-devicons',
+  cmd = { 'NvimTreeToggle', 'NvimTreeFindFile' },
 }
+
+nvim_tree.init = function()
+  vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>', { silent = true })
+  vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>', { silent = true })
+end
+
 nvim_tree.config = function()
   require('nvim-tree').setup({
     hijack_unnamed_buffer_when_opening = false,
@@ -19,6 +26,19 @@ nvim_tree.config = function()
       },
     },
     view = {
+      float = {
+        enable = true,
+        open_win_config = function()
+          return {
+            relative = 'editor',
+            border = 'rounded',
+            width = 50,
+            height = vim.o.lines - 5,
+            row = 0,
+            col = 0,
+          }
+        end,
+      },
       mappings = {
         list = {
           { key = { 's' }, action = 'vsplit' },
@@ -40,18 +60,6 @@ nvim_tree.config = function()
       },
     },
   })
-
-  local api = require('nvim-tree.api')
-  local Event = api.events.Event
-
-  api.events.subscribe(Event.Ready, function()
-    vim.schedule(function()
-      vim.cmd.wincmd('p')
-    end)
-  end)
-
-  vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>', { silent = true })
-  vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>', { silent = true })
 
   return nvim_tree
 end

@@ -28,6 +28,7 @@ colorscheme.config = function()
       match_paren = true,
     },
     custom_highlights = {
+      NvimTreeNormal = { fg = colors.fg, bg = colors.bg },
       CurSearch = { fg = colors.cyan, bg = colors.selection, style = 'bold' },
       TelescopeTitle = { bg = telescope_prompt, fg = colors.fg },
       TelescopeNormal = { bg = telescope_normal },
