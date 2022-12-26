@@ -29,6 +29,7 @@ local ts = {
     { 'smartpde/telescope-recent-files', lazy = true },
   },
   lazy = true,
+  cmd = {'Telescope'},
 }
 ts.init = function()
   vim.keymap.set('n', '<C-p>', function()

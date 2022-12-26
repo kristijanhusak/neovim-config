@@ -52,6 +52,8 @@ vim.ui.select = function(items, opts, on_choice)
     on_choice = on_choice,
   }
 
+  local eventignore = vim.opt.eventignore:get()
+  vim.opt.eventignore:append('WinLeave')
   local bufnr, winnr = vim.lsp.util.open_floating_preview(choices, '', {
     border = 'rounded',
   })
@@ -69,6 +71,7 @@ vim.ui.select = function(items, opts, on_choice)
     vim.api.nvim_feedkeys(utils.esc('<Esc>'), 'n', false)
   end
   vim.keymap.set('n', '<CR>', ui.on_select, { buffer = bufnr })
+  vim.opt.eventignore = eventignore
 end
 
 vim.ui.input = function(opts, on_confirm)
@@ -78,6 +81,8 @@ vim.ui.input = function(opts, on_confirm)
   opts = opts or {}
   local current_val = opts.default or ''
   local win_width = get_win_width(current_val:len(), opts)
+  local eventignore = vim.opt.eventignore:get()
+  vim.opt.eventignore:append('WinLeave')
   local bufnr, winnr = vim.lsp.util.open_floating_preview({ current_val }, '', {
     border = 'rounded',
     width = win_width,
@@ -100,6 +105,7 @@ vim.ui.input = function(opts, on_confirm)
   vim.keymap.set('i', '<CR>', ui.on_input, { buffer = bufnr })
   vim.defer_fn(function()
     vim.cmd.startinsert({ bang = true })
+    vim.opt.eventignore = eventignore
   end, 10)
 end
 
