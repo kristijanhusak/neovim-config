@@ -250,8 +250,8 @@ local function statusline_active()
     sep(search, vim.tbl_extend('keep', { side = 'right' }, sec_2), search ~= ''),
     sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
     sep(' ' .. os.date('%H:%M', os.time()), st_mode_right),
-    sep('%l:%c', st_mode_right),
-    sep('%p%%/%L', vim.tbl_extend('keep', { no_after = diagnostics == '' }, st_mode_right)),
+    sep('%4l:%-3c', st_mode_right),
+    sep('%3p%%/%L', vim.tbl_extend('keep', { no_after = diagnostics == '' }, st_mode_right)),
     diagnostics,
     '%<',
   }
