@@ -16,6 +16,16 @@ vim.opt.runtimepath:prepend(lazypath)
 require('lazy').setup('partials.plugins', {
   ui = {
     border = 'rounded',
+    custom_keys = {
+      ['<leader>ll'] = function(plugin)
+        require('lazy.util').open_cmd({ 'lazygit', 'log' }, {
+          cwd = plugin.dir,
+          terminal = true,
+          close_on_exit = true,
+          enter = true,
+        })
+      end,
+    },
   },
   dev = {
     path = '~/github',
