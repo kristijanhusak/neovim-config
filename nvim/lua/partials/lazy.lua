@@ -17,6 +17,9 @@ require('lazy').setup('partials.plugins', {
   ui = {
     border = 'rounded',
   },
+  dev = {
+    path = '~/github',
+  },
   install = {
     colorscheme = { 'onenord' },
   },
