@@ -3,6 +3,7 @@ return {
   lazy = true,
   keys = {
     '<leader>c',
+    'gcip',
     {
       '<leader>c',
       mode = 'v',
