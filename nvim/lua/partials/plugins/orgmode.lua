@@ -8,7 +8,10 @@ local orgmode = {
   dependencies = {
     { 'akinsho/org-bullets.nvim', lazy = true },
   },
-  event = 'VeryLazy',
+  keys = {
+    '<leader>oa',
+    '<leader>oc',
+  },
 }
 
 local orgmode_config = {
