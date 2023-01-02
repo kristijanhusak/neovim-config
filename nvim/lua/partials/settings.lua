@@ -157,4 +157,9 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
   command = 'set filetype=conf',
 })
 
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
+  pattern = '*.mjml',
+  command = 'set filetype=html',
+})
+
 return settings
