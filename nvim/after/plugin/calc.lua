@@ -1,7 +1,7 @@
 local utils = require('partials.utils')
-local ns = vim.api.nvim_create_namespace('custom_calc')
+_G.kris = _G.kris or {}
 
-local function calculate_selection(append)
+function _G.kris.calculate_selection(append)
   local selection = utils.get_visual_selection()
   local result = vim.fn.eval(selection)
   print(result)
@@ -14,7 +14,5 @@ local function calculate_selection(append)
   end
 end
 
-vim.keymap.set('v', '<Leader>ks', [[:<C-u>call luaeval('require("partials.plugins.custom.calc")()')<CR>]])
-vim.keymap.set('v', '<Leader>kS', [[:<C-u>call luaeval('require("partials.plugins.custom.calc")(true)')<CR>]])
-
-return calculate_selection
+vim.keymap.set('v', '<Leader>ks', [[:<C-u>call v:lua.kris.calculate_selection()<CR>]])
+vim.keymap.set('v', '<Leader>kS', [[:<C-u>call v:lua.kris.calculate_selection(v:true)<CR>]])

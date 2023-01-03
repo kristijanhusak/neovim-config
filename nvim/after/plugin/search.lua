@@ -1,4 +1,4 @@
-_G.kris = {
+_G.kris = _G.kris or {
   search = {}
 }
 local utils = require('partials.utils')
