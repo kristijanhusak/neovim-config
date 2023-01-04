@@ -16,7 +16,9 @@ end
 function lua.setup()
   vim.bo.keywordprg = ':help'
   vim.keymap.set('n', '<Leader>D', lua.generate_docblock, { buffer = true })
-  vim.keymap.set('n', '<C-]>', ':Glance definitions<CR>', { silent = true, buffer = true })
+  vim.keymap.set('n', '<C-]>', function()
+    return require('telescope.builtin').lsp_definitions()
+  end, { silent = true, buffer = true })
   vim.keymap.set('n', '<leader>ll', do_print, { buffer = true })
 end
 

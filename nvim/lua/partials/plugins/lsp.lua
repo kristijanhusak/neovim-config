@@ -8,7 +8,6 @@ local lsp = {
   dependencies = {
     { 'jose-elias-alvarez/null-ls.nvim', lazy = true },
     { 'jose-elias-alvarez/typescript.nvim', lazy = true },
-    { 'DNLHC/glance.nvim', lazy = true },
     { 'SmiteshP/nvim-navic', lazy = true },
     { 'williamboman/mason.nvim', lazy = true },
     { 'williamboman/mason-lspconfig.nvim', lazy = true },
@@ -19,7 +18,6 @@ lsp.config = function()
   setup.configure_handlers()
   setup.mason()
   setup.servers()
-  setup.glance()
 
   -- Re-trigger filetype autocmd to enable LSP
   -- if Neovim was opened with a file
@@ -49,37 +47,32 @@ function setup.configure_handlers()
   ]])
 end
 
-function setup.glance()
-  require('glance').setup({
-    indent_lines = {
-      enable = true,
-      icon = '▏',
-    },
-    list = {
-      position = 'left',
-    },
-    folds = {
-      folded = false,
-    },
-    hooks = {
-      before_open = function(results, open, jump)
-        if #results == 1 then
-          jump(results[1])
-        else
-          open(results)
-        end
-      end,
-    },
-  })
-end
-
 function setup.mappings()
   local opts = { buffer = true, silent = true }
-  vim.keymap.set('n', '<leader>ld', ':Glance definitions<CR>', opts)
-  vim.keymap.set('n', '<leader>lw', ':Glance type_definitions', opts)
-  vim.keymap.set('n', '<leader>lu', ':Glance references<CR>', opts)
+  vim.keymap.set('n', '<leader>ld', function()
+    return require('telescope.builtin').lsp_definitions()
+  end, opts)
+  vim.keymap.set('n', '<leader>lw', function()
+    return require('telescope.builtin').lsp_type_definitions()
+  end, opts)
+  vim.keymap.set('n', '<leader>lu', function()
+    return require('telescope.builtin').lsp_references()
+  end, opts)
+  -- vim.keymap.set('n', '<leader>lu', function()
+  --   return vim.lsp.buf.references({ includeDeclaration = false }, {
+  --     on_list = function(options)
+  --       vim.fn.setqflist({}, ' ', options)
+  --       if options.items and #options.items == 1 then
+  --         return vim.cmd.cfirst()
+  --       end
+  --       vim.cmd('botright copen')
+  --     end,
+  --   })
+  -- end, opts)
   vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, opts)
-  vim.keymap.set('n', '<leader>lg', ':Glance implementations<CR>', opts)
+  vim.keymap.set('n', '<leader>lg', function()
+    return require('telescope.builtin').lsp_implementations()
+  end, opts)
   vim.keymap.set('n', '<Space>', vim.lsp.buf.hover, { silent = true, buffer = true })
   vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, opts)
   vim.keymap.set('v', '<leader>lf', function()
