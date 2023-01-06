@@ -18,11 +18,8 @@ require('lazy').setup('partials.plugins', {
     border = 'rounded',
     custom_keys = {
       ['<leader>ll'] = function(plugin)
-        require('lazy.util').open_cmd({ 'lazygit', 'log' }, {
+        require('lazy.util').float_term({ 'lazygit', 'log' }, {
           cwd = plugin.dir,
-          terminal = true,
-          close_on_exit = true,
-          enter = true,
         })
       end,
     },
