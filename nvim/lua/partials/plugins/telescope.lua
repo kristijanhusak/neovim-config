@@ -82,6 +82,7 @@ ts.config = function()
       sorting_strategy = 'ascending',
       mappings = {
         i = {
+          ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
           ['<C-j>'] = actions.move_selection_next,
           ['<C-k>'] = actions.move_selection_previous,
           ['<Esc>'] = actions.close,
