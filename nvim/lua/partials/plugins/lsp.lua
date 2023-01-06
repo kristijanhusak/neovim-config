@@ -56,19 +56,11 @@ function setup.mappings()
     return require('telescope.builtin').lsp_type_definitions()
   end, opts)
   vim.keymap.set('n', '<leader>lu', function()
-    return require('telescope.builtin').lsp_references()
+    return require('telescope.builtin').lsp_references({
+      previewer = false,
+      fname_width = 80,
+    })
   end, opts)
-  -- vim.keymap.set('n', '<leader>lu', function()
-  --   return vim.lsp.buf.references({ includeDeclaration = false }, {
-  --     on_list = function(options)
-  --       vim.fn.setqflist({}, ' ', options)
-  --       if options.items and #options.items == 1 then
-  --         return vim.cmd.cfirst()
-  --       end
-  --       vim.cmd('botright copen')
-  --     end,
-  --   })
-  -- end, opts)
   vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, opts)
   vim.keymap.set('n', '<leader>lg', function()
     return require('telescope.builtin').lsp_implementations()
