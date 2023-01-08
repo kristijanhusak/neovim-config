@@ -5,7 +5,7 @@ return {
     vim.keymap.set('n', 'gS', ':TSJSplit<CR>', { silent = true })
     vim.keymap.set('n', 'gJ', ':TSJJoin<CR>', { silent = true })
   end,
-  config = {
+  opts = {
     use_default_keymaps = false,
     check_syntax_error = true,
     max_join_length = 200,

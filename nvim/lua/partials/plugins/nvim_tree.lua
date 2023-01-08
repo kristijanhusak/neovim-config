@@ -9,7 +9,7 @@ nvim_tree.init = function()
   vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>', { silent = true })
 end
 
-nvim_tree.config = {
+nvim_tree.opts = {
   hijack_unnamed_buffer_when_opening = false,
   disable_netrw = true,
   open_on_setup = true,
