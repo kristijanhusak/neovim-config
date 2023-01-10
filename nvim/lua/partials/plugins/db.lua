@@ -4,7 +4,7 @@ local db = {
     { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' } },
     { 'kristijanhusak/vim-dadbod-ui', cmd = { 'DBUI', 'DBUIFindBuffer' } },
   },
-  cmd = { 'DB', 'DBUI', 'DBUIFindBuffer' },
+  event = 'VeryLazy',
 }
 db.init = function()
   vim.g.db_ui_show_help = 0
