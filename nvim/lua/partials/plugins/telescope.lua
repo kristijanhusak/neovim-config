@@ -1,17 +1,20 @@
+local function jump_to_symbol(builtin)
+  local valid_clients = #vim.tbl_filter(function(client)
+    return client.server_capabilities.documentSymbolProvider
+  end, vim.lsp.get_active_clients()) > 0
+
+  if valid_clients and vim.lsp.buf.server_ready() then
+    return builtin.lsp_document_symbols()
+  end
+
+  return builtin.current_buffer_tags()
+end
 local function setup_custom_actions(actions, builtin)
   local transform_mod = require('telescope.actions.mt').transform_mod
   return transform_mod({
     jump_to_symbol = function(prompt_bufnr)
       actions.file_edit(prompt_bufnr)
-      local valid_clients = #vim.tbl_filter(function(client)
-        return client.server_capabilities.documentSymbolProvider
-      end, vim.lsp.get_active_clients()) > 0
-
-      if valid_clients and vim.lsp.buf.server_ready() then
-        return builtin.lsp_document_symbols()
-      end
-
-      return builtin.current_buffer_tags()
+      jump_to_symbol(builtin)
     end,
     jump_to_line = function(prompt_bufnr)
       actions.file_edit(prompt_bufnr)
@@ -39,7 +42,7 @@ ts.init = function()
     return require('telescope.builtin').buffers({ sort_lastused = true })
   end)
   vim.keymap.set('n', '<Leader>t', function()
-    return require('telescope.builtin').lsp_document_symbols()
+    return jump_to_symbol(require('telescope.builtin'))
   end)
   vim.keymap.set('n', '<Leader>m', function()
     return require('telescope').extensions.recent_files.pick()
