@@ -4,18 +4,15 @@ local function simple_ft(key)
   local is_forward = vim.tbl_contains({ 'f', 't' }, key)
   local col = vim.fn.col('.')
   local line = vim.fn.line('.')
-  local offset = col + 1
   local chars = {}
   if is_forward then
-    offset = col - 1
-    chars = vim.split(vim.fn.getline(line):sub(col), '')
+    chars = vim.split(vim.fn.getline(line):sub(col + 1), '')
   else
-    chars = vim.fn.reverse(vim.split(vim.fn.getline(line):sub(1, col), ''))
+    chars = vim.fn.reverse(vim.split(vim.fn.getline(line):sub(1, col - 1), ''))
   end
   local chars_map = {}
   for i, char in ipairs(chars) do
-    char = vim.trim(char)
-    local off = is_forward and (offset + i) or (offset - i)
+    local off = is_forward and (col + i) or (col - i)
     if char and char ~= '' and not chars_map[char] then
       chars_map[char] = i
       vim.api.nvim_buf_add_highlight(0, ns, 'SimpleF', line - 1, off - 1, off)
