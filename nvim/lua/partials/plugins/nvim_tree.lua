@@ -12,7 +12,6 @@ end
 nvim_tree.opts = {
   hijack_unnamed_buffer_when_opening = false,
   disable_netrw = true,
-  open_on_setup = true,
   update_focused_file = {
     enable = true,
   },
