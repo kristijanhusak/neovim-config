@@ -8,4 +8,5 @@ return {
   { 'ludovicchabant/vim-gutentags', event = 'VeryLazy' },
   { 'stefandtw/quickfix-reflector.vim', event = 'VeryLazy' },
   { 'wakatime/vim-wakatime', event = 'VeryLazy' },
+  { 'LunarVim/bigfile.nvim' },
 }
