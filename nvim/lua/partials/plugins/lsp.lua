@@ -115,7 +115,7 @@ function setup.mason()
       'tsserver',
       'intelephense',
       'gopls',
-      'sumneko_lua',
+      'lua_ls',
     },
   })
 end
@@ -162,7 +162,7 @@ function setup.servers()
   table.insert(runtime_path, 'lua/?.lua')
   table.insert(runtime_path, 'lua/?/init.lua')
 
-  nvim_lsp.sumneko_lua.setup(lsp_setup({
+  nvim_lsp.lua_ls.setup(lsp_setup({
     settings = {
       Lua = {
         runtime = {
