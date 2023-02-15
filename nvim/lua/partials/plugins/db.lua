@@ -1,10 +1,10 @@
 local db = {
-  'tpope/vim-dadbod',
+  'kristijanhusak/vim-dadbod-ui',
   dependencies = {
-    { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' } },
-    { 'kristijanhusak/vim-dadbod-ui', cmd = { 'DBUI', 'DBUIFindBuffer' } },
+    { 'tpope/vim-dadbod', lazy = true },
+    { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
   },
-  event = 'VeryLazy',
+  cmd = { 'DBUI', 'DBUIFindBuffer' },
 }
 db.init = function()
   vim.g.db_ui_show_help = 0
