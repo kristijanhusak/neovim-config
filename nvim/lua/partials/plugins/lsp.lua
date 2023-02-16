@@ -111,6 +111,8 @@ function setup.mason()
     ensure_installed = {
       'pylsp',
       'terraformls',
+      'docker_compose_language_service',
+      'dockerls',
       'vimls',
       'tsserver',
       'intelephense',
@@ -131,7 +133,9 @@ function setup.servers()
       },
       on_attach = function(client, bufnr)
         client.server_capabilities.semanticTokensProvider = nil
-        require('nvim-navic').attach(client, bufnr)
+        if client.server_capabilities.documentSymbolProvider then
+          require('nvim-navic').attach(client, bufnr)
+        end
         setup.attach_to_buffer(client, bufnr)
         if opts.disableFormatting then
           client.server_capabilities.documentFormattingProvider = false
@@ -157,6 +161,8 @@ function setup.servers()
   nvim_lsp.gopls.setup(lsp_setup())
   nvim_lsp.pylsp.setup(lsp_setup())
   nvim_lsp.terraformls.setup(lsp_setup())
+  nvim_lsp.docker_compose_language_service.setup(lsp_setup())
+  nvim_lsp.dockerls.setup(lsp_setup())
 
   local runtime_path = vim.split(package.path, ';')
   table.insert(runtime_path, 'lua/?.lua')
