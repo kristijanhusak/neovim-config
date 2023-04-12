@@ -5,7 +5,6 @@ return {
   { 'tpope/vim-surround', event = 'VeryLazy' },
   { 'windwp/nvim-ts-autotag', event = 'VeryLazy' },
   { 'nvim-lua/plenary.nvim', event = 'VeryLazy' },
-  { 'ludovicchabant/vim-gutentags', event = 'VeryLazy' },
   { 'stefandtw/quickfix-reflector.vim', event = 'VeryLazy' },
   { 'wakatime/vim-wakatime', event = 'VeryLazy' },
   { 'LunarVim/bigfile.nvim' },
