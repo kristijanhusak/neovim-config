@@ -47,7 +47,7 @@ function handlers.console_log()
     node = node:parent()
   end
   if node then
-    local _, _, end_line, _ = ts_utils.get_node_range(node)
+    local _, _, end_line, _ = vim.treesitter.get_node_range(node)
     fn.cursor(end_line + 1, 0)
   end
   local scope = utils.get_gps_scope(word)
