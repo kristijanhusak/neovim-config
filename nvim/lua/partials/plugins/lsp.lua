@@ -102,7 +102,7 @@ function setup.mason()
     },
     -- Non-lsp items to install
     -- prettierd
-    -- eslint_d
+    -- eslint_d@v7.3.0
     -- sqlfluff
     -- sql-formatter
     -- stylua
@@ -197,11 +197,11 @@ function setup.servers()
     },
     sources = {
       -- Code actions
-      null_ls.builtins.code_actions.eslint,
+      null_ls.builtins.code_actions.eslint_d,
       -- require('typescript.extensions.null-ls.code-actions'),
 
       -- Diagnostics
-      null_ls.builtins.diagnostics.eslint,
+      null_ls.builtins.diagnostics.eslint_d,
       null_ls.builtins.diagnostics.sqlfluff.with({
         extra_args = { '--dialect', 'postgres' },
       }),
