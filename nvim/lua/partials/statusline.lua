@@ -2,10 +2,6 @@ local statusline = {}
 local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
 vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
 
-if vim.g.started_by_firenvim then
-  vim.o.laststatus = 0
-end
-
 local c = {}
 local lsp = {
   message = '',
