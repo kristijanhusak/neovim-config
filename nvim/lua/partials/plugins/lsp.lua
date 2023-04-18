@@ -101,8 +101,7 @@ function setup.mason()
       border = 'rounded',
     },
     -- Non-lsp items to install
-    -- prettierd
-    -- eslint_d@v7.3.0
+    -- prettier
     -- sqlfluff
     -- sql-formatter
     -- stylua
@@ -197,17 +196,17 @@ function setup.servers()
     },
     sources = {
       -- Code actions
-      null_ls.builtins.code_actions.eslint_d,
+      null_ls.builtins.code_actions.eslint,
       -- require('typescript.extensions.null-ls.code-actions'),
 
       -- Diagnostics
-      null_ls.builtins.diagnostics.eslint_d,
+      null_ls.builtins.diagnostics.eslint,
       null_ls.builtins.diagnostics.sqlfluff.with({
         extra_args = { '--dialect', 'postgres' },
       }),
 
       -- Formatters
-      null_ls.builtins.formatting.prettierd,
+      null_ls.builtins.formatting.prettier,
       null_ls.builtins.formatting.stylua,
       null_ls.builtins.formatting.sqlfluff.with({
         extra_args = { '--dialect', 'postgres' },
