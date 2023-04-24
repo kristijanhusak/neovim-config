@@ -66,7 +66,9 @@ function setup.mappings()
     return require('telescope.builtin').lsp_implementations()
   end, opts)
   vim.keymap.set('n', '<Space>', vim.lsp.buf.hover, { silent = true, buffer = true })
-  vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, opts)
+  vim.keymap.set('n', '<leader>lf', function()
+    vim.lsp.buf.format({ timeout_ms = 5000 })
+  end, opts)
   vim.keymap.set('v', '<leader>lf', function()
     return vim.lsp.buf.format()
   end, opts)
@@ -206,7 +208,7 @@ function setup.servers()
       }),
 
       -- Formatters
-      null_ls.builtins.formatting.prettier,
+      null_ls.builtins.formatting.eslint,
       null_ls.builtins.formatting.stylua,
       null_ls.builtins.formatting.sqlfluff.with({
         extra_args = { '--dialect', 'postgres' },
