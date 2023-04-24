@@ -151,6 +151,7 @@ function setup.servers()
       init_options = {
         preferences = {
           quotePreference = 'single',
+          importModuleSpecifierPreference = 'relative',
         },
       },
       disableFormatting = true,
