@@ -203,13 +203,13 @@ function setup.servers()
       -- require('typescript.extensions.null-ls.code-actions'),
 
       -- Diagnostics
-      null_ls.builtins.diagnostics.eslint,
+      null_ls.builtins.diagnostics.eslint_d,
       null_ls.builtins.diagnostics.sqlfluff.with({
         extra_args = { '--dialect', 'postgres' },
       }),
 
       -- Formatters
-      null_ls.builtins.formatting.eslint,
+      null_ls.builtins.formatting.eslint_d,
       null_ls.builtins.formatting.stylua,
       null_ls.builtins.formatting.sqlfluff.with({
         extra_args = { '--dialect', 'postgres' },
