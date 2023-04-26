@@ -6,7 +6,6 @@ local completion = {
     { 'hrsh7th/cmp-nvim-lsp', lazy = true },
     { 'hrsh7th/cmp-path', lazy = true },
     { 'hrsh7th/cmp-vsnip', lazy = true },
-    { 'quangnguyen30192/cmp-nvim-tags', lazy = true },
     { 'lukas-reineke/cmp-rg', lazy = true },
   },
 }
@@ -25,7 +24,6 @@ completion.config = function()
           buffer = '[Buffer]',
           nvim_lsp = '[LSP]',
           vsnip = '[Snippet]',
-          tags = '[Tag]',
           path = '[Path]',
           orgmode = '[Org]',
           ['vim-dadbod-completion'] = '[DB]',
@@ -37,7 +35,6 @@ completion.config = function()
       { name = 'nvim_lsp', group_index = 1 },
       { name = 'vsnip', group_index = 1 },
       { name = 'buffer', group_index = 2 },
-      { name = 'tags', keyword_length = 2, group_index = 2 },
       { name = 'rg', keyword_length = 3, group_index = 2 },
       { name = 'path', group_index = 1 },
       { name = 'orgmode', group_index = 1 },
