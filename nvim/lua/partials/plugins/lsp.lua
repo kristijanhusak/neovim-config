@@ -7,7 +7,7 @@ local lsp = {
   'neovim/nvim-lspconfig',
   dependencies = {
     { 'jose-elias-alvarez/null-ls.nvim', lazy = true },
-    { 'jose-elias-alvarez/typescript.nvim', lazy = true },
+    { 'yioneko/nvim-vtsls', lazy = true },
     { 'SmiteshP/nvim-navic', lazy = true },
     { 'williamboman/mason.nvim', lazy = true },
     { 'williamboman/mason-lspconfig.nvim', lazy = true },
@@ -115,7 +115,7 @@ function setup.mason()
       'docker_compose_language_service',
       'dockerls',
       'vimls',
-      'tsserver',
+      'vtsls',
       'intelephense',
       'gopls',
       'lua_ls',
@@ -146,18 +146,6 @@ function setup.servers()
     }, opts or {})
   end
 
-  require('typescript').setup({
-    server = lsp_setup({
-      init_options = {
-        preferences = {
-          quotePreference = 'single',
-          importModuleSpecifierPreference = 'relative',
-        },
-      },
-      disableFormatting = true,
-    }),
-  })
-
   nvim_lsp.vimls.setup(lsp_setup())
   nvim_lsp.intelephense.setup(lsp_setup())
   nvim_lsp.gopls.setup(lsp_setup())
@@ -165,6 +153,19 @@ function setup.servers()
   nvim_lsp.terraformls.setup(lsp_setup())
   nvim_lsp.docker_compose_language_service.setup(lsp_setup())
   nvim_lsp.dockerls.setup(lsp_setup())
+  local vtsls_settings = {
+    preferences = {
+      quoteStyle = 'single',
+      importModuleSpecifier = 'relative',
+    },
+  }
+  nvim_lsp.vtsls.setup(lsp_setup({
+    settings = {
+      javascript = vtsls_settings,
+      typescript = vtsls_settings,
+    },
+    disableFormatting = true,
+  }))
 
   local runtime_path = vim.split(package.path, ';')
   table.insert(runtime_path, 'lua/?.lua')
@@ -200,7 +201,6 @@ function setup.servers()
     sources = {
       -- Code actions
       null_ls.builtins.code_actions.eslint_d,
-      -- require('typescript.extensions.null-ls.code-actions'),
 
       -- Diagnostics
       null_ls.builtins.diagnostics.eslint_d,

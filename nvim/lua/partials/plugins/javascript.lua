@@ -3,11 +3,12 @@ local utils = require('partials.utils')
 local fn = vim.fn
 
 local handlers = {}
+local filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
 
 local javascript = {
   'kristijanhusak/vim-js-file-import',
   build = 'npm install',
-  ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+  ft = filetypes,
 }
 javascript.config = function()
   vim.keymap.set('n', '<Plug>(JsConsoleLog)', handlers.console_log)
@@ -20,6 +21,10 @@ javascript.config = function()
   })
 
   vim.g.js_file_import_use_telescope = 1
+
+  if vim.tbl_contains(filetypes, vim.bo.filetype) then
+    vim.cmd('doautocmd FileType ' .. vim.bo.filetype)
+  end
 
   return javascript
 end
@@ -87,14 +92,25 @@ function handlers.goto_definition()
   end, 300)
 end
 
+function handlers.execute_cmd(vtsls, bufnr, cmd, next_cmd)
+  if not cmd then
+    return
+  end
+  vtsls.commands[cmd](bufnr, function()
+    return handlers.execute_cmd(vtsls, bufnr, next_cmd)
+  end)
+end
+
 ---@param organize? boolean
 function handlers.setup_imports(organize)
-  local ts = require('typescript').actions
-  ts.removeUnused({ sync = true })
-  ts.addMissingImports({ sync = true })
-  ts.fixAll({ sync = true })
+  local vtsls = require('vtsls')
+  local bufnr = vim.api.nvim_get_current_buf()
+  local commands = {'remove_unused_imports', 'add_missing_imports', 'fix_all'}
   if organize then
-    ts.organizeImports({ sync = true })
+    table.insert(commands, 'organize_imports')
+  end
+  for i, command in ipairs(commands) do
+    handlers.execute_cmd(vtsls, bufnr, command, commands[i + 1])
   end
 end
 
