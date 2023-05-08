@@ -24,7 +24,7 @@ gitlinker.config = function()
     opts = {
       action_callback = require('gitlinker.actions').open_in_browser,
     },
-    mappings = nil,
+    mappings = '<leader>yg',
   })
   return gitlinker
 end
