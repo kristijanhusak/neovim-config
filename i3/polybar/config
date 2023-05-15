@@ -72,7 +72,7 @@ font-3 = Hasklig:style=Regular:pixelsize=9;1
 font-4 = Noto Sans Symbols2:style=Regular:pixelsize=9;1
 
 modules-left = i3
-modules-right = spotify previous playpause next weather filesystem memory cpu xkeyboard battery wlan pulseaudio calendar date powermenu
+modules-right = previous playpause next weather filesystem memory cpu xkeyboard battery wlan pulseaudio calendar date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -409,46 +409,5 @@ screenchange-reload = true
 [global/wm]
 margin-top = 5
 margin-bottom = 5
-
-[module/previous]
-type = custom/ipc
-format-font = 2
-; Default
-hook-0 = echo ""
-; When spotify active
-hook-1 = echo "玲"
-click-left = "spotifyctl -q previous"
-
-
-[module/next]
-type = custom/ipc
-format-font = 2
-; Default
-hook-0 = echo ""
-; When spotify active
-hook-1 = echo "怜"
-click-left = "spotifyctl -q next"
-
-
-[module/playpause]
-type = custom/ipc
-format-font = 2
-; Default
-hook-0 = echo ""
-; Playing
-hook-1 = echo ""
-; Paused
-hook-2 = echo ""
-click-left = "spotifyctl -q playpause"
-
-
-[module/spotify]
-type = custom/ipc
-; Default
-hook-0 = echo ""
-; Playing/paused show song name and artist
-hook-1 = spotifyctl -q status --format ' %artist%: %title%' --max-length 60
-click-left = "spotifyctl -q playpause"
-click-right = i3-msg '[class="Spotify"] focus'
 
 ; vim:ft=dosini

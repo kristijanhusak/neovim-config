@@ -41,7 +41,7 @@ install_kitty() {
 
 install_i3() {
   rm -rf ~/.i3 \
-    && yay -S rofi polybar polybar-spotify-module nerd-fonts-roboto-mono nerd-fonts-noto-sans-mono otf-hasklig \
+    && yay -S rofi polybar nerd-fonts-roboto-mono nerd-fonts-noto-sans-mono otf-hasklig \
     && ln -s $(pwd)/i3 ~/.i3
 }
 
