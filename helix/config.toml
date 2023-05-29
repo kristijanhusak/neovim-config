@@ -1,0 +1,25 @@
+theme = "onedark"
+
+[editor]
+line-number = "relative"
+cursorline = true
+
+[editor.cursor-shape]
+insert = "bar"
+
+[editor.file-picker]
+hidden = false
+
+[editor.statusline]
+left = ["mode", "spacer", "spacer", "version-control"]
+center = ["file-name"]
+right = ["spinner", "spacer", "file-type", "separator", "position", "separator", "spacer", "position-percentage", "spacer", "diagnostics"]
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+
+[keys.normal]
+"," = { "c" = "toggle_comments"}
+
+[keys.insert]
+"C-[" = "normal_mode"
