@@ -5,6 +5,7 @@ BORDER_SIZE=50  # border size from your wm settings
 YAD_WIDTH=222  # 222 is minimum possible value
 YAD_HEIGHT=193 # 193 is minimum possible value
 DATE="$(date +"%A %d.%m.%Y")"
+LC_TIME="en_GB.utf8"
 
 case "$1" in
 --popup)
