@@ -11,6 +11,7 @@ local lsp = {
     { 'SmiteshP/nvim-navic', lazy = true },
     { 'williamboman/mason.nvim', lazy = true },
     { 'williamboman/mason-lspconfig.nvim', lazy = true },
+    { 'folke/neodev.nvim', lazy = true },
   },
   event = 'VeryLazy',
 }
@@ -171,6 +172,7 @@ function setup.servers()
   table.insert(runtime_path, 'lua/?.lua')
   table.insert(runtime_path, 'lua/?/init.lua')
 
+  require('neodev').setup()
   nvim_lsp.lua_ls.setup(lsp_setup({
     settings = {
       Lua = {
