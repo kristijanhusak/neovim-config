@@ -51,6 +51,7 @@ bindsym $mod+Ctrl+m exec pavucontrol
 # Start Applications
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
 bindsym Ctrl+Print exec --no-startup-id imgur-screenshot
+bindsym Ctrl+Shift+Print exec --no-startup-id "sleep 0.2 && scrot -s ~/Pictures/screenshots/screenshot_%Y_%m_%d_%H_%M_%S.png"
 
 focus_follows_mouse no
 
