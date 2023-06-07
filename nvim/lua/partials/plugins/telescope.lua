@@ -3,7 +3,7 @@ local function jump_to_symbol(builtin)
     return client.server_capabilities.documentSymbolProvider
   end, vim.lsp.get_active_clients()) > 0
 
-  if valid_clients and vim.lsp.buf.server_ready() then
+  if valid_clients then
     return builtin.lsp_document_symbols()
   end
 
