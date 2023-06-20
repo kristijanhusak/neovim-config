@@ -164,6 +164,13 @@ function setup.servers()
     settings = {
       javascript = vtsls_settings,
       typescript = vtsls_settings,
+      vtsls = {
+        experimental = {
+          completion = {
+            enableServerSideFuzzyMatch = true,
+          },
+        },
+      },
     },
     disableFormatting = true,
   }))
