@@ -130,9 +130,6 @@ function setup.servers()
   local function lsp_setup(opts)
     opts = opts or {}
     return vim.tbl_deep_extend('force', {
-      flags = {
-        debounce_text_changes = 300,
-      },
       on_attach = function(client, bufnr)
         client.server_capabilities.semanticTokensProvider = nil
         if client.server_capabilities.documentSymbolProvider then
