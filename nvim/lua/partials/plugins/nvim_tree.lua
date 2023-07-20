@@ -33,19 +33,7 @@ nvim_tree.opts = {
     },
   },
   view = {
-    float = {
-      enable = true,
-      open_win_config = function()
-        return {
-          relative = 'editor',
-          border = 'rounded',
-          width = 50,
-          height = vim.o.lines - 5,
-          row = 0,
-          col = 0,
-        }
-      end,
-    },
+    width = 40,
   },
   renderer = {
     full_name = true,
