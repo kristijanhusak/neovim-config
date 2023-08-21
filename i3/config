@@ -265,7 +265,6 @@ exec --no-startup-id nitrogen --restore
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
-exec --no-startup-id clipit
 exec --no-startup-id dropbox
 exec --no-startup-id google-chrome-stable
 exec --no-startup-id i3-msg 'workspace 1; exec kitty'
