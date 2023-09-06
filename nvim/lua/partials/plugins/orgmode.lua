@@ -56,7 +56,7 @@ local orgmode_config = {
         if vim.fn.executable('notify-send') then
           vim.loop.spawn('notify-send', {
             args = {
-              '--icon=/home/kristijan/.local/share/nvim/lazy/orgmode/assets/orgmode_nvim.png',
+              '--icon=/home/kristijan/.local/share/nvim/lazy/orgmode/assets/nvim-orgmode-small.png',
               string.format('%s\n%s\n%s', title, subtitle, date),
             },
           })
