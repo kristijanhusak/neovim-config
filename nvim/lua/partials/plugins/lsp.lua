@@ -74,6 +74,9 @@ function setup.mappings()
     return vim.lsp.buf.format()
   end, opts)
   vim.keymap.set('n', '<leader>li', vim.lsp.buf.incoming_calls, opts)
+  vim.keymap.set('n', '<leader>lh', function()
+    vim.lsp.inlay_hint(0, nil)
+  end, opts)
   vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls, opts)
   vim.keymap.set('n', '<leader>lt', vim.lsp.buf.document_symbol, opts)
   vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls, opts)
@@ -156,6 +159,14 @@ function setup.servers()
       quoteStyle = 'single',
       importModuleSpecifier = 'relative',
     },
+    inlayHints = {
+      parameterNames = { enabled = 'literals' },
+      parameterTypes = { enabled = true },
+      variableTypes = { enabled = true },
+      propertyDeclarationTypes = { enabled = true },
+      functionLikeReturnTypes = { enabled = true },
+      enumMemberValues = { enabled = true },
+    },
   }
   nvim_lsp.vtsls.setup(lsp_setup({
     settings = {
@@ -194,6 +205,9 @@ function setup.servers()
         telemetry = {
           enable = false,
         },
+        hint = {
+          enable = true
+        }
       },
     },
     disableFormatting = true,
