@@ -8,9 +8,10 @@ local orgmode = {
   dependencies = {
     { 'akinsho/org-bullets.nvim', lazy = true },
   },
+  ft = { 'org', 'orgagenda' },
   keys = {
-    '<leader>oa',
-    '<leader>oc',
+    { '<leader>oa', '<Cmd>lua require("orgmode").action("agenda.prompt")<CR>' },
+    { '<leader>oc', '<Cmd>lua require("orgmode").action("capture.prompt")<CR>' },
   },
 }
 
@@ -69,6 +70,7 @@ local orgmode_config = {
 orgmode.orgmode_config = orgmode_config
 
 orgmode.config = function()
+  require('orgmode').setup_ts_grammar()
   require('orgmode').setup(orgmode_config)
   require('org-bullets').setup({
     concealcursor = true,
