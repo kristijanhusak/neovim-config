@@ -3,6 +3,13 @@ local lsp_group = vim.api.nvim_create_augroup('vimrc_lsp', { clear = true })
 
 local setup = {}
 
+local diagnostic_icons = {
+  [vim.diagnostic.severity.ERROR] = { name = 'Error', icon = ' ' },
+  [vim.diagnostic.severity.WARN] = { name = 'Warn', icon = ' ' },
+  [vim.diagnostic.severity.INFO] = { name = 'Info', icon = ' ' },
+  [vim.diagnostic.severity.HINT] = { name = 'Hint', icon = ' ' },
+}
+
 local lsp = {
   'neovim/nvim-lspconfig',
   dependencies = {
@@ -40,12 +47,14 @@ function setup.configure_handlers()
   vim.lsp.handlers['textDocument/signatureHelp'] =
     vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single', focusable = false, silent = true })
 
-  vim.cmd([[
-    sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=
-    sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=
-    sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=
-    sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=
-  ]])
+  vim.fn.sign_define(vim.tbl_map(function(diagnostic_icon)
+    local name = 'DiagnosticSign' .. diagnostic_icon.name
+    return {
+      name = name,
+      text = diagnostic_icon.icon,
+      texthl = name,
+    }
+  end, diagnostic_icons))
 end
 
 function setup.mappings()
@@ -206,8 +215,8 @@ function setup.servers()
           enable = false,
         },
         hint = {
-          enable = true
-        }
+          enable = true,
+        },
       },
     },
     disableFormatting = true,
@@ -243,7 +252,26 @@ local function show_diagnostics()
     local line = vim.api.nvim_win_get_cursor(0)[1] - 1
     local bufnr = vim.api.nvim_get_current_buf()
     local diagnostics = vim.diagnostic.get(bufnr, { lnum = line })
-    vim.diagnostic.show(diagnostic_ns, bufnr, diagnostics, { virtual_text = true })
+
+    local virtual_text_opts = {
+      prefix = function(diagnostic)
+        return diagnostic_icons[diagnostic.severity].icon
+      end or '',
+    }
+
+    if vim.fn.has('nvim-0.10.0') == 0 then
+      virtual_text_opts = {
+        prefix = '',
+        format = function(diagnostic)
+          return string.format('%s %s', diagnostic_icons[diagnostic.severity].icon, diagnostic.message)
+        end,
+      }
+    end
+
+    vim.diagnostic.show(diagnostic_ns, bufnr, diagnostics, {
+      virtual_text = virtual_text_opts,
+      severity_sort = true,
+    })
   end)
 end
 
