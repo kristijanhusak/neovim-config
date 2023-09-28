@@ -282,4 +282,10 @@ function mappings.toggle_terminal(close)
 end
 
 vim.api.nvim_create_user_command('Json', mappings.paste_to_json_buffer, { force = true })
+
+vim.api.nvim_create_user_command('Cfilter', function(opts)
+  vim.cmd.packadd('cfilter')
+  vim.cmd.Cfilter({ args = opts.fargs, bang = opts.bang })
+end, { force = true, bang = true, nargs = '*' })
+
 return mappings
