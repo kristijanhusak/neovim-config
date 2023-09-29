@@ -68,7 +68,7 @@ function setup.mappings()
   vim.keymap.set('n', '<leader>lu', function()
     return require('telescope.builtin').lsp_references({
       previewer = false,
-      fname_width = 80,
+      fname_width = (vim.o.columns * 0.4),
     })
   end, opts)
   vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, opts)
