@@ -13,7 +13,7 @@ local diagnostic_icons = {
 local lsp = {
   'neovim/nvim-lspconfig',
   dependencies = {
-    { 'jose-elias-alvarez/null-ls.nvim', lazy = true },
+    { 'nvimtools/none-ls.nvim', lazy = true },
     { 'yioneko/nvim-vtsls', lazy = true },
     { 'SmiteshP/nvim-navic', lazy = true },
     { 'williamboman/mason.nvim', lazy = true },
