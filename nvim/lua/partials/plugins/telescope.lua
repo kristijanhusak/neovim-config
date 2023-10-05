@@ -1,7 +1,7 @@
 local function jump_to_symbol(builtin)
-  local valid_clients = #vim.tbl_filter(function(client)
-    return client.server_capabilities.documentSymbolProvider
-  end, vim.lsp.get_active_clients()) > 0
+  local valid_clients = vim.lsp.get_clients({
+    method = vim.lsp.protocol.Methods.textDocument_documentSymbol,
+  })
 
   if valid_clients then
     return builtin.lsp_document_symbols()
