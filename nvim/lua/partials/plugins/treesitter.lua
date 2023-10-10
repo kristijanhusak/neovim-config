@@ -34,6 +34,9 @@ treesitter.config = function()
         node_decremental = ',',
       },
     },
+    matchup = {
+      enable = true,
+    },
     refactor = {
       highlight_definitions = {
         enable = true,
