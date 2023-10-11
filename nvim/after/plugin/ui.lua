@@ -84,6 +84,7 @@ vim.ui.input = function(opts, on_confirm)
   local eventignore = vim.opt.eventignore:get()
   vim.opt.eventignore:append('WinLeave')
   local bufnr, winnr = vim.lsp.util.open_floating_preview({ current_val }, '', {
+    height = 1,
     border = 'rounded',
     width = win_width,
     wrap = false,
