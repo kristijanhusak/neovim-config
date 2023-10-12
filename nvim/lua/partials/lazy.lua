@@ -14,6 +14,9 @@ end
 vim.opt.runtimepath:prepend(lazypath)
 
 require('lazy').setup('partials.plugins', {
+  defaults = {
+    lazy = true,
+  },
   ui = {
     border = 'rounded',
     custom_keys = {

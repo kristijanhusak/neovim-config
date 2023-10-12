@@ -6,7 +6,7 @@ end
 local orgmode = {
   'nvim-orgmode/orgmode',
   dependencies = {
-    { 'akinsho/org-bullets.nvim', lazy = true },
+    { 'akinsho/org-bullets.nvim' },
   },
   ft = { 'org', 'orgagenda' },
   keys = {

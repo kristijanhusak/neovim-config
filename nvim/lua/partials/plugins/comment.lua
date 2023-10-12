@@ -1,6 +1,5 @@
 return {
   'numToStr/Comment.nvim',
-  lazy = true,
   keys = {
     '<leader>c',
     'gcip',

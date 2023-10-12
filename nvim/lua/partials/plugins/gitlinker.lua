@@ -1,6 +1,5 @@
 local gitlinker = {
   'ruifm/gitlinker.nvim',
-  lazy = true,
 }
 
 gitlinker.init = function()

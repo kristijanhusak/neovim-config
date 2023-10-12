@@ -2,11 +2,11 @@ local completion = {
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
   dependencies = {
-    { 'hrsh7th/cmp-buffer', lazy = true },
-    { 'hrsh7th/cmp-nvim-lsp', lazy = true },
-    { 'hrsh7th/cmp-path', lazy = true },
-    { 'hrsh7th/cmp-vsnip', lazy = true },
-    { 'lukas-reineke/cmp-rg', lazy = true },
+    { 'hrsh7th/cmp-buffer' },
+    { 'hrsh7th/cmp-nvim-lsp' },
+    { 'hrsh7th/cmp-path' },
+    { 'hrsh7th/cmp-vsnip' },
+    { 'lukas-reineke/cmp-rg' },
   },
 }
 completion.config = function()

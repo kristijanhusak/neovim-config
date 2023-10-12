@@ -13,12 +13,12 @@ local diagnostic_icons = {
 local lsp = {
   'neovim/nvim-lspconfig',
   dependencies = {
-    { 'nvimtools/none-ls.nvim', lazy = true },
-    { 'yioneko/nvim-vtsls', lazy = true },
-    { 'SmiteshP/nvim-navic', lazy = true },
-    { 'williamboman/mason.nvim', lazy = true },
-    { 'williamboman/mason-lspconfig.nvim', lazy = true },
-    { 'folke/neodev.nvim', lazy = true },
+    { 'nvimtools/none-ls.nvim' },
+    { 'yioneko/nvim-vtsls' },
+    { 'SmiteshP/nvim-navic' },
+    { 'williamboman/mason.nvim' },
+    { 'williamboman/mason-lspconfig.nvim' },
+    { 'folke/neodev.nvim' },
   },
   event = 'VeryLazy',
 }

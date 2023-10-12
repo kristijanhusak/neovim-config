@@ -28,10 +28,9 @@ end
 local ts = {
   'nvim-telescope/telescope.nvim',
   dependencies = {
-    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', lazy = true },
-    { 'smartpde/telescope-recent-files', lazy = true },
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    { 'smartpde/telescope-recent-files' },
   },
-  lazy = true,
   cmd = { 'Telescope' },
 }
 ts.init = function()
