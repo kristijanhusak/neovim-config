@@ -7,7 +7,6 @@ local filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptre
 
 local javascript = {
   'kristijanhusak/vim-js-file-import',
-  build = 'npm install',
   ft = filetypes,
 }
 javascript.config = function()
