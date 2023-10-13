@@ -83,12 +83,6 @@ orgmode.config = function()
     },
   })
 
-  -- Reload buffer if plugin was lazy loaded from org file
-  if vim.bo.filetype == 'org' then
-    vim.schedule(function()
-      vim.cmd([[filetype detect]])
-    end)
-  end
   return orgmode
 end
 

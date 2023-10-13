@@ -10,6 +10,21 @@ local diagnostic_icons = {
   [vim.diagnostic.severity.HINT] = { name = 'Hint', icon = ' ' },
 }
 
+local filetypes = {
+  'vim',
+  'php',
+  'go',
+  'python',
+  'terraform',
+  'lua',
+  'yaml',
+  'dockerfile',
+  'javascript',
+  'javascriptreact',
+  'typescript',
+  'typescriptreact',
+}
+
 local lsp = {
   'neovim/nvim-lspconfig',
   dependencies = {
@@ -20,18 +35,12 @@ local lsp = {
     { 'williamboman/mason-lspconfig.nvim' },
     { 'folke/neodev.nvim' },
   },
-  event = 'VeryLazy',
+  ft = filetypes,
 }
 lsp.config = function()
   setup.configure_handlers()
   setup.mason()
   setup.servers()
-
-  -- Re-trigger filetype autocmd to enable LSP
-  -- if Neovim was opened with a file
-  if vim.bo.filetype ~= '' then
-    vim.cmd('doautocmd FileType ' .. vim.bo.filetype)
-  end
 
   return lsp
 end
