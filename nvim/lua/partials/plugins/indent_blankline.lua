@@ -5,10 +5,8 @@ return {
     require('ibl').setup({
       indent = {
         char = '▏',
-        highlight = 'IndentBlanklineChar',
       },
       scope = {
-        highlight = 'IndentBlanklineContextChar',
         show_start = false,
         show_end = false,
         include = {
