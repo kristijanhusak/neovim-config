@@ -59,6 +59,9 @@ ts.init = function()
   vim.keymap.set('n', '<Leader>lt', function()
     return require('telescope.builtin').current_buffer_tags()
   end)
+  vim.keymap.set('n', '<Leader>w', function()
+    return require('telescope').extensions.workspaces.workspaces()
+  end)
 end
 ts.config = function()
   local builtin = require('telescope.builtin')
@@ -101,6 +104,7 @@ ts.config = function()
 
   telescope.load_extension('fzf')
   telescope.load_extension('recent_files')
+  telescope.load_extension('workspaces')
   return ts
 end
 

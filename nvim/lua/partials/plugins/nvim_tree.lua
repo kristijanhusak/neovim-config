@@ -1,7 +1,7 @@
 local nvim_tree = {
   'nvim-tree/nvim-tree.lua',
   dependencies = 'nvim-tree/nvim-web-devicons',
-  cmd = { 'NvimTreeToggle', 'NvimTreeFindFile' },
+  cmd = { 'NvimTreeToggle', 'NvimTreeFindFile', 'NvimTreeOpen' },
 }
 
 nvim_tree.init = function()
