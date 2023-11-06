@@ -1,6 +1,7 @@
 local colorscheme = {
   'rmehri01/onenord.nvim',
-  lazy = false
+  lazy = false,
+  priority = 1000,
 }
 colorscheme.config = function()
   vim.opt.background = vim.env.NVIM_COLORSCHEME_BG or 'dark'
