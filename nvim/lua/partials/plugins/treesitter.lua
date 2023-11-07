@@ -36,6 +36,7 @@ treesitter.config = function()
     },
     matchup = {
       enable = true,
+      disable_virtual_text = true,
     },
     refactor = {
       highlight_definitions = {
