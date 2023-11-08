@@ -200,7 +200,7 @@ function setup.servers()
           globals = { 'vim', 'describe', 'it', 'before_each', 'after_each' },
         },
         workspace = {
-          checkThirdParty = false,
+          checkThirdParty = "Disable",
           ignoreDir = { '.git' },
         },
         telemetry = {
