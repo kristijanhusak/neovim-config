@@ -177,7 +177,7 @@ local function get_path()
     return vim.fn.fnamemodify(path, ':~')
   end
 
-  if full_path:match('^' .. cwd) then
+  if full_path:sub(1, #cwd) == cwd then
     path = vim.fn.expand('%:.')
   else
     path = vim.fn.expand('%:~')
