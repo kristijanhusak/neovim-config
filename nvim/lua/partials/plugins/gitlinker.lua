@@ -1,31 +1,17 @@
 local gitlinker = {
-  'ruifm/gitlinker.nvim',
+  'linrongbin16/gitlinker.nvim',
 }
 
 gitlinker.init = function()
-  vim.keymap.set('n', '<leader>yg', function()
-    return require('gitlinker').get_buf_range_url(
-      'n',
-      { action_callback = require('gitlinker.actions').open_in_browser }
-    )
+  vim.keymap.set({ 'n', 'v' }, '<leader>yg', function()
+    require('gitlinker').link({ action = require('gitlinker.actions').system })
   end, { silent = true })
-
-  vim.keymap.set('v', '<leader>yg', function()
-    return require('gitlinker').get_buf_range_url(
-      'v',
-      { action_callback = require('gitlinker.actions').open_in_browser }
-    )
-  end, {})
 end
 
 gitlinker.config = function()
   require('gitlinker').setup({
-    opts = {
-      action_callback = require('gitlinker.actions').open_in_browser,
-    },
-    mappings = '<leader>yg',
+    mapping = {},
   })
-  return gitlinker
 end
 
 return gitlinker
