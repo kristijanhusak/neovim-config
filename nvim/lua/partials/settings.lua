@@ -17,7 +17,12 @@ vim.opt.ttimeoutlen = 0
 vim.opt.fileencoding = 'utf-8'
 vim.opt.wrap = false
 vim.opt.linebreak = true
-vim.opt.listchars = 'tab:│ ,trail:·'
+vim.opt.listchars = {
+  --   leadmultispace = '▏ ',
+  --   multispace = '▏ ',
+  tab = '▏ ',
+  trail = '·',
+}
 vim.opt.list = true
 vim.opt.hidden = true
 vim.opt.conceallevel = 2
@@ -30,7 +35,7 @@ vim.opt.grepprg = 'rg --smart-case --color=never --no-heading -H -n --column'
 vim.opt.tagcase = 'smart'
 vim.opt.updatetime = 100
 vim.opt.foldenable = false
-vim.opt.shortmess = vim.o.shortmess .. 'c'
+vim.opt.shortmess:append('c')
 vim.opt.undofile = true
 vim.opt.swapfile = false
 vim.opt.backup = false
@@ -48,11 +53,8 @@ vim.opt.sidescroll = 5
 vim.opt.pyxversion = 3
 vim.opt.matchtime = 0
 vim.g.python3_host_prog = '/usr/bin/python3'
-
-if vim.fn.has('nvim-0.9.0') > 0 then
-  vim.opt.splitkeep = 'screen'
-  vim.opt.diffopt:append('linematch:60')
-end
+vim.opt.splitkeep = 'screen'
+vim.opt.diffopt:append('linematch:60')
 
 function settings.strip_trailing_whitespace()
   if vim.bo.modifiable then
