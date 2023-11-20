@@ -122,6 +122,8 @@ vim.keymap.set('t', '<leader>T', '<C-\\><C-n><C-w>c')
 vim.keymap.set('n', 'gs', ':%s/')
 vim.keymap.set('x', 'gs', ':s/')
 
+vim.keymap.set('n', '<leader>M', ':Make<CR>', { silent = true })
+
 vim.keymap.set('n', 'gx', function()
   vim.cmd([[
     unlet! g:loaded_netrw
@@ -170,7 +172,7 @@ local function open_file_on_line_and_column()
   end
 
   local buffers = vim.tbl_filter(function(entry)
-    return entry.name:match(vim.pesc(path) .. '$') and vim.api.nvim_buf_get_option(entry.bufnr, 'buftype') == ''
+    return entry.name:match(vim.pesc(path) .. '$') and vim.bo[entry.bufnr].buftype == ''
   end, vim.fn.getbufinfo({ buflisted = 1, bufloaded = 1 }))
 
   local bufnr = -1
