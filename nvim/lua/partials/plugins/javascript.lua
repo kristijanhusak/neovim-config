@@ -40,6 +40,7 @@ function handlers.setup_buffer()
     return handlers.setup_imports(true)
   end, { buffer = true, silent = true })
   vim.opt_local.isfname:append('@-@')
+  vim.opt_local.errorformat = [[%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m]]
 end
 
 function handlers.console_log()
