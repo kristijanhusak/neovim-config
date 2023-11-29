@@ -25,14 +25,6 @@ local filetypes = {
   'typescriptreact',
 }
 
-local linters_by_ft = {
-  javascript = { 'eslint_d' },
-  typescript = { 'eslint_d' },
-  javascriptreact = { 'eslint_d' },
-  typescriptreact = { 'eslint_d' },
-  sql = { 'sqlfluff' },
-}
-
 local lsp = {
   'neovim/nvim-lspconfig',
   dependencies = {
@@ -42,7 +34,6 @@ local lsp = {
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
     { 'folke/neodev.nvim' },
-    { 'mfussenegger/nvim-lint' },
     { 'stevearc/conform.nvim' },
   },
   ft = filetypes,
@@ -246,31 +237,26 @@ function setup.servers()
     },
   })
 
-  require('lint').linters_by_ft = linters_by_ft
+  local null_ls = require('null-ls')
+  null_ls.setup({
+    diagnostic_config = {
+      virtual_text = false,
+    },
+    sources = {
+      -- Code actions
+      null_ls.builtins.code_actions.eslint_d,
 
-  -- local null_ls = require('null-ls')
-  -- null_ls.setup({
-  --   diagnostic_config = {
-  --     virtual_text = false,
-  --   },
-  --   sources = {
-  --     -- Code actions
-  --     null_ls.builtins.code_actions.eslint_d,
-  --
-  --     -- Diagnostics
-  --     null_ls.builtins.diagnostics.eslint_d,
-  --     null_ls.builtins.diagnostics.sqlfluff.with({
-  --       extra_args = { '--dialect', 'postgres' },
-  --     }),
-  --
-  --     -- Formatters
-  --     null_ls.builtins.formatting.eslint_d,
-  --     null_ls.builtins.formatting.stylua,
-  --     null_ls.builtins.formatting.sqlfluff.with({
-  --       extra_args = { '--dialect', 'postgres' },
-  --     }),
-  --   },
-  -- })
+      -- Diagnostics
+      null_ls.builtins.diagnostics.eslint_d,
+
+      -- Formatters
+      -- null_ls.builtins.formatting.eslint_d,
+      -- null_ls.builtins.formatting.stylua,
+      -- null_ls.builtins.formatting.sqlfluff.with({
+      --   extra_args = { '--dialect', 'postgres' },
+      -- }),
+    },
+  })
 end
 
 local function show_diagnostics()
@@ -336,13 +322,6 @@ function setup.attach_to_buffer(client, bufnr)
   end
   vim.opt.foldmethod = 'expr'
   vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-  if linters_by_ft[vim.bo[bufnr].filetype] then
-    vim.api.nvim_create_autocmd({ 'InsertLeave', 'CursorHold', 'TextChanged', 'BufWritePost' }, {
-      callback = function()
-        require('lint').try_lint()
-      end,
-    })
-  end
   setup.mappings()
 end
 
