@@ -28,7 +28,7 @@ local filetypes = {
 local lsp = {
   'neovim/nvim-lspconfig',
   dependencies = {
-    { 'nvimtools/none-ls.nvim' },
+    { 'nvimtools/none-ls.nvim', enabled = false },
     { 'pmizio/typescript-tools.nvim' },
     { 'SmiteshP/nvim-navic' },
     { 'williamboman/mason.nvim' },
@@ -178,6 +178,11 @@ function setup.servers()
   nvim_lsp.terraformls.setup(lsp_setup())
   nvim_lsp.docker_compose_language_service.setup(lsp_setup())
   nvim_lsp.dockerls.setup(lsp_setup())
+  nvim_lsp.eslint.setup(lsp_setup({
+    settings = {
+      packageManager = 'yarn',
+    },
+  }))
 
   require('typescript-tools').setup(lsp_setup({
     disableFormatting = true,
@@ -237,26 +242,26 @@ function setup.servers()
     },
   })
 
-  local null_ls = require('null-ls')
-  null_ls.setup({
-    diagnostic_config = {
-      virtual_text = false,
-    },
-    sources = {
-      -- Code actions
-      null_ls.builtins.code_actions.eslint_d,
-
-      -- Diagnostics
-      null_ls.builtins.diagnostics.eslint_d,
-
-      -- Formatters
-      -- null_ls.builtins.formatting.eslint_d,
-      -- null_ls.builtins.formatting.stylua,
-      -- null_ls.builtins.formatting.sqlfluff.with({
-      --   extra_args = { '--dialect', 'postgres' },
-      -- }),
-    },
-  })
+  -- local null_ls = require('null-ls')
+  -- null_ls.setup({
+  --   diagnostic_config = {
+  --     virtual_text = false,
+  --   },
+  --   sources = {
+  --     -- Code actions
+  --     null_ls.builtins.code_actions.eslint_d,
+  --
+  --     -- Diagnostics
+  --     null_ls.builtins.diagnostics.eslint_d,
+  --
+  --     -- Formatters
+  --     -- null_ls.builtins.formatting.eslint_d,
+  --     -- null_ls.builtins.formatting.stylua,
+  --     -- null_ls.builtins.formatting.sqlfluff.with({
+  --     --   extra_args = { '--dialect', 'postgres' },
+  --     -- }),
+  --   },
+  -- })
 end
 
 local function show_diagnostics()
