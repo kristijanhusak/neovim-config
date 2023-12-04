@@ -30,7 +30,6 @@ colorscheme.config = function()
       match_paren = true,
     },
     custom_highlights = {
-      WinSeparator = { link = 'VertSplit' },
       NvimTreeNormal = { fg = colors.fg, bg = colors.bg },
       CurSearch = { fg = colors.cyan, bg = colors.selection, style = 'bold' },
       TelescopeTitle = { bg = telescope_prompt, fg = colors.fg },
