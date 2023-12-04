@@ -28,7 +28,6 @@ local filetypes = {
 local lsp = {
   'neovim/nvim-lspconfig',
   dependencies = {
-    { 'nvimtools/none-ls.nvim', enabled = false },
     { 'pmizio/typescript-tools.nvim' },
     { 'SmiteshP/nvim-navic' },
     { 'williamboman/mason.nvim' },
@@ -241,27 +240,6 @@ function setup.servers()
       },
     },
   })
-
-  -- local null_ls = require('null-ls')
-  -- null_ls.setup({
-  --   diagnostic_config = {
-  --     virtual_text = false,
-  --   },
-  --   sources = {
-  --     -- Code actions
-  --     null_ls.builtins.code_actions.eslint_d,
-  --
-  --     -- Diagnostics
-  --     null_ls.builtins.diagnostics.eslint_d,
-  --
-  --     -- Formatters
-  --     -- null_ls.builtins.formatting.eslint_d,
-  --     -- null_ls.builtins.formatting.stylua,
-  --     -- null_ls.builtins.formatting.sqlfluff.with({
-  --     --   extra_args = { '--dialect', 'postgres' },
-  --     -- }),
-  --   },
-  -- })
 end
 
 local function show_diagnostics()
