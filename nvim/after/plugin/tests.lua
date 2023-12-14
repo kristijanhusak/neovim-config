@@ -59,6 +59,24 @@ vim.keymap.set('n', '<leader>xw', function()
   return run_file(watch_cmd)
 end)
 
+vim.keymap.set('n', '<leader>xi', function()
+  local single_test = vim.tbl_get(vim.g.test_commands, 'single_test')
+  if not single_test then
+    return vim.notify('No test command for single test', vim.log.levels.WARN)
+  end
+
+  local cmd = single_test
+  if type(single_test) == 'function' then
+    cmd = single_test()
+  end
+
+  if not cmd then
+    return vim.notify('No tests found for single test', vim.log.levels.WARN)
+  end
+
+  return run_file(cmd)
+end)
+
 vim.keymap.set('n', '<leader>xt', function()
   local all_cmd = vim.tbl_get(vim.g.test_commands, 'all')
   if not all_cmd then
