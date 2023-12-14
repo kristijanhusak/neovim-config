@@ -4,10 +4,10 @@ local lsp_group = vim.api.nvim_create_augroup('vimrc_lsp', { clear = true })
 local setup = {}
 
 local diagnostic_icons = {
-  [vim.diagnostic.severity.ERROR] = { name = 'Error', icon = ' ' },
-  [vim.diagnostic.severity.WARN] = { name = 'Warn', icon = ' ' },
-  [vim.diagnostic.severity.INFO] = { name = 'Info', icon = ' ' },
-  [vim.diagnostic.severity.HINT] = { name = 'Hint', icon = ' ' },
+  [vim.diagnostic.severity.ERROR] = ' ',
+  [vim.diagnostic.severity.WARN] = ' ',
+  [vim.diagnostic.severity.INFO] = ' ',
+  [vim.diagnostic.severity.HINT] = ' ',
 }
 
 local filetypes = {
@@ -48,6 +48,9 @@ end
 function setup.configure_handlers()
   vim.diagnostic.config({
     virtual_text = false,
+    signs = {
+      text = diagnostic_icons
+    },
   })
 
   vim.lsp.handlers['textDocument/hover'] =
@@ -55,15 +58,6 @@ function setup.configure_handlers()
 
   vim.lsp.handlers['textDocument/signatureHelp'] =
     vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single', focusable = false, silent = true })
-
-  vim.fn.sign_define(vim.tbl_map(function(diagnostic_icon)
-    local name = 'DiagnosticSign' .. diagnostic_icon.name
-    return {
-      name = name,
-      text = diagnostic_icon.icon,
-      texthl = name,
-    }
-  end, diagnostic_icons))
 end
 
 function setup.mappings()
@@ -250,7 +244,7 @@ local function show_diagnostics()
 
     local virtual_text_opts = {
       prefix = function(diagnostic)
-        return diagnostic_icons[diagnostic.severity].icon
+        return diagnostic_icons[diagnostic.severity]
       end or '',
     }
 
@@ -258,7 +252,7 @@ local function show_diagnostics()
       virtual_text_opts = {
         prefix = '',
         format = function(diagnostic)
-          return string.format('%s %s', diagnostic_icons[diagnostic.severity].icon, diagnostic.message)
+          return string.format('%s %s', diagnostic_icons[diagnostic.severity], diagnostic.message)
         end,
       }
     end
