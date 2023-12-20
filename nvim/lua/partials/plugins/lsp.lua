@@ -49,7 +49,7 @@ function setup.configure_handlers()
   vim.diagnostic.config({
     virtual_text = false,
     signs = {
-      text = diagnostic_icons
+      text = diagnostic_icons,
     },
   })
 
@@ -61,58 +61,63 @@ function setup.configure_handlers()
 end
 
 function setup.mappings()
-  local opts = { buffer = true, silent = true }
+  ---@param desc string
+  ---@return table
+  local opts = function(desc)
+    return { buffer = true, silent = true, desc = desc }
+  end
+
   vim.keymap.set('n', '<leader>ld', function()
     return require('telescope.builtin').lsp_definitions()
-  end, opts)
+  end, opts('LSP definitions'))
   vim.keymap.set('n', '<leader>lw', function()
     return require('telescope.builtin').lsp_type_definitions()
-  end, opts)
+  end, opts('LSP type definitions'))
   vim.keymap.set('n', '<leader>lu', function()
     return require('telescope.builtin').lsp_references({
       previewer = false,
       fname_width = (vim.o.columns * 0.4),
     })
-  end, opts)
-  vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, opts)
+  end, opts('LSP references'))
+  vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, opts('LSP declaration'))
   vim.keymap.set('n', '<leader>lg', function()
     return require('telescope.builtin').lsp_implementations()
-  end, opts)
+  end, opts('LSP implementations'))
   vim.keymap.set('n', '<Space>', vim.lsp.buf.hover, { silent = true, buffer = true })
   vim.keymap.set({ 'n', 'v' }, '<leader>lf', function()
     return require('conform').format({
       lsp_fallback = true,
       timeout_ms = 5000,
     })
-  end, opts)
-  vim.keymap.set('n', '<leader>li', vim.lsp.buf.incoming_calls, opts)
+  end, opts('LSP format'))
+  vim.keymap.set('n', '<leader>li', vim.lsp.buf.incoming_calls, opts('LSP incoming calls'))
   vim.keymap.set('n', '<leader>lh', function()
     vim.lsp.inlay_hint(0, nil)
-  end, opts)
-  vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls, opts)
-  vim.keymap.set('n', '<leader>lt', vim.lsp.buf.document_symbol, opts)
-  vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls, opts)
+  end, opts('LSP inlay hints'))
+  vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls, opts('LSP outgoing calls'))
+  vim.keymap.set('n', '<leader>lt', vim.lsp.buf.document_symbol, opts('LSP document symbols'))
+  vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls, opts('LSP outgoing calls'))
   vim.keymap.set('n', '<leader>le', function()
     return vim.diagnostic.open_float({ scope = 'line', show_header = false, focusable = false, border = 'rounded' })
-  end, opts)
-  vim.keymap.set('n', '<Leader>e', vim.diagnostic.setloclist, opts)
-  vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, opts)
+  end, opts('LSP diagnostics'))
+  vim.keymap.set('n', '<Leader>e', vim.diagnostic.setloclist, opts('LSP diagnostics list'))
+  vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, opts('LSP rename'))
   vim.keymap.set('n', '[g', function()
     return vim.diagnostic.goto_prev({ float = false })
-  end, opts)
+  end, opts('LSP previous diagnostic'))
   vim.keymap.set('n', ']g', function()
     return vim.diagnostic.goto_next({ float = false })
-  end, opts)
+  end, opts('LSP next diagnostic'))
   vim.keymap.set('n', '[d', function()
     return vim.diagnostic.goto_prev({ float = false })
-  end, opts)
+  end, opts('LSP previous diagnostic'))
   vim.keymap.set('n', ']d', function()
     return vim.diagnostic.goto_next({ float = false })
-  end, opts)
-  vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action, opts)
+  end, opts('LSP next diagnostic'))
+  vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action, opts('LSP code action'))
   vim.keymap.set('x', '<Leader>la', function()
     return vim.lsp.buf.code_action()
-  end, opts)
+  end, opts('LSP code action'))
   vim.keymap.set('i', '<C-k>', function()
     vim.lsp.buf.signature_help()
     return ''
