@@ -145,6 +145,7 @@ function setup.mason()
       'intelephense',
       'gopls',
       'lua_ls',
+      'rust_analyzer',
     },
   })
 end
@@ -176,6 +177,7 @@ function setup.servers()
   nvim_lsp.terraformls.setup(lsp_setup())
   nvim_lsp.docker_compose_language_service.setup(lsp_setup())
   nvim_lsp.dockerls.setup(lsp_setup())
+  nvim_lsp.rust_analyzer.setup(lsp_setup())
   nvim_lsp.eslint.setup(lsp_setup({
     settings = {
       packageManager = 'yarn',
