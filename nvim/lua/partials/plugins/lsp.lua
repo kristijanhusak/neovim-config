@@ -56,8 +56,8 @@ function setup.configure_handlers()
   vim.lsp.handlers['textDocument/hover'] =
     vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded', focusable = false })
 
-  vim.lsp.handlers['textDocument/signatureHelp'] =
-    vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single', focusable = false, silent = true })
+  -- vim.lsp.handlers['textDocument/signatureHelp'] =
+  --   vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single', focusable = false, silent = true })
 end
 
 function setup.mappings()
@@ -122,6 +122,17 @@ function setup.mappings()
     vim.lsp.buf.signature_help()
     return ''
   end, { expr = true, buffer = true })
+  vim.keymap.set({ 'n', 'i', 's' }, '<c-f>', function()
+    if not require('noice.lsp').scroll(4) then
+      return '<c-f>'
+    end
+  end, { silent = true, expr = true })
+
+  vim.keymap.set({ 'n', 'i', 's' }, '<c-b>', function()
+    if not require('noice.lsp').scroll(-4) then
+      return '<c-b>'
+    end
+  end, { silent = true, expr = true })
 end
 
 function setup.mason()
@@ -290,20 +301,20 @@ function setup.attach_to_buffer(client, bufnr)
     callback = refresh_diagnostics,
     group = lsp_group,
   })
-  if
-    client.server_capabilities.signatureHelpProvider
-    and not vim.tbl_isempty(client.server_capabilities.signatureHelpProvider)
-  then
-    vim.api.nvim_create_autocmd('CursorHoldI', {
-      buffer = bufnr,
-      callback = function()
-        vim.defer_fn(function()
-          vim.lsp.buf.signature_help()
-        end, 500)
-      end,
-      group = lsp_group,
-    })
-  end
+  -- if
+  --   client.server_capabilities.signatureHelpProvider
+  --   and not vim.tbl_isempty(client.server_capabilities.signatureHelpProvider)
+  -- then
+  --   vim.api.nvim_create_autocmd('CursorHoldI', {
+  --     buffer = bufnr,
+  --     callback = function()
+  --       vim.defer_fn(function()
+  --         vim.lsp.buf.signature_help()
+  --       end, 500)
+  --     end,
+  --     group = lsp_group,
+  --   })
+  -- end
   vim.opt.foldmethod = 'expr'
   vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
   setup.mappings()
