@@ -196,20 +196,12 @@ function setup.servers()
     },
   }))
 
-  local runtime_path = vim.split(package.path, ';')
-  table.insert(runtime_path, 'lua/?.lua')
-  table.insert(runtime_path, 'lua/?/init.lua')
-
   require('neodev').setup()
   nvim_lsp.lua_ls.setup(lsp_setup({
     settings = {
       Lua = {
-        runtime = {
-          version = 'LuaJIT',
-          path = runtime_path,
-        },
         diagnostics = {
-          globals = { 'vim', 'describe', 'it', 'before_each', 'after_each' },
+          globals = { 'vim', 'describe', 'it', 'before_each', 'after_each', 'assert' },
         },
         workspace = {
           checkThirdParty = 'Disable',
