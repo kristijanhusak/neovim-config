@@ -28,7 +28,7 @@ local filetypes = {
 local lsp = {
   'neovim/nvim-lspconfig',
   dependencies = {
-    { 'pmizio/typescript-tools.nvim' },
+    { 'yioneko/nvim-vtsls' },
     { 'SmiteshP/nvim-navic' },
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
@@ -143,6 +143,7 @@ function setup.mason()
       'dockerls',
       'vimls',
       'intelephense',
+      'vtsls',
       'gopls',
       'lua_ls',
       'rust_analyzer',
@@ -184,16 +185,33 @@ function setup.servers()
     },
   }))
 
-  require('typescript-tools').setup(lsp_setup({
-    disableFormatting = true,
+  local vtsls_settings = {
+    preferences = {
+      quoteStyle = 'single',
+      importModuleSpecifier = 'relative',
+    },
+    inlayHints = {
+      parameterNames = { enabled = 'literals' },
+      parameterTypes = { enabled = true },
+      variableTypes = { enabled = true },
+      propertyDeclarationTypes = { enabled = true },
+      functionLikeReturnTypes = { enabled = true },
+      enumMemberValues = { enabled = true },
+    },
+  }
+  nvim_lsp.vtsls.setup(lsp_setup({
     settings = {
-      expose_as_code_action = 'all',
-      tsserver_file_preferences = {
-        includeInlayParameterNameHints = 'all',
-        quotePreference = 'single',
-        importModuleSpecifierPreference = 'relative',
+      javascript = vtsls_settings,
+      typescript = vtsls_settings,
+      vtsls = {
+        experimental = {
+          completion = {
+            enableServerSideFuzzyMatch = true,
+          },
+        },
       },
     },
+    disableFormatting = true,
   }))
 
   require('neodev').setup()

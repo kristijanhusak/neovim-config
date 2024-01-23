@@ -92,22 +92,27 @@ function handlers.goto_definition()
   end, 300)
 end
 
+function handlers.execute_cmds(vtsls, bufnr, commands)
+  if #commands == 0 then
+    return
+  end
+  local cmd = commands[1]
+  table.remove(commands, 1)
+  return vtsls.commands[cmd](bufnr, function()
+    return handlers.execute_cmds(vtsls, bufnr, commands)
+  end)
+end
+
 ---@param organize? boolean
 function handlers.setup_imports(organize)
-  local commands = {
-    'TSToolsRemoveUnused',
-    'TSToolsAddMissingImports',
-    'TSToolsFixAll',
-  }
+  local vtsls = require('vtsls')
+  local bufnr = vim.api.nvim_get_current_buf()
+  local commands = { 'remove_unused_imports', 'add_missing_imports', 'fix_all' }
   if organize then
-    table.insert(commands, 'TSToolsOrganizeImports')
+    table.insert(commands, 'organize_imports')
   end
 
-  for _, cmd in ipairs(commands) do
-    vim.schedule(function()
-      vim.cmd(string.format('%s sync', cmd))
-    end)
-  end
+  return handlers.execute_cmds(vtsls, bufnr, commands)
 end
 
 return javascript
