@@ -1,5 +1,12 @@
+local org_plugin = require('partials.plugins.orgmode')
+local orgmode = nil
+
+if org_plugin.dev then
+  orgmode = vim.fn.fnamemodify('~/github/orgmode', ':p')
+else
+  orgmode = vim.fn.stdpath('data') .. '/lazy/orgmode'
+end
 local treesitter = vim.fn.stdpath('data') .. '/lazy/nvim-treesitter'
-local orgmode = vim.fn.stdpath('data') .. '/lazy/orgmode'
 vim.opt.runtimepath:append(treesitter)
 vim.opt.runtimepath:append(orgmode)
 
