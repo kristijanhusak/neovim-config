@@ -214,7 +214,14 @@ function setup.servers()
     disableFormatting = true,
   }))
 
-  require('neodev').setup()
+  require('neodev').setup({
+    override = function(_, options)
+      if not options.plugins then
+        options.plugins = { 'nvim-treesitter', 'plenary.nvim' }
+      end
+      return options
+    end,
+  })
   nvim_lsp.lua_ls.setup(lsp_setup({
     settings = {
       Lua = {
