@@ -83,5 +83,23 @@
       "}"
     ],
     "description": "Try catch block"
+  },
+  "It test": {
+    "prefix": ["itt"],
+    "body": [
+      "it('${1}', async () => {",
+      "\t$0",
+      "})"
+    ],
+    "description": "It test"
+  },
+  "Describe test": {
+    "prefix": ["descc"],
+    "body": [
+      "describe('${1}', async () => {",
+      "\t$0",
+      "})"
+    ],
+    "description": "Describe test"
   }
 }
