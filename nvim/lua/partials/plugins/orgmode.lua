@@ -5,6 +5,7 @@ end
 
 local orgmode = {
   'nvim-orgmode/orgmode',
+  dev = true,
   dependencies = {
     { 'akinsho/org-bullets.nvim' },
   },
