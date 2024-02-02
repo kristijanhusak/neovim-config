@@ -45,7 +45,7 @@ end
 
 function handlers.console_log()
   local ts_utils = require('nvim-treesitter.ts_utils')
-  local view = fn.winsaveview()
+  local view = fn.winsaveview() or {}
   local word = fn.expand('<cword>')
   local node = ts_utils.get_node_at_cursor()
   while node and node:type() ~= 'lexical_declaration' do

@@ -1,5 +1,12 @@
 local settings = {}
 
+_G.kris.diagnostic_icons = {
+  [vim.diagnostic.severity.ERROR] = ' ',
+  [vim.diagnostic.severity.WARN] = ' ',
+  [vim.diagnostic.severity.INFO] = ' ',
+  [vim.diagnostic.severity.HINT] = ' ',
+}
+
 vim.opt.termguicolors = true
 vim.opt.title = true
 vim.opt.number = true
@@ -18,8 +25,6 @@ vim.opt.fileencoding = 'utf-8'
 vim.opt.wrap = false
 vim.opt.linebreak = true
 vim.opt.listchars = {
-  --   leadmultispace = '▏ ',
-  --   multispace = '▏ ',
   tab = '▏ ',
   trail = '·',
 }
@@ -62,7 +67,7 @@ function settings.strip_trailing_whitespace()
     local col = vim.fn.col('.')
     vim.cmd([[%s/\s\+$//e]])
     vim.fn.histdel('/', -1)
-    vim.fn.cursor(line, col)
+    vim.fn.cursor({ line, col })
   end
 end
 

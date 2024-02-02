@@ -3,13 +3,6 @@ local lsp_group = vim.api.nvim_create_augroup('vimrc_lsp', { clear = true })
 
 local setup = {}
 
-local diagnostic_icons = {
-  [vim.diagnostic.severity.ERROR] = ' ',
-  [vim.diagnostic.severity.WARN] = ' ',
-  [vim.diagnostic.severity.INFO] = ' ',
-  [vim.diagnostic.severity.HINT] = ' ',
-}
-
 local filetypes = {
   'vim',
   'php',
@@ -49,7 +42,7 @@ function setup.configure_handlers()
   vim.diagnostic.config({
     virtual_text = false,
     signs = {
-      text = diagnostic_icons,
+      text = _G.kris.diagnostic_icons,
     },
   })
 
@@ -268,7 +261,7 @@ local function show_diagnostics()
 
     local virtual_text_opts = {
       prefix = function(diagnostic)
-        return diagnostic_icons[diagnostic.severity]
+        return _G.kris.diagnostic_icons[diagnostic.severity]
       end or '',
     }
 
@@ -276,7 +269,7 @@ local function show_diagnostics()
       virtual_text_opts = {
         prefix = '',
         format = function(diagnostic)
-          return string.format('%s %s', diagnostic_icons[diagnostic.severity], diagnostic.message)
+          return string.format('%s %s', _G.kris.diagnostic_icons[diagnostic.severity], diagnostic.message)
         end,
       }
     end
@@ -307,10 +300,7 @@ function setup.attach_to_buffer(client, bufnr)
     callback = refresh_diagnostics,
     group = lsp_group,
   })
-  if
-    client.server_capabilities.signatureHelpProvider
-    and not vim.tbl_isempty(client.server_capabilities.signatureHelpProvider)
-  then
+  if not vim.tbl_isempty(client.server_capabilities.signatureHelpProvider or {}) then
     vim.api.nvim_create_autocmd('CursorHoldI', {
       buffer = bufnr,
       callback = function()
