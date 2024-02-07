@@ -85,6 +85,22 @@ orgmode.config = function()
     },
   })
 
+  local set_cr_mapping = function()
+    vim.keymap.set('i', '<S-CR>', '<cmd>lua require("orgmode").action("org_mappings.meta_return")<CR>', {
+      silent = true,
+      buffer = true,
+    })
+  end
+
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'org',
+    callback = set_cr_mapping,
+  })
+
+  if vim.bo.filetype == 'org' then
+    set_cr_mapping()
+  end
+
   return orgmode
 end
 
