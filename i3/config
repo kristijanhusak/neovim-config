@@ -259,9 +259,9 @@ mode "resize" {
 bindsym Control+$mod+l exec i3lock -c 000000
 
 # Autostart applications
+exec --no-startup-id "setxkbmap -layout 'us,rs' -variant ' ,latin' -option 'grp:lctrl_lwin_toggle'"
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nitrogen --restore
-exec --no-startup-id "setxkbmap -layout 'us,rs' -variant ' ,latin' -option 'grp:lctrl_lwin_toggle'"
 #exec --no-startup-id manjaro-hello
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
