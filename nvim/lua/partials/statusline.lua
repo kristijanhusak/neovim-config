@@ -67,6 +67,41 @@ if vim.fn.has('nvim-0.10.0') > 0 then
   })
 end
 
+local separator_types = {
+  slant = {
+    left_side = {
+      before = '',
+      after = '',
+    },
+    right_side = {
+      before = '',
+      after = '',
+    },
+  },
+  circle = {
+    left_side = {
+      before = '',
+      after = ' ',
+    },
+    right_side = {
+      before = ' ',
+      after = '',
+    },
+  },
+  block = {
+    left_side = {
+      before = '█',
+      after = '█ ',
+    },
+    right_side = {
+      before = ' █',
+      after = '█',
+    },
+  },
+}
+
+local separators = separator_types.circle
+
 local function sep(item, opts, show)
   opts = opts or {}
   if show == nil then
@@ -81,11 +116,11 @@ local function sep(item, opts, show)
   local color = opts.color or '%#StItem#'
   local side = opts.side or 'left'
 
-  local sep_before = '█'
-  local sep_after = '█'
+  local sep_before = separators.left_side.before .. '█'
+  local sep_after = '█' .. separators.left_side.after
   if side ~= 'left' then
-    sep_before = '█'
-    sep_after = '█'
+    sep_before = separators.right_side.before .. '█'
+    sep_after = '█' .. separators.right_side.after
   end
 
   if no_before then
