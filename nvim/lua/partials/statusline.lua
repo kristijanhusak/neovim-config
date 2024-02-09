@@ -1,6 +1,7 @@
 local statusline = {}
 local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
 vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
+local devicons = require('nvim-web-devicons')
 
 local c = {}
 local lsp = {
@@ -100,7 +101,7 @@ local separator_types = {
   },
 }
 
-local separators = separator_types.circle
+local separators = separator_types.slant
 
 local function sep(item, opts, show)
   opts = opts or {}
@@ -144,13 +145,13 @@ local st_warn = { color = '%#StWarn#', sep_color = '%#StWarnSep#', side = 'right
 local function mode_highlight(mode)
   if mode == 'i' then
     pcall(vim.api.nvim_set_hl, 0, 'StMode', { bg = '#83a598', fg = '#3c3836' })
-    pcall(vim.api.nvim_set_hl, 0, 'StModeSep', { fg = '#83a598' })
+    pcall(vim.api.nvim_set_hl, 0, 'StModeSep', { fg = '#83a598', bg = c.statusline_bg })
   elseif vim.tbl_contains({ 'v', 'V', '' }, mode) then
     pcall(vim.api.nvim_set_hl, 0, 'StMode', { bg = '#fe8019', fg = '#3c3836' })
-    pcall(vim.api.nvim_set_hl, 0, 'StModeSep', { fg = '#fe8019' })
+    pcall(vim.api.nvim_set_hl, 0, 'StModeSep', { fg = '#fe8019', bg = c.statusline_bg })
   elseif mode == 'R' then
     pcall(vim.api.nvim_set_hl, 0, 'StMode', { bg = '#8ec07c', fg = '#3c3836' })
-    pcall(vim.api.nvim_set_hl, 0, 'StModeSep', { fg = '#8ec07c' })
+    pcall(vim.api.nvim_set_hl, 0, 'StModeSep', { fg = '#8ec07c', bg = c.statusline_bg })
   else
     pcall(vim.api.nvim_set_hl, 0, 'StMode', { bg = c.normal_fg, fg = c.normal_bg })
     pcall(vim.api.nvim_set_hl, 0, 'StModeSep', { fg = c.normal_fg, bg = c.statusline_bg })
@@ -266,12 +267,33 @@ local function get_modified_count()
   end, vim.fn.getbufinfo({ bufmodified = 1, buflisted = 1, bufloaded = 1 }))
 end
 
+local filetype_icon_cache = {}
+local function filetype()
+  local ft = vim.bo.filetype
+
+  if filetype_icon_cache[ft] then
+    return filetype_icon_cache[ft]
+  end
+
+  local parts = { ft }
+
+  local ft_icon, ft_icon_hl = devicons.get_icon(vim.fn.expand('%:t'))
+
+
+  if ft_icon and ft_icon ~= '' and ft_icon_hl and ft_icon_hl ~= '' then
+    vim.cmd('hi ' .. ft_icon_hl .. ' guibg=' .. c.statusline_bg)
+    table.insert(parts, 1, '%#' .. ft_icon_hl .. '#' .. ft_icon..'%*')
+  end
+
+  filetype_icon_cache[ft] = ' '..table.concat(parts, ' ')..' '
+  return filetype_icon_cache[ft]
+end
+
 local function statusline_active()
   local mode = mode_statusline()
   local git_status = git_statusline()
   local search = statusline.search_result()
   local db_ui = vim.g.loaded_dbui and vim.fn['db_ui#statusline']() or ''
-  local ft = vim.bo.filetype
   local diagnostics = lsp_diagnostics()
   local modified_count = get_modified_count()
   local statusline_sections = {
@@ -288,9 +310,9 @@ local function statusline_active()
     '%=',
     sep(lsp.message, vim.tbl_extend('keep', { side = 'right' }, sec_2), lsp.message ~= ''),
     sep(search, vim.tbl_extend('keep', { side = 'right' }, sec_2), search ~= ''),
-    sep(ft, vim.tbl_extend('keep', { side = 'right' }, sec_2), ft ~= ''),
+    filetype(),
     sep(' ' .. os.date('%H:%M', os.time()), st_mode_right),
-    sep('%4l:%-3c', st_mode_right),
+    sep('%4l:%-3c', st_mode_right),
     sep('%3p%%/%L', vim.tbl_extend('keep', { no_after = diagnostics == '' }, st_mode_right)),
     diagnostics,
     '%<',
