@@ -13,7 +13,6 @@ treesitter.config = function()
   require('nvim-treesitter.configs').setup({
     highlight = {
       enable = true,
-      additional_vim_regex_highlighting = { 'org' },
     },
     yati = {
       enable = true,
@@ -41,7 +40,7 @@ treesitter.config = function()
     refactor = {
       highlight_definitions = {
         enable = true,
-        clear_on_cursor_move = false
+        clear_on_cursor_move = false,
       },
       smart_rename = {
         enable = true,

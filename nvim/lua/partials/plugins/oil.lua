@@ -8,7 +8,7 @@ return {
       Q = 'actions.close',
     },
   },
-  cmd = {'Oil'},
+  cmd = { 'Oil' },
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   init = function()
     vim.keymap.set('n', '-', '<CMD>Oil<CR>')
