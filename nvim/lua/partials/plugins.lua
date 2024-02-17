@@ -6,5 +6,5 @@ return {
   { 'kristijanhusak/plenary.nvim', branch = 'feat/luassert-types' },
   { 'stefandtw/quickfix-reflector.vim', event = 'VeryLazy' },
   { 'wakatime/vim-wakatime', event = 'VeryLazy' },
-  { 'LunarVim/bigfile.nvim' },
+  { 'LunarVim/bigfile.nvim', lazy = false, priority = 2000 },
 }
