@@ -12,22 +12,52 @@ local completion = {
 completion.config = function()
   local utils = require('partials.utils')
   local cmp = require('cmp')
-
   vim.opt.pumheight = 15
-  vim.opt.completeopt = 'menuone,noselect'
+
+  local kind_icons = {
+    Text = '',
+    Method = '󰆧',
+    Function = '󰊕',
+    Constructor = '',
+    Field = '󰇽',
+    Variable = '󰂡',
+    Class = '󰠱',
+    Interface = '',
+    Module = '',
+    Property = '󰜢',
+    Unit = '',
+    Value = '󰎠',
+    Enum = '',
+    Keyword = '󰌋',
+    Snippet = '',
+    Color = '󰏘',
+    File = '󰈙',
+    Reference = '',
+    Folder = '󰉋',
+    EnumMember = '',
+    Constant = '󰏿',
+    Struct = '',
+    Event = '',
+    Operator = '󰆕',
+    TypeParameter = '󰅲',
+  }
 
   cmp.setup({
     formatting = {
+      fields = { 'kind', 'abbr', 'menu' },
       format = function(entry, vim_item)
-        vim_item.menu = ({
-          rg = '[Rg]',
-          buffer = '[Buffer]',
-          nvim_lsp = '[LSP]',
-          vsnip = '[Snippet]',
-          path = '[Path]',
-          orgmode = '[Org]',
-          ['vim-dadbod-completion'] = '[DB]',
-        })[entry.source.name]
+        vim_item.menu = vim_item.kind
+          .. ' '
+          .. ({
+            rg = '[Rg]',
+            buffer = '[Buffer]',
+            nvim_lsp = '[LSP]',
+            vsnip = '[Snippet]',
+            path = '[Path]',
+            orgmode = '[Org]',
+            ['vim-dadbod-completion'] = '[DB]',
+          })[entry.source.name]
+        vim_item.kind = kind_icons[vim_item.kind] or ''
         return vim_item
       end,
     },
