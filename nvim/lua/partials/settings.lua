@@ -159,14 +159,11 @@ vim.opt.wildignore = {
   '**/.nx/**',
 }
 
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
-  pattern = '.env*',
-  command = 'set filetype=conf',
-})
-
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
-  pattern = '*.mjml',
-  command = 'set filetype=html',
+vim.filetype.add({
+  pattern = {
+    ['.env*'] = 'conf',
+    ['*.mjml'] = 'html',
+  }
 })
 
 return settings
