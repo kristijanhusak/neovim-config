@@ -19,10 +19,11 @@ install_neovim() {
   && yay -S ripgrep universal-ctags ttf-jetbrains-mono
 }
 
-install_neovim() {
+install_emacs() {
   echo "Setting up emacs..." \
-  && rm -rf ~/.config/emacs \
-  && ln -s $(pwd)/emacs ~/.config/emacs
+  && mkdir -p ~/.config/emacs \
+  && rm -rf ~/.config/emacs/init.el \
+  && ln -s $(pwd)/emacs/init.el ~/.config/emacs
 }
 
 install_packages() {

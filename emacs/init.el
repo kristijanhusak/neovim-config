@@ -29,11 +29,12 @@
 (setq x-super-keysym 'meta)
 (setq org-capture-templates
       '(
-        ("j" "Work Log Entry"
-         entry (file+datetree "~/orgmodes/work-log.org")
-         "* %?"
-         :empty-lines 0)
-        ))
+        ("j" "Work Log Entry" entry
+         (file+olp+datetree "~/orgmodes/work-log.org")
+         "* %?" :empty-lines 0)
+        ("t" "Task" entry (file+headline "" "Tasks") "* %?")
+        )
+      )
 
 (use-package evil
   :init ;; Tweak evil's configuration before loading it
