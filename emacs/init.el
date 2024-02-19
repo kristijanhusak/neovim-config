@@ -36,6 +36,13 @@
         )
       )
 
+(add-hook 'org-agenda-mode-hook (lambda ()
+(define-key org-agenda-mode-map "j" 'evil-next-line)
+(define-key org-agenda-mode-map "k" 'evil-previous-line)
+(define-key org-agenda-mode-map "h" 'evil-backward-char)
+(define-key org-agenda-mode-map "l" 'evil-forward-char)
+))
+
 (use-package evil
   :init ;; Tweak evil's configuration before loading it
   (setq evil-want-keybinding nil) ;; Disable evil bindings in other modes (It's not consistent and not good)
