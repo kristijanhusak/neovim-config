@@ -22,6 +22,7 @@ local orgmode_config = {
   org_hide_emphasis_markers = true,
   org_agenda_text_search_extra_files = { 'agenda-archives' },
   org_agenda_start_on_weekday = false,
+  org_startup_indented = true,
   org_log_into_drawer = 'LOGBOOK',
   org_todo_keywords = { 'TODO(t)', 'PROGRESS(p)', '|', 'DONE(d)', 'REJECTED(r)' },
   org_capture_templates = {
