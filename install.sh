@@ -14,11 +14,15 @@ install_oh_my_zsh() {
 
 install_neovim() {
   echo "Setting up neovim..." \
-  && rm -rf ~/.config/nvim $(pwd)/nvim/pack ~/.fzf \
+  && rm -rf ~/.config/nvim ~/.fzf \
   && ln -s $(pwd)/nvim ~/.config/nvim \
-  && git clone https://github.com/kristijanhusak/vim-packager.git ~/.config/nvim/pack/packager/opt/vim-packager \
-  && yay -S ripgrep universal-ctags ttf-jetbrains-mono \
-  && nvim -c 'PackagerInstall'
+  && yay -S ripgrep universal-ctags ttf-jetbrains-mono
+}
+
+install_neovim() {
+  echo "Setting up emacs..." \
+  && rm -rf ~/.config/emacs \
+  && ln -s $(pwd)/emacs ~/.config/emacs
 }
 
 install_packages() {
