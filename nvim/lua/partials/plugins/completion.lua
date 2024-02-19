@@ -80,16 +80,22 @@ completion.config = function()
         end
         return cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })(fallback)
       end,
-      ['<C-Space>'] = cmp.mapping.complete({
-        config = {
-          sources = {
-            { name = 'nvim_lsp', group_index = 1 },
-            { name = 'path', group_index = 1 },
-            { name = 'buffer', group_index = 2 },
-            { name = 'rg', group_index = 2 },
-          },
-        },
-      }),
+      ['<C-n>'] = function()
+        if not cmp.visible() then
+          cmp.complete({
+            config = {
+              sources = {
+                { name = 'nvim_lsp', group_index = 1 },
+                { name = 'path', group_index = 1 },
+                { name = 'buffer', group_index = 2 },
+                { name = 'rg', group_index = 2 },
+              },
+            },
+          })
+        end
+
+        return cmp.select_next_item()
+      end,
       ['<Tab>'] = cmp.mapping(function(fallback)
         if vim.fn['vsnip#jumpable'](1) > 0 then
           vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-next)'), '')
