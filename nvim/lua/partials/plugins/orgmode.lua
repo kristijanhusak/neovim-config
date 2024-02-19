@@ -28,23 +28,17 @@ local orgmode_config = {
   org_capture_templates = {
     t = {
       description = 'Refile',
-      template = '* TODO %?\n  DEADLINE: %T',
+      template = '* TODO %?\nDEADLINE: %T',
     },
     T = {
       description = 'Todo',
-      template = '* TODO %?\n  DEADLINE: %T',
+      template = '* TODO %?\nDEADLINE: %T',
       target = org_path('todos.org'),
     },
     w = {
       description = 'Work todo',
-      template = '* TODO %?\n  DEADLINE: %T',
+      template = '* TODO %?\nDEADLINE: %T',
       target = org_path('work.org'),
-    },
-    d = {
-      description = 'Daily',
-      template = '* Daily %U \n  %?',
-      target = org_path('work.org'),
-      headline = 'Meetings',
     },
   },
   notifications = {
