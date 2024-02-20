@@ -7,7 +7,7 @@ local orgmode = {
   'nvim-orgmode/orgmode',
   dev = true,
   dependencies = {
-    { 'akinsho/org-bullets.nvim' },
+    { 'nvim-orgmode/org-bullets.nvim' },
   },
   ft = { 'org', 'orgagenda' },
   keys = {
@@ -73,9 +73,9 @@ orgmode.config = function()
     concealcursor = true,
     symbols = {
       checkboxes = {
-        half = { '', 'OrgTSCheckboxHalfChecked' },
-        done = { '✓', 'OrgDone' },
-        todo = { ' ', 'OrgTODO' },
+        half = { '', '@org.checkbox.halfchecked' },
+        done = { '✓', '@org.checkbox.checked' },
+        todo = { ' ', '@org.checkbox' }
       },
     },
   })
