@@ -30,6 +30,9 @@ require('lazy').setup('partials.plugins', {
   dev = {
     path = '~/github',
   },
+  change_detection = {
+    notify = false,
+  },
   install = {
     colorscheme = { 'onenord' },
   },
