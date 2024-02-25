@@ -77,7 +77,7 @@ orgmode.config = function()
       checkboxes = {
         half = { '', '@org.checkbox.halfchecked' },
         done = { '✓', '@org.checkbox.checked' },
-        todo = { ' ', '@org.checkbox' }
+        todo = { ' ', '@org.checkbox' },
       },
     },
   })

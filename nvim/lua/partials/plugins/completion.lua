@@ -65,6 +65,8 @@ completion.config = function()
       { name = 'nvim_lsp', group_index = 1 },
       { name = 'vsnip', group_index = 1 },
       { name = 'path', group_index = 1 },
+      { name = 'buffer', group_index = 2 },
+      { name = 'rg', group_index = 2 },
       { name = 'orgmode', group_index = 1 },
     },
     snippet = {
@@ -79,22 +81,6 @@ completion.config = function()
           return
         end
         return cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })(fallback)
-      end,
-      ['<C-n>'] = function()
-        if not cmp.visible() then
-          cmp.complete({
-            config = {
-              sources = {
-                { name = 'nvim_lsp', group_index = 1 },
-                { name = 'path', group_index = 1 },
-                { name = 'buffer', group_index = 2 },
-                { name = 'rg', group_index = 2 },
-              },
-            },
-          })
-        end
-
-        return cmp.select_next_item()
       end,
       ['<Tab>'] = cmp.mapping(function(fallback)
         if vim.fn['vsnip#jumpable'](1) > 0 then

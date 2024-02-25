@@ -163,7 +163,7 @@ vim.filetype.add({
   pattern = {
     ['.env*'] = 'conf',
     ['*.mjml'] = 'html',
-  }
+  },
 })
 
 return settings
