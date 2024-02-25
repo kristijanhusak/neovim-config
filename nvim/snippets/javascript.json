@@ -58,12 +58,46 @@
     ],
     "description": "Console log"
   },
+  "Console debug": {
+    "prefix": ["cd"],
+    "body": [
+      "console.debug($0);"
+    ],
+    "description": "Console debug"
+  },
   "Console log all": {
     "prefix": ["clj"],
     "body": [
       "console.log(JSON.stringify($0, null, 2));"
     ],
     "description": "Console log whole object"
+  },
+  "Console debug all": {
+    "prefix": ["cdj"],
+    "body": [
+      "console.debug(JSON.stringify($0, null, 2));"
+    ],
+    "description": "Console debug whole object"
+  },
+  "If": {
+    "prefix": ["if"],
+    "body": [
+      "if (${1:condition}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Console debug whole object"
+  },
+  "If-else": {
+    "prefix": ["ifelse"],
+    "body": [
+      "if (${1:condition}) {",
+      "\t$2",
+      "} else {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Console debug whole object"
   },
   "docblock": {
     "prefix": ["/**"],
@@ -84,17 +118,8 @@
     ],
     "description": "Try catch block"
   },
-  "It test": {
-    "prefix": ["itt"],
-    "body": [
-      "it('${1}', async () => {",
-      "\t$0",
-      "})"
-    ],
-    "description": "It test"
-  },
   "Describe test": {
-    "prefix": ["descc"],
+    "prefix": ["desc"],
     "body": [
       "describe('${1}', async () => {",
       "\t$0",

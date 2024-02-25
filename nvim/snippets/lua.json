@@ -5,5 +5,72 @@
       "print('${2:${1}}', vim.inspect(${1:obj}))$0"
     ],
     "description": "Print + vim.inspect"
+  },
+  "local-function": {
+    "prefix": ["lfun"],
+    "body": [
+      "local ${1:funcname} = function(${2:args})",
+      "\t$0",
+      "end"
+    ],
+    "description": "function"
+  },
+  "function": {
+    "prefix": ["fun"],
+    "body": [
+      "function(${1:args})",
+      "\t$0",
+      "end"
+    ],
+    "description": "function"
+  },
+  "If": {
+    "prefix": ["if"],
+    "body": [
+      "if ${1:condition} then",
+      "\t$0",
+      "end"
+    ],
+    "description": "Console debug whole object"
+  },
+  "If-else": {
+    "prefix": ["ifelse"],
+    "body": [
+      "if ${1:condition} then",
+      "\t$2",
+      "else",
+      "\t$0",
+      "end"
+    ],
+    "description": "Console debug whole object"
+  },
+  "method": {
+    "prefix": ["mtd"],
+    "body": [
+      "function ${1:Class}:${2:method}(${3:args})",
+      "\t$0",
+      "end"
+    ],
+    "description": "method"
+  },
+  "describe-test": {
+    "prefix": ["desc"],
+    "body": [
+      "describe('${1:description}', function()",
+      "\tit('${2:test}', function()",
+      "\t\t$0",
+      "\tend)",
+      "end)"
+    ],
+    "description": "describe + it"
+  },
+  "it-test": {
+    "prefix": ["it"],
+    "body": [
+      "it('${1:description}', function()",
+      "\t$0",
+      "end)"
+    ],
+    "description": "it test"
   }
 }

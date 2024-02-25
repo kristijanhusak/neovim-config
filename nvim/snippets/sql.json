@@ -1,4 +1,11 @@
 {
+  "select": {
+    "prefix": ["sel"],
+    "body": [
+      "select * from ${1:table};"
+    ],
+    "description": "Select from table"
+  },
   "select-by-id": {
     "prefix": ["selid"],
     "body": [
@@ -11,7 +18,8 @@
     "body": [
       "with ${1:cte} as (",
       "\tselect * from \"${2:table}\"",
-      ")"
+      ")",
+      "select * from ${1:cte}$0;"
     ],
     "description": "Cte"
   }
