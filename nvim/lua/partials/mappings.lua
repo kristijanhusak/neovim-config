@@ -1,4 +1,5 @@
 local mappings = {}
+local utils = require('partials.utils')
 
 -- Map save to Ctrl + S
 vim.keymap.set('', '<c-s>', ':w<CR>', { remap = true, silent = true })
@@ -244,6 +245,65 @@ end)
 vim.keymap.set('n', '<Leader>Q', function()
   return close_buffer(true)
 end)
+
+local trying_omnifunc = false
+vim.opt.completeopt = 'menu,menuone,popup'
+vim.keymap.set('i', '<c-n>', function()
+  if trying_omnifunc then
+    return
+  end
+  if (not vim.bo.omnifunc or vim.bo.omnifunc == '') or vim.fn.pumvisible() > 0 then
+    return '<C-n>'
+  end
+
+  trying_omnifunc = true
+
+  local timer = vim.uv.new_timer()
+
+  timer:start(500, 0, vim.schedule_wrap(function()
+    local mode = vim.fn.mode()
+    trying_omnifunc = false
+    if vim.fn.pumvisible() == 0 and mode == 'i' or mode == 'ic' then
+      vim.fn.feedkeys(utils.esc('<C-e><C-n>'), 'n')
+    end
+    timer:stop()
+    timer:close()
+    timer = nil
+  end))
+
+  vim.api.nvim_create_autocmd('CompleteChanged', {
+    buffer = 0,
+    callback = function()
+      trying_omnifunc = false
+      if timer then
+        timer:stop()
+        timer:close()
+        timer = nil
+      end
+    end
+  })
+
+  return '<C-x><C-o>'
+end, { silent = true, expr = true })
+
+vim.keymap.set('i', '<TAB>', function()
+  if vim.fn['vsnip#jumpable'](1) > 0 then
+    vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-next)'), '')
+  elseif vim.fn['vsnip#expandable']() > 0 then
+    vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
+  elseif require('copilot.suggestion').is_visible() then
+    require('copilot.suggestion').accept()
+  else
+    vim.fn.feedkeys(utils.esc('<TAB>'), 'n')
+  end
+end, { silent = true })
+vim.keymap.set('i', '<S-TAB>', function()
+  if vim.fn['vsnip#jumpable'](-1) == 1 then
+    vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-prev)'), '')
+  else
+    vim.fn.feedkeys(utils.esc('<S-TAB>'), '')
+  end
+end, { silent = true })
 
 function mappings.paste_to_json_buffer()
   vim.cmd.vsplit()
