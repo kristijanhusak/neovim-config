@@ -101,7 +101,7 @@ local separator_types = {
   },
 }
 
-local separators = separator_types.slant
+local separators = separator_types.circle
 
 local function sep(item, opts, show)
   opts = opts or {}
@@ -234,7 +234,10 @@ function statusline.search_result()
   if not last_search or last_search == '' then
     return ''
   end
-  local searchcount = vim.fn.searchcount({ maxcount = 9999 })
+  local ok, searchcount = pcall(vim.fn.searchcount, { maxcount = 9999 })
+  if not ok then
+    return 'Invalid search'
+  end
   return last_search .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
 end
 
