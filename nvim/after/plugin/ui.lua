@@ -4,30 +4,6 @@ local ui = {
   last_input = {},
 }
 
-local function add_title_to_win(winnr, bufnr, title)
-  vim.cmd.redraw()
-  local title_bufnr = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_buf_set_lines(title_bufnr, 0, -1, true, { (' %s'):format(vim.trim(title)) })
-  local title_winnr = vim.api.nvim_open_win(title_bufnr, false, {
-    relative = 'win',
-    win = winnr,
-    width = vim.trim(title):len() + 2,
-    height = 1,
-    row = -1,
-    col = 1,
-    focusable = false,
-    zindex = 151,
-    style = 'minimal',
-    noautocmd = true,
-  })
-  vim.api.nvim_create_autocmd('WinClosed', {
-    buffer = bufnr,
-    callback = function()
-      vim.api.nvim_win_close(title_winnr, true)
-    end,
-  })
-end
-
 local function get_win_width(value_length, opts)
   return math.max(value_length + 10, (opts.prompt and opts.prompt:len() + 10 or 0))
 end
@@ -56,15 +32,13 @@ vim.ui.select = function(items, opts, on_choice)
   vim.opt.eventignore:append('WinLeave')
   local bufnr, winnr = vim.lsp.util.open_floating_preview(choices, '', {
     border = 'rounded',
+    title = opts.prompt,
+    title_pos = 'center',
   })
 
   vim.api.nvim_win_set_config(winnr, {
     width = get_win_width(longest_item, opts),
   })
-
-  if opts.prompt then
-    add_title_to_win(winnr, bufnr, opts.prompt)
-  end
 
   vim.api.nvim_set_current_win(winnr)
   if vim.fn.mode():lower() == 'v' then
@@ -88,11 +62,9 @@ vim.ui.input = function(opts, on_confirm)
     border = 'rounded',
     width = win_width,
     wrap = false,
+    title = opts.prompt,
+    title_pos = 'center',
   })
-
-  if opts.prompt then
-    add_title_to_win(winnr, bufnr, opts.prompt)
-  end
 
   ui.last_input = {
     val = current_val,
