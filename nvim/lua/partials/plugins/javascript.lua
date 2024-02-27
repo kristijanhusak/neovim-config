@@ -7,9 +7,11 @@ local filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptre
 
 local javascript = {
   'kristijanhusak/vim-js-file-import',
+  dependencies = { 'dmmulroy/tsc.nvim' },
   ft = filetypes,
 }
 javascript.config = function()
+  require('tsc').setup()
   vim.keymap.set('n', '<Plug>(JsConsoleLog)', handlers.console_log)
   vim.keymap.set('n', '<Plug>(JsGotoFile)', handlers.goto_file)
 
