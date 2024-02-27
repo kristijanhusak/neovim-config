@@ -79,6 +79,10 @@ vim.keymap.set('x', '<tab>', '>gv')
 -- Resize window with shift + and shift -
 vim.keymap.set('n', '_', '<c-w>5<')
 vim.keymap.set('n', '+', '<c-w>5>')
+vim.keymap.set('n', '<C-up>', '<c-w>+')
+vim.keymap.set('n', '<C-down>', '<c-w>-')
+vim.keymap.set('n', '<C-left>', '<c-w><')
+vim.keymap.set('n', '<C-right>', '<c-w>>')
 
 -- Use Q to take nvim to background
 vim.keymap.set('', 'Q', '<c-z>', { remap = true })
