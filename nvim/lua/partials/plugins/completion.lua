@@ -42,6 +42,19 @@ completion.config = function()
     TypeParameter = '󰅲',
   }
 
+  local default_sources = {
+    { name = 'vsnip', group_index = 1 },
+    { name = 'path', group_index = 1 },
+    { name = 'buffer', group_index = 2 },
+    { name = 'rg', group_index = 2 },
+  }
+
+  local all_sources = vim.list_extend({
+    { name = 'nvim_lsp', group_index = 1 },
+    { name = 'orgmode', group_index = 1 },
+    { name = 'vim_dadbod_completion', group_index = 1 },
+  }, default_sources)
+
   cmp.setup({
     formatting = {
       fields = { 'kind', 'abbr', 'menu' },
@@ -61,14 +74,7 @@ completion.config = function()
         return vim_item
       end,
     },
-    sources = {
-      { name = 'nvim_lsp', group_index = 1 },
-      { name = 'vsnip', group_index = 1 },
-      { name = 'path', group_index = 1 },
-      { name = 'buffer', group_index = 2 },
-      { name = 'rg', group_index = 2 },
-      { name = 'orgmode', group_index = 1 },
-    },
+    sources = default_sources,
     snippet = {
       expand = function(args)
         vim.fn['vsnip#anonymous'](args.body)
@@ -93,7 +99,11 @@ completion.config = function()
           fallback()
         end
       end, { 'i', 's' }),
-
+      ['<c-space>'] = cmp.mapping.complete({
+        config = {
+          sources = all_sources,
+        },
+      }),
       ['<S-Tab>'] = cmp.mapping(function(fallback)
         if vim.fn['vsnip#jumpable'](-1) == 1 then
           vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-prev)'), '')
@@ -124,6 +134,30 @@ completion.config = function()
       })
     end,
     group = autocomplete_group,
+  })
+
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'org' },
+    callback = function()
+      cmp.setup.buffer({
+        sources = vim.list_extend({
+          { name = 'orgmode', group_index = 1 },
+        }, default_sources),
+      })
+    end,
+    group = autocomplete_group,
+  })
+
+  vim.api.nvim_create_autocmd('LspAttach', {
+    callback = function()
+      cmp.setup.buffer({
+        sources = {
+          { name = 'nvim_lsp', group_index = 1 },
+          { name = 'vsnip', group_index = 1 },
+          { name = 'path', group_index = 1 },
+        },
+      })
+    end,
   })
 
   cmp.event:on('menu_opened', function()
