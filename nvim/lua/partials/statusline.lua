@@ -9,21 +9,82 @@ local lsp = {
   printed_done = false,
 }
 
+local function get_colors()
+  local ok, lualine_colors = pcall(require, 'lualine.themes.'..(vim.g.colors_name or 'none'))
+  if ok then
+    local convert_gui = function(color)
+      if color.gui then
+        local items = vim.split(color.gui, '%s+')
+        vim.tbl_map(function(item)
+          color[item] = true
+        end, items)
+        color.gui = nil
+      end
+      return color
+    end
+    c.sections = {
+      modes = {
+        normal = convert_gui(lualine_colors.normal.a),
+        insert = convert_gui(lualine_colors.insert.a),
+        command = convert_gui(lualine_colors.command.a),
+        visual = convert_gui(lualine_colors.visual.a),
+        replace = convert_gui(lualine_colors.visual.a),
+      },
+      static = convert_gui(lualine_colors.normal.b),
+    }
+    return
+  end
+
+  local normal_bg = vim.fn.synIDattr(vim.fn.hlID('Normal'), 'bg')
+  local normal_fg = vim.fn.synIDattr(vim.fn.hlID('Normal'), 'fg')
+  local comment_fg = vim.fn.synIDattr(vim.fn.hlID('Comment'), 'fg')
+  c.sections = {
+    modes = {
+      normal = { bg = normal_fg, fg = normal_bg },
+      insert = { bg = '#83a598', fg = '#3c3836' },
+      command = { bg = '#8ec07c', fg = '#3c3836' },
+      visual = { bg = '#fe8019', fg = '#3c3836' },
+      replace = { bg = '#8ec07c', fg = '#3c3836' },
+    },
+    static = { fg = normal_bg, bg = comment_fg },
+  }
+end
+
 function statusline.set_colors()
-  c.normal_bg = vim.fn.synIDattr(vim.fn.hlID('Normal'), 'bg')
-  c.normal_fg = vim.fn.synIDattr(vim.fn.hlID('Normal'), 'fg')
-  c.statusline_bg = vim.fn.synIDattr(vim.fn.hlID('Statusline'), 'bg')
-  c.comment_fg = vim.fn.synIDattr(vim.fn.hlID('Comment'), 'fg')
+  get_colors()
+
   c.warning_fg = vim.fn.synIDattr(vim.fn.hlID('WarningMsg'), 'fg')
   c.error_fg = vim.fn.synIDattr(vim.fn.hlID('ErrorMsg'), 'fg')
-  pcall(vim.api.nvim_set_hl, 0, 'StItem', { bg = c.normal_fg, fg = c.normal_bg })
-  pcall(vim.api.nvim_set_hl, 0, 'StItem2', { bg = c.comment_fg, fg = c.normal_bg })
-  pcall(vim.api.nvim_set_hl, 0, 'StSep', { bg = c.statusline_bg, fg = c.normal_fg })
-  pcall(vim.api.nvim_set_hl, 0, 'StSep2', { bg = c.statusline_bg, fg = c.comment_fg })
-  pcall(vim.api.nvim_set_hl, 0, 'StErr', { bg = c.error_fg, fg = c.normal_bg, bold = true })
+  c.statusline_bg = vim.fn.synIDattr(vim.fn.hlID('Statusline'), 'bg')
+
+  pcall(vim.api.nvim_set_hl, 0, 'StErr', { bg = c.error_fg, fg = c.sections.modes.normal.fg, bold = true })
   pcall(vim.api.nvim_set_hl, 0, 'StErrSep', { bg = c.statusline_bg, fg = c.error_fg })
-  pcall(vim.api.nvim_set_hl, 0, 'StWarn', { bg = c.warning_fg, fg = c.normal_bg, bold = true })
+  pcall(vim.api.nvim_set_hl, 0, 'StWarn', { bg = c.warning_fg, fg = c.sections.modes.normal.fg, bold = true })
   pcall(vim.api.nvim_set_hl, 0, 'StWarnSep', { bg = c.statusline_bg, fg = c.warning_fg })
+  pcall(vim.api.nvim_set_hl, 0, 'StSectionASep', { bg = c.statusline_bg, fg = c.sections.modes.normal.bg })
+  vim.api.nvim_set_hl(0, 'StSectionA', c.sections.modes.normal)
+  pcall(vim.api.nvim_set_hl, 0, 'StSectionASep', { bg = c.statusline_bg, fg = c.sections.modes.normal.bg })
+  pcall(vim.api.nvim_set_hl, 0, 'StSectionB', c.sections.static)
+  pcall(vim.api.nvim_set_hl, 0, 'StSectionBSep', { bg = c.statusline_bg, fg = c.sections.static.bg })
+end
+
+local function mode_highlight(mode)
+  if mode == 'i' then
+    pcall(vim.api.nvim_set_hl, 0, 'StSectionA', c.sections.modes.insert)
+    pcall(vim.api.nvim_set_hl, 0, 'StSectionASep', { bg = c.statusline_bg, fg = c.sections.modes.insert.bg })
+  elseif mode == 'R' then
+    pcall(vim.api.nvim_set_hl, 0, 'StSectionA', c.sections.modes.replace)
+    pcall(vim.api.nvim_set_hl, 0, 'StSectionASep', { bg = c.statusline_bg, fg = c.sections.modes.replace.bg })
+  elseif vim.tbl_contains({ 'v', 'V', '' }, mode) then
+    pcall(vim.api.nvim_set_hl, 0, 'StSectionA', c.sections.modes.visual)
+    pcall(vim.api.nvim_set_hl, 0, 'StSectionASep', { bg = c.statusline_bg, fg = c.sections.modes.visual.bg })
+  elseif mode == 'c' then
+    pcall(vim.api.nvim_set_hl, 0, 'StSectionA', c.sections.modes.command)
+    pcall(vim.api.nvim_set_hl, 0, 'StSectionASep', { bg = c.statusline_bg, fg = c.sections.modes.command.bg })
+  else
+    pcall(vim.api.nvim_set_hl, 0, 'StSectionA', c.sections.modes.normal)
+    pcall(vim.api.nvim_set_hl, 0, 'StSectionASep', { bg = c.statusline_bg, fg = c.sections.modes.normal.bg })
+  end
 end
 
 local function print_lsp_progress(opts)
@@ -113,8 +174,8 @@ local function sep(item, opts, show)
   end
   local no_after = opts.no_after or false
   local no_before = opts.no_before or false
-  local sep_color = opts.sep_color or '%#StSep#'
-  local color = opts.color or '%#StItem#'
+  local sep_color = opts.sep_color
+  local color = opts.color
   local side = opts.side or 'left'
 
   local sep_before = separators.left_side.before .. '█'
@@ -135,28 +196,13 @@ local function sep(item, opts, show)
   return sep_color .. sep_before .. color .. item .. sep_color .. sep_after .. '%*'
 end
 
-local st_mode = { color = '%#StMode#', sep_color = '%#StModeSep#', no_before = true }
-local st_err = { color = '%#StErr#', sep_color = '%#StErrSep#' }
-local st_mode_right = vim.tbl_extend('force', st_mode, { side = 'right', no_before = false })
-local sec_2 = { color = '%#StItem2#', sep_color = '%#StSep2#' }
-local st_err_right = vim.tbl_extend('force', st_err, { side = 'right' })
-local st_warn = { color = '%#StWarn#', sep_color = '%#StWarnSep#', side = 'right', no_after = true }
-
-local function mode_highlight(mode)
-  if mode == 'i' then
-    pcall(vim.api.nvim_set_hl, 0, 'StMode', { bg = '#83a598', fg = '#3c3836' })
-    pcall(vim.api.nvim_set_hl, 0, 'StModeSep', { fg = '#83a598', bg = c.statusline_bg })
-  elseif vim.tbl_contains({ 'v', 'V', '' }, mode) then
-    pcall(vim.api.nvim_set_hl, 0, 'StMode', { bg = '#fe8019', fg = '#3c3836' })
-    pcall(vim.api.nvim_set_hl, 0, 'StModeSep', { fg = '#fe8019', bg = c.statusline_bg })
-  elseif mode == 'R' then
-    pcall(vim.api.nvim_set_hl, 0, 'StMode', { bg = '#8ec07c', fg = '#3c3836' })
-    pcall(vim.api.nvim_set_hl, 0, 'StModeSep', { fg = '#8ec07c', bg = c.statusline_bg })
-  else
-    pcall(vim.api.nvim_set_hl, 0, 'StMode', { bg = c.normal_fg, fg = c.normal_bg })
-    pcall(vim.api.nvim_set_hl, 0, 'StModeSep', { fg = c.normal_fg, bg = c.statusline_bg })
-  end
-end
+local section_a = { color = '%#StSectionA#', sep_color = '%#StSectionASep#', no_before = true }
+local section_a_right = vim.tbl_extend('force', section_a, { side = 'right', no_before = false })
+local section_b = { color = '%#StSectionB#', sep_color = '%#StSectionBSep#' }
+local section_b_right = vim.tbl_extend('keep', { side = 'right' }, section_b)
+local section_warn = { color = '%#StWarn#', sep_color = '%#StWarnSep#', side = 'right', no_after = true }
+local section_err = { color = '%#StErr#', sep_color = '%#StErrSep#' }
+local section_err_right = vim.tbl_extend('force', section_err, { side = 'right' })
 
 local function mode_statusline()
   local mode = vim.fn.mode()
@@ -249,12 +295,12 @@ local function lsp_diagnostics()
   if err_count > 0 then
     table.insert(
       items,
-      sep(' ' .. err_count, vim.tbl_extend('keep', { no_after = warn_count == 0 }, st_err_right), err_count > 0)
+      sep(' ' .. err_count, vim.tbl_extend('keep', { no_after = warn_count == 0 }, section_err_right), err_count > 0)
     )
   end
 
   if warn_count > 0 then
-    table.insert(items, sep(' ' .. warn_count, st_warn, warn_count > 0))
+    table.insert(items, sep(' ' .. warn_count, section_warn, warn_count > 0))
   end
 
   return table.concat(items, '')
@@ -299,23 +345,23 @@ local function statusline_active()
   local diagnostics = lsp_diagnostics()
   local modified_count = get_modified_count()
   local statusline_sections = {
-    sep(mode, st_mode),
-    sep(git_status, sec_2, git_status ~= ''),
-    sep(get_path(), vim.bo.modified and st_err or sec_2),
-    sep(('+%d'):format(modified_count), st_err, modified_count > 0),
-    sep(' - ', st_err, not vim.bo.modifiable),
-    sep('%w', nil, vim.wo.previewwindow),
-    sep('%r', nil, vim.bo.readonly),
-    sep('%q', nil, vim.bo.buftype == 'quickfix'),
-    sep(db_ui, sec_2, db_ui ~= ''),
+    sep(mode, section_a),
+    sep(git_status, section_b, git_status ~= ''),
+    sep(get_path(), vim.bo.modified and section_err or section_b),
+    sep(('+%d'):format(modified_count), section_err, modified_count > 0),
+    sep(' - ', section_err, not vim.bo.modifiable),
+    sep('%w', section_b, vim.wo.previewwindow),
+    sep('%r', section_b, vim.bo.readonly),
+    sep('%q', section_b, vim.bo.buftype == 'quickfix'),
+    sep(db_ui, section_b, db_ui ~= ''),
     '%<',
     '%=',
-    sep(lsp.message, vim.tbl_extend('keep', { side = 'right' }, sec_2), lsp.message ~= ''),
-    sep(search, vim.tbl_extend('keep', { side = 'right' }, sec_2), search ~= ''),
+    sep(lsp.message, section_b_right, lsp.message ~= ''),
+    sep(search, section_b_right, search ~= ''),
     filetype(),
-    sep(' ' .. os.date('%H:%M', os.time()), st_mode_right),
-    sep('%4l:%-3c', st_mode_right),
-    sep('%3p%%/%L', vim.tbl_extend('keep', { no_after = diagnostics == '' }, st_mode_right)),
+    sep(' ' .. os.date('%H:%M', os.time()), section_a_right),
+    sep('%4l:%-3c', section_a_right),
+    sep('%3p%%/%L', vim.tbl_extend('keep', { no_after = diagnostics == '' }, section_a_right)),
     diagnostics,
     '%<',
   }
