@@ -26,6 +26,8 @@
 (setq org-agenda-files '("~/orgmodes"))
 (setq org-default-notes-file (concat org-directory "/refile.org"))
 (setq org-hide-emphasis-markers t)
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "PROGRESS(p)" "|" "DONE(d)" "REJECTED(r)")))
 (setq x-super-keysym 'meta)
 (setq org-capture-templates
       '(
