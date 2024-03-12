@@ -312,7 +312,7 @@ local function get_modified_count()
     return buf.listed
       and buf.changed
       and buf.bufnr ~= bufnr
-      and vim.api.nvim_get_option_value('buftype', { buf = buf.bufnr }) ~= 'terminal'
+      and vim.api.nvim_get_option_value('buftype', { buf = buf.bufnr }) == ''
   end, vim.fn.getbufinfo({ bufmodified = 1, buflisted = 1, bufloaded = 1 }))
 end
 
