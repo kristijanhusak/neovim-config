@@ -3,9 +3,6 @@ local go = {}
 function go.setup()
   vim.bo.expandtab = false
   vim.bo.tabstop = 4
-  vim.keymap.set('n', '<C-]>', function()
-    return require('telescope.builtin').lsp_definitions()
-  end, { silent = true, buffer = true })
 end
 
 function go.add_tags()
