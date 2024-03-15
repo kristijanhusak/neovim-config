@@ -2,7 +2,7 @@ return {
   'ibhagwan/fzf-lua',
   init = function()
     vim.keymap.set('n', '<C-p>', function()
-      return require('fzf-lua').files()
+      return require('fzf-lua').files({ headers = false })
     end)
     vim.keymap.set('n', '<C-y>', function()
       return require('fzf-lua').resume()
@@ -14,7 +14,7 @@ return {
       return require('fzf-lua').oldfiles()
     end)
     vim.keymap.set('n', '<Leader>g', function()
-      return require('fzf-lua').git_status()
+      return require('fzf-lua').git_status({ headers = false })
     end)
     vim.keymap.set('n', '<Leader>lt', function()
       return require('fzf-lua').btags()
@@ -24,6 +24,7 @@ return {
   config = function()
     local actions = require('fzf-lua.actions')
     require('fzf-lua').setup({
+      headers = false,
       winopts = {
         width = 0.9,
         preview = {
