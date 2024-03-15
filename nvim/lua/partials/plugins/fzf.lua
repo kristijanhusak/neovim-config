@@ -27,11 +27,19 @@ return {
       headers = false,
       winopts = {
         width = 0.9,
+        height = 0.9,
         preview = {
-          horizontal = 'right:50%',
+          horizontal = 'right:40%',
         },
       },
       keymap = {
+        builtin = {
+          ['<F1>'] = 'toggle-help',
+          ['<F2>'] = 'toggle-fullscreen',
+          ['<F4>'] = 'toggle-preview',
+          ['<C-d>'] = 'preview-page-down',
+          ['<C-u>'] = 'preview-page-up',
+        },
         fzf = {
           ['ctrl-d'] = 'preview-page-down',
           ['f4'] = 'toggle-preview',
