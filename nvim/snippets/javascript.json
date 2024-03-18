@@ -121,7 +121,7 @@
   "Describe test": {
     "prefix": ["desc"],
     "body": [
-      "describe('${1}', async () => {",
+      "describe('${1}', () => {",
       "\t$0",
       "})"
     ],
