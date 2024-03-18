@@ -197,7 +197,9 @@ function setup.servers()
       functionLikeReturnTypes = { enabled = true },
       enumMemberValues = { enabled = true },
     },
-  }
+    tsserver = {
+      experimental = { enableProjectDiagnostics = true } },
+    }
   nvim_lsp.vtsls.setup(lsp_setup({
     settings = {
       javascript = vtsls_settings,
