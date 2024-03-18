@@ -145,6 +145,7 @@ function setup.mason()
       'gopls',
       'lua_ls',
       'rust_analyzer',
+      'eslint'
     },
   })
 end
