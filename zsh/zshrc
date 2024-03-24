@@ -78,7 +78,6 @@ export KEYTIMEOUT=1
 eval "$(fnm env)"
 
 eval $(keychain --eval --quiet ~/.ssh/id_rsa)
-eval $(keychain --eval --quiet ~/.ssh/id_ed25519)
 
 if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
     alias nvim=nvr -cc split --remote-wait +'set bufhidden=wipe'
