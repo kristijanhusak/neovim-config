@@ -45,9 +45,9 @@ install_kitty() {
 }
 
 install_i3() {
-  rm -rf ~/.i3 \
+  rm -rf ~/.config/i3 \
     && yay -S rofi polybar nerd-fonts-roboto-mono nerd-fonts-noto-sans-mono otf-hasklig \
-    && ln -s $(pwd)/i3 ~/.i3
+    && ln -s $(pwd)/i3 ~/.config/i3
 }
 
 install_rofi() {
