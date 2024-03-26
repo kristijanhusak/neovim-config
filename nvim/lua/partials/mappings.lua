@@ -60,14 +60,14 @@ vim.keymap.set('n', '<Leader>h', 'viw"0p', { nowait = false })
 
 -- Move to the end of yanked text after yank and paste
 vim.keymap.set('n', 'p', 'p`]')
-vim.keymap.set('v', 'y', 'y`]')
-vim.keymap.set('v', 'p', 'p`]')
+vim.keymap.set('x', 'y', 'y`]')
+vim.keymap.set('x', 'p', 'p`]')
 -- Select last pasted text
 vim.keymap.set('n', 'gp', "'`[' . strpart(getregtype(), 0, 1) . '`]'", { expr = true })
 
 -- Move selected lines up and down
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { silent = true })
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { silent = true })
+vim.keymap.set('x', 'J', ":m '>+1<CR>gv=gv", { silent = true })
+vim.keymap.set('x', 'K', ":m '<-2<CR>gv=gv", { silent = true })
 
 -- Toggle between last 2 buffers
 vim.keymap.set('n', '<leader><tab>', '<c-^>')

@@ -82,7 +82,7 @@ function setup.mappings()
     return require('fzf-lua').lsp_implementations()
   end, opts('LSP implementations'))
   vim.keymap.set('n', '<Space>', vim.lsp.buf.hover, { silent = true, buffer = true })
-  vim.keymap.set({ 'n', 'v' }, '<leader>lf', function()
+  vim.keymap.set({ 'n', 'x' }, '<leader>lf', function()
     return require('conform').format({
       lsp_fallback = true,
       timeout_ms = 5000,
