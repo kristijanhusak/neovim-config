@@ -65,12 +65,13 @@ if [[ -z $1 ]]; then
   read answer
   if echo "$answer" | grep -iq "^y" ;then
     echo "Installing dependencies..." \
-    && install_bspwm \
     && install_oh_my_zsh \
     && install_neovim \
+    && install_emacs \
     && install_packages \
     && install_diff_so_fancy \
     && install_kitty \
+    && install_i3 \
     && install_rofi \
     && echo "Finished installation."
   fi
