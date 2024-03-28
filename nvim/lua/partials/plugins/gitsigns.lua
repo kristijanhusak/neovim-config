@@ -1,6 +1,7 @@
 local gitsigns_nvim = {
   'lewis6991/gitsigns.nvim',
   event = 'VeryLazy',
+  enabled = false,
 }
 gitsigns_nvim.config = function()
   local gitsigns = require('gitsigns')
