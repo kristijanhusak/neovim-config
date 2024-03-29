@@ -120,6 +120,7 @@ treesitter.config = function()
       },
     },
     ensure_installed = 'all',
+    ignore_install = { 'org' },
   })
   return treesitter
 end

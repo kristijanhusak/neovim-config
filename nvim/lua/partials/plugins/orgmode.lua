@@ -69,7 +69,6 @@ local orgmode_config = {
 orgmode.orgmode_config = orgmode_config
 
 orgmode.config = function()
-  require('orgmode').setup_ts_grammar()
   require('orgmode').setup(orgmode_config)
   require('org-bullets').setup({
     concealcursor = true,
