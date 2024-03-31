@@ -43,6 +43,11 @@ completion.config = function()
   }
 
   cmp.setup({
+    view = {
+      entries = {
+        follow_cursor = true,
+      }
+    },
     formatting = {
       fields = { 'kind', 'abbr', 'menu' },
       format = function(entry, vim_item)
