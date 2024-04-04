@@ -6,16 +6,11 @@ local handlers = {}
 local filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
 
 local javascript = {
-  'kristijanhusak/vim-js-file-import',
-  dependencies = {
-    'dmmulroy/tsc.nvim',
-    'dmmulroy/ts-error-translator.nvim',
-  },
+  'dmmulroy/tsc.nvim',
   ft = filetypes,
 }
 javascript.config = function()
   require('tsc').setup()
-  require('ts-error-translator').setup()
   vim.keymap.set('n', '<Plug>(JsConsoleLog)', handlers.console_log)
   vim.keymap.set('n', '<Plug>(JsGotoFile)', handlers.goto_file)
 
@@ -25,8 +20,6 @@ javascript.config = function()
     group = js_group,
   })
 
-  vim.g.js_file_import_use_telescope = 1
-
   if vim.tbl_contains(filetypes, vim.bo.filetype) then
     vim.cmd('doautocmd FileType ' .. vim.bo.filetype)
   end
@@ -35,10 +28,6 @@ javascript.config = function()
 end
 
 function handlers.setup_buffer()
-  vim.keymap.set('n', '<C-]>', handlers.goto_definition, { remap = true, buffer = true })
-  vim.keymap.set('x', '<C-]>', '<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
-  vim.keymap.set('n', '<Leader>]', '<C-W>v<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
-  vim.keymap.set('x', '<Leader>]', '<C-W>vgv<Plug>(JsGotoDefinition)', { remap = true, buffer = true })
   vim.keymap.set('n', '<Leader>ll', '<Plug>(JsConsoleLog)', { remap = true, buffer = true })
   vim.keymap.set('n', 'gf', '<Plug>(JsGotoFile)', { remap = true, buffer = true })
   vim.keymap.set('n', '<F1>', handlers.setup_imports, { buffer = true, silent = true })
@@ -50,10 +39,9 @@ function handlers.setup_buffer()
 end
 
 function handlers.console_log()
-  local ts_utils = require('nvim-treesitter.ts_utils')
   local view = fn.winsaveview() or {}
   local word = fn.expand('<cword>')
-  local node = ts_utils.get_node_at_cursor()
+  local node = vim.treesitter.get_node()
   while node and node:type() ~= 'lexical_declaration' do
     node = node:parent()
   end
@@ -83,21 +71,6 @@ function handlers.goto_file()
       return vim.cmd.edit(index_file)
     end
   end
-end
-
-function handlers.goto_definition()
-  local line = vim.fn.line('.')
-  local bufnr = vim.api.nvim_get_current_buf()
-  require('fzf-lua').lsp_definitions({
-    jump_to_single_result = true
-  })
-
-  vim.defer_fn(function()
-    -- We didn't jump anywhere in 300ms, fallback to JsGotoDefinition
-    if line == vim.fn.line('.') and bufnr == vim.api.nvim_get_current_buf() then
-      vim.cmd.JsGotoDefinition()
-    end
-  end, 300)
 end
 
 function handlers.execute_cmds(vtsls, bufnr, commands)
