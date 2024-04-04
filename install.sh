@@ -16,7 +16,7 @@ install_neovim() {
   echo "Setting up neovim..." \
   && rm -rf ~/.config/nvim ~/.fzf \
   && ln -s $(pwd)/nvim ~/.config/nvim \
-  && yay -S ripgrep universal-ctags ttf-jetbrains-mono
+  && yay -S ripgrep
 }
 
 install_emacs() {
@@ -46,7 +46,7 @@ install_kitty() {
 
 install_i3() {
   rm -rf ~/.config/i3 \
-    && yay -S rofi polybar nerd-fonts-roboto-mono nerd-fonts-noto-sans-mono otf-hasklig ttf-twemoji \
+    && yay -S rofi polybar ttf-twemoji ttf-nerd-fonts-symbols-mono ttf-jetbrains-mono \
     && ln -s $(pwd)/i3 ~/.config/i3
 }
 
