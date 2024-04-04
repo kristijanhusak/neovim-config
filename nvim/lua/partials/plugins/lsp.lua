@@ -60,26 +60,27 @@ function setup.mappings()
     return { buffer = true, silent = true, desc = desc }
   end
 
-  vim.keymap.set('n', '<C-]>', function()
-    return require('fzf-lua').lsp_definitions({
-      jump_to_single_result = true,
-    })
+  vim.keymap.set('n', '<leader>ld', function()
+    return require('telescope.builtin').lsp_definitions()
   end, opts('LSP definitions'))
   vim.keymap.set('n', '<leader>lw', function()
-    return require('fzf-lua').lsp_typedefs()
+    return require('telescope.builtin').lsp_type_definitions()
   end, opts('LSP type definitions'))
   vim.keymap.set('n', '<Leader>t', function()
-    return require('fzf-lua').lsp_document_symbols()
+    require('telescope.builtin').lsp_document_symbols({ symbols = { 'function', 'variable', 'method' } })
   end, opts('LSP document symbols'))
   vim.keymap.set('n', '<Leader>lT', function()
-    return require('fzf-lua').lsp_workspace_symbols()
-  end, opts('LSP workspace symbols'))
+    return require('telescope.builtin').lsp_dynamic_workspace_symbols()
+  end)
   vim.keymap.set('n', '<leader>lu', function()
-    return require('fzf-lua').lsp_references()
+    return require('telescope.builtin').lsp_references({
+      previewer = false,
+      fname_width = (vim.o.columns * 0.4),
+    })
   end, opts('LSP references'))
   vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, opts('LSP declaration'))
   vim.keymap.set('n', '<leader>lg', function()
-    return require('fzf-lua').lsp_implementations()
+    return require('telescope.builtin').lsp_implementations()
   end, opts('LSP implementations'))
   vim.keymap.set('n', '<Space>', vim.lsp.buf.hover, { silent = true, buffer = true })
   vim.keymap.set({ 'n', 'x' }, '<leader>lf', function()
@@ -145,7 +146,7 @@ function setup.mason()
       'gopls',
       'lua_ls',
       'rust_analyzer',
-      'eslint'
+      'eslint',
     },
   })
 end

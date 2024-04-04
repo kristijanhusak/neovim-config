@@ -1,20 +1,9 @@
-local function jump_to_symbol(builtin)
-  local valid_clients = vim.lsp.get_clients({
-    method = vim.lsp.protocol.Methods.textDocument_documentSymbol,
-  })
-
-  if valid_clients then
-    return builtin.lsp_document_symbols()
-  end
-
-  return builtin.current_buffer_tags()
-end
 local function setup_custom_actions(actions, builtin)
   local transform_mod = require('telescope.actions.mt').transform_mod
   return transform_mod({
     jump_to_symbol = function(prompt_bufnr)
       actions.file_edit(prompt_bufnr)
-      jump_to_symbol(builtin)
+      builtin.lsp_document_symbols()
     end,
     jump_to_line = function(prompt_bufnr)
       actions.file_edit(prompt_bufnr)
@@ -27,7 +16,6 @@ end
 
 local ts = {
   'nvim-telescope/telescope.nvim',
-  enabled = false,
   dependencies = {
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     { 'smartpde/telescope-recent-files' },
@@ -44,24 +32,11 @@ ts.init = function()
   vim.keymap.set('n', '<Leader>b', function()
     return require('telescope.builtin').buffers({ sort_lastused = true })
   end)
-  vim.keymap.set('n', '<Leader>t', function()
-    return jump_to_symbol(require('telescope.builtin'))
-  end)
   vim.keymap.set('n', '<Leader>m', function()
     return require('telescope').extensions.recent_files.pick()
   end)
   vim.keymap.set('n', '<Leader>g', function()
     return require('telescope.builtin').git_status()
-  end)
-
-  vim.keymap.set('n', '<Leader>lT', function()
-    return require('telescope.builtin').lsp_dynamic_workspace_symbols()
-  end)
-  vim.keymap.set('n', '<Leader>lt', function()
-    return require('telescope.builtin').current_buffer_tags()
-  end)
-  vim.keymap.set('n', '<Leader>w', function()
-    return require('telescope').extensions.workspaces.workspaces()
   end)
 end
 ts.config = function()
