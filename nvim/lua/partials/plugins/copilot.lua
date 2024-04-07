@@ -3,14 +3,14 @@ return {
   event = 'InsertEnter',
   opts = {
     panel = {
-      enabled = false,
+      enabled = true,
+      keymap = {
+        open = '<D-h>',
+      },
     },
     filetypes = {
       TelescopePrompt = false,
       TelescopeResults = false,
-    },
-    suggestion = {
-      auto_trigger = true,
     },
   },
 }
