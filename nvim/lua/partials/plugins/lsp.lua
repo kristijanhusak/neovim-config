@@ -60,6 +60,9 @@ function setup.mappings()
     return { buffer = true, silent = true, desc = desc }
   end
 
+  vim.keymap.set('n', '<C-]>', function()
+    return require('telescope.builtin').lsp_definitions()
+  end, opts('LSP definitions'))
   vim.keymap.set('n', '<leader>ld', function()
     return require('telescope.builtin').lsp_definitions()
   end, opts('LSP definitions'))
