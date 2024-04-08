@@ -90,6 +90,7 @@ end
 local function print_lsp_progress(opts)
   local progress_item = opts.data.result.value
   local client = vim.lsp.get_clients({ id = opts.data.client_id })[1]
+  if not client then return end
 
   if progress_item.kind == 'end' then
     lsp.message = progress_item.title
