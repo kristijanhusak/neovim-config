@@ -10,7 +10,7 @@ local lsp = {
 }
 
 local function get_colors()
-  local ok, lualine_colors = pcall(require, 'lualine.themes.'..(vim.g.colors_name or 'none'))
+  local ok, lualine_colors = pcall(require, 'lualine.themes.' .. (vim.g.colors_name or 'none'))
   if ok then
     local convert_gui = function(color)
       if color.gui then
@@ -90,7 +90,9 @@ end
 local function print_lsp_progress(opts)
   local progress_item = opts.data.result.value
   local client = vim.lsp.get_clients({ id = opts.data.client_id })[1]
-  if not client then return end
+  if not client then
+    return
+  end
 
   if progress_item.kind == 'end' then
     lsp.message = progress_item.title
@@ -375,6 +377,9 @@ local function statusline_inactive()
 end
 
 function statusline.setup()
+  if vim.g.started_by_firenvim then
+    return '%m %= %y'
+  end
   local focus = vim.g.statusline_winid == vim.fn.win_getid()
   if focus then
     return statusline_active()

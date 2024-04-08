@@ -46,7 +46,7 @@ completion.config = function()
     view = {
       entries = {
         follow_cursor = true,
-      }
+      },
     },
     formatting = {
       fields = { 'kind', 'abbr', 'menu' },
