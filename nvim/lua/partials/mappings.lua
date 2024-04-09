@@ -16,6 +16,10 @@ vim.keymap.set('n', '<c-l>', '<C-w>l')
 vim.keymap.set('n', '<c-h>', '<C-\\><C-n><C-w>h')
 vim.keymap.set('n', '<c-l>', '<C-\\><C-n><C-w>l')
 
+-- Commenting
+vim.keymap.set('n', '<Leader>c', 'gcc', { remap = true })
+vim.keymap.set('v', '<Leader>c', 'gc', { remap = true })
+
 vim.keymap.set('i', '<c-l>', '<c-g>u<Esc>1z=`]a<c-g>u')
 
 -- Down is really the next line
