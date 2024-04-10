@@ -1,12 +1,14 @@
 return {
   'numToStr/Comment.nvim',
-  cond = function()
-    local ok = pcall(require, 'vim._comment')
-    return not ok
-  end,
-  event = 'VeryLazy',
+  keys = {
+    '<leader>c',
+    'gcip',
+    {
+      '<leader>c',
+      mode = 'v',
+    },
+  },
   config = function()
-    print('setup')
     require('Comment').setup()
     -- Comment map
     vim.keymap.set('n', '<Leader>c', 'gcc', { remap = true })
