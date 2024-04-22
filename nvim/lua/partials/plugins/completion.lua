@@ -42,6 +42,11 @@ completion.config = function()
     TypeParameter = '󰅲',
   }
 
+  local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+  end
+
   cmp.setup({
     view = {
       entries = {
@@ -94,6 +99,8 @@ completion.config = function()
           vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
         elseif require('copilot.suggestion').is_visible() then
           require('copilot.suggestion').accept()
+        elseif has_words_before() then
+          require('copilot.suggestion').next()
         else
           fallback()
         end
