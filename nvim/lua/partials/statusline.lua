@@ -4,10 +4,6 @@ vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
 local devicons = require('nvim-web-devicons')
 
 local c = {}
-local lsp = {
-  message = '',
-  printed_done = false,
-}
 
 local function get_colors()
   local ok, lualine_colors = pcall(require, 'lualine.themes.' .. (vim.g.colors_name or 'none'))
@@ -87,48 +83,17 @@ local function mode_highlight(mode)
   end
 end
 
-local function print_lsp_progress(opts)
-  local progress_item = opts.data.result.value
-  local client = vim.lsp.get_clients({ id = opts.data.client_id })[1]
-  if not client then
-    return
-  end
-
-  if progress_item.kind == 'end' then
-    lsp.message = progress_item.title
-    vim.defer_fn(function()
-      lsp.message = ''
-      lsp.printed_done = true
-      vim.cmd.redrawstatus()
-    end, 1000)
-    return
-  end
-
-  if progress_item.kind == 'begin' or progress_item.kind == 'report' then
-    local percentage = progress_item.percentage or 0
-    local message_text = ''
-    local percentage_text = ''
-    if percentage > 0 then
-      percentage_text = (' - %d%%%%'):format(percentage)
-    end
-    if progress_item.message then
-      message_text = (' (%s)'):format(progress_item.message)
-    end
-    lsp.message = ('%s: %s%s%s'):format(client.name, progress_item.title, message_text, percentage_text)
-    vim.cmd.redrawstatus()
-  end
-end
-
 vim.api.nvim_create_autocmd({ 'VimEnter', 'ColorScheme' }, {
   group = statusline_group,
   pattern = '*',
   callback = statusline.set_colors,
 })
 
-if vim.fn.has('nvim-0.10.0') > 0 then
+local has_nvim_10 = vim.fn.has('nvim-0.10.0') > 0
+
+if has_nvim_10 then
   vim.api.nvim_create_autocmd({ 'LspProgress' }, {
-    group = statusline_group,
-    callback = print_lsp_progress,
+    command = 'redrawstatus'
   })
 end
 
@@ -347,6 +312,11 @@ local function statusline_active()
   local db_ui = vim.g.loaded_dbui and vim.fn['db_ui#statusline']() or ''
   local diagnostics = lsp_diagnostics()
   local modified_count = get_modified_count()
+  local lsp_status = ''
+  if has_nvim_10 then
+    lsp_status = vim.lsp.status()
+  end
+  lsp_status = lsp_status:gsub('%%', '%%%%')
   local statusline_sections = {
     sep(mode, section_a),
     sep(git_status, section_b, git_status ~= ''),
@@ -359,7 +329,7 @@ local function statusline_active()
     sep(db_ui, section_b, db_ui ~= ''),
     '%<',
     '%=',
-    sep(lsp.message, section_b_right, lsp.message ~= ''),
+    sep(lsp_status, section_b_right, lsp_status ~= ''),
     sep(search, section_b_right, search ~= ''),
     filetype(),
     sep(' ' .. os.date('%H:%M', os.time()), section_a_right),
