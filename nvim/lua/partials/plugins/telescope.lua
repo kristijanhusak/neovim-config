@@ -5,12 +5,6 @@ local function setup_custom_actions(actions, builtin)
       actions.file_edit(prompt_bufnr)
       builtin.lsp_document_symbols()
     end,
-    jump_to_line = function(prompt_bufnr)
-      actions.file_edit(prompt_bufnr)
-      vim.defer_fn(function()
-        vim.api.nvim_feedkeys(':', 'n', true)
-      end, 100)
-    end,
   })
 end
 
@@ -72,7 +66,6 @@ ts.config = function()
           ['<Esc>'] = actions.close,
           ['<C-[>'] = actions.close,
           ['<C-s>'] = custom_actions.jump_to_symbol,
-          ['<C-l>'] = custom_actions.jump_to_line,
         },
       },
     },
