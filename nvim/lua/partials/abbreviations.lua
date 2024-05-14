@@ -9,8 +9,7 @@ local abbreviations = {
   E = 'e',
   Gco = 'Git checkout',
   Gcb = 'Git checkout -b',
-  Gblame = 'Git blame',
-  SudoWrite = ':w :term sudo tee % > /dev/null',
+  Gblame = 'Git blame'
 }
 
 for left, right in pairs(abbreviations) do
