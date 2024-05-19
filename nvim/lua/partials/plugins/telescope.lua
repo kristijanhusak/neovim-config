@@ -54,7 +54,7 @@ ts.config = function()
         preview_cutoff = 170,
       },
       prompt_prefix = '   ',
-      selection_caret = '  ',
+      selection_caret = '󰼛 ',
       entry_prefix = '  ',
       results_title = false,
       sorting_strategy = 'ascending',
