@@ -41,6 +41,11 @@ end
 function setup.configure_handlers()
   vim.diagnostic.config({
     virtual_text = false,
+    float = {
+      border = 'rounded',
+      header = '',
+      focusable = false,
+    },
     signs = {
       text = _G.kris.diagnostic_icons,
     },
@@ -61,9 +66,6 @@ function setup.mappings()
   end
 
   vim.keymap.set('n', '<C-]>', function()
-    return require('telescope.builtin').lsp_definitions()
-  end, opts('LSP definitions'))
-  vim.keymap.set('n', '<leader>ld', function()
     return require('telescope.builtin').lsp_definitions()
   end, opts('LSP definitions'))
   vim.keymap.set('n', '<leader>lw', function()
@@ -99,23 +101,8 @@ function setup.mappings()
   vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls, opts('LSP outgoing calls'))
   vim.keymap.set('n', '<leader>lt', vim.lsp.buf.document_symbol, opts('LSP document symbols'))
   vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls, opts('LSP outgoing calls'))
-  vim.keymap.set('n', '<leader>le', function()
-    return vim.diagnostic.open_float({ scope = 'line', show_header = false, focusable = false, border = 'rounded' })
-  end, opts('LSP diagnostics'))
   vim.keymap.set('n', '<Leader>e', vim.diagnostic.setloclist, opts('LSP diagnostics list'))
   vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, opts('LSP rename'))
-  vim.keymap.set('n', '[g', function()
-    return vim.diagnostic.goto_prev({ float = false })
-  end, opts('LSP previous diagnostic'))
-  vim.keymap.set('n', ']g', function()
-    return vim.diagnostic.goto_next({ float = false })
-  end, opts('LSP next diagnostic'))
-  vim.keymap.set('n', '[d', function()
-    return vim.diagnostic.goto_prev({ float = false })
-  end, opts('LSP previous diagnostic'))
-  vim.keymap.set('n', ']d', function()
-    return vim.diagnostic.goto_next({ float = false })
-  end, opts('LSP next diagnostic'))
   vim.keymap.set('n', '<Leader>la', vim.lsp.buf.code_action, opts('LSP code action'))
   vim.keymap.set('x', '<Leader>la', function()
     return vim.lsp.buf.code_action()
