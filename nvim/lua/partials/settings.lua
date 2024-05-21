@@ -24,6 +24,7 @@ vim.opt.ttimeoutlen = 0
 vim.opt.fileencoding = 'utf-8'
 vim.opt.wrap = false
 vim.opt.linebreak = true
+vim.opt.guicursor:append('a:blinkon500-blinkoff100')
 vim.opt.listchars = {
   tab = '▏ ',
   trail = '·',
