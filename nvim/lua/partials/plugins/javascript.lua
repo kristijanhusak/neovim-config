@@ -10,7 +10,9 @@ local javascript = {
   ft = filetypes,
 }
 javascript.config = function()
-  require('tsc').setup()
+  require('tsc').setup({
+    auto_close_qflist = true,
+  })
   vim.keymap.set('n', '<Plug>(JsConsoleLog)', handlers.console_log)
   vim.keymap.set('n', '<Plug>(JsGotoFile)', handlers.goto_file)
 
