@@ -4,8 +4,6 @@ local treesitter = {
   dependencies = {
     { 'nvim-treesitter/nvim-treesitter-refactor' },
     { 'nvim-treesitter/nvim-treesitter-textobjects' },
-    { 'yioneko/nvim-yati' },
-    { 'yioneko/vim-tmindent' },
   },
   event = 'VeryLazy',
 }
@@ -13,13 +11,6 @@ treesitter.config = function()
   require('nvim-treesitter.configs').setup({
     highlight = {
       enable = true,
-    },
-    yati = {
-      enable = true,
-      default_lazy = true,
-      default_fallback = function(lnum, computed, bufnr)
-        return require('tmindent').get_indent(lnum, bufnr) + computed
-      end,
     },
     indent = {
       enable = false,
