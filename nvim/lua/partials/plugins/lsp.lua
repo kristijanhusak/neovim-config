@@ -148,6 +148,12 @@ function setup.servers()
     opts = opts or {}
     return vim.tbl_deep_extend('force', {
       on_attach = function(client, bufnr)
+        if
+          require('partials.utils').enable_builtin_lsp_completion()
+          and client.supports_method('textDocument/completion')
+        then
+          vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+        end
         client.server_capabilities.semanticTokensProvider = nil
         if client.server_capabilities.documentSymbolProvider then
           require('nvim-navic').attach(client, bufnr)

@@ -1,6 +1,9 @@
 local completion = {
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
+  enabled = function()
+    return not require('partials.utils').enable_builtin_lsp_completion()
+  end,
   dependencies = {
     { 'hrsh7th/cmp-buffer' },
     { 'hrsh7th/cmp-nvim-lsp' },
@@ -42,11 +45,6 @@ completion.config = function()
     TypeParameter = '󰅲',
   }
 
-  local has_words_before = function()
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-  end
-
   cmp.setup({
     view = {
       entries = {
@@ -87,19 +85,21 @@ completion.config = function()
     mapping = cmp.mapping.preset.insert({
       ['<CR>'] = function(fallback)
         if vim.fn['vsnip#expandable']() ~= 0 then
-          vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
-          return
+          return utils.feedkeys('<Plug>(vsnip-expand)')
         end
         return cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })(fallback)
       end,
       ['<Tab>'] = cmp.mapping(function(fallback)
         if vim.fn['vsnip#jumpable'](1) > 0 then
-          vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-next)'), '')
-        elseif vim.fn['vsnip#expandable']() > 0 then
-          vim.fn.feedkeys(utils.esc('<Plug>(vsnip-expand)'), '')
-        elseif require('copilot.suggestion').is_visible() then
+          return utils.feedkeys('<Plug>(vsnip-jump-next)')
+        end
+        if vim.fn['vsnip#expandable']() > 0 then
+          return utils.feedkeys('<Plug>(vsnip-expand)')
+        end
+
+        if require('copilot.suggestion').is_visible() then
           require('copilot.suggestion').accept()
-        elseif has_words_before() then
+        elseif utils.has_words_before() then
           require('copilot.suggestion').next()
         else
           fallback()
@@ -108,10 +108,9 @@ completion.config = function()
 
       ['<S-Tab>'] = cmp.mapping(function(fallback)
         if vim.fn['vsnip#jumpable'](-1) == 1 then
-          vim.fn.feedkeys(utils.esc('<Plug>(vsnip-jump-prev)'), '')
-        else
-          fallback()
+          return utils.feedkeys('<Plug>(vsnip-jump-prev)')
         end
+        fallback()
       end, { 'i', 's' }),
     }),
     window = {

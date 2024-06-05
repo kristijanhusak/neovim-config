@@ -4,6 +4,10 @@ function M.esc(cmd)
   return vim.api.nvim_replace_termcodes(cmd, true, false, true)
 end
 
+function M.feedkeys(key, mode)
+  vim.fn.feedkeys(M.esc(key), mode or '')
+end
+
 function M.get_gps_scope(fallback)
   local gps = require('nvim-navic')
   if not gps.is_available() then
@@ -31,6 +35,15 @@ function M.get_visual_selection()
     lines[n_lines] = string.sub(lines[n_lines], 1, s_end[3])
   end
   return table.concat(lines, '\n')
+end
+
+function M.has_words_before()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+end
+
+function M.enable_builtin_lsp_completion()
+  return vim.fn.has('nvim-0.11') > 0
 end
 
 return M
