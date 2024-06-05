@@ -25,7 +25,7 @@ local lsp = {
     { 'SmiteshP/nvim-navic' },
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
-    { 'folke/neodev.nvim' },
+    { 'folke/lazydev.nvim' },
     { 'stevearc/conform.nvim' },
   },
   ft = filetypes,
@@ -204,14 +204,7 @@ function setup.servers()
     disableFormatting = true,
   }))
 
-  require('neodev').setup({
-    override = function(_, options)
-      if not options.plugins then
-        options.plugins = { 'nvim-treesitter', 'plenary.nvim' }
-      end
-      return options
-    end,
-  })
+  require('lazydev').setup()
   nvim_lsp.lua_ls.setup(lsp_setup({
     settings = {
       Lua = {
