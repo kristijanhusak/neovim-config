@@ -300,9 +300,12 @@ function setup.attach_to_buffer(client, bufnr)
     vim.api.nvim_create_autocmd('CursorHoldI', {
       buffer = bufnr,
       callback = function()
-        vim.defer_fn(function()
-          vim.lsp.buf.signature_help()
-        end, 500)
+        local node = vim.treesitter.get_node()
+        if node and (node:type() == 'arguments' or node:parent():type() == 'arguments') then
+          vim.defer_fn(function()
+            vim.lsp.buf.signature_help()
+          end, 500)
+        end
       end,
       group = lsp_group,
     })
