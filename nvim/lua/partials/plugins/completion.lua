@@ -77,6 +77,10 @@ completion.config = function()
       { name = 'rg', group_index = 2 },
       { name = 'orgmode', group_index = 1 },
     },
+    performance = {
+      debounce = 20,
+      throttle = 10,
+    },
     snippet = {
       expand = function(args)
         vim.fn['vsnip#anonymous'](args.body)
