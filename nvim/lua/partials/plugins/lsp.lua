@@ -210,7 +210,13 @@ function setup.servers()
     disableFormatting = true,
   }))
 
-  require('lazydev').setup()
+  require('lazydev').setup({
+    library = {
+      {
+        path = '${3rd}/luv/library',
+      },
+    },
+  })
   nvim_lsp.lua_ls.setup(lsp_setup({
     settings = {
       Lua = {
