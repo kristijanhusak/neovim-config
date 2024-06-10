@@ -301,7 +301,7 @@ function setup.attach_to_buffer(client, bufnr)
       buffer = bufnr,
       callback = function()
         local node = vim.treesitter.get_node()
-        if node and (node:type() == 'arguments' or node:parent():type() == 'arguments') then
+        if node and (node:type() == 'arguments' or (node:parent() and node:parent():type() == 'arguments')) then
           vim.defer_fn(function()
             vim.lsp.buf.signature_help()
           end, 500)
