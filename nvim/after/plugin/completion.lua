@@ -55,3 +55,16 @@ vim.keymap.set('i', '<C-space>', function()
     utils.feedkeys('<C-x><C-o>')
   end
 end)
+
+local group = vim.api.nvim_create_augroup('kris_builtin_lsp', { clear = true })
+vim.api.nvim_create_autocmd('CompleteDonePre', {
+  group = group,
+  callback = function()
+    local item = vim.v.completed_item
+
+    if item and vim.tbl_get(item, 'user_data', 'nvim', 'lsp', 'completion_item', 'labelDetails') then
+      item.user_data.nvim.lsp.completion_item.labelDetails = nil
+      vim.v.completed_item = item
+    end
+  end,
+})
