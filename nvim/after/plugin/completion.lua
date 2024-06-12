@@ -41,22 +41,44 @@ vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
 end, { silent = true })
 
 vim.keymap.set('i', '<C-n>', function()
-  if vim.fn.pumvisible() > 0 or not has_valid_clients() then
-    return utils.feedkeys('<C-n>')
+  if vim.fn.pumvisible() > 0 then
+    return utils.feedkeys('<C-n>', 'n')
   end
 
-  vim.lsp.completion.trigger()
+  local win = vim.api.nvim_get_current_win()
+  local cursor = vim.api.nvim_win_get_cursor(win)
+
+  if has_valid_clients() then
+    vim.lsp.completion.trigger()
+  else
+    utils.feedkeys('<C-x><C-o>', 'n')
+  end
+
+  vim.defer_fn(function()
+    if vim.fn.pumvisible() > 0 then
+      return
+    end
+
+    local mode = vim.api.nvim_get_mode().mode
+    local is_insert_mode = mode == 'i' or mode == 'ic'
+    local cursor_changed = not vim.deep_equal(cursor, vim.api.nvim_win_get_cursor(win))
+    if cursor_changed or not is_insert_mode then
+      return
+    end
+    utils.feedkeys('<C-e><C-n>', 'n')
+  end, 100)
 end)
 
 vim.keymap.set('i', '<C-space>', function()
   if has_valid_clients() then
     vim.lsp.completion.trigger()
   else
-    utils.feedkeys('<C-x><C-o>')
+    utils.feedkeys('<C-x><C-o>', 'n')
   end
 end)
 
 local group = vim.api.nvim_create_augroup('kris_builtin_lsp', { clear = true })
+
 vim.api.nvim_create_autocmd('CompleteDonePre', {
   group = group,
   callback = function()
