@@ -6,7 +6,7 @@ end
 vim.opt.completeopt = 'menu,menuone,noinsert,noselect,fuzzy,popup'
 vim.opt.pumheight = 15
 
-local has_valid_clients = function()
+local has_valid_lsp_clients = function()
   return #vim.lsp.get_clients({ method = 'textDocument/completion', bufnr = 0 }) > 0
 end
 
@@ -41,14 +41,23 @@ vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
 end, { silent = true })
 
 vim.keymap.set('i', '<C-n>', function()
+  ---@diagnostic disable-next-line: undefined-field
   if vim.fn.pumvisible() > 0 then
+    return utils.feedkeys('<C-n>', 'n')
+  end
+
+  local has_lsp = has_valid_lsp_clients()
+  ---@diagnostic disable-next-line: undefined-field
+  local has_omnifunc = vim.opt_local.omnifunc:get() ~= ''
+
+  if not has_lsp and not has_omnifunc then
     return utils.feedkeys('<C-n>', 'n')
   end
 
   local win = vim.api.nvim_get_current_win()
   local cursor = vim.api.nvim_win_get_cursor(win)
 
-  if has_valid_clients() then
+  if has_lsp then
     vim.lsp.completion.trigger()
   else
     utils.feedkeys('<C-x><C-o>', 'n')
@@ -70,7 +79,7 @@ vim.keymap.set('i', '<C-n>', function()
 end)
 
 vim.keymap.set('i', '<C-space>', function()
-  if has_valid_clients() then
+  if has_valid_lsp_clients() then
     vim.lsp.completion.trigger()
   else
     utils.feedkeys('<C-x><C-o>', 'n')
