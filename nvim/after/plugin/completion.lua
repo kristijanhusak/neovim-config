@@ -6,8 +6,16 @@ end
 vim.opt.completeopt = 'menu,menuone,noinsert,noselect,fuzzy,popup'
 vim.opt.pumheight = 15
 
+local get_completion_lsp_client = function()
+  local clients = vim.lsp.get_clients({ method = 'textDocument/completion', bufnr = 0 })
+  if #clients > 0 then
+    return clients[1]
+  end
+  return nil
+end
+
 local has_valid_lsp_clients = function()
-  return #vim.lsp.get_clients({ method = 'textDocument/completion', bufnr = 0 }) > 0
+  return get_completion_lsp_client() ~= nil
 end
 
 vim.keymap.set('i', '<Tab>', function()
@@ -41,41 +49,55 @@ vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
 end, { silent = true })
 
 vim.keymap.set('i', '<C-n>', function()
-  ---@diagnostic disable-next-line: undefined-field
   if vim.fn.pumvisible() > 0 then
     return utils.feedkeys('<C-n>', 'n')
   end
 
-  local has_lsp = has_valid_lsp_clients()
+  local lsp_client = get_completion_lsp_client()
   ---@diagnostic disable-next-line: undefined-field
   local has_omnifunc = vim.opt_local.omnifunc:get() ~= ''
 
-  if not has_lsp and not has_omnifunc then
+  if not lsp_client and not has_omnifunc then
     return utils.feedkeys('<C-n>', 'n')
+  end
+
+  if not lsp_client then
+    utils.feedkeys('<C-x><C-o>', 'n')
+    vim.schedule(function()
+      if vim.fn.pumvisible() == 0 then
+        utils.feedkeys('<C-e><C-n>', 'n')
+      elseif vim.fn.complete_info({ 'selected' }).selected == -1 then
+        utils.feedkeys('<C-n>', 'n')
+      end
+    end)
+    return
   end
 
   local win = vim.api.nvim_get_current_win()
   local cursor = vim.api.nvim_win_get_cursor(win)
 
-  if has_lsp then
-    vim.lsp.completion.trigger()
-  else
-    utils.feedkeys('<C-x><C-o>', 'n')
+  vim.lsp.completion.trigger()
+
+  vim.wait(500, function()
+    return #vim.tbl_filter(function(request)
+      return request.method == 'textDocument/completion'
+    end, lsp_client.requests) == 0
+  end)
+
+  if vim.fn.pumvisible() > 0 then
+    if vim.fn.complete_info({ 'selected' }).selected == -1 then
+      utils.feedkeys('<C-n>', 'n')
+    end
+    return
   end
 
-  vim.defer_fn(function()
-    if vim.fn.pumvisible() > 0 then
-      return
-    end
-
-    local mode = vim.api.nvim_get_mode().mode
-    local is_insert_mode = mode == 'i' or mode == 'ic'
-    local cursor_changed = not vim.deep_equal(cursor, vim.api.nvim_win_get_cursor(win))
-    if cursor_changed or not is_insert_mode then
-      return
-    end
-    utils.feedkeys('<C-e><C-n>', 'n')
-  end, 100)
+  local mode = vim.api.nvim_get_mode().mode
+  local is_insert_mode = mode == 'i' or mode == 'ic'
+  local cursor_changed = not vim.deep_equal(cursor, vim.api.nvim_win_get_cursor(win))
+  if cursor_changed or not is_insert_mode then
+    return
+  end
+  utils.feedkeys('<C-e><C-n>', 'n')
 end)
 
 vim.keymap.set('i', '<C-space>', function()
