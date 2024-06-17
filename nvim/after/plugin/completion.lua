@@ -6,8 +6,13 @@ end
 vim.opt.completeopt = 'menu,menuone,noinsert,noselect,fuzzy,popup'
 vim.opt.pumheight = 15
 
+local lspMethods = vim.lsp.protocol.Methods
+
 local get_completion_lsp_client = function()
-  local clients = vim.lsp.get_clients({ method = 'textDocument/completion', bufnr = 0 })
+  local clients = vim.lsp.get_clients({
+    method = lspMethods.textDocument_completion,
+    bufnr = 0,
+  })
   if #clients > 0 then
     return clients[1]
   end
@@ -80,7 +85,7 @@ vim.keymap.set('i', '<C-n>', function()
 
   vim.wait(500, function()
     return #vim.tbl_filter(function(request)
-      return request.method == 'textDocument/completion'
+      return request.method == lspMethods.textDocument_completion
     end, lsp_client.requests) == 0
   end)
 
