@@ -35,7 +35,7 @@ vim.keymap.set('i', '<Tab>', function()
   elseif utils.has_words_before() then
     require('copilot.suggestion').next()
   else
-    utils.feedkeys('<Tab>')
+    utils.feedkeys('<Tab>', 'n')
   end
 end, { silent = true })
 
@@ -43,14 +43,14 @@ vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
   if vim.fn['vsnip#jumpable'](-1) == 1 then
     return utils.feedkeys('<Plug>(vsnip-jump-prev)')
   end
-  return utils.feedkeys('<S-Tab>')
+  return utils.feedkeys('<S-Tab>', 'n')
 end, { silent = true })
 
 vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
   if vim.fn['vsnip#jumpable'](-1) == 1 then
     return utils.feedkeys('<Plug>(vsnip-jump-prev)')
   end
-  return utils.feedkeys('<S-Tab>')
+  return utils.feedkeys('<S-Tab>', 'n')
 end, { silent = true })
 
 vim.keymap.set('i', '<C-n>', function()
