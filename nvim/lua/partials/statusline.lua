@@ -93,7 +93,7 @@ local has_nvim_10 = vim.fn.has('nvim-0.10.0') > 0
 
 if has_nvim_10 then
   vim.api.nvim_create_autocmd({ 'LspProgress' }, {
-    command = 'redrawstatus'
+    command = 'redrawstatus',
   })
 end
 

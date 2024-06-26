@@ -14,7 +14,7 @@ return {
     vim.g.firenvim_config = {
       localSettings = {
         ['.*'] = {
-          takeover = 'never'
+          takeover = 'never',
         },
         ['^https?://app.asana.com/*'] = {
           selector = '.ProseMirror',

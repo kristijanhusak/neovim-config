@@ -90,7 +90,7 @@ function setup.mappings()
   vim.keymap.set('n', '<Space>', vim.lsp.buf.hover, { silent = true, buffer = true })
   vim.keymap.set({ 'n', 'x' }, '<leader>lf', function()
     return require('conform').format({
-      lsp_format = "fallback",
+      lsp_format = 'fallback',
       timeout_ms = 5000,
     })
   end, opts('LSP format'))
