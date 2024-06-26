@@ -73,6 +73,7 @@ setopt HIST_IGNORE_ALL_DUPS
 NVIM_BG=${NVIM_COLORSCHEME_BG:-'light'}
 export BAT_THEME="ansi"
 export KEYTIMEOUT=1
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=248'
 
 [ -f ~/.zsh_secret ] && source ~/.zsh_secret
 
