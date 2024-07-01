@@ -1,8 +1,9 @@
-theme = "onedark"
+theme = "github_light"
 
 [editor]
 line-number = "relative"
 cursorline = true
+completion-timeout = 10
 
 [editor.cursor-shape]
 insert = "bar"
@@ -10,9 +11,12 @@ insert = "bar"
 [editor.file-picker]
 hidden = false
 
+[editor.indent-guides]
+render = true
+character = "▏"
+
 [editor.statusline]
-left = ["mode", "spacer", "spacer", "version-control"]
-center = ["file-name"]
+left = ["mode", "spacer", "spacer", "version-control", "file-name", "file-modification-indicator"]
 right = ["spinner", "spacer", "file-type", "separator", "position", "separator", "spacer", "position-percentage", "spacer", "diagnostics"]
 mode.normal = "NORMAL"
 mode.insert = "INSERT"
@@ -20,6 +24,7 @@ mode.select = "SELECT"
 
 [keys.normal]
 "," = { "c" = "toggle_comments"}
+C-s = ":w"
 
 [keys.insert]
 "C-[" = "normal_mode"

@@ -1,0 +1,2 @@
+[language-server.lua-language-server.config.Lua.diagnostics]
+globals = ["vim"]
