@@ -261,23 +261,12 @@ local function show_diagnostics()
     local bufnr = vim.api.nvim_get_current_buf()
     local diagnostics = vim.diagnostic.get(bufnr, { lnum = line })
 
-    local virtual_text_opts = {
-      prefix = function(diagnostic)
-        return _G.kris.diagnostic_icons[diagnostic.severity]
-      end or '',
-    }
-
-    if vim.fn.has('nvim-0.10.0') == 0 then
-      virtual_text_opts = {
-        prefix = '',
-        format = function(diagnostic)
-          return string.format('%s %s', _G.kris.diagnostic_icons[diagnostic.severity], diagnostic.message)
-        end,
-      }
-    end
-
     vim.diagnostic.show(diagnostic_ns, bufnr, diagnostics, {
-      virtual_text = virtual_text_opts,
+      virtual_text = {
+        prefix = function(diagnostic)
+          return _G.kris.diagnostic_icons[diagnostic.severity]
+        end or '',
+      },
       severity_sort = true,
     })
   end)
