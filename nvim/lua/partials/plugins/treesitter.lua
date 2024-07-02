@@ -47,9 +47,6 @@ treesitter.config = function()
         },
       },
     },
-    autotag = {
-      enable = true,
-    },
     textobjects = {
       enable = true,
       disable = {},
