@@ -347,9 +347,6 @@ local function statusline_inactive()
 end
 
 function statusline.setup()
-  if vim.g.started_by_firenvim then
-    return '%m %= %y'
-  end
   local focus = vim.g.statusline_winid == vim.fn.win_getid()
   if focus then
     return statusline_active()
