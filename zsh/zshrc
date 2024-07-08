@@ -58,7 +58,7 @@ alias cpucurrentmode='cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 alias cpusetperformance='echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 alias cpusetpowersave='echo powersave | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 
-export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin:~/.cargo/bin:~/.local/share/bob/nvim-bin:~/.local/share/neovim/bin:/home/kristijan/.meteor:~/.yarn/bin:~/.luarocks/bin
+export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin:~/.cargo/bin:~/.local/share/bob/nvim-bin:~/.local/share/neovim/bin:/home/kristijan/.meteor:~/.yarn/bin:~/.luarocks/bin:~/.config/composer/vendor/bin
 export LESS=R
 export EDITOR=nvim
 export MANPAGER="nvim +Man!"
