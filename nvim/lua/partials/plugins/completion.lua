@@ -54,17 +54,17 @@ completion.config = function()
     formatting = {
       fields = { 'kind', 'abbr', 'menu' },
       format = function(entry, vim_item)
-        vim_item.menu = vim_item.kind
-          .. ' '
-          .. ({
-            rg = '[Rg]',
-            buffer = '[Buffer]',
-            nvim_lsp = '[LSP]',
-            vsnip = '[Snippet]',
-            path = '[Path]',
-            orgmode = '[Org]',
-            ['vim-dadbod-completion'] = '[DB]',
-          })[entry.source.name]
+        local kind_text = ({
+          rg = '[Rg]',
+          buffer = '[Buffer]',
+          nvim_lsp = '[LSP]',
+          vsnip = '[Snippet]',
+          path = '[Path]',
+          orgmode = '[Org]',
+          ['vim-dadbod-completion'] = '[DB]',
+        })[entry.source.name]
+
+        vim_item.menu = vim_item.kind .. ' ' .. kind_text or '[Unknown]'
         vim_item.kind = kind_icons[vim_item.kind] or ''
         return vim_item
       end,
