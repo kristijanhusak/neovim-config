@@ -16,18 +16,18 @@ function go.add_tags()
 end
 
 function go.format()
-  vim.lsp.buf.format()
   local params = vim.lsp.util.make_range_params()
-  params.context = { source = { organizeImports = true } }
+  params.context = { only = { 'source.organizeImports' } }
   local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params)
-  if not result then
-    return
+  for cid, res in pairs(result or {}) do
+    for _, r in pairs(res.result or {}) do
+      if r.edit then
+        local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or 'utf-16'
+        vim.lsp.util.apply_workspace_edit(r.edit, enc)
+      end
+    end
   end
-  result = result[1].result
-  if not result then
-    return
-  end
-  vim.lsp.util.apply_workspace_edit(result[1].edit)
+  vim.lsp.buf.format({ async = false })
 end
 
 local go_group = vim.api.nvim_create_augroup('vimrc_go', { clear = true })
