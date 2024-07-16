@@ -273,9 +273,11 @@ local function show_diagnostics()
 end
 
 local function refresh_diagnostics()
+  vim.diagnostic.setloclist({ open = false })
   show_diagnostics()
-  if vim.tbl_isempty(vim.fn.getloclist(0)) then
-    vim.cmd.lclose()
+  local loclist = vim.fn.getloclist(0, { items = 0, winid = 0 })
+  if vim.tbl_isempty(loclist.items) and loclist.winid > 0 then
+    vim.api.nvim_win_close(loclist.winid, true)
   end
 end
 
