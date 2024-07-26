@@ -12,5 +12,5 @@ return {
     'handlebars',
     'hbs',
   },
-  opts = {}
+  opts = {},
 }

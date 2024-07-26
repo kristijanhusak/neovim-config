@@ -4,7 +4,7 @@ return {
   init = function()
     vim.keymap.set('n', '<Leader>w', function()
       return require('telescope').extensions.workspaces.workspaces()
-    end)
+    end, { desc = 'Workspaces' })
   end,
   config = function()
     require('workspaces').setup({

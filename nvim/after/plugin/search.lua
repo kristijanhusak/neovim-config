@@ -1,5 +1,5 @@
 _G.kris = _G.kris or {
-  search = {}
+  search = {},
 }
 local utils = require('partials.utils')
 local search = {}
@@ -15,6 +15,7 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.keymap.set('n', '<Leader>r', ':cgetexpr v:lua.kris.search.do_search()<CR>', {
       silent = true,
       buffer = true,
+      desc = 'Refresh search results',
     })
     vim.cmd.wincmd('J')
   end,
@@ -33,9 +34,19 @@ vim.api.nvim_create_autocmd('QuickFixCmdPost', {
   group = search_group,
 })
 
-vim.keymap.set('n', '<Leader>f', ':call v:lua.kris.search.run("")<CR>', { silent = true })
-vim.keymap.set('n', '<Leader>F', ':call v:lua.kris.search.run(expand("<cword>"))<CR>', { silent = true })
-vim.keymap.set('v', '<Leader>F', ':<C-u>call v:lua.kris.search.run("", 1)<CR>', { silent = true })
+vim.keymap.set('n', '<Leader>f', ':call v:lua.kris.search.run("")<CR>', { silent = true, desc = 'Search' })
+vim.keymap.set(
+  'n',
+  '<Leader>F',
+  ':call v:lua.kris.search.run(expand("<cword>"))<CR>',
+  { silent = true, desc = 'Search for word under cursor' }
+)
+vim.keymap.set(
+  'v',
+  '<Leader>F',
+  ':<C-u>call v:lua.kris.search.run("", 1)<CR>',
+  { silent = true, desc = 'Search visual selection' }
+)
 
 local function cleanup(no_reset_mode)
   is_toggle = false

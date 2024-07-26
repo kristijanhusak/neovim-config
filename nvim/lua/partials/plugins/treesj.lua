@@ -2,8 +2,8 @@ return {
   'Wansmer/treesj',
   cmd = { 'TSJSplit', 'TSJJoin' },
   init = function()
-    vim.keymap.set('n', 'gS', ':TSJSplit<CR>', { silent = true })
-    vim.keymap.set('n', 'gJ', ':TSJJoin<CR>', { silent = true })
+    vim.keymap.set('n', 'gS', ':TSJSplit<CR>', { silent = true, desc = 'Split to lines' })
+    vim.keymap.set('n', 'gJ', ':TSJJoin<CR>', { silent = true, desc = 'Join lines' })
   end,
   opts = {
     use_default_keymaps = false,

@@ -15,8 +15,8 @@ end
 
 function lua.setup()
   vim.bo.keywordprg = ':help'
-  vim.keymap.set('n', '<Leader>D', lua.generate_docblock, { buffer = true })
-  vim.keymap.set('n', '<leader>ll', do_print, { buffer = true })
+  vim.keymap.set('n', '<Leader>D', lua.generate_docblock, { buffer = true, desc = 'Generate docblock' })
+  vim.keymap.set('n', '<leader>ll', do_print, { buffer = true, desc = 'Print word under cursor' })
 end
 
 function lua.generate_docblock()

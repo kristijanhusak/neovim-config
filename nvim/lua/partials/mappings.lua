@@ -3,10 +3,10 @@ local mappings = {}
 -- Map save to Ctrl + S
 vim.keymap.set('', '<c-s>', ':w<CR>', { remap = true, silent = true })
 vim.keymap.set('i', '<c-s>', '<C-o>:w<CR>', { remap = true, silent = true })
-vim.keymap.set('n', '<Leader>s', ':w<CR>', { silent = true })
+vim.keymap.set('n', '<Leader>s', ':w<CR>', { silent = true, desc = 'Save' })
 
 -- Open vertical split
-vim.keymap.set('n', '<Leader>v', '<C-w>v')
+vim.keymap.set('n', '<Leader>v', '<C-w>v', { desc = 'Vertical split' })
 
 -- Move between slits
 vim.keymap.set('n', '<c-h>', '<C-w>h')
@@ -26,7 +26,7 @@ vim.keymap.set('n', 'k', 'gk')
 vim.keymap.set('t', '<Leader>jj', '<C-\\><C-n>')
 
 -- Clear search highlights
-vim.keymap.set('n', '<Leader><space>', ':noh<CR>', { silent = true })
+vim.keymap.set('n', '<Leader><space>', ':noh<CR>', { silent = true, desc = 'Clear search highlights' })
 
 -- Stay on same position when searching word under cursor
 vim.keymap.set('n', '*', '*N')
@@ -54,23 +54,28 @@ vim.api.nvim_create_autocmd('TermOpen', {
 vim.keymap.set('v', '<C-c>', '"+y')
 -- Paste from system clipboard with Ctrl + v
 vim.keymap.set('i', '<C-v>', '<Esc>"+p')
-vim.keymap.set('n', '<Leader>p', '"0p')
-vim.keymap.set('v', '<Leader>p', '"0p')
-vim.keymap.set('n', '<Leader>h', 'viw"0p', { nowait = false })
+vim.keymap.set('n', '<Leader>p', '"0p', { desc = 'Paste from yank register' })
+vim.keymap.set('v', '<Leader>p', '"0p', { desc = 'Paste from yank register' })
+vim.keymap.set('n', '<Leader>h', 'viw"0p', { nowait = false, desc = 'Replace word with yanked text' })
 
 -- Move to the end of yanked text after yank and paste
 vim.keymap.set('n', 'p', 'p`]')
 vim.keymap.set('x', 'y', 'y`]')
 vim.keymap.set('x', 'p', 'p`]')
 -- Select last pasted text
-vim.keymap.set('n', 'gp', "'`[' . strpart(getregtype(), 0, 1) . '`]'", { expr = true })
+vim.keymap.set(
+  'n',
+  'gp',
+  "'`[' . strpart(getregtype(), 0, 1) . '`]'",
+  { expr = true, desc = 'Select last pasted text' }
+)
 
 -- Move selected lines up and down
 vim.keymap.set('x', 'J', ":m '>+1<CR>gv=gv", { silent = true })
 vim.keymap.set('x', 'K', ":m '<-2<CR>gv=gv", { silent = true })
 
 -- Toggle between last 2 buffers
-vim.keymap.set('n', '<leader><tab>', '<c-^>')
+vim.keymap.set('n', '<leader><tab>', '<c-^>', { desc = 'Toggle between last 2 buffers' })
 
 -- Indenting in visual mode
 vim.keymap.set('x', '<s-tab>', '<gv')
@@ -91,7 +96,7 @@ vim.keymap.set('', 'Q', '<c-z>', { remap = true })
 vim.keymap.set('n', '<Leader>]', '<C-W>v<C-]>')
 
 -- Close all other buffers except current one
-vim.keymap.set('n', '<Leader>db', ':silent w <BAR> :silent %bd <BAR> e#<CR>')
+vim.keymap.set('n', '<Leader>db', ':silent w <BAR> :silent %bd <BAR> e#<CR>', { desc = 'Close all other buffers' })
 
 -- Unimpaired mappings
 vim.keymap.set('n', '[q', ':cprevious<CR>', { silent = true })
@@ -120,22 +125,13 @@ vim.keymap.set('c', '<C-k>', 'wildmenumode() ? "<c-k>" : "<up>"', { expr = true,
 
 vim.keymap.set('n', '<leader>T', function()
   return mappings.toggle_terminal()
-end)
-vim.keymap.set('t', '<leader>T', '<C-\\><C-n><C-w>c')
+end, { desc = 'Toggle terminal' })
+vim.keymap.set('t', '<leader>T', '<C-\\><C-n><C-w>c', { desc = 'Close terminal' })
 
 vim.keymap.set('n', 'gs', ':%s/')
 vim.keymap.set('x', 'gs', ':s/')
 
-vim.keymap.set('n', '<leader>M', ':Make<CR>', { silent = true })
-
-vim.keymap.set('n', 'gx', function()
-  vim.cmd([[
-    unlet! g:loaded_netrw
-    unlet! g:loaded_netrwPlugin
-    runtime! plugin/netrwPlugin.vim
-  ]])
-  return vim.fn['netrw#BrowseX'](vim.fn.expand('<cfile>'), vim.fn['netrw#CheckIfRemote']())
-end, { silent = true })
+vim.keymap.set('n', '<leader>M', ':Make<CR>', { silent = true, desc = 'Make' })
 
 -- Taken from https://gist.github.com/romainl/c0a8b57a36aec71a986f1120e1931f20
 for _, char in ipairs({ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '-', '#' }) do
@@ -240,10 +236,10 @@ end
 vim.keymap.set('n', 'gF', open_file_or_create_new)
 vim.keymap.set('n', '<Leader>q', function()
   return close_buffer()
-end)
+end, { desc = 'Close buffer' })
 vim.keymap.set('n', '<Leader>Q', function()
   return close_buffer(true)
-end)
+end, { desc = 'Force close buffer' })
 
 function mappings.paste_to_json_buffer()
   vim.cmd.vsplit()

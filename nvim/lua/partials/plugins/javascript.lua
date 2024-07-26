@@ -30,8 +30,8 @@ javascript.config = function()
 end
 
 function handlers.setup_buffer()
-  vim.keymap.set('n', '<Leader>ll', '<Plug>(JsConsoleLog)', { remap = true, buffer = true })
-  vim.keymap.set('n', 'gf', '<Plug>(JsGotoFile)', { remap = true, buffer = true })
+  vim.keymap.set('n', '<Leader>ll', '<Plug>(JsConsoleLog)', { remap = true, buffer = true, desc = 'Console log' })
+  vim.keymap.set('n', 'gf', '<Plug>(JsGotoFile)', { remap = true, buffer = true, desc = 'Go to file' })
   vim.keymap.set('n', '<F1>', handlers.setup_imports, { buffer = true, silent = true })
   vim.keymap.set('n', '<F2>', function()
     return handlers.setup_imports(true)

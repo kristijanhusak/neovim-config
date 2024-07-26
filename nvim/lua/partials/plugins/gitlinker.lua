@@ -6,7 +6,7 @@ local gitlinker = {
 gitlinker.init = function()
   vim.keymap.set({ 'n', 'v' }, '<leader>yg', function()
     vim.cmd('GitLink!')
-  end, { silent = true })
+  end, { silent = true, desc = 'Copy git link' })
 end
 
 gitlinker.config = function()
