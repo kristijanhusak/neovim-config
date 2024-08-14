@@ -9,7 +9,6 @@ local completion = {
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/cmp-path' },
     { 'hrsh7th/cmp-vsnip' },
-    { 'hrsh7th/cmp-nvim-lsp-signature-help' },
     { 'lukas-reineke/cmp-rg' },
   },
 }
@@ -55,12 +54,6 @@ completion.config = function()
     formatting = {
       fields = { 'kind', 'abbr', 'menu' },
       format = function(entry, vim_item)
-        if entry.source.name == 'nvim_lsp_signature_help' then
-          vim_item.menu = ' '
-          vim_item.kind = ''
-          return vim_item
-        end
-
         local kind_text = ({
           rg = '[Rg]',
           buffer = '[Buffer]',
@@ -77,7 +70,6 @@ completion.config = function()
       end,
     },
     sources = {
-      { name = 'nvim_lsp_signature_help', group_index = 1 },
       { name = 'nvim_lsp', group_index = 1 },
       { name = 'vsnip', group_index = 1 },
       { name = 'path', group_index = 1 },
