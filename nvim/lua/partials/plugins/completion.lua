@@ -64,6 +64,11 @@ completion.config = function()
           ['vim-dadbod-completion'] = '[DB]',
         })[entry.source.name]
 
+        if not vim_item.kind then
+          vim.print(vim_item)
+          return vim_item
+        end
+
         vim_item.menu = vim_item.kind .. ' ' .. (kind_text or '[Unknown]')
         vim_item.kind = kind_icons[vim_item.kind] or ''
         return vim_item
