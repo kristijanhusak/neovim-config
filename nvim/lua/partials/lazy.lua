@@ -40,8 +40,9 @@ require('lazy').setup('partials.plugins', {
     rtp = {
       disabled_plugins = {
         'gzip',
-        'matchit',
-        'matchparen',
+        -- TODO: Uncomment this once https://github.com/andymass/vim-matchup/pull/358 is merged
+        -- 'matchit',
+        -- 'matchparen',
         'netrwPlugin',
         'tarPlugin',
         'tohtml',
