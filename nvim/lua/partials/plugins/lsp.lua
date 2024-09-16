@@ -289,7 +289,7 @@ local function show_diagnostics()
 end
 
 local function refresh_diagnostics()
-  vim.diagnostic.setloclist({ open = false })
+  vim.diagnostic.setloclist({ open = false, namespace = diagnostic_ns })
   show_diagnostics()
   local loclist = vim.fn.getloclist(0, { items = 0, winid = 0 })
   if vim.tbl_isempty(loclist.items) and loclist.winid > 0 then
