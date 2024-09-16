@@ -17,33 +17,7 @@ completion.config = function()
   local cmp = require('cmp')
   vim.opt.pumheight = 15
 
-  local kind_icons = {
-    Text = '',
-    Method = '󰆧',
-    Function = '󰊕',
-    Constructor = '',
-    Field = '󰇽',
-    Variable = '󰂡',
-    Class = '󰠱',
-    Interface = '',
-    Module = '',
-    Property = '󰜢',
-    Unit = '',
-    Value = '󰎠',
-    Enum = '',
-    Keyword = '󰌋',
-    Snippet = '',
-    Color = '󰏘',
-    File = '󰈙',
-    Reference = '',
-    Folder = '󰉋',
-    EnumMember = '',
-    Constant = '󰏿',
-    Struct = '',
-    Event = '',
-    Operator = '󰆕',
-    TypeParameter = '󰅲',
-  }
+  local kind_icons = utils.lsp_kind_icons()
 
   cmp.setup({
     view = {

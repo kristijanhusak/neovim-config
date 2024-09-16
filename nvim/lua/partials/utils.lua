@@ -43,8 +43,37 @@ function M.has_words_before()
 end
 
 function M.enable_builtin_lsp_completion()
-  -- return vim.fn.has('nvim-0.11') > 0
-  return false
+  return vim.fn.has('nvim-0.11') > 0
+end
+
+function M.lsp_kind_icons()
+  return {
+    Text = '',
+    Method = '󰆧',
+    Function = '󰊕',
+    Constructor = '',
+    Field = '󰇽',
+    Variable = '󰂡',
+    Class = '󰠱',
+    Interface = '',
+    Module = '',
+    Property = '󰜢',
+    Unit = '',
+    Value = '󰎠',
+    Enum = '',
+    Keyword = '󰌋',
+    Snippet = '',
+    Color = '󰏘',
+    File = '󰈙',
+    Reference = '',
+    Folder = '󰉋',
+    EnumMember = '',
+    Constant = '󰏿',
+    Struct = '',
+    Event = '',
+    Operator = '󰆕',
+    TypeParameter = '󰅲',
+  }
 end
 
 return M

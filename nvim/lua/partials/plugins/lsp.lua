@@ -158,7 +158,17 @@ function setup.servers()
           require('partials.utils').enable_builtin_lsp_completion()
           and client.supports_method('textDocument/completion')
         then
-          vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+          local icons = require('partials.utils').lsp_kind_icons()
+          vim.lsp.completion.enable(true, client.id, bufnr, {
+            autotrigger = true,
+            convert = function(item)
+              local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or 'Text'
+              return {
+                kind = icons[kind] .. '  ' .. kind,
+                kind_hlgroup = ('CmpItemKind%s'):format(kind),
+              }
+            end,
+          })
         end
         client.server_capabilities.semanticTokensProvider = nil
         if client.server_capabilities.documentSymbolProvider then
