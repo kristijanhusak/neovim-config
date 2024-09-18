@@ -266,11 +266,16 @@ end
 
 local function show_diagnostics()
   vim.schedule(function()
-    local line = vim.api.nvim_win_get_cursor(0)[1] - 1
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local line = cursor[1] - 1
+    local col = cursor[2]
     local bufnr = vim.api.nvim_get_current_buf()
-    local diagnostics = vim.diagnostic.get(bufnr, { lnum = line })
+    local line_diagnostics = vim.diagnostic.get(bufnr, { lnum = line })
+    local view_diagnostics = vim.tbl_filter(function(item)
+      return col >= item.col and col < item.end_col
+    end, line_diagnostics)
 
-    vim.diagnostic.show(diagnostic_ns, bufnr, diagnostics, {
+    vim.diagnostic.show(diagnostic_ns, bufnr, view_diagnostics, {
       virtual_text = {
         prefix = function(diagnostic)
           return _G.kris.diagnostic_icons[diagnostic.severity]
