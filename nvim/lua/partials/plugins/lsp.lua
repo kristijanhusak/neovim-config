@@ -126,7 +126,6 @@ function setup.mason()
     },
     -- Non-lsp items to install
     -- prettier
-    -- sqlfluff
     -- sql-formatter
     -- stylua
   })
@@ -261,12 +260,6 @@ function setup.servers()
       typescript = { 'eslint' },
       javascriptreact = { 'eslint' },
       typescriptreact = { 'eslint' },
-      sql = { 'sqlfluff' },
-    },
-    formatters = {
-      sqlfluff = {
-        prepend_args = { '--dialect', 'postgres' },
-      },
     },
   })
 end
