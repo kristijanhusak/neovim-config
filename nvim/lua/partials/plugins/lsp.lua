@@ -275,6 +275,10 @@ local function show_diagnostics()
       return col >= item.col and col < item.end_col
     end, line_diagnostics)
 
+    if #view_diagnostics == 0 then
+      view_diagnostics = line_diagnostics
+    end
+
     vim.diagnostic.show(diagnostic_ns, bufnr, view_diagnostics, {
       virtual_text = {
         prefix = function(diagnostic)
