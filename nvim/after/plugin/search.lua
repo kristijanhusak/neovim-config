@@ -34,16 +34,16 @@ vim.api.nvim_create_autocmd('QuickFixCmdPost', {
   group = search_group,
 })
 
-vim.keymap.set('n', '<Leader>f', ':call v:lua.kris.search.run("")<CR>', { silent = true, desc = 'Search' })
+vim.keymap.set('n', '<Leader>ff', ':call v:lua.kris.search.run("")<CR>', { silent = true, desc = 'Search' })
 vim.keymap.set(
   'n',
-  '<Leader>F',
+  '<Leader>fw',
   ':call v:lua.kris.search.run(expand("<cword>"))<CR>',
   { silent = true, desc = 'Search for word under cursor' }
 )
 vim.keymap.set(
   'v',
-  '<Leader>F',
+  '<Leader>fw',
   ':<C-u>call v:lua.kris.search.run("", 1)<CR>',
   { silent = true, desc = 'Search visual selection' }
 )
