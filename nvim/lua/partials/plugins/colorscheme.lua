@@ -31,8 +31,6 @@ colorscheme.config = function()
     custom_highlights = {
       NvimTreeNormal = { fg = colors.fg, bg = colors.bg },
       CurSearch = { fg = colors.cyan, bg = colors.selection, style = 'bold' },
-      PmenuMatch = { fg = colors.blue, bg = colors.float, style = 'bold' },
-      PmenuMatchSel = { fg = colors.blue, bg = colors.selection, style = 'bold' },
       TelescopeTitle = { bg = telescope_prompt, fg = colors.fg },
       TelescopeNormal = { bg = telescope_normal },
       TelescopePromptBorder = { bg = telescope_prompt, fg = telescope_prompt },
