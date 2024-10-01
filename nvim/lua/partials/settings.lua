@@ -72,6 +72,29 @@ function settings.strip_trailing_whitespace()
   end
 end
 
+vim.opt.wildignore = {
+  '*.o',
+  '*.obj,*~',
+  '*.git*',
+  '*.meteor*',
+  '*vim/backups*',
+  '*sass-cache*',
+  '*mypy_cache*',
+  '*__pycache__*',
+  '*cache*',
+  '*logs*',
+  '*node_modules*',
+  '**/node_modules/**',
+  '*DS_Store*',
+  '*.gem',
+  'log/**',
+  'tmp/**',
+  '*package-lock.json*',
+  '**/dist/**',
+  '**/.next/**',
+  '**/.nx/**',
+}
+
 local cwd = vim.fn.getcwd()
 local handle = vim.loop.fs_scandir(cwd)
 if type(handle) == 'string' then
@@ -88,7 +111,7 @@ while true do
   end
 end
 
-vim.o.path = vim.o.path .. ',' .. table.concat(paths, ',')
+vim.o.path = vim.o.path .. table.concat(paths, ',')
 
 local vimrc_group = vim.api.nvim_create_augroup('vimrc', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePre', {
@@ -136,29 +159,6 @@ vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'WinLeave'
   command = [[if &nu | set nornu | endif]],
   group = vimrc_group,
 })
-
-vim.opt.wildignore = {
-  '*.o',
-  '*.obj,*~',
-  '*.git*',
-  '*.meteor*',
-  '*vim/backups*',
-  '*sass-cache*',
-  '*mypy_cache*',
-  '*__pycache__*',
-  '*cache*',
-  '*logs*',
-  '*node_modules*',
-  '**/node_modules/**',
-  '*DS_Store*',
-  '*.gem',
-  'log/**',
-  'tmp/**',
-  '*package-lock.json*',
-  '**/dist/**',
-  '**/.next/**',
-  '**/.nx/**',
-}
 
 vim.filetype.add({
   pattern = {

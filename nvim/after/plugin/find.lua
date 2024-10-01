@@ -10,18 +10,37 @@ local function parse_results(items)
   return { unpack(items, 1, vim.o.lines / 2) }
 end
 
-local function complete(arg_lead, cmdline, cursor_pos)
-  local result = vim.system({ 'rg', '--files' }, { text = false }):wait()
+local function get_filenames()
+  local executables = {
+    {
+      name = 'rg',
+      cmd = { 'rg', '--files' },
+    },
+    {
+      name = 'find',
+      cmd = { 'find', '.', '-type', 'f' },
+    },
+  }
 
-  if result and result.code == 0 then
-    local files = vim.split(result.stdout, '\n')
-    if vim.trim(arg_lead or '') == '' then
-      return parse_results(files)
+  for _, exec in ipairs(executables) do
+    if vim.fn.executable(exec.name) > 0 then
+      local result = vim.system(exec.cmd, { text = false }):wait()
+      if result and result.code == 0 then
+        return vim.split(result.stdout, '\n')
+      end
     end
-    return parse_results(vim.fn.matchfuzzy(files, arg_lead))
   end
 
-  return {}
+  return vim.fn.glob('**', false, true)
+end
+
+local function complete(arg_lead)
+  local files = get_filenames()
+
+  if vim.trim(arg_lead or '') == '' then
+    return parse_results(files)
+  end
+  return parse_results(vim.fn.matchfuzzy(files, arg_lead))
 end
 
 vim.api.nvim_create_user_command('Find', find, { force = true, nargs = '?', complete = complete })
