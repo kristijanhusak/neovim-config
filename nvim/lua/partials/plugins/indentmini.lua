@@ -9,7 +9,5 @@ return {
       char = '▏',
       exclude = { 'dbout' },
     })
-    vim.cmd('hi! link IndentLine IndentBlanklineChar')
-    vim.cmd('hi! link IndentLineCurrent IndentBlanklineContextChar')
   end,
 }

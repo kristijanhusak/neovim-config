@@ -1,14 +1,13 @@
 local colorscheme = {
-  'rmehri01/onenord.nvim',
+  'folke/tokyonight.nvim',
+  dependencies = {
+    { 'rmehri01/onenord.nvim', lazy = false, priority = 1000 },
+  },
   lazy = false,
   priority = 1000,
 }
-colorscheme.config = function()
-  vim.opt.background = vim.env.NVIM_COLORSCHEME_BG or 'dark'
 
-  vim.cmd.filetype('plugin indent on')
-  vim.cmd.syntax('on')
-
+colorscheme.onenord = function()
   local colors = require('onenord.colors').load()
 
   local telescope_normal = colors.active
@@ -47,10 +46,66 @@ colorscheme.config = function()
       fugitiveStagedSection = { fg = colors.blue },
       fugitiveUntrackedSection = { fg = colors.blue },
       fugitiveUnstagedSection = { fg = colors.blue },
+      IndentLine = { link = 'IndentBlanklineChar' },
+      IndentLineCurrent = { link = 'IndentBlanklineContextChar' },
     },
   })
 
   return colorscheme
+end
+
+colorscheme.tokyonight = function()
+---@diagnostic disable-next-line: missing-fields
+  require('tokyonight').setup({
+    terminal_colors = true,
+    plugins = {
+      cmp = true,
+    },
+    on_highlights = function(hl, c)
+      local prompt = '#2d3149'
+      hl.SimpleF = {
+        fg = c.red,
+        reverse = true,
+        bold = true,
+      }
+      hl.TelescopeNormal = {
+        bg = c.bg_dark,
+        fg = c.fg_dark,
+      }
+      hl.TelescopeBorder = {
+        bg = c.bg_dark,
+        fg = c.bg_dark,
+      }
+      hl.TelescopePromptNormal = {
+        bg = prompt,
+      }
+      hl.TelescopePromptBorder = {
+        bg = prompt,
+        fg = prompt,
+      }
+      hl.TelescopePromptTitle = {
+        bg = prompt,
+        fg = prompt,
+      }
+      hl.TelescopePreviewTitle = {
+        bg = c.bg_dark,
+        fg = c.bg_dark,
+      }
+      hl.TelescopeResultsTitle = {
+        bg = c.bg_dark,
+        fg = c.bg_dark,
+      }
+    end,
+  })
+  vim.cmd.colorscheme('tokyonight')
+end
+
+colorscheme.config = function()
+  vim.opt.background = vim.env.NVIM_COLORSCHEME_BG or 'dark'
+
+  vim.cmd.filetype('plugin indent on')
+  vim.cmd.syntax('on')
+  colorscheme.tokyonight()
 end
 
 return colorscheme
