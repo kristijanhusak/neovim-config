@@ -95,9 +95,6 @@ colorscheme.tokyonight = function()
         bg = c.bg_dark,
         fg = c.bg_dark,
       }
-      hl.PMenuMatch = {
-        link = 'CmpItemAbbrMatch',
-      }
     end,
   })
   vim.cmd.colorscheme('tokyonight')
