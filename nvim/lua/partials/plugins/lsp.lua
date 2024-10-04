@@ -163,8 +163,9 @@ function setup.servers()
             convert = function(item)
               local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or 'Text'
               return {
-                kind = icons[kind] .. '  ' .. kind,
+                kind = icons[kind],
                 kind_hlgroup = ('CmpItemKind%s'):format(kind),
+                menu = kind,
               }
             end,
           })

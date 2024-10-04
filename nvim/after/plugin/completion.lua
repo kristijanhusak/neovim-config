@@ -5,6 +5,7 @@ end
 
 vim.opt.completeopt = 'menu,menuone,noinsert,noselect,fuzzy,popup'
 vim.opt.pumheight = 15
+vim.opt.completeitemalign = {'kind', 'abbr', 'menu'}
 
 local lspMethods = vim.lsp.protocol.Methods
 
