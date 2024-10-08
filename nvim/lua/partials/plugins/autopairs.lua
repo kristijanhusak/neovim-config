@@ -4,7 +4,6 @@ return {
   config = function()
     local enable_builtin_lsp_completion = require('partials.utils').enable_builtin_lsp_completion()
     local npairs = require('nvim-autopairs')
-    npairs.setup()
 
     npairs.setup({
       map_cr = not enable_builtin_lsp_completion,
