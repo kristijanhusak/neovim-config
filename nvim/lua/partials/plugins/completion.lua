@@ -1,5 +1,6 @@
 local completion = {
-  'hrsh7th/nvim-cmp',
+  'iguanacucumber/magazine.nvim',
+  name = 'nvim-cmp',
   event = 'InsertEnter',
   enabled = function()
     return not require('partials.utils').enable_builtin_lsp_completion()
@@ -55,10 +56,6 @@ completion.config = function()
       { name = 'buffer', group_index = 2 },
       { name = 'rg', group_index = 2 },
       { name = 'orgmode', group_index = 1 },
-    },
-    performance = {
-      debounce = 20,
-      throttle = 10,
     },
     snippet = {
       expand = function(args)
