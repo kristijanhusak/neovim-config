@@ -11,7 +11,9 @@ return {
       path = vim.fs.normalize('~/Dropbox/workspaces'),
       hooks = {
         open = function()
-          vim.notify((' Switched to project: %s '):format(vim.fn.getcwd()))
+          local workspace_name = require('workspaces').name()
+          local workspace_path = require('workspaces').path()
+          vim.notify((' Switched to project: %s\n %s'):format(workspace_name, workspace_path))
           local local_nvimrc = vim.fn.getcwd() .. '/.nvimrc'
           if vim.secure.read(local_nvimrc) then
             vim.cmd.source(local_nvimrc)
