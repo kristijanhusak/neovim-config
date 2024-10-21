@@ -1,9 +1,30 @@
-local statusline = {}
+local statusline = {
+  cwd_folder = '',
+}
 local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
 vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
 local devicons = require('nvim-web-devicons')
 
 local c = {}
+
+local function get_workspace_name()
+  local ok, workspaces = pcall(require, 'workspaces')
+  if ok then
+    local name = workspaces.name()
+    if name then
+      return name
+    end
+    local all = workspaces.get()
+    local cwd = vim.uv.cwd()
+    local item = vim.tbl_filter(function(item)
+      return item.path == cwd .. '/'
+    end, all)[1]
+    if item then
+      return item.name
+    end
+  end
+  return vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+end
 
 local function get_colors()
   local ok, lualine_colors = pcall(require, 'lualine.themes.' .. (vim.g.colors_name or 'none'))
@@ -86,16 +107,27 @@ end
 vim.api.nvim_create_autocmd({ 'VimEnter', 'ColorScheme' }, {
   group = statusline_group,
   pattern = '*',
-  callback = statusline.set_colors,
+  callback = function()
+    statusline.cwd_folder = get_workspace_name()
+    statusline.set_colors()
+  end,
 })
 
 local has_nvim_10 = vim.fn.has('nvim-0.10.0') > 0
 
 if has_nvim_10 then
   vim.api.nvim_create_autocmd({ 'LspProgress' }, {
+    group = statusline_group,
     command = 'redrawstatus',
   })
 end
+
+vim.api.nvim_create_autocmd('DirChanged', {
+  group = statusline_group,
+  callback = function()
+    statusline.cwd_folder = get_workspace_name()
+  end,
+})
 
 local separator_types = {
   slant = {
@@ -320,6 +352,7 @@ local function statusline_active()
   local statusline_sections = {
     sep(mode, section_a),
     sep(git_status, section_b, git_status ~= ''),
+    sep(' ' .. statusline.cwd_folder, section_b, statusline.cwd_folder ~= ''),
     sep(get_path(), vim.bo.modified and section_err or section_b),
     sep(('+%d'):format(modified_count), section_err, modified_count > 0),
     sep(' - ', section_err, not vim.bo.modifiable),
