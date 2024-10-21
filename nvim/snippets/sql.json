@@ -13,6 +13,13 @@
     ],
     "description": "Select from table by id"
   },
+  "delete-by-id": {
+    "prefix": ["del"],
+    "body": [
+      "delete from \"${1:table}\" where \"${2:id}\" = '${3:id}';"
+    ],
+    "description": "Delete from table by id"
+  },
   "cte": {
     "prefix": ["cte"],
     "body": [
