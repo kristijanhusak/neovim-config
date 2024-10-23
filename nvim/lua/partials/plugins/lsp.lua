@@ -196,7 +196,6 @@ function setup.servers()
       packageManager = 'yarn',
     },
   }))
-  nvim_lsp.basics_ls.setup(lsp_setup())
 
   local vtsls_settings = {
     preferences = {
