@@ -38,6 +38,29 @@ function handlers.setup_buffer()
   end, { buffer = true, silent = true })
   vim.opt_local.isfname:append('@-@')
   vim.cmd('compiler tsc')
+
+  vim.api.nvim_create_user_command('TSRenameFile', function()
+    local client = vim.lsp.get_clients({ name = 'ts_ls' })[1]
+    if not client then
+      vim.notify('No active LSP client')
+      return
+    end
+
+    vim.ui.input({
+      prompt = 'New filename',
+      default = vim.api.nvim_buf_get_name(0),
+    }, function(result)
+      local params = {
+        sourceUri = vim.uri_from_bufnr(0),
+        targetUri = vim.fn.fnamemodify(result, ':p'),
+      }
+
+      client.request_sync(vim.lsp.protocol.Methods.workspace_executeCommand, {
+        command = '_typescript.applyRenameFile',
+        arguments = { params },
+      }, 5000, vim.api.nvim_get_current_buf())
+    end)
+  end, {})
 end
 
 function handlers.console_log()
@@ -75,27 +98,36 @@ function handlers.goto_file()
   end
 end
 
-function handlers.execute_cmds(vtsls, bufnr, commands)
-  if #commands == 0 then
+local function execute_code_action(code_action)
+  local client = vim.lsp.get_clients({ name = 'ts_ls' })[1]
+  local bufnr = vim.api.nvim_get_current_buf()
+
+  local params = vim.lsp.util.make_range_params()
+  params.context = {
+    only = { code_action },
+  }
+
+  local res = client.request_sync(vim.lsp.protocol.Methods.textDocument_codeAction, params, 5000, bufnr)
+
+  if not res or #res.result == 0 then
     return
   end
-  local cmd = commands[1]
-  table.remove(commands, 1)
-  return vtsls.commands[cmd](bufnr, function()
-    return handlers.execute_cmds(vtsls, bufnr, commands)
-  end)
+
+  vim.lsp.util.apply_text_edits(
+    res.result[1].edit.documentChanges[1].edits,
+    vim.api.nvim_get_current_buf(),
+    client.offset_encoding
+  )
 end
 
----@param organize? boolean
 function handlers.setup_imports(organize)
-  local vtsls = require('vtsls')
-  local bufnr = vim.api.nvim_get_current_buf()
-  local commands = { 'remove_unused_imports', 'add_missing_imports', 'fix_all' }
+  local cmds = { 'source.addMissingImports.ts', 'source.removeUnusedImports.ts', 'source.fixAll.ts' }
   if organize then
-    table.insert(commands, 'organize_imports')
+    table.insert(cmds, 'source.organizeImports.ts')
   end
-
-  return handlers.execute_cmds(vtsls, bufnr, commands)
+  for _, cmd in ipairs(cmds) do
+    execute_code_action(cmd)
+  end
 end
 
 return javascript

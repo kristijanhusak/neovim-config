@@ -151,7 +151,20 @@ function setup.servers()
 
   local function lsp_setup(opts)
     opts = opts or {}
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities.textDocument.completion.completionItem.resolveSupport.properties = {
+      'documentation',
+      'detail',
+      'additionalTextEdits',
+      'sortText',
+      'filterText',
+      'insertText',
+      'textEdit',
+      'insertTextFormat',
+      'insertTextMode',
+    }
     return vim.tbl_deep_extend('force', {
+      capabilities = capabilities,
       on_attach = function(client, bufnr)
         if
           require('partials.utils').enable_builtin_lsp_completion()
@@ -171,6 +184,11 @@ function setup.servers()
           })
         end
         client.server_capabilities.semanticTokensProvider = nil
+        if client.server_capabilities.completionProvider then
+          local chars = vim.deepcopy(client.server_capabilities.completionProvider.triggerCharacters)
+          table.insert(chars, ' ')
+          client.server_capabilities.completionProvider.triggerCharacters = chars
+        end
         if client.server_capabilities.documentSymbolProvider then
           require('nvim-navic').attach(client, bufnr)
         end
@@ -211,20 +229,28 @@ function setup.servers()
       enumMemberValues = { enabled = true },
     },
   }
-  nvim_lsp.vtsls.setup(lsp_setup({
-    settings = {
-      javascript = vtsls_settings,
-      typescript = vtsls_settings,
-      vtsls = {
-        experimental = {
-          completion = {
-            enableServerSideFuzzyMatch = true,
-          },
-        },
+  nvim_lsp.ts_ls.setup(lsp_setup({
+    init_options = {
+      preferences = {
+        quote_style = 'single',
       },
     },
     disableFormatting = true,
   }))
+  -- nvim_lsp.vtsls.setup(lsp_setup({
+  --   settings = {
+  --     javascript = vtsls_settings,
+  --     typescript = vtsls_settings,
+  --     vtsls = {
+  --       experimental = {
+  --         completion = {
+  --           enableServerSideFuzzyMatch = true,
+  --         },
+  --       },
+  --     },
+  --   },
+  --   disableFormatting = true,
+  -- }))
 
   require('lazydev').setup({
     library = {
