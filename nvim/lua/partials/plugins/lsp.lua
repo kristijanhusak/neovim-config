@@ -148,10 +148,20 @@ end
 
 function setup.servers()
   local nvim_lsp = require('lspconfig')
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  local ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+  if ok then
+    capabilities = vim.tbl_deep_extend('force', capabilities, cmp_nvim_lsp.default_capabilities(), {
+      workspace = {
+        didChangeWatchedFiles = { dynamicRegistration = false },
+      },
+    })
+  end
 
   local function lsp_setup(opts)
     opts = opts or {}
     return vim.tbl_deep_extend('force', {
+      capabilities = capabilities,
       on_attach = function(client, bufnr)
         if
           require('partials.utils').enable_builtin_lsp_completion()
