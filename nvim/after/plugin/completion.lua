@@ -5,7 +5,7 @@ end
 
 vim.opt.completeopt = 'menu,menuone,noinsert,noselect,fuzzy,popup'
 vim.opt.pumheight = 15
-vim.opt.completeitemalign = {'kind', 'abbr', 'menu'}
+vim.opt.completeitemalign = { 'kind', 'abbr', 'menu' }
 
 local lspMethods = vim.lsp.protocol.Methods
 
@@ -54,6 +54,17 @@ vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
   return utils.feedkeys('<S-Tab>', 'n')
 end, { silent = true })
 
+local preselect = function()
+  if vim.fn.pumvisible() > 0 and vim.fn.complete_info({ 'selected' }).selected == -1 then
+    utils.feedkeys('<C-n>', 'n')
+  end
+end
+
+local function complete(key)
+  utils.feedkeys(key, 'n')
+  vim.schedule(preselect)
+end
+
 vim.keymap.set('i', '<C-n>', function()
   if vim.fn.pumvisible() > 0 then
     return utils.feedkeys('<C-n>', 'n')
@@ -64,16 +75,16 @@ vim.keymap.set('i', '<C-n>', function()
   local has_omnifunc = vim.opt_local.omnifunc:get() ~= ''
 
   if not lsp_client and not has_omnifunc then
-    return utils.feedkeys('<C-n>', 'n')
+    return complete('<C-n>')
   end
 
   if not lsp_client then
     utils.feedkeys('<C-x><C-o>', 'n')
     vim.schedule(function()
       if vim.fn.pumvisible() == 0 then
-        utils.feedkeys('<C-e><C-n>', 'n')
-      elseif vim.fn.complete_info({ 'selected' }).selected == -1 then
-        utils.feedkeys('<C-n>', 'n')
+        complete('<C-e><C-n>')
+      else
+        preselect()
       end
     end)
     return
@@ -91,10 +102,7 @@ vim.keymap.set('i', '<C-n>', function()
   end)
 
   if vim.fn.pumvisible() > 0 then
-    if vim.fn.complete_info({ 'selected' }).selected == -1 then
-      utils.feedkeys('<C-n>', 'n')
-    end
-    return
+    return preselect()
   end
 
   local mode = vim.api.nvim_get_mode().mode
@@ -103,7 +111,7 @@ vim.keymap.set('i', '<C-n>', function()
   if cursor_changed or not is_insert_mode then
     return
   end
-  utils.feedkeys('<C-e><C-n>', 'n')
+  complete('<C-e><C-n>')
 end)
 
 vim.keymap.set('i', '<C-space>', function()
