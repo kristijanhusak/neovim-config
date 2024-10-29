@@ -44,3 +44,10 @@ local function complete(arg_lead)
 end
 
 vim.api.nvim_create_user_command('Find', find, { force = true, nargs = '?', complete = complete })
+_G.kris.findexpr = function()
+  return complete(vim.v.fname)
+end
+
+if vim.fn.has('nvim-0.11') then
+  vim.o.findexpr = 'v:lua.kris.findexpr()'
+end
