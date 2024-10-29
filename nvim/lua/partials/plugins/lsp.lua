@@ -166,6 +166,7 @@ function setup.servers()
         if
           require('partials.utils').enable_builtin_lsp_completion()
           and client.supports_method('textDocument/completion')
+          and false
         then
           local icons = require('partials.utils').lsp_kind_icons()
           vim.lsp.completion.enable(true, client.id, bufnr, {
@@ -315,18 +316,18 @@ function setup.attach_to_buffer(client, bufnr)
     group = lsp_group,
   })
   if not vim.tbl_isempty(client.server_capabilities.signatureHelpProvider or {}) then
-    vim.api.nvim_create_autocmd('CursorHoldI', {
-      buffer = bufnr,
-      callback = function()
-        local node = vim.treesitter.get_node()
-        if node and (node:type() == 'arguments' or (node:parent() and node:parent():type() == 'arguments')) then
-          vim.defer_fn(function()
-            vim.lsp.buf.signature_help()
-          end, 300)
-        end
-      end,
-      group = lsp_group,
-    })
+    -- vim.api.nvim_create_autocmd('CursorHoldI', {
+    --   buffer = bufnr,
+    --   callback = function()
+    --     local node = vim.treesitter.get_node()
+    --     if node and (node:type() == 'arguments' or (node:parent() and node:parent():type() == 'arguments')) then
+    --       vim.defer_fn(function()
+    --         vim.lsp.buf.signature_help()
+    --       end, 300)
+    --     end
+    --   end,
+    --   group = lsp_group,
+    -- })
   end
   vim.opt.foldmethod = 'expr'
   vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
