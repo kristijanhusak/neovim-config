@@ -56,7 +56,7 @@ function M.lsp_kind_icons()
     Variable = '󰂡',
     Class = '󰠱',
     Interface = '',
-    Module = '',
+    Module = '',
     Property = '󰜢',
     Unit = '',
     Value = '󰎠',
