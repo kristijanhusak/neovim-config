@@ -1,12 +1,27 @@
 local utils = require('partials.utils')
-if vim.fn.has('nvim-0.11') > 0 then
-  vim.opt.completeitemalign = { 'kind', 'abbr', 'menu' }
-end
-vim.opt.completeopt = 'menu,menuone,noinsert,noselect,fuzzy,popup'
-vim.opt.pumheight = 15
-
 if not utils.enable_builtin_lsp_completion() then
   return
+end
+
+vim.opt.completeopt = 'menu,menuone,noinsert,noselect,fuzzy,popup'
+vim.opt.pumheight = 15
+vim.opt.completeitemalign = { 'kind', 'abbr', 'menu' }
+
+local lspMethods = vim.lsp.protocol.Methods
+
+local get_completion_lsp_client = function()
+  local clients = vim.lsp.get_clients({
+    method = lspMethods.textDocument_completion,
+    bufnr = 0,
+  })
+  if #clients > 0 then
+    return clients[1]
+  end
+  return nil
+end
+
+local has_valid_lsp_clients = function()
+  return get_completion_lsp_client() ~= nil
 end
 
 vim.keymap.set('i', '<Tab>', function()
@@ -38,27 +53,6 @@ vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
   end
   return utils.feedkeys('<S-Tab>', 'n')
 end, { silent = true })
-
-if true then
-  return
-end
-
-local lspMethods = vim.lsp.protocol.Methods
-
-local get_completion_lsp_client = function()
-  local clients = vim.lsp.get_clients({
-    method = lspMethods.textDocument_completion,
-    bufnr = 0,
-  })
-  if #clients > 0 then
-    return clients[1]
-  end
-  return nil
-end
-
-local has_valid_lsp_clients = function()
-  return get_completion_lsp_client() ~= nil
-end
 
 local preselect = function()
   if vim.fn.pumvisible() > 0 and vim.fn.complete_info({ 'selected' }).selected == -1 then
