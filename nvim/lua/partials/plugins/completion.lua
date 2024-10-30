@@ -53,7 +53,7 @@ completion.config = function()
       { name = 'vsnip', group_index = 1 },
       { name = 'path', group_index = 1 },
       { name = 'buffer', group_index = 2 },
-      { name = 'rg', group_index = 2 },
+      { name = 'rg', group_index = 2, keyword_length = 3 },
       { name = 'orgmode', group_index = 1 },
     },
     performance = {
