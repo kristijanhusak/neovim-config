@@ -51,9 +51,9 @@ completion.config = function()
     sources = {
       { name = 'nvim_lsp', group_index = 1 },
       { name = 'vsnip', group_index = 1 },
-      { name = 'path', group_index = 1 },
-      { name = 'buffer', group_index = 2 },
-      { name = 'rg', group_index = 2, keyword_length = 3 },
+      { name = 'path', group_index = 2 },
+      { name = 'buffer', group_index = 3 },
+      { name = 'rg', group_index = 4, keyword_length = 3 },
       { name = 'orgmode', group_index = 1 },
     },
     performance = {
