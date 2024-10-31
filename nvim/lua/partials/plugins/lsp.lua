@@ -156,6 +156,45 @@ function setup.servers()
         didChangeWatchedFiles = { dynamicRegistration = false },
       },
     })
+  else
+    capabilities = vim.tbl_deep_extend('force', capabilities, {
+      textDocument = {
+        completion = {
+          dynamicRegistration = false,
+          completionItem = {
+            snippetSupport = true,
+            commitCharactersSupport = true,
+            deprecatedSupport = true,
+            preselectSupport = true,
+            insertReplaceSupport = true,
+            resolveSupport = {
+              properties = {
+                'documentation',
+                'detail',
+                'additionalTextEdits',
+                'sortText',
+                'filterText',
+                'insertText',
+                'textEdit',
+                'insertTextFormat',
+                'insertTextMode',
+              },
+            },
+            labelDetailsSupport = true,
+          },
+          contextSupport = true,
+          completionList = {
+            itemDefaults = {
+              'commitCharacters',
+              'editRange',
+              'insertTextFormat',
+              'insertTextMode',
+              'data',
+            },
+          },
+        },
+      },
+    })
   end
 
   local function lsp_setup(opts)

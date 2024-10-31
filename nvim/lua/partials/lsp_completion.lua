@@ -619,6 +619,54 @@ local function enable_completions(client_id, bufnr, opts)
         end
       end,
     })
+    api.nvim_create_autocmd('CompleteChanged', {
+      group = group,
+      buffer = bufnr,
+      callback = function()
+        local completed_item = api.nvim_get_vvar('event').completed_item
+        if vim.tbl_get(completed_item, 'user_data', 'nvim', 'lsp', 'completion_item') then
+          local client = lsp.get_client_by_id(client_id)
+          if not client then
+            return
+          end
+          client.request(
+            ms.completionItem_resolve,
+            completed_item.user_data.nvim.lsp.completion_item,
+            function(err, result)
+              if err or not result then
+                return
+              end
+
+              local text = {}
+
+              if result and result.documentation then
+                local docs = type(result.documentation) == 'string' and result.documentation
+                  or result.documentation.value
+                vim.list_extend(text, vim.split(docs, '\n'))
+              end
+
+              if result.detail and not vim.startswith(text[1] or '', '```') then
+                text = vim.list_extend({ '```' .. vim.bo.filetype, result.detail, '```' }, text)
+              end
+
+              if #text == 0 then
+                return
+              end
+
+              local pos = vim.fn.pum_getpos()
+              local _, popup_winid = vim.lsp.util.open_floating_preview(text, 'markdown', {
+                border = 'single',
+              })
+              vim.api.nvim_win_set_config(popup_winid, {
+                relative = 'win',
+                row = pos.row,
+                col = pos.col + pos.width + (pos.scrollbar and 1 or 0),
+              })
+            end
+          )
+        end
+      end,
+    })
     if opts.autotrigger then
       api.nvim_create_autocmd('InsertCharPre', {
         group = group,
