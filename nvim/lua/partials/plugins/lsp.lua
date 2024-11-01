@@ -217,6 +217,9 @@ function setup.servers()
                 menu = kind,
               }
             end,
+            fallback = function()
+              require('partials.utils').feedkeys('<C-n>', 'n')
+            end
           })
         end
         client.server_capabilities.semanticTokensProvider = nil

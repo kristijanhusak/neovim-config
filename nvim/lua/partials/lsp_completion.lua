@@ -316,7 +316,7 @@ end
 local function adjust_start_col(lnum, line, items, encoding)
   local min_start_char = nil
   for _, item in pairs(items) do
-    if item.textEdit and item.textEdit.range.start.line == lnum then
+    if item.textEdit and item.textEdit.range and item.textEdit.range.start.line == lnum then
       if min_start_char and min_start_char ~= item.textEdit.range.start.character then
         return nil
       end
@@ -462,7 +462,14 @@ local function trigger(bufnr, clients)
       end
     end
     local start_col = (server_start_boundary or word_boundary) + 1
-    vim.fn.complete(start_col, matches)
+    if #matches > 0 then
+      vim.fn.complete(start_col, matches)
+    else
+      local user_fallback = vim.tbl_get(buf_handles, bufnr, 'fallback')
+      if user_fallback then
+        user_fallback()
+      end
+    end
   end)
 
   table.insert(Context.pending_requests, cancel_request)
@@ -584,9 +591,57 @@ local function on_complete_done()
   end
 end
 
+local function on_complete_changed()
+  local completed_item = api.nvim_get_vvar('completed_item')
+  if not completed_item or not completed_item.user_data or not completed_item.user_data.nvim then
+    return
+  end
+  local completion_item = completed_item.user_data.nvim.lsp.completion_item --- @type lsp.CompletionItem
+  local client_id = completed_item.user_data.nvim.lsp.client_id --- @type integer
+  local client = lsp.get_client_by_id(client_id)
+  if not client then
+    return
+  end
+
+  client.request(ms.completionItem_resolve, completion_item, function(err, result)
+    if err or not result then
+      return
+    end
+
+    local text = {}
+
+    if result and result.documentation then
+      local docs = type(result.documentation) == 'string' and result.documentation or result.documentation.value
+      vim.list_extend(text, vim.split(docs, '\n'))
+    end
+
+    if result.detail and not vim.startswith(text[1] or '', '```') then
+      text = vim.list_extend({ '```' .. vim.bo.filetype, result.detail, '```' }, text)
+    end
+
+    if #text == 0 then
+      return
+    end
+
+    local pos = vim.fn.pum_getpos()
+    if not pos then
+      return
+    end
+    local _, popup_winid = vim.lsp.util.open_floating_preview(text, 'markdown', {
+      border = 'single',
+    })
+    vim.api.nvim_win_set_config(popup_winid, {
+      relative = 'win',
+      row = pos.row,
+      col = pos.col + pos.width + (pos.scrollbar and 1 or 0),
+    })
+  end)
+end
+
 --- @class vim.lsp.completion.BufferOpts
 --- @field autotrigger? boolean  Default: false When true, completion triggers automatically based on the server's `triggerCharacters`.
 --- @field convert? fun(item: lsp.CompletionItem): table Transforms an LSP CompletionItem to |complete-items|.
+--- @field fallback? fun()
 
 ---@param client_id integer
 ---@param bufnr integer
@@ -594,7 +649,7 @@ end
 local function enable_completions(client_id, bufnr, opts)
   local buf_handle = buf_handles[bufnr]
   if not buf_handle then
-    buf_handle = { clients = {}, triggers = {}, convert = opts.convert }
+    buf_handle = { clients = {}, triggers = {}, convert = opts.convert, fallback = opts.fallback }
     buf_handles[bufnr] = buf_handle
 
     -- Attach to buffer events.
@@ -623,48 +678,7 @@ local function enable_completions(client_id, bufnr, opts)
       group = group,
       buffer = bufnr,
       callback = function()
-        local completed_item = api.nvim_get_vvar('event').completed_item
-        if vim.tbl_get(completed_item, 'user_data', 'nvim', 'lsp', 'completion_item') then
-          local client = lsp.get_client_by_id(client_id)
-          if not client then
-            return
-          end
-          client.request(
-            ms.completionItem_resolve,
-            completed_item.user_data.nvim.lsp.completion_item,
-            function(err, result)
-              if err or not result then
-                return
-              end
-
-              local text = {}
-
-              if result and result.documentation then
-                local docs = type(result.documentation) == 'string' and result.documentation
-                  or result.documentation.value
-                vim.list_extend(text, vim.split(docs, '\n'))
-              end
-
-              if result.detail and not vim.startswith(text[1] or '', '```') then
-                text = vim.list_extend({ '```' .. vim.bo.filetype, result.detail, '```' }, text)
-              end
-
-              if #text == 0 then
-                return
-              end
-
-              local pos = vim.fn.pum_getpos()
-              local _, popup_winid = vim.lsp.util.open_floating_preview(text, 'markdown', {
-                border = 'single',
-              })
-              vim.api.nvim_win_set_config(popup_winid, {
-                relative = 'win',
-                row = pos.row,
-                col = pos.col + pos.width + (pos.scrollbar and 1 or 0),
-              })
-            end
-          )
-        end
+        on_complete_changed()
       end,
     })
     if opts.autotrigger then
