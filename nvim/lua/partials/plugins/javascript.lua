@@ -33,9 +33,7 @@ function handlers.setup_buffer()
   vim.keymap.set('n', '<Leader>ll', '<Plug>(JsConsoleLog)', { remap = true, buffer = true, desc = 'Console log' })
   vim.keymap.set('n', 'gf', '<Plug>(JsGotoFile)', { remap = true, buffer = true, desc = 'Go to file' })
   vim.keymap.set('n', '<F1>', handlers.setup_imports, { buffer = true, silent = true })
-  vim.keymap.set('n', '<F2>', function()
-    return handlers.setup_imports(true)
-  end, { buffer = true, silent = true })
+  vim.keymap.set('n', '<F2>', handlers.setup_imports_and_lsp_format, { buffer = true, silent = true })
   vim.opt_local.isfname:append('@-@')
   vim.cmd('compiler tsc')
 end
@@ -86,16 +84,32 @@ function handlers.execute_cmds(vtsls, bufnr, commands)
   end)
 end
 
----@param organize? boolean
-function handlers.setup_imports(organize)
+function handlers.setup_imports()
   local vtsls = require('vtsls')
   local bufnr = vim.api.nvim_get_current_buf()
   local commands = { 'remove_unused_imports', 'add_missing_imports', 'fix_all' }
-  if organize then
-    table.insert(commands, 'organize_imports')
-  end
 
   return handlers.execute_cmds(vtsls, bufnr, commands)
+end
+
+function handlers.setup_imports_and_lsp_format()
+  handlers.setup_imports()
+
+  vim.wait(500, function()
+    local client = vim.lsp.get_clients({
+      name = 'vtsls',
+    })[1]
+    if client then
+      print('client.progress', vim.inspect(client.progress))
+      return client.requests == 0
+    end
+    return true
+  end)
+
+  require('conform').format({
+    lsp_format = 'fallback',
+    timeout_ms = 5000,
+  })
 end
 
 return javascript
