@@ -1,11 +1,14 @@
 local utils = require('partials.utils')
-if not utils.enable_builtin_lsp_completion() then
-  return
-end
 
 vim.opt.completeopt = 'menu,menuone,noinsert,noselect,fuzzy,popup'
 vim.opt.pumheight = 15
-vim.opt.completeitemalign = { 'kind', 'abbr', 'menu' }
+if vim.fn.exists('&completeitemalign') > 0 then
+  vim.opt.completeitemalign = { 'kind', 'abbr', 'menu' }
+end
+
+if not utils.enable_builtin_lsp_completion() then
+  return
+end
 
 local lspMethods = vim.lsp.protocol.Methods
 

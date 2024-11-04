@@ -48,6 +48,6 @@ _G.kris.findexpr = function()
   return complete(vim.v.fname)
 end
 
-if vim.fn.has('nvim-0.11') then
-  vim.o.findexpr = 'v:lua.kris.findexpr()'
+if vim.fn.exists('&findfunc') > 0 then
+  vim.o.findfunc = 'v:lua.kris.findexpr()'
 end
