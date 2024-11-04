@@ -93,7 +93,9 @@ function setup.mappings()
     })
   end, opts('LSP references'))
   vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, opts('LSP declaration'))
-  vim.keymap.set('n', '<Space>', vim.lsp.buf.hover, { silent = true, buffer = true })
+  vim.keymap.set('n', '<Space>', function()
+    return vim.lsp.buf.hover({ focusable = false })
+  end, { silent = true, buffer = true })
   vim.keymap.set({ 'n', 'x' }, '<leader>lf', function()
     return require('conform').format({
       lsp_format = 'fallback',
@@ -114,7 +116,7 @@ function setup.mappings()
     return vim.lsp.buf.code_action()
   end, opts('LSP code action'))
   vim.keymap.set('i', '<C-k>', function()
-    vim.lsp.buf.signature_help()
+    vim.lsp.buf.signature_help({ focusable = false })
     return ''
   end, { expr = true, buffer = true })
 end
@@ -219,7 +221,7 @@ function setup.servers()
             end,
             fallback = function()
               require('partials.utils').feedkeys('<C-n>', 'n')
-            end
+            end,
           })
         end
         client.server_capabilities.semanticTokensProvider = nil
@@ -363,7 +365,7 @@ function setup.attach_to_buffer(client, bufnr)
         local node = vim.treesitter.get_node()
         if node and (node:type() == 'arguments' or (node:parent() and node:parent():type() == 'arguments')) then
           vim.defer_fn(function()
-            vim.lsp.buf.signature_help()
+            vim.lsp.buf.signature_help({ focusable = false })
           end, 300)
         end
       end,
