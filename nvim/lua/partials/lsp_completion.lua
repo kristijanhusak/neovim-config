@@ -611,8 +611,7 @@ local function on_complete_changed()
     local text = {}
 
     if result and result.documentation then
-      local docs = type(result.documentation) == 'string' and result.documentation or result.documentation.value
-      vim.list_extend(text, vim.split(docs, '\n'))
+      vim.list_extend(text, vim.split(get_doc(result), '\n'))
     end
 
     if result.detail and not vim.startswith(text[1] or '', '```') then
