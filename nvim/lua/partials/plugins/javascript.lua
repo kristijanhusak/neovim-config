@@ -100,7 +100,6 @@ function handlers.setup_imports_and_lsp_format()
       name = 'vtsls',
     })[1]
     if client then
-      print('client.progress', vim.inspect(client.progress))
       return client.requests == 0
     end
     return true
