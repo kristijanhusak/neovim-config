@@ -31,14 +31,13 @@ local lsp = {
   ft = filetypes,
 }
 lsp.config = function()
-  setup.configure_handlers()
   setup.mason()
   setup.servers()
 
   return lsp
 end
 
-function setup.configure_handlers()
+function setup.mappings()
   vim.diagnostic.config({
     virtual_text = false,
     float = {
@@ -51,14 +50,18 @@ function setup.configure_handlers()
     },
   })
 
+  local preview_opts = {
+    border = 'rounded',
+    focusable = false,
+    silent = true,
+  }
+
   vim.lsp.handlers['textDocument/hover'] =
-    vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded', focusable = false })
+    vim.lsp.with(vim.lsp.handlers.hover, preview_opts)
 
   vim.lsp.handlers['textDocument/signatureHelp'] =
-    vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single', focusable = false, silent = true })
-end
+    vim.lsp.with(vim.lsp.handlers.signature_help, preview_opts)
 
-function setup.mappings()
   ---@param desc string
   ---@return table
   local opts = function(desc)
@@ -94,7 +97,7 @@ function setup.mappings()
   end, opts('LSP references'))
   vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, opts('LSP declaration'))
   vim.keymap.set('n', '<Space>', function()
-    return vim.lsp.buf.hover({ focusable = false })
+    return vim.lsp.buf.hover(preview_opts)
   end, { silent = true, buffer = true })
   vim.keymap.set({ 'n', 'x' }, '<leader>lf', function()
     return require('conform').format({
@@ -116,7 +119,7 @@ function setup.mappings()
     return vim.lsp.buf.code_action()
   end, opts('LSP code action'))
   vim.keymap.set('i', '<C-k>', function()
-    vim.lsp.buf.signature_help({ focusable = false })
+    vim.lsp.buf.signature_help(preview_opts)
     return ''
   end, { expr = true, buffer = true })
 end
