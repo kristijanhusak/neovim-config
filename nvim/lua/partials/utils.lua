@@ -43,7 +43,8 @@ function M.has_words_before()
 end
 
 function M.enable_builtin_lsp_completion()
-  return vim.fn.has('nvim-0.11') > 0
+  return false
+  -- return vim.fn.has('nvim-0.11') > 0
 end
 
 function M.lsp_kind_icons()
