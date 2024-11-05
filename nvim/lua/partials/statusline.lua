@@ -1,5 +1,6 @@
 local statusline = {
   cwd_folder = '',
+  lsp_status = ''
 }
 local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
 vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
@@ -116,9 +117,20 @@ vim.api.nvim_create_autocmd({ 'VimEnter', 'ColorScheme' }, {
 local has_nvim_10 = vim.fn.has('nvim-0.10.0') > 0
 
 if has_nvim_10 then
+  local function update_lsp_status()
+    statusline.lsp_status = vim.lsp.status() or ''
+    vim.cmd('redrawstatus')
+  end
+
   vim.api.nvim_create_autocmd({ 'LspProgress' }, {
     group = statusline_group,
-    command = 'redrawstatus',
+    callback = function(opts)
+      update_lsp_status()
+      local kind = vim.tbl_get(opts, 'data', 'params', 'value', 'kind')
+      if kind == 'end' then
+        update_lsp_status()
+      end
+    end
   })
 end
 
@@ -344,10 +356,7 @@ local function statusline_active()
   local db_ui = vim.g.loaded_dbui and vim.fn['db_ui#statusline']() or ''
   local diagnostics = lsp_diagnostics()
   local modified_count = get_modified_count()
-  local lsp_status = ''
-  if has_nvim_10 then
-    lsp_status = vim.lsp.status()
-  end
+  local lsp_status = statusline.lsp_status
   lsp_status = lsp_status:gsub('%%', '%%%%')
   local statusline_sections = {
     sep(mode, section_a),
