@@ -9,6 +9,7 @@ local javascript = {
   'dmmulroy/tsc.nvim',
   ft = filetypes,
 }
+
 javascript.config = function()
   require('tsc').setup({
     auto_close_qflist = true,
@@ -25,6 +26,15 @@ javascript.config = function()
   if vim.tbl_contains(filetypes, vim.bo.filetype) then
     vim.cmd('doautocmd FileType ' .. vim.bo.filetype)
   end
+
+  vim.api.nvim_create_autocmd('DirChanged', {
+    callback = function()
+      require('tsc').setup({
+        auto_close_qflist = true,
+        bin_path = require('tsc.utils').find_tsc_bin()
+      })
+    end,
+  })
 
   return javascript
 end
