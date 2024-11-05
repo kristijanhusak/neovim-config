@@ -33,7 +33,7 @@ local function run_file(file_cmd)
   local is_test_file = is_test_file_check(filename)
 
   if is_test_file then
-    return exec(':term ' .. file_cmd:gsub('{file}', filename))
+    return exec(':term ' .. file_cmd:gsub('{file}', vim.fn.fnameescape(filename)))
   end
 
   if last_cmd then
