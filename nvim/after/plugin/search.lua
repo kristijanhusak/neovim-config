@@ -62,7 +62,13 @@ end
 
 function search.toggle_search_mode()
   is_toggle = true
-  mode = mode == 'regex' and 'term' or 'regex'
+  if mode == 'term' then
+    mode = 'word'
+  elseif mode == 'word' then
+    mode = 'regex'
+  else
+    mode = 'term'
+  end
 
   return vim.fn.getcmdline()
 end
@@ -103,8 +109,10 @@ function search.run(search_term, is_visual)
   local cmd = nil
   if mode == 'term' then
     cmd = table.concat({ grepprg, '--fixed-strings', vim.fn.shellescape(term), dir }, ' ')
-  else
+  elseif mode == 'regex' then
     cmd = table.concat({ grepprg, string.format("'%s'", term), dir }, ' ')
+  elseif mode == 'word' then
+    cmd = table.concat({ grepprg, string.format("'\\b%s\\b'", term), dir }, ' ')
   end
 
   if (not cmd or cmd == '') and last_search == '' then
