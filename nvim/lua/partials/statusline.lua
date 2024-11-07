@@ -1,6 +1,5 @@
 local statusline = {
   cwd_folder = '',
-  lsp_status = ''
 }
 local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
 vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
@@ -113,26 +112,6 @@ vim.api.nvim_create_autocmd({ 'VimEnter', 'ColorScheme' }, {
     statusline.set_colors()
   end,
 })
-
-local has_nvim_10 = vim.fn.has('nvim-0.10.0') > 0
-
-if has_nvim_10 then
-  local function update_lsp_status()
-    statusline.lsp_status = vim.lsp.status() or ''
-    vim.cmd('redrawstatus')
-  end
-
-  vim.api.nvim_create_autocmd({ 'LspProgress' }, {
-    group = statusline_group,
-    callback = function(opts)
-      update_lsp_status()
-      local kind = vim.tbl_get(opts, 'data', 'params', 'value', 'kind')
-      if kind == 'end' then
-        update_lsp_status()
-      end
-    end
-  })
-end
 
 vim.api.nvim_create_autocmd('DirChanged', {
   group = statusline_group,
@@ -356,8 +335,6 @@ local function statusline_active()
   local db_ui = vim.g.loaded_dbui and vim.fn['db_ui#statusline']() or ''
   local diagnostics = lsp_diagnostics()
   local modified_count = get_modified_count()
-  local lsp_status = statusline.lsp_status
-  lsp_status = lsp_status:gsub('%%', '%%%%')
   local statusline_sections = {
     sep(mode, section_a),
     sep(git_status, section_b, git_status ~= ''),
@@ -371,7 +348,6 @@ local function statusline_active()
     sep(db_ui, section_b, db_ui ~= ''),
     '%<',
     '%=',
-    sep(lsp_status, section_b_right, lsp_status ~= ''),
     sep(search, section_b_right, search ~= ''),
     filetype(),
     sep(' ' .. os.date('%H:%M', os.time()), section_a_right),

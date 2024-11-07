@@ -31,6 +31,19 @@ local lsp = {
   ft = filetypes,
 }
 lsp.config = function()
+  vim.api.nvim_create_autocmd('LspProgress', {
+    callback = function(ev)
+      local spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
+      vim.notify(vim.lsp.status(), vim.log.levels.INFO, {
+        id = 'lsp_progress',
+        title = 'LSP Progress',
+        opts = function(notif)
+          notif.icon = ev.data.params.value == 'end' and ' '
+            or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+        end,
+      })
+    end,
+  })
   setup.mason()
   setup.servers()
 
@@ -56,11 +69,9 @@ function setup.mappings()
     silent = true,
   }
 
-  vim.lsp.handlers['textDocument/hover'] =
-    vim.lsp.with(vim.lsp.handlers.hover, preview_opts)
+  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, preview_opts)
 
-  vim.lsp.handlers['textDocument/signatureHelp'] =
-    vim.lsp.with(vim.lsp.handlers.signature_help, preview_opts)
+  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, preview_opts)
 
   ---@param desc string
   ---@return table

@@ -77,7 +77,6 @@ ts.config = function()
   telescope.load_extension('fzf')
   telescope.load_extension('recent_files')
   telescope.load_extension('workspaces')
-  telescope.load_extension('notify')
   return ts
 end
 

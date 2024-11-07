@@ -6,7 +6,7 @@ return {
     bigfile = { enabled = true },
     statuscolumn = { enabled = true },
     words = { enabled = true, debounce = 100 },
-    notifier = { enabled = false },
+    notifier = { enabled = true },
     quickfile = { enabled = false },
   },
   keys = {
