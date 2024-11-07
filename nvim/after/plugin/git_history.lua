@@ -21,7 +21,9 @@ local function save_to_git_history()
   vim.fn.jobstart({ 'cp', filepath, path }, {
     on_stderr = function(_, data)
       if data and data[1] and data[1] ~= '' then
-        vim.notify('Error saving file to git history: ' .. data[1], vim.log.levels.ERROR)
+        vim.notify('Error saving file to git history: ' .. data[1], vim.log.levels.ERROR, {
+          title = 'Git History',
+        })
       end
     end,
   })

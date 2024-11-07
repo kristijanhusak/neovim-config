@@ -19,6 +19,12 @@ local function exec(cmd)
   end
 end
 
+local notify = function(msg)
+  vim.notify(msg, vim.log.levels.WARN, {
+    title = 'Test runner',
+  })
+end
+
 local function run_file(file_cmd)
   local filename = vim.fn.expand('%:.')
 
@@ -40,13 +46,13 @@ local function run_file(file_cmd)
     return exec(last_cmd)
   end
 
-  return vim.notify('Not a test file', vim.log.levels.WARN)
+  return notify('Not a test file')
 end
 
 vim.keymap.set('n', '<leader>xx', function()
   local file_cmd = vim.tbl_get(vim.g.test_commands, 'file')
   if not file_cmd then
-    return vim.notify('No test command for file', vim.log.levels.WARN)
+    return notify('No test command for file')
   end
   return run_file(file_cmd)
 end, { desc = 'Run test file' })
@@ -54,7 +60,7 @@ end, { desc = 'Run test file' })
 vim.keymap.set('n', '<leader>xw', function()
   local watch_cmd = vim.tbl_get(vim.g.test_commands, 'watch')
   if not watch_cmd then
-    return vim.notify('No test command for watch', vim.log.levels.WARN)
+    return notify('No test command for watch')
   end
   return run_file(watch_cmd)
 end, { desc = 'Watch test file' })
@@ -62,7 +68,7 @@ end, { desc = 'Watch test file' })
 vim.keymap.set('n', '<leader>xi', function()
   local single_test = vim.tbl_get(vim.g.test_commands, 'single_test')
   if not single_test then
-    return vim.notify('No test command for single test', vim.log.levels.WARN)
+    return notify('No test command for single test')
   end
 
   local cmd = single_test
@@ -71,7 +77,7 @@ vim.keymap.set('n', '<leader>xi', function()
   end
 
   if not cmd then
-    return vim.notify('No tests found for single test', vim.log.levels.WARN)
+    return notify('No tests found for single test')
   end
 
   return run_file(cmd)
@@ -80,7 +86,7 @@ end, { desc = 'Run single test' })
 vim.keymap.set('n', '<leader>xt', function()
   local all_cmd = vim.tbl_get(vim.g.test_commands, 'all')
   if not all_cmd then
-    return vim.notify('No test command for all tests', vim.log.levels.WARN)
+    return notify('No test command for all tests')
   end
   return exec(':term ' .. all_cmd)
 end, { desc = 'Run all tests' })

@@ -217,7 +217,9 @@ local function get_doc(item)
     return doc.value
   end
 
-  vim.notify('invalid documentation value: ' .. vim.inspect(doc), vim.log.levels.WARN)
+  vim.notify('invalid documentation value: ' .. vim.inspect(doc), vim.log.levels.WARN, {
+    title = 'LSP completion',
+  })
   return ''
 end
 
