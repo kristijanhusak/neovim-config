@@ -6,7 +6,11 @@ return {
     bigfile = { enabled = true },
     statuscolumn = { enabled = true },
     words = { enabled = true, debounce = 100 },
-    notifier = { enabled = true },
+    notifier = {
+      enabled = true,
+      top_down = false,
+      margin = { bottom = 1 }
+    },
     quickfile = { enabled = false },
   },
   keys = {
