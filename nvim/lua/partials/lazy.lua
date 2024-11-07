@@ -34,7 +34,7 @@ require('lazy').setup('partials.plugins', {
     notify = false,
   },
   install = {
-    colorscheme = { 'onenord' },
+    colorscheme = { 'tokyonight' },
   },
   performance = {
     rtp = {
