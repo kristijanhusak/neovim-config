@@ -2,7 +2,6 @@ local treesitter = {
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
   dependencies = {
-    { 'nvim-treesitter/nvim-treesitter-refactor' },
     { 'nvim-treesitter/nvim-treesitter-textobjects' },
   },
   event = 'VeryLazy',
@@ -27,25 +26,6 @@ treesitter.config = function()
     matchup = {
       enable = true,
       disable_virtual_text = true,
-    },
-    refactor = {
-      highlight_definitions = {
-        enable = true,
-        clear_on_cursor_move = false,
-      },
-      smart_rename = {
-        enable = true,
-        keymaps = {
-          smart_rename = 'gnr',
-        },
-      },
-      navigation = {
-        enable = true,
-        keymaps = {
-          goto_definition = 'gnd',
-          list_definitions = 'gnD',
-        },
-      },
     },
     textobjects = {
       enable = true,
