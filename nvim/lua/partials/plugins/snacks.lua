@@ -27,8 +27,8 @@ return {
     -- Override the default notify function and make it work as nvim-notify
     vim.notify = function(msg, level, o)
       o = o or {}
-      if o.replace then
-        o.id = o.replace
+      if o.replace or o.overwrite then
+        o.id = o.replace or o.overwrite
       end
       local result = Snacks.notifier.notify(msg, level, o)
       if type(result) == 'table' then
