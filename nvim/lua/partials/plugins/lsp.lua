@@ -16,6 +16,7 @@ local filetypes = {
   'javascriptreact',
   'typescript',
   'typescriptreact',
+  'ruby'
 }
 
 local lsp = {
@@ -192,6 +193,7 @@ function setup.mason()
       'lua_ls',
       'rust_analyzer',
       'eslint',
+      'ruby_lsp'
     },
   })
 end
@@ -293,6 +295,7 @@ function setup.servers()
   nvim_lsp.docker_compose_language_service.setup(lsp_setup())
   nvim_lsp.dockerls.setup(lsp_setup())
   nvim_lsp.rust_analyzer.setup(lsp_setup())
+  nvim_lsp.ruby_lsp.setup(lsp_setup())
   nvim_lsp.eslint.setup(lsp_setup({
     settings = {
       packageManager = 'yarn',
