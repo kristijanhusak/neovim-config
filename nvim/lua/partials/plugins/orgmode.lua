@@ -57,7 +57,8 @@ local orgmode_config = {
               '--icon=/home/kristijan/github/orgmode/assets/nvim-orgmode-small.png',
               '--app-name=orgmode',
               '--urgency=critical',
-              string.format('%s\n%s\n%s', title, subtitle, date),
+              title,
+              string.format('%s\n%s', subtitle, date),
             },
           })
         end
