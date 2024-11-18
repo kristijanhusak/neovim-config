@@ -26,6 +26,23 @@ return {
         sections = {
           { section = 'header' },
           { section = 'keys', gap = 1, padding = 1 },
+          {
+            title = 'Orgmode',
+            icon = ' ',
+          },
+          {
+            title = 'Agenda',
+            indent = 3,
+            action = ':lua require("orgmode").agenda:agenda()',
+            key = 'a'
+          },
+          {
+            title = 'Capture',
+            indent = 3,
+            action = '<leader>oc',
+            key = 'c',
+            padding = 1,
+          },
           { icon = ' ', title = 'Projects', section = 'projects', indent = 2, padding = 2 },
           { section = 'startup' },
         },
