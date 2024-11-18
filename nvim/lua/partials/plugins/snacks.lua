@@ -22,6 +22,14 @@ return {
         top_down = false,
         margin = { bottom = 1 },
       },
+      dashboard = {
+        sections = {
+          { section = 'header' },
+          { section = 'keys', gap = 1, padding = 1 },
+          { icon = ' ', title = 'Projects', section = 'projects', indent = 2, padding = 2 },
+          { section = 'startup' },
+        },
+      },
     })
 
     -- Override the default notify function and make it work as nvim-notify
