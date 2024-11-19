@@ -160,6 +160,10 @@ git_patch() {
   xclip -selection clipboard -o|git apply --ignore-whitespace
 }
 
+nt() {
+  nvim -c "autocmd BufEnter * only" -c "lua require('orgmode').capture:open_template_by_shortcut('t')"
+}
+
 remove_gone_branches() {
   git fetch -p && for branch in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do git branch -D $branch; done
 }
