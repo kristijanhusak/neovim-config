@@ -40,7 +40,7 @@ return {
             title = 'Capture',
             indent = 3,
             action = '<leader>oc',
-            key = 'c',
+            key = 'C',
             padding = 1,
           },
           { icon = ' ', title = 'Projects', section = 'projects', indent = 2, padding = 2 },
