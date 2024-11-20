@@ -2,6 +2,7 @@ local colorscheme = {
   'folke/tokyonight.nvim',
   dependencies = {
     { 'rmehri01/onenord.nvim', lazy = false, priority = 1000 },
+    'folke/todo-comments.nvim',
   },
   lazy = false,
   priority = 1000,
@@ -55,7 +56,7 @@ colorscheme.onenord = function()
 end
 
 colorscheme.tokyonight = function()
----@diagnostic disable-next-line: missing-fields
+  ---@diagnostic disable-next-line: missing-fields
   require('tokyonight').setup({
     terminal_colors = true,
     plugins = {
@@ -101,6 +102,7 @@ colorscheme.tokyonight = function()
 end
 
 colorscheme.config = function()
+  require('todo-comments').setup()
   vim.opt.background = vim.env.NVIM_COLORSCHEME_BG or 'dark'
 
   vim.cmd.filetype('plugin indent on')
