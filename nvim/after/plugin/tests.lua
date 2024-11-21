@@ -1,34 +1,70 @@
 local last_cmd = nil
 
-local function exec(cmd)
-  local switch_back = vim.bo.buftype ~= 'terminal'
-  for i = 1, vim.fn.winnr('$') do
-    local bufnr = vim.fn.winbufnr(i)
-    if vim.bo[bufnr].buftype == 'terminal' then
-      vim.cmd(bufnr .. 'bw!')
-      break
-    end
-  end
-  vim.cmd([[botright vs]])
-  vim.cmd(cmd)
-  vim.b.last_cmd = cmd
-  last_cmd = cmd
-  if switch_back then
-    vim.cmd.norm({ 'G', bang = true })
-    vim.cmd.wincmd('p')
-  end
+local function is_terminal_buf(bufnr)
+  return vim.bo[bufnr].buftype == 'terminal' and vim.b[bufnr].last_cmd ~= nil
 end
 
-local notify = function(msg)
-  vim.notify(msg, vim.log.levels.WARN, {
+local function get_terminal_bufnr()
+  for _, buf in ipairs(vim.fn.getbufinfo()) do
+    if is_terminal_buf(buf.bufnr) then
+      return buf.bufnr, vim.fn.win_getid(vim.fn.bufwinnr(buf.bufnr))
+    end
+  end
+  return nil, -1
+end
+
+local notify = function(msg, level)
+  vim.notify(msg, level or vim.log.levels.WARN, {
     title = 'Test runner',
+    id = 'kris_test_runner',
   })
+end
+
+local function exec(cmd)
+  local bufnr, win_id = get_terminal_bufnr()
+  local is_currently_in_terminal = false
+  local is_terminal_visible = false
+  if bufnr then
+    is_currently_in_terminal = vim.api.nvim_get_current_buf() == bufnr
+    is_terminal_visible = not vim.api.nvim_win_get_config(win_id).hide
+    vim.cmd(bufnr .. 'bw!')
+  end
+
+  bufnr = vim.api.nvim_create_buf(false, is_currently_in_terminal)
+  vim.api.nvim_open_win(bufnr, true, {
+    width = math.floor(vim.o.columns * 0.25),
+    height = math.floor(vim.o.lines * 0.9),
+    relative = 'editor',
+    row = 1,
+    col = vim.o.columns - math.floor(vim.o.columns * 0.25) - 1,
+    focusable = true,
+    border = 'rounded',
+    hide = not is_terminal_visible,
+  })
+
+  notify('Running tests...', vim.log.levels.INFO)
+
+  vim.fn.termopen(cmd, {
+    on_exit = function(_, code)
+      if code == 0 then
+        return notify('✅ Tests passed!', vim.log.levels.INFO)
+      end
+      notify('❌ Tests failed.', vim.log.levels.ERROR)
+    end,
+  })
+
+  vim.b[bufnr].last_cmd = cmd
+  last_cmd = cmd
+  vim.cmd.norm({ 'G', bang = true })
+  if not is_currently_in_terminal then
+    vim.cmd.wincmd('p')
+  end
 end
 
 local function run_file(file_cmd)
   local filename = vim.fn.expand('%:.')
 
-  if vim.bo.buftype == 'terminal' and vim.b.last_cmd then
+  if is_terminal_buf(vim.api.nvim_get_current_buf()) then
     return exec(vim.b.last_cmd)
   end
 
@@ -39,7 +75,7 @@ local function run_file(file_cmd)
   local is_test_file = is_test_file_check(filename)
 
   if is_test_file then
-    return exec(':term ' .. file_cmd:gsub('{file}', vim.fn.fnameescape(filename)))
+    return exec(file_cmd:gsub('{file}', vim.fn.fnameescape(filename)))
   end
 
   if last_cmd then
@@ -88,5 +124,26 @@ vim.keymap.set('n', '<leader>xt', function()
   if not all_cmd then
     return notify('No test command for all tests')
   end
-  return exec(':term ' .. all_cmd)
+  return exec(all_cmd)
 end, { desc = 'Run all tests' })
+
+vim.keymap.set('n', '<leader>xf', function()
+  local bufnr, win_id = get_terminal_bufnr()
+  if bufnr then
+    vim.api.nvim_win_set_config(win_id, { hide = false })
+    vim.api.nvim_set_current_win(win_id)
+  end
+end, { desc = 'Focus test window' })
+
+vim.keymap.set('n', '<leader>X', function()
+  local bufnr = get_terminal_bufnr()
+  if not bufnr then
+    return
+  end
+  local win = vim.fn.win_getid(vim.fn.bufwinnr(bufnr))
+  local config = vim.api.nvim_win_get_config(win)
+  vim.api.nvim_win_set_config(win, { hide = not config.hide })
+  if vim.api.nvim_get_current_buf() == bufnr then
+    vim.cmd('wincmd p')
+  end
+end, { desc = 'Focus test window' })

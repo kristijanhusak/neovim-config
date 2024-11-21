@@ -16,7 +16,13 @@ local filetypes = {
   'javascriptreact',
   'typescript',
   'typescriptreact',
-  'ruby'
+  'ruby',
+}
+
+local preview_opts = {
+  border = 'rounded',
+  focusable = false,
+  silent = true,
 }
 
 local lsp = {
@@ -97,12 +103,6 @@ function setup.mappings()
       text = _G.kris.diagnostic_icons,
     },
   })
-
-  local preview_opts = {
-    border = 'rounded',
-    focusable = false,
-    silent = true,
-  }
 
   vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, preview_opts)
 
@@ -193,7 +193,7 @@ function setup.mason()
       'lua_ls',
       'rust_analyzer',
       'eslint',
-      'ruby_lsp'
+      'ruby_lsp',
     },
   })
 end
@@ -415,8 +415,8 @@ function setup.attach_to_buffer(client, bufnr)
         local node = vim.treesitter.get_node()
         if node and (node:type() == 'arguments' or (node:parent() and node:parent():type() == 'arguments')) then
           vim.defer_fn(function()
-            vim.lsp.buf.signature_help({ focusable = false })
-          end, 300)
+            vim.lsp.buf.signature_help(preview_opts)
+          end, 1000)
         end
       end,
       group = lsp_group,
