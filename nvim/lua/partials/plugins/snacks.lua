@@ -34,7 +34,7 @@ return {
             title = 'Agenda',
             indent = 3,
             action = ':lua require("orgmode").agenda:agenda()',
-            key = 'a'
+            key = 'a',
           },
           {
             title = 'Capture',
@@ -61,5 +61,11 @@ return {
       end
       return { id = result }
     end
+
+    vim.api.nvim_create_user_command('Notifications', function()
+      Snacks.notifier.show_history()
+    end, {
+      nargs = 0,
+    })
   end,
 }
