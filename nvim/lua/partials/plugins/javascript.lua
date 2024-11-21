@@ -7,6 +7,9 @@ local filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptre
 
 local javascript = {
   'dmmulroy/tsc.nvim',
+  dependencies = {
+    'kristijanhusak/vim-js-file-import',
+  },
   ft = filetypes,
 }
 
