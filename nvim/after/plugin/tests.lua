@@ -129,10 +129,14 @@ end, { desc = 'Run all tests' })
 
 vim.keymap.set('n', '<leader>xf', function()
   local bufnr, win_id = get_terminal_bufnr()
-  if bufnr then
-    vim.api.nvim_win_set_config(win_id, { hide = false })
-    vim.api.nvim_set_current_win(win_id)
+  if not bufnr then
+    return
   end
+  vim.api.nvim_win_set_config(win_id, { hide = false })
+  if vim.api.nvim_get_current_buf() == bufnr then
+    return vim.cmd.wincmd('p')
+  end
+  vim.api.nvim_set_current_win(win_id)
 end, { desc = 'Focus test window' })
 
 vim.keymap.set('n', '<leader>X', function()
