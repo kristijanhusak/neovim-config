@@ -96,6 +96,10 @@ colorscheme.tokyonight = function()
         bg = c.bg_dark,
         fg = c.bg_dark,
       }
+      hl.Folded = {
+        bg = 'NONE',
+        fg = '#82aaff'
+      }
     end,
   })
   vim.cmd.colorscheme('tokyonight')
