@@ -12,6 +12,7 @@ local ts = {
   'nvim-telescope/telescope.nvim',
   dependencies = {
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    { 'nvim-telescope/telescope-ui-select.nvim' },
     { 'smartpde/telescope-recent-files' },
   },
   cmd = { 'Telescope' },
@@ -50,6 +51,7 @@ ts.config = function()
         override_file_sorter = true,
         case_mode = 'smart_case',
       },
+      ['ui-select'] = require('telescope.themes').get_cursor(),
     },
     defaults = {
       layout_config = {
@@ -77,6 +79,7 @@ ts.config = function()
   telescope.load_extension('fzf')
   telescope.load_extension('recent_files')
   telescope.load_extension('workspaces')
+  telescope.load_extension('ui-select')
   return ts
 end
 
