@@ -408,7 +408,8 @@ function setup.attach_to_buffer(client, bufnr)
     callback = refresh_diagnostics,
     group = lsp_group,
   })
-  if not vim.tbl_isempty(client.server_capabilities.signatureHelpProvider or {}) then
+
+  if client:supports_method('textDocument/signatureHelp') then
     vim.api.nvim_create_autocmd('CursorHoldI', {
       buffer = bufnr,
       callback = function()
@@ -422,9 +423,11 @@ function setup.attach_to_buffer(client, bufnr)
       group = lsp_group,
     })
   end
+
   vim.opt.foldmethod = 'expr'
-  if vim.lsp.foldexpr then
+  if client:supports_method('textDocument/foldingRange') and vim.lsp.foldexpr then
     vim.opt.foldexpr = 'v:lua.vim.lsp.foldexpr()'
+    vim.opt.foldtext = 'v:lua.vim.lsp.foldtext()'
   elseif vim.treesitter.foldexpr then
     vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
   else
