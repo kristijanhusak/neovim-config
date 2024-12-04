@@ -1,0 +1,130 @@
+{
+  "Class": {
+    "prefix": ["clax"],
+    "body": [
+      "export class $1 ${2:extends ${3:Parent} }{",
+      "\tconstructor(${4:props}) {",
+      "\t\tthis.$4 = $4;",
+      "\t}",
+      "",
+      "\t$0",
+      "}"
+    ],
+    "description": "Class definition template."
+  },
+  "test": {
+    "prefix": ["it"],
+    "body": [
+      "it('${1:should ${2}}', async () => {",
+      "\t$0",
+      "});"
+    ],
+    "description": "Test template"
+  },
+  "method": {
+    "prefix": ["mtd"],
+    "body": [
+      "${1:async ${2:method}}(${3:params}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "method"
+  },
+  "function": {
+    "prefix": ["fun"],
+    "body": [
+      "${1:async }${2:(${3:params})} => {$0}"
+    ],
+    "description": "function"
+  },
+  "const": {
+    "prefix": ["const"],
+    "body": [
+      "const $1 = $0;"
+    ],
+    "description": "const"
+  },
+  "let": {
+    "prefix": ["let"],
+    "body": [
+      "let $1 = $0;"
+    ],
+    "description": "let"
+  },
+  "Console log": {
+    "prefix": ["cl"],
+    "body": [
+      "console.log($0);"
+    ],
+    "description": "Console log"
+  },
+  "Console debug": {
+    "prefix": ["cd"],
+    "body": [
+      "console.debug($0);"
+    ],
+    "description": "Console debug"
+  },
+  "Console log all": {
+    "prefix": ["clj"],
+    "body": [
+      "console.log(JSON.stringify($0, null, 2));"
+    ],
+    "description": "Console log whole object"
+  },
+  "Console debug all": {
+    "prefix": ["cdj"],
+    "body": [
+      "console.debug(JSON.stringify($0, null, 2));"
+    ],
+    "description": "Console debug whole object"
+  },
+  "If": {
+    "prefix": ["if"],
+    "body": [
+      "if (${1:condition}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Console debug whole object"
+  },
+  "If-else": {
+    "prefix": ["ifelse"],
+    "body": [
+      "if (${1:condition}) {",
+      "\t$2",
+      "} else {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Console debug whole object"
+  },
+  "docblock": {
+    "prefix": ["/**"],
+    "body": [
+      "/**",
+      " * $0",
+      " */"
+    ]
+  },
+  "trycatch": {
+    "prefix": ["tc"],
+    "body": [
+      "try {",
+      "\t$0",
+      "} catch (e) {",
+      "\tthrow e;",
+      "}"
+    ],
+    "description": "Try catch block"
+  },
+  "Describe test": {
+    "prefix": ["desc"],
+    "body": [
+      "describe('${1}', () => {",
+      "\t$0",
+      "})"
+    ],
+    "description": "Describe test"
+  }
+}

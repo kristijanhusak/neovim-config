@@ -1,9 +1,7 @@
 local completion = {
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
-  enabled = function()
-    return not require('partials.utils').enable_builtin_lsp_completion()
-  end,
+  enabled = false,
   dependencies = {
     { 'hrsh7th/cmp-buffer' },
     { 'hrsh7th/cmp-nvim-lsp' },
