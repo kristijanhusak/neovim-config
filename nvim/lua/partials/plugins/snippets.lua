@@ -1,6 +1,7 @@
 return {
   'hrsh7th/vim-vsnip',
   event = 'InsertEnter',
+  enabled = false,
   init = function()
     vim.g.vsnip_snippet_dir = vim.fn.fnamemodify(vim.env.MYVIMRC, ':p:h') .. '/snippets'
     vim.g.vsnip_filetypes = {

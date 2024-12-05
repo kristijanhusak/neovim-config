@@ -2,7 +2,7 @@
   "Class": {
     "prefix": ["clax"],
     "body": [
-      "export class $1 ${2:extends ${3:Parent} }{",
+      "export class ${1:ClassName} {",
       "\tconstructor(${4:props}) {",
       "\t\tthis.$4 = $4;",
       "\t}",
@@ -15,7 +15,7 @@
   "test": {
     "prefix": ["it"],
     "body": [
-      "it('${1:should ${2}}', async () => {",
+      "it('${1:should}', async () => {",
       "\t$0",
       "});"
     ],
@@ -24,7 +24,16 @@
   "method": {
     "prefix": ["mtd"],
     "body": [
-      "${1:async ${2:method}}(${3:params}) {",
+      "${1:method}($2) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "method"
+  },
+  "async-method": {
+    "prefix": ["amtd"],
+    "body": [
+      "async ${1:method}($2) {",
       "\t$0",
       "}"
     ],
@@ -33,19 +42,26 @@
   "function": {
     "prefix": ["fun"],
     "body": [
-      "${1:async }${2:(${3:params})} => {$0}"
+      "($1) => {$0}"
+    ],
+    "description": "function"
+  },
+  "async-function": {
+    "prefix": ["afun"],
+    "body": [
+      "async ($1) => {$0}"
     ],
     "description": "function"
   },
   "const": {
-    "prefix": ["const"],
+    "prefix": ["c"],
     "body": [
       "const $1 = $0;"
     ],
     "description": "const"
   },
   "let": {
-    "prefix": ["let"],
+    "prefix": ["l"],
     "body": [
       "let $1 = $0;"
     ],
@@ -89,7 +105,7 @@
     "description": "Console debug whole object"
   },
   "If-else": {
-    "prefix": ["ifelse"],
+    "prefix": ["ie"],
     "body": [
       "if (${1:condition}) {",
       "\t$2",
