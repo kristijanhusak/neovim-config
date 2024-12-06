@@ -15,7 +15,7 @@ return {
           if vim.bo.filetype == 'org' then
             return { 'orgmode', 'buffer' }
           end
-          return { 'snippets', 'lsp', 'path', 'buffer', 'dadbod' }
+          return { 'lsp', 'snippets', 'path', 'buffer', 'dadbod' }
         end,
       },
       providers = {
@@ -83,6 +83,11 @@ return {
 
           return false
         end,
+        'fallback',
+      },
+      ['<C-n>'] = {
+        'show',
+        'select_next',
         'fallback',
       },
     },
