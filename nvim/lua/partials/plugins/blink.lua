@@ -12,10 +12,12 @@ return {
           if vim.bo.filetype == 'sql' then
             return { 'snippets', 'dadbod' }
           end
+
           if vim.bo.filetype == 'org' then
             return { 'orgmode', 'buffer' }
           end
-          return { 'lsp', 'snippets', 'path', 'buffer', 'dadbod' }
+
+          return { 'lsp', 'snippets', 'path', 'buffer' }
         end,
       },
       providers = {
@@ -29,6 +31,13 @@ return {
         },
         buffer = {
           fallback_for = { 'lsp', 'dadbod', 'orgmode' },
+        },
+
+        snippets = {
+          score_offset = -10,
+          enabled = function()
+            return vim.trim(vim.fn.getline('.')) ~= ''
+          end,
         },
       },
     },
