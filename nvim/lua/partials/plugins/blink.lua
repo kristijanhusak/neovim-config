@@ -48,6 +48,17 @@ return {
       menu = {
         draw = {
           gap = 2,
+          columns = { { 'kind_icon' }, { 'label', 'kind', 'source_name', gap = 1 } },
+          components = {
+            kind = {
+              highlight = 'BlinkCmpSource',
+            },
+            source_name = {
+              text = function(ctx)
+                return table.concat({ '[', ctx.source_name, ']' }, '')
+              end,
+            },
+          },
         },
       },
       documentation = {
