@@ -32,7 +32,7 @@ local function exec(cmd)
 
   bufnr = vim.api.nvim_create_buf(false, is_currently_in_terminal)
   vim.api.nvim_open_win(bufnr, true, {
-    width = math.floor(vim.o.columns * 0.25),
+    width = math.max(95, math.floor(vim.o.columns * 0.25)),
     height = math.floor(vim.o.lines * 0.9),
     relative = 'editor',
     row = 1,
