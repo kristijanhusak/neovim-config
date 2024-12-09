@@ -100,6 +100,9 @@ colorscheme.tokyonight = function()
         bg = 'NONE',
         fg = '#82aaff'
       }
+      hl.BlinkCmpSource = {
+        link = 'Comment',
+      }
     end,
   })
   vim.cmd.colorscheme('tokyonight')

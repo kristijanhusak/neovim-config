@@ -34,7 +34,7 @@ return {
         },
 
         snippets = {
-          score_offset = -10,
+          score_offset = -5,
           enabled = function()
             return vim.trim(vim.fn.getline('.')) ~= ''
           end,
