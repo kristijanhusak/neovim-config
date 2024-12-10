@@ -62,10 +62,6 @@ vim.g.python3_host_prog = '/usr/bin/python3'
 vim.opt.splitkeep = 'screen'
 vim.opt.diffopt:append('linematch:60')
 
-if vim.fn.exists('&messagesopt') > 0 then
-  vim.opt.messagesopt = {'wait:1000', 'history:10000'}
-end
-
 function settings.strip_trailing_whitespace()
   if vim.bo.modifiable then
     local line = vim.fn.line('.')
