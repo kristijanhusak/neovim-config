@@ -22,6 +22,14 @@ return {
         top_down = false,
         margin = { bottom = 1 },
       },
+      dim = {
+        animate = {
+          enabled = false,
+          duration = {
+            total = 0
+          }
+        }
+      },
       dashboard = {
         sections = {
           { section = 'header' },
