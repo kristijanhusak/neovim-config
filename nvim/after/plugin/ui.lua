@@ -33,10 +33,6 @@ vim.ui.input = function(opts, on_confirm)
   vim.api.nvim_set_current_win(winnr)
   vim.api.nvim_set_option_value('modifiable', true, { buf = bufnr })
   vim.api.nvim_set_option_value('sidescrolloff', 0, { win = winnr })
-  local ok, cmp = pcall(require, 'cmp')
-  if ok then
-    cmp.setup.buffer({ enabled = false })
-  end
 
   vim.keymap.set('i', '<CR>', ui.on_input, { buffer = bufnr })
   vim.defer_fn(function()

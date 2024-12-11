@@ -59,9 +59,6 @@ colorscheme.tokyonight = function()
   ---@diagnostic disable-next-line: missing-fields
   require('tokyonight').setup({
     terminal_colors = true,
-    plugins = {
-      cmp = true,
-    },
     on_highlights = function(hl, c)
       local prompt = '#2d3149'
       hl.SimpleF = {

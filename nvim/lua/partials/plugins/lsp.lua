@@ -201,53 +201,44 @@ end
 function setup.servers()
   local nvim_lsp = require('lspconfig')
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  local ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-  if ok then
-    capabilities = vim.tbl_deep_extend('force', capabilities, cmp_nvim_lsp.default_capabilities(), {
-      workspace = {
-        didChangeWatchedFiles = { dynamicRegistration = false },
-      },
-    })
-  else
-    capabilities = vim.tbl_deep_extend('force', capabilities, {
-      textDocument = {
-        completion = {
-          dynamicRegistration = false,
-          completionItem = {
-            snippetSupport = true,
-            commitCharactersSupport = true,
-            deprecatedSupport = true,
-            preselectSupport = true,
-            insertReplaceSupport = true,
-            resolveSupport = {
-              properties = {
-                'documentation',
-                'detail',
-                'additionalTextEdits',
-                'sortText',
-                'filterText',
-                'insertText',
-                'textEdit',
-                'insertTextFormat',
-                'insertTextMode',
-              },
-            },
-            labelDetailsSupport = true,
-          },
-          contextSupport = true,
-          completionList = {
-            itemDefaults = {
-              'commitCharacters',
-              'editRange',
+  capabilities = vim.tbl_deep_extend('force', capabilities, {
+    textDocument = {
+      completion = {
+        dynamicRegistration = false,
+        completionItem = {
+          snippetSupport = true,
+          commitCharactersSupport = true,
+          deprecatedSupport = true,
+          preselectSupport = true,
+          insertReplaceSupport = true,
+          resolveSupport = {
+            properties = {
+              'documentation',
+              'detail',
+              'additionalTextEdits',
+              'sortText',
+              'filterText',
+              'insertText',
+              'textEdit',
               'insertTextFormat',
               'insertTextMode',
-              'data',
             },
+          },
+          labelDetailsSupport = true,
+        },
+        contextSupport = true,
+        completionList = {
+          itemDefaults = {
+            'commitCharacters',
+            'editRange',
+            'insertTextFormat',
+            'insertTextMode',
+            'data',
           },
         },
       },
-    })
-  end
+    },
+  })
 
   local function lsp_setup(opts)
     opts = opts or {}
