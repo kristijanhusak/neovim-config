@@ -1,13 +1,10 @@
 return {
   'saghen/blink.cmp',
   lazy = false,
-  enabled = function()
-    return not require('partials.utils').enable_builtin_lsp_completion()
-  end,
   version = '*',
   opts = {
     enabled = function()
-      return not (vim.bo.filetype == 'prompt' or not vim.b.disable_blink)
+      return not (vim.bo.buftype == 'prompt' or vim.b.disable_blink)
     end,
     sources = {
       completion = {

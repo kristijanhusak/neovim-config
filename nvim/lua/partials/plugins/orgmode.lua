@@ -40,6 +40,11 @@ local orgmode_config = {
       template = '* TODO %?\nDEADLINE: %T',
       target = org_path('work.org'),
     },
+    n = {
+      description = 'Code note',
+      template = '* %(return _G.kris.get_workspace_name()) - %(return vim.fn.expand("%:t")) :CODENOTE:\n%a\n%?',
+      target = org_path('code_notes.org'),
+    },
   },
   notifications = {
     reminder_time = { 0, 1, 5, 10 },

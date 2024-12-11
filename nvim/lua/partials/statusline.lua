@@ -371,4 +371,6 @@ function statusline.setup()
   return statusline_inactive()
 end
 
+_G.kris.get_workspace_name = get_workspace_name
+
 return statusline
