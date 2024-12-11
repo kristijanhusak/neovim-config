@@ -254,26 +254,6 @@ function setup.servers()
     return vim.tbl_deep_extend('force', {
       capabilities = capabilities,
       on_attach = function(client, bufnr)
-        if
-          require('partials.utils').enable_builtin_lsp_completion()
-          and client.supports_method('textDocument/completion')
-        then
-          local icons = require('partials.utils').lsp_kind_icons()
-          vim.lsp.completion.enable(true, client.id, bufnr, {
-            autotrigger = true,
-            convert = function(item)
-              local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or 'Text'
-              return {
-                kind = icons[kind],
-                kind_hlgroup = ('CmpItemKind%s'):format(kind),
-                menu = kind,
-              }
-            end,
-            fallback = function()
-              require('partials.utils').feedkeys('<C-n>', 'n')
-            end,
-          })
-        end
         if client.server_capabilities.documentSymbolProvider then
           require('nvim-navic').attach(client, bufnr)
         end
