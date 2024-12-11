@@ -6,6 +6,9 @@ return {
   end,
   version = '*',
   opts = {
+    enabled = function()
+      return not (vim.bo.filetype == 'prompt' or not vim.b.disable_blink)
+    end,
     sources = {
       completion = {
         enabled_providers = function()
