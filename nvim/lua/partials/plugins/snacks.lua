@@ -18,7 +18,7 @@ return {
       words = { enabled = true, debounce = 100 },
       quickfile = { enabled = false },
       notifier = {
-        enabled = false,
+        enabled = true,
         top_down = false,
         margin = { bottom = 1 },
       },
@@ -56,19 +56,6 @@ return {
         },
       },
     })
-
-    -- Override the default notify function and make it work as nvim-notify
-    vim.notify = function(msg, level, o)
-      o = o or {}
-      if o.replace or o.overwrite then
-        o.id = o.replace or o.overwrite
-      end
-      local result = Snacks.notifier.notify(msg, level, o)
-      if type(result) == 'table' then
-        return result
-      end
-      return { id = result }
-    end
 
     vim.api.nvim_create_user_command('Notifications', function()
       Snacks.notifier.show_history()
