@@ -42,11 +42,6 @@ function M.has_words_before()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
 end
 
-function M.enable_builtin_lsp_completion()
-  return false
-  -- return vim.fn.has('nvim-0.11') > 0
-end
-
 function M.lsp_kind_icons()
   return {
     Text = '',
