@@ -13,8 +13,8 @@ vim.keymap.set('n', '<c-h>', '<C-w>h')
 vim.keymap.set('n', '<c-j>', '<C-w>j')
 vim.keymap.set('n', '<c-k>', '<C-w>k')
 vim.keymap.set('n', '<c-l>', '<C-w>l')
-vim.keymap.set('n', '<c-h>', '<C-\\><C-n><C-w>h')
-vim.keymap.set('n', '<c-l>', '<C-\\><C-n><C-w>l')
+vim.keymap.set('t', '<c-h>', '<C-\\><C-n><C-w>h')
+vim.keymap.set('t', '<c-l>', '<C-\\><C-n><C-w>l')
 
 vim.keymap.set('i', '<c-l>', '<c-g>u<Esc>1z=`]a<c-g>u')
 
@@ -51,12 +51,13 @@ vim.api.nvim_create_autocmd('TermOpen', {
 })
 
 -- Copy to system clipboard
-vim.keymap.set('v', '<C-c>', '"+y')
+vim.keymap.set('v', '<C-c>', '"+y', { desc = 'Copy to system clipboard' })
 -- Paste from system clipboard with Ctrl + v
-vim.keymap.set('i', '<C-v>', '<Esc>"+p')
+vim.keymap.set('i', '<C-v>', '<Esc>"+p', { desc = 'Paste from system clipboard' })
 vim.keymap.set('n', '<Leader>p', '"0p', { desc = 'Paste from yank register' })
 vim.keymap.set('v', '<Leader>p', '"0p', { desc = 'Paste from yank register' })
-vim.keymap.set('n', '<Leader>h', 'viw"0p', { nowait = false, desc = 'Replace word with yanked text' })
+vim.keymap.set('n', '<leader>S', 'viw"0p', { desc = 'Replace word with yanked text' })
+vim.keymap.set('n', '<leader>V', 'viw"+p', { desc = 'Replace word clipboard content' })
 
 -- Move to the end of yanked text after yank and paste
 vim.keymap.set('n', 'p', 'p`]')

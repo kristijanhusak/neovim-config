@@ -1,4 +1,3 @@
-local git = {}
 local augroup = vim.api.nvim_create_augroup('GitHistory', { clear = true })
 local uv = vim.loop
 
