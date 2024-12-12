@@ -5,7 +5,6 @@ return {
   { 'tpope/vim-surround', event = 'VeryLazy' },
   { 'nvim-lua/plenary.nvim' },
   { 'stefandtw/quickfix-reflector.vim', event = 'VeryLazy' },
-  { 'wakatime/vim-wakatime', event = 'VeryLazy' },
   {
     'folke/which-key.nvim',
     event = 'VeryLazy',
