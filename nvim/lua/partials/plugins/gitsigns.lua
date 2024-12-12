@@ -15,10 +15,11 @@ gitsigns_nvim.config = function()
     on_attach = function(bufnr)
       local gitsigns = require('gitsigns')
 
-      local function map(mode, l, r, opts)
-        opts = opts or {}
-        opts.buffer = bufnr
-        vim.keymap.set(mode, l, r, opts)
+      local function map(mode, l, r, desc)
+        vim.keymap.set(mode, l, r, {
+          buffer = bufnr,
+          desc = desc
+        })
       end
 
       -- Navigation
@@ -28,7 +29,7 @@ gitsigns_nvim.config = function()
         else
           gitsigns.nav_hunk('next')
         end
-      end)
+      end, 'Next hunk')
 
       map('n', '[c', function()
         if vim.wo.diff then
@@ -36,20 +37,20 @@ gitsigns_nvim.config = function()
         else
           gitsigns.nav_hunk('prev')
         end
-      end)
+      end, 'Prev hunk')
 
       -- Actions
-      map('n', '<leader>hp', gitsigns.preview_hunk)
-      map('n', '<leader>hr', gitsigns.reset_hunk)
+      map('n', '<leader>hp', gitsigns.preview_hunk, 'Preview hunk')
+      map('n', '<leader>hr', gitsigns.reset_hunk, 'Reset hunk')
       map('n', '<leader>hb', function()
         gitsigns.blame_line({ full = true })
-      end)
-      map('n', '<leader>hB', gitsigns.toggle_current_line_blame)
-      map('n', '<leader>hd', gitsigns.diffthis)
+      end, 'Blame whole file')
+      map('n', '<leader>hB', gitsigns.toggle_current_line_blame, 'Toggle current line blame')
+      map('n', '<leader>hd', gitsigns.diffthis, 'Diff this')
       map('n', '<leader>hD', function()
         gitsigns.diffthis('~')
-      end)
-      map('n', '<leader>hy', gitsigns.toggle_deleted)
+      end, 'Diff this with parent commit')
+      map('n', '<leader>hy', gitsigns.toggle_deleted, 'Toggle deleted sign')
 
       -- Text object
       map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
