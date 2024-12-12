@@ -6,6 +6,13 @@
     ],
     "description": "Print + vim.inspect"
   },
+  "snacks-inspect": {
+    "prefix": ["dd"],
+    "body": [
+      "Snacks.debug.inspect(${1:obj})$0"
+    ],
+    "description": "Snacks.debug.inspect"
+  },
   "local-function": {
     "prefix": ["lfun"],
     "body": [
