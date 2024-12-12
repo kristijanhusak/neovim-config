@@ -1,6 +1,6 @@
 return {
   'saghen/blink.cmp',
-  lazy = false,
+  event = 'VeryLazy',
   version = '*',
   opts = {
     enabled = function()
