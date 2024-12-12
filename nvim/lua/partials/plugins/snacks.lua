@@ -10,6 +10,13 @@ return {
       end,
       desc = 'Lazygit',
     },
+    {
+      '<leader>Z',
+      function()
+        Snacks.zen.zen()
+      end,
+      desc = 'Zen mode',
+    },
   },
   config = function()
     require('snacks').setup({
