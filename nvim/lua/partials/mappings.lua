@@ -13,8 +13,6 @@ vim.keymap.set('n', '<c-h>', '<C-w>h')
 vim.keymap.set('n', '<c-j>', '<C-w>j')
 vim.keymap.set('n', '<c-k>', '<C-w>k')
 vim.keymap.set('n', '<c-l>', '<C-w>l')
-vim.keymap.set('t', '<c-h>', '<C-\\><C-n><C-w>h')
-vim.keymap.set('t', '<c-l>', '<C-\\><C-n><C-w>l')
 
 vim.keymap.set('i', '<c-l>', '<c-g>u<Esc>1z=`]a<c-g>u')
 
