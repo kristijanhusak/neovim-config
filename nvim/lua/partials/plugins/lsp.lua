@@ -101,7 +101,12 @@ function setup.mappings()
     },
     signs = {
       text = _G.kris.diagnostic_icons,
+      numhl = {
+        [vim.diagnostic.severity.ERROR] = 'DiagnosticVirtualTextError',
+        [vim.diagnostic.severity.WARN] = 'DiagnosticVirtualTextWarn',
+      },
     },
+    severity_sort = true,
   })
 
   vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, preview_opts)
@@ -355,10 +360,9 @@ local function show_diagnostics()
     vim.diagnostic.show(diagnostic_ns, bufnr, view_diagnostics, {
       virtual_text = {
         prefix = function(diagnostic)
-          return _G.kris.diagnostic_icons[diagnostic.severity]
-        end or '',
+          return _G.kris.diagnostic_icons[diagnostic.severity] or ''
+        end,
       },
-      severity_sort = true,
     })
   end)
 end
