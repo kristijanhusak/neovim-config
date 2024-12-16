@@ -135,7 +135,10 @@ function setup.mappings()
     return require('telescope.builtin').lsp_type_definitions()
   end, opts('LSP type definitions'))
   vim.keymap.set('n', '<Leader>t', function()
-    require('telescope.builtin').lsp_document_symbols({ symbols = { 'function', 'variable', 'method' } })
+    require('telescope.builtin').lsp_document_symbols({
+      symbols = { 'function', 'variable', 'method' },
+      show_line = true
+    })
   end, opts('LSP document symbols'))
   vim.keymap.set('n', '<Leader>lT', function()
     return require('telescope.builtin').lsp_dynamic_workspace_symbols()
