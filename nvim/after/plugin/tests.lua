@@ -21,12 +21,10 @@ local notify = function(msg, level)
 end
 
 local function exec(cmd)
-  local bufnr, win_id = get_terminal_bufnr()
+  local bufnr = get_terminal_bufnr()
   local is_currently_in_terminal = false
-  local is_terminal_visible = false
   if bufnr then
     is_currently_in_terminal = vim.api.nvim_get_current_buf() == bufnr
-    is_terminal_visible = not vim.api.nvim_win_get_config(win_id).hide
     vim.cmd(bufnr .. 'bw!')
   end
 
@@ -39,7 +37,6 @@ local function exec(cmd)
     col = vim.o.columns - math.floor(vim.o.columns * 0.25) - 1,
     focusable = true,
     border = 'rounded',
-    hide = not is_terminal_visible,
   })
 
   notify('Running tests...', vim.log.levels.INFO)

@@ -24,6 +24,9 @@ return {
       statuscolumn = { enabled = true },
       words = { enabled = true, debounce = 100 },
       quickfile = { enabled = false },
+      input = {
+        enabled = true,
+      },
       notifier = {
         enabled = true,
         top_down = false,
@@ -60,6 +63,13 @@ return {
           },
           { icon = ' ', title = 'Projects', section = 'projects', indent = 2, padding = 2 },
           { section = 'startup' },
+        },
+      },
+      styles = {
+        input = {
+          relative = 'cursor',
+          row = 1,
+          col = 3,
         },
       },
     })

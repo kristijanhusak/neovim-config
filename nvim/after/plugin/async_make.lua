@@ -40,7 +40,7 @@ function M.make()
   end
 
   print('Running make...')
-  local job_id = vim.fn.jobstart(cmd, {
+  vim.fn.jobstart(cmd, {
     on_stderr = on_event,
     on_stdout = on_event,
     on_exit = on_event,
