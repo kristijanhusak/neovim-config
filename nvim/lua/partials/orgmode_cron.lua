@@ -6,9 +6,7 @@ if org_plugin.dev then
 else
   orgmode = vim.fn.stdpath('data') .. '/lazy/orgmode'
 end
-local treesitter = vim.fn.stdpath('data') .. '/lazy/nvim-treesitter'
-vim.opt.runtimepath:append(treesitter)
 vim.opt.runtimepath:append(orgmode)
 
 ---@diagnostic disable-next-line: different-requires
-require('orgmode').cron(require('partials.plugins.orgmode').orgmode_config)
+require('orgmode').cron(org_plugin.orgmode_config)
