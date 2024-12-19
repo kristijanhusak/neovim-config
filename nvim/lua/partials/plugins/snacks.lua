@@ -17,6 +17,23 @@ return {
       end,
       desc = 'Zen mode',
     },
+    {
+      '<leader>yg',
+      function()
+        Snacks.gitbrowse.open({
+          open = function(url)
+            vim.fn.setreg('+', url)
+            vim.ui.open(url)
+            vim.notify('Opening url\n' .. url, vim.log.levels.INFO, {
+              title = 'Git browse',
+            })
+          end,
+          notify = false,
+        })
+      end,
+      desc = 'Git browse',
+      mode = { 'n', 'v' },
+    },
   },
   config = function()
     require('snacks').setup({
@@ -36,9 +53,9 @@ return {
         animate = {
           enabled = false,
           duration = {
-            total = 0
-          }
-        }
+            total = 0,
+          },
+        },
       },
       dashboard = {
         sections = {
