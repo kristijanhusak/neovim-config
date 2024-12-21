@@ -7,32 +7,28 @@ return {
       return not (vim.bo.buftype == 'prompt' or vim.b.disable_blink)
     end,
     sources = {
-      completion = {
-        enabled_providers = function()
-          if vim.bo.filetype == 'sql' then
-            return { 'snippets', 'dadbod' }
-          end
+      default = function()
+        if vim.bo.filetype == 'sql' then
+          return { 'snippets', 'dadbod' }
+        end
 
-          if vim.bo.filetype == 'org' then
-            return { 'orgmode', 'buffer' }
-          end
+        if vim.bo.filetype == 'org' then
+          return { 'orgmode', 'buffer' }
+        end
 
-          return { 'lsp', 'snippets', 'path', 'buffer' }
-        end,
-      },
+        return { 'lsp', 'snippets', 'path', 'buffer' }
+      end,
       providers = {
         dadbod = {
           name = 'Dadbod',
           module = 'vim_dadbod_completion.blink',
+          fallbacks = { 'buffer' },
         },
         orgmode = {
           name = 'Orgmode',
           module = 'orgmode.org.autocompletion.blink',
+          fallbacks = { 'buffer' },
         },
-        buffer = {
-          fallback_for = { 'lsp', 'dadbod', 'orgmode' },
-        },
-
         snippets = {
           score_offset = -5,
           enabled = function()
