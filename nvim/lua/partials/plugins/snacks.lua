@@ -87,6 +87,9 @@ return {
           relative = 'cursor',
           row = 1,
           col = 3,
+          bo = {
+            buftype = ''
+          }
         },
       },
     })
