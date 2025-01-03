@@ -33,7 +33,7 @@ ts.init = function()
   vim.keymap.set('n', '<Leader>m', function()
     return require('telescope').extensions.recent_files.pick()
   end, { desc = 'Recent files' })
-  vim.keymap.set('n', '<Leader>g', function()
+  vim.keymap.set('n', '<Leader>gs', function()
     return require('telescope.builtin').git_status()
   end, { desc = 'Git status' })
 end

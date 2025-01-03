@@ -4,7 +4,7 @@ return {
   lazy = false,
   keys = {
     {
-      '<leader>dl',
+      '<leader>gl',
       function()
         Snacks.lazygit()
       end,
@@ -18,7 +18,7 @@ return {
       desc = 'Zen mode',
     },
     {
-      '<leader>yg',
+      '<leader>gy',
       function()
         Snacks.gitbrowse.open({
           open = function(url)
