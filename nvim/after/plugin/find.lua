@@ -6,10 +6,6 @@ local function find(opts)
   vim.notify('File not found: ' .. opts.args, vim.log.levels.ERROR)
 end
 
-local function parse_results(items)
-  return { unpack(items, 1, vim.o.lines / 2) }
-end
-
 local function get_filenames()
   local executables = {
     {
@@ -38,9 +34,9 @@ local function complete(arg_lead)
   local files = get_filenames()
 
   if vim.trim(arg_lead or '') == '' then
-    return parse_results(files)
+    return files
   end
-  return parse_results(vim.fn.matchfuzzy(files, arg_lead))
+  return vim.fn.matchfuzzy(files, arg_lead)
 end
 
 vim.api.nvim_create_user_command('Find', find, { force = true, nargs = '?', complete = complete })
