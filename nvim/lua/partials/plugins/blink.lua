@@ -12,6 +12,7 @@ return {
         org = { 'orgmode' },
         sql = { 'snippets', 'dadbod' },
       },
+      cmdline = {},
       providers = {
         dadbod = {
           name = 'Dadbod',
@@ -59,31 +60,6 @@ return {
       },
     },
     keymap = {
-      cmdline = {
-        preset = 'enter',
-        -- Allows expanding abbreviations
-        ['<CR>'] = {},
-        ['<Tab>'] = {
-          function(cmp)
-            local cmdtype = vim.fn.getcmdtype()
-            if cmdtype ~= '' then
-              return cmp.select_next()
-            end
-            return false
-          end,
-          'fallback'
-        },
-        ['<S-Tab>'] = {
-          function(cmp)
-            local cmdtype = vim.fn.getcmdtype()
-            if cmdtype ~= '' then
-              return cmp.select_prev()
-            end
-            return false
-          end,
-          'fallback'
-        },
-      },
       preset = 'enter',
       ['<Tab>'] = {
         function(cmp)
