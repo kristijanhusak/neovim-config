@@ -61,6 +61,7 @@ vim.opt.matchtime = 0
 vim.g.python3_host_prog = '/usr/bin/python3'
 vim.opt.splitkeep = 'screen'
 vim.opt.diffopt:append('linematch:60')
+vim.opt.completeopt = { 'menuone', 'noselect' }
 
 function settings.strip_trailing_whitespace()
   if vim.bo.modifiable then

@@ -3,11 +3,8 @@ return {
   event = 'VeryLazy',
   version = '*',
   opts = {
-    enabled = function()
-      return not (vim.bo.buftype == 'prompt' or vim.b.disable_blink)
-    end,
     sources = {
-      default = { 'lsp', 'snippets', 'path' },
+      default = { 'lsp', 'snippets', 'path', 'buffer' },
       per_filetype = {
         org = { 'orgmode' },
         sql = { 'snippets', 'dadbod' },
