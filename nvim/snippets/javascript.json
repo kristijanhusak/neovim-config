@@ -4,7 +4,7 @@
     "body": [
       "export class ${1:ClassName} {",
       "\tconstructor(${4:props}) {",
-      "\t\tthis.$4 = $4;",
+      "\t\tthis.$4 = $4",
       "\t}",
       "",
       "\t$0",
@@ -17,7 +17,7 @@
     "body": [
       "it('${1:should}', async () => {",
       "\t$0",
-      "});"
+      "})"
     ],
     "description": "Test template"
   },
@@ -56,42 +56,42 @@
   "const": {
     "prefix": ["c"],
     "body": [
-      "const $1 = $0;"
+      "const $1 = $0"
     ],
     "description": "const"
   },
   "let": {
     "prefix": ["l"],
     "body": [
-      "let $1 = $0;"
+      "let $1 = $0"
     ],
     "description": "let"
   },
   "Console log": {
     "prefix": ["cl"],
     "body": [
-      "console.log($0);"
+      "console.log($0)"
     ],
     "description": "Console log"
   },
   "Console debug": {
     "prefix": ["cd"],
     "body": [
-      "console.debug($0);"
+      "console.debug($0)"
     ],
     "description": "Console debug"
   },
   "Console log all": {
     "prefix": ["clj"],
     "body": [
-      "console.log(JSON.stringify($0, null, 2));"
+      "console.log(JSON.stringify($0, null, 2))"
     ],
     "description": "Console log whole object"
   },
   "Console debug all": {
     "prefix": ["cdj"],
     "body": [
-      "console.debug(JSON.stringify($0, null, 2));"
+      "console.debug(JSON.stringify($0, null, 2))"
     ],
     "description": "Console debug whole object"
   },
@@ -129,7 +129,7 @@
       "try {",
       "\t$0",
       "} catch (e) {",
-      "\tthrow e;",
+      "\tthrow e",
       "}"
     ],
     "description": "Try catch block"
