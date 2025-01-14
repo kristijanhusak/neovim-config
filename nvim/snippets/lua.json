@@ -2,14 +2,14 @@
   "print-inspect": {
     "prefix": ["ins"],
     "body": [
-      "print('${2:DEBUG}', vim.inspect(${1:obj}))$0"
+      "print('${2:obj}', vim.inspect($1))$0"
     ],
     "description": "Print + vim.inspect"
   },
   "snacks-inspect": {
     "prefix": ["dd"],
     "body": [
-      "Snacks.debug.inspect(${1:obj})$0"
+      "Snacks.debug.inspect($0)"
     ],
     "description": "Snacks.debug.inspect"
   },

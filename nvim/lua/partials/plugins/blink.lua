@@ -1,3 +1,27 @@
+local utils = require('partials.utils')
+
+local expand_snippet = function()
+  local line_to_cursor = vim.fn.getline('.'):sub(1, vim.fn.col('.') - 1)
+  local keyword = vim.fn.matchstr(line_to_cursor, [[\s*\zs\(.*\)$]])
+  local path = vim.fn.stdpath('config') .. '/snippets/' .. vim.bo.filetype .. '.json'
+  local fs_stat = vim.uv.fs_stat(path)
+  if not fs_stat or fs_stat.type ~= 'file' then
+    return
+  end
+  ---@type { prefix: string[], body: string[] }[]
+  local data = vim.json.decode(table.concat(vim.fn.readfile(path), '\n'))
+
+  for _, snippet in pairs(data) do
+    if snippet.prefix[1] == keyword then
+      vim.fn.feedkeys(utils.esc('<C-w>'), 'n')
+      vim.schedule(function()
+        vim.snippet.expand(table.concat(snippet.body, '\n'))
+      end)
+      return true
+    end
+  end
+end
+
 return {
   'saghen/blink.cmp',
   event = 'VeryLazy',
@@ -23,9 +47,6 @@ return {
         },
         snippets = {
           score_offset = -5,
-          enabled = function()
-            return vim.trim(vim.fn.getline('.')) ~= ''
-          end,
         },
       },
     },
@@ -33,8 +54,8 @@ return {
       list = {
         selection = {
           auto_insert = true,
-          preselect = false
-        }
+          preselect = false,
+        },
       },
       menu = {
         draw = {
@@ -64,23 +85,12 @@ return {
       preset = 'enter',
       ['<Tab>'] = {
         function(cmp)
-          local list = require('blink.cmp.completion.list')
-          local line_to_cursor = vim.fn.getline('.'):sub(1, vim.fn.col('.') - 1)
-          local keyword = vim.fn.matchstr(line_to_cursor, [[\k*$]])
-          if not list.get_selected_item() and list.items then
-            for idx, item in ipairs(list.items) do
-              if item.label == keyword and item.source_id == 'snippets' then
-                vim.schedule(function()
-                  list.select(idx)
-                  return cmp.accept()
-                end)
-                return true
-              end
-            end
-          end
-
           if cmp.snippet_active() then
             return cmp.snippet_forward()
+          end
+
+          if expand_snippet() then
+            return
           end
 
           if require('copilot.suggestion').is_visible() then
