@@ -36,20 +36,18 @@ return {
     sources = {
       default = { 'lsp', 'snippets', 'path', 'buffer' },
       per_filetype = {
-        org = { 'orgmode' },
-        sql = { 'snippets', 'dadbod' },
+        org = { 'orgmode', 'buffer' },
+        sql = { 'snippets', 'dadbod', 'buffer' },
       },
       cmdline = {},
       providers = {
         dadbod = {
           name = 'Dadbod',
           module = 'vim_dadbod_completion.blink',
-          fallbacks = { 'buffer' },
         },
         orgmode = {
           name = 'Orgmode',
           module = 'orgmode.org.autocompletion.blink',
-          fallbacks = { 'buffer' },
         },
         snippets = {
           score_offset = -5,
