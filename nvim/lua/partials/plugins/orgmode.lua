@@ -103,6 +103,38 @@ orgmode.config = function()
     set_cr_mapping()
   end
 
+  vim.api.nvim_create_user_command('OrgGenerateToc', function()
+    local file = require('orgmode').files:get_current_file()
+    local toc = {}
+    ---@param headline OrgHeadline
+    ---@param parent? OrgHeadline
+    local function generate_toc(headline, parent)
+      local content = {}
+      if parent then
+        table.insert(content, ('%s-'):format((' '):rep(parent:get_level() * 2)))
+      else
+        table.insert(content, '-')
+      end
+      local custom_id = headline:get_property('CUSTOM_ID')
+      local link = custom_id and ('#%s'):format(custom_id) or ('*%s'):format(headline:get_title())
+      local desc = headline:get_title()
+      table.insert(content, ('[[%s][%s]]'):format(link, desc))
+      table.insert(toc, table.concat(content, ' '))
+
+      for _, child in ipairs(headline:get_child_headlines()) do
+        generate_toc(child, headline)
+      end
+    end
+
+    for _, headline in ipairs(file:get_top_level_headlines()) do
+      generate_toc(headline)
+    end
+
+    vim.api.nvim_buf_set_lines(0, vim.fn.line('.') - 1, vim.fn.line('.') - 1, false, toc)
+  end, {
+    nargs = 0,
+  })
+
   return orgmode
 end
 
