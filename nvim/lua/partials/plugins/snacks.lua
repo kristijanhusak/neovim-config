@@ -2,39 +2,6 @@ return {
   'folke/snacks.nvim',
   priority = 1000,
   lazy = false,
-  keys = {
-    {
-      '<leader>gl',
-      function()
-        Snacks.lazygit()
-      end,
-      desc = 'Lazygit',
-    },
-    {
-      '<leader>Z',
-      function()
-        Snacks.zen.zen()
-      end,
-      desc = 'Zen mode',
-    },
-    {
-      '<leader>gy',
-      function()
-        Snacks.gitbrowse.open({
-          open = function(url)
-            vim.fn.setreg('+', url)
-            vim.ui.open(url)
-            vim.notify('Opening url\n' .. url, vim.log.levels.INFO, {
-              title = 'Git browse',
-            })
-          end,
-          notify = false,
-        })
-      end,
-      desc = 'Git browse',
-      mode = { 'n', 'v' },
-    },
-  },
   config = function()
     require('snacks').setup({
       bigfile = { enabled = true },
@@ -54,6 +21,18 @@ return {
           enabled = false,
           duration = {
             total = 0,
+          },
+        },
+      },
+      picker = {
+        ui_select = true,
+        win = {
+          input = {
+            keys = {
+              ['<Esc>'] = { 'close', mode = { 'n', 'i' } },
+              ['<c-d>'] = { 'preview_scroll_down', mode = { 'i', 'n' } },
+              ['<c-u>'] = { 'preview_scroll_up', mode = { 'i', 'n' } },
+            },
           },
         },
       },
@@ -93,7 +72,61 @@ return {
           },
         },
       },
+      layout = {
+        select = {
+          relative = 'cursor',
+          row = 1,
+          col = 3,
+          bo = {
+            buftype = '',
+          },
+        },
+      },
     })
+
+    vim.keymap.set('n', '<leader>gl', function()
+      return Snacks.lazygit()
+    end, { desc = 'Lazygit' })
+
+    vim.keymap.set('n', '<leader>Z', function()
+      return Snacks.zen.zen()
+    end, { desc = 'Zen mode' })
+    vim.keymap.set({ 'n', 'v' }, '<leader>gy', function()
+      Snacks.gitbrowse.open({
+        open = function(url)
+          vim.fn.setreg('+', url)
+          vim.ui.open(url)
+          vim.notify('Opening url\n' .. url, vim.log.levels.INFO, {
+            title = 'Git browse',
+          })
+        end,
+        notify = false,
+      })
+    end, { desc = 'Git browse' })
+
+    vim.keymap.set('n', '<C-p>', function()
+      return Snacks.picker.files()
+    end)
+    vim.keymap.set('n', '<C-y>', function()
+      return Snacks.picker.resume()
+    end)
+    vim.keymap.set('n', '<Leader>b', function()
+      return Snacks.picker.buffers({
+        sort_lastused = true,
+      })
+    end, { desc = 'Buffers' })
+    vim.keymap.set('n', '<Leader>fg', function()
+      return Snacks.picker.grep()
+    end, { desc = 'Live grep' })
+    vim.keymap.set('n', '<Leader>m', function()
+      return Snacks.picker.recent({
+        finder = 'recent_files',
+        format = 'file',
+      })
+    end, { desc = 'Recent files' })
+    vim.keymap.set('n', '<Leader>gs', function()
+      return Snacks.picker.git_status()
+    end, { desc = 'Git status' })
 
     vim.api.nvim_create_user_command('Notifications', function()
       Snacks.notifier.show_history()

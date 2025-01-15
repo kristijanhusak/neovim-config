@@ -3,8 +3,34 @@ return {
   cmd = { 'WorkspacesAdd', 'WorkspacesOpen' },
   init = function()
     vim.keymap.set('n', '<Leader>w', function()
-      return require('telescope').extensions.workspaces.workspaces()
-    end, { desc = 'Workspaces' })
+      local items = {}
+      local workspaces = {}
+      local longest_name = 0
+      for i, workspace in ipairs(require('workspaces').get()) do
+        workspaces[workspace.path] = workspace.name
+        table.insert(items, {
+          idx = i,
+          score = i,
+          text = workspace.path,
+          name = workspace.name,
+        })
+        longest_name = math.max(longest_name, #workspace.name)
+      end
+      longest_name = longest_name + 2
+      return Snacks.picker({
+        items = items,
+        format = function(item)
+          local ret = {}
+          ret[#ret + 1] = { ('%-' .. longest_name .. 's'):format(item.name), 'SnacksPickerLabel' }
+          ret[#ret + 1] = { item.text, 'SnacksPickerComment' }
+          return ret
+        end,
+        confirm = function(picker, item)
+          picker:close()
+          vim.cmd(('WorkspacesOpen %s'):format(workspaces[item.text]))
+        end,
+      })
+    end)
   end,
   config = function()
     require('workspaces').setup({
