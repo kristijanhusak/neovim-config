@@ -62,7 +62,7 @@ export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin:~/.cargo/bin:~/.local/
 export LESS=R
 export EDITOR=nvim
 export MANPAGER="nvim +Man!"
-export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_DEFAULT_COMMAND='fd --type f --follow'
 export LESS=R
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=magenta,bold,underline"
 export GOPATH=$HOME/go

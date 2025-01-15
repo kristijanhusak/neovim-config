@@ -13,6 +13,10 @@ end
 local function get_filenames()
   local executables = {
     {
+      name = 'fd',
+      cmd = { 'fd', '--type', 'file', '--follow' },
+    },
+    {
       name = 'rg',
       cmd = { 'rg', '--files' },
     },
