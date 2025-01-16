@@ -1,5 +1,6 @@
 local statusline = {
   cwd_folder = '',
+  lsp_progress = '',
 }
 local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
 vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
@@ -297,6 +298,52 @@ local function lsp_diagnostics()
   return table.concat(items, '')
 end
 
+local progress = vim.defaulttable()
+vim.api.nvim_create_autocmd('LspProgress', {
+  ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    local value = ev.data.params.value --[[@as {percentage?: number, title?: string, message?: string, kind: "begin" | "report" | "end"}]]
+    if not client or type(value) ~= 'table' then
+      return
+    end
+    local p = progress[client.id]
+
+    for i = 1, #p + 1 do
+      if i == #p + 1 or p[i].token == ev.data.params.token then
+        p[i] = {
+          token = ev.data.params.token,
+          msg = ('[%d%%%%] %s%s'):format(
+            value.kind == 'end' and 100 or value.percentage or 100,
+            value.title or '',
+            value.message and (' **%s**'):format(value.message) or ''
+          ),
+          done = value.kind == 'end',
+        }
+        break
+      end
+    end
+
+    local msg = {} ---@type string[]
+    progress[client.id] = vim.tbl_filter(function(v)
+      return table.insert(msg, v.msg) or not v.done
+    end, p)
+
+    local spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
+    local icon = #progress[client.id] == 0 and ' '
+      or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+
+    statusline.lsp_progress = table.concat({ icon, msg[#msg]}, ' ')
+    vim.cmd.redrawstatus()
+    if #progress[client.id] == 0 then
+      vim.defer_fn(function()
+        statusline.lsp_progress = ''
+        vim.cmd.redrawstatus()
+      end, 500)
+    end
+  end,
+})
+
 local function get_modified_count()
   local bufnr = vim.api.nvim_get_current_buf()
   return #vim.tbl_filter(function(buf)
@@ -347,6 +394,7 @@ local function statusline_active()
     '%<',
     sep(get_path(), vim.bo.modified and section_err or section_b),
     '%=',
+    sep(statusline.lsp_progress, section_b_right, statusline.lsp_progress ~= ''),
     sep(search, section_b_right, search ~= ''),
     filetype(),
     sep(' ' .. statusline.cwd_folder, section_b_right, statusline.cwd_folder ~= ''),
