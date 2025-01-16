@@ -16,6 +16,7 @@ local orgmode = {
   },
 }
 
+---@type OrgConfigOpts
 local orgmode_config = {
   org_agenda_files = org_path('**/*'),
   org_default_notes_file = org_path('refile.org'),
