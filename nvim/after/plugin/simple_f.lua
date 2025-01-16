@@ -34,7 +34,7 @@ local function simple_ft(key)
       vim.keymap.set('n', '<C-c>', old_cc_keymap, { buffer = true })
     end
   end)
-  return string.format('%s%s', key, vim.fn.nr2char(char))
+  return ('%d%s%s'):format(vim.v.count1, key, vim.fn.nr2char(char))
 end
 
 for _, key in ipairs({ 'f', 't', 'F', 'T' }) do
