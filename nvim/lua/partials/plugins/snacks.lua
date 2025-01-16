@@ -115,7 +115,39 @@ return {
     end, { desc = 'Git browse' })
 
     vim.keymap.set('n', '<C-p>', function()
-      return Snacks.picker.files()
+      local should_open_symbols = false
+      local last_item = nil
+      local main_picker = Snacks.picker.files({
+        on_change = function(_, item)
+          if item then
+            last_item = item
+          end
+        end,
+        confirm = function(picker, item)
+          if last_item and should_open_symbols then
+            picker:close()
+            vim.schedule(function()
+              vim.cmd(('e %s'):format(last_item.cwd .. '/' .. last_item.file))
+              Snacks.picker.lsp_symbols()
+            end)
+            return
+          end
+          vim.cmd(('e %s'):format(item.cwd .. '/' .. item.file))
+        end,
+      })
+
+      local win = main_picker.input.win
+      win:on(
+        { 'TextChangedI' },
+        Snacks.util.throttle(function()
+          local line = win:line()
+          if line:match('@$') then
+            should_open_symbols = true
+            main_picker:action('confirm')
+            return
+          end
+        end, { ms = 30 })
+      )
     end)
     vim.keymap.set('n', '<C-y>', function()
       return Snacks.picker.resume()
