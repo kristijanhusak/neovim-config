@@ -115,6 +115,16 @@ end
 vim.o.path = vim.o.path .. table.concat(paths, ',')
 
 local vimrc_group = vim.api.nvim_create_augroup('vimrc', { clear = true })
+vim.api.nvim_create_autocmd('BufReadPost', {
+  group = vimrc_group,
+  callback = function(args)
+    local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
+    local line_count = vim.api.nvim_buf_line_count(args.buf)
+    if mark[1] > 0 and mark[1] <= line_count then
+      vim.cmd('normal! g`"zz')
+    end
+  end,
+})
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*',
   callback = settings.strip_trailing_whitespace,
