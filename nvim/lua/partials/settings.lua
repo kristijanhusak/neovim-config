@@ -115,6 +115,10 @@ end
 vim.o.path = vim.o.path .. table.concat(paths, ',')
 
 local vimrc_group = vim.api.nvim_create_augroup('vimrc', { clear = true })
+vim.api.nvim_create_autocmd('VimResized', {
+  group = vimrc_group,
+  command = 'wincmd =',
+})
 vim.api.nvim_create_autocmd('BufReadPost', {
   group = vimrc_group,
   callback = function(args)
