@@ -175,5 +175,36 @@ return {
     end, {
       nargs = 0,
     })
+
+    Snacks.picker.actions.qflist = function(picker, opts)
+      picker:close()
+      local sel = picker:selected()
+      local items = #sel > 0 and sel or picker:items()
+      local qf = {}
+      for _, item in ipairs(items) do
+        local text = item.text
+        if vim.startswith(text, item.file) then
+          text = text:sub(#item.file + 2)
+        end
+        qf[#qf + 1] = {
+          filename = Snacks.picker.util.path(item),
+          bufnr = item.buf,
+          lnum = item.pos and item.pos[1] or 1,
+          col = item.pos and item.pos[2] or 1,
+          end_lnum = item.end_pos and item.end_pos[1] or nil,
+          end_col = item.end_pos and item.end_pos[2] or nil,
+          text = text,
+          pattern = item.search,
+          valid = true,
+        }
+      end
+      if opts and opts.win then
+        vim.fn.setloclist(opts.win, qf)
+        vim.cmd('lopen')
+      else
+        vim.fn.setqflist(qf)
+        vim.cmd('copen')
+      end
+    end
   end,
 }
