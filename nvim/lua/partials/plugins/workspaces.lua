@@ -4,10 +4,8 @@ return {
   init = function()
     vim.keymap.set('n', '<Leader>w', function()
       local items = {}
-      local workspaces = {}
       local longest_name = 0
       for i, workspace in ipairs(require('workspaces').get()) do
-        workspaces[workspace.path] = workspace.name
         table.insert(items, {
           idx = i,
           score = i,
@@ -27,7 +25,7 @@ return {
         end,
         confirm = function(picker, item)
           picker:close()
-          vim.cmd(('WorkspacesOpen %s'):format(workspaces[item.text]))
+          vim.cmd(('WorkspacesOpen %s'):format(item.name))
         end,
       })
     end)
