@@ -26,6 +26,16 @@ return {
       },
       picker = {
         ui_select = true,
+        layouts = {
+          select = {
+            layout = {
+              relative = 'cursor',
+              width = 70,
+              min_width = 0,
+              row = 1,
+            },
+          },
+        },
         win = {
           input = {
             keys = {
