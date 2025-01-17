@@ -237,7 +237,7 @@ function setup.servers()
   local vtsls_settings = {
     preferences = {
       quoteStyle = 'single',
-      importModuleSpecifier = 'relative',
+      importModuleSpecifier = 'project-relative',
     },
     inlayHints = {
       parameterNames = { enabled = 'all' },
