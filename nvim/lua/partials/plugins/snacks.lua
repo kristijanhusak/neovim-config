@@ -176,15 +176,6 @@ return {
       nargs = 0,
     })
 
-    -- Ensure that we stop insert mode when entering a buffer
-    vim.api.nvim_create_autocmd('BufEnter', {
-      pattern = '*',
-      group = vim.api.nvim_create_augroup('snacks_custom', { clear = true }),
-      callback = function()
-        vim.cmd('stopinsert')
-      end,
-    })
-
     Snacks.picker.actions.qflist = function(picker, opts)
       picker:close()
       local sel = picker:selected()
