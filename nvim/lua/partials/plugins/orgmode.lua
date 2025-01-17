@@ -26,6 +26,22 @@ local orgmode_config = {
   org_startup_indented = true,
   org_log_into_drawer = 'LOGBOOK',
   org_todo_keywords = { 'TODO(t)', 'PROGRESS(p)', '|', 'DONE(d)', 'REJECTED(r)' },
+  org_agenda_custom_commands = {
+    a = {
+      description = 'Agenda',
+      types = {
+        {
+          type = 'tags',
+          match = 'REVISIT',
+          org_agenda_overriding_header = 'Tasks to revisit',
+        },
+        {
+          type = 'agenda',
+          org_agenda_tag_filter_preset = '-REVISIT'
+        }
+      }
+    }
+  },
   org_capture_templates = {
     t = {
       description = 'Refile',
@@ -35,6 +51,10 @@ local orgmode_config = {
       description = 'Todo',
       template = '* TODO %?\nDEADLINE: %T',
       target = org_path('todos.org'),
+    },
+    r = {
+      description = 'Quick note',
+      template = '* TODO %? :REVISIT:',
     },
     w = {
       description = 'Work todo',
