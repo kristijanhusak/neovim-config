@@ -9,7 +9,7 @@ diffview.init = function()
     end
     return vim.cmd.DiffviewOpen()
   end, { silent = true, desc = 'Toggle diffview' })
-  vim.keymap.set('n', '<leader>ghh', ':DiffviewFileHistory %<CR>', { silent = true, desc = 'Diffview file history' })
+  vim.keymap.set('n', '<leader>gh', ':DiffviewFileHistory %<CR>', { silent = true, desc = 'Diffview file history' })
   vim.keymap.set('n', '<leader>gc', function()
     vim.cmd.DiffviewClose()
     vim.cmd('botright Git commit')
