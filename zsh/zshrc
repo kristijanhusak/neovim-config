@@ -161,7 +161,7 @@ git_patch() {
 }
 
 nt() {
-  nvim -c "autocmd BufEnter * only" -c "lua require('orgmode').capture:open_template_by_shortcut('t')"
+  nvim -c "autocmd BufEnter * only" -c "lua require('orgmode').capture:open_template_by_shortcut('r')"
 }
 
 remove_gone_branches() {
