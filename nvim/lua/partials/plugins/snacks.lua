@@ -26,6 +26,11 @@ return {
       },
       picker = {
         ui_select = true,
+        layout = {
+          layout = {
+            backdrop = false
+          }
+        },
         layouts = {
           select = {
             layout = {
