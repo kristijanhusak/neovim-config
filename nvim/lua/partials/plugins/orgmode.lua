@@ -127,12 +127,16 @@ orgmode.config = function()
   vim.api.nvim_create_user_command('OrgGenerateToc', function()
     local file = require('orgmode').files:get_current_file()
     local toc = {}
+    local max_level = tonumber(vim.fn.input('Max level: ', '10'))
     ---@param headline OrgHeadline
     ---@param parent? OrgHeadline
     local function generate_toc(headline, parent)
+      if headline:get_level() > max_level then
+        return
+      end
       local content = {}
       if parent then
-        table.insert(content, ('%s-'):format((' '):rep(parent:get_level() * 2)))
+        table.insert(content, ('%s-'):format((' '):rep((parent:get_level() - 1) * 2)))
       else
         table.insert(content, '-')
       end
@@ -147,8 +151,10 @@ orgmode.config = function()
       end
     end
 
-    for _, headline in ipairs(file:get_top_level_headlines()) do
-      generate_toc(headline)
+    for _, top_headline in ipairs(file:get_top_level_headlines()) do
+      for _, headline in ipairs(top_headline:get_child_headlines()) do
+        generate_toc(headline)
+      end
     end
 
     vim.api.nvim_buf_set_lines(0, vim.fn.line('.') - 1, vim.fn.line('.') - 1, false, toc)
