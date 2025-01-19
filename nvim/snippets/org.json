@@ -1,0 +1,30 @@
+{
+  "block": {
+    "prefix" : ["block"],
+    "body": [
+      "#+begin_src ${1:language}",
+      "$0",
+      "#+end_src"
+    ]
+  },
+  "note": {
+    "prefix": ["note"],
+    "body": [
+      "📝 NOTE: $0"
+    ]
+  },
+  "tip": {
+    "prefix": ["tip"],
+    "body": [
+      "💡 TIP: $0"
+    ]
+  },
+  "custom_id": {
+    "prefix": ["cid"],
+    "body": [
+      ":PROPERTIES:",
+      ":CUSTOM_ID: ${0}",
+      ":END:"
+    ]
+  }
+}
