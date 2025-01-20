@@ -37,10 +37,10 @@ local orgmode_config = {
         },
         {
           type = 'agenda',
-          org_agenda_tag_filter_preset = '-REVISIT'
-        }
-      }
-    }
+          org_agenda_tag_filter_preset = '-REVISIT',
+        },
+      },
+    },
   },
   org_capture_templates = {
     t = {
@@ -124,37 +124,36 @@ orgmode.config = function()
     set_cr_mapping()
   end
 
-  vim.api.nvim_create_user_command('OrgGenerateToc', function()
+  vim.api.nvim_create_user_command('OrgGenerateToc', function(...)
     local file = require('orgmode').files:get_current_file()
     local toc = {}
+    local min_level = tonumber(vim.fn.input('Min level: ', '2'))
     local max_level = tonumber(vim.fn.input('Max level: ', '10'))
+
     ---@param headline OrgHeadline
-    ---@param parent? OrgHeadline
-    local function generate_toc(headline, parent)
-      if headline:get_level() > max_level then
+    ---@param level? number
+    local function generate_toc(headline, level)
+      if level > max_level then
         return
       end
-      local content = {}
-      if parent then
-        table.insert(content, ('%s-'):format((' '):rep((parent:get_level() - 1) * 2)))
-      else
-        table.insert(content, '-')
+
+      if level >= min_level then
+        local content = {}
+        table.insert(content, ('%s-'):format((' '):rep((level - min_level) * 2)))
+        local custom_id = headline:get_property('CUSTOM_ID')
+        local link = custom_id and ('#%s'):format(custom_id) or ('*%s'):format(headline:get_title())
+        local desc = headline:get_title()
+        table.insert(content, ('[[%s][%s]]'):format(link, desc))
+        table.insert(toc, table.concat(content, ' '))
       end
-      local custom_id = headline:get_property('CUSTOM_ID')
-      local link = custom_id and ('#%s'):format(custom_id) or ('*%s'):format(headline:get_title())
-      local desc = headline:get_title()
-      table.insert(content, ('[[%s][%s]]'):format(link, desc))
-      table.insert(toc, table.concat(content, ' '))
 
       for _, child in ipairs(headline:get_child_headlines()) do
-        generate_toc(child, headline)
+        generate_toc(child, level + 1)
       end
     end
 
     for _, top_headline in ipairs(file:get_top_level_headlines()) do
-      for _, headline in ipairs(top_headline:get_child_headlines()) do
-        generate_toc(headline)
-      end
+      generate_toc(top_headline, 1)
     end
 
     vim.api.nvim_buf_set_lines(0, vim.fn.line('.') - 1, vim.fn.line('.') - 1, false, toc)
