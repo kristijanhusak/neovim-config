@@ -66,6 +66,8 @@ function setup.mappings()
 
   vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, preview_opts)
 
+  local picker = require('partials.picker')
+
   ---@param desc string
   ---@return table
   local opts = function(desc)
@@ -76,37 +78,28 @@ function setup.mappings()
     vim.notify('Use gri', vim.log.levels.WARN)
   end, opts('LSP implementations (old)'))
   vim.keymap.set('n', 'gri', function()
-    return require('telescope.builtin').lsp_implementations()
+    return picker.lsp_implementations()
   end, opts('LSP implementations'))
   vim.keymap.set('n', '<C-]>', function()
-    return require('telescope.builtin').lsp_definitions()
+    return picker.lsp_definitions()
   end, opts('LSP definitions'))
   vim.keymap.set('n', 'gD', function()
-    return require('telescope.builtin').lsp_definitions()
+    return picker.lsp_definitions()
   end, opts('LSP definitions'))
   vim.keymap.set('n', '<leader>ld', function()
-    return require('telescope.builtin').lsp_definitions()
+    return picker.lsp_definitions()
   end, opts('LSP definitions'))
   vim.keymap.set('n', '<leader>lw', function()
-    return require('telescope.builtin').lsp_type_definitions()
+    return picker.lsp_type_definitions()
   end, opts('LSP type definitions'))
   vim.keymap.set('n', '<Leader>t', function()
-    require('telescope.builtin').lsp_document_symbols({
-      symbols = { 'function', 'variable', 'method' },
-      show_line = true,
-    })
+    picker.lsp_document_symbols()
   end, opts('LSP document symbols'))
-  vim.keymap.set('n', '<Leader>lT', function()
-    return require('telescope.builtin').lsp_dynamic_workspace_symbols()
-  end)
   vim.keymap.set('n', '<leader>lu', function()
     vim.notify('Use grr', vim.log.levels.WARN)
   end, opts('LSP references (old)'))
   vim.keymap.set('n', 'grr', function()
-    return require('telescope.builtin').lsp_references({
-      previewer = false,
-      fname_width = (vim.o.columns * 0.4),
-    })
+    return picker.lsp_references()
   end, opts('LSP references'))
   vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, opts('LSP declaration'))
   vim.keymap.set('n', '<Space>', function()
@@ -136,7 +129,6 @@ function setup.mappings()
     vim.notify('Use gra', vim.log.levels.WARN)
   end, opts('LSP code action (old)'))
   vim.keymap.set({ 'n', 'x' }, 'gra', function()
-    pcall(require, 'telescope')
     vim.lsp.buf.code_action()
   end, opts('LSP code action'))
 

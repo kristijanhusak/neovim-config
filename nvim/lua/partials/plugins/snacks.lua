@@ -57,6 +57,33 @@ return {
           },
         },
       },
+      picker = {
+        ui_select = true,
+        layout = {
+          layout = {
+            backdrop = false,
+          }
+        },
+        layouts = {
+          select = {
+            layout = {
+              relative = 'cursor',
+              width = 70,
+              min_width = 0,
+              row = 1,
+            },
+          },
+        },
+        win = {
+          input = {
+            keys = {
+              ['<Esc>'] = { 'close', mode = { 'n', 'i' } },
+              ['<c-d>'] = { 'preview_scroll_down', mode = { 'i', 'n' } },
+              ['<c-u>'] = { 'preview_scroll_up', mode = { 'i', 'n' } },
+            },
+          },
+        },
+      },
       dashboard = {
         enabled = false,
         sections = {
