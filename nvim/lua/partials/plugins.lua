@@ -3,6 +3,7 @@ return {
   { 'tpope/vim-sleuth', event = 'VeryLazy' },
   { 'tpope/vim-abolish', event = 'VeryLazy' },
   { 'tpope/vim-surround', event = 'VeryLazy' },
+  { 'nvim-tree/nvim-web-devicons' },
   { 'nvim-lua/plenary.nvim' },
   { 'stefandtw/quickfix-reflector.vim', event = 'VeryLazy' },
   {
