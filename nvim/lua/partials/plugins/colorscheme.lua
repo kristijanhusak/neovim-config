@@ -111,7 +111,11 @@ colorscheme.config = function()
 
   vim.cmd.filetype('plugin indent on')
   vim.cmd.syntax('on')
-  colorscheme.tokyonight()
+  if vim.opt.background:get() == 'dark' then
+    colorscheme.tokyonight()
+  else
+    colorscheme.onenord()
+  end
 end
 
 return colorscheme
