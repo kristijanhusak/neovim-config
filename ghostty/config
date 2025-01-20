@@ -1,9 +1,0 @@
-adjust-cell-height=9
-adjust-cursor-height=9
-theme="/home/kristijan/.local/share/nvim/lazy/tokyonight.nvim/extras/ghostty/tokyonight_moon"
-gtk-titlebar=false
-font-family="JetBrains Mono SemiBold"
-font-family-bold="JetBrains Mono ExtraBold"
-font-family-italic="JetBrains Mono SemiBold Italic"
-font-family-bold-italic="JetBrains Mono ExtraBold Italic"
-font-size=11.5
