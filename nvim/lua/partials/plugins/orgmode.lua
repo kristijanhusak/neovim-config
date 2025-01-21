@@ -11,8 +11,18 @@ local orgmode = {
   },
   ft = { 'org', 'orgagenda' },
   keys = {
-    { '<leader>oa', '<Cmd>lua require("orgmode").action("agenda.prompt")<CR>' },
-    { '<leader>oc', '<Cmd>lua require("orgmode").action("capture.prompt")<CR>' },
+    {
+      '<leader>oa',
+      function()
+        return Org.agenda()
+      end,
+    },
+    {
+      '<leader>oc',
+      function()
+        return Org.capture()
+      end,
+    },
   },
 }
 
