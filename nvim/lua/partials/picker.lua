@@ -1,4 +1,4 @@
-local Picker = {
+local TelescopePicker = {
   files = function()
     return require('telescope.builtin').find_files({ find_command = { 'rg', '--files', '--hidden', '-g', '!.git/' } })
   end,
@@ -66,6 +66,71 @@ local Picker = {
     })
   end,
 }
+
+local SnacksPicker = {
+  files = function()
+    return Snacks.picker.files()
+  end,
+  resume = function()
+    return Snacks.picker.resume()
+  end,
+  buffers = function()
+    return Snacks.picker.buffers()
+  end,
+  live_grep = function()
+    return Snacks.picker.grep({ live = true })
+  end,
+  recent_files = function()
+    return Snacks.picker.recent()
+  end,
+  git_status = function()
+    return Snacks.picker.git_status()
+  end,
+  lsp_implementations = function()
+    return Snacks.picker.lsp_implementations()
+  end,
+  lsp_definitions = function()
+    return Snacks.picker.lsp_definitions()
+  end,
+  lsp_type_definitions = function()
+    return Snacks.picker.lsp_type_definitions()
+  end,
+  lsp_document_symbols = function()
+    Snacks.picker.lsp_symbols()
+  end,
+  lsp_references = function()
+    return Snacks.picker.lsp_references()
+  end,
+  workspaces = function()
+    local items = {}
+    local longest_name = 0
+    for i, workspace in ipairs(require('workspaces').get()) do
+      table.insert(items, {
+        idx = i,
+        score = i,
+        text = workspace.path,
+        name = workspace.name,
+      })
+      longest_name = math.max(longest_name, #workspace.name)
+    end
+    longest_name = longest_name + 2
+    return Snacks.picker({
+      items = items,
+      format = function(item)
+        local ret = {}
+        ret[#ret + 1] = { ('%-' .. longest_name .. 's'):format(item.name), 'SnacksPickerLabel' }
+        ret[#ret + 1] = { item.text, 'SnacksPickerComment' }
+        return ret
+      end,
+      confirm = function(picker, item)
+        picker:close()
+        vim.cmd(('WorkspacesOpen %s'):format(item.name))
+      end,
+    })
+  end,
+}
+
+local Picker = SnacksPicker
 
 vim.keymap.set('n', '<C-p>', function()
   return Picker.files()
