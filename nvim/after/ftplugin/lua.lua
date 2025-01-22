@@ -22,18 +22,11 @@ end
 function lua.generate_docblock()
   local node = vim.treesitter.get_node()
   assert(node)
-  local is_method = node:type() == 'identifier' and node:parent():type() == 'method_index_expression'
-  local is_parameter = node:type() == 'identifier' and node:parent():type() == 'parameters'
-
-  if is_parameter then
-    node = node:parent():prev_named_sibling():field('method')[1]
-  elseif is_method then
-    node = node:parent():field('method')[1]
-  else
+  if node:parent():type() ~= 'parameters' then
+    vim.notify('Put cursor on parameters', vim.log.levels.WARN)
     return
   end
-
-  local parameters_node = node:parent():next_named_sibling()
+  local parameters_node = node:parent()
   assert(parameters_node)
   local method_name = vim.treesitter.get_node_text(node, 0)
 
