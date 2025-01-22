@@ -59,10 +59,11 @@ return {
       },
       picker = {
         ui_select = true,
+        prompt = '   ',
         layout = {
           layout = {
             backdrop = false,
-          }
+          },
         },
         layouts = {
           select = {
