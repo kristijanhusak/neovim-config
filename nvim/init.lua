@@ -1,7 +1,7 @@
 _G.kris = {}
-require('partials.abbreviations')
-require('partials.settings')
-require('partials.lazy')
-require('partials.statusline')
-require('partials.mappings')
-require('partials.picker')
+
+local ok, err = pcall(require, 'main')
+if not ok then
+  vim.notify('Error loading main.lua, loading fallback.\n' .. err)
+  vim.cmd.runtime('minvimrc.vim')
+end

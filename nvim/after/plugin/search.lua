@@ -1,6 +1,5 @@
-_G.kris = _G.kris or {
-  search = {},
-}
+_G.kris = _G.kris or {}
+
 local utils = require('partials.utils')
 local search = {}
 local is_toggle = false

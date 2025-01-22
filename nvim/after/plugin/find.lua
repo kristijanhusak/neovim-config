@@ -48,6 +48,7 @@ local function complete(arg_lead)
 end
 
 vim.api.nvim_create_user_command('Find', find, { force = true, nargs = '?', complete = complete })
+_G.kris = _G.kris or {}
 _G.kris.findfunc = function(cmd_arg)
   return complete(cmd_arg)
 end
