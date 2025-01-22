@@ -88,14 +88,13 @@ local orgmode_config = {
         local date = string.format('%s: %s', task.type, task.time:to_string())
 
         if vim.fn.executable('notify-send') then
-          vim.loop.spawn('notify-send', {
-            args = {
-              '--icon=/home/kristijan/github/orgmode/assets/nvim-orgmode-small.png',
-              '--app-name=orgmode',
-              '--urgency=critical',
-              title,
-              string.format('%s\n%s', subtitle, date),
-            },
+          vim.system({
+            'notify-send',
+            '--icon=/home/kristijan/github/orgmode/assets/nvim-orgmode-small.png',
+            '--app-name=orgmode',
+            '--urgency=critical',
+            title,
+            string.format('%s\n%s', subtitle, date),
           })
         end
       end
