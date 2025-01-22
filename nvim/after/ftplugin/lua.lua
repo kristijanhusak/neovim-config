@@ -22,12 +22,14 @@ end
 function lua.generate_docblock()
   local node = vim.treesitter.get_node()
   assert(node)
-  if node:parent():type() ~= 'parameters' then
+  if node:type() ~= 'parameters' and node:parent():type() ~= 'parameters' then
     vim.notify('Put cursor on parameters', vim.log.levels.WARN)
     return
   end
-  local parameters_node = node:parent()
-  assert(parameters_node)
+  if node:type() ~= 'parameters' then
+    node = node:parent()
+  end
+  assert(node)
   local method_name = vim.treesitter.get_node_text(node, 0)
 
   local content = {}
@@ -42,7 +44,7 @@ function lua.generate_docblock()
     return_type = 'boolean'
   end
 
-  for child in parameters_node:iter_children() do
+  for child in node:iter_children() do
     if child:type() == 'identifier' then
       local node_text = vim.treesitter.get_node_text(child, 0)
       table.insert(content, string.format('---@param %s string', node_text))
