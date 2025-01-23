@@ -69,7 +69,7 @@ local TelescopePicker = {
 
 local SnacksPicker = {
   files = function()
-    return Snacks.picker.files()
+    return Snacks.picker.files_with_symbols()
   end,
   resume = function()
     return Snacks.picker.resume()
