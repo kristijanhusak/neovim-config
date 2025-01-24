@@ -58,6 +58,12 @@ return {
         },
       },
       picker = {
+        formatters = {
+          file = {
+            filename_first = true,
+            truncate = 60
+          }
+        },
         sources = {
           files_with_symbols = {
             multi = { 'files', 'lsp_symbols' },

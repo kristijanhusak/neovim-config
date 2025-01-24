@@ -1,36 +1,7 @@
-local utils = require('partials.utils')
-
-local expand_snippet = function()
-  local filetype_map = {
-    typescriptreact = 'javascript',
-    typescript = 'javascript',
-    javascriptreact = 'javascript',
-  }
-  local line_to_cursor = vim.fn.getline('.'):sub(1, vim.fn.col('.') - 1)
-  local keyword = vim.fn.matchstr(line_to_cursor, [[\s*\zs\(.*\)$]])
-  local filetype = filetype_map[vim.bo.filetype] or vim.bo.filetype
-  local path = vim.fn.stdpath('config') .. '/snippets/' .. filetype .. '.json'
-  local fs_stat = vim.uv.fs_stat(path)
-  if not fs_stat or fs_stat.type ~= 'file' then
-    return
-  end
-  ---@type { prefix: string[], body: string[] }[]
-  local data = vim.json.decode(table.concat(vim.fn.readfile(path), '\n'))
-
-  for _, snippet in pairs(data) do
-    if snippet.prefix[1] == keyword then
-      vim.fn.feedkeys(utils.esc('<C-w>'), 'n')
-      vim.schedule(function()
-        vim.snippet.expand(table.concat(snippet.body, '\n'))
-      end)
-      return true
-    end
-  end
-end
-
 return {
   'saghen/blink.cmp',
   event = 'InsertEnter',
+  enabled = not vim.g.enable_custom_completion,
   version = '*',
   opts = {
     sources = {
@@ -93,7 +64,7 @@ return {
             return cmp.snippet_forward()
           end
 
-          if expand_snippet() then
+          if require('partials.utils').expand_snippet() then
             return
           end
 
