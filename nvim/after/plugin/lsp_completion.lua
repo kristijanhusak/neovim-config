@@ -3,13 +3,178 @@ if not vim.g.enable_custom_completion then
 end
 
 local utils = require('partials.utils')
+local augroup = vim.api.nvim_create_augroup('custom_lsp_completion', { clear = true })
+local icons = utils.lsp_kind_icons()
+local timer = nil
+
+local stop_timer = function()
+  if timer then
+    timer:stop()
+    timer:close()
+    timer = nil
+  end
+end
+
+local function debounce(fn, delay)
+  return function(...)
+    local args = { ... }
+    stop_timer()
+    timer = vim.loop.new_timer()
+    timer:start(
+      delay,
+      0,
+      vim.schedule_wrap(function()
+        fn(unpack(args))
+      end)
+    )
+  end
+end
+
+local function pumvisible()
+  return vim.fn.pumvisible() > 0
+end
+
+local feedkeys = function(key)
+  stop_timer()
+  vim.api.nvim_feedkeys(utils.esc(key), 'n', false)
+end
+
+local trigger_with_fallback = function(fn, still_running)
+  local win = vim.api.nvim_get_current_win()
+  local cursor = vim.api.nvim_win_get_cursor(win)
+
+  fn()
+
+  vim.defer_fn(function()
+    if pumvisible() then
+      return
+    end
+    vim.schedule(function()
+      local mode = vim.api.nvim_get_mode().mode
+      local is_insert_mode = mode == 'i' or mode == 'ic'
+      local cursor_changed = not vim.deep_equal(cursor, vim.api.nvim_win_get_cursor(win))
+      if cursor_changed or not is_insert_mode or pumvisible() or (still_running and still_running()) then
+        return stop_timer()
+      end
+      feedkeys('<C-g><C-g><C-x><C-n>')
+    end)
+  end, 50)
+end
+
+local complete_ins = debounce(function()
+  if pumvisible() then
+    return stop_timer()
+  end
+  local lsp_client_id = vim.b.lsp_client_id
+  ---@diagnostic disable-next-line: undefined-field
+  local has_omnifunc = vim.opt_local.omnifunc:get() ~= ''
+
+  if not lsp_client_id and not has_omnifunc then
+    return feedkeys('<C-n>')
+  end
+
+  if not lsp_client_id then
+    return trigger_with_fallback(function()
+      return feedkeys('<C-x><C-o>')
+    end)
+  end
+
+  return trigger_with_fallback(vim.lsp.completion.trigger, function()
+    return #vim.tbl_filter(function(request)
+      return request.method == vim.lsp.protocol.Methods.textDocument_completion
+    end, vim.lsp.get_client_by_id(lsp_client_id).requests) > 0
+  end)
+end, 100)
+
+local trigger_complete = function(char, buf)
+  buf = buf or vim.api.nvim_get_current_buf()
+  if vim.bo[buf].buftype == 'prompt' then
+    return
+  end
+  if pumvisible() or char == ' ' then
+    return
+  end
+  complete_ins()
+end
+
+local function on_complete_changed()
+  local completed_item = vim.api.nvim_get_vvar('completed_item')
+  if not completed_item or not completed_item.user_data or not completed_item.user_data.nvim then
+    return
+  end
+  local completion_item = completed_item.user_data.nvim.lsp.completion_item --- @type lsp.CompletionItem
+  local client_id = completed_item.user_data.nvim.lsp.client_id --- @type integer
+  local client = vim.lsp.get_client_by_id(client_id)
+  if not client then
+    return
+  end
+
+  client:request(vim.lsp.protocol.Methods.completionItem_resolve, completion_item, function(err, result)
+    if err or not result then
+      return
+    end
+
+    local text = {}
+
+    if result and result.documentation then
+      local docs = type(result.documentation) == 'string' and result.documentation or result.documentation.value
+      vim.list_extend(text, vim.split(docs, '\n'))
+    end
+
+    if result.detail and not vim.startswith(text[1] or '', '```') then
+      text = vim.list_extend({ '```' .. vim.bo.filetype, result.detail, '```' }, text)
+    end
+
+    if #text == 0 then
+      return
+    end
+
+    local pos = vim.fn.pum_getpos()
+    if not pos then
+      return
+    end
+    local _, popup_winid = vim.lsp.util.open_floating_preview(text, 'markdown', {
+      border = 'single',
+    })
+    vim.api.nvim_win_set_config(popup_winid, {
+      relative = 'win',
+      row = pos.row,
+      col = pos.col + pos.width + (pos.scrollbar and 1 or 0),
+    })
+  end)
+end
+
+-- Autocmds
+vim.api.nvim_create_autocmd('InsertCharPre', {
+  group = augroup,
+  pattern = '*',
+  callback = function(args)
+    local char = vim.v.char
+    vim.schedule(function()
+      trigger_complete(char, args.buf)
+    end)
+  end,
+})
+
+vim.api.nvim_create_autocmd('CompleteChanged', {
+  group = augroup,
+  pattern = '*',
+  callback = function()
+    on_complete_changed()
+  end,
+})
 
 vim.api.nvim_create_autocmd('LspAttach', {
+  group = augroup,
   callback = function(args)
-    vim.lsp.completion.enable(true, args.data.client_id, args.buf, {
-      autotrigger = true,
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client or not client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
+      return
+    end
+    --
+    vim.b[args.buf].lsp_client_id = client.id
+    vim.lsp.completion.enable(true, client.id, args.buf, {
       convert = function(item)
-        local icons = utils.lsp_kind_icons()
         local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or 'Text'
         return {
           kind = icons[kind],
@@ -18,26 +183,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
         }
       end,
     })
+
+    vim.api.nvim_create_autocmd('CompleteChanged', {
+      group = augroup,
+      buffer = args.buf,
+      callback = function()
+        on_complete_changed()
+      end,
+    })
   end,
 })
 
-local lspMethods = vim.lsp.protocol.Methods
-
-local get_completion_lsp_client = function()
-  local clients = vim.lsp.get_clients({
-    method = lspMethods.textDocument_completion,
-    bufnr = 0,
-  })
-  if #clients > 0 then
-    return clients[1]
-  end
-  return nil
-end
-
-local has_valid_lsp_clients = function()
-  return get_completion_lsp_client() ~= nil
-end
-
+-- Keymaps
 vim.keymap.set('i', '<Tab>', function()
   if vim.snippet.active({ direction = 1 }) then
     return vim.snippet.jump(1)
@@ -65,86 +222,32 @@ vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
   return utils.feedkeys('<S-Tab>', 'n')
 end, { silent = true })
 
-local preselect = function()
-  if vim.fn.pumvisible() > 0 and vim.fn.complete_info({ 'selected' }).selected == -1 then
-    utils.feedkeys('<C-n>', 'n')
-  end
-end
-
-local function complete(key)
-  utils.feedkeys(key, 'n')
-  vim.schedule(preselect)
-end
-
 vim.keymap.set('i', '<C-n>', function()
-  if vim.fn.pumvisible() > 0 then
+  if pumvisible() then
     return utils.feedkeys('<C-n>', 'n')
   end
 
-  local lsp_client = get_completion_lsp_client()
-  ---@diagnostic disable-next-line: undefined-field
-  local has_omnifunc = vim.opt_local.omnifunc:get() ~= ''
-
-  if not lsp_client and not has_omnifunc then
-    return complete('<C-n>')
-  end
-
-  if not lsp_client then
-    utils.feedkeys('<C-x><C-o>', 'n')
-    vim.schedule(function()
-      if vim.fn.pumvisible() == 0 then
-        complete('<C-e><C-n>')
-      else
-        preselect()
-      end
-    end)
-    return
-  end
-
-  local win = vim.api.nvim_get_current_win()
-  local cursor = vim.api.nvim_win_get_cursor(win)
-
-  vim.lsp.completion.trigger()
-
-  vim.wait(500, function()
-    return #vim.tbl_filter(function(request)
-      return request.method == lspMethods.textDocument_completion
-    end, lsp_client.requests) == 0
-  end)
-
-  if vim.fn.pumvisible() > 0 then
-    return preselect()
-  end
-
-  local mode = vim.api.nvim_get_mode().mode
-  local is_insert_mode = mode == 'i' or mode == 'ic'
-  local cursor_changed = not vim.deep_equal(cursor, vim.api.nvim_win_get_cursor(win))
-  if cursor_changed or not is_insert_mode then
-    return
-  end
-  complete('<C-e><C-n>')
+  local char = vim.api.nvim_get_current_line():sub(-1)
+  trigger_complete(char)
 end)
 
-vim.keymap.set('i', '<C-space>', function()
-  if has_valid_lsp_clients() then
-    vim.lsp.completion.trigger()
-  else
-    utils.feedkeys('<C-x><C-o>', 'n')
-  end
-end)
-
-_G.kris = _G.kris or {}
-
-_G.kris.cr = function()
+vim.keymap.set('i', '<CR>', function()
   local npairs = require('nvim-autopairs')
-  if vim.fn.pumvisible() == 0 then
+
+  if not pumvisible() then
     return npairs.autopairs_cr()
   end
 
   if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
     return npairs.esc('<c-y>')
   end
-  return npairs.esc('<c-e>') .. npairs.autopairs_cr()
-end
+  return npairs.autopairs_cr()
+end, { expr = true, noremap = true, replace_keycodes = false })
 
-vim.api.nvim_set_keymap('i', '<CR>', 'v:lua.kris.cr()', { expr = true, noremap = true })
+vim.keymap.set('i', '<BS>', function()
+  vim.fn.feedkeys(utils.esc('<BS>'), 'n')
+  vim.schedule(function()
+    local char = vim.api.nvim_get_current_line():sub(-1)
+    trigger_complete(char)
+  end)
+end, { noremap = true })

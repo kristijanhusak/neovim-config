@@ -178,7 +178,6 @@ function setup.servers()
           commitCharactersSupport = true,
           deprecatedSupport = true,
           preselectSupport = true,
-          insertReplaceSupport = true,
           resolveSupport = {
             properties = {
               'documentation',
