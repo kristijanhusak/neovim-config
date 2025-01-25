@@ -52,7 +52,7 @@ local trigger_with_fallback = function(fn, still_running)
     vim.schedule(function()
       local mode = vim.api.nvim_get_mode().mode
       local is_insert_mode = mode == 'i' or mode == 'ic'
-      local cursor_changed = not vim.deep_equal(cursor, vim.api.nvim_win_get_cursor(win))
+      local cursor_changed = vim.api.nvim_win_is_valid(win) and not vim.deep_equal(cursor, vim.api.nvim_win_get_cursor(win))
       if cursor_changed or not is_insert_mode or pumvisible() or (still_running and still_running()) then
         return stop_timer()
       end
@@ -129,13 +129,13 @@ local function on_complete_changed()
       return
     end
 
-    local pos = vim.fn.pum_getpos()
-    if not pos then
-      return
-    end
     local _, popup_winid = vim.lsp.util.open_floating_preview(text, 'markdown', {
       border = 'single',
     })
+    local pos = vim.fn.pum_getpos()
+    if not pos or not pos.row or not pos.col then
+      return
+    end
     vim.api.nvim_win_set_config(popup_winid, {
       relative = 'win',
       row = pos.row,
