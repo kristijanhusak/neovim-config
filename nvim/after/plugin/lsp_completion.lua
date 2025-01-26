@@ -52,13 +52,14 @@ local trigger_with_fallback = function(fn, still_running)
     vim.schedule(function()
       local mode = vim.api.nvim_get_mode().mode
       local is_insert_mode = mode == 'i' or mode == 'ic'
-      local cursor_changed = vim.api.nvim_win_is_valid(win) and not vim.deep_equal(cursor, vim.api.nvim_win_get_cursor(win))
+      local cursor_changed = vim.api.nvim_win_is_valid(win)
+        and not vim.deep_equal(cursor, vim.api.nvim_win_get_cursor(win))
       if cursor_changed or not is_insert_mode or pumvisible() or (still_running and still_running()) then
         return stop_timer()
       end
       feedkeys('<C-g><C-g><C-x><C-n>')
     end)
-  end, 50)
+  end, 100)
 end
 
 local complete_ins = debounce(function()
@@ -171,7 +172,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if not client or not client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
       return
     end
-    --
+
     vim.b[args.buf].lsp_client_id = client.id
     vim.lsp.completion.enable(true, client.id, args.buf, {
       convert = function(item)
