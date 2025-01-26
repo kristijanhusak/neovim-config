@@ -8,8 +8,7 @@ install_oh_my_zsh() {
   && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
   && git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k \
   && ln -s $(pwd)/zsh/themes/* ~/.oh-my-zsh/custom/themes \
-  && rm -rf ~/z.sh \
-  && curl -fLo ~/z.sh https://raw.githubusercontent.com/rupa/z/master/z.sh
+  && yay -S zoxide
 }
 
 install_neovim() {

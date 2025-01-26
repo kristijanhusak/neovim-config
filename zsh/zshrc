@@ -14,7 +14,6 @@ plugins=(
   git
   zsh-autosuggestions
   docker-compose
-  z
   zsh-syntax-highlighting
   history-substring-search
   command-not-found
@@ -28,7 +27,6 @@ plugins=(
 ENABLE_CORRECTION="true"
 
 source $ZSH/oh-my-zsh.sh
-. ~/z.sh
 
 if [[ -r ~/.phpbrew/bashrc ]]; then
   source ~/.phpbrew/bashrc
@@ -168,11 +166,18 @@ remove_gone_branches() {
   git fetch -p && for branch in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do git branch -D $branch; done
 }
 
-# Autocomplete Z items
-unalias z 2> /dev/null
+eval "$(zoxide init zsh --no-cmd)"
+
 z() {
-  [ $# -gt 0 ] && _z "$*" && return
-  cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+  if [ $# -gt 0 ]; then
+    __zoxide_z "$*"
+  else
+    __zoxide_zi
+  fi
+}
+
+zi() {
+  __zoxide_zi "$*"
 }
 
 [[ $- == *i* ]] && source "/usr/share/fzf/completion.zsh" 2> /dev/null
