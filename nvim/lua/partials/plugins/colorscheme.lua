@@ -11,14 +11,6 @@ local colorscheme = {
 colorscheme.onenord = function()
   local colors = require('onenord.colors').load()
 
-  local telescope_normal = colors.active
-  local telescope_prompt = colors.float
-
-  if vim.o.background == 'light' then
-    telescope_prompt = '#edeff4'
-    telescope_normal = '#e4e7ee'
-  end
-
   require('onenord').setup({
     styles = {
       diagnostics = 'undercurl',
@@ -31,14 +23,6 @@ colorscheme.onenord = function()
     custom_highlights = {
       NvimTreeNormal = { fg = colors.fg, bg = colors.bg },
       CurSearch = { fg = colors.cyan, bg = colors.selection, style = 'bold' },
-      TelescopeTitle = { bg = telescope_prompt, fg = colors.fg },
-      TelescopeNormal = { bg = telescope_normal },
-      TelescopePromptBorder = { bg = telescope_prompt, fg = telescope_prompt },
-      TelescopePromptNormal = { bg = telescope_prompt },
-      TelescopePromptTitle = { fg = colors.fg, bg = telescope_normal },
-      TelescopeSelection = { bg = telescope_prompt },
-      TelescopePreviewBorder = { fg = telescope_normal, bg = telescope_normal },
-      TelescopeResultsBorder = { fg = telescope_normal, bg = telescope_normal },
       MatchParenCur = { fg = colors.blue, style = 'inverse' },
       NormalFloat = { bg = colors.bg },
       FloatBorder = { bg = colors.bg },
@@ -63,40 +47,11 @@ colorscheme.tokyonight = function()
       cmp = true,
     },
     on_highlights = function(hl, c)
-      local prompt = '#2d3149'
       hl.SimpleF = {
         fg = c.red,
         reverse = true,
         bold = true,
       }
-      hl.TelescopeNormal = {
-        bg = c.bg_dark,
-        fg = c.fg_dark,
-      }
-      hl.TelescopeBorder = {
-        bg = c.bg_dark,
-        fg = c.bg_dark,
-      }
-      hl.TelescopePromptNormal = {
-        bg = prompt,
-      }
-      hl.TelescopePromptBorder = {
-        bg = prompt,
-        fg = prompt,
-      }
-      hl.TelescopePromptTitle = {
-        bg = prompt,
-        fg = prompt,
-      }
-      hl.TelescopePreviewTitle = {
-        bg = c.bg_dark,
-        fg = c.bg_dark,
-      }
-      hl.TelescopeResultsTitle = {
-        bg = c.bg_dark,
-        fg = c.bg_dark,
-      }
-
       hl.SnacksPicker = {
         bg = c.bg_dark,
         fg = c.fg_dark,
