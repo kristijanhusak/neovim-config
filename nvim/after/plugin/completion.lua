@@ -59,7 +59,7 @@ local trigger_with_fallback = function(fn, still_running)
       end
       feedkeys('<C-g><C-g><C-n>')
     end)
-  end, 100)
+  end, 50)
 end
 
 local complete_ins = debounce(function()
@@ -85,17 +85,22 @@ local complete_ins = debounce(function()
       return request.method == vim.lsp.protocol.Methods.textDocument_completion
     end, vim.lsp.get_client_by_id(lsp_client_id).requests) > 0
   end)
-end, 100)
+end, 50)
 
-local trigger_complete = function(char, buf)
-  buf = buf or vim.api.nvim_get_current_buf()
+local trigger_complete = function(opts)
+  opts = opts or {}
+  if opts.force then
+    return complete_ins()
+  end
+
+  local buf = opts.buf or vim.api.nvim_get_current_buf()
   if vim.bo[buf].buftype == 'prompt' or vim.bo[buf].filetype == 'snacks_input' then
     return
   end
-  if pumvisible() or char == ' ' then
+  if pumvisible() or opts.char == ' ' then
     return
   end
-  complete_ins()
+  return complete_ins()
 end
 
 local function on_complete_changed()
@@ -152,7 +157,7 @@ vim.api.nvim_create_autocmd('InsertCharPre', {
   callback = function(args)
     local char = vim.v.char
     vim.schedule(function()
-      trigger_complete(char, args.buf)
+      trigger_complete({ char = char, buf = args.buf })
     end)
   end,
 })
@@ -220,8 +225,7 @@ vim.keymap.set('i', '<C-n>', function()
     return utils.feedkeys('<C-n>', 'n')
   end
 
-  local char = vim.api.nvim_get_current_line():sub(-1)
-  trigger_complete(char)
+  trigger_complete({ force = true })
 end)
 
 vim.keymap.set('i', '<CR>', function()
@@ -241,6 +245,6 @@ vim.keymap.set('i', '<BS>', function()
   vim.fn.feedkeys(utils.esc('<BS>'), 'n')
   vim.schedule(function()
     local char = vim.api.nvim_get_current_line():sub(-1)
-    trigger_complete(char)
+    trigger_complete({ char = char })
   end)
 end, { noremap = true })
