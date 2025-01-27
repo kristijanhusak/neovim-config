@@ -61,14 +61,14 @@ vim.opt.matchtime = 0
 vim.g.python3_host_prog = '/usr/bin/python3'
 vim.opt.splitkeep = 'screen'
 vim.opt.diffopt:append('linematch:60')
-vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect' }
+vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect', 'popup' }
 vim.opt.pumheight = 10
 if vim.fn.exists('&completeitemalign') > 0 then
   vim.opt.completeitemalign = { 'kind', 'abbr', 'menu' }
 end
 
 if vim.fn.has('nvim-0.11') > 0 then
-  vim.opt.completeopt:append({ 'fuzzy', 'popup' })
+  vim.opt.completeopt:append({ 'fuzzy' })
 end
 
 function settings.strip_trailing_whitespace()
