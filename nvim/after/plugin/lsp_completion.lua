@@ -57,7 +57,7 @@ local trigger_with_fallback = function(fn, still_running)
       if cursor_changed or not is_insert_mode or pumvisible() or (still_running and still_running()) then
         return stop_timer()
       end
-      feedkeys('<C-g><C-g><C-x><C-n>')
+      feedkeys('<C-g><C-g><C-n>')
     end)
   end, 100)
 end
@@ -89,7 +89,7 @@ end, 100)
 
 local trigger_complete = function(char, buf)
   buf = buf or vim.api.nvim_get_current_buf()
-  if vim.bo[buf].buftype == 'prompt' then
+  if vim.bo[buf].buftype == 'prompt' or vim.bo[buf].filetype == 'snacks_input' then
     return
   end
   if pumvisible() or char == ' ' then
@@ -234,7 +234,7 @@ vim.keymap.set('i', '<CR>', function()
   if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
     return npairs.esc('<c-y>')
   end
-  return npairs.autopairs_cr()
+  return npairs.esc('<c-e>') .. npairs.autopairs_cr()
 end, { expr = true, noremap = true, replace_keycodes = false })
 
 vim.keymap.set('i', '<BS>', function()
