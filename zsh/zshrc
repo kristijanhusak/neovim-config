@@ -166,6 +166,8 @@ remove_gone_branches() {
   git fetch -p && for branch in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do git branch -D $branch; done
 }
 
+export _ZO_FZF_OPTS="--no-sort --bind=ctrl-z:ignore,btab:up,tab:down --cycle --keep-right --border=sharp --height=45% --info=inline --layout=reverse --tabstop=1 --exit-0"
+
 eval "$(zoxide init zsh --no-cmd)"
 
 z() {
