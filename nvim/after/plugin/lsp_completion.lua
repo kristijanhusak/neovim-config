@@ -157,14 +157,6 @@ vim.api.nvim_create_autocmd('InsertCharPre', {
   end,
 })
 
-vim.api.nvim_create_autocmd('CompleteChanged', {
-  group = augroup,
-  pattern = '*',
-  callback = function()
-    on_complete_changed()
-  end,
-})
-
 vim.api.nvim_create_autocmd('LspAttach', {
   group = augroup,
   callback = function(args)
