@@ -154,7 +154,7 @@ local separator_types = {
   },
 }
 
-local separators = separator_types.circle
+local separators = separator_types.slant
 
 local function sep(item, opts, show)
   opts = opts or {}
