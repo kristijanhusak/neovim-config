@@ -5,15 +5,20 @@ local function save_to_git_history()
   if vim.bo.buftype ~= '' then
     return
   end
-  local cwd = uv.cwd() or ''
+  local cwd = uv.cwd()
+  if not cwd then
+    return
+  end
   local git_dir = cwd .. '/.git'
-  local is_git = uv.fs_stat(git_dir)
+
   if not uv.fs_stat(git_dir) then
     cwd = vim.fs.root(cwd, '.git')
+    if not cwd then
+      return
+    end
     git_dir = cwd .. '/.git'
   end
-  is_git = uv.fs_stat(git_dir)
-  if not is_git or is_git.type ~= 'directory' then
+  if not uv.fs_stat(git_dir) then
     return
   end
   local filepath = vim.fn.expand('%:p')
