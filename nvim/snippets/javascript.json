@@ -16,6 +16,7 @@
     "prefix": ["it"],
     "body": [
       "it('${1:should}', async () => {",
+      "\texpect(true).toBe(true)",
       "\t$0",
       "})"
     ],
@@ -138,7 +139,9 @@
     "prefix": ["desc"],
     "body": [
       "describe('${1}', () => {",
-      "\t$0",
+      "\tbeforeEach(async () => {",
+      "\t\t$0",
+      "\t})",
       "})"
     ],
     "description": "Describe test"
