@@ -20,13 +20,10 @@ local function debounce(fn, delay)
     local args = { ... }
     stop_timer()
     timer = vim.loop.new_timer()
-    timer:start(
-      delay,
-      0,
-      vim.schedule_wrap(function()
-        fn(unpack(args))
-      end)
-    )
+    timer:start(delay, 0, function()
+      stop_timer()
+      vim.schedule_wrap(fn)(unpack(args))
+    end)
   end
 end
 
@@ -40,25 +37,19 @@ local feedkeys = function(key)
 end
 
 local trigger_with_fallback = function(fn, still_running)
-  local win = vim.api.nvim_get_current_win()
-  local cursor = vim.api.nvim_win_get_cursor(win)
-
   fn()
 
+  if pumvisible() then
+    return stop_timer()
+  end
+
   vim.defer_fn(function()
-    if pumvisible() then
-      return
+    local mode = vim.api.nvim_get_mode().mode
+    local is_insert_mode = mode == 'i' or mode == 'ic'
+    if not is_insert_mode or pumvisible() or (still_running and still_running()) then
+      return stop_timer()
     end
-    vim.schedule(function()
-      local mode = vim.api.nvim_get_mode().mode
-      local is_insert_mode = mode == 'i' or mode == 'ic'
-      local cursor_changed = vim.api.nvim_win_is_valid(win)
-        and not vim.deep_equal(cursor, vim.api.nvim_win_get_cursor(win))
-      if cursor_changed or not is_insert_mode or pumvisible() or (still_running and still_running()) then
-        return stop_timer()
-      end
-      feedkeys('<C-g><C-g><C-n>')
-    end)
+    feedkeys('<C-g><C-g><C-x><C-n>')
   end, 50)
 end
 
@@ -71,7 +62,7 @@ local complete_ins = debounce(function()
   local has_omnifunc = vim.opt_local.omnifunc:get() ~= ''
 
   if not lsp_client_id and not has_omnifunc then
-    return feedkeys('<C-n>')
+    return feedkeys('<C-x><C-n>')
   end
 
   if not lsp_client_id then
@@ -242,7 +233,7 @@ vim.keymap.set('i', '<CR>', function()
 end, { expr = true, noremap = true, replace_keycodes = false })
 
 vim.keymap.set('i', '<BS>', function()
-  vim.fn.feedkeys(utils.esc('<BS>'), 'n')
+  vim.api.nvim_feedkeys(utils.esc('<BS>'), 'n', false)
   vim.schedule(function()
     local char = vim.api.nvim_get_current_line():sub(-1)
     trigger_complete({ char = char })
