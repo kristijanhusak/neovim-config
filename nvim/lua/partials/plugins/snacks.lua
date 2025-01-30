@@ -57,11 +57,18 @@ return {
           },
         },
       },
+      terminal = {
+        win = {
+          wo = {
+            winbar = '',
+          },
+        },
+      },
       picker = {
         formatters = {
           file = {
-            truncate = 60
-          }
+            truncate = 80,
+          },
         },
         sources = {
           files_with_symbols = {
@@ -203,6 +210,14 @@ return {
     end, {
       nargs = 0,
     })
+
+    vim.keymap.set('n', '<leader>T', function()
+      return Snacks.terminal.toggle()
+    end, { desc = 'Toggle terminal' })
+    vim.keymap.set('t', '<leader>T', function()
+      vim.cmd('stopinsert')
+      return Snacks.terminal.toggle()
+    end, { desc = 'Close terminal' })
 
     Snacks.picker.actions.qflist = function(picker, opts)
       picker:close()

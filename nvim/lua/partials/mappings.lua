@@ -37,7 +37,6 @@ vim.keymap.set('x', '#', [["yy?\V<C-R>=escape(getreg('y'), '\/[]')<CR><CR>N]])
 vim.keymap.set('n', 'n', 'nzz')
 vim.keymap.set('n', 'N', 'Nzz')
 
-local mapping_group = vim.api.nvim_create_augroup('vimrc_terminal_mappings', { clear = true })
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
   callback = function()
@@ -45,7 +44,7 @@ vim.api.nvim_create_autocmd('TermOpen', {
     vim.keymap.set('n', 'F', [[:call search('\f\+:\d\+:\d\+')<CR>]], { buffer = true, silent = true })
     vim.bo.bufhidden = 'wipe'
   end,
-  group = mapping_group,
+  group = vim.api.nvim_create_augroup('vimrc_terminal_mappings', { clear = true }),
 })
 
 -- Copy to system clipboard
@@ -121,11 +120,6 @@ vim.keymap.set('c', '<C-e>', '<End>')
 vim.keymap.set('c', '<C-b>', '<End>')
 vim.keymap.set('c', '<C-j>', 'wildmenumode() ? "<c-j>" : "<down>"', { expr = true, replace_keycodes = false })
 vim.keymap.set('c', '<C-k>', 'wildmenumode() ? "<c-k>" : "<up>"', { expr = true, replace_keycodes = false })
-
-vim.keymap.set('n', '<leader>T', function()
-  return mappings.toggle_terminal()
-end, { desc = 'Toggle terminal' })
-vim.keymap.set('t', '<leader>T', '<C-\\><C-n><C-w>c', { desc = 'Close terminal' })
 
 vim.keymap.set('n', 'gs', ':%s/')
 vim.keymap.set('x', 'gs', ':s/')
@@ -246,40 +240,6 @@ function mappings.paste_to_json_buffer()
   vim.bo.filetype = 'json'
   vim.cmd.norm({ '"+p', bang = true })
   vim.cmd.norm({ 'VGgq', bang = true })
-end
-
-local terminal_bufnr = 0
-function mappings.toggle_terminal(close)
-  if close then
-    terminal_bufnr = 0
-    return
-  end
-  if terminal_bufnr <= 0 then
-    vim.api.nvim_create_autocmd('TermOpen', {
-      pattern = '*',
-      command = 'startinsert',
-      once = true,
-    })
-    vim.cmd([[sp | term]])
-    vim.cmd([[setlocal bufhidden=hide]])
-    vim.api.nvim_create_autocmd('BufDelete', {
-      pattern = '<buffer>',
-      callback = function()
-        mappings.toggle_terminal(true)
-      end,
-    })
-    terminal_bufnr = vim.api.nvim_get_current_buf()
-    return
-  end
-
-  local win = vim.fn.bufwinnr(terminal_bufnr)
-
-  if win > -1 then
-    vim.cmd(win .. 'close')
-    return
-  end
-
-  vim.cmd('sp | b' .. terminal_bufnr .. ' | startinsert')
 end
 
 vim.api.nvim_create_user_command('Json', mappings.paste_to_json_buffer, { force = true })
