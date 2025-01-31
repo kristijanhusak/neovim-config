@@ -27,7 +27,6 @@ return {
     })
     vim.api.nvim_create_user_command('LGH', function(args)
       local file = args.fargs[1] and vim.fn.fnamemodify(args.fargs[1], ':p') or vim.fn.expand('%:p')
-      print('return > config > vim.api.nvim_create_user_command > file', vim.inspect(file))
       local path = ('%s%s/%s'):format(lgh.config.basedir, vim.fn.hostname(), file)
       if not vim.uv.fs_stat(path) then
         return vim.notify('No history found for this file', vim.log.levels.WARN)
