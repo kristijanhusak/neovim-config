@@ -1,3 +1,21 @@
+local function explorer()
+  return Snacks.picker.explorer({
+    hidden = true,
+    win = {
+      list = {
+        keys = {
+          ['o'] = { 'confirm', mode = { 'n' } },
+          ['s'] = { 'edit_vsplit', mode = { 'n' } },
+          ['-'] = 'explorer_up',
+          ['C'] = 'explorer_cd',
+          [']c'] = 'explorer_git_next',
+          ['[c'] = 'explorer_git_prev',
+        },
+      },
+    },
+  })
+end
+
 return {
   'folke/snacks.nvim',
   priority = 1000,
@@ -33,6 +51,14 @@ return {
       end,
       desc = 'Git browse',
       mode = { 'n', 'v' },
+    },
+    {
+      '<leader>n',
+      explorer,
+    },
+    {
+      '<leader>hf',
+      explorer,
     },
   },
   config = function()
