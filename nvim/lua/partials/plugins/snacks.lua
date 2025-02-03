@@ -60,17 +60,11 @@ return {
     {
       '<leader>hf',
       function()
-        local explorer_win = vim.tbl_filter(function(win)
-          local bufnr = vim.api.nvim_win_get_buf(win)
-          local filetype = vim.api.nvim_get_option_value('filetype', {
-            buf = bufnr
-          })
-          return filetype == 'snacks_picker_list'
-        end, vim.api.nvim_list_wins())[1]
-        if explorer_win then
-          return vim.api.nvim_set_current_win(explorer_win)
-        end
+        local explorer_picker = Snacks.picker.get({ source = 'explorer' })
+        if not explorer_picker[1] then
         return explorer()
+        end
+        explorer_picker[1].list.win:focus()
       end,
     },
   },
