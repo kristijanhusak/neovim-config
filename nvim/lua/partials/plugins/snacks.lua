@@ -1,6 +1,7 @@
 local function explorer()
-  return Snacks.picker.explorer({
+  return Snacks.explorer.open({
     hidden = true,
+    git_status_open = true,
     win = {
       list = {
         keys = {
@@ -58,7 +59,19 @@ return {
     },
     {
       '<leader>hf',
-      explorer,
+      function()
+        local explorer_win = vim.tbl_filter(function(win)
+          local bufnr = vim.api.nvim_win_get_buf(win)
+          local filetype = vim.api.nvim_get_option_value('filetype', {
+            buf = bufnr
+          })
+          return filetype == 'snacks_picker_list'
+        end, vim.api.nvim_list_wins())[1]
+        if explorer_win then
+          return vim.api.nvim_set_current_win(explorer_win)
+        end
+        return explorer()
+      end,
     },
   },
   config = function()
