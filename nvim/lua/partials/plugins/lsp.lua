@@ -335,7 +335,7 @@ local function refresh_diagnostics()
 end
 
 function setup.attach_to_buffer(client, bufnr)
-  vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+  vim.api.nvim_create_autocmd({ 'CursorHold' }, {
     buffer = bufnr,
     callback = show_diagnostics,
     group = lsp_group,
@@ -354,7 +354,7 @@ function setup.attach_to_buffer(client, bufnr)
         if node and (node:type() == 'arguments' or (node:parent() and node:parent():type() == 'arguments')) then
           vim.defer_fn(function()
             vim.lsp.buf.signature_help(preview_opts)
-          end, 1000)
+          end, 500)
         end
       end,
       group = lsp_group,
