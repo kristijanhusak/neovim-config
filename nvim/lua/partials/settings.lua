@@ -63,6 +63,7 @@ vim.opt.splitkeep = 'screen'
 vim.opt.diffopt:append('linematch:60')
 vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect', 'popup' }
 vim.opt.pumheight = 10
+vim.o.complete = vim.o.complete .. ',i'
 if vim.fn.exists('&completeitemalign') > 0 then
   vim.opt.completeitemalign = { 'kind', 'abbr', 'menu' }
 end

@@ -49,7 +49,7 @@ local trigger_with_fallback = function(fn, still_running)
     if not is_insert_mode or pumvisible() or (still_running and still_running()) then
       return stop_timer()
     end
-    feedkeys('<C-g><C-g><C-x><C-n>')
+    feedkeys('<C-g><C-g><C-n>')
   end, 50)
 end
 
@@ -62,7 +62,7 @@ local complete_ins = debounce(function()
   local has_omnifunc = vim.opt_local.omnifunc:get() ~= ''
 
   if not lsp_client_id and not has_omnifunc then
-    return feedkeys('<C-x><C-n>')
+    return feedkeys('<C-n>')
   end
 
   if not lsp_client_id then
