@@ -62,7 +62,7 @@ return {
       function()
         local explorer_picker = Snacks.picker.get({ source = 'explorer' })
         if not explorer_picker[1] then
-        return explorer()
+          return explorer()
         end
         explorer_picker[1].list.win:focus()
       end,

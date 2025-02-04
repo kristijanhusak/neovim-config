@@ -34,7 +34,7 @@ return {
       on_open(path)
     end, {
       nargs = '?',
-      complete = 'file'
+      complete = 'file',
     })
   end,
 }

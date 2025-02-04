@@ -6,5 +6,5 @@ return {
     disable_extra_info = 'no',
     language = 'English',
   },
-  cmd = {'CopilotChat'}
+  cmd = { 'CopilotChat' },
 }

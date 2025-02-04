@@ -34,7 +34,7 @@ javascript.config = function()
     callback = function()
       require('tsc').setup({
         auto_close_qflist = true,
-        bin_path = require('tsc.utils').find_tsc_bin()
+        bin_path = require('tsc.utils').find_tsc_bin(),
       })
     end,
   })

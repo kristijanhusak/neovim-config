@@ -18,7 +18,7 @@ gitsigns_nvim.config = function()
       local function map(mode, l, r, desc)
         vim.keymap.set(mode, l, r, {
           buffer = bufnr,
-          desc = desc
+          desc = desc,
         })
       end
 

@@ -7,7 +7,7 @@ return {
     },
     suggestion = {
       auto_trigger = true,
-      hide_during_completion = false
+      hide_during_completion = false,
     },
   },
 }
