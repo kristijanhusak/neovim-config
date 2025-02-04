@@ -103,6 +103,17 @@ return {
             truncate = 80,
           },
         },
+        icons = {
+          git = {
+            staged = '✓',
+            deleted = '',
+            ignored = ' ',
+            modified = '✗',
+            renamed = '',
+            unmerged = ' ',
+            untracked = '★',
+          },
+        },
         sources = {
           files_with_symbols = {
             multi = { 'files', 'lsp_symbols' },
