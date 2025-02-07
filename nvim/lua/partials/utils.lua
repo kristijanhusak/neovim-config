@@ -79,7 +79,7 @@ function M.expand_snippet()
     javascriptreact = 'javascript',
   }
   local line_to_cursor = vim.fn.getline('.'):sub(1, vim.fn.col('.') - 1)
-  local keyword = vim.fn.matchstr(line_to_cursor, [[\s*\zs\(.*\)$]])
+  local keyword = vim.fn.matchstr(line_to_cursor, [[\k\+$]])
   local filetype = filetype_map[vim.bo.filetype] or vim.bo.filetype
   local path = vim.fn.stdpath('config') .. '/snippets/' .. filetype .. '.json'
   local fs_stat = vim.uv.fs_stat(path)
