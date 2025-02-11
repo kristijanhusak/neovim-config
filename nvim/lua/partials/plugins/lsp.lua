@@ -28,7 +28,6 @@ local preview_opts = {
 local lsp = {
   'neovim/nvim-lspconfig',
   dependencies = {
-    { 'yioneko/nvim-vtsls' },
     { 'SmiteshP/nvim-navic' },
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
@@ -156,7 +155,7 @@ function setup.mason()
       'dockerls',
       'vimls',
       'intelephense',
-      'vtsls',
+      'ts_ls',
       'gopls',
       'lua_ls',
       'rust_analyzer',
@@ -239,26 +238,14 @@ function setup.servers()
     },
   }))
 
-  local vtsls_settings = {
-    preferences = {
-      quoteStyle = 'single',
-      importModuleSpecifier = 'project-relative',
+  nvim_lsp.ts_ls.setup(lsp_setup({
+    init_options = {
+      preferences = {
+        quotePreference = 'single',
+        importModuleSpecifierPreference = 'project-relative',
+      },
     },
-    inlayHints = {
-      parameterNames = { enabled = 'all' },
-      parameterTypes = { enabled = true },
-      variableTypes = { enabled = true },
-      propertyDeclarationTypes = { enabled = true },
-      functionLikeReturnTypes = { enabled = true },
-      enumMemberValues = { enabled = true },
-    },
-  }
-  nvim_lsp.vtsls.setup(lsp_setup({
-    settings = {
-      javascript = vtsls_settings,
-      typescript = vtsls_settings,
-    },
-    disableFormatting = true,
+    disableFormatting = true
   }))
 
   require('lazydev').setup({
