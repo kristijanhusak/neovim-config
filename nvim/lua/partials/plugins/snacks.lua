@@ -2,6 +2,10 @@ local function explorer()
   return Snacks.explorer.open({
     hidden = true,
     git_status_open = true,
+    layout = 'custom_explorer',
+    on_show = function(picker)
+      picker:toggle('preview', { enable = false })
+    end,
     win = {
       list = {
         keys = {
@@ -216,7 +220,33 @@ return {
               },
             },
           },
-
+          custom_explorer = {
+            layout = {
+              {
+                border = 'none',
+                height = 1,
+                win = 'input',
+              },
+              {
+                border = 'none',
+                win = 'list',
+              },
+              {
+                border = 'top',
+                height = 0.4,
+                title = '{preview}',
+                win = 'preview',
+              },
+              backdrop = false,
+              border = 'none',
+              box = 'vertical',
+              height = 0,
+              min_width = 40,
+              position = 'left',
+              width = 40,
+            },
+            preview = 'main',
+          },
           select = {
             layout = {
               relative = 'cursor',
