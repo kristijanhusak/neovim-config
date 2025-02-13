@@ -116,6 +116,7 @@ return {
         },
         sources = {
           files_with_symbols = {
+            title = 'Files',
             multi = { 'files', 'lsp_symbols' },
             filter = {
               ---@param p snacks.Picker
@@ -186,12 +187,36 @@ return {
         },
         ui_select = true,
         prompt = '   ',
-        layout = {
-          layout = {
-            backdrop = false,
-          },
-        },
+        layout = 'custom_telescope',
         layouts = {
+          custom_telescope = {
+            layout = {
+              box = 'horizontal',
+              backdrop = false,
+              width = 0.8,
+              height = 0.9,
+              border = 'none',
+              {
+                box = 'vertical',
+                {
+                  win = 'input',
+                  height = 1,
+                  border = 'solid',
+                  -- title = '{title} {live} {flags}',
+                  -- title_pos = 'center',
+                },
+                { win = 'list', border = 'solid' },
+              },
+              {
+                win = 'preview',
+                title = '{preview:Preview}',
+                width = 0.45,
+                border = 'solid',
+                title_pos = 'center',
+              },
+            },
+          },
+
           select = {
             layout = {
               relative = 'cursor',

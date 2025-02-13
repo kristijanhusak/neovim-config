@@ -52,17 +52,17 @@ colorscheme.tokyonight = function()
         reverse = true,
         bold = true,
       }
-      hl.SnacksPicker = {
-        bg = c.bg_dark,
-        fg = c.fg_dark,
-      }
-      hl.SnacksPickerBorder = {
-        bg = c.bg_dark,
-        fg = c.bg_dark,
+
+      local prompt = '#2d3149'
+      hl.SnacksPickerInput = {
+        bg = prompt,
       }
       hl.SnacksPickerInputBorder = {
-        bg = c.bg_dark,
-        fg = c.bg_dark,
+        bg = prompt,
+      }
+
+      hl.SnacksPickerInputTitle = {
+        bg = prompt,
       }
 
       hl.Folded = {
