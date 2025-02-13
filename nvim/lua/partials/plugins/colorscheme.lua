@@ -65,6 +65,15 @@ colorscheme.tokyonight = function()
         bg = prompt,
       }
 
+      hl['@org.agenda.scheduled'] = {
+        fg = c.green1,
+      }
+
+      hl['@org.keyword.done'] = {
+        fg = c.green1,
+        bold = true,
+      }
+
       hl.Folded = {
         bg = 'NONE',
         fg = '#82aaff',
