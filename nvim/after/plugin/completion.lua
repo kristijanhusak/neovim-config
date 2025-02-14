@@ -49,7 +49,7 @@ local trigger_with_fallback = function(fn, still_running)
     if not is_insert_mode or pumvisible() or (still_running and still_running()) then
       return stop_timer()
     end
-    feedkeys('<C-g><C-g><C-n>')
+    feedkeys('<C-x><C-z><C-n>')
   end, 50)
 end
 
