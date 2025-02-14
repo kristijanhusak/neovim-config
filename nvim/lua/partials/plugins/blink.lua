@@ -1,7 +1,7 @@
 return {
   'saghen/blink.cmp',
   event = 'InsertEnter',
-  enabled = not vim.g.enable_custom_completion,
+  enabled = false,
   version = '*',
   opts = {
     sources = {
