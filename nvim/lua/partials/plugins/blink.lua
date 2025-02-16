@@ -4,13 +4,15 @@ return {
   enabled = not vim.g.enable_custom_completion,
   version = '*',
   opts = {
+    cmdline = {
+      sources = {},
+    },
     sources = {
       default = { 'lsp', 'snippets', 'path', 'buffer' },
       per_filetype = {
         org = { 'orgmode', 'buffer' },
         sql = { 'snippets', 'dadbod', 'buffer' },
       },
-      cmdline = {},
       providers = {
         dadbod = {
           name = 'Dadbod',
