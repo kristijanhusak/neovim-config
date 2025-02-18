@@ -81,6 +81,7 @@ return {
       input = {
         enabled = true,
       },
+      image = {},
       notifier = {
         enabled = true,
         top_down = false,
