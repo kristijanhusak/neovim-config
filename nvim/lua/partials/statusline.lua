@@ -105,6 +105,8 @@ local function mode_highlight(mode)
   end
 end
 
+statusline.set_colors()
+
 vim.api.nvim_create_autocmd({ 'VimEnter', 'ColorScheme' }, {
   group = statusline_group,
   pattern = '*',
