@@ -27,6 +27,9 @@ plugins=(
 
 ENABLE_CORRECTION="true"
 
+autoload -U compinit; compinit
+source ~/.oh-my-zsh/custom/plugins/fzf-tab/fzf-tab.plugin.zsh
+
 source $ZSH/oh-my-zsh.sh
 . ~/z.sh
 
