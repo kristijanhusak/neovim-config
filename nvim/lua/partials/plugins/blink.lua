@@ -8,7 +8,7 @@ return {
       enabled = false,
     },
     sources = {
-      default = { 'lsp', 'snippets', 'path', 'buffer' },
+      default = { 'lsp', 'path', 'buffer' },
       per_filetype = {
         org = { 'orgmode', 'buffer' },
         sql = { 'snippets', 'dadbod', 'buffer' },
