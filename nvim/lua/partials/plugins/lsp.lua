@@ -17,6 +17,7 @@ local filetypes = {
   'typescript',
   'typescriptreact',
   'ruby',
+  'c',
 }
 
 local preview_opts = {
@@ -161,6 +162,7 @@ function setup.mason()
       'rust_analyzer',
       'eslint',
       'ruby_lsp',
+      'clangd',
     },
   })
 end
@@ -232,6 +234,7 @@ function setup.servers()
   nvim_lsp.dockerls.setup(lsp_setup())
   nvim_lsp.rust_analyzer.setup(lsp_setup())
   nvim_lsp.ruby_lsp.setup(lsp_setup())
+  nvim_lsp.clangd.setup(lsp_setup())
   nvim_lsp.eslint.setup(lsp_setup({
     settings = {
       packageManager = 'yarn',
@@ -245,7 +248,7 @@ function setup.servers()
         importModuleSpecifierPreference = 'project-relative',
       },
     },
-    disableFormatting = true
+    disableFormatting = true,
   }))
 
   require('lazydev').setup({

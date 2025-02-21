@@ -60,30 +60,30 @@ return {
     },
     keymap = {
       preset = 'enter',
-      -- ['<Tab>'] = {
-      --   function(cmp)
-      --     if cmp.snippet_active() then
-      --       return cmp.snippet_forward()
-      --     end
-      --
-      --     if require('partials.utils').expand_snippet() then
-      --       return false
-      --     end
-      --
-      --     if require('copilot.suggestion').is_visible() then
-      --       require('copilot.suggestion').accept()
-      --       return true
-      --     end
-      --
-      --     if require('partials.utils').has_words_before() then
-      --       require('copilot.suggestion').next()
-      --       return true
-      --     end
-      --
-      --     return false
-      --   end,
-      --   'fallback',
-      -- },
+      ['<Tab>'] = {
+        function(cmp)
+          if cmp.snippet_active() then
+            return cmp.snippet_forward()
+          end
+
+          if require('partials.utils').expand_snippet() then
+            return false
+          end
+
+          if require('copilot.suggestion').is_visible() then
+            require('copilot.suggestion').accept()
+            return true
+          end
+
+          if require('partials.utils').has_words_before() then
+            require('copilot.suggestion').next()
+            return true
+          end
+
+          return false
+        end,
+        'fallback',
+      },
       ['<C-n>'] = {
         'show',
         'select_next',
