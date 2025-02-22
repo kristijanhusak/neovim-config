@@ -29,7 +29,7 @@ local function exec(cmd)
   end
 
   bufnr = vim.api.nvim_create_buf(false, is_currently_in_terminal)
-  vim.api.nvim_open_win(bufnr, true, {
+  local win = vim.api.nvim_open_win(bufnr, true, {
     width = math.max(95, math.floor(vim.o.columns * 0.25)),
     height = math.floor(vim.o.lines * 0.9),
     relative = 'editor',
@@ -38,6 +38,11 @@ local function exec(cmd)
     focusable = true,
     border = 'rounded',
   })
+
+  vim.keymap.set('n', 'q', function()
+    vim.api.nvim_win_set_config(win, { hide = true })
+    vim.cmd('wincmd p')
+  end, { buffer = bufnr })
 
   notify('Running tests...', vim.log.levels.INFO)
 
