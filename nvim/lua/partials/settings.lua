@@ -73,7 +73,12 @@ if vim.fn.has('nvim-0.11') > 0 then
 end
 
 function settings.strip_trailing_whitespace()
-  if vim.bo.modifiable then
+  local editorconfig = vim.b.editorconfig or {}
+  -- Handled by editorconfig
+  if editorconfig.trim_trailing_whitespace then
+    return
+  end
+  if vim.bo.modifiable and vim.bo.modified then
     local line = vim.fn.line('.')
     local col = vim.fn.col('.')
     vim.cmd([[%s/\s\+$//e]])
