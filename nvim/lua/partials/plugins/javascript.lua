@@ -99,10 +99,7 @@ function handlers.setup_imports_and_lsp_format()
     return true
   end)
 
-  require('conform').format({
-    lsp_format = 'fallback',
-    timeout_ms = 5000,
-  })
+  kris.lsp.format()
 end
 
 local function execute_code_action(code_action)

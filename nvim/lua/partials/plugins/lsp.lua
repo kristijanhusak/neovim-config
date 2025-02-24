@@ -1,3 +1,9 @@
+_G.kris = _G.kris or {}
+_G.kris.lsp = {
+  -- Noop by default
+  format = function() end,
+}
+
 local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostics')
 local lsp_group = vim.api.nvim_create_augroup('vimrc_lsp', { clear = true })
 
@@ -106,10 +112,7 @@ function setup.mappings()
     return vim.lsp.buf.hover(preview_opts)
   end, { silent = true, buffer = true })
   vim.keymap.set({ 'n', 'x' }, '<leader>lf', function()
-    return require('conform').format({
-      lsp_format = 'fallback',
-      timeout_ms = 5000,
-    })
+    kris.lsp.format()
   end, opts('LSP format'))
   vim.keymap.set('n', '<leader>li', vim.lsp.buf.incoming_calls, opts('LSP incoming calls'))
   vim.keymap.set('n', '<leader>lh', function()
@@ -363,6 +366,14 @@ function setup.attach_to_buffer(client, bufnr)
     vim.opt.foldtext = ''
   end
   setup.mappings()
+
+  _G.kris.lsp.format = function(buf)
+    return require('conform').format({
+      lsp_format = 'fallback',
+      timeout_ms = 5000,
+      bufnr = buf or vim.api.nvim_get_current_buf(),
+    })
+  end
 end
 
 return lsp
