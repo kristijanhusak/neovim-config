@@ -24,6 +24,7 @@ local filetypes = {
   'typescriptreact',
   'ruby',
   'c',
+  'cpp'
 }
 
 local preview_opts = {
