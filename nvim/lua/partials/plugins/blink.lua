@@ -85,9 +85,31 @@ return {
         'fallback',
       },
       ['<C-n>'] = {
-        'show',
-        'select_next',
-        'fallback',
+        function(cmp)
+          if cmp.is_menu_visible() then
+            return cmp.select_next()
+          end
+
+          if vim.fn.pumvisible() == 1 then
+            return require('partials.utils').feedkeys('<C-n>', 'n')
+          end
+
+          local show = false
+          cmp.show({
+            callback = function()
+              show = true
+            end,
+          })
+
+          vim.schedule(function()
+            vim.wait(100, function()
+              return show
+            end, 1)
+            if not show then
+              require('partials.utils').feedkeys('<C-n>', 'n')
+            end
+          end)
+        end,
       },
     },
   },
