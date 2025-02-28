@@ -110,8 +110,12 @@ local function execute_code_action(code_action)
   params.context = {
     only = { code_action },
   }
+  local args = { vim.lsp.protocol.Methods.textDocument_codeAction, params, 5000, bufnr }
+  if vim.fn.has('nvim-0.11') > 0 then
+    table.insert(args, 1, client)
+  end
 
-  local res = client:request_sync(vim.lsp.protocol.Methods.textDocument_codeAction, params, 5000, bufnr)
+  local res = client.request_sync(unpack(args))
 
   if not res or #res.result == 0 then
     return
@@ -120,7 +124,7 @@ local function execute_code_action(code_action)
   vim.lsp.util.apply_text_edits(
     res.result[1].edit.documentChanges[1].edits,
     vim.api.nvim_get_current_buf(),
-    client.offset_encoding
+    client.offset_encoding or 'utf-16'
   )
 end
 
