@@ -260,7 +260,7 @@ local function get_path()
   end
 
   if #path < (vim.fn.winwidth(0) / 4) then
-    return '%f'
+    return path
   end
 
   return vim.fn.pathshorten(path)
