@@ -6,6 +6,7 @@ local utils = require('partials.utils')
 local augroup = vim.api.nvim_create_augroup('custom_lsp_completion', { clear = true })
 local icons = utils.lsp_kind_icons()
 local timer = nil
+local protocol = vim.lsp.protocol
 
 local stop_timer = function()
   if timer then
@@ -53,7 +54,7 @@ local trigger_with_fallback = function(fn, still_running)
   end, 50)
 end
 
-local complete_ins = debounce(function()
+local complete_ins = debounce(function(opts)
   if pumvisible() then
     return stop_timer()
   end
@@ -71,9 +72,21 @@ local complete_ins = debounce(function()
     end)
   end
 
-  return trigger_with_fallback(vim.lsp.completion.trigger, function()
+  return trigger_with_fallback(function()
+    local ctx = {
+      triggerKind = protocol.CompletionTriggerKind.TriggerForIncompleteCompletions,
+    }
+    local trigger_chars = vim.b.lsp_trigger_characters or {}
+    if opts.force then
+      ctx.triggerKind = protocol.CompletionTriggerKind.Invoked
+    elseif vim.tbl_contains(trigger_chars, opts.char) then
+      ctx.triggerKind = protocol.CompletionTriggerKind.TriggerCharacter
+    end
+
+    return vim.lsp.completion.trigger({ ctx = ctx })
+  end, function()
     return #vim.tbl_filter(function(request)
-      return request.method == vim.lsp.protocol.Methods.textDocument_completion
+      return request.method == protocol.Methods.textDocument_completion
     end, vim.lsp.get_client_by_id(lsp_client_id).requests) > 0
   end)
 end, 50)
@@ -81,7 +94,7 @@ end, 50)
 local trigger_complete = function(opts)
   opts = opts or {}
   if opts.force then
-    return complete_ins()
+    return complete_ins(opts)
   end
 
   local buf = opts.buf or vim.api.nvim_get_current_buf()
@@ -91,7 +104,7 @@ local trigger_complete = function(opts)
   if pumvisible() or opts.char == ' ' then
     return
   end
-  return complete_ins()
+  return complete_ins(opts)
 end
 
 local function on_complete_changed()
@@ -106,7 +119,7 @@ local function on_complete_changed()
     return
   end
 
-  client:request(vim.lsp.protocol.Methods.completionItem_resolve, completion_item, function(err, result)
+  client:request(protocol.Methods.completionItem_resolve, completion_item, function(err, result)
     if err or not result then
       return
     end
@@ -146,7 +159,7 @@ vim.api.nvim_create_autocmd('InsertCharPre', {
   group = augroup,
   pattern = '*',
   callback = function(args)
-    local char = vim.v.char
+    local char = vim.api.nvim_get_vvar('char')
     vim.schedule(function()
       trigger_complete({ char = char, buf = args.buf })
     end)
@@ -157,14 +170,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = augroup,
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if not client or not client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
+    if not client or not client:supports_method(protocol.Methods.textDocument_completion) then
       return
     end
 
     vim.b[args.buf].lsp_client_id = client.id
+    vim.b[args.buf].lsp_trigger_characters = vim.tbl_get(
+      client.server_capabilities,
+      'completionProvider',
+      'triggerCharacters'
+    ) or {}
     vim.lsp.completion.enable(true, client.id, args.buf, {
       convert = function(item)
-        local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or 'Text'
+        local kind = protocol.CompletionItemKind[item.kind] or 'Text'
         return {
           kind = icons[kind],
           kind_hlgroup = ('CmpItemKind%s'):format(kind),
