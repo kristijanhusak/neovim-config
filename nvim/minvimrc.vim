@@ -1,3 +1,5 @@
+" Fast install with this command
+" curl https://raw.githubusercontent.com/kristijanhusak/neovim-config/refs/heads/master/nvim/minvimrc.vim -o $HOME/.vimrc
 set nocompatible
 let g:mapleader = ','
 
