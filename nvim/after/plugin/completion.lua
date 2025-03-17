@@ -83,7 +83,7 @@ local complete_ins = debounce(function(opts)
       ctx.triggerKind = protocol.CompletionTriggerKind.TriggerCharacter
     end
 
-    return vim.lsp.completion.trigger({ ctx = ctx })
+    return vim.lsp.completion.get({ ctx = ctx })
   end, function()
     return #vim.tbl_filter(function(request)
       return request.method == protocol.Methods.textDocument_completion
