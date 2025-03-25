@@ -8,5 +8,4 @@ else
 end
 vim.opt.runtimepath:append(orgmode)
 
----@diagnostic disable-next-line: different-requires
 require('orgmode').cron(org_plugin.orgmode_config)
