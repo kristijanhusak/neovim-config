@@ -14,6 +14,9 @@ local SnacksPicker = {
   recent_files = function()
     return Snacks.picker.recent()
   end,
+  smart = function()
+    return Snacks.picker.smart()
+  end,
   git_status = function()
     return Snacks.picker.git_status()
   end,
@@ -78,6 +81,9 @@ end, { desc = 'Live grep' })
 vim.keymap.set('n', '<Leader>m', function()
   return Picker.recent_files()
 end, { desc = 'Recent files' })
+vim.keymap.set('n', '<Leader>r', function()
+  return Picker.smart()
+end, { desc = 'Smart picker' })
 vim.keymap.set('n', '<Leader>gs', function()
   return Picker.git_status()
 end, { desc = 'Git status' })
