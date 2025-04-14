@@ -72,6 +72,10 @@ if vim.fn.has('nvim-0.11') > 0 then
   vim.opt.completeopt:append({ 'fuzzy' })
 end
 
+if vim.fn.has('nvim-0.12') > 0 then
+  vim.opt.pummaxwidth = 60
+end
+
 function settings.strip_trailing_whitespace()
   local editorconfig = vim.b.editorconfig or {}
   -- Handled by editorconfig
