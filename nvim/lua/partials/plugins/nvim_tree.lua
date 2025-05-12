@@ -3,7 +3,6 @@ local nvim_tree = {
   dependencies = {
     'antosha417/nvim-lsp-file-operations',
   },
-  enabled = false,
   cmd = { 'NvimTreeToggle', 'NvimTreeFindFile', 'NvimTreeOpen' },
 }
 

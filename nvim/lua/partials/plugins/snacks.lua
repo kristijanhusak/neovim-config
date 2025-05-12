@@ -1,26 +1,3 @@
-local function explorer()
-  return Snacks.explorer.open({
-    hidden = true,
-    git_status_open = true,
-    layout = 'custom_explorer',
-    on_show = function(picker)
-      picker:toggle('preview', { enable = false })
-    end,
-    win = {
-      list = {
-        keys = {
-          ['o'] = { 'confirm', mode = { 'n' } },
-          ['s'] = { 'edit_vsplit', mode = { 'n' } },
-          ['-'] = 'explorer_up',
-          ['C'] = 'explorer_cd',
-          [']c'] = 'explorer_git_next',
-          ['[c'] = 'explorer_git_prev',
-        },
-      },
-    },
-  })
-end
-
 return {
   'folke/snacks.nvim',
   priority = 1000,
@@ -56,20 +33,6 @@ return {
       end,
       desc = 'Git browse',
       mode = { 'n', 'v' },
-    },
-    {
-      '<leader>n',
-      explorer,
-    },
-    {
-      '<leader>hf',
-      function()
-        local explorer_picker = Snacks.picker.get({ source = 'explorer' })
-        if not explorer_picker[1] then
-          return explorer()
-        end
-        explorer_picker[1].list.win:focus()
-      end,
     },
   },
   config = function()
@@ -220,33 +183,6 @@ return {
                 title_pos = 'center',
               },
             },
-          },
-          custom_explorer = {
-            layout = {
-              {
-                border = 'none',
-                height = 1,
-                win = 'input',
-              },
-              {
-                border = 'none',
-                win = 'list',
-              },
-              {
-                border = 'top',
-                height = 0.4,
-                title = '{preview}',
-                win = 'preview',
-              },
-              backdrop = false,
-              border = 'none',
-              box = 'vertical',
-              height = 0,
-              min_width = 40,
-              position = 'left',
-              width = 40,
-            },
-            preview = 'main',
           },
           select = {
             preview = false,
