@@ -65,9 +65,9 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 1
 
-font-0 = JetBrains Mono:style=Regular:pixelsize=9;1
+font-0 = JetBrains Mono:style=Regular:pixelsize=9;2
 font-1 = Twemoji:style=Regular:scale=8;
-font-2 = Symbols Nerd Font Mono:style=Regular:pixelsize=9;1
+font-2 = Symbols Nerd Font Mono:style=Regular:pixelsize=10;1
 
 modules-left = i3
 modules-right = previous playpause next weather filesystem memory cpu xkeyboard battery wlan pulseaudio calendar date powermenu
