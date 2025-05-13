@@ -39,7 +39,6 @@ return {
     require('snacks').setup({
       bigfile = { enabled = true },
       statuscolumn = { enabled = true },
-      words = { enabled = true, debounce = 100 },
       quickfile = { enabled = false },
       input = {
         enabled = true,

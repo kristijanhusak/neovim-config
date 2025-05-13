@@ -356,6 +356,23 @@ function setup.attach_to_buffer(client, bufnr)
     })
   end
 
+  if client:supports_method('textDocument/documentHighlight') then
+    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.document_highlight()
+      end,
+      group = lsp_group,
+    })
+    vim.api.nvim_create_autocmd('CursorMoved', {
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.clear_references()
+      end,
+      group = lsp_group,
+    })
+  end
+
   vim.opt.foldmethod = 'expr'
   if client:supports_method('textDocument/foldingRange') and vim.lsp.foldexpr then
     vim.opt.foldexpr = 'v:lua.vim.lsp.foldexpr()'

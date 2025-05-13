@@ -36,19 +36,22 @@ colorscheme.onenord = function()
       fugitiveUnstagedSection = { fg = colors.blue },
       IndentLine = { link = 'IndentBlanklineChar' },
       IndentLineCurrent = { link = 'IndentBlanklineContextChar' },
+      LspReferenceRead = { bg = colors.highlight, style = 'NONE' },
+      LspReferenceWrite = { bg = colors.highlight, style = 'NONE' },
+      LspReferenceText = { bg = colors.highlight, style = 'NONE' },
       SnacksPicker = {
         bg = picker_bg,
       },
       SnacksPickerBorder = {
-        bg = picker_bg
+        bg = picker_bg,
       },
       SnacksPickerInput = {
-        bg = prompt
+        bg = prompt,
       },
       SnacksPickerInputBorder = {
-        bg = prompt
+        bg = prompt,
       },
-      SnacksPickerInputTitle = { bg = prompt }
+      SnacksPickerInputTitle = { bg = prompt },
     },
   })
 
