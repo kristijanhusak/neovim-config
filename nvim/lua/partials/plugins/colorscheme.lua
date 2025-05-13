@@ -11,6 +11,9 @@ local colorscheme = {
 colorscheme.onenord = function()
   local colors = require('onenord.colors').load()
 
+  local picker_bg = '#eff0f2'
+  local prompt = '#eaebed'
+
   require('onenord').setup({
     styles = {
       diagnostics = 'undercurl',
@@ -33,6 +36,19 @@ colorscheme.onenord = function()
       fugitiveUnstagedSection = { fg = colors.blue },
       IndentLine = { link = 'IndentBlanklineChar' },
       IndentLineCurrent = { link = 'IndentBlanklineContextChar' },
+      SnacksPicker = {
+        bg = picker_bg,
+      },
+      SnacksPickerBorder = {
+        bg = picker_bg
+      },
+      SnacksPickerInput = {
+        bg = prompt
+      },
+      SnacksPickerInputBorder = {
+        bg = prompt
+      },
+      SnacksPickerInputTitle = { bg = prompt }
     },
   })
 
@@ -43,9 +59,6 @@ colorscheme.tokyonight = function()
   ---@diagnostic disable-next-line: missing-fields
   require('tokyonight').setup({
     terminal_colors = true,
-    plugins = {
-      cmp = true,
-    },
     on_highlights = function(hl, c)
       hl.SimpleF = {
         fg = c.red,
