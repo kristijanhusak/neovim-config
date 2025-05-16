@@ -12,8 +12,4 @@ return {
       preset = 'helix',
     },
   },
-  {
-    'OXY2DEV/markview.nvim',
-    ft = 'markdown',
-  },
 }
