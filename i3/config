@@ -22,6 +22,9 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec kitty
 
+# open a browser
+bindsym $mod+b exec google-chrome-stable
+
 bindsym $mod+equal resize grow width 1 px or 1 ppt
 bindsym $mod+minus resize shrink width 1 px or 1 ppt
 
