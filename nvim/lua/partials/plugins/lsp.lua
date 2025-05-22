@@ -33,6 +33,7 @@ local lsp = {
   'neovim/nvim-lspconfig',
   dependencies = {
     { 'nvimtools/none-ls.nvim', dependencies = { 'nvimtools/none-ls-extras.nvim' } },
+    { 'pmizio/typescript-tools.nvim' },
     { 'SmiteshP/nvim-navic' },
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
@@ -236,14 +237,26 @@ function setup.servers()
   nvim_lsp.ruby_lsp.setup(lsp_setup())
   nvim_lsp.clangd.setup(lsp_setup())
 
-  nvim_lsp.ts_ls.setup(lsp_setup({
-    init_options = {
-      preferences = {
+  -- nvim_lsp.ts_ls.setup(lsp_setup({
+  --   init_options = {
+  --     preferences = {
+  --       quotePreference = 'single',
+  --       importModuleSpecifierPreference = 'project-relative',
+  --     },
+  --   },
+  --   disableFormatting = true,
+  -- }))
+
+  require('typescript-tools').setup(lsp_setup({
+    disableFormatting = true,
+    settings = {
+      expose_as_code_action = 'all',
+      tsserver_file_preferences = {
+        includeInlayParameterNameHints = 'all',
         quotePreference = 'single',
         importModuleSpecifierPreference = 'project-relative',
       },
     },
-    disableFormatting = true,
   }))
 
   require('lazydev').setup({

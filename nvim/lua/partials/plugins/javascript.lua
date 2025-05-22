@@ -102,39 +102,57 @@ function handlers.setup_imports_and_lsp_format()
   kris.lsp.format()
 end
 
-local function execute_code_action(code_action)
-  local client = vim.lsp.get_clients({ name = 'ts_ls' })[1]
-  local bufnr = vim.api.nvim_get_current_buf()
+-- local function execute_code_action(code_action)
+--   local client = vim.lsp.get_clients({ name = 'ts_ls' })[1]
+--   local bufnr = vim.api.nvim_get_current_buf()
+--
+--   local params = vim.lsp.util.make_range_params()
+--   params.context = {
+--     only = { code_action },
+--   }
+--   local args = { vim.lsp.protocol.Methods.textDocument_codeAction, params, 5000, bufnr }
+--   if vim.fn.has('nvim-0.11') > 0 then
+--     table.insert(args, 1, client)
+--   end
+--
+--   local res = client.request_sync(unpack(args))
+--
+--   if not res or #res.result == 0 then
+--     return
+--   end
+--
+--   vim.lsp.util.apply_text_edits(
+--     res.result[1].edit.documentChanges[1].edits,
+--     vim.api.nvim_get_current_buf(),
+--     client.offset_encoding or 'utf-16'
+--   )
+-- end
 
-  local params = vim.lsp.util.make_range_params()
-  params.context = {
-    only = { code_action },
-  }
-  local args = { vim.lsp.protocol.Methods.textDocument_codeAction, params, 5000, bufnr }
-  if vim.fn.has('nvim-0.11') > 0 then
-    table.insert(args, 1, client)
-  end
+-- function handlers.setup_imports(organize)
+--   local cmds = { 'source.addMissingImports.ts', 'source.removeUnusedImports.ts', 'source.fixAll.ts' }
+--   if organize then
+--     table.insert(cmds, 'source.organizeImports.ts')
+--   end
+--   for _, cmd in ipairs(cmds) do
+--     execute_code_action(cmd)
+--   end
+-- end
 
-  local res = client.request_sync(unpack(args))
-
-  if not res or #res.result == 0 then
-    return
-  end
-
-  vim.lsp.util.apply_text_edits(
-    res.result[1].edit.documentChanges[1].edits,
-    vim.api.nvim_get_current_buf(),
-    client.offset_encoding or 'utf-16'
-  )
-end
-
+---@param organize? boolean
 function handlers.setup_imports(organize)
-  local cmds = { 'source.addMissingImports.ts', 'source.removeUnusedImports.ts', 'source.fixAll.ts' }
+  local commands = {
+    'TSToolsRemoveUnused',
+    'TSToolsAddMissingImports',
+    'TSToolsFixAll',
+  }
   if organize then
-    table.insert(cmds, 'source.organizeImports.ts')
+    table.insert(commands, 'TSToolsOrganizeImports')
   end
-  for _, cmd in ipairs(cmds) do
-    execute_code_action(cmd)
+
+  for _, cmd in ipairs(commands) do
+    vim.schedule(function()
+      vim.cmd(string.format('%s sync', cmd))
+    end)
   end
 end
 
