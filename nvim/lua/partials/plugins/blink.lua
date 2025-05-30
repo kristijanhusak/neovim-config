@@ -43,6 +43,11 @@ return {
             kind = {
               highlight = 'BlinkCmpSource',
             },
+            kind_icon = {
+              highlight = function(ctx)
+                return ('CmpItemKind%s'):format(ctx.kind)
+              end
+            },
             source_name = {
               text = function(ctx)
                 return table.concat({ '[', ctx.source_name, ']' }, '')

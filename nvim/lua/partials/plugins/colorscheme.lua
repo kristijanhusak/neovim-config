@@ -39,6 +39,9 @@ colorscheme.onenord = function()
       LspReferenceRead = { bg = colors.highlight, style = 'NONE' },
       LspReferenceWrite = { bg = colors.highlight, style = 'NONE' },
       LspReferenceText = { bg = colors.highlight, style = 'NONE' },
+      BlinkCmpSource = {
+        link = 'Comment',
+      },
       SnacksPicker = {
         bg = picker_bg,
       },
@@ -62,6 +65,9 @@ colorscheme.tokyonight = function()
   ---@diagnostic disable-next-line: missing-fields
   require('tokyonight').setup({
     terminal_colors = true,
+    plugins = {
+      cmp = true
+    },
     on_highlights = function(hl, c)
       hl.SimpleF = {
         fg = c.red,
