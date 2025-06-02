@@ -132,6 +132,17 @@ nnoremap <silent> ]b :bnext<CR>
 nnoremap <silent> [b :bprev<CR>
 
 
+function! ToggleComment()
+  let l:cs = substitute(&commentstring, '%s', '', '')
+  if getline('.') =~ '^\s*' . escape(l:cs, '#')
+    execute 'normal! ^' . len(l:cs) . 'x'
+  else
+    execute 'normal! I' . l:cs
+  endif
+endfunction
+nnoremap <leader>c :call ToggleComment()<CR>
+vnoremap <leader>c :call ToggleComment()<CR>
+
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
