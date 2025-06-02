@@ -144,4 +144,9 @@ augroup fallback_vimrc
   autocmd!
   autocmd FileType netrw nmap <silent><buffer> o <CR> | silent! unmap <buffer><C-l>
   autocmd QuickFixCmdPost [^l]* cwindow
+  autocmd InsertEnter * set nocul
+  autocmd InsertLeave * set cul
+  autocmd FocusGained,BufEnter * silent! exe checktime
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu | endif
+  autocmd BUfLeave,FocusLost,InsertEnter,WinLeave * if &nu | set nornu | endif
 augroup end
