@@ -1,4 +1,5 @@
 local last_cmd = nil
+local augroup = vim.api.nvim_create_augroup('kris_test_runner', { clear = true })
 
 local function is_terminal_buf(bufnr)
   return vim.bo[bufnr].buftype == 'terminal' and vim.b[bufnr].last_cmd ~= nil
@@ -20,6 +21,19 @@ local notify = function(msg, level)
   })
 end
 
+local win_config = function()
+  return {
+    width = math.max(95, math.floor(vim.o.columns * 0.25)),
+    height = math.floor(vim.o.lines * 0.9),
+    relative = 'editor',
+    anchor = 'NE',
+    row = 1,
+    col = vim.o.columns - 1,
+    focusable = true,
+    border = 'rounded',
+  }
+end
+
 local function exec(cmd)
   local bufnr = get_terminal_bufnr()
   local is_currently_in_terminal = false
@@ -29,15 +43,7 @@ local function exec(cmd)
   end
 
   bufnr = vim.api.nvim_create_buf(false, is_currently_in_terminal)
-  local win = vim.api.nvim_open_win(bufnr, true, {
-    width = math.max(95, math.floor(vim.o.columns * 0.25)),
-    height = math.floor(vim.o.lines * 0.9),
-    relative = 'editor',
-    row = 1,
-    col = vim.o.columns - math.floor(vim.o.columns * 0.25) - 1,
-    focusable = true,
-    border = 'rounded',
-  })
+  local win = vim.api.nvim_open_win(bufnr, true, win_config())
 
   vim.keymap.set('n', 'q', function()
     vim.api.nvim_win_set_config(win, { hide = true })
@@ -153,3 +159,21 @@ vim.keymap.set('n', '<leader>X', function()
     vim.cmd('wincmd p')
   end
 end, { desc = 'Focus test window' })
+
+vim.api.nvim_create_autocmd('VimResized', {
+  group = augroup,
+  callback = function()
+    local bufnr = get_terminal_bufnr()
+    if not bufnr then
+      return
+    end
+    local win = vim.fn.win_getid(vim.fn.bufwinnr(bufnr))
+    local config = vim.api.nvim_win_get_config(win)
+
+    if config.hide then
+      return
+    end
+
+    vim.api.nvim_win_set_config(win, win_config())
+  end,
+})
