@@ -13,6 +13,10 @@ local javascript = {
   ft = filetypes,
 }
 
+javascript.init = function()
+  vim.g.js_file_import_omit_semicolon = 1
+end
+
 javascript.config = function()
   require('tsc').setup({
     auto_close_qflist = true,
