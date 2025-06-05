@@ -2,6 +2,9 @@ return {
   'saghen/blink.cmp',
   event = 'InsertEnter',
   version = '*',
+  dependencies = {
+    'mikavilpas/blink-ripgrep.nvim',
+  },
   opts = {
     cmdline = {
       enabled = false,
@@ -20,6 +23,20 @@ return {
         orgmode = {
           name = 'Orgmode',
           module = 'orgmode.org.autocompletion.blink',
+        },
+        ripgrep = {
+          name = 'RG',
+          module = 'blink-ripgrep',
+          score_offset = -10,
+          opts = {
+            prefix_min_len = 4,
+            project_root_marker = { 'package.json', '.git' },
+            future_features = {
+              backend = {
+                use = 'gitgrep-or-ripgrep',
+              },
+            },
+          },
         },
         snippets = {
           score_offset = -5,
@@ -45,7 +62,7 @@ return {
             kind_icon = {
               highlight = function(ctx)
                 return ('CmpItemKind%s'):format(ctx.kind)
-              end
+              end,
             },
             source_name = {
               text = function(ctx)
@@ -94,25 +111,7 @@ return {
             return cmp.select_next()
           end
 
-          if vim.fn.pumvisible() == 1 then
-            return require('partials.utils').feedkeys('<C-n>', 'n')
-          end
-
-          local show = false
-          cmp.show({
-            callback = function()
-              show = true
-            end,
-          })
-
-          vim.schedule(function()
-            vim.wait(100, function()
-              return show
-            end, 1)
-            if not show then
-              require('partials.utils').feedkeys('<C-n>', 'n')
-            end
-          end)
+          return cmp.show({ providers = { 'ripgrep' } })
         end,
       },
     },
