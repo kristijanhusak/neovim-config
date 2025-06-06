@@ -16,12 +16,15 @@ nvim_tree.config = function()
     hijack_unnamed_buffer_when_opening = false,
     on_attach = function(bufnr)
       local api = require('nvim-tree.api')
-      local opts = { buffer = bufnr, noremap = true, silent = true, nowait = true }
+      local opts = function(desc)
+        return { buffer = bufnr, noremap = true, silent = true, nowait = true, desc = desc }
+      end
       api.config.mappings.default_on_attach(bufnr)
 
-      vim.keymap.set('n', 's', api.node.open.vertical, opts)
-      vim.keymap.set('n', '<s-c>', api.tree.change_root_to_node, opts)
-      vim.keymap.set('n', '<s-x>', api.node.run.system, opts)
+      vim.keymap.set('n', 's', api.node.open.vertical, opts('Open in vertical split'))
+      vim.keymap.set('n', '<s-c>', api.tree.change_root_to_node, opts('Change root to node'))
+      vim.keymap.set('n', '<s-x>', api.node.run.system, opts('System run'))
+      vim.keymap.set('n', 'S', api.tree.toggle_git_clean_filter, opts('Toggle git clean filter'))
     end,
     disable_netrw = true,
     update_focused_file = {
