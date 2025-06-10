@@ -282,7 +282,8 @@ click-left = ~/.config/polybar/popup-calendar.sh --popup &
 [module/kursnalista]
 type = custom/script
 exec = ~/.config/polybar/kursnalista.sh
-interval = 3600
+; Run every 6 hours
+interval = 21600
 label-font = 1
 format-foreground=${colors.foreground}
 
