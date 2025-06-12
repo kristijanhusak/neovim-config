@@ -113,7 +113,7 @@ function setup.mappings()
   end, opts('LSP format'))
   vim.keymap.set('n', '<leader>li', vim.lsp.buf.incoming_calls, opts('LSP incoming calls'))
   vim.keymap.set('n', '<leader>lh', function()
-    vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
   end, opts('LSP inlay hints'))
   vim.keymap.set('n', '<leader>lo', vim.lsp.buf.outgoing_calls, opts('LSP outgoing calls'))
   vim.keymap.set('n', '<leader>lt', vim.lsp.buf.document_symbol, opts('LSP document symbols'))
@@ -241,6 +241,12 @@ function setup.servers()
       preferences = {
         quotePreference = 'single',
         importModuleSpecifierPreference = 'project-relative',
+        includeInlayParameterNameHints = 'all',
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
       },
     },
     disableFormatting = true,
