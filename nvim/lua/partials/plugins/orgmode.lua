@@ -100,6 +100,14 @@ local orgmode_config = {
       end
     end,
   },
+  ui = {
+    agenda = {
+      preview_window = {
+        border = 'single',
+        focusable = false
+      }
+    }
+  }
 }
 
 orgmode.orgmode_config = orgmode_config
@@ -132,33 +140,6 @@ orgmode.config = function()
   if vim.bo.filetype == 'org' then
     set_cr_mapping()
   end
-
-  -- Preview the agenda item content with <Space>
-  vim.api.nvim_create_autocmd('FileType', {
-    pattern = 'orgagenda',
-    callback = function(event)
-      vim.keymap.set('n', '<Space>', function()
-        local headline = require('orgmode.api.agenda').get_headline_at_cursor()
-        if not headline then
-          return
-        end
-        -- TODO: Expose lines in the API
-        local lines = headline._section:get_lines()
-        local width = lines[1]:len() + 4 -- Add 4 columns buffer
-        vim.tbl_map(function(line)
-          width = math.max(width, line:len() + 4)
-        end, lines)
-        local buf = vim.lsp.util.open_floating_preview(lines, '', {
-          border = 'single',
-          wrap = false,
-          width = width,
-        })
-        vim.api.nvim_set_option_value('filetype', 'org', { buf = buf })
-      end, {
-        buffer = event.buf,
-      })
-    end,
-  })
 
   vim.api.nvim_create_user_command('OrgGenerateToc', function(...)
     local file = require('orgmode').files:get_current_file()
