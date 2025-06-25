@@ -6,9 +6,9 @@ local function is_terminal_buf(bufnr)
 end
 
 local function get_terminal_bufnr()
-  for _, buf in ipairs(vim.fn.getbufinfo()) do
-    if is_terminal_buf(buf.bufnr) then
-      return buf.bufnr, vim.fn.win_getid(vim.fn.bufwinnr(buf.bufnr))
+  for _, win in ipairs(vim.fn.getwininfo()) do
+    if is_terminal_buf(win.bufnr) then
+      return win.bufnr, win.winid
     end
   end
   return nil, -1
@@ -148,13 +148,12 @@ vim.keymap.set('n', '<leader>xf', function()
 end, { desc = 'Focus test window' })
 
 vim.keymap.set('n', '<leader>X', function()
-  local bufnr = get_terminal_bufnr()
+  local bufnr, winid = get_terminal_bufnr()
   if not bufnr then
     return
   end
-  local win = vim.fn.win_getid(vim.fn.bufwinnr(bufnr))
-  local config = vim.api.nvim_win_get_config(win)
-  vim.api.nvim_win_set_config(win, { hide = not config.hide })
+  local config = vim.api.nvim_win_get_config(winid)
+  vim.api.nvim_win_set_config(winid, { hide = not config.hide })
   if vim.api.nvim_get_current_buf() == bufnr then
     vim.cmd('wincmd p')
   end
@@ -163,11 +162,10 @@ end, { desc = 'Focus test window' })
 vim.api.nvim_create_autocmd('VimResized', {
   group = augroup,
   callback = function()
-    local bufnr = get_terminal_bufnr()
+    local bufnr, win = get_terminal_bufnr()
     if not bufnr then
       return
     end
-    local win = vim.fn.win_getid(vim.fn.bufwinnr(bufnr))
     local config = vim.api.nvim_win_get_config(win)
 
     if config.hide then
