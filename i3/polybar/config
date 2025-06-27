@@ -66,11 +66,11 @@ module-margin-left = 1
 module-margin-right = 1
 
 font-0 = JetBrains Mono:style=Regular:pixelsize=9;2
-font-1 = Twemoji:style=Regular:scale=8;
+font-1 = Twemoji:style=Regular:scale=8;1
 font-2 = Symbols Nerd Font Mono:style=Regular:pixelsize=10;1
 
 modules-left = i3
-modules-right = previous playpause next kursnalista weather filesystem memory cpu xkeyboard battery wlan pulseaudio calendar date powermenu
+modules-right = kursnalista weather filesystem memory cpu xkeyboard battery wlan pulseaudio calendar date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -313,6 +313,14 @@ label-muted-foreground = #666
 ramp-volume-0 = 🔈
 ramp-volume-1 = 🔉
 ramp-volume-2 = 🔊
+
+interval = 2
+
+scroll-up = pactl set-sink-volume @DEFAULT_SINK@ +2%
+scroll-down = pactl set-sink-volume @DEFAULT_SINK@ -2%
+click-right = ~/.config/polybar/show_audio_devices.sh
+click-left = pactl set-sink-mute @DEFAULT_SINK@ toggle
+click-middle = ~/.config/polybar/cycle_audio_output.sh
 
 [module/alsa]
 type = internal/alsa
