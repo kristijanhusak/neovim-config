@@ -11,7 +11,8 @@ return {
           vim.notify((' Switched to project: %s\n %s'):format(workspace_name, workspace_path), vim.log.levels.INFO, {
             title = 'Workspaces',
           })
-          local local_nvimrc = vim.fn.getcwd() .. '/.nvimrc'
+          local local_nvimrc = vim.fn.getcwd() .. '/.nvim.lua'
+          Snacks.debug.inspect('local vimrc', local_nvimrc)
           if vim.secure.read(local_nvimrc) then
             vim.cmd.source(local_nvimrc)
           end
