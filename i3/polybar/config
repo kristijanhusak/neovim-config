@@ -70,7 +70,7 @@ font-1 = Twemoji:style=Regular:scale=8;1
 font-2 = Symbols Nerd Font Mono:style=Regular:pixelsize=10;1
 
 modules-left = i3
-modules-right = kursnalista weather filesystem memory cpu xkeyboard battery wlan pulseaudio calendar date powermenu
+modules-right = exchangerates weather filesystem memory cpu xkeyboard battery wlan pulseaudio calendar date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -279,11 +279,11 @@ exec = ~/.config/polybar/popup-calendar.sh
 interval = 5
 click-left = ~/.config/polybar/popup-calendar.sh --popup &
 
-[module/kursnalista]
+[module/exchangerates]
 type = custom/script
-exec = ~/.config/polybar/kursnalista.sh
-; Run every 6 hours
-interval = 21600
+exec = ~/.config/polybar/exchangerates.sh
+; Run every 30 min
+interval = 1800
 label-font = 1
 format-foreground=${colors.foreground}
 
