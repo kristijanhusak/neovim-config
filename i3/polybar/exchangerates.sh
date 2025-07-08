@@ -43,7 +43,7 @@ if [ -n "$last_entry" ]; then
         elif (( $(echo "$usd < $cache_usd" | bc -l) )); then
             icon="dialog-error"
         fi
-        notify-send -i "$icon" "Exchange rates" "USD: $cache_usd → $usd\nEUR: $cache_eur → $eur"
+        notify-send -i "$icon" -u critical "Exchange rates" "USD: $cache_usd → $usd\nEUR: $cache_eur → $eur"
     fi
 fi
 
