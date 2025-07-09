@@ -6,21 +6,21 @@ local lsp_group = vim.api.nvim_create_augroup('vimrc_lsp', { clear = true })
 local setup = {}
 
 local filetypes = {
-  'vim',
-  'php',
-  'go',
-  'python',
-  'terraform',
-  'lua',
-  'yaml',
-  'dockerfile',
-  'javascript',
-  'javascriptreact',
-  'typescript',
-  'typescriptreact',
-  'ruby',
   'c',
   'cpp',
+  'dockerfile',
+  'go',
+  'javascript',
+  'javascriptreact',
+  'lua',
+  'php',
+  'python',
+  'ruby',
+  'terraform',
+  'typescript',
+  'typescriptreact',
+  'vim',
+  'yaml',
 }
 
 local preview_opts = {
