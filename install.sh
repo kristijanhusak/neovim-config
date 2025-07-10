@@ -29,7 +29,7 @@ install_emacs() {
 
 install_packages() {
   ehco"Installing packages..." \
-    && yay -S pyenv keychain go
+    && yay -S keychain go dropbox dropbox-cli
 }
 
 install_diff_so_fancy() {

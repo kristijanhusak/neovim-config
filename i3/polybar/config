@@ -70,7 +70,7 @@ font-1 = Twemoji:style=Regular:scale=8;1
 font-2 = Symbols Nerd Font Mono:style=Regular:pixelsize=10;1
 
 modules-left = i3
-modules-right = exchangerates weather filesystem memory cpu xkeyboard battery wlan pulseaudio calendar date powermenu
+modules-right = exchangerates weather filesystem memory cpu xkeyboard battery wlan pulseaudio calendar date powermenu dropbox
 
 tray-position = right
 tray-padding = 2
@@ -382,6 +382,13 @@ animation-discharging-1 = 
 animation-discharging-2 = 
 animation-discharging-foreground = ${colors.foreground-alt}
 animation-discharging-framerate = 750
+
+[module/dropbox]
+type = custom/script
+interval = 5
+exec = ~/.config/polybar/dropbox.sh
+click-left = "thunar ~/Dropbox"
+click-right = "xdg-open ~/Dropbox"
 
 [module/powermenu]
 type = custom/menu
