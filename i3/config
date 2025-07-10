@@ -321,6 +321,7 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000
 client.background       #2B2C2B
 
 assign [class="Google-chrome"] 2
+assign [class="firefox"] 2
 assign [class="Brave-browser"] 2
 assign [class="Slack"] 4
 assign [class="Microsoft Teams"] 4
