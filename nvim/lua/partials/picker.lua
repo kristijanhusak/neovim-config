@@ -62,6 +62,17 @@ local SnacksPicker = {
       end,
     })
   end,
+  rest = function()
+    return Snacks.picker.files({
+      cwd = '~/code/requests',
+      confirm = function(picker, item)
+        if not item then
+          return vim.cmd.edit(('~/code/requests/%s.http'):format(picker.finder.filter.pattern))
+        end
+        return picker:action('jump')
+      end,
+    })
+  end,
 }
 
 local Picker = SnacksPicker
@@ -90,5 +101,8 @@ end, { desc = 'Git status' })
 vim.keymap.set('n', '<Leader>w', function()
   return Picker.workspaces()
 end, { desc = 'Workspaces' })
+vim.keymap.set('n', '<Leader>R', function()
+  return Picker.rest()
+end, { desc = 'Requests' })
 
 return Picker
