@@ -28,18 +28,14 @@ bindsym $mod+minus resize shrink width 1 px or 1 ppt
 bindsym $mod+q kill
 
 # start program launcher
-bindsym $mod+d exec "wofi --show drun"
+bindsym $mod+d exec "~/.config/rofi/launch.sh"
+
+output DP-1 {
+    mode 3440x1440@144Hz
+}
 
 ################################################################################################
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
-################################################################################################
-
-exec --no-startup-id volumeicon
-# bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
-#exec --no-startup-id pulseaudio
-#exec --no-startup-id pa-applet
-bindsym $mod+Ctrl+m exec pavucontrol
-
 ################################################################################################
 
 # Screen brightness controls
@@ -47,9 +43,8 @@ bindsym $mod+Ctrl+m exec pavucontrol
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
 # Start Applications
-bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
-bindsym Ctrl+Print exec --no-startup-id imgur-screenshot
-bindsym Ctrl+Shift+Print exec --no-startup-id "sleep 0.2 && scrot -s ~/Pictures/screenshots/screenshot_%Y_%m_%d_%H_%M_%S.png"
+bindsym Ctrl+Print exec imgur-screenshot
+bindsym Ctrl+Shift+Print exec "sleep 0.2 && grim -g \"$(slurp)\" ~/Pictures/screenshots/screenshot_$(date +%Y_%m_%d_%H_%M_%S).png"
 
 focus_follows_mouse no
 
@@ -60,17 +55,14 @@ bindsym $mod+k focus up
 bindsym $mod+l focus right
 
 # move focused window
-bindsym $mod+Shift+h mark _last; focus left; swap with mark "_last"; focus left
-bindsym $mod+Shift+j mark _last; focus down; swap with mark "_last"; focus down
-bindsym $mod+Shift+k mark _last; focus up; swap with mark "_last"; focus up
-bindsym $mod+Shift+l mark _last; focus right; swap with mark "_last"; focus right
-
-bindsym Mod4+Shift+h move left
-bindsym Mod4+Shift+j move down
-bindsym Mod4+Shift+k move up
-bindsym Mod4+Shift+l move right
-
-bindsym $mod+shift+w exec i3_balance_workspace
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+left move left
+bindsym $mod+Shift+down move down
+bindsym $mod+Shift+up move up
+bindsym $mod+Shift+right move right
 
 # workspace back and forth (with/without active container)
 # workspace_auto_back_and_forth yes
@@ -160,43 +152,11 @@ bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 
-# Open applications on specific workspaces
-# assign [class="Thunderbird"] $ws1
-# assign [class="Pale moon"] $ws2
-# assign [class="Pcmanfm"] $ws3
-# assign [class="Skype"] $ws5
-
 # Open specific applications in floating mode
 for_window [class="^.*"] border pixel 2
-for_window [title="alsamixer"] floating enable border pixel 2
-for_window [class="calamares"] floating enable border normal
-for_window [class="Clipgrab"] floating enable
-for_window [class="gnome-calculator"] floating enable
+for_window [app_id="org.gnome.Calculator"] floating enable, border none
 for_window [title="File Transfer*"] floating enable
-for_window [class="Galculator"] floating enable border pixel 2
-for_window [class="GParted"] floating enable border normal
-for_window [title="i3_help"] floating enable sticky enable border normal
-for_window [class="Lightdm-settings"] floating enable
-for_window [class="Lxappearance"] floating enable sticky enable border normal
-for_window [class="Manjaro-hello"] floating enable
-for_window [class="Manjaro Settings Manager"] floating enable border normal
-for_window [title="MuseScore: Play Panel"] floating enable
-for_window [class="Nitrogen"] floating enable sticky enable border normal
-for_window [class="Oblogout"] fullscreen enable
-for_window [class="octopi"] floating enable
-for_window [title="About Pale Moon"] floating enable
-for_window [class="Pamac-manager"] floating enable
-for_window [class="Pavucontrol"] floating enable
-for_window [class="qt5ct"] floating enable sticky enable border normal
-for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
-for_window [class="Simple-scan"] floating enable border normal
-for_window [class="(?i)System-config-printer.py"] floating enable border normal
-for_window [class="Skype"] floating enable border normal
-for_window [class="Timeset-gui"] floating enable border normal
-for_window [class="(?i)virtualbox"] floating enable border normal
-for_window [class="Xfburn"] floating enable
-for_window [class="Yad"] floating enable
-for_window [class="CaptureNote"] floating enable
+for_window [window_role="pop-up"] floating enable, border none
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
@@ -204,28 +164,10 @@ for_window [urgent=latest] focus
 # reload the configuration file
 bindsym $mod+Shift+c reload
 
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-
-# Set shut down, restart and locking features
-bindsym $mod+0 mode "$mode_system"
-set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
-mode "$mode_system" {
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
-    bindsym s exec --no-startup-id i3exit suspend, mode "default"
-    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-    bindsym e exec --no-startup-id i3exit logout, mode "default"
-    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-    bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
-
-    # exit system mode: "Enter" or "Escape"
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
+# exit sway (logs you out of your X session)
+bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'"
 
 # Resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"
@@ -252,24 +194,27 @@ mode "resize" {
 }
 
 # Lock screen
-bindsym Control+$mod+l exec i3lock -c 000000
+bindsym Control+$mod+l exec swaylock -c 000000
 
 # Autostart applications
-exec --no-startup-id "setxkbmap -layout 'us,rs' -variant ' ,latin' -option 'grp:lctrl_lwin_toggle'"
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nitrogen --restore
-#exec --no-startup-id manjaro-hello
-exec --no-startup-id nm-applet
-exec --no-startup-id xfce4-power-manager
-exec --no-startup-id pamac-tray
-exec --no-startup-id dropbox
-exec --no-startup-id google-chrome-stable
-exec --no-startup-id i3-msg 'workspace 1; exec kitty'
-# exec --no-startup-id blueman-applet
-exec --no-startup-id xautolock -time 20 -locker 'i3lock -c 000000'
-exec_always --no-startup-id ff-theme-util
-exec_always --no-startup-id fix_xcursor
-exec_always --no-startup-id waybar
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec nitrogen --restore
+#exec manjaro-hello
+exec nm-applet
+exec xfce4-power-manager
+exec dropbox
+exec swaync
+exec google-chrome-stable
+exec swaymsg workspace 1; exec kitty
+exec swayidle -w timeout 1200 'swaylock -c 000000'
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec ~/.config/sway/auto_exit_fullscreen.sh
+exec ~/.azotebg
+exec_always ~/.config/waybar/start.sh
+
+
+set $qt_theme Adwaita-dark
+exec_always --no-startup-id env QT_QPA_PLATFORMTHEME=qt5ct QT_STYLE_OVERRIDE=$qt_theme
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
@@ -296,3 +241,8 @@ smart_borders on
 
 input * repeat_delay 350
 input * repeat_rate 60
+
+input "type:keyboard" {
+    xkb_layout us,rs(latin)
+    xkb_options grp:lctrl_lwin_toggle
+}

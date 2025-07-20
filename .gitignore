@@ -1,6 +1,7 @@
 nvim/pack
 kitty/local.conf
 kitty/local_color.conf
+waybar/local.css
 i3/polybar/local
 bspwm/bspwmrc.local
 lazygit/*

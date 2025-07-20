@@ -1,30 +1,50 @@
 {
-  "layer": "top",
-  "position": "top",
-  "height": 22,
+  "layer": "bottom",
+  "position": "bottom",
+  "height": 28,
+  "spacing": 14,
   "modules-left": ["sway/workspaces", "sway/mode"],
-  "modules-center": [],
+  "modules-center": [
+    "keyboard-state"
+  ],
   "modules-right": [
     "custom/exchangerates",
     "custom/weather",
     "disk",
     "memory",
     "cpu",
-    "keyboard-state",
+    "sway/language",
     "battery",
-    "network",
     "pulseaudio",
-    "custom/calendar",
     "clock",
-    "custom/powermenu",
-    "custom/dropbox"
+    "tray"
   ],
   "tray": {
     "spacing": 2
   },
   "clock": {
-    "format": "{:%H:%M:%S}",
-    "interval": 1
+    "format": "{:%d.%m.%Y %H:%M:%S}",
+    "format-alt": "{:%d.%m.%Y %H:%M:%S}",
+    "tooltip-format": "<span size='16000'>{calendar}</span>",
+    "interval": 5,
+    "calendar": {
+      "mode"          : "month",
+      "mode-mon-col"  : 3,
+      "weeks-pos"     : "right",
+      "on-scroll"     : 1,
+      "format": {
+        "months":     "<span color='#ffead3'><b>{}</b></span>",
+        "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+        "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions":  {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_down",
+      "on-scroll-down": "shift_up"
+    }
   },
   "cpu": {
     "interval": 2,
@@ -34,37 +54,44 @@
     "interval": 2,
     "format": "M: {used}G/{total}G"
   },
+  "sway/language": {
+    "format": "{flag} {short}",
+    "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
+  },
   "disk": {
     "interval": 25,
-    "format": "/ {free}"
+    "format": "<span foreground='#0a81f5'>/</span>: {free}",
+    "markup": "pango"
   },
   "battery": {
     "interval": 10,
     "format": "{icon} {capacity}%"
   },
-  "network": {
-    "interval": 3,
-    "format-wifi": "{essid} {signalStrength}%",
-    "format-ethernet": "{ipaddr}",
-    "format-disconnected": "Disconnected"
+  "keyboard-state": {
+    "capslock": true,
+    "format": {
+      "capslock": "{icon}",
+    },
+    "format-icons": {
+      "locked": " CAPSLOCK ",
+      "unlocked": ""
+    }
   },
   "pulseaudio": {
     "format": "{icon} {volume}%",
-    "format-muted": "🔇 muted"
-  },
-  "keyboard-state": {
-    "numlock": true,
-    "capslock": true,
-    "format": " {layout}"
-  },
-  "custom/calendar": {
-    "exec": "~/.config/polybar/popup-calendar.sh",
-    "interval": 5,
-    "on-click": "~/.config/polybar/popup-calendar.sh --popup &",
-    "format": "{}"
+    "format-muted": "🔇 muted",
+    "max-volume": 100,
+    "format-icons": {
+        "default": ["🔈", "🔉", "🔊"]
+
+    },
+    "scroll-step": 2,
+    "on-click-right": "~/.config/waybar/show_audio_devices.sh",
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click-middle": "~/.config/waybar/cycle_audio_output.sh"
   },
   "custom/exchangerates": {
-    "exec": "~/.config/polybar/exchangerates.sh",
+    "exec": "~/.config/waybar/exchangerates.sh",
     "interval": 1800,
     "format": "{}"
   },
@@ -72,17 +99,5 @@
     "exec": "curl -Ss --fail 'https://wttr.in?format=3'",
     "interval": 3600,
     "format": "{}"
-  },
-  "custom/dropbox": {
-    "exec": "~/.config/polybar/dropbox.sh",
-    "interval": 5,
-    "on-click": "thunar ~/Dropbox",
-    "on-click-right": "xdg-open ~/Dropbox",
-    "format": "{}"
-  },
-  "custom/powermenu": {
-    "exec": "~/.config/waybar/powermenu.sh",
-    "interval": 999999,
-    "format": ""
   }
 }

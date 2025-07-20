@@ -1,43 +1,63 @@
+@import url("local.css");
+
 * {
   font-family: "JetBrains Mono", "Symbols Nerd Font Mono", "Twemoji";
-  font-size: 10px;
+  font-size: 12px;
 }
 
 window#waybar {
-  background: #faffff;
-  color: #262626;
-  border-top: 2px solid #000000;
+  background: @bg;
+  color: @fg;
+  border-top: 2px solid transparent;
   margin-top: 5px;
   margin-bottom: 5px;
+  border-bottom: 3px solid transparent;
+}
+
+#cpu, #language {
+  border-bottom: 3px solid #f90000;
+}
+
+#memory {
+  border-bottom: 3px solid #4bffdc;
 }
 
 #workspaces button.focused {
-  background: #dfdfdf;
-  color: #faffff;
+  background: @fg;
+  color: @bg;
   border-bottom: 3px solid #ffb52a;
-  padding: 1px 6px;
+  padding: 0 6px;
 }
 
 #workspaces button.urgent {
   background: #bd2c40;
-  color: #faffff;
+  color: @fg;
 }
 
 #workspaces button {
   background: transparent;
-  color: #262626;
+  color: @fg;
   padding: 1px 6px;
 }
 
 #tray {
-  padding-right: 2px;
+  padding-right: 6px;
 }
 
-#clock, #calendar {
-  color: #262626;
+#clock {
+  color: @fg;
   border-bottom: 3px solid #0a6cf5;
+}
+
+#clock calendar {
+  font-size: 12px;
 }
 
 #pulseaudio.muted {
   color: #666;
+}
+
+#keyboard-state label.locked {
+  background: #ff0000;
+  color: white;
 }

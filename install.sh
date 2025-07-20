@@ -29,7 +29,7 @@ install_emacs() {
 
 install_packages() {
   ehco"Installing packages..." \
-    && yay -S keychain go dropbox dropbox-cli
+    && yay -S keychain go dropbox dropbox-cli meld cronie jq
 }
 
 install_diff_so_fancy() {
@@ -49,6 +49,13 @@ install_i3() {
   rm -rf ~/.config/i3 \
     && yay -S rofi polybar ttf-twemoji ttf-nerd-fonts-symbols-mono ttf-jetbrains-mono \
     && ln -s $(pwd)/i3 ~/.config/i3
+}
+
+install_sway() {
+  yay -S sway swaybg swaylock swaync swayidle xorg-wayland waybar grim slurp wl-clipboard fuzzel \
+  && rm -rf ~/.config/sway ~/.config/waybar \
+    && ln -s $(pwd)/sway ~/.config/sway \
+    && ln -s $(pwd)/waybar ~/.config/waybar \
 }
 
 install_rofi() {
