@@ -1,0 +1,43 @@
+* {
+  font-family: "JetBrains Mono", "Symbols Nerd Font Mono", "Twemoji";
+  font-size: 10px;
+}
+
+window#waybar {
+  background: #faffff;
+  color: #262626;
+  border-top: 2px solid #000000;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#workspaces button.focused {
+  background: #dfdfdf;
+  color: #faffff;
+  border-bottom: 3px solid #ffb52a;
+  padding: 1px 6px;
+}
+
+#workspaces button.urgent {
+  background: #bd2c40;
+  color: #faffff;
+}
+
+#workspaces button {
+  background: transparent;
+  color: #262626;
+  padding: 1px 6px;
+}
+
+#tray {
+  padding-right: 2px;
+}
+
+#clock, #calendar {
+  color: #262626;
+  border-bottom: 3px solid #0a6cf5;
+}
+
+#pulseaudio.muted {
+  color: #666;
+}

@@ -1,0 +1,88 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 22,
+  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-center": [],
+  "modules-right": [
+    "custom/exchangerates",
+    "custom/weather",
+    "disk",
+    "memory",
+    "cpu",
+    "keyboard-state",
+    "battery",
+    "network",
+    "pulseaudio",
+    "custom/calendar",
+    "clock",
+    "custom/powermenu",
+    "custom/dropbox"
+  ],
+  "tray": {
+    "spacing": 2
+  },
+  "clock": {
+    "format": "{:%H:%M:%S}",
+    "interval": 1
+  },
+  "cpu": {
+    "interval": 2,
+    "format": "C: {usage}%"
+  },
+  "memory": {
+    "interval": 2,
+    "format": "M: {used}G/{total}G"
+  },
+  "disk": {
+    "interval": 25,
+    "format": "/ {free}"
+  },
+  "battery": {
+    "interval": 10,
+    "format": "{icon} {capacity}%"
+  },
+  "network": {
+    "interval": 3,
+    "format-wifi": "{essid} {signalStrength}%",
+    "format-ethernet": "{ipaddr}",
+    "format-disconnected": "Disconnected"
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "🔇 muted"
+  },
+  "keyboard-state": {
+    "numlock": true,
+    "capslock": true,
+    "format": " {layout}"
+  },
+  "custom/calendar": {
+    "exec": "~/.config/polybar/popup-calendar.sh",
+    "interval": 5,
+    "on-click": "~/.config/polybar/popup-calendar.sh --popup &",
+    "format": "{}"
+  },
+  "custom/exchangerates": {
+    "exec": "~/.config/polybar/exchangerates.sh",
+    "interval": 1800,
+    "format": "{}"
+  },
+  "custom/weather": {
+    "exec": "curl -Ss --fail 'https://wttr.in?format=3'",
+    "interval": 3600,
+    "format": "{}"
+  },
+  "custom/dropbox": {
+    "exec": "~/.config/polybar/dropbox.sh",
+    "interval": 5,
+    "on-click": "thunar ~/Dropbox",
+    "on-click-right": "xdg-open ~/Dropbox",
+    "format": "{}"
+  },
+  "custom/powermenu": {
+    "exec": "~/.config/waybar/powermenu.sh",
+    "interval": 999999,
+    "format": ""
+  }
+}
