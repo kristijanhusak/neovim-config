@@ -157,6 +157,7 @@ for_window [class="^.*"] border pixel 2
 for_window [app_id="org.gnome.Calculator"] floating enable, border none
 for_window [title="File Transfer*"] floating enable
 for_window [window_role="pop-up"] floating enable, border none
+for_window [title=".*[Nn]otification.*"] floating enable, border none
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
