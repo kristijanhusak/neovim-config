@@ -93,6 +93,7 @@
   "custom/exchangerates": {
     "exec": "~/.config/waybar/exchangerates.sh",
     "interval": 1800,
+    "return-type": "json",
     "format": "{}"
   },
   "custom/weather": {

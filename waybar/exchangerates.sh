@@ -15,6 +15,16 @@ today=$(date +%F)
 
 # Get the latest entry for today
 today_entry=$(grep "^$today " "$CACHE_FILE" | tail -n1)
+
+get_last_seven_entries() {
+    header="Date       | USD      | EUR\n--------------------------------"
+    today="$(date +%Y-%m-%d)"
+    filtered_entries=$(grep -v "^$today" "$CACHE_FILE")
+    last_seven=$(echo "$filtered_entries" | tail -n7)
+    formatted_entries=$(echo "$last_seven" | awk '{printf "%-10s | %-8s | %s\n", $1, $4, $3}')
+    (echo -e "$header"; echo "$formatted_entries") | sed ':a;N;$!ba;s/\n/\\n/g'
+}
+
 if [ -n "$today_entry" ] && [ "$force" -eq 0 ]; then
     cache_time=$(echo "$today_entry" | awk '{print $2}')
     cache_eur=$(echo "$today_entry" | awk '{print $3}')
@@ -23,7 +33,7 @@ if [ -n "$today_entry" ] && [ "$force" -eq 0 ]; then
     cache_min=$(echo "$cache_time" | cut -d: -f2)
     # If cache is after 09:00, use cache
     if [ "$cache_hour" -gt 9 ] || { [ "$cache_hour" -eq 9 ] && [ "$cache_min" -ge 0 ]; }; then
-        echo "📈 USD: $cache_usd | EUR: $cache_eur"
+        echo "{\"text\": \"📈 USD: $cache_usd | EUR: $cache_eur\", \"tooltip\": \"$(get_last_seven_entries)\"}"
         exit 0
     fi
 fi
@@ -41,7 +51,7 @@ if [ -n "$last_entry" ]; then
 
     # If api call fails or it's missing data, show the old one and notify user
     if [ -z "$eur" ] || [ -z "$usd" ]; then
-        echo "📈  <span foreground='#FFA500'> </span>USD: $cache_usd | EUR: $cache_eur"
+        echo "{\"text\": \"📈  <span foreground='#FFA500'> </span>USD: $cache_usd | EUR: $cache_eur\", \"tooltip\": \"$(get_last_seven_entries)\"}"
         notify-send -i "dialog-error" -u critical "Exchange rates" "Failed to fetch exchange rates. Using cached value from $cache_date"
         exit 0
     fi
@@ -61,4 +71,4 @@ fi
 sed -i "/^$(date +%F) /d" "$CACHE_FILE"
 echo "$(date +%F) $now $eur $usd" >> "$CACHE_FILE"
 
-echo "📈 <span foreground='#00FF00'>  </span>USD: $usd | EUR: $eur"
+echo "{\"text\": \"📈 <span foreground='#00FF00'>  </span>USD: $usd | EUR: $eur\", \"tooltip\": \"$(get_last_seven_entries)\"}"
