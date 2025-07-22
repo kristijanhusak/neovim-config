@@ -8,10 +8,8 @@
 window#waybar {
   background: @bg;
   color: @fg;
-  border-top: 2px solid transparent;
   margin-top: 5px;
   margin-bottom: 5px;
-  border-bottom: 3px solid transparent;
 }
 
 #cpu, #language {
