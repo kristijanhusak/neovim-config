@@ -152,12 +152,31 @@ bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 
+set {
+    $float floating enable, border none
+}
+
 # Open specific applications in floating mode
 for_window [class="^.*"] border pixel 2
-for_window [app_id="org.gnome.Calculator"] floating enable, border none
-for_window [title="File Transfer*"] floating enable
-for_window [window_role="pop-up"] floating enable, border none
-for_window [app_id="com.viber.Viber" floating] move position 3140px 1325px, border none
+for_window [app_id="org.gnome.Calculator"] $float
+for_window [title="File Transfer*"] $float
+for_window [window_role="pop-up"] $float
+for_window [window_role="bubble"] $float
+for_window [window_role="dialog"] $float
+for_window [window_role="task_dialog"] $float
+for_window [window_role="About"] $float
+for_window [window_type="dialog"] $float
+for_window [window_type="dialog"] $float
+for_window [window_type="utility"] $float
+for_window [window_type="toolbar"] $float
+for_window [window_type="splash"] $float
+for_window [window_type="menu"] $float
+for_window [window_type="dropdown_menu"] $float
+for_window [window_type="popup_menu"] $float
+for_window [window_type="tooltip"] $float
+for_window [window_type="notification"] $float
+for_window [title="(?:Open|Save) (?:File|Folder|As)"] $float
+for_window [app_id="com.viber.Viber" floating] move position 90ppt 90ppt, border none
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
