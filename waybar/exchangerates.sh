@@ -11,8 +11,9 @@ if [ "$1" = "--force" ]; then
     force=1
 fi
 
-# Get the latest entry for today
 today=$(date +%F)
+
+# Get the latest entry for today
 today_entry=$(grep "^$today " "$CACHE_FILE" | tail -n1)
 if [ -n "$today_entry" ] && [ "$force" -eq 0 ]; then
     cache_time=$(echo "$today_entry" | awk '{print $2}')
@@ -34,8 +35,18 @@ now=$(date +%H:%M)
 
 last_entry=$(tail -n1 "$CACHE_FILE")
 if [ -n "$last_entry" ]; then
+    cache_date=$(echo "$last_entry" | awk '{print $1}')
     cache_eur=$(echo "$last_entry" | awk '{print $3}')
     cache_usd=$(echo "$last_entry" | awk '{print $4}')
+
+    # If api call fails or it's missing data, show the old one and notify user
+    if [ -z "$eur" ] || [ -z "$usd" ]; then
+        echo "📈  <span foreground='#FFA500'> </span>USD: $cache_usd | EUR: $cache_eur"
+        notify-send -i "dialog-error" -u critical "Exchange rates" "Failed to fetch exchange rates. Using cached value from $cache_date"
+        exit 0
+    fi
+
+
     if [ "$eur" != "$cache_eur" ] || [ "$usd" != "$cache_usd" ] || [ "$force" -eq 1 ]; then
         icon="dialog-information"
         if (( $(echo "$usd > $cache_usd" | bc -l) )); then
@@ -50,4 +61,4 @@ fi
 sed -i "/^$(date +%F) /d" "$CACHE_FILE"
 echo "$(date +%F) $now $eur $usd" >> "$CACHE_FILE"
 
-echo "📈 USD: $usd | EUR: $eur"
+echo "📈 <span foreground='#00FF00'>  </span>USD: $usd | EUR: $eur"
