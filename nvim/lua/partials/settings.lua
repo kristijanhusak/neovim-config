@@ -197,6 +197,7 @@ vim.filetype.add({
   pattern = {
     ['.env*'] = 'conf',
     ['*.mjml'] = 'html',
+    ['waybar/config'] = 'jsonc'
   },
 })
 
