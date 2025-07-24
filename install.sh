@@ -52,10 +52,19 @@ install_i3() {
 }
 
 install_sway() {
-  yay -S sway swaybg swaylock swaync swayidle xorg-wayland waybar grim slurp wl-clipboard fuzzel \
+  yay -S sway swaybg swaylock swaync swayidle xorg-wayland waybar grim slurp wl-clipboard rofi \
   && rm -rf ~/.config/sway ~/.config/waybar \
     && ln -s $(pwd)/sway ~/.config/sway \
     && ln -s $(pwd)/waybar ~/.config/waybar \
+}
+
+install_hyprland() {
+  yay -S cmake meson cpio pkg-config g++ gcc zenity hyprlock swaync hypridle xorg-wayland waybar grim slurp wl-clipboard rofi hyprland wf-recorder \
+  && rm -rf ~/.config/hypr ~/.config/waybar \
+    && ln -s $(pwd)/hypr ~/.config/hypr \
+    && ln -s $(pwd)/waybar ~/.config/waybar \
+    && hyprpm update \
+    && hyprpm add https://github.com/outfoxxed/hy3 \
 }
 
 install_rofi() {
@@ -69,20 +78,8 @@ install_mutt() {
 }
 
 if [[ -z $1 ]]; then
-  echo -n "This will delete all your previous nvim, zsh settings. Proceed? (y/n)? "
-  read answer
-  if echo "$answer" | grep -iq "^y" ;then
-    echo "Installing dependencies..." \
-    && install_oh_my_zsh \
-    && install_neovim \
-    && install_emacs \
-    && install_packages \
-    && install_diff_so_fancy \
-    && install_kitty \
-    && install_i3 \
-    && install_rofi \
-    && echo "Finished installation."
-  fi
+  echo "Provide argument"
+  exit 1
 else
   "install_$1" $1
 fi

@@ -1,7 +1,7 @@
 Neovim and terminal configuration
 ------
 
-This is my Neovim editor setup and other dotfiles, with zsh and Sway/Waybar configurations.
+This is my Neovim editor setup and other dotfiles, with zsh and Hyprland/Waybar configurations.
 Feel free to fork it and submit a pull request if you found any bug.
 
 

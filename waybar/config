@@ -3,9 +3,13 @@
   "position": "bottom",
   "height": 28,
   "spacing": 14,
-  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-left": [
+    "hyprland/workspaces",
+    "sway/mode"
+  ],
   "modules-center": [
-    "keyboard-state"
+    "keyboard-state",
+    "hyprland/submap"
   ],
   "modules-right": [
     "custom/exchangerates",
@@ -13,7 +17,7 @@
     "disk",
     "memory",
     "cpu",
-    "sway/language",
+    "hyprland/language",
     "battery",
     "pulseaudio",
     "clock",
@@ -54,9 +58,14 @@
     "interval": 2,
     "format": "M: {used}G/{total}G"
   },
-  "sway/language": {
-    "format": "{flag} {short}",
-    "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
+  "hyprland/language": {
+    "format": "{}",
+    "format-en": "🇺🇸 EN",
+    "format-sr": "🇷🇸 RS",
+    "on-click": "hyprctl switchxkblayout \"$(hyprctl devices -j | jq -r '.keyboards[] | select(.main == true) | .name')\" next"
+  },
+  "hyprland/submap": {
+    "format": "{}"
   },
   "disk": {
     "interval": 25,
@@ -70,7 +79,7 @@
   "keyboard-state": {
     "capslock": true,
     "format": {
-      "capslock": "{icon}",
+      "capslock": "{icon}"
     },
     "format-icons": {
       "locked": " CAPSLOCK ",

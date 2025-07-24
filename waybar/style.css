@@ -20,11 +20,18 @@ window#waybar {
   border-bottom: 3px solid #4bffdc;
 }
 
-#workspaces button.focused {
+#workspaces button.focused, #workspaces button.active {
   background: @fg;
   color: @bg;
   border-bottom: 3px solid #ffb52a;
   padding: 0 6px;
+}
+
+#keyboard-state label.locked, #submap.resize {
+  background: #bd2c40;
+  padding: 0 6px;
+  color: white;
+  font-weight: bold;
 }
 
 #workspaces button.urgent {
@@ -53,9 +60,4 @@ window#waybar {
 
 #pulseaudio.muted {
   color: #666;
-}
-
-#keyboard-state label.locked {
-  background: #ff0000;
-  color: white;
 }
