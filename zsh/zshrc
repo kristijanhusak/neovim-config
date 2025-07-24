@@ -105,6 +105,7 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey '^k' history-substring-search-up
 bindkey '^j' history-substring-search-down
+bindkey '^X^E' edit-command-line
 
 ### Fix slowness of pastes with zsh-syntax-highlighting.zsh
 ### Source: https://gist.github.com/magicdude4eva/2d4748f8ef3e6bf7b1591964c201c1ab
