@@ -7,4 +7,13 @@ return {
     language = 'English',
   },
   cmd = { 'CopilotChat' },
+  keys = {
+    {
+      '<leader>et',
+      function()
+        require('CopilotChat').toggle()
+      end,
+      desc = 'Open Copilot Chat',
+    },
+  }
 }
