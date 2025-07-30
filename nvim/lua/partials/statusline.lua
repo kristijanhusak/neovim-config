@@ -336,11 +336,11 @@ vim.api.nvim_create_autocmd('LspProgress', {
       or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
 
     statusline.lsp_progress = table.concat({ icon, msg[#msg] }, ' ')
-    vim.cmd.redrawstatus()
+    vim.api.nvim__redraw({ statusline = true })
     if #progress[client.id] == 0 then
       vim.defer_fn(function()
         statusline.lsp_progress = ''
-        vim.cmd.redrawstatus()
+        vim.api.nvim__redraw({ statusline = true })
       end, 500)
     end
   end,

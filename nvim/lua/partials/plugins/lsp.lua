@@ -321,9 +321,10 @@ local function show_diagnostics()
   end)
 end
 
-local function refresh_diagnostics()
+local function refresh_diagnostics(event)
   vim.diagnostic.setloclist({ open = false, namespace = diagnostic_ns })
   show_diagnostics()
+  vim.api.nvim__redraw({ buf = event.buf, statusline = true })
   local loclist = vim.fn.getloclist(0, { items = 0, winid = 0 })
   if vim.tbl_isempty(loclist.items) and loclist.winid > 0 then
     vim.api.nvim_win_close(loclist.winid, true)
