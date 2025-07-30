@@ -59,7 +59,7 @@ install_sway() {
 }
 
 install_hyprland() {
-  yay -S cmake meson cpio pkg-config g++ gcc zenity hyprlock swaync hypridle xorg-wayland waybar grim slurp wl-clipboard rofi hyprland wf-recorder \
+  yay -S cmake meson cpio pkg-config g++ gcc zenity hyprlock swaync hypridle xorg-wayland waybar grim slurp wl-clipboard rofi-wayland hyprland wf-recorder \
   && rm -rf ~/.config/hypr ~/.config/waybar \
     && ln -s $(pwd)/hypr ~/.config/hypr \
     && ln -s $(pwd)/waybar ~/.config/waybar \
