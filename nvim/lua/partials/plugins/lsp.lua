@@ -65,10 +65,6 @@ function setup.mappings()
     severity_sort = true,
   })
 
-  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, preview_opts)
-
-  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, preview_opts)
-
   local picker = require('partials.picker')
 
   ---@param desc string
@@ -168,75 +164,30 @@ function setup.mason()
 end
 
 function setup.servers()
-  local nvim_lsp = require('lspconfig')
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = vim.tbl_deep_extend('force', capabilities, {
-    textDocument = {
-      completion = {
-        dynamicRegistration = false,
-        completionItem = {
-          snippetSupport = true,
-          commitCharactersSupport = true,
-          deprecatedSupport = true,
-          preselectSupport = true,
-          resolveSupport = {
-            properties = {
-              'documentation',
-              'detail',
-              'additionalTextEdits',
-              'sortText',
-              'filterText',
-              'insertText',
-              'textEdit',
-              'insertTextFormat',
-              'insertTextMode',
-            },
-          },
-          labelDetailsSupport = true,
-        },
-        contextSupport = true,
-        completionList = {
-          itemDefaults = {
-            'commitCharacters',
-            'editRange',
-            'insertTextFormat',
-            'insertTextMode',
-            'data',
-          },
-        },
-      },
-    },
+  local disable_formatting_lsps = { 'lua_ls', 'ts_ls' }
+
+  vim.api.nvim_create_autocmd('LspAttach', {
+    group = lsp_group,
+    callback = function(ev)
+      local client = vim.lsp.get_client_by_id(ev.data.client_id)
+      local bufnr = ev.buf
+
+      if not client then
+        return
+      end
+
+      if client.server_capabilities.documentSymbolProvider then
+        require('nvim-navic').attach(client, bufnr)
+      end
+      setup.attach_to_buffer(client, bufnr)
+      if vim.tbl_contains(disable_formatting_lsps, client.name) then
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+      end
+    end,
   })
 
-  local function lsp_setup(opts)
-    opts = opts or {}
-    return vim.tbl_deep_extend('force', {
-      capabilities = capabilities,
-      on_attach = function(client, bufnr)
-        if client.server_capabilities.documentSymbolProvider then
-          require('nvim-navic').attach(client, bufnr)
-        end
-        setup.attach_to_buffer(client, bufnr)
-        if opts.disableFormatting then
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-        end
-      end,
-    }, opts or {})
-  end
-
-  nvim_lsp.vimls.setup(lsp_setup())
-  nvim_lsp.intelephense.setup(lsp_setup())
-  nvim_lsp.gopls.setup(lsp_setup())
-  nvim_lsp.pylsp.setup(lsp_setup())
-  nvim_lsp.terraformls.setup(lsp_setup())
-  nvim_lsp.docker_compose_language_service.setup(lsp_setup())
-  nvim_lsp.dockerls.setup(lsp_setup())
-  nvim_lsp.rust_analyzer.setup(lsp_setup())
-  nvim_lsp.ruby_lsp.setup(lsp_setup())
-  nvim_lsp.clangd.setup(lsp_setup())
-
-  nvim_lsp.ts_ls.setup(lsp_setup({
+  vim.lsp.config('ts_ls', {
     init_options = {
       preferences = {
         quotePreference = 'single',
@@ -249,17 +200,9 @@ function setup.servers()
         includeInlayEnumMemberValueHints = true,
       },
     },
-    disableFormatting = true,
-  }))
-
-  require('lazydev').setup({
-    library = {
-      {
-        path = '${3rd}/luv/library',
-      },
-    },
   })
-  nvim_lsp.lua_ls.setup(lsp_setup({
+
+  vim.lsp.config('lua_ls', {
     settings = {
       Lua = {
         diagnostics = {
@@ -277,8 +220,30 @@ function setup.servers()
         },
       },
     },
-    disableFormatting = true,
-  }))
+  })
+
+  vim.lsp.enable({
+    'vimls',
+    'intelephense',
+    'gopls',
+    'pylsp',
+    'terraformls',
+    'docker_compose_language_service',
+    'dockerls',
+    'rust_analyzer',
+    'ruby_lsp',
+    'clangd',
+    'ts_ls',
+    'lua_ls',
+  })
+
+  require('lazydev').setup({
+    library = {
+      {
+        path = '${3rd}/luv/library',
+      },
+    },
+  })
 
   local null_ls = require('null-ls')
   null_ls.setup({
