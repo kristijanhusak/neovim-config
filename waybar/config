@@ -106,8 +106,9 @@
     "format": "{}"
   },
   "custom/weather": {
-    "exec": "curl -Ss --fail 'https://wttr.in?format=3'",
+    "exec": "~/.config/waybar/weather.sh",
     "interval": 3600,
+    "return-type": "json",
     "format": "{}"
   }
 }
