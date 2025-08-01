@@ -31,10 +31,8 @@ return {
           opts = {
             prefix_min_len = 4,
             project_root_marker = { 'package.json', '.git' },
-            future_features = {
-              backend = {
-                use = 'gitgrep-or-ripgrep',
-              },
+            backend = {
+              use = 'gitgrep-or-ripgrep',
             },
           },
         },
