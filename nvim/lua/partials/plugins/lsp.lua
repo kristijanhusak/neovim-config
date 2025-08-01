@@ -41,8 +41,34 @@ local lsp = {
   ft = filetypes,
 }
 lsp.config = function()
-  setup.mason()
+  require('mason').setup({
+    ui = {
+      border = 'rounded',
+    },
+    -- Non-lsp items to install
+    -- prettier
+    -- sql-formatter
+    -- stylua
+  })
+
   setup.servers()
+
+  require('mason-lspconfig').setup({
+    ensure_installed = {
+      'clangd',
+      'docker_compose_language_service',
+      'dockerls',
+      'gopls',
+      'intelephense',
+      'lua_ls',
+      'pylsp',
+      'ruby_lsp',
+      'rust_analyzer',
+      'terraformls',
+      'ts_ls',
+      'vimls',
+    },
+  })
 
   return lsp
 end
@@ -134,35 +160,6 @@ function setup.mappings()
   end, { expr = true, buffer = true })
 end
 
-function setup.mason()
-  require('mason').setup({
-    ui = {
-      border = 'rounded',
-    },
-    -- Non-lsp items to install
-    -- prettier
-    -- sql-formatter
-    -- stylua
-  })
-  require('mason-lspconfig').setup({
-    automatic_enable = false,
-    ensure_installed = {
-      'pylsp',
-      'terraformls',
-      'docker_compose_language_service',
-      'dockerls',
-      'vimls',
-      'intelephense',
-      'ts_ls',
-      'gopls',
-      'lua_ls',
-      'rust_analyzer',
-      'ruby_lsp',
-      'clangd',
-    },
-  })
-end
-
 function setup.servers()
   local disable_formatting_lsps = { 'lua_ls', 'ts_ls' }
 
@@ -190,8 +187,6 @@ function setup.servers()
   vim.lsp.config('ts_ls', {
     init_options = {
       preferences = {
-        quotePreference = 'single',
-        importModuleSpecifierPreference = 'project-relative',
         includeInlayParameterNameHints = 'all',
         includeInlayFunctionParameterTypeHints = true,
         includeInlayVariableTypeHints = true,
@@ -220,21 +215,6 @@ function setup.servers()
         },
       },
     },
-  })
-
-  vim.lsp.enable({
-    'vimls',
-    'intelephense',
-    'gopls',
-    'pylsp',
-    'terraformls',
-    'docker_compose_language_service',
-    'dockerls',
-    'rust_analyzer',
-    'ruby_lsp',
-    'clangd',
-    'ts_ls',
-    'lua_ls',
   })
 
   require('lazydev').setup({
