@@ -6,8 +6,11 @@ let g:mapleader = ','
 filetype plugin indent on
 syntax on
 
-let &t_SI = "\e[6 q"
-let &t_EI = "\e[2 q"
+" Setup block and beam cursor in normal/insert mode
+let &t_VS = "\<esc>[ q"
+let &t_SI = "\<esc>[5 q"
+let &t_SR = "\<esc>[5 q"
+let &t_EI = "\<esc>[ q"
 
 set title
 set number
@@ -38,6 +41,7 @@ set completeopt-=preview
 set hidden
 set conceallevel=2 concealcursor=i
 set splitright
+set splitbelow
 set noswapfile
 set nobackup
 set nowb
@@ -68,7 +72,11 @@ if !has('nvim')
   set undodir=~/.cache/vim/undo
 endif
 
-silent! exe 'colorscheme sorbet'
+try
+  colorscheme sorbet
+catch /^Vim\%((\a\+)\)\=:E185/
+  colorscheme slate
+endtry
 
 " Map save to Ctrl + S
 map <c-s> :w<CR>
