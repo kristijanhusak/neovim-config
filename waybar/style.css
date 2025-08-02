@@ -18,6 +18,7 @@ window#waybar {
 
 #memory {
   border-bottom: 3px solid #4bffdc;
+  min-width: 115px;
 }
 
 #workspaces button.focused, #workspaces button.active {
@@ -25,13 +26,6 @@ window#waybar {
   color: @bg;
   border-bottom: 3px solid #ffb52a;
   padding: 0 6px;
-}
-
-#keyboard-state label.locked, #submap.resize {
-  background: #bd2c40;
-  padding: 0 6px;
-  color: white;
-  font-weight: bold;
 }
 
 #workspaces button.urgent {
@@ -45,8 +39,12 @@ window#waybar {
   padding: 1px 6px;
 }
 
-#tray {
-  padding-right: 6px;
+
+#keyboard-state label.locked, #submap.resize {
+  background: #bd2c40;
+  padding: 0 6px;
+  color: white;
+  font-weight: bold;
 }
 
 #clock {
@@ -60,4 +58,26 @@ window#waybar {
 
 #pulseaudio.muted {
   color: #666;
+}
+
+#custom-notification {
+  font-size: 16px;
+  margin-right: 0;
+  min-width: 20px;
+}
+
+#tray {
+  padding-right: 6px;
+}
+
+#custom-exchangerates,
+#custom-weather,
+#disk,
+#memory,
+#cpu,
+#language,
+#battery,
+#pulseaudio,
+#clock {
+  margin-right: 14px;
 }
