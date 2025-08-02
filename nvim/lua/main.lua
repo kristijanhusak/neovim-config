@@ -1,3 +1,5 @@
+vim.g.enable_builtin_completion = true
+
 require('partials.abbreviations')
 require('partials.settings')
 require('partials.lazy')

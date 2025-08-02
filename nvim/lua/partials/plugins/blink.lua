@@ -1,6 +1,7 @@
 return {
   'saghen/blink.cmp',
   event = 'InsertEnter',
+  enabled = not vim.g.enable_builtin_completion,
   version = '*',
   dependencies = {
     'mikavilpas/blink-ripgrep.nvim',
