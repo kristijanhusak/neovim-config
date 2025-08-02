@@ -157,7 +157,7 @@ vim.api.nvim_create_autocmd('InsertEnter', {
   command = 'set nocul',
   group = vimrc_group,
 })
-vim.api.nvim_create_autocmd('InsertLeave', {
+vim.api.nvim_create_autocmd({'InsertLeave', 'BufEnter'}, {
   pattern = '*',
   command = 'set cul',
   group = vimrc_group,
@@ -197,7 +197,7 @@ vim.filetype.add({
   pattern = {
     ['.env*'] = 'conf',
     ['*.mjml'] = 'html',
-    ['.*waybar/config'] = 'jsonc'
+    ['.*waybar/config'] = 'jsonc',
   },
 })
 
