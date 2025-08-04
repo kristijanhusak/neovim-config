@@ -57,7 +57,7 @@ local function get_completion(bufnr, params, callback)
         table.insert(items, {
           label = word,
           kind = protocol.CompletionItemKind.Text,
-          detail = '[Buffer]',
+          sortText = 'zzzz',
           data = {
             bufnames = word_bufs[word] or {},
           },
@@ -72,9 +72,9 @@ end
 local function server(dispatchers)
   local closing = false
   local srv = {}
-  local no_result_count = 0
 
-  function srv.request(method, params, callback)
+  function srv.request(method, params, cb)
+    local callback = vim.schedule_wrap(cb)
     if method == protocol.Methods.initialize then
       callback(nil, {
         capabilities = {
@@ -91,13 +91,17 @@ local function server(dispatchers)
     end
 
     if method == protocol.Methods.textDocument_completion then
-      local complete_info = vim.fn.complete_info({'pum_visible', 'matches'})
-      if (complete_info.pum_visible and #complete_info.matches > 0) or no_result_count < 3 then
-        callback(nil, { isIncomplete = true, items = {} })
-        no_result_count = no_result_count + 1
+      if vim.opt.autocomplete:get() then
+        callback(nil, nil)
         return
       end
-      no_result_count = 0
+
+      local complete_info = vim.fn.complete_info({ 'pum_visible', 'matches' })
+      if complete_info.pum_visible > 0 and #complete_info.matches > 0 then
+        callback(nil, { isIncomplete = true, items = {} })
+        return
+      end
+
       local bufnr = params.textDocument and params.textDocument.uri and vim.uri_to_bufnr(params.textDocument.uri)
       if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
         callback(nil, nil)
@@ -111,34 +115,28 @@ local function server(dispatchers)
     end
 
     if method == protocol.Methods.completionItem_resolve then
-      vim.schedule(function()
-        callback(
-          nil,
-          vim.tbl_extend('force', params, {
-            documentation = {
-              kind = 'markdown',
-              value = ('```\n%s\n```'):format(table.concat(vim.list.unique(params.data.bufnames), '\n')),
-            },
-          })
-        )
-      end)
+      callback(
+        nil,
+        vim.tbl_extend('force', params, {
+          documentation = {
+            kind = 'markdown',
+            value = ('```\n%s\n```'):format(table.concat(vim.list.unique(params.data.bufnames), '\n')),
+          },
+        })
+      )
     end
   end
 
-  -- This method is called each time the client sends a notification to the server
-  -- The difference between `request` and `notify` is that notifications don't expect a response
   function srv.notify(method)
     if method == 'exit' then
       dispatchers.on_exit(0, 15)
     end
   end
 
-  -- Indicates if the client is shutting down
   function srv.is_closing()
     return closing
   end
 
-  -- Callend when the client wants to terminate the process
   function srv.terminate()
     closing = true
   end

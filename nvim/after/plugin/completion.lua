@@ -7,21 +7,39 @@ local augroup = vim.api.nvim_create_augroup('custom_lsp_completion', { clear = t
 local icons = utils.lsp_kind_icons()
 local protocol = vim.lsp.protocol
 vim.opt.complete = '.,w,b,o'
-vim.opt.autocomplete = true
 
 vim.api.nvim_create_autocmd('InsertEnter', {
   pattern = '*',
   group = augroup,
   callback = function(ev)
-    local is_prompt_buffer = vim.bo[ev.buf].buftype == 'prompt' or vim.bo[ev.buf].filetype == 'snacks_input'
-    vim.opt_local.autocomplete = not is_prompt_buffer
-  end
+    local is_valid_buffer = vim.bo[ev.buf].buftype ~= 'prompt' and vim.bo[ev.buf].filetype ~= 'snacks_input'
+    local completion_clients = vim.lsp.get_clients({
+      bufnr = ev.buf,
+      method = protocol.Methods.textDocument_completion,
+    })
+
+    local no_valid_lsp_clients = #vim.tbl_filter(function(client)
+      return client.name ~= 'buffer_lsp'
+    end, completion_clients) == 0
+
+    local enable_autocomplete = is_valid_buffer and no_valid_lsp_clients
+
+    if enable_autocomplete then
+      vim.opt_local.autocomplete = true
+      vim.tbl_map(function(client)
+        vim.lsp.buf_detach_client(ev.buf, client.id)
+      end, completion_clients)
+    else
+      vim.opt_local.autocomplete = false
+      vim.tbl_map(function(client)
+        vim.lsp.buf_attach_client(ev.buf, client.id)
+      end, completion_clients)
+    end
+  end,
 })
 
---
-local function pumvisible()
-  return vim.fn.pumvisible() > 0
-end
+require('partials.lsps.buffer')
+vim.lsp.enable('buffer_lsp')
 
 local function on_complete_changed()
   local completed_item = vim.api.nvim_get_vvar('completed_item')
@@ -78,13 +96,24 @@ vim.api.nvim_create_autocmd('LspAttach', {
       return
     end
 
+    local chars = {}
+    for i = 32, 126 do
+      table.insert(chars, string.char(i))
+    end
+    client.server_capabilities.completionProvider.triggerCharacters = chars
+
     vim.lsp.completion.enable(true, client.id, ev.buf, {
+      autotrigger = true,
       convert = function(item)
         local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or 'Text'
+        local menu = ('[%s]'):format(kind)
+        if item.data and item.data.bufnames then
+          menu = '[Buffer]'
+        end
         return {
           kind = icons[kind],
           kind_hlgroup = ('CmpItemKind%s'):format(kind),
-          menu = ('[%s]'):format(kind)
+          menu = menu,
         }
       end,
     })
@@ -128,7 +157,7 @@ vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
 end, { silent = true })
 
 vim.keymap.set('i', '<C-n>', function()
-  if pumvisible() then
+  if vim.fn.pumvisible() > 0 then
     return utils.feedkeys('<C-n>', 'n')
   end
 
@@ -138,7 +167,7 @@ end)
 vim.keymap.set('i', '<CR>', function()
   local npairs = require('nvim-autopairs')
 
-  if not pumvisible() then
+  if vim.fn.pumvisible() == 0 then
     return npairs.autopairs_cr()
   end
 
