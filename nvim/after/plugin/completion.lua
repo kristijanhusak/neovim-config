@@ -6,13 +6,19 @@ local utils = require('partials.utils')
 local augroup = vim.api.nvim_create_augroup('custom_lsp_completion', { clear = true })
 local icons = utils.lsp_kind_icons()
 local protocol = vim.lsp.protocol
+vim.opt.complete = '.,w,b,o'
+vim.opt.autocomplete = true
 
-require('partials.lsps.buffer')
-require('partials.lsps.omni')
+vim.api.nvim_create_autocmd('InsertEnter', {
+  pattern = '*',
+  group = augroup,
+  callback = function(ev)
+    local is_prompt_buffer = vim.bo[ev.buf].buftype == 'prompt' or vim.bo[ev.buf].filetype == 'snacks_input'
+    vim.opt_local.autocomplete = not is_prompt_buffer
+  end
+})
 
-vim.lsp.enable('buffer_lsp')
-vim.lsp.enable('omnifunc_lsp')
-
+--
 local function pumvisible()
   return vim.fn.pumvisible() > 0
 end
@@ -72,23 +78,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
       return
     end
 
-    local chars = {}
-    for i = 32, 126 do
-      table.insert(chars, string.char(i))
-    end
-    client.server_capabilities.completionProvider.triggerCharacters = chars
     vim.lsp.completion.enable(true, client.id, ev.buf, {
-      autotrigger = true,
       convert = function(item)
         local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or 'Text'
-        local menu = ('[%s]'):format(kind)
-        if item.detail and item.detail ~= '' then
-          menu = item.detail
-        end
         return {
           kind = icons[kind],
           kind_hlgroup = ('CmpItemKind%s'):format(kind),
-          menu = menu
+          menu = ('[%s]'):format(kind)
         }
       end,
     })

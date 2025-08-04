@@ -55,7 +55,7 @@ install_sway() {
   yay -S sway swaybg swaylock swaync swayidle xorg-wayland waybar grim slurp wl-clipboard rofi \
   && rm -rf ~/.config/sway ~/.config/waybar \
     && ln -s $(pwd)/sway ~/.config/sway \
-    && ln -s $(pwd)/waybar ~/.config/waybar \
+    && ln -s $(pwd)/waybar ~/.config/waybar
 }
 
 install_hyprland() {
@@ -64,7 +64,7 @@ install_hyprland() {
     && ln -s $(pwd)/hypr ~/.config/hypr \
     && ln -s $(pwd)/waybar ~/.config/waybar \
     && hyprpm update \
-    && hyprpm add https://github.com/outfoxxed/hy3 \
+    && hyprpm add https://github.com/outfoxxed/hy3
 }
 
 install_rofi() {
@@ -81,5 +81,5 @@ if [[ -z $1 ]]; then
   echo "Provide argument"
   exit 1
 else
-  "install_$1" $1
+  "install_$1"
 fi
