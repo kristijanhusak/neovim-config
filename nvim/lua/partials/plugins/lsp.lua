@@ -321,10 +321,7 @@ function setup.attach_to_buffer(client, bufnr)
   end
 
   vim.opt.foldmethod = 'expr'
-  if client:supports_method('textDocument/foldingRange') and vim.lsp.foldexpr then
-    vim.opt.foldexpr = 'v:lua.vim.lsp.foldexpr()'
-    vim.opt.foldtext = 'v:lua.vim.lsp.foldtext()'
-  elseif vim.treesitter.foldexpr then
+  if vim.treesitter.foldexpr then
     vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
     vim.opt.foldtext = ''
   else
