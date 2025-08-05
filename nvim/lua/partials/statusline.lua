@@ -201,8 +201,12 @@ local section_err_right = vim.tbl_extend('force', section_err, { side = 'right' 
 local function mode_statusline()
   local mode = vim.fn.mode()
   mode_highlight(mode)
+  if vim.fn.state('o') == 'o' then
+    return 'O-PENDING'
+  end
   local modeMap = {
     n = 'NORMAL',
+    no = 'O-PENDING',
     i = 'INSERT',
     R = 'REPLACE',
     v = 'VISUAL',
