@@ -38,7 +38,8 @@ return {
         'vim',
         'yaml',
         'copilot-chat',
-        'http'
+        'http',
+        'codecompanion'
       },
       group = vim.api.nvim_create_augroup('nvim-treesitter-fts', { clear = true }),
       callback = function(args)

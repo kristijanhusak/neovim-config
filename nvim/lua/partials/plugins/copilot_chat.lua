@@ -1,5 +1,6 @@
 return {
   'CopilotC-Nvim/CopilotChat.nvim',
+  enabled = false,
   opts = {
     show_help = 'no',
     debug = false,
