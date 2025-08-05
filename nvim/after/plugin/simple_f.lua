@@ -46,11 +46,11 @@ local function simple_ft(key, is_normal_mode)
   return ('%d%s%s'):format(vim.v.count1, key, vim.fn.nr2char(char))
 end
 
-for _, key in ipairs({ 'f', 't', 'F', 'T' }) do
-  vim.keymap.set('n', key, function()
-    return vim.cmd.normal({ simple_ft(key, true), bang = true })
-  end)
-  vim.keymap.set({ 'x', 'o' }, key, function()
-    return simple_ft(key)
-  end, { expr = true, remap = true })
-end
+-- for _, key in ipairs({ 'f', 't', 'F', 'T' }) do
+--   vim.keymap.set('n', key, function()
+--     return vim.cmd.normal({ simple_ft(key, true), bang = true })
+--   end)
+--   vim.keymap.set({ 'x', 'o' }, key, function()
+--     return simple_ft(key)
+--   end, { expr = true, remap = true })
+-- end
