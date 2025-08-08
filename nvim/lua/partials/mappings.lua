@@ -24,7 +24,10 @@ vim.keymap.set('n', 'k', 'gk')
 vim.keymap.set('t', '<Leader>jj', '<C-\\><C-n>')
 
 -- Clear search highlights
-vim.keymap.set('n', '<Leader><space>', ':noh<CR>', { silent = true, desc = 'Clear search highlights' })
+vim.keymap.set('n', '<Leader><space>', function()
+  vim.cmd('noh')
+  vim.api.nvim__redraw({ statusline = true })
+end, { silent = true, desc = 'Clear search highlights' })
 
 -- Stay on same position when searching word under cursor
 vim.keymap.set('n', '*', '*N')
