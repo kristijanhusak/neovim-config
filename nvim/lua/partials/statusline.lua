@@ -245,7 +245,7 @@ local function git_statusline()
   return with_icon(table.concat(result, ' '), '')
 end
 
-local function get_path()
+local function get_path(winwidth)
   local full_path = vim.fn.expand('%:p')
   local path = full_path
   local cwd = vim.fn.getcwd()
@@ -263,7 +263,7 @@ local function get_path()
     path = vim.fn.expand('%:~')
   end
 
-  if #path < (vim.fn.winwidth(0) / 4) then
+  if #path < (winwidth / 1.3) then
     return path
   end
 
@@ -381,33 +381,44 @@ local function filetype()
   return filetype_icon_cache[ft]
 end
 
-local function statusline_active()
+local function statusline_active(win_id)
+  local winwidth = vim.api.nvim_win_get_width(win_id)
   local mode = mode_statusline()
+  local priority = {
+    winwidth > 50,
+    winwidth > 100,
+    winwidth > 150,
+    winwidth > 200,
+  }
   local git_status = git_statusline()
   local search = statusline.search_result()
   local db_ui = vim.g.loaded_dbui and vim.fn['db_ui#statusline']() or ''
   local diagnostics = lsp_diagnostics()
   local modified_count = get_modified_count()
   local statusline_sections = {
-    sep(mode, section_a),
-    sep(git_status, section_b, git_status ~= ''),
+    sep(mode, section_a, priority[2]),
+    sep(git_status, section_b, git_status ~= '' and priority[2]),
+    sep(
+      get_path(winwidth),
+      vim.tbl_extend('keep', vim.bo.modified and section_err or section_b, {
+        no_before = not priority[2],
+      })
+    ),
     sep(('+%d'):format(modified_count), section_err, modified_count > 0),
     sep(' - ', section_err, not vim.bo.modifiable),
     sep('%w', section_b, vim.wo.previewwindow),
     sep('%r', section_b, vim.bo.readonly),
     sep('%q', section_b, vim.bo.buftype == 'quickfix'),
     sep(db_ui, section_b, db_ui ~= ''),
-    '%<',
-    sep(get_path(), vim.bo.modified and section_err or section_b),
     '%=',
-    sep(statusline.lsp_progress, section_b_right, statusline.lsp_progress ~= ''),
-    sep(search, section_b_right, search ~= ''),
+    sep(statusline.lsp_progress, section_b_right, statusline.lsp_progress ~= '' and priority[3]),
+    sep(search, section_b_right, search ~= '' and priority[3]),
     filetype(),
-    sep(' ' .. statusline.cwd_folder, section_b_right, statusline.cwd_folder ~= ''),
-    sep(' ' .. os.date('%H:%M', os.time()), section_a_right),
-    sep('%4l:%-3c', vim.tbl_extend('keep', { no_after = diagnostics == '' }, section_a_right)),
+    sep(' ' .. statusline.cwd_folder, section_b_right, statusline.cwd_folder ~= '' and priority[3]),
+    sep(' ' .. os.date('%H:%M', os.time()), section_a_right, priority[4]),
+    sep('%4l:%-3c', vim.tbl_extend('keep', { no_after = diagnostics == '' }, section_a_right), priority[1]),
     diagnostics,
-    '%<',
+    '%<'
   }
 
   return table.concat(statusline_sections, '')
@@ -418,9 +429,10 @@ local function statusline_inactive()
 end
 
 function statusline.setup()
-  local focus = vim.g.statusline_winid == vim.fn.win_getid()
+  local win_id = vim.fn.win_getid()
+  local focus = vim.g.statusline_winid == win_id
   if focus then
-    return statusline_active()
+    return statusline_active(win_id)
   end
   return statusline_inactive()
 end
