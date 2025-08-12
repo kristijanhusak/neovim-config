@@ -38,7 +38,6 @@ if [[ -r ~/.phpbrew/bashrc ]]; then
 fi
 
 alias n='nvim'
-alias m='neomutt'
 alias dc='docker compose'
 alias install='sudo pacman -S'
 alias search='sudo pacman -Ss'
@@ -83,16 +82,6 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=248'
 eval "$(fnm env)"
 
 eval $(keychain --eval --quiet ~/.ssh/id_rsa)
-
-if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
-    alias nvim=nvr -cc split --remote-wait +'set bufhidden=wipe'
-fi
-
-if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
-    export EDITOR="nvr -cc split --remote-wait +'set bufhidden=wipe'"
-else
-    export EDITOR="nvim"
-fi
 
 bindkey '^[[Z' reverse-menu-complete # Use shift tab for backward autocompletion
 
