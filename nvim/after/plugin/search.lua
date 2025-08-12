@@ -5,6 +5,7 @@ local search = {}
 local is_toggle = false
 local mode = 'term'
 local last_search = ''
+local last_search_desc = ''
 
 local search_group = vim.api.nvim_create_augroup('init_vim_search', { clear = true })
 vim.api.nvim_create_autocmd('FileType', {
@@ -31,6 +32,22 @@ vim.api.nvim_create_autocmd('QuickFixCmdPost', {
   command = 'lwindow',
   nested = true,
   group = search_group,
+})
+vim.api.nvim_create_autocmd('QuickFixCmdPost', {
+  pattern = '[^l]*',
+  group = search_group,
+  nested = true,
+  callback = function()
+    vim.schedule(function()
+      local wins = vim.api.nvim_list_wins()
+      for _, win in ipairs(wins) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].filetype == 'qf' then
+          vim.api.nvim_win_set_var(win, 'quickfix_title', last_search_desc)
+        end
+      end
+    end)
+  end,
 })
 
 vim.keymap.set('n', '<Leader>ff', ':call v:lua.kris.search.run("")<CR>', { silent = true, desc = 'Search' })
@@ -121,6 +138,7 @@ function search.run(search_term, is_visual)
 
   cmd = cmd and cmd ~= '' and cmd or last_search
   last_search = cmd
+  last_search_desc = ('  [%s] %s'):format(mode, term)
 
   local results = vim.fn.systemlist(cmd)
   vim.cmd.redraw()

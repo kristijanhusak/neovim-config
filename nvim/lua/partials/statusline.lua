@@ -7,6 +7,14 @@ local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clea
 vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
 local devicons = require('nvim-web-devicons')
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'qf',
+  group = statusline_group,
+  callback = function()
+    vim.opt_local.statusline = '%!v:lua.require("partials.statusline").setup()'
+  end
+})
+
 local c = {}
 
 local function get_workspace_name()
@@ -247,6 +255,9 @@ local function git_statusline()
 end
 
 local function get_path(winwidth)
+  if vim.w.quickfix_title then
+    return vim.w.quickfix_title
+  end
   local full_path = vim.fn.expand('%:p')
   local path = full_path
   local cwd = vim.fn.getcwd()

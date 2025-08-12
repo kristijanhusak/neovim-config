@@ -294,6 +294,9 @@ return {
         vim.fn.setqflist(qf)
         vim.cmd('copen')
       end
+      vim.schedule(function()
+        vim.w.quickfix_title = picker.title
+      end)
     end
   end,
 }
