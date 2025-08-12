@@ -1,6 +1,7 @@
 local statusline = {
   cwd_folder = '',
   lsp_progress = '',
+  clock_attached = false,
 }
 local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
 vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
@@ -381,6 +382,20 @@ local function filetype()
   return filetype_icon_cache[ft]
 end
 
+local function clock()
+  if not statusline.clock_attached then
+    vim.uv.new_timer():start(
+      1000,
+      1000,
+      vim.schedule_wrap(function()
+        vim.api.nvim__redraw({ statusline = true })
+      end)
+    )
+    statusline.clock_attached = true
+  end
+  return os.date('%H:%M', os.time())
+end
+
 local function statusline_active(win_id)
   local winwidth = vim.api.nvim_win_get_width(win_id)
   local mode = mode_statusline()
@@ -415,10 +430,10 @@ local function statusline_active(win_id)
     sep(search, section_b_right, search ~= '' and priority[3]),
     filetype(),
     sep(' ' .. statusline.cwd_folder, section_b_right, statusline.cwd_folder ~= '' and priority[3]),
-    sep(' ' .. os.date('%H:%M', os.time()), section_a_right, priority[4]),
+    sep(' ' .. clock(), section_a_right, priority[4]),
     sep('%4l:%-3c', vim.tbl_extend('keep', { no_after = diagnostics == '' }, section_a_right), priority[1]),
     diagnostics,
-    '%<'
+    '%<',
   }
 
   return table.concat(statusline_sections, '')
