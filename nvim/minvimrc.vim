@@ -65,6 +65,7 @@ set wildignore+=*DS_Store*
 set wildignore+=*.gem
 set wildignore+=log/**
 set wildignore+=tmp/**
+set wildignore+=dist/**
 set wildignore+=*.png,*.jpg,*.gif
 
 set path=**/*
@@ -141,7 +142,7 @@ nnoremap <silent> ]b :bnext<CR>
 nnoremap <silent> [b :bprev<CR>
 
 
-function! ToggleComment()
+function! ToggleComment() abort
   let l:cs = substitute(&commentstring, '%s', '', '')
   if getline('.') =~ '^\s*' . escape(l:cs, '#')
     execute 'normal! ^' . len(l:cs) . 'x'
@@ -160,6 +161,18 @@ let g:netrw_winsize = 15
 
 map <silent> <leader>n :Lexplore<CR>
 
+function! s:setup_paths() abort
+  let cwd = getcwd()
+  let entries = glob(cwd.'/*', 0, 1)
+  let paths = ['.', '']
+  for entry in entries
+    if isdirectory(entry) && stridx(&wildignore, fnamemodify(entry, ':t')) < 0
+      call add(paths, entry.'/**')
+    endif
+  endfor
+  let &path = join(paths, ',')
+endfunction
+
 augroup fallback_vimrc
   autocmd!
   autocmd FileType netrw nmap <silent><buffer> o <CR> | silent! unmap <buffer><C-l>
@@ -169,4 +182,5 @@ augroup fallback_vimrc
   autocmd FocusGained,BufEnter * silent! exe checktime
   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu | set rnu | endif
   autocmd BUfLeave,FocusLost,InsertEnter,WinLeave * if &nu | set nornu | endif
+  autocmd VimEnter,DirChanged * call s:setup_paths()
 augroup end
