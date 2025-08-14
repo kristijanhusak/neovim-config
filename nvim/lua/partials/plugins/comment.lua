@@ -1,5 +1,8 @@
 return {
   'numToStr/Comment.nvim',
+  enabled = function()
+    return vim.fn.has('nvim-0.12') == 0
+  end,
   keys = {
     '<leader>c',
     'gcip',

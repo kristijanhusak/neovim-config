@@ -237,6 +237,13 @@ vim.keymap.set('n', '<Leader>Q', function()
   return close_buffer(true)
 end, { desc = 'Force close buffer' })
 
+if vim.fn.has('nvim-0.12') > 0 then
+  -- Comment map
+  vim.keymap.set('n', '<Leader>c', 'gcc', { remap = true, desc = 'Comment line' })
+  -- Line comment command
+  vim.keymap.set('v', '<Leader>c', 'gc', { remap = true, desc = 'Comment selection' })
+end
+
 function mappings.paste_to_json_buffer()
   vim.cmd.vsplit()
   vim.cmd.enew()
