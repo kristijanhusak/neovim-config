@@ -12,7 +12,6 @@ return {
             title = 'Workspaces',
           })
           local local_nvimrc = vim.fn.getcwd() .. '/.nvim.lua'
-          Snacks.debug.inspect('local vimrc', local_nvimrc)
           if vim.secure.read(local_nvimrc) then
             vim.cmd.source(local_nvimrc)
           end
