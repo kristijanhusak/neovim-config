@@ -37,13 +37,15 @@ return {
         inline = { adapter = 'copilot' },
       },
       adapters = {
-        gemini = function()
-          return require('codecompanion.adapters').extend('gemini', {
-            env = {
-              api_key = vim.env.GEMINI_API_KEY,
-            },
-          })
-        end,
+        http = {
+          gemini = function()
+            return require('codecompanion.adapters').extend('gemini', {
+              env = {
+                api_key = vim.env.GEMINI_API_KEY,
+              },
+            })
+          end,
+        }
       },
     })
 
