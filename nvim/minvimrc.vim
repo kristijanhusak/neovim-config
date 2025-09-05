@@ -56,7 +56,6 @@ set expandtab
 set smartindent
 set autoindent
 set nofoldenable
-set wildmode=list:full
 set wildmenu
 set wildignore=*.o,*.obj,*~
 set wildignore+=*logs*
@@ -71,6 +70,7 @@ set wildignore+=*.png,*.jpg,*.gif
 set path=**/*
 
 if !has('nvim')
+  set wildmode=list:full
   set undodir=~/.cache/vim/undo
 endif
 
