@@ -7,6 +7,7 @@ _G.kris.diagnostic_icons = {
   [vim.diagnostic.severity.HINT] = ' ',
 }
 
+vim.g.mapleader = ','
 vim.opt.termguicolors = true
 vim.opt.title = true
 vim.opt.number = true
