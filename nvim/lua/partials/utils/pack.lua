@@ -1,0 +1,306 @@
+local cur_file_dir = vim.fs.dirname(debug.getinfo(1, 'S').source:sub(2))
+
+---@class PackOpts
+---@field src string The GitHub src of the plugin (e.g., 'user/repo' or full URL)
+---@field ft? string | string[] The filetype(s) to trigger loading the plugin (e.g., 'python', {'python', 'lua'})
+---@field keys? [string|string[],string,fun(),table][] The keys to Trigger loading the plugin
+---@field cmd? string | string[] The GitHub path of the plugin (e.g., 'user/repo' or full URL)
+---@field event? string | string[]  The autocommand event to trigger loading the plugin (e.g., 'InsertEnter')
+---@field name? string The GitHub path of the plugin (e.g., 'user/repo' or full URL)
+---@field dependencies? (string | PackOpts)[] List of plugin dependencies
+---@field config? fun(opts: PackOpts) Optional configuration function to run after loading the plugin
+---@field version? string|vim.VersionRange
+---@field build? string | fun(plug_data: {spec: vim.pack.Spec, path: string}) Optional build command or function to run after installation
+---@field local_package? boolean is given path a local package
+---@field loaded? boolean is plugin loaded
+---@field enabled? boolean is plugin enabled
+
+local augroup = vim.api.nvim_create_augroup('kris_neovim_config', { clear = true })
+
+---@type table<string, PackOpts>
+local plugins = {}
+---@type PackOpts[]
+local install_plugins = {}
+---@type PackOpts[]
+local load_on_start_plugins = {}
+---@type PackOpts[]
+local lazy_load_on_start_plugins = {}
+
+vim.g.loaded_gzip = 1
+vim.g.loaded_matchit = 1
+vim.g.loaded_matchparen = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_tutor_mode_plugin = 1
+vim.g.loaded_zipPlugin = 1
+
+local home = os.getenv('HOME')
+package.path = ('%s;%s/.luarocks/share/lua/5.1/?.lua;%s/.luarocks/share/lua/5.1/?/init.lua'):format(
+  package.path,
+  home,
+  home
+)
+package.cpath = ('%s;%s/.luarocks/lib/lua/5.1/?.so'):format(package.cpath, home)
+
+vim.api.nvim_create_autocmd('PackChanged', {
+  callback = function(event)
+    local data = event.data
+    if (data.kind == 'install' or data.kind == 'update') and data.spec.name then
+      local plugin = plugins[data.spec.name]
+      if plugin and plugin.build then
+        print(('Running build for %s...'):format(data.spec.name))
+        if type(plugin.build) == 'string' then
+          vim.cmd(plugin.build)
+        elseif type(plugin.build) == 'function' then
+          plugin.build(data)
+        end
+        print(('Finished running build for %s...'):format(data.spec.name))
+      end
+    end
+  end,
+})
+
+local function get_plug_dir()
+  return vim.fs.joinpath(vim.fn.stdpath('data'), 'site', 'pack', 'core', 'opt')
+end
+
+---@param opts PackOpts
+---@return PackOpts
+local function queue_for_install(opts)
+  if type(opts.enabled) ~= 'boolean' then
+    opts.enabled = true
+  end
+  if not opts.local_package and not vim.startswith(opts.src, 'http') then
+    opts.src = ('https://github.com/%s'):format(opts.src)
+  end
+  if opts.local_package then
+    opts.src = vim.fs.normalize(opts.src)
+  end
+  if not opts.name then
+    local parts = vim.split(opts.src, '/')
+    opts.name = parts[#parts]
+  end
+  if opts.dependencies then
+    local deps = {}
+    for _, dep in ipairs(opts.dependencies) do
+      if type(dep) == 'string' then
+        dep = { src = dep }
+      end
+      if not opts.enabled then
+        dep.enabled = false
+      end
+      table.insert(deps, queue_for_install(dep))
+    end
+    opts.dependencies = deps
+  end
+  plugins[opts.name] = opts
+
+  if not opts.local_package then
+    table.insert(install_plugins, opts)
+  end
+  return opts
+end
+
+---@param opts PackOpts
+local function load_plugin(opts)
+  local plugin = plugins[opts.name]
+
+  if plugin.loaded or not plugin.enabled then
+    return
+  end
+
+  if plugin.dependencies then
+    for _, dep in ipairs(plugin.dependencies) do
+      ---@cast dep PackOpts
+      load_plugin(dep)
+    end
+  end
+
+  if plugin.local_package then
+    local dest = vim.fs.joinpath(get_plug_dir(), plugin.name)
+    if not vim.uv.fs_stat(dest) then
+      vim.system({ 'ln', '-sf', plugin.src, dest }):wait()
+    end
+  end
+
+  vim.cmd.packadd(plugin.name)
+
+  if plugin.config then
+    opts.config(plugin)
+  end
+  plugins[opts.name].loaded = true
+end
+
+local on_cmd = function(opts)
+  local plugin = queue_for_install(opts)
+  local cmds = type(opts.cmd) == 'string' and { opts.cmd } or opts.cmd
+
+  local del_cmds = function()
+    for _, cmd in ipairs(cmds) do
+      vim.api.nvim_del_user_command(cmd)
+    end
+  end
+
+  for _, cmd in ipairs(cmds) do
+    vim.api.nvim_create_user_command(cmd, function(args)
+      del_cmds()
+      load_plugin(plugin)
+      local mods = {}
+      for _, val in ipairs(vim.split(args.mods, ' ')) do
+        if val and val ~= '' then
+          mods[val] = true
+        end
+      end
+      vim.api.nvim_cmd({
+        cmd = args.name,
+        args = args.fargs,
+        bang = args.bang,
+        mods = mods,
+      }, {})
+    end, {
+      force = true,
+    })
+  end
+end
+
+local on_keys = function(opts)
+  local plugin = queue_for_install(opts)
+  local keys = opts.keys
+  for _, keymap in ipairs(keys) do
+    local mode = keymap[1]
+    local lhs = keymap[2]
+    local rhs = keymap[3]
+    local key_opts = keymap[4] or {}
+    vim.keymap.set(mode, lhs, function()
+      load_plugin(plugin)
+      rhs()
+    end, key_opts)
+  end
+end
+
+---@param opts PackOpts
+vim.pack.load = function(opts)
+  local plugin = queue_for_install(opts)
+  local very_lazy = false
+  if opts.event and opts.event == 'VeryLazy' then
+    very_lazy = true
+    opts.event = nil
+  end
+  local load_on_start = not (opts.ft or opts.event or opts.keys or opts.cmd)
+  if opts.ft then
+    vim.api.nvim_create_autocmd('FileType', {
+      group = augroup,
+      pattern = opts.ft,
+      nested = true,
+      once = true,
+      callback = function(event)
+        load_plugin(plugin)
+        vim.api.nvim_exec_autocmds('FileType', { pattern = event.match, modeline = false })
+      end,
+    })
+  end
+  if opts.event then
+    vim.api.nvim_create_autocmd(opts.event, {
+      group = augroup,
+      nested = true,
+      once = true,
+      callback = function()
+        load_plugin(plugin)
+      end,
+    })
+  end
+
+  if opts.cmd then
+    on_cmd(opts)
+  end
+
+  if opts.keys then
+    on_keys(opts)
+  end
+
+  if load_on_start then
+    if very_lazy then
+      table.insert(lazy_load_on_start_plugins, plugin)
+    else
+      table.insert(load_on_start_plugins, plugin)
+    end
+  end
+end
+
+vim.pack.status = function()
+  local loaded = {}
+  local not_loaded = {}
+  local disabled = {}
+  for name, plugin in pairs(plugins) do
+    if plugin.loaded then
+      table.insert(loaded, ('- %s'):format(name))
+    elseif not plugin.enabled then
+      table.insert(disabled, ('- %s'):format(name))
+    else
+      table.insert(not_loaded, ('- %s'):format(name))
+    end
+  end
+  table.insert(loaded, 1, ('# Loaded (%d)'):format(#loaded))
+  table.insert(loaded, '')
+  table.insert(not_loaded, 1, ('# Not Loaded (%d)'):format(#not_loaded))
+  table.insert(not_loaded, '')
+  table.insert(disabled, 1, ('# Disabled (%d)'):format(#disabled))
+
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.list_extend(vim.list_extend(loaded, not_loaded), disabled))
+  vim.api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = 'editor',
+    border = 'rounded',
+    width = math.floor(vim.o.columns / 2),
+    height = math.floor(vim.o.lines / 2),
+    row = math.floor(vim.o.lines / 4),
+    col = math.floor(vim.o.columns / 4),
+    title = 'Pack Status',
+    title_pos = 'center',
+  })
+  vim.keymap.set('n', 'q', function()
+    vim.api.nvim_win_close(win, true)
+  end, { buffer = buf, silent = true, desc = 'Close pack status window' })
+
+  vim.api.nvim_create_autocmd('BufLeave', {
+    group = augroup,
+    buffer = buf,
+    once = true,
+    callback = function()
+      vim.api.nvim_win_close(win, true)
+    end,
+  })
+end
+
+---@param dir string
+vim.pack.dir = function(dir)
+  local full_path = vim.fs.joinpath(cur_file_dir, '../', dir)
+  local handle = vim.loop.fs_scandir(full_path)
+
+  if not handle then
+    error(('Could not scan %s directory'):format(dir))
+  end
+
+  while true do
+    local name = vim.loop.fs_scandir_next(handle)
+    if not name then
+      break
+    end
+    require(('partials.packs.%s'):format(name:gsub('%.lua$', '')))
+  end
+  vim.pack.add(install_plugins, {
+    -- Do packadd manually
+    load = function() end,
+  })
+
+  for _, plugin in ipairs(load_on_start_plugins) do
+    load_plugin(plugin)
+  end
+
+  vim.defer_fn(function()
+    for _, plugin in ipairs(lazy_load_on_start_plugins) do
+      load_plugin(plugin)
+    end
+  end, 100)
+end

@@ -1,11 +1,4 @@
-local org_plugin = require('partials.plugins.orgmode')
-local orgmode = nil
+local orgmode_config = require('partials.orgmode_config')
+vim.opt.runtimepath:append(vim.fn.fnamemodify('~/github/orgmode', ':p'))
 
-if org_plugin.dev then
-  orgmode = vim.fn.fnamemodify('~/github/orgmode', ':p')
-else
-  orgmode = vim.fn.stdpath('data') .. '/lazy/orgmode'
-end
-vim.opt.runtimepath:append(orgmode)
-
-require('orgmode').cron(org_plugin.orgmode_config)
+require('orgmode').cron(orgmode_config)
