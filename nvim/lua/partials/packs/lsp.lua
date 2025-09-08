@@ -41,9 +41,8 @@ vim.pack.load({
   ft = filetypes,
   config = function()
     lsp.config()
-  end
+  end,
 })
-
 
 lsp.config = function()
   require('mason').setup({
@@ -230,6 +229,7 @@ function setup.servers()
       {
         path = '${3rd}/luv/library',
       },
+      'orgmode',
     },
   })
 
