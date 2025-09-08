@@ -16,6 +16,7 @@ local cur_file_dir = vim.fs.dirname(debug.getinfo(1, 'S').source:sub(2))
 ---@field enabled? boolean is plugin enabled
 
 local augroup = vim.api.nvim_create_augroup('kris_neovim_config', { clear = true })
+local lazydev_workspace = nil
 
 ---@type table<string, PackOpts>
 local plugins = {}
@@ -124,6 +125,17 @@ local function load_plugin(opts)
   end
 
   vim.cmd.packadd(plugin.name)
+
+  if not lazydev_workspace then
+    local ok, workspace = pcall(require, 'lazydev.workspace')
+    if ok then
+      lazydev_workspace = workspace
+    end
+  end
+
+  if lazydev_workspace then
+    lazydev_workspace:global():add(plugin.name)
+  end
 
   if plugin.config then
     opts.config(plugin)

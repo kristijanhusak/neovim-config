@@ -229,7 +229,6 @@ function setup.servers()
       {
         path = '${3rd}/luv/library',
       },
-      'orgmode',
     },
   })
 
