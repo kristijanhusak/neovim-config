@@ -46,7 +46,7 @@ local SnacksPicker = {
           'Property',
           'Struct',
           'Trait',
-          'Constant'
+          'Constant',
         },
       },
     })

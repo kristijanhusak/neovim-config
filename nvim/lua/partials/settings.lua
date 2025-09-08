@@ -157,7 +157,7 @@ vim.api.nvim_create_autocmd('InsertEnter', {
   command = 'set nocul',
   group = vimrc_group,
 })
-vim.api.nvim_create_autocmd({'InsertLeave', 'BufEnter'}, {
+vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufEnter' }, {
   pattern = '*',
   command = 'set cul',
   group = vimrc_group,

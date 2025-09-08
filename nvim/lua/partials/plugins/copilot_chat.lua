@@ -16,5 +16,5 @@ return {
       end,
       desc = 'Open Copilot Chat',
     },
-  }
+  },
 }

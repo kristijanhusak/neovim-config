@@ -81,8 +81,8 @@ return {
     agenda = {
       preview_window = {
         border = 'single',
-        focusable = false
-      }
-    }
-  }
+        focusable = false,
+      },
+    },
+  },
 }

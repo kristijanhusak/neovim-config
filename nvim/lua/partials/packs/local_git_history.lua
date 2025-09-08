@@ -36,5 +36,5 @@ vim.pack.load({
       nargs = '?',
       complete = 'file',
     })
-  end
+  end,
 })

@@ -66,7 +66,7 @@ colorscheme.tokyonight = function()
   require('tokyonight').setup({
     terminal_colors = true,
     plugins = {
-      cmp = true
+      cmp = true,
     },
     on_highlights = function(hl, c)
       hl.SimpleF = {

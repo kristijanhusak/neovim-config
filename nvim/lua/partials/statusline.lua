@@ -12,7 +12,7 @@ vim.api.nvim_create_autocmd('FileType', {
   group = statusline_group,
   callback = function()
     vim.opt_local.statusline = '%!v:lua.require("partials.statusline").setup()'
-  end
+  end,
 })
 
 local c = {}

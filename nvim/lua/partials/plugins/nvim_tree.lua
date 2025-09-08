@@ -8,7 +8,12 @@ local nvim_tree = {
 
 nvim_tree.init = function()
   vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>', { silent = true, desc = 'Toggle NvimTree' })
-  vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>', { silent = true, desc = 'Toggle NvimTree on current file' })
+  vim.keymap.set(
+    'n',
+    '<Leader>hf',
+    ':NvimTreeFindFile<CR>',
+    { silent = true, desc = 'Toggle NvimTree on current file' }
+  )
 end
 
 nvim_tree.config = function()

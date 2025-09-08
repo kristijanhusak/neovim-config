@@ -3,7 +3,7 @@ vim.pack.load({
   event = 'VeryLazy',
   build = function(data)
     vim.system({ 'luarocks', 'install', 'rest.nvim-scm-1.rockspec', '--local', '--lua-version=5.1', '--force' }, {
-      cwd = data.path
+      cwd = data.path,
     })
   end,
   config = function()
