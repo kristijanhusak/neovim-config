@@ -18,6 +18,8 @@ local cur_file_dir = vim.fs.dirname(debug.getinfo(1, 'S').source:sub(2))
 local augroup = vim.api.nvim_create_augroup('kris_neovim_config', { clear = true })
 local lazydev_workspace = nil
 
+local M = {}
+
 ---@type table<string, PackOpts>
 local plugins = {}
 ---@type PackOpts[]
@@ -49,25 +51,33 @@ vim.api.nvim_create_autocmd('PackChanged', {
     if (data.kind == 'install' or data.kind == 'update') and data.spec.name then
       local plugin = plugins[data.spec.name]
       if plugin and plugin.build then
-        print(('Running build for %s...'):format(data.spec.name))
+        M.load_plugin(plugin)
+        local id = ('build_%s'):format(plugin.name)
+        vim.notify(('Building %s...'):format(data.spec.name), vim.log.levels.INFO, {
+          title = plugin.name,
+          id = id,
+        })
         if type(plugin.build) == 'string' then
           vim.cmd(plugin.build)
         elseif type(plugin.build) == 'function' then
           plugin.build(data)
         end
-        print(('Finished running build for %s...'):format(data.spec.name))
+        vim.notify(('Finished building %s.'):format(data.spec.name), vim.log.levels.INFO, {
+          title = plugin.name,
+          id = id,
+        })
       end
     end
   end,
 })
 
-local function get_plug_dir()
+function M.get_plug_dir()
   return vim.fs.joinpath(vim.fn.stdpath('data'), 'site', 'pack', 'core', 'opt')
 end
 
 ---@param opts PackOpts
 ---@return PackOpts
-local function queue_for_install(opts)
+function M.queue_for_install(opts)
   if type(opts.enabled) ~= 'boolean' then
     opts.enabled = true
   end
@@ -90,7 +100,7 @@ local function queue_for_install(opts)
       if not opts.enabled then
         dep.enabled = false
       end
-      table.insert(deps, queue_for_install(dep))
+      table.insert(deps, M.queue_for_install(dep))
     end
     opts.dependencies = deps
   end
@@ -103,7 +113,7 @@ local function queue_for_install(opts)
 end
 
 ---@param opts PackOpts
-local function load_plugin(opts)
+function M.load_plugin(opts)
   local plugin = plugins[opts.name]
 
   if plugin.loaded or not plugin.enabled then
@@ -113,12 +123,12 @@ local function load_plugin(opts)
   if plugin.dependencies then
     for _, dep in ipairs(plugin.dependencies) do
       ---@cast dep PackOpts
-      load_plugin(dep)
+      M.load_plugin(dep)
     end
   end
 
   if plugin.local_package then
-    local dest = vim.fs.joinpath(get_plug_dir(), plugin.name)
+    local dest = vim.fs.joinpath(M.get_plug_dir(), plugin.name)
     if not vim.uv.fs_stat(dest) then
       vim.system({ 'ln', '-sf', plugin.src, dest }):wait()
     end
@@ -143,8 +153,8 @@ local function load_plugin(opts)
   plugins[opts.name].loaded = true
 end
 
-local on_cmd = function(opts)
-  local plugin = queue_for_install(opts)
+function M.on_cmd(opts)
+  local plugin = M.queue_for_install(opts)
   local cmds = type(opts.cmd) == 'string' and { opts.cmd } or opts.cmd
 
   local del_cmds = function()
@@ -156,7 +166,7 @@ local on_cmd = function(opts)
   for _, cmd in ipairs(cmds) do
     vim.api.nvim_create_user_command(cmd, function(args)
       del_cmds()
-      load_plugin(plugin)
+      M.load_plugin(plugin)
       local mods = {}
       for _, val in ipairs(vim.split(args.mods, ' ')) do
         if val and val ~= '' then
@@ -175,8 +185,8 @@ local on_cmd = function(opts)
   end
 end
 
-local on_keys = function(opts)
-  local plugin = queue_for_install(opts)
+function M.on_keys(opts)
+  local plugin = M.queue_for_install(opts)
   local keys = opts.keys
   for _, keymap in ipairs(keys) do
     local mode = keymap[1]
@@ -184,7 +194,7 @@ local on_keys = function(opts)
     local rhs = keymap[3]
     local key_opts = keymap[4] or {}
     vim.keymap.set(mode, lhs, function()
-      load_plugin(plugin)
+      M.load_plugin(plugin)
       rhs()
     end, key_opts)
   end
@@ -192,7 +202,7 @@ end
 
 ---@param opts PackOpts
 vim.pack.load = function(opts)
-  local plugin = queue_for_install(opts)
+  local plugin = M.queue_for_install(opts)
   local very_lazy = false
   if opts.event and opts.event == 'VeryLazy' then
     very_lazy = true
@@ -206,7 +216,7 @@ vim.pack.load = function(opts)
       nested = true,
       once = true,
       callback = function(event)
-        load_plugin(plugin)
+        M.load_plugin(plugin)
         vim.api.nvim_exec_autocmds('FileType', { pattern = event.match, modeline = false })
       end,
     })
@@ -217,17 +227,17 @@ vim.pack.load = function(opts)
       nested = true,
       once = true,
       callback = function()
-        load_plugin(plugin)
+        M.load_plugin(plugin)
       end,
     })
   end
 
   if opts.cmd then
-    on_cmd(opts)
+    M.on_cmd(opts)
   end
 
   if opts.keys then
-    on_keys(opts)
+    M.on_keys(opts)
   end
 
   if load_on_start then
@@ -307,12 +317,12 @@ vim.pack.dir = function(dir)
   })
 
   for _, plugin in ipairs(load_on_start_plugins) do
-    load_plugin(plugin)
+    M.load_plugin(plugin)
   end
 
   vim.defer_fn(function()
     for _, plugin in ipairs(lazy_load_on_start_plugins) do
-      load_plugin(plugin)
+      M.load_plugin(plugin)
     end
   end, 100)
 end

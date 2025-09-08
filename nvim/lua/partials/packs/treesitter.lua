@@ -1,6 +1,7 @@
 vim.pack.load({
   src = 'nvim-treesitter/nvim-treesitter',
   version = 'main',
+  build = 'TSUpdate',
   dependencies = {
     { src = 'nvim-treesitter/nvim-treesitter-textobjects', version = 'main' },
   },
