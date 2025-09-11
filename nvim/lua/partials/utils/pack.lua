@@ -267,9 +267,13 @@ vim.pack.status = function()
   table.insert(not_loaded, 1, ('# Not Loaded (%d)'):format(#not_loaded))
   table.insert(not_loaded, '')
   table.insert(disabled, 1, ('# Disabled (%d)'):format(#disabled))
+  local all_lines = vim.list_extend(
+    { 'Press "u" to update, "q" to close', '' },
+    vim.list_extend(vim.list_extend(loaded, not_loaded), disabled)
+  )
 
   local buf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.list_extend(vim.list_extend(loaded, not_loaded), disabled))
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, all_lines)
   vim.api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
   local win = vim.api.nvim_open_win(buf, true, {
     relative = 'editor',
@@ -284,6 +288,10 @@ vim.pack.status = function()
   vim.keymap.set('n', 'q', function()
     vim.api.nvim_win_close(win, true)
   end, { buffer = buf, silent = true, desc = 'Close pack status window' })
+  vim.keymap.set('n', 'u', function()
+    vim.api.nvim_win_close(win, true)
+    vim.pack.update()
+  end, { buffer = buf, silent = true, desc = 'Close pack status window and run update' })
 
   vim.api.nvim_create_autocmd('BufLeave', {
     group = augroup,
