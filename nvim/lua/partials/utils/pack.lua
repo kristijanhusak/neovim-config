@@ -274,10 +274,10 @@ vim.pack.status = function()
   local win = vim.api.nvim_open_win(buf, true, {
     relative = 'editor',
     border = 'rounded',
-    width = math.floor(vim.o.columns / 2),
-    height = math.floor(vim.o.lines / 2),
-    row = math.floor(vim.o.lines / 4),
-    col = math.floor(vim.o.columns / 4),
+    width = math.floor(vim.o.columns / 1.5),
+    height = math.floor(vim.o.lines / 1.5),
+    row = math.floor(vim.o.lines / 6),
+    col = math.floor(vim.o.columns / 6),
     title = 'Pack Status',
     title_pos = 'center',
   })
@@ -326,3 +326,23 @@ vim.pack.dir = function(dir)
     end
   end, 100)
 end
+
+local cmds = { 'status', 'update' }
+vim.api.nvim_create_user_command('Pack', function(args)
+  if vim.trim(args.args) == '' then
+    return vim.pack.status()
+  end
+  if vim.tbl_contains(cmds, args.args) then
+    return vim.pack[args.args]()
+  end
+
+  vim.api.nvim_echo({ { ('Unknown command: %s'):format(args.args), 'ErrorMsg' } }, false, {})
+end, {
+  nargs = '?',
+  complete = function(arg_lead)
+    return vim.tbl_filter(function(cmd)
+      return vim.fn.matchfuzzy(cmds, arg_lead)
+    end, cmds)
+  end,
+  desc = 'Pack helper command for calling vim.pack functions',
+})
