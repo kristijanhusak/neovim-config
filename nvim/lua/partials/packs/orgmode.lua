@@ -21,6 +21,17 @@ vim.pack.load({
       end,
       { desc = 'Org capture' },
     },
+    {
+      'n',
+      '<leader>op',
+      function()
+        Snacks.picker.files({
+          cwd = '~/orgfiles',
+          ft = 'org',
+        })
+      end,
+      { desc = 'Org pick files' },
+    },
   },
   local_package = true,
   config = function()
