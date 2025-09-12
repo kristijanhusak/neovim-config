@@ -30,26 +30,7 @@ local SnacksPicker = {
     return Snacks.picker.lsp_type_definitions()
   end,
   lsp_document_symbols = function()
-    Snacks.picker.lsp_symbols({
-      filter = {
-        default = {
-          'Class',
-          'Constructor',
-          'Enum',
-          'Field',
-          'Function',
-          'Interface',
-          'Method',
-          'Module',
-          'Namespace',
-          'Package',
-          'Property',
-          'Struct',
-          'Trait',
-          'Constant',
-        },
-      },
-    })
+    Snacks.picker.lsp_symbols()
   end,
   lsp_references = function()
     return Snacks.picker.lsp_references()

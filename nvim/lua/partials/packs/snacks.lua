@@ -67,6 +67,26 @@ vim.pack.load({
           },
         },
         sources = {
+          lsp_symbols = {
+            filter = {
+              default = {
+                'Class',
+                'Constructor',
+                'Enum',
+                'Field',
+                'Function',
+                'Interface',
+                'Method',
+                'Module',
+                'Namespace',
+                'Package',
+                'Property',
+                'Struct',
+                'Trait',
+                'Constant',
+              },
+            },
+          },
           files_with_symbols = {
             title = 'Files',
             multi = { 'files', 'lsp_symbols' },
