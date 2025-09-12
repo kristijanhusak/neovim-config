@@ -162,7 +162,7 @@ function setup.mappings()
   end, opts('LSP code action'))
   vim.keymap.set({ 'n', 'x' }, '<leader>ln', function()
     print(require('nvim-navic').get_location())
-  end, opts('LSP code action'))
+  end, opts('Print current location'))
 
   vim.keymap.set('i', '<C-k>', function()
     vim.lsp.buf.signature_help(preview_opts)
