@@ -1,15 +1,5 @@
 vim.pack.load({
   src = 'natecraddock/workspaces.nvim',
-  keys = {
-    {
-      'n',
-      '<leader>w',
-      function()
-        return require('partials.picker').workspaces()
-      end,
-      { desc = 'Workspaces' },
-    },
-  },
   config = function()
     require('workspaces').setup({
       path = vim.fs.normalize('~/Dropbox/workspaces'),
@@ -27,5 +17,9 @@ vim.pack.load({
         end,
       },
     })
+
+    vim.keymap.set('n', '<leader>w', function()
+      return require('partials.picker').workspaces()
+    end, { desc = 'Workspaces' })
   end,
 })
