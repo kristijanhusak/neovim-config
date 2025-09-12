@@ -53,6 +53,12 @@ return {
       template = '* %(return _G.kris.get_workspace_name()) - %(return vim.fn.expand("%:t")) :CODENOTE:\n%a\n%?',
       target = org_path('code_notes.org'),
     },
+    b = {
+      description = 'BP log',
+      template = '* %<%H:%M> - %?',
+      target = org_path('bp_log.org'),
+      datetree = true
+    },
   },
   notifications = {
     reminder_time = { 0, 1, 5, 10 },
