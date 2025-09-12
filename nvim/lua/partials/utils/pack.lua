@@ -1,3 +1,4 @@
+vim.loader.enable(true)
 local cur_file_dir = vim.fs.dirname(debug.getinfo(1, 'S').source:sub(2))
 
 ---@class PackOpts
