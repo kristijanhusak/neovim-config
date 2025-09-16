@@ -18,6 +18,15 @@ local orgmode = {
         return Org.capture()
       end,
     },
+    {
+      '<leader>op',
+      function()
+        Snacks.picker.files({
+          cwd = '~/orgfiles',
+          ft = 'org',
+        })
+      end,
+    },
   },
 }
 
