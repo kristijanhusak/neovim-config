@@ -349,9 +349,7 @@ vim.api.nvim_create_user_command('Pack', function(args)
 end, {
   nargs = '?',
   complete = function(arg_lead)
-    return vim.tbl_filter(function(cmd)
-      return vim.fn.matchfuzzy(cmds, arg_lead)
-    end, cmds)
+    return vim.fn.matchfuzzy(cmds, arg_lead)
   end,
   desc = 'Pack helper command for calling vim.pack functions',
 })
