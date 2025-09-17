@@ -11,7 +11,6 @@ return {
   org_agenda_text_search_extra_files = { 'agenda-archives' },
   org_agenda_start_on_weekday = false,
   org_startup_indented = true,
-  org_agenda_use_time_grid = false,
   org_log_into_drawer = 'LOGBOOK',
   org_todo_keywords = { 'TODO(t)', 'PROGRESS(p)', '|', 'DONE(d)', 'REJECTED(r)' },
   org_agenda_custom_commands = {
