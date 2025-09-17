@@ -329,11 +329,17 @@ vim.pack.dir = function(dir)
     M.load_plugin(plugin)
   end
 
-  vim.defer_fn(function()
-    for _, plugin in ipairs(lazy_load_on_start_plugins) do
-      M.load_plugin(plugin)
-    end
-  end, 100)
+  vim.api.nvim_create_autocmd('UIEnter', {
+    once = true,
+    group = augroup,
+    callback = function()
+      vim.defer_fn(function()
+        for _, plugin in ipairs(lazy_load_on_start_plugins) do
+          M.load_plugin(plugin)
+        end
+      end, 10)
+    end,
+  })
 end
 
 local cmds = { 'status', 'update' }
