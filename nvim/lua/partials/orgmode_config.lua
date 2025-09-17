@@ -10,6 +10,9 @@ return {
   org_hide_emphasis_markers = true,
   org_agenda_text_search_extra_files = { 'agenda-archives' },
   org_agenda_start_on_weekday = false,
+  org_agenda_time_grid = {
+    type = { 'daily', 'today', 'require-timed', 'remove-match' },
+  },
   org_startup_indented = true,
   org_log_into_drawer = 'LOGBOOK',
   org_todo_keywords = { 'TODO(t)', 'PROGRESS(p)', '|', 'DONE(d)', 'REJECTED(r)' },
@@ -57,7 +60,7 @@ return {
       description = 'BP log',
       template = '* %<%H:%M> - %?',
       target = org_path('bp_log.org'),
-      datetree = true
+      datetree = true,
     },
   },
   notifications = {
