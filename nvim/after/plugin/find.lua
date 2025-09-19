@@ -56,3 +56,18 @@ end
 if vim.fn.exists('&findfunc') > 0 then
   vim.o.findfunc = 'v:lua.kris.findfunc'
 end
+
+if vim.fn.exists('*wildtrigger') > 0 then
+  vim.opt.wildmode = 'noselect:full'
+
+  vim.api.nvim_create_autocmd('CmdlineChanged', {
+    group = vim.api.nvim_create_augroup('KrisFindCmdline', { clear = true }),
+    callback = function()
+      local first_arg = vim.fn.getcmdline()
+      if first_arg:match('^[wWqQ][qQ]?a?!?$') then
+        return
+      end
+      vim.fn.wildtrigger()
+    end,
+  })
+end
