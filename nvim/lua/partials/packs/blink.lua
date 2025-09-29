@@ -16,6 +16,7 @@ vim.pack.load({
         per_filetype = {
           org = { 'orgmode', 'buffer' },
           sql = { 'snippets', 'dadbod', 'buffer' },
+          mysql = { 'snippets', 'dadbod', 'buffer' },
         },
         providers = {
           dadbod = {
