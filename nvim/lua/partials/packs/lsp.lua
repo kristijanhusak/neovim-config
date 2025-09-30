@@ -197,8 +197,6 @@ function setup.servers()
   vim.lsp.config('ts_ls', {
     init_options = {
       preferences = {
-        quotePreference = 'single',
-        importModuleSpecifierPreference = 'project-relative',
         includeInlayParameterNameHints = 'all',
         includeInlayFunctionParameterTypeHints = true,
         includeInlayVariableTypeHints = true,
