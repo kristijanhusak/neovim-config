@@ -6,3 +6,4 @@ i3/polybar/local
 bspwm/bspwmrc.local
 lazygit/*
 !lazygit/config.yml
+nvim/nvim-pack-lock.json
