@@ -275,6 +275,7 @@ vim.pack.status = function()
 
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, all_lines)
+  vim.api.nvim_set_option_value('modifiable', false, { buf = buf })
   vim.api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
   local win = vim.api.nvim_open_win(buf, true, {
     relative = 'editor',
