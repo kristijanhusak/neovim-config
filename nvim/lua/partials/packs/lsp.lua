@@ -239,13 +239,25 @@ function setup.servers()
   null_ls.setup({
     sources = {
       -- Code actions
-      require('none-ls.code_actions.eslint_d'),
+      require('none-ls.code_actions.eslint_d').with({
+        cwd = function()
+          return vim.fn.getcwd()
+        end,
+      }),
 
       -- Diagnostics
-      require('none-ls.diagnostics.eslint_d'),
+      require('none-ls.diagnostics.eslint_d').with({
+        cwd = function()
+          return vim.fn.getcwd()
+        end,
+      }),
 
       -- Formatters
-      require('none-ls.formatting.eslint_d'),
+      require('none-ls.formatting.eslint_d').with({
+        cwd = function()
+          return vim.fn.getcwd()
+        end,
+      }),
       null_ls.builtins.formatting.stylua,
     },
   })
