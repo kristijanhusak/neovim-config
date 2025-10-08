@@ -165,23 +165,43 @@ function M.on_cmd(opts)
   end
 
   for _, cmd in ipairs(cmds) do
-    vim.api.nvim_create_user_command(cmd, function(args)
+    vim.api.nvim_create_user_command(cmd, function(event)
       del_cmds()
       M.load_plugin(plugin)
-      local mods = {}
-      for _, val in ipairs(vim.split(args.mods, ' ')) do
-        if val and val ~= '' then
-          mods[val] = true
-        end
+
+      local command = {
+        cmd = cmd,
+        bang = event.bang or nil,
+        mods = event.smods,
+        args = event.fargs,
+        count = event.count >= 0 and event.range == 0 and event.count or nil,
+      }
+
+      if event.range == 1 then
+        command.range = { event.line1 }
+      elseif event.range == 2 then
+        command.range = { event.line1, event.line2 }
       end
-      vim.api.nvim_cmd({
-        cmd = args.name,
-        args = args.fargs,
-        bang = args.bang,
-        mods = mods,
-      }, {})
+
+      local info = vim.api.nvim_get_commands({})[cmd] or vim.api.nvim_buf_get_commands(0, {})[cmd]
+      if not info then
+        return
+      end
+
+      command.nargs = info.nargs
+      if event.args and event.args ~= '' and info.nargs and info.nargs:find('[1?]') then
+        command.args = { event.args }
+      end
+      vim.cmd(command)
     end, {
-      force = true,
+      bang = true,
+      range = true,
+      nargs = '*',
+      complete = function(_, line)
+        del_cmds()
+        M.load_plugin(plugin)
+        return vim.fn.getcompletion(line, 'cmdline')
+      end,
     })
   end
 end
