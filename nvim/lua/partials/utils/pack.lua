@@ -325,6 +325,24 @@ vim.pack.status = function()
   })
 end
 
+vim.pack.delete = function()
+  vim.ui.select(vim.tbl_keys(plugins), {
+    prompt = 'Select a plugin to delete:',
+  }, function(choice)
+    if not choice or choice == '' then
+      return
+    end
+    local plugin = plugins[choice]
+    if not plugin then
+      vim.notify('Unknown plugin '..choice, vim.log.levels.ERROR, {
+        title = 'Pack Delete',
+      })
+      return
+    end
+    vim.pack.del({ choice })
+  end)
+end
+
 ---@param dir string
 vim.pack.dir = function(dir)
   local full_path = vim.fs.joinpath(cur_file_dir, '../', dir)
@@ -363,7 +381,7 @@ vim.pack.dir = function(dir)
   })
 end
 
-local cmds = { 'status', 'update' }
+local cmds = { 'status', 'update', 'delete' }
 vim.api.nvim_create_user_command('Pack', function(args)
   if vim.trim(args.args) == '' then
     return vim.pack.status()
