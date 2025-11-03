@@ -16,6 +16,7 @@ return {
   org_startup_indented = true,
   org_log_into_drawer = 'LOGBOOK',
   org_todo_keywords = { 'TODO(t)', 'PROGRESS(p)', '|', 'DONE(d)', 'REJECTED(r)' },
+  org_agenda_hide_empty_blocks = true,
   org_agenda_custom_commands = {
     a = {
       description = 'Agenda',
@@ -24,6 +25,16 @@ return {
           type = 'tags',
           match = 'REVISIT',
           org_agenda_overriding_header = 'Tasks to revisit',
+        },
+        {
+          type = 'tags_todo',
+          match = 'DEADLINE>="<+1d>"&DEADLINE<"<+2d>"',
+          org_agenda_overriding_header = 'Tomorrow',
+        },
+        {
+          type = 'tags_todo',
+          match = 'DEADLINE<"<today>"|SCHEDULED<"<today>"',
+          org_agenda_overriding_header = 'Overdue',
         },
         {
           type = 'agenda',
