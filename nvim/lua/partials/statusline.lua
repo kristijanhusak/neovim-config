@@ -1,7 +1,6 @@
 local statusline = {
   cwd_folder = '',
   lsp_progress = '',
-  clock_attached = false,
 }
 local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
 vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
@@ -394,16 +393,6 @@ local function filetype()
 end
 
 local function clock()
-  if not statusline.clock_attached then
-    vim.uv.new_timer():start(
-      1000,
-      1000,
-      vim.schedule_wrap(function()
-        vim.api.nvim__redraw({ statusline = true })
-      end)
-    )
-    statusline.clock_attached = true
-  end
   return os.date('%H:%M', os.time())
 end
 
