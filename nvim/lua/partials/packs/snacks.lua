@@ -55,6 +55,11 @@ vim.pack.load({
             truncate = 80,
           },
         },
+        previewers = {
+          diff = {
+            style = 'syntax',
+          },
+        },
         icons = {
           git = {
             staged = '✓',
