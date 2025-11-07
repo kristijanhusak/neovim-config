@@ -5,6 +5,10 @@ vim.pack.load({
       return Snacks.lazygit()
     end, { silent = true, desc = 'Lazygit' })
 
+    vim.keymap.set('n', '<leader>gr', function()
+      return Snacks.picker.gh_pr()
+    end, { silent = true, desc = 'Select Github PR' })
+
     vim.keymap.set('n', '<leader>Z', function()
       return Snacks.zen.zen()
     end, { silent = true, desc = 'Zen mode' })
@@ -218,7 +222,18 @@ vim.pack.load({
             keys = {
               ['<Esc>'] = { 'close', mode = { 'n', 'i' } },
               ['<c-d>'] = { 'preview_scroll_down', mode = { 'i', 'n' } },
+              ["<c-l>"] = { "cycle_win", mode = { "i", "n" } },
               ['<c-u>'] = { 'preview_scroll_up', mode = { 'i', 'n' } },
+            },
+          },
+          list = {
+            keys = {
+              ["<c-l>"] = { "cycle_win", mode = { "i", "n" } },
+            },
+          },
+          preview = {
+            keys = {
+              ["<c-l>"] = { "cycle_win", mode = { "i", "n" } },
             },
           },
         },
