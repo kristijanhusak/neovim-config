@@ -1,6 +1,7 @@
 #!/bin/sh
 CACHE_FILE="$HOME/.local/share/exchange_rate_cache"
-URL="https://api.kursna-lista.info/3c43d44f8badfe38697ea0700c7485c8/kursna_lista"
+USD_URL="https://kurs.resenje.org/api/v1/currencies/USD/rates/today"
+EUR_URL="https://kurs.resenje.org/api/v1/currencies/EUR/rates/today"
 
 if [ ! -f "$CACHE_FILE" ]; then
     touch "$CACHE_FILE"
@@ -38,9 +39,10 @@ if [ -n "$today_entry" ] && [ "$force" -eq 0 ]; then
     fi
 fi
 
-response=$(curl -s "$URL")
-eur=$(echo "$response" | jq -r '.result.eur.sre')
-usd=$(echo "$response" | jq -r '.result.usd.sre')
+usd_response=$(curl -s "$USD_URL")
+eur_response=$(curl -s "$EUR_URL")
+eur=$(echo "$eur_response" | jq -r '.exchange_middle')
+usd=$(echo "$usd_response" | jq -r '.exchange_middle')
 now=$(date +%H:%M)
 
 last_entry=$(tail -n1 "$CACHE_FILE")
