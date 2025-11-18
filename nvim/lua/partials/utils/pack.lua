@@ -129,13 +129,10 @@ function M.load_plugin(opts)
   end
 
   if plugin.local_package then
-    local dest = vim.fs.joinpath(M.get_plug_dir(), plugin.name)
-    if not vim.uv.fs_stat(dest) then
-      vim.system({ 'ln', '-sf', plugin.src, dest }):wait()
-    end
+    vim.opt.runtimepath:prepend(plugin.src)
+  else
+    vim.cmd.packadd(plugin.name)
   end
-
-  vim.cmd.packadd(plugin.name)
 
   if not lazydev_workspace then
     local ok, workspace = pcall(require, 'lazydev.workspace')
