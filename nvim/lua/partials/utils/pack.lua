@@ -130,6 +130,13 @@ function M.load_plugin(opts)
 
   if plugin.local_package then
     vim.opt.runtimepath:prepend(plugin.src)
+    local plugin_folder = vim.fs.joinpath(plugin.src, 'plugin')
+    if vim.uv.fs_stat(plugin_folder) then
+      local plugin_files = vim.fn.globpath(plugin_folder, '*.{vim,lua}', true, true)
+      for _, file in ipairs(plugin_files) do
+        vim.cmd(('source %s'):format(file))
+      end
+    end
   else
     vim.cmd.packadd(plugin.name)
   end
@@ -331,7 +338,7 @@ vim.pack.delete = function()
     end
     local plugin = plugins[choice]
     if not plugin then
-      vim.notify('Unknown plugin '..choice, vim.log.levels.ERROR, {
+      vim.notify('Unknown plugin ' .. choice, vim.log.levels.ERROR, {
         title = 'Pack Delete',
       })
       return
