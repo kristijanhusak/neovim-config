@@ -32,8 +32,7 @@ return {
           },
         },
       },
-      ignore_warnings = true,
-      strategies = {
+      interactions = {
         chat = { adapter = 'copilot' },
         inline = { adapter = 'copilot' },
       },

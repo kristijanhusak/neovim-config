@@ -21,11 +21,10 @@ vim.pack.load({
           },
         },
       },
-      strategies = {
+      interactions = {
         chat = { adapter = 'copilot' },
         inline = { adapter = 'copilot' },
       },
-      ignore_warnings = true,
       adapters = {
         http = {
           gemini = function()
