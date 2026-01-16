@@ -257,4 +257,9 @@ vim.api.nvim_create_user_command('Cfilter', function(opts)
   vim.cmd.Cfilter({ args = opts.fargs, bang = opts.bang })
 end, { force = true, bang = true, nargs = '*' })
 
+vim.api.nvim_create_user_command('DiffTool', function(opts)
+  vim.cmd.packadd('nvim.difftool')
+  vim.cmd.DiffTool({ args = opts.fargs, bang = opts.bang })
+end, { force = true, bang = true, nargs = '*', complete = 'file' })
+
 return mappings
