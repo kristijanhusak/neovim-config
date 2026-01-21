@@ -21,6 +21,7 @@ local filetypes = {
   'typescriptreact',
   'vim',
   'yaml',
+  'org'
 }
 
 local preview_opts = {

@@ -42,6 +42,7 @@ orgmode.config = function()
       },
     },
   })
+  vim.lsp.enable('org')
 
   local set_cr_mapping = function()
     vim.keymap.set('i', '<S-CR>', '<cmd>lua require("orgmode").action("org_mappings.meta_return")<CR>', {

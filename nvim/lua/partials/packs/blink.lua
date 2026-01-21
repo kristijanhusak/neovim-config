@@ -14,7 +14,6 @@ vim.pack.load({
       sources = {
         default = { 'lsp', 'path', 'buffer' },
         per_filetype = {
-          org = { 'orgmode', 'buffer' },
           sql = { 'snippets', 'dadbod', 'buffer' },
           mysql = { 'snippets', 'dadbod', 'buffer' },
         },
