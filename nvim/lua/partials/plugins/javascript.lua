@@ -122,3 +122,5 @@ function handlers.setup_imports(organize)
     })
   end
 end
+
+return javascript
