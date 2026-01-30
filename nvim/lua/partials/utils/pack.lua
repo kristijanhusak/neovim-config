@@ -76,12 +76,19 @@ function M.get_plug_dir()
   return vim.fs.joinpath(vim.fn.stdpath('data'), 'site', 'pack', 'core', 'opt')
 end
 
+function M.get_local_plug_dir()
+  return vim.fs.joinpath(vim.fn.stdpath('data'), 'site', 'pack', 'local', 'opt')
+end
+
 ---@param opts PackOpts
 ---@return PackOpts
 function M.queue_for_install(opts)
   if type(opts.enabled) ~= 'boolean' then
     opts.enabled = true
   end
+  local stat = vim.uv.fs_stat(vim.fs.normalize(opts.src))
+  opts.local_package = stat and stat.type == 'directory'
+
   if not opts.local_package and not vim.startswith(opts.src, 'http') then
     opts.src = ('https://github.com/%s'):format(opts.src)
   end
@@ -129,17 +136,14 @@ function M.load_plugin(opts)
   end
 
   if plugin.local_package then
-    vim.opt.runtimepath:prepend(plugin.src)
-    local plugin_folder = vim.fs.joinpath(plugin.src, 'plugin')
-    if vim.uv.fs_stat(plugin_folder) then
-      local plugin_files = vim.fn.globpath(plugin_folder, '*.{vim,lua}', true, true)
-      for _, file in ipairs(plugin_files) do
-        vim.cmd(('source %s'):format(file))
-      end
+    local plugin_path = vim.fs.joinpath(M.get_local_plug_dir(), plugin.name)
+    if not vim.uv.fs_stat(plugin_path) then
+      vim.fn.mkdir(M.get_local_plug_dir(), 'p')
+      vim.uv.fs_symlink(plugin.src, plugin_path, { symbolic = true })
     end
-  else
-    vim.cmd.packadd(plugin.name)
   end
+
+  vim.cmd.packadd(plugin.name)
 
   if not lazydev_workspace then
     local ok, workspace = pcall(require, 'lazydev.workspace')

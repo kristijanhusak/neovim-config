@@ -33,7 +33,6 @@ vim.pack.load({
       { desc = 'Org pick files' },
     },
   },
-  local_package = true,
   config = function()
     require('orgmode').setup(require('partials.orgmode_config'))
     require('org-bullets').setup({
