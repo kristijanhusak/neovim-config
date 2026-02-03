@@ -27,8 +27,8 @@
     "spacing": 2
   },
   "clock": {
-    "format": "{:%d.%m.%Y %H:%M:%S}",
-    "format-alt": "{:%d.%m.%Y %H:%M:%S}",
+    "format": "{:%a %d.%m.%Y %H:%M:%S}",
+    "format-alt": "{:%a %d.%m.%Y %H:%M:%S}",
     "tooltip-format": "<span size='16000'>{calendar}</span>",
     "interval": 5,
     "calendar": {
