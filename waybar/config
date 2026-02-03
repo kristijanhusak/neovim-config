@@ -8,7 +8,8 @@
   ],
   "modules-center": [
     "keyboard-state",
-    "hyprland/submap"
+    "hyprland/submap",
+    "clock#time"
   ],
   "modules-right": [
     "custom/exchangerates",
@@ -19,16 +20,22 @@
     "hyprland/language",
     "battery",
     "pulseaudio",
-    "clock",
+    "clock#date",
     "custom/notification",
     "tray"
   ],
   "tray": {
     "spacing": 2
   },
-  "clock": {
-    "format": "{:%a %d.%m.%Y %H:%M:%S}",
-    "format-alt": "{:%a %d.%m.%Y %H:%M:%S}",
+  "clock#time": {
+    "format": "{:%H:%M}",
+    "format-alt": "{:%H:%M:%S}",
+    "tooltip-format": "{:%H:%M:%S}",
+    "interval": 5
+  },
+  "clock#date": {
+    "format": "{:%a %d.%m.%Y}",
+    "format-alt": "{:%a %d.%m.%Y}",
     "tooltip-format": "<span size='16000'>{calendar}</span>",
     "interval": 5,
     "calendar": {

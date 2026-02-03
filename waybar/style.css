@@ -47,7 +47,13 @@ window#waybar {
   font-weight: bold;
 }
 
-#clock {
+#clock.time {
+  color: @fg;
+  font-size: 14px;
+  margin-top: 1px;
+}
+
+#clock.date {
   color: @fg;
   border-bottom: 3px solid #0a6cf5;
 }
