@@ -8,8 +8,10 @@ return {
   {
     'folke/which-key.nvim',
     event = 'VeryLazy',
-    opts = {
-      preset = 'helix',
-    },
+    config = function()
+      require('which-key').setup({
+        preset = 'helix',
+      })
+    end,
   },
 }

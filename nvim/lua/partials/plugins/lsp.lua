@@ -1,8 +1,7 @@
-_G.kris = _G.kris or {}
-
 local diagnostic_ns = vim.api.nvim_create_namespace('lsp_diagnostics')
 local lsp_group = vim.api.nvim_create_augroup('vimrc_lsp', { clear = true })
 
+local lsp = {}
 local setup = {}
 
 local filetypes = {
@@ -21,7 +20,7 @@ local filetypes = {
   'typescriptreact',
   'vim',
   'yaml',
-  'org'
+  'org',
 }
 
 local preview_opts = {
@@ -30,17 +29,6 @@ local preview_opts = {
   silent = true,
 }
 
-local lsp = {
-  'neovim/nvim-lspconfig',
-  dependencies = {
-    { 'nvimtools/none-ls.nvim', dependencies = { 'nvimtools/none-ls-extras.nvim' } },
-    { 'SmiteshP/nvim-navic' },
-    { 'williamboman/mason.nvim' },
-    { 'williamboman/mason-lspconfig.nvim' },
-    { 'folke/lazydev.nvim' },
-  },
-  ft = filetypes,
-}
 lsp.config = function()
   require('mason').setup({
     ui = {
@@ -157,6 +145,9 @@ function setup.mappings()
   vim.keymap.set({ 'n', 'x' }, 'gra', function()
     vim.lsp.buf.code_action()
   end, opts('LSP code action'))
+  vim.keymap.set({ 'n', 'x' }, '<leader>ln', function()
+    print(require('nvim-navic').get_location())
+  end, opts('Print current location'))
 
   vim.keymap.set('i', '<C-k>', function()
     vim.lsp.buf.signature_help(preview_opts)
@@ -233,13 +224,25 @@ function setup.servers()
   null_ls.setup({
     sources = {
       -- Code actions
-      require('none-ls.code_actions.eslint_d'),
+      require('none-ls.code_actions.eslint_d').with({
+        cwd = function()
+          return vim.fn.getcwd()
+        end,
+      }),
 
       -- Diagnostics
-      require('none-ls.diagnostics.eslint_d'),
+      require('none-ls.diagnostics.eslint_d').with({
+        cwd = function()
+          return vim.fn.getcwd()
+        end,
+      }),
 
       -- Formatters
-      require('none-ls.formatting.eslint_d'),
+      require('none-ls.formatting.eslint_d').with({
+        cwd = function()
+          return vim.fn.getcwd()
+        end,
+      }),
       null_ls.builtins.formatting.stylua,
     },
   })
@@ -335,4 +338,18 @@ function setup.attach_to_buffer(client, bufnr)
   setup.mappings()
 end
 
-return lsp
+return {
+  'neovim/nvim-lspconfig',
+  dependencies = {
+    'nvimtools/none-ls.nvim',
+    'nvimtools/none-ls-extras.nvim',
+    'SmiteshP/nvim-navic',
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
+    'folke/lazydev.nvim',
+  },
+  ft = filetypes,
+  config = function()
+    lsp.config()
+  end,
+}

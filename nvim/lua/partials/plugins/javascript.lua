@@ -5,46 +5,7 @@ local fn = vim.fn
 local handlers = {}
 local filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
 
-local javascript = {
-  'dmmulroy/tsc.nvim',
-  dependencies = {
-    'kristijanhusak/vim-js-file-import',
-  },
-  ft = filetypes,
-}
-
-javascript.init = function()
-  vim.g.js_file_import_omit_semicolon = 1
-end
-
-javascript.config = function()
-  require('tsc').setup({
-    auto_close_qflist = true,
-  })
-  vim.keymap.set('n', '<Plug>(JsConsoleLog)', handlers.console_log)
-  vim.keymap.set('n', '<Plug>(JsGotoFile)', handlers.goto_file)
-
-  vim.api.nvim_create_autocmd('FileType', {
-    pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-    callback = handlers.setup_buffer,
-    group = js_group,
-  })
-
-  if vim.tbl_contains(filetypes, vim.bo.filetype) then
-    vim.cmd('doautocmd FileType ' .. vim.bo.filetype)
-  end
-
-  vim.api.nvim_create_autocmd('DirChanged', {
-    callback = function()
-      require('tsc').setup({
-        auto_close_qflist = true,
-        bin_path = require('tsc.utils').find_tsc_bin(),
-      })
-    end,
-  })
-
-  return javascript
-end
+vim.g.js_file_import_omit_semicolon = 1
 
 function handlers.setup_buffer()
   vim.keymap.set('n', '<Leader>ll', '<Plug>(JsConsoleLog)', { remap = true, buffer = true, desc = 'Console log' })
@@ -117,10 +78,42 @@ function handlers.setup_imports(organize)
       context = {
         only = { cmd },
         diagnostics = {},
-        triggerKind = vim.lsp.protocol.CodeActionTriggerKind.Invoked
+        triggerKind = vim.lsp.protocol.CodeActionTriggerKind.Invoked,
       },
     })
   end
 end
 
-return javascript
+return {
+  'dmmulroy/tsc.nvim',
+  dependencies = {
+    'kristijanhusak/vim-js-file-import',
+  },
+  ft = filetypes,
+  config = function()
+    require('tsc').setup({
+      auto_close_qflist = true,
+    })
+    vim.keymap.set('n', '<Plug>(JsConsoleLog)', handlers.console_log)
+    vim.keymap.set('n', '<Plug>(JsGotoFile)', handlers.goto_file)
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = filetypes,
+      callback = handlers.setup_buffer,
+      group = js_group,
+    })
+
+    if vim.tbl_contains(filetypes, vim.bo.filetype) then
+      vim.cmd('doautocmd FileType ' .. vim.bo.filetype)
+    end
+
+    vim.api.nvim_create_autocmd('DirChanged', {
+      callback = function()
+        require('tsc').setup({
+          auto_close_qflist = true,
+          bin_path = require('tsc.utils').find_tsc_bin(),
+        })
+      end,
+    })
+  end,
+}

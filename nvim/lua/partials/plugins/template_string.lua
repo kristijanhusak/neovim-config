@@ -1,13 +1,9 @@
-local filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
-
-local template_string = {
+return {
   'axelvc/template-string.nvim',
-  ft = filetypes,
+  ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+  config = function()
+    require('template-string').setup({
+      remove_template_string = true,
+    })
+  end,
 }
-template_string.config = function()
-  require('template-string').setup({
-    remove_template_string = true,
-  })
-end
-
-return template_string

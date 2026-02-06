@@ -1,6 +1,5 @@
 local vimspector = {
   'puremourning/vimspector',
-  keys = { '<F1>', '<F5>' },
 }
 vimspector.config = function()
   vim.keymap.set('n', '<F1>', '<Plug>VimspectorToggleBreakpoint')

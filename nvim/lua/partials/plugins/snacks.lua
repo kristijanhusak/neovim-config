@@ -2,40 +2,31 @@ return {
   'folke/snacks.nvim',
   priority = 1000,
   lazy = false,
-  keys = {
-    {
-      '<leader>gl',
-      function()
-        Snacks.lazygit()
-      end,
-      desc = 'Lazygit',
-    },
-    {
-      '<leader>Z',
-      function()
-        Snacks.zen.zen()
-      end,
-      desc = 'Zen mode',
-    },
-    {
-      '<leader>gy',
-      function()
-        Snacks.gitbrowse.open({
-          open = function(url)
-            vim.fn.setreg('+', url)
-            vim.ui.open(url)
-            vim.notify('Opening url\n' .. url, vim.log.levels.INFO, {
-              title = 'Git browse',
-            })
-          end,
-          notify = false,
-        })
-      end,
-      desc = 'Git browse',
-      mode = { 'n', 'v' },
-    },
-  },
   config = function()
+    vim.keymap.set('n', '<leader>gl', function()
+      return Snacks.lazygit()
+    end, { silent = true, desc = 'Lazygit' })
+
+    vim.keymap.set('n', '<leader>gr', function()
+      return Snacks.picker.gh_pr()
+    end, { silent = true, desc = 'Select Github PR' })
+
+    vim.keymap.set('n', '<leader>Z', function()
+      return Snacks.zen.zen()
+    end, { silent = true, desc = 'Zen mode' })
+    vim.keymap.set({ 'n', 'v' }, '<leader>gy', function()
+      return Snacks.gitbrowse.open({
+        open = function(url)
+          vim.fn.setreg('+', url)
+          vim.ui.open(url)
+          vim.notify('Opening url\n' .. url, vim.log.levels.INFO, {
+            title = 'Git browse',
+          })
+        end,
+        notify = false,
+      })
+    end, { silent = true, desc = 'Git browse' })
+
     require('snacks').setup({
       bigfile = { enabled = true },
       statuscolumn = { enabled = true },
@@ -70,6 +61,11 @@ return {
             truncate = 80,
           },
         },
+        previewers = {
+          diff = {
+            style = 'syntax',
+          },
+        },
         icons = {
           git = {
             staged = '✓',
@@ -82,6 +78,26 @@ return {
           },
         },
         sources = {
+          lsp_symbols = {
+            filter = {
+              default = {
+                'Class',
+                'Constructor',
+                'Enum',
+                'Field',
+                'Function',
+                'Interface',
+                'Method',
+                'Module',
+                'Namespace',
+                'Package',
+                'Property',
+                'Struct',
+                'Trait',
+                'Constant',
+              },
+            },
+          },
           files_with_symbols = {
             title = 'Files',
             multi = { 'files', 'lsp_symbols' },
@@ -208,7 +224,18 @@ return {
             keys = {
               ['<Esc>'] = { 'close', mode = { 'n', 'i' } },
               ['<c-d>'] = { 'preview_scroll_down', mode = { 'i', 'n' } },
+              ["<c-l>"] = { "cycle_win", mode = { "i", "n" } },
               ['<c-u>'] = { 'preview_scroll_up', mode = { 'i', 'n' } },
+            },
+          },
+          list = {
+            keys = {
+              ["<c-l>"] = { "cycle_win", mode = { "i", "n" } },
+            },
+          },
+          preview = {
+            keys = {
+              ["<c-l>"] = { "cycle_win", mode = { "i", "n" } },
             },
           },
         },
@@ -264,39 +291,5 @@ return {
       vim.cmd('stopinsert')
       return Snacks.terminal.toggle()
     end, { desc = 'Close terminal' })
-
-    Snacks.picker.actions.qflist = function(picker, opts)
-      picker:close()
-      local sel = picker:selected()
-      local items = #sel > 0 and sel or picker:items()
-      local qf = {}
-      for _, item in ipairs(items) do
-        local text = item.text
-        if vim.startswith(text, item.file) then
-          text = text:sub(#item.file + 2)
-        end
-        qf[#qf + 1] = {
-          filename = Snacks.picker.util.path(item),
-          bufnr = item.buf,
-          lnum = item.pos and item.pos[1] or 1,
-          col = item.pos and item.pos[2] or 1,
-          end_lnum = item.end_pos and item.end_pos[1] or nil,
-          end_col = item.end_pos and item.end_pos[2] or nil,
-          text = text,
-          pattern = item.search,
-          valid = true,
-        }
-      end
-      if opts and opts.win then
-        vim.fn.setloclist(opts.win, qf)
-        vim.cmd('lopen')
-      else
-        vim.fn.setqflist(qf)
-        vim.cmd('copen')
-      end
-      vim.schedule(function()
-        vim.w.quickfix_title = picker.title
-      end)
-    end
   end,
 }

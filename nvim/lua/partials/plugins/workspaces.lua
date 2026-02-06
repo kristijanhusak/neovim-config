@@ -1,6 +1,5 @@
 return {
   'natecraddock/workspaces.nvim',
-  cmd = { 'WorkspacesAdd', 'WorkspacesOpen' },
   config = function()
     require('workspaces').setup({
       path = vim.fs.normalize('~/Dropbox/workspaces'),
@@ -18,5 +17,9 @@ return {
         end,
       },
     })
+
+    vim.keymap.set('n', '<leader>w', function()
+      return require('partials.picker').workspaces()
+    end, { desc = 'Workspaces' })
   end,
 }

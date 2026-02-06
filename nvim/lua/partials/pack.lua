@@ -1,19 +1,9 @@
 require('partials.utils.pack')
 
-vim.pack.load({ src = 'tpope/vim-repeat', event = 'VeryLazy' })
-vim.pack.load({ src = 'tpope/vim-sleuth', event = 'VeryLazy' })
-vim.pack.load({ src = 'tpope/vim-abolish', event = 'VeryLazy' })
-vim.pack.load({ src = 'tpope/vim-surround', event = 'VeryLazy' })
-vim.pack.load({ src = 'nvim-tree/nvim-web-devicons' })
-vim.pack.load({ src = 'nvim-lua/plenary.nvim' })
-vim.pack.load({
-  src = 'folke/which-key.nvim',
-  event = 'VeryLazy',
-  config = function()
-    require('which-key').setup({
-      preset = 'helix',
-    })
-  end,
-})
+local plugins = require('partials.plugins')
 
-vim.pack.dir('./packs')
+for plugin in ipairs(plugins) do
+  vim.pack.load(plugins[plugin])
+end
+
+vim.pack.dir('./plugins')

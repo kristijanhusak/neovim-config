@@ -2,7 +2,6 @@ vim.loader.enable(true)
 local cur_file_dir = vim.fs.dirname(debug.getinfo(1, 'S').source:sub(2))
 
 ---@class PackOpts
----@field src string The GitHub src of the plugin (e.g., 'user/repo' or full URL)
 ---@field ft? string | string[] The filetype(s) to trigger loading the plugin (e.g., 'python', {'python', 'lua'})
 ---@field keys? [string|string[],string,fun(),table][] The keys to Trigger loading the plugin
 ---@field cmd? string | string[] The GitHub path of the plugin (e.g., 'user/repo' or full URL)
@@ -86,24 +85,25 @@ function M.queue_for_install(opts)
   if type(opts.enabled) ~= 'boolean' then
     opts.enabled = true
   end
-  local stat = vim.uv.fs_stat(vim.fs.normalize(opts.src))
+  local src = opts[1]
+  local stat = vim.uv.fs_stat(vim.fs.normalize(src))
   opts.local_package = stat and stat.type == 'directory'
 
-  if not opts.local_package and not vim.startswith(opts.src, 'http') then
-    opts.src = ('https://github.com/%s'):format(opts.src)
+  if not opts.local_package and not vim.startswith(src, 'http') then
+    src = ('https://github.com/%s'):format(src)
   end
   if opts.local_package then
-    opts.src = vim.fs.normalize(opts.src)
+    src = vim.fs.normalize(src)
   end
   if not opts.name then
-    local parts = vim.split(opts.src, '/')
+    local parts = vim.split(src, '/')
     opts.name = parts[#parts]
   end
   if opts.dependencies then
     local deps = {}
     for _, dep in ipairs(opts.dependencies) do
       if type(dep) == 'string' then
-        dep = { src = dep }
+        dep = { dep }
       end
       if not opts.enabled then
         dep.enabled = false
@@ -112,6 +112,7 @@ function M.queue_for_install(opts)
     end
     opts.dependencies = deps
   end
+  opts.src = src
   plugins[opts.name] = opts
 
   if not opts.local_package then
@@ -139,7 +140,7 @@ function M.load_plugin(opts)
     local plugin_path = vim.fs.joinpath(M.get_local_plug_dir(), plugin.name)
     if not vim.uv.fs_stat(plugin_path) then
       vim.fn.mkdir(M.get_local_plug_dir(), 'p')
-      vim.uv.fs_symlink(plugin.src, plugin_path, { symbolic = true })
+      vim.uv.fs_symlink(plugin[1], plugin_path, { symbolic = true })
     end
   end
 
@@ -218,10 +219,13 @@ function M.on_keys(opts)
   local plugin = M.queue_for_install(opts)
   local keys = opts.keys
   for _, keymap in ipairs(keys) do
-    local mode = keymap[1]
-    local lhs = keymap[2]
-    local rhs = keymap[3]
-    local key_opts = keymap[4] or {}
+    local lhs = keymap[1]
+    local mode = keymap.mode or 'n'
+    local rhs = keymap[2]
+    local key_opts = {}
+    if keymap.desc then
+      key_opts.desc = keymap.desc
+    end
     vim.keymap.set(mode, lhs, function()
       M.load_plugin(plugin)
       rhs()
@@ -365,7 +369,8 @@ vim.pack.dir = function(dir)
     if not name then
       break
     end
-    require(('partials.packs.%s'):format(name:gsub('%.lua$', '')))
+    local config = require(('partials.plugins.%s'):format(name:gsub('%.lua$', '')))
+    vim.pack.load(config)
   end
   vim.pack.add(install_plugins, {
     -- Do packadd manually

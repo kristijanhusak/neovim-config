@@ -1,8 +1,10 @@
 return {
   'nvimdev/indentmini.nvim',
   event = 'VeryLazy',
-  opts = {
-    char = '▏',
-    exclude = { 'dbout' },
-  },
+  config = function()
+    require('indentmini').setup({
+      char = '▏',
+      exclude = { 'dbout' },
+    })
+  end,
 }

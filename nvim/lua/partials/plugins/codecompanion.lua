@@ -4,25 +4,14 @@ return {
     'ravitemer/codecompanion-history.nvim',
   },
   event = 'VeryLazy',
-  keys = {
-    {
-      '<leader>ea',
-      mode = { 'n', 'x' },
-      function()
-        vim.cmd('CodeCompanionActions')
-      end,
-      desc = 'Open Code Companion Actions',
-    },
-    {
-      '<leader>ee',
-      mode = { 'n', 'x' },
-      function()
-        vim.cmd('CodeCompanionChat')
-      end,
-      desc = 'Open Code Companion Chat',
-    },
-  },
   config = function()
+    vim.keymap.set({ 'n', 'x' }, '<leader>ea', function()
+      vim.cmd('CodeCompanionActions')
+    end, { desc = 'Open Code Companion Actions' })
+    vim.keymap.set({ 'n', 'x' }, '<leader>ee', function()
+      vim.cmd('CodeCompanionChat')
+    end, { desc = 'Open Code Companion Chat' })
+
     require('codecompanion').setup({
       extensions = {
         history = {
