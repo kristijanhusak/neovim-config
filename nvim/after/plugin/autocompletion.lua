@@ -6,7 +6,7 @@ local utils = require('partials.utils')
 local augroup = vim.api.nvim_create_augroup('custom_lsp_completion', { clear = true })
 local icons = utils.lsp_kind_icons()
 local protocol = vim.lsp.protocol
-vim.opt.complete = '.,w,b,o'
+vim.opt.complete = 'o,.,w,b'
 
 vim.api.nvim_create_autocmd('InsertEnter', {
   pattern = '*',
