@@ -8,8 +8,7 @@
   ],
   "modules-center": [
     "keyboard-state",
-    "hyprland/submap",
-    "clock#time"
+    "hyprland/submap"
   ],
   "modules-right": [
     "custom/exchangerates",
@@ -21,6 +20,7 @@
     "battery",
     "pulseaudio",
     "clock#date",
+    "clock#time",
     "custom/notification",
     "tray"
   ],

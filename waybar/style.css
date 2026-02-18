@@ -13,7 +13,7 @@ window#waybar {
 }
 
 #cpu, #language {
-  border-bottom: 3px solid #f90000;
+  border-bottom: 3px solid #c53b53;
 }
 
 #memory {
@@ -47,15 +47,15 @@ window#waybar {
   font-weight: bold;
 }
 
-#clock.time {
-  color: @fg;
-  font-size: 14px;
-  margin-top: 1px;
-}
-
-#clock.date {
+#clock.date, #clock.time {
   color: @fg;
   border-bottom: 3px solid #0a6cf5;
+}
+
+#clock.time {
+  color: @fg;
+  font-size: 13px;
+  border-bottom: 3px solid #65bcff;
 }
 
 #clock calendar {
