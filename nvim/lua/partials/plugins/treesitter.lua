@@ -8,7 +8,10 @@ return {
   config = function()
     require('nvim-treesitter').setup()
     require('nvim-treesitter-textobjects').setup()
-    require('nvim-treesitter').install(require('nvim-treesitter').get_available(2))
+    local valid_parsers = vim.tbl_filter(function(parser)
+      return not vim.tbl_contains({ 'robots', 'jsonc', 'fusion', 'blueprint' }, parser)
+    end, require('nvim-treesitter').get_available(2))
+    require('nvim-treesitter').install(valid_parsers)
     vim.api.nvim_create_autocmd('FileType', {
       pattern = {
         'c',
