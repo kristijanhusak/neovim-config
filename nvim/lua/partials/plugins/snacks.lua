@@ -48,13 +48,6 @@ return {
           },
         },
       },
-      terminal = {
-        win = {
-          wo = {
-            winbar = '',
-          },
-        },
-      },
       picker = {
         formatters = {
           file = {
@@ -283,13 +276,5 @@ return {
     end, {
       nargs = 0,
     })
-
-    vim.keymap.set('n', '<leader>T', function()
-      return Snacks.terminal.toggle()
-    end, { desc = 'Toggle terminal' })
-    vim.keymap.set('t', '<leader>T', function()
-      vim.cmd('stopinsert')
-      return Snacks.terminal.toggle()
-    end, { desc = 'Close terminal' })
   end,
 }
