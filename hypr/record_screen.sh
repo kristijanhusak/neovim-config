@@ -23,9 +23,8 @@ if [ "$1" = "--start" ]; then
   wf-recorder -g "$REGION" -f "$RECORDINGS_DIR/${FILENAME}_$(date +%Y-%m-%d_%H-%M-%S).mp4"
 elif [ "$1" = "--stop" ]; then
     pkill wf-recorder \
-        && notify-send -i dialog-information --action="open:Open Recordings" "Recording stopped." "Click to open recordings folder." \
-        || notify-send -i dialog-warning --action="open:Open Recordings" "No recording was running."
-    swaync-client --action=open && xdg-open "$RECORDINGS_DIR" &
+        && notify-send -i dialog-information "Recording stopped." \
+        || notify-send -i dialog-warning "No recording was running."
 else
     echo "Usage: $0 --start|--stop"
     exit 1
