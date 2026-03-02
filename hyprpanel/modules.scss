@@ -1,0 +1,14 @@
+@include styleModule(
+  'cmodule-capslock',
+  (
+    icon-color: #ff757f,
+    text-color: #ff757f
+  )
+);
+@include styleModule(
+  'cmodule-resize',
+  (
+    icon-color: #ff757f,
+    text-color: #ff757f
+  )
+)

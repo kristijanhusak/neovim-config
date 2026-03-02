@@ -1,0 +1,27 @@
+{
+  "custom/exchangerates": {
+        "icon": ["📈 ", "📈 ", "📈"],
+        "label": "{text}",
+        "tooltip": "{tooltip}",
+        "truncationSize": -1,
+        "execute": "~/.config/hyprpanel/exchangerates.sh",
+        "executeOnAction": "",
+        "interval": 1800000,
+        "hideOnEmpty": true,
+        "scrollThreshold": 1
+  },
+  "custom/capslock": {
+    "icon": "󰪛",
+    "label": "CAPSLOCK",
+    "execute": "hyprctl devices -j | jq -e '[.keyboards[].capsLock] | any' >/dev/null && echo \"CAPSLOCK\" || echo \"\"",
+    "hideOnEmpty": true,
+    "interval": 1000
+  },
+  "custom/resize": {
+    "icon": "󰩨",
+    "label": "{text}",
+    "execute": "submap=$(hyprctl submap | tr -d '\n'); [ \"$submap\" = \"default\" ] && echo \"\" || echo \"{\\\"text\\\": \\\"$submap\\\"}\"",
+    "hideOnEmpty": true,
+    "interval": 1000
+  }
+}

@@ -60,9 +60,10 @@ install_sway() {
 
 install_hyprland() {
   yay -S cmake meson cpio pkg-config g++ gcc zenity hyprlock swaync swaybg hypridle xorg-wayland waybar grim slurp wl-clipboard rofi-wayland hyprland wf-recorder \
-  && rm -rf ~/.config/hypr ~/.config/waybar \
+  && rm -rf ~/.config/hypr ~/.config/waybar ~/.config/hyprpanel \
     && ln -s $(pwd)/hypr ~/.config/hypr \
     && ln -s $(pwd)/waybar ~/.config/waybar \
+    && ln -s $(pwd)/hyprpanel ~/.config/hyprpanel \
     && hyprpm update \
     && hyprpm add https://github.com/outfoxxed/hy3
 }
