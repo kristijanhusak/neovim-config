@@ -1,0 +1,19 @@
+{
+  "id": "exchange-rates",
+  "name": "Exchange rates",
+  "version": "1.0.0",
+  "minNoctaliaVersion": "3.6.0",
+  "author": "Kristijan Husak",
+  "license": "MIT",
+  "repository": "",
+  "description": "A simple exchange rates plugin",
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "dependencies": {
+    "plugins": []
+  },
+  "metadata": {
+    "defaultSettings": {}
+  }
+}
