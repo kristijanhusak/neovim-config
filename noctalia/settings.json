@@ -77,9 +77,14 @@
         "widgets": {
             "center": [
                 {
-                    "defaultSettings": {
-                    },
-                    "id": "plugin:capslock"
+                    "capsLockIcon": "letter-c",
+                    "hideWhenOff": true,
+                    "id": "LockKeys",
+                    "numLockIcon": "letter-n",
+                    "scrollLockIcon": "letter-s",
+                    "showCapsLock": true,
+                    "showNumLock": true,
+                    "showScrollLock": true
                 },
                 {
                     "defaultSettings": {
