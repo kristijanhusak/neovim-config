@@ -8,6 +8,7 @@
   "repository": "",
   "description": "Submap tracking",
   "entryPoints": {
+    "main": "Main.qml",
     "barWidget": "BarWidget.qml"
   },
   "dependencies": {

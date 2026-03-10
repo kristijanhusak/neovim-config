@@ -1,12 +1,12 @@
 {
-  "id": "exchange-rates",
-  "name": "Exchange rates",
+  "id": "scrolling-windows",
+  "name": "Scrolling windows",
   "version": "1.0.0",
   "minNoctaliaVersion": "3.6.0",
   "author": "Kristijan Husak",
   "license": "MIT",
   "repository": "",
-  "description": "A simple exchange rates plugin",
+  "description": "Scrolling windows",
   "entryPoints": {
     "main": "Main.qml",
     "barWidget": "BarWidget.qml"

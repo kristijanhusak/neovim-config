@@ -5,21 +5,19 @@ import Quickshell.Io
 import qs.Commons
 import qs.Widgets
 import qs.Services.UI
-import qs.Services.System
 
 Item {
   id: root
 
+  // Required properties for bar widgets
   property var pluginApi: null
   property ShellScreen screen
-
-  // Widget properties passed from Bar.qml for per-instance settings
   property string widgetId: ""
   property string section: ""
 
-  property string displayText: pluginApi?.mainInstance.displayText || ""
-  property string tooltip: pluginApi?.mainInstance.tooltip || ""
-  property bool hovered: false
+  property int leftCount: pluginApi?.mainInstance.leftCount || 0
+  property int rightCount: pluginApi?.mainInstance.rightCount || 0
+  visible: leftCount > 0 || rightCount > 0
 
   // Per-screen bar properties (for multi-monitor and vertical bar support)
   readonly property string screenName: screen?.name ?? ""
@@ -40,7 +38,7 @@ Item {
     y: Style.pixelAlignCenter(parent.height, height)
     width: root.contentWidth
     height: root.contentHeight
-    color: hovered ? Color.mHover : Style.capsuleColor
+    color: Style.capsuleColor
     radius: Style.radiusL
     border.color: Style.capsuleBorderColor
     border.width: Style.capsuleBorderWidth
@@ -51,32 +49,33 @@ Item {
       spacing: Style.marginS
 
       NIcon {
-        color: hovered ? Color.mOnHover : Color.mOnSurface
-        icon: "currency-dollar"
+        visible: leftCount > 0
+        icon: "caret-left"
+        color: Color.mPrimary
       }
 
       NText {
-        text: displayText
-        color: hovered ? Color.mOnHover : Color.mOnSurface
-        pointSize: Style.fontSizeS
+        visible: leftCount > 0
+        text: leftCount
+        color: Color.mPrimary
+      }
+
+      NIcon {
+        icon: "app-window"
+        pointSize: 13
+      }
+
+      NText {
+        visible: rightCount > 0
+        text: rightCount
+        color: Color.mPrimary
+      }
+
+      NIcon {
+        visible: rightCount > 0
+        icon: "caret-right"
+        color: Color.mPrimary
       }
     }
   }
-
-  MouseArea {
-    anchors.fill: parent
-    hoverEnabled: true
-    cursorShape: Qt.PointingHandCursor
-
-    onEntered: {
-      hovered = true;
-      TooltipService.show(root, tooltip, BarService.getTooltipDirection())
-    }
-
-    onExited: {
-      hovered = false;
-      TooltipService.hide()
-    }
-  }
 }
-

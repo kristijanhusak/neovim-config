@@ -92,6 +92,11 @@
                     "id": "plugin:submap"
                 },
                 {
+                    "defaultSettings": {
+                    },
+                    "id": "plugin:scrolling-windows"
+                },
+                {
                     "compactMode": false,
                     "hideMode": "hidden",
                     "hideWhenIdle": false,
@@ -204,15 +209,14 @@
                 },
                 {
                     "blacklist": [
+                        "dropbox*"
                     ],
                     "chevronColor": "none",
                     "colorizeIcons": false,
-                    "drawerEnabled": true,
-                    "hidePassive": true,
+                    "drawerEnabled": false,
+                    "hidePassive": false,
                     "id": "Tray",
                     "pinned": [
-                        "No unread messages",
-                        "Rakuten Viber"
                     ]
                 },
                 {
