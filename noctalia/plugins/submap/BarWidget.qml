@@ -12,6 +12,7 @@ Item {
   id: root
 
   // Required properties for bar widgets
+  property var pluginApi: null
   property ShellScreen screen
   property string widgetId: ""
   property string section: ""
@@ -54,14 +55,10 @@ Item {
     }
   }
 
-  Timer {
-    id: refreshTimer
-
-    interval: 200
-    repeat: true
-    running: true
-
-    onTriggered: {
+  IpcHandler {
+    target: "plugin:submap"
+    function refresh() {
+      Logger.i("Submap", "refreshing submap")
       submapProcess.running = true;
     }
   }

@@ -211,7 +211,8 @@
                     "hidePassive": true,
                     "id": "Tray",
                     "pinned": [
-                        "No unread messages"
+                        "No unread messages",
+                        "Rakuten Viber"
                     ]
                 },
                 {
