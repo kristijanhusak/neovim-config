@@ -99,6 +99,9 @@ if is_bg_changed:
         + '@define-color fg ' + normal_fg + ';')
     waybar_file.close()
 
+    noctalia_method = 'setLight' if bg == 'light' else 'setDark'
+
+    cmd += ['qs -c noctalia-shell ipc call darkMode ' + noctalia_method]
     cmd += ['source ~/.zshrc']
 
 print(';'.join(cmd))

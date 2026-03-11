@@ -2,3 +2,4 @@ plugins/*
 !plugins/exchange-rates
 !plugins/submap
 !plugins/scrolling-windows
+colors.json
