@@ -64,8 +64,7 @@ install_hyprland() {
     && ln -s $(pwd)/hypr ~/.config/hypr \
     && ln -s $(pwd)/waybar ~/.config/waybar \
     && ln -s $(pwd)/hyprpanel ~/.config/hyprpanel \
-    && hyprpm update \
-    && hyprpm add https://github.com/outfoxxed/hy3
+    && hyprpm update
 }
 
 install_rofi() {
