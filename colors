@@ -99,7 +99,6 @@ if is_bg_changed:
         + '@define-color fg ' + normal_fg + ';')
     waybar_file.close()
 
-    cmd += ['~/.config/waybar/start.sh']
     cmd += ['source ~/.zshrc']
 
 print(';'.join(cmd))
