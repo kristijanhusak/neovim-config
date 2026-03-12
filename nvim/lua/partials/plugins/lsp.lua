@@ -59,6 +59,10 @@ lsp.config = function()
     },
   })
 
+  if vim.g.builtin_autocompletion then
+    vim.lsp.enable('filepaths_ls')
+  end
+
   return lsp
 end
 
@@ -347,6 +351,7 @@ return {
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
     'folke/lazydev.nvim',
+    'antonk52/filepaths_ls.nvim'
   },
   ft = filetypes,
   config = function()
