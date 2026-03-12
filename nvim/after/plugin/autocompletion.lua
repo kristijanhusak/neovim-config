@@ -17,53 +17,6 @@ vim.api.nvim_create_autocmd('InsertEnter', {
   end,
 })
 
-local function on_complete_changed()
-  local completed_item = vim.api.nvim_get_vvar('completed_item')
-  if not completed_item or not completed_item.user_data or not completed_item.user_data.nvim then
-    return
-  end
-  local completion_item = completed_item.user_data.nvim.lsp.completion_item --- @type lsp.CompletionItem
-  local client_id = completed_item.user_data.nvim.lsp.client_id --- @type integer
-  local client = vim.lsp.get_client_by_id(client_id)
-  if not client then
-    return
-  end
-
-  client:request(protocol.Methods.completionItem_resolve, completion_item, function(err, result)
-    if err or not result then
-      return
-    end
-
-    local text = {}
-
-    if result and result.documentation then
-      local docs = type(result.documentation) == 'string' and result.documentation or result.documentation.value
-      vim.list_extend(text, vim.split(docs, '\n'))
-    end
-
-    if result.detail and not vim.startswith(text[1] or '', '```') then
-      text = vim.list_extend({ '```' .. vim.bo.filetype, result.detail, '```' }, text)
-    end
-
-    if #text == 0 then
-      return
-    end
-
-    local _, popup_winid = vim.lsp.util.open_floating_preview(text, 'markdown', {
-      border = 'single',
-    })
-    local pos = vim.fn.pum_getpos()
-    if not pos or not pos.row or not pos.col then
-      return
-    end
-    vim.api.nvim_win_set_config(popup_winid, {
-      relative = 'editor',
-      row = pos.row,
-      col = pos.col + pos.width + (pos.scrollbar and 1 or 0),
-    })
-  end)
-end
-
 vim.api.nvim_create_autocmd('LspAttach', {
   group = augroup,
   callback = function(ev)
@@ -84,14 +37,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
           kind_hlgroup = ('CmpItemKind%s'):format(kind),
           menu = menu,
         }
-      end,
-    })
-
-    vim.api.nvim_create_autocmd('CompleteChanged', {
-      group = augroup,
-      buffer = ev.buf,
-      callback = function()
-        on_complete_changed()
       end,
     })
   end,
