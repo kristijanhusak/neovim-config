@@ -12,9 +12,11 @@ Item {
 
   property string displayText: ""
   property string tooltip: ""
+  property bool force: false
 
-  function fetchRates() {
+  function fetchRates(shouldForce = false) {
     Logger.i("ExchangeRates", "Fetching exchange rates...");
+    force = shouldForce
     apiProcess.running = true
   }
 
@@ -25,13 +27,14 @@ Item {
   Process {
     id: apiProcess
 
-    command: ['/home/kristijan/.config/noctalia/plugins/exchange-rates/exchangerates.sh']
+    command: ['/home/kristijan/.config/noctalia/plugins/exchange-rates/exchangerates.sh', force ? '--force' : '']
     running: false
 
     stdout: StdioCollector {
     }
 
     onExited: exitCode => {
+      force = false
       if (exitCode === 0) {
         try {
           var response = JSON.parse(stdout.text);

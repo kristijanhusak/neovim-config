@@ -64,9 +64,11 @@ Item {
   }
 
   MouseArea {
+    id: mouseArea
     anchors.fill: parent
     hoverEnabled: true
     cursorShape: Qt.PointingHandCursor
+    acceptedButtons: Qt.RightButton
 
     onEntered: {
       hovered = true;
@@ -76,6 +78,12 @@ Item {
     onExited: {
       hovered = false;
       TooltipService.hide()
+    }
+
+    onClicked: (mouse) => {
+      if (mouse.button === Qt.RightButton) {
+        pluginApi?.mainInstance.fetchRates(true);
+      }
     }
   }
 }
