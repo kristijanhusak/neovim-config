@@ -45,7 +45,7 @@ function handlers.goto_file()
 
   for _, suffix in ipairs(fn.split(vim.bo.suffixesadd, ',')) do
     local index_file = full_path .. '/index' .. suffix
-    if fn.filereadable(index_file) then
+    if fn.filereadable(index_file) > 0 then
       return vim.cmd.edit(index_file)
     end
   end
