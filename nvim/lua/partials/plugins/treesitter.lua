@@ -58,10 +58,10 @@ return {
     end)
 
     -- Swap
-    vim.keymap.set('n', '<leader>a', function()
+    vim.keymap.set('n', '<leader>k', function()
       require('nvim-treesitter-textobjects.swap').swap_next('@parameter.inner')
     end)
-    vim.keymap.set('n', '<leader>A', function()
+    vim.keymap.set('n', '<leader>K', function()
       require('nvim-treesitter-textobjects.swap').swap_previous('@parameter.inner')
     end)
   end,
