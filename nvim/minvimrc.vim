@@ -150,8 +150,8 @@ function! ToggleComment() abort
     execute 'normal! I' . l:cs
   endif
 endfunction
-nnoremap <leader>c :call ToggleComment()<CR>
-vnoremap <leader>c :call ToggleComment()<CR>
+nnoremap <silent><leader>c :call ToggleComment()<CR>
+vnoremap <silent><leader>c :call ToggleComment()<CR>
 
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
@@ -184,3 +184,7 @@ augroup fallback_vimrc
   autocmd BUfLeave,FocusLost,InsertEnter,WinLeave * if &nu | set nornu | endif
   autocmd VimEnter,DirChanged * call s:setup_paths()
 augroup end
+
+if has('nvim-0.12')
+  set autocomplete
+endif
