@@ -338,7 +338,14 @@ vim.pack.status = function()
 end
 
 vim.pack.delete = function()
-  vim.ui.select(vim.tbl_keys(plugins), {
+  local all_plugins = vim
+    .iter(vim.fs.dir(M.get_plug_dir()))
+    :map(function(name)
+      return name
+    end)
+    :totable()
+
+  vim.ui.select(all_plugins, {
     prompt = 'Select a plugin to delete:',
   }, function(choice)
     if not choice or choice == '' then
@@ -353,6 +360,17 @@ vim.pack.delete = function()
     end
     vim.pack.del({ choice })
   end)
+end
+
+vim.pack.clean = function()
+  local all_plugins = vim.fs.dir(M.get_plug_dir())
+  for plugin in all_plugins do
+    if not plugins[plugin] then
+      if vim.fn.confirm('Delete plugin ' .. plugin .. '?', '&Yes\n&No') == 1 then
+        vim.pack.del({ plugin })
+      end
+    end
+  end
 end
 
 ---@param dir string
@@ -394,7 +412,7 @@ vim.pack.dir = function(dir)
   })
 end
 
-local cmds = { 'status', 'update', 'delete' }
+local cmds = { 'status', 'update', 'delete', 'clean' }
 vim.api.nvim_create_user_command('Pack', function(args)
   if vim.trim(args.args) == '' then
     return vim.pack.status()
