@@ -203,6 +203,12 @@
                     "textColor": "none"
                 },
                 {
+                    "displayMode": "onhover",
+                    "iconColor": "none",
+                    "id": "Bluetooth",
+                    "textColor": "none"
+                },
+                {
                     "displayMode": "alwaysShow",
                     "iconColor": "tertiary",
                     "id": "Volume",
