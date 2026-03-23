@@ -46,7 +46,6 @@ return {
       group = vim.api.nvim_create_augroup('nvim-treesitter-fts', { clear = true }),
       callback = function(args)
         vim.treesitter.start(args.buf)
-        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end,
     })
 
