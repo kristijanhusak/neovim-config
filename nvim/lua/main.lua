@@ -16,10 +16,15 @@ require('partials.statusline')
 require('partials.mappings')
 require('partials.picker')
 
-require('vim._core.ui2').enable({
-  enable = true,
-  msg = {
-    target = 'cmd',
-    timeout = 4000,
-  },
-})
+local ok, ui2 = pcall(require, 'vim._core.ui2')
+
+if ok then
+  ui2.enable({
+    enable = true,
+    msg = {
+      target = 'cmd',
+      timeout = 4000,
+    },
+  })
+end
+
