@@ -7,7 +7,6 @@ return {
         provider = 'native',
       },
     })
-    vim.keymap.set('n', '<leader>a', function() end, { desc = 'AI/Claude Code' })
     vim.keymap.set('n', '<leader>ac', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude' })
     vim.keymap.set('n', '<leader>af', '<cmd>ClaudeCodeFocus<CR>', { desc = 'Focus Claude' })
     vim.keymap.set('n', '<leader>ar', '<cmd>ClaudeCode --resume<CR>', { desc = 'Resume Claude' })
