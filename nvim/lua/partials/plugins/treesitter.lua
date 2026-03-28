@@ -49,6 +49,14 @@ return {
       end,
     })
 
+    vim.api.nvim_create_user_command('TSUpdate', function()
+      require('nvim-treesitter.install').update(valid_parsers, { summary = true })
+    end, {
+      nargs = '*',
+      bar = true,
+      desc = 'Update installed treesitter parsers',
+    })
+
     -- Select
     vim.keymap.set({ 'x', 'o' }, 'af', function()
       require('nvim-treesitter-textobjects.select').select_textobject('@function.outer', 'textobjects')
