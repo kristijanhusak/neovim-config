@@ -117,6 +117,14 @@ vim.keymap.set('n', ']b', ':bnext<CR>', { silent = true })
 vim.keymap.set('n', '[B', ':bfirst<CR>', { silent = true })
 vim.keymap.set('n', ']B', ':blast<CR>', { silent = true })
 
+-- Undotree
+vim.keymap.set('n', '<Leader>ut', function()
+  if not vim.g.loaded_undotree_plugin then
+    vim.cmd.packadd('nvim.undotree')
+  end
+  require('undotree').open({ command = '40vnew' })
+end, { silent = true, desc = 'Open undotree' })
+
 --rsi mappings
 vim.keymap.set('c', '<C-a>', '<Home>')
 vim.keymap.set('c', '<C-e>', '<End>')
