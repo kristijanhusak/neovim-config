@@ -52,11 +52,12 @@ vim.keymap.set('i', '<Tab>', function()
     return
   end
 
-  if require('copilot.suggestion').is_visible() then
-    return require('copilot.suggestion').accept()
+  if vim.lsp.inline_completion.get() then
+    return
   end
+
   if utils.has_words_before() then
-    return require('copilot.suggestion').next()
+    return vim.lsp.inline_completion.select()
   end
 
   utils.feedkeys('<Tab>', 'n')

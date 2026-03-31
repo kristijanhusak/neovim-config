@@ -91,13 +91,12 @@ return {
               return false
             end
 
-            if require('copilot.suggestion').is_visible() then
-              require('copilot.suggestion').accept()
+            if vim.lsp.inline_completion and vim.lsp.inline_completion.get() then
               return true
             end
 
             if require('partials.utils').has_words_before() then
-              require('copilot.suggestion').next()
+              vim.lsp.inline_completion.select()
               return true
             end
 

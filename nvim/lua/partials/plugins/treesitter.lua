@@ -39,7 +39,6 @@ return {
         'typescriptreact',
         'vim',
         'yaml',
-        'copilot-chat',
         'http',
         'codecompanion',
       },

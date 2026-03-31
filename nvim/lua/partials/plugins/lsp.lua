@@ -56,6 +56,7 @@ lsp.config = function()
       'terraformls',
       'ts_ls',
       'vimls',
+      'copilot',
     },
   })
 
@@ -331,6 +332,12 @@ function setup.attach_to_buffer(client, bufnr)
     })
   end
 
+  if vim.lsp.inline_completion then
+    vim.lsp.inline_completion.enable(true, {
+      bufnr = bufnr,
+    })
+  end
+
   vim.opt.foldmethod = 'expr'
   if vim.treesitter.foldexpr then
     vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
@@ -351,7 +358,7 @@ return {
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
     'folke/lazydev.nvim',
-    'antonk52/filepaths_ls.nvim'
+    'antonk52/filepaths_ls.nvim',
   },
   ft = filetypes,
   config = function()
