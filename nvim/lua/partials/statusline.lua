@@ -333,7 +333,7 @@ vim.api.nvim_create_autocmd('LspProgress', {
           msg = ('[%d%%%%] %s%s'):format(
             value.kind == 'end' and 100 or value.percentage or 100,
             value.title or '',
-            value.message and (' **%s**'):format(value.message) or ''
+            value.message and (' %s'):format(value.message) or ''
           ),
           done = value.kind == 'end',
         }
