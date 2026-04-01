@@ -31,14 +31,19 @@ return {
           match = 'DEADLINE>="<+1d>"&DEADLINE<"<+2d>"',
           org_agenda_overriding_header = 'Tomorrow',
         },
-        -- {
-        --   type = 'tags_todo',
-        --   match = 'DEADLINE<"<today>"|SCHEDULED<"<today>"',
-        --   org_agenda_overriding_header = 'Overdue',
-        -- },
+        {
+          type = 'tags_todo',
+          match = 'DEADLINE<"<today>"&DEADLINE>"<-7d>"|SCHEDULED<"<today>"&SCHEDULED>"<-7d>"',
+          org_agenda_overriding_header = 'Overdue',
+        },
         {
           type = 'agenda',
           org_agenda_tag_filter_preset = '-REVISIT',
+        },
+        {
+          type = 'tags_todo',
+          match = 'DEADLINE<"<-7d>"|SCHEDULED<"<-7d>"',
+          org_agenda_overriding_header = 'Long Overdue',
         },
       },
     },
