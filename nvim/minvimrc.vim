@@ -1,5 +1,6 @@
-" Fast install with this command
+" Fast install with curl or wget command
 " curl https://raw.githubusercontent.com/kristijanhusak/neovim-config/refs/heads/master/nvim/minvimrc.vim -o $HOME/.vimrc
+" wget https://raw.githubusercontent.com/kristijanhusak/neovim-config/refs/heads/master/nvim/minvimrc.vim -O $HOME/.vimrc
 set nocompatible
 let g:mapleader = ','
 
@@ -134,7 +135,8 @@ xnoremap <tab> >gv
 nnoremap n nzz
 nnoremap N Nzz
 
-nnoremap <C-p> :call feedkeys(':find ')<CR>
+nnoremap <C-p> :find<space>
+nnoremap <leader>m :find<space>
 nnoremap <leader>f :vimgrep  **/*<left><left><left><left><left>
 nnoremap <silent> ]q :cnext<CR>
 nnoremap <silent> [q :cprev<CR>
