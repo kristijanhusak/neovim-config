@@ -1,0 +1,8 @@
+vim.keymap.set('n', 'X', function()
+  local view = vim.fn.winsaveview()
+  local line = vim.fn.line('.')
+  local items = vim.fn.getqflist()
+  table.remove(items, line)
+  vim.fn.setqflist(items, 'u')
+  vim.fn.winrestview(view)
+end, { desc = 'Remove item from qflist' })
