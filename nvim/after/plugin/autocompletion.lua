@@ -6,6 +6,7 @@ local utils = require('partials.utils')
 local augroup = vim.api.nvim_create_augroup('custom_lsp_completion', { clear = true })
 local icons = utils.lsp_kind_icons()
 local protocol = vim.lsp.protocol
+local counters = {}
 vim.opt.complete = 'o,.,w,b'
 
 vim.api.nvim_create_autocmd('InsertEnter', {
@@ -24,19 +25,49 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if not client or not client:supports_method(protocol.Methods.textDocument_completion) then
       return
     end
+    local bufnr = ev.buf
 
-    vim.lsp.completion.enable(true, client.id, ev.buf, {
+    vim.bo[bufnr].complete = 'o'
+
+    vim.lsp.completion.enable(true, client.id, bufnr, {
       convert = function(item)
         local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or 'Text'
         local menu = ('[%s]'):format(kind)
-        if item.data and item.data.bufnames then
-          menu = '[Buffer]'
-        end
         return {
           kind = icons[kind],
           kind_hlgroup = ('CmpItemKind%s'):format(kind),
           menu = menu,
         }
+      end,
+    })
+
+    counters[bufnr] = counters[bufnr] or 0
+
+    vim.api.nvim_create_autocmd('InsertCharPre', {
+      buffer = bufnr,
+      group = augroup,
+      callback = function()
+        if vim.fn.pumvisible() == 0 and vim.v.char ~= ' ' then
+          counters[bufnr] = counters[bufnr] + 1
+        else
+          counters[bufnr] = 0
+          vim.bo[bufnr].complete = 'o'
+        end
+
+        if counters[bufnr] > 3 then
+          vim.bo[bufnr].complete = '.,w,b'
+        end
+      end,
+    })
+
+    vim.api.nvim_create_autocmd({ 'InsertLeave', 'CompleteDone' }, {
+      buffer = bufnr,
+      group = augroup,
+      callback = function(e)
+        if e.event == 'InsertLeave' or vim.v.completed_item.word then
+          counters[bufnr] = 0
+          vim.bo[bufnr].complete = 'o'
+        end
       end,
     })
   end,
@@ -91,4 +122,3 @@ vim.keymap.set('i', '<CR>', function()
   end
   return npairs.esc('<c-e>') .. npairs.autopairs_cr()
 end, { expr = true, noremap = true, replace_keycodes = false })
-
