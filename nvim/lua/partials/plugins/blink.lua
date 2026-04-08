@@ -54,7 +54,7 @@ return {
           draw = {
             treesitter = { 'lsp' },
             gap = 2,
-            columns = { { 'kind_icon' }, { 'label', 'kind', 'source_name', gap = 1 } },
+            columns = { { 'kind_icon' }, { 'label' }, { 'kind', 'source_name', gap = 1 } },
             components = {
               kind = {
                 highlight = 'BlinkCmpSource',
