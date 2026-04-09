@@ -1,0 +1,20 @@
+{
+  "id": "time-tracking",
+  "name": "Time tracking",
+  "version": "1.0.0",
+  "minNoctaliaVersion": "3.6.0",
+  "author": "Kristijan Husak",
+  "license": "MIT",
+  "repository": "",
+  "description": "Time tracking",
+  "entryPoints": {
+    "main": "Main.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "dependencies": {
+    "plugins": []
+  },
+  "metadata": {
+    "defaultSettings": {}
+  }
+}

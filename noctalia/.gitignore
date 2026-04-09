@@ -2,4 +2,5 @@ plugins/*
 !plugins/exchange-rates
 !plugins/submap
 !plugins/scrolling-windows
+!plugins/time-tracking
 colors.json

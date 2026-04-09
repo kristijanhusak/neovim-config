@@ -113,6 +113,11 @@
                     "textColor": "none",
                     "useFixedWidth": false,
                     "visualizerType": "linear"
+                },
+                {
+                    "defaultSettings": {
+                    },
+                    "id": "plugin:time-tracking"
                 }
             ],
             "left": [
