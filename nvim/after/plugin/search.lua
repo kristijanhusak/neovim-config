@@ -115,7 +115,7 @@ function search.run(search_term, is_visual)
     return msg('Empty search.')
   end
 
-  msg('Searching for word -> ' .. term)
+  msg('Searching for ' .. mode .. ' -> ' .. term)
   local status_dir, dir = pcall(vim.fn.input, 'Path: ', '', 'file')
   if not status_dir then
     return cleanup()
