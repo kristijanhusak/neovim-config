@@ -7,11 +7,6 @@ import os
 import argparse
 import pynvim
 color_file = '/home/kristijan/.cache/main_colorscheme.conf'
-colorschemes = {
-    'dark': 'tokyonight',
-    'light': 'onenord',
-}
-
 
 parser = argparse.ArgumentParser()
 parser.add_argument('bg', nargs='?', default=None,
@@ -25,7 +20,6 @@ current_bg = os.getenv('NVIM_COLORSCHEME_BG')
 def set_env(background):
     os.system('kitty @ set-colors --all --configured ' + color_file)
     cmd = ['export NVIM_COLORSCHEME_BG=' + background]
-    cmd += ['export NVIM_COLORSCHEME=' + colorschemes[background]]
     cmd += ['python ~/neovim-config/kitty/reload_colors.py']
     return cmd
 
@@ -47,7 +41,6 @@ if bg == 'toggle':
 
 
 os.environ['NVIM_COLORSCHEME_BG'] = bg
-os.environ['NVIM_COLORSCHEME'] = colorschemes[bg]
 nvim = pynvim.attach(
     'child', argv=["/usr/bin/env", "nvim", "--embed", "--headless"])
 
@@ -70,7 +63,6 @@ selection_fg, selection_bg = get_hl_color('Visual')
 
 command = [
     'env NVIM_COLORSCHEME_BG=' + bg,
-    'env NVIM_COLORSCHEME=' + colorschemes[bg],
     'foreground ' + normal_fg,
     'background ' + normal_bg,
     'cursor ' + (cursor_bg.startswith('#') and cursor_bg or normal_fg),

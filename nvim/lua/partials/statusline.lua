@@ -384,7 +384,6 @@ local function filetype()
   local ft_icon, ft_icon_hl = devicons.get_icon(vim.fn.expand('%:t'))
 
   if ft_icon and ft_icon ~= '' and ft_icon_hl and ft_icon_hl ~= '' then
-    vim.cmd('hi ' .. ft_icon_hl .. ' guibg=' .. c.statusline_bg)
     table.insert(parts, 1, '%#' .. ft_icon_hl .. '#' .. ft_icon .. '%*')
   end
 
