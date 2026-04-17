@@ -2,6 +2,7 @@ local colorscheme = {
   'folke/tokyonight.nvim',
   dependencies = {
     { 'rmehri01/onenord.nvim', lazy = false, priority = 1000 },
+    { 'RRethy/base16-nvim', lazy = false, priority = 1000 },
     'folke/todo-comments.nvim',
   },
   lazy = false,
@@ -108,17 +109,68 @@ colorscheme.tokyonight = function()
   vim.cmd.colorscheme('tokyonight')
 end
 
+colorscheme.base16 = function(bg)
+  require('base16-colorscheme').with_config({
+    telescope = false,
+    indentblankline = true,
+    notify = false,
+    ts_rainbow = false,
+    cmp = false,
+    illuminate = false,
+    dapui = false,
+  })
+
+  if bg == 'dark' then
+    local colors = require('base16-colorscheme').colorschemes['material-palenight']
+    require('base16-colorscheme').setup(vim.tbl_extend('force', colors, {
+      base05 = '#c0caf5'
+    }))
+  else
+    vim.cmd.colorscheme('base16-one-light')
+  end
+
+  local function set_colors()
+    local base16 = require('base16-colorscheme')
+
+    local prompt = bg == 'dark' and base16.colors.base02 or base16.colors.base01
+
+    local overrides = {
+      SnacksInputIcon = { bg = prompt },
+      SnacksPickerInput = { bg = prompt },
+      SnacksPickerPrompt = { bg = prompt },
+      SnacksPickerInputBorder = { bg = prompt },
+      SnacksPickerInputTitle = { bg = prompt },
+      IndentLine = { link = 'IndentBlanklineChar' },
+      IndentLineCurrent = { link = 'IndentBlanklineContextChar' },
+    }
+
+    if bg == 'dark' then
+      overrides.CursorLine = {
+        bg = base16.colors.base02,
+      }
+    end
+
+    for group, opts in pairs(overrides) do
+      vim.api.nvim_set_hl(0, group, opts)
+    end
+  end
+
+  set_colors()
+
+  vim.api.nvim_create_autocmd('ColorScheme', {
+    pattern = '*',
+    callback = set_colors,
+  })
+end
+
 colorscheme.config = function()
   require('todo-comments').setup()
-  vim.opt.background = vim.env.NVIM_COLORSCHEME_BG or 'dark'
+  local bg = vim.env.NVIM_COLORSCHEME_BG or 'dark'
+  vim.opt.background = bg
 
   vim.cmd.filetype('plugin indent on')
   vim.cmd.syntax('on')
-  if vim.opt.background:get() == 'dark' then
-    colorscheme.tokyonight()
-  else
-    colorscheme.onenord()
-  end
+  colorscheme.base16(bg)
 end
 
 return colorscheme
