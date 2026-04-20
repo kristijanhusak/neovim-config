@@ -1,7 +1,12 @@
 local colorscheme = {
   'folke/tokyonight.nvim',
   dependencies = {
-    { 'rmehri01/onenord.nvim', lazy = false, priority = 1000 },
+    {
+      'rmehri01/onenord.nvim',
+      enabled = vim.env.NVIM_COLORSCHEME_BG == 'light',
+      lazy = false,
+      priority = 1000,
+    },
     'folke/todo-comments.nvim',
   },
   lazy = false,
