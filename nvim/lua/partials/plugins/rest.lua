@@ -1,6 +1,6 @@
 local rest = {
   'rest-nvim/rest.nvim',
-  event = 'VeryLazy',
+  ft = { 'http' },
   config = function()
     vim.api.nvim_create_autocmd('BufWritePost', {
       pattern = '*.http',
