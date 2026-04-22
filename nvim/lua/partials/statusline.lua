@@ -410,12 +410,12 @@ local function statusline_active(win_id)
   local diagnostics = lsp_diagnostics()
   local modified_count = get_modified_count()
   local statusline_sections = {
-    sep(mode, section_a, priority[2]),
-    sep(git_status, section_b, git_status ~= '' and priority[2]),
+    sep(mode, section_a, priority[3]),
+    sep(git_status, section_b, git_status ~= '' and priority[3]),
     sep(
       get_path(winwidth),
       vim.tbl_extend('keep', vim.bo.modified and section_err or section_b, {
-        no_before = not priority[2],
+        no_before = not priority[3],
       })
     ),
     sep(('+%d'):format(modified_count), section_err, modified_count > 0),
