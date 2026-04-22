@@ -185,6 +185,10 @@ vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'WinLeave'
   group = vimrc_group,
 })
 
+vim.api.nvim_create_user_command('TermHl', function()
+  vim.api.nvim_open_term(0, {})
+end, { desc = 'Highlights ANSI termcodes in curbuf' })
+
 vim.filetype.add({
   pattern = {
     ['.env*'] = 'conf',
