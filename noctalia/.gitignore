@@ -1,4 +1,5 @@
 plugins/*
+colorschemes/*
 !plugins/exchange-rates
 !plugins/submap
 !plugins/scrolling-windows

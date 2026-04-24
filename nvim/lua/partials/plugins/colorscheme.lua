@@ -8,6 +8,7 @@ local colorscheme = {
       priority = 1000,
     },
     'folke/todo-comments.nvim',
+    'sainnhe/everforest',
   },
   lazy = false,
   priority = 1000,
@@ -113,17 +114,30 @@ colorscheme.tokyonight = function()
   vim.cmd.colorscheme('tokyonight')
 end
 
+colorscheme.everforest = function()
+  vim.cmd.colorscheme('everforest')
+  vim.g.everforest_background = 'hard'
+  vim.g.everforest_enable_italic = 1
+  vim.g.everforest_ui_contrast = 'high'
+  vim.g.everforest_float_style = 'dim'
+  vim.cmd.colorscheme('everforest')
+
+  local config = vim.fn['everforest#get_configuration']()
+  local palette = vim.fn['everforest#get_palette'](config.background, config.colors_override)
+
+  vim.api.nvim_set_hl(0, 'SnacksPickerInput', { bg = palette.bg1[1] })
+  vim.api.nvim_set_hl(0, 'SnacksPickerInputBorder', { bg = palette.bg1[1] })
+  vim.api.nvim_set_hl(0, 'IndentLineCurrent', { link = 'IndentBlanklineContext' })
+  vim.api.nvim_set_hl(0, 'IndentLine', { link = 'IndentBlanklineChar' })
+end
+
 colorscheme.config = function()
   require('todo-comments').setup()
   vim.opt.background = vim.env.NVIM_COLORSCHEME_BG or 'dark'
 
   vim.cmd.filetype('plugin indent on')
   vim.cmd.syntax('on')
-  if vim.opt.background:get() == 'dark' then
-    colorscheme.tokyonight()
-  else
-    colorscheme.onenord()
-  end
+  colorscheme.everforest()
 end
 
 return colorscheme
