@@ -1,134 +1,40 @@
 local colorscheme = {
-  'folke/tokyonight.nvim',
+  'catppuccin/nvim',
   dependencies = {
-    {
-      'rmehri01/onenord.nvim',
-      enabled = vim.env.NVIM_COLORSCHEME_BG == 'light',
-      lazy = false,
-      priority = 1000,
-    },
     'folke/todo-comments.nvim',
-    'sainnhe/everforest',
   },
   lazy = false,
   priority = 1000,
 }
 
-colorscheme.onenord = function()
-  local colors = require('onenord.colors').load()
-
-  local picker_bg = '#eff0f2'
-  local prompt = '#eaebed'
-
-  require('onenord').setup({
-    styles = {
-      diagnostics = 'undercurl',
-      comments = 'italic',
-      functions = 'bold',
+colorscheme.catppuccin = function()
+  local flavor = vim.env.NVIM_COLORSCHEME_BG == 'light' and 'latte' or 'mocha'
+  local palette = require('catppuccin.palettes').get_palette(flavor)
+  local u = require('catppuccin.utils.colors')
+  local prompt = u.darken(palette.mantle, flavor == 'mocha' and 0.8 or 0.98)
+  require('catppuccin').setup({
+    flavour = flavor,
+    term_colors = true,
+    lsp_styles = {
+      underlines = {
+        errors = { 'undercurl' },
+        hints = { 'undercurl' },
+        warnings = { 'undercurl' },
+        information = { 'undercurl' },
+      },
     },
-    inverse = {
-      match_paren = true,
-    },
-    custom_highlights = {
-      NvimTreeNormal = { fg = colors.fg, bg = colors.bg },
-      CurSearch = { fg = colors.cyan, bg = colors.selection, style = 'bold' },
-      MatchParenCur = { fg = colors.blue, style = 'inverse' },
-      NormalFloat = { bg = colors.bg },
-      FloatBorder = { bg = colors.bg },
-      SimpleF = { fg = colors.red, bg = colors.diff_add_bg, style = 'bold' },
-      fugitiveStagedHeading = { fg = colors.green },
-      fugitiveStagedSection = { fg = colors.blue },
-      fugitiveUntrackedSection = { fg = colors.blue },
-      fugitiveUnstagedSection = { fg = colors.blue },
-      IndentLine = { link = 'IndentBlanklineChar' },
-      IndentLineCurrent = { link = 'IndentBlanklineContextChar' },
-      LspReferenceRead = { bg = colors.highlight, style = 'NONE' },
-      LspReferenceWrite = { bg = colors.highlight, style = 'NONE' },
-      LspReferenceText = { bg = colors.highlight, style = 'NONE' },
-      BlinkCmpSource = {
-        link = 'Comment',
-      },
-      SnacksPicker = {
-        bg = picker_bg,
-      },
-      SnacksPickerBorder = {
-        bg = picker_bg,
-      },
-      SnacksPickerInput = {
-        bg = prompt,
-      },
-      SnacksPickerInputBorder = {
-        bg = prompt,
-      },
-      SnacksPickerInputTitle = { bg = prompt },
-    },
-  })
-
-  return colorscheme
-end
-
-colorscheme.tokyonight = function()
-  ---@diagnostic disable-next-line: missing-fields
-  require('tokyonight').setup({
-    terminal_colors = true,
-    plugins = {
-      cmp = true,
-    },
-    on_highlights = function(hl, c)
-      hl.SimpleF = {
-        fg = c.red,
-        reverse = true,
-        bold = true,
-      }
-
-      local prompt = '#2d3149'
-      hl.SnacksPickerInput = {
-        bg = prompt,
-      }
-      hl.SnacksPickerInputBorder = {
-        bg = prompt,
-      }
-
-      hl.SnacksPickerInputTitle = {
-        bg = prompt,
-      }
-
-      hl['@org.agenda.scheduled'] = {
-        fg = c.green1,
-      }
-
-      hl['@org.keyword.done'] = {
-        fg = c.green1,
-        bold = true,
-      }
-
-      hl.Folded = {
-        bg = 'NONE',
-        fg = '#82aaff',
-      }
-      hl.BlinkCmpSource = {
-        link = 'Comment',
+    custom_highlights = function()
+      return {
+        SnacksPickerInput = { bg = prompt },
+        SnacksPickerInputBorder = { bg = prompt },
+        SnacksPickerInputTitle = { bg = prompt },
+        IndentLine = { link = 'IblIndent' },
+        IndentLineCurrent = { link = 'IblScope' },
       }
     end,
   })
-  vim.cmd.colorscheme('tokyonight')
-end
 
-colorscheme.everforest = function()
-  vim.cmd.colorscheme('everforest')
-  vim.g.everforest_background = 'hard'
-  vim.g.everforest_enable_italic = 1
-  vim.g.everforest_ui_contrast = 'high'
-  vim.g.everforest_float_style = 'dim'
-  vim.cmd.colorscheme('everforest')
-
-  local config = vim.fn['everforest#get_configuration']()
-  local palette = vim.fn['everforest#get_palette'](config.background, config.colors_override)
-
-  vim.api.nvim_set_hl(0, 'SnacksPickerInput', { bg = palette.bg1[1] })
-  vim.api.nvim_set_hl(0, 'SnacksPickerInputBorder', { bg = palette.bg1[1] })
-  vim.api.nvim_set_hl(0, 'IndentLineCurrent', { link = 'IndentBlanklineContext' })
-  vim.api.nvim_set_hl(0, 'IndentLine', { link = 'IndentBlanklineChar' })
+  vim.cmd.colorscheme('catppuccin-nvim')
 end
 
 colorscheme.config = function()
@@ -137,7 +43,7 @@ colorscheme.config = function()
 
   vim.cmd.filetype('plugin indent on')
   vim.cmd.syntax('on')
-  colorscheme.everforest()
+  colorscheme.catppuccin()
 end
 
 return colorscheme

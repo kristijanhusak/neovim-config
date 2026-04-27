@@ -29,8 +29,8 @@
   # Zsh >= 5.1 is required.
   autoload -Uz is-at-least && is-at-least 5.1 || return
 
-  typeset -g CUSTOM_FG=0
-  [[ ${NVIM_COLORSCHEME_BG:-dark} == light ]] && CUSTOM_FG=15
+  typeset -g CUSTOM_FG=232
+  [[ ${NVIM_COLORSCHEME_BG:-dark} == light ]] && CUSTOM_FG=255
 
   # The list of segments shown on the left. Fill it with the most important segments.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
