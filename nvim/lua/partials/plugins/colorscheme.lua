@@ -25,6 +25,7 @@ colorscheme.catppuccin = function()
     },
     custom_highlights = function()
       return {
+        NvimTreeCursorLine = { bg = prompt },
         SnacksPickerInput = { bg = prompt },
         SnacksPickerInputBorder = { bg = prompt },
         SnacksPickerInputTitle = { bg = prompt },
