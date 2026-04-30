@@ -690,7 +690,7 @@
         "translucentWidgets": false
     },
     "wallpaper": {
-        "automationEnabled": false,
+        "automationEnabled": true,
         "directory": "/home/kristijan/Pictures/Wallpapers",
         "enableMultiMonitorDirectories": false,
         "enabled": true,
@@ -706,7 +706,7 @@
         "overviewEnabled": false,
         "overviewTint": 0.6,
         "panelPosition": "follow_bar",
-        "randomIntervalSec": 300,
+        "randomIntervalSec": 86400,
         "setWallpaperOnAllMonitors": true,
         "showHiddenFiles": false,
         "skipStartupTransition": false,
