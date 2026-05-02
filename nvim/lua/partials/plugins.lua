@@ -11,6 +11,11 @@ return {
     config = function()
       require('which-key').setup({
         preset = 'helix',
+        plugins = {
+          spelling = {
+            enabled = vim.fn.has('nvim-0.13') == 0,
+          },
+        },
       })
     end,
   },
