@@ -332,18 +332,11 @@ function setup.attach_to_buffer(client, bufnr)
     })
   end
 
-  if vim.lsp.inline_completion then
+  local ignored_completion_filetypes = { 'markdown', 'text', 'gitcommit', 'org' }
+
+  if vim.lsp.inline_completion and not vim.tbl_contains(ignored_completion_filetypes, vim.bo[bufnr].filetype) then
     vim.lsp.inline_completion.enable(true, {
       bufnr = bufnr,
-    })
-    vim.api.nvim_create_autocmd('FileType', {
-      pattern = { 'markdown', 'text', 'gitcommit', 'org' },
-      callback = function(ev)
-        vim.lsp.inline_completion.enable(false, {
-          bufnr = ev.buf,
-        })
-      end,
-      group = lsp_group,
     })
   end
 
