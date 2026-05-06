@@ -140,7 +140,7 @@ function M.load_plugin(opts)
     local plugin_path = vim.fs.joinpath(M.get_local_plug_dir(), plugin.name)
     if not vim.uv.fs_stat(plugin_path) then
       vim.fn.mkdir(M.get_local_plug_dir(), 'p')
-      vim.uv.fs_symlink(plugin[1], plugin_path, { symbolic = true })
+      vim.uv.fs_symlink(plugin.src, plugin_path, { symbolic = true })
     end
   end
 
