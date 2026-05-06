@@ -395,6 +395,12 @@ vim.pack.dir = function(dir)
     load = function() end,
   })
 
+  table.sort(load_on_start_plugins, function(a, b)
+    local a_priority = a.priority or 0
+    local b_priority = b.priority or 0
+    return a_priority > b_priority
+  end)
+
   for _, plugin in ipairs(load_on_start_plugins) do
     M.load_plugin(plugin)
   end
