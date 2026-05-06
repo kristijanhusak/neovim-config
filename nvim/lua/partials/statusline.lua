@@ -63,7 +63,7 @@ local function get_colors()
 
   local normal_bg = vim.fn.synIDattr(vim.fn.hlID('Normal'), 'bg')
   local normal_fg = vim.fn.synIDattr(vim.fn.hlID('Normal'), 'fg')
-  local comment_fg = vim.fn.synIDattr(vim.fn.hlID('Comment'), 'fg')
+  local statusline_fg = vim.fn.synIDattr(vim.fn.hlID('Statusline'), 'fg')
   c.sections = {
     modes = {
       normal = { bg = normal_fg, fg = normal_bg },
@@ -72,7 +72,7 @@ local function get_colors()
       visual = { bg = '#fe8019', fg = '#3c3836' },
       replace = { bg = '#8ec07c', fg = '#3c3836' },
     },
-    static = { fg = normal_bg, bg = comment_fg },
+    static = { fg = normal_bg, bg = statusline_fg },
   }
 end
 
