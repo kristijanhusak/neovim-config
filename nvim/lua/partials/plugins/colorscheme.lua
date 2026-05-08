@@ -3,6 +3,7 @@ local colorscheme = {
   dependencies = {
     'folke/todo-comments.nvim',
     'nvim-mini/mini.base16',
+    'gabiuz/kape-nvim',
   },
   lazy = false,
   priority = 1000,
@@ -112,13 +113,63 @@ colorscheme.base16 = function()
   end
 end
 
+colorscheme.kape = function()
+  vim.cmd.colorscheme('kape')
+  local palette = require('kape.palette.kape')
+
+  local custom_highlights = {
+    IndentLine = { fg = palette.dimmed5 },
+    IndentLineCurrent = { fg = palette.text },
+    NormalFloat = { bg = palette.dark1 },
+    FloatBorder = { bg = palette.dark1 },
+    ['@lsp.type.function'] = { link = 'Function' },
+    ['@lsp.typemod.function.defaultLibrary.lua'] = { link = 'Function' },
+    BlinkCmpKindClass = { link = 'Type' },
+    BlinkCmpKindColor = { link = 'Special' },
+    BlinkCmpKindConstant = { link = 'Constant' },
+    BlinkCmpKindConstructor = { link = 'Type' },
+    BlinkCmpKindEnum = { link = 'Structure' },
+    BlinkCmpKindEnumMember = { link = 'Structure' },
+    BlinkCmpKindEvent = { link = 'Exception' },
+    BlinkCmpKindField = { link = 'Structure' },
+    BlinkCmpKindFile = { link = 'Tag' },
+    BlinkCmpKindFolder = { link = 'Directory' },
+    BlinkCmpKindFunction = { link = 'Function' },
+    BlinkCmpKindInterface = { link = 'Structure' },
+    BlinkCmpKindKeyword = { link = 'Keyword' },
+    BlinkCmpKindMethod = { link = 'Function' },
+    BlinkCmpKindModule = { link = 'Structure' },
+    BlinkCmpKindOperator = { link = 'Operator' },
+    BlinkCmpKindProperty = { link = 'Structure' },
+    BlinkCmpKindReference = { link = 'Tag' },
+    BlinkCmpKindSnippet = { link = 'Special' },
+    BlinkCmpKindStruct = { link = 'Structure' },
+    BlinkCmpKindText = { link = 'Statement' },
+    BlinkCmpKindTypeParameter = { link = 'Type' },
+    BlinkCmpKindUnit = { link = 'Special' },
+    BlinkCmpKindValue = { link = 'Identifier' },
+    BlinkCmpKindVariable = { link = 'Delimiter' },
+    BlinkCmpSource = { link = 'Comment' },
+  }
+
+  for group, colors in pairs(custom_highlights) do
+    colors.update = true
+    vim.api.nvim_set_hl(0, group, colors)
+  end
+end
+
 colorscheme.config = function()
   require('todo-comments').setup()
-  vim.opt.background = vim.env.NVIM_COLORSCHEME_BG or 'dark'
+  local bg = vim.env.NVIM_COLORSCHEME_BG or 'dark'
+  vim.opt.background = bg
 
   vim.cmd.filetype('plugin indent on')
   vim.cmd.syntax('on')
-  colorscheme.base16()
+  if bg == 'light' then
+    colorscheme.base16()
+  else
+    colorscheme.kape()
+  end
 end
 
 return colorscheme
