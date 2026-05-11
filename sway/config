@@ -1,5 +1,6 @@
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
 set $mod Mod1
+set $ipc qs -c noctalia-shell ipc call
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 default_border pixel 2
@@ -28,7 +29,7 @@ bindsym $mod+minus resize shrink width 1 px or 1 ppt
 bindsym $mod+q kill
 
 # start program launcher
-bindsym $mod+d exec "~/.config/rofi/launch.sh"
+bindsym $mod+d exec $ipc launcher toggle
 
 output DP-1 {
     mode 3440x1440@144Hz
@@ -42,9 +43,19 @@ output DP-1 {
 # bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
-# Start Applications
-bindsym Ctrl+Print exec imgur-screenshot
-bindsym Ctrl+Shift+Print exec "sleep 0.2 && grim -g \"$(slurp)\" ~/Pictures/screenshots/screenshot_$(date +%Y_%m_%d_%H_%M_%S).png"
+# Screenshot
+bindsym Print exec "sleep 0.2 && grim -g \"$(slurp)\" ~/Pictures/screenshots/screenshot_$(date +%Y_%m_%d_%H_%M_%S).png"
+
+# Record screen
+bindsym $mod+Ctrl+r exec "~/.config/hypr/record_screen.sh --start"
+bindsym $mod+Ctrl+s exec "~/.config/hypr/record_screen.sh --stop"
+
+
+# Volume control
+bindsym XF86AudioRaiseVolume exec $ipc volume increase
+bindsym XF86AudioLowerVolume exec $ipc volume decrease
+bindsym XF86AudioMute exec $ipc volume muteOutput
+bindsym XF86AudioPlay exec $ipc media playPause
 
 focus_follows_mouse no
 
@@ -214,31 +225,20 @@ mode "resize" {
 }
 
 # Lock screen
-bindsym Control+$mod+l exec swaylock -c 000000
+bindsym Control+$mod+l exec $ipc lockScreen lock
 
 # Autostart applications
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec nitrogen --restore
-#exec manjaro-hello
-exec nm-applet
-exec xfce4-power-manager
 exec dropbox
-exec swaync
 exec google-chrome-stable
 exec swaymsg workspace 1; exec kitty
-exec swayidle -w timeout 1200 'swaylock -c 000000'
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec ~/.config/sway/auto_exit_fullscreen.sh
-exec ~/.azotebg
-exec_always ~/.config/waybar/start.sh
-
-
-set $qt_theme Adwaita-dark
-exec_always --no-startup-id env QT_QPA_PLATFORMTHEME=qt5ct QT_STYLE_OVERRIDE=$qt_theme
+exec_always qs -c noctalia-shell
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
-client.focused          #556064 #16a085 #80FFF9 #FDF6E3 #FF0000
+client.focused          #556064 #16a085 #80FFF9 #FDF6E3 #00FFFF
 client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
 client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
 client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
@@ -246,12 +246,9 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000
 
 client.background       #2B2C2B
 
-assign [class="Google-chrome"] 2
+assign [app_id="google-chrome"] 2
 assign [class="firefox"] 2
-assign [class="Brave-browser"] 2
-assign [class="Slack"] 4
-assign [class="Microsoft Teams"] 4
-assign [class="DBeaver"] 5
+assign [app_id="slack"] 4
 
 
 gaps inner 8
@@ -263,6 +260,6 @@ input * repeat_delay 350
 input * repeat_rate 60
 
 input "type:keyboard" {
-    xkb_layout us,rs(latin)
+    xkb_layout us,rs(latin),rs
     xkb_options grp:lctrl_lwin_toggle
 }
