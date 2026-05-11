@@ -201,7 +201,7 @@ function setup.servers()
     settings = {
       Lua = {
         diagnostics = {
-          globals = { 'vim', 'Snacks' },
+          globals = { 'vim', 'Snacks', 'hl' },
         },
         workspace = {
           checkThirdParty = 'Disable',
@@ -221,6 +221,9 @@ function setup.servers()
     library = {
       {
         path = '${3rd}/luv/library',
+      },
+      {
+        path = '/usr/share/hypr/stubs',
       },
     },
   })
