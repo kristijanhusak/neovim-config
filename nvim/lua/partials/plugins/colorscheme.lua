@@ -100,6 +100,8 @@ colorscheme.base16 = function()
     DiagnosticUnderlineOk = { undercurl = true },
     DiagnosticUnderlineWarn = { undercurl = true },
     WarningMsg = { fg = pallete.base0A },
+    Comment = { italic = true },
+    BlinkCmpSource = { link = 'Comment' },
   }
 
   require('mini.base16').setup({
