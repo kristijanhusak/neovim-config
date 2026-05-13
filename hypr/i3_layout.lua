@@ -5,6 +5,8 @@ local window_split_modes = {}
 local last_active_window = nil
 local active_window_id = nil
 local previous_active_window_id = nil
+---@type HL.Window[]
+local windows = {}
 local split = 'vertical'
 
 local function window_id(window)
@@ -12,7 +14,7 @@ local function window_id(window)
     return nil
   end
 
-  return window.stable_id or window.address
+  return window.address
 end
 
 local function target_window_id(target)
@@ -115,6 +117,7 @@ function M.set_active_window(window)
   end
 end
 
+---@param ctx HL.LayoutContext
 function M.recalculate(ctx)
   if #ctx.targets == 0 then
     layout_columns = {}
@@ -122,6 +125,7 @@ function M.recalculate(ctx)
     last_active_window = nil
     active_window_id = nil
     previous_active_window_id = nil
+    windows = {}
     return
   end
 
@@ -130,6 +134,7 @@ function M.recalculate(ctx)
   local current_windows = {}
   local active_window = nil
   local removed_windows = false
+  windows = {}
 
   for _, target in ipairs(ctx.targets) do
     local window_id = target_window_id(target)
@@ -142,6 +147,7 @@ function M.recalculate(ctx)
       if target.window.active then
         active_window = window_id
       end
+      table.insert(windows, target.window)
     end
   end
 
@@ -236,6 +242,26 @@ function M.split(direction)
 
   split = direction
   hl.exec_cmd(([[hyprctl notify 0 2000 "rgb(ffffff)" "Split %s"]]):format(direction))
+end
+
+function M.focus(direction)
+  if direction == 'u' or direction == 'd' then
+    return hl.dispatch(hl.dsp.focus({ direction = direction }))
+  end
+  for i, win in ipairs(windows) do
+    if win.address == active_window_id then
+      local idx = direction == 'l' and i - 1 or i + 1
+      local target_win = windows[idx]
+      if idx > 0 and idx <= #windows and target_win then
+        local is_fullscreen = win.fullscreen == 1
+        hl.dispatch(hl.dsp.focus({ window = target_win }))
+        if is_fullscreen then
+          hl.dispatch(hl.dsp.window.fullscreen_state({ internal = 1, client = 1, window = target_win }))
+        end
+        return
+      end
+    end
+  end
 end
 
 return M

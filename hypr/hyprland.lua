@@ -27,6 +27,10 @@ hl.config({
     inactive_opacity = 1.0,
     fullscreen_opacity = 1.0,
   },
+
+  animations = {
+    enabled = false
+  }
 })
 
 hl.monitor({
@@ -34,23 +38,6 @@ hl.monitor({
   mode = '3440x1440@144',
   position = '0x0',
   scale = 1,
-})
-
-hl.animation({
-  leaf = 'windows',
-  enabled = true,
-  speed = 2,
-  bezier = 'default',
-})
-
-hl.animation({
-  leaf = 'workspaces',
-  enabled = false,
-})
-
-hl.animation({
-  leaf = 'fade',
-  enabled = false,
 })
 
 hl.window_rule({
@@ -104,14 +91,14 @@ hl.bind(mod .. ' + SHIFT + c', hl.dsp.exec_cmd('hyprctl reload'))
 
 hl.bind(mod .. ' + q', hl.dsp.window.close())
 hl.bind(mod .. ' + f', hl.dsp.window.fullscreen_state({ internal = 1, client = 1, action = 'toggle' }))
-hl.bind(mod .. ' + h', hl.dsp.focus({ direction = 'l' }))
-hl.bind(mod .. ' + j', hl.dsp.focus({ direction = 'd' }))
-hl.bind(mod .. ' + k', hl.dsp.focus({ direction = 'u' }))
-hl.bind(mod .. ' + l', hl.dsp.focus({ direction = 'r' }))
-hl.bind(mod .. ' + left', hl.dsp.focus({ direction = 'l' }))
-hl.bind(mod .. ' + down', hl.dsp.focus({ direction = 'd' }))
-hl.bind(mod .. ' + up', hl.dsp.focus({ direction = 'u' }))
-hl.bind(mod .. ' + right', hl.dsp.focus({ direction = 'r' }))
+hl.bind(mod .. ' + h', function() i3_layout.focus('l') end)
+hl.bind(mod .. ' + j', function() i3_layout.focus('d') end)
+hl.bind(mod .. ' + k', function() i3_layout.focus('u') end)
+hl.bind(mod .. ' + l', function() i3_layout.focus('r') end)
+hl.bind(mod .. ' + left', function() i3_layout.focus('l') end)
+hl.bind(mod .. ' + down', function() i3_layout.focus('d') end)
+hl.bind(mod .. ' + up', function() i3_layout.focus('u') end)
+hl.bind(mod .. ' + right', function() i3_layout.focus('r') end)
 
 hl.bind(mod .. ' + SHIFT + h', hl.dsp.window.move({ direction = 'l' }))
 hl.bind(mod .. ' + SHIFT + j', hl.dsp.window.move({ direction = 'd' }))
