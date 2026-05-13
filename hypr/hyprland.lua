@@ -7,7 +7,7 @@ hl.config({
     border_size = 2,
     gaps_in = 4,
     gaps_out = 4,
-    layout = 'lua:columns',
+    layout = 'lua:i3_layout',
     col = {
       active_border = 'rgba(00ffffff)',
     },
@@ -102,10 +102,8 @@ hl.bind(
 )
 hl.bind(mod .. ' + SHIFT + c', hl.dsp.exec_cmd('hyprctl reload'))
 
-local split = 'vertical'
-
 hl.bind(mod .. ' + q', hl.dsp.window.close())
-hl.bind(mod .. ' + f', hl.dsp.window.fullscreen({ mode = 'maximized' }))
+hl.bind(mod .. ' + f', hl.dsp.window.fullscreen_state({ internal = 1, client = 1, action = 'toggle' }))
 hl.bind(mod .. ' + h', hl.dsp.focus({ direction = 'l' }))
 hl.bind(mod .. ' + j', hl.dsp.focus({ direction = 'd' }))
 hl.bind(mod .. ' + k', hl.dsp.focus({ direction = 'u' }))
@@ -125,30 +123,17 @@ hl.bind(mod .. ' + SHIFT + up', hl.dsp.window.move({ direction = 'u' }))
 hl.bind(mod .. ' + SHIFT + right', hl.dsp.window.move({ direction = 'r' }))
 
 hl.bind(mod .. ' + n', function()
-  if split == 'vertical' then
-    return
-  end
-
-  split = 'vertical'
-  hl.exec_cmd([[hyprctl notify 0 2000 "rgb(ffffff)" "Split vertically"]])
+  i3_layout.split('vertical')
 end)
 
 hl.bind(mod .. ' + o', function()
-  if split == 'horizontal' then
-    return
-  end
-
-  split = 'horizontal'
-  hl.exec_cmd([[hyprctl notify 0 2000 "rgb(ffffff)" "Split horizontally"]])
+  i3_layout.split('horizontal')
 end)
 
 for i = 1, 9 do
   hl.bind(mod .. ' + ' .. i, hl.dsp.focus({ workspace = i }))
   hl.bind(mod .. ' + SHIFT + ' .. i, hl.dsp.window.move({ workspace = i }))
 end
-
-hl.bind(mod .. ' + w', hl.dsp.window.move({ workspace = 'special:scratchpad' }))
-hl.bind(mod .. ' + e', hl.dsp.workspace.toggle_special('scratchpad'))
 
 hl.bind(mod .. ' + EQUAL', hl.dsp.layout('colresize +0.025'))
 hl.bind(mod .. ' + minus', hl.dsp.layout('colresize -0.025'))
@@ -323,8 +308,8 @@ hl.window_rule({
   rounding = 0,
 })
 
-hl.layout.register('columns', {
+hl.layout.register('i3_layout', {
   recalculate = function(ctx)
-    i3_layout.recalculate(ctx, split)
+    i3_layout.recalculate(ctx)
   end,
 })

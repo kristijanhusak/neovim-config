@@ -5,6 +5,7 @@ local window_split_modes = {}
 local last_active_window = nil
 local active_window_id = nil
 local previous_active_window_id = nil
+local split = 'vertical'
 
 local function window_id(window)
   if not window then
@@ -114,7 +115,7 @@ function M.set_active_window(window)
   end
 end
 
-function M.recalculate(ctx, split)
+function M.recalculate(ctx)
   if #ctx.targets == 0 then
     layout_columns = {}
     window_split_modes = {}
@@ -225,6 +226,16 @@ function M.recalculate(ctx, split)
   elseif active_window_id and current_windows[active_window_id] then
     last_active_window = active_window_id
   end
+end
+
+---@param direction 'vertical' | 'horizontal'
+function M.split(direction)
+  if split == direction then
+    return
+  end
+
+  split = direction
+  hl.exec_cmd(([[hyprctl notify 0 2000 "rgb(ffffff)" "Split %s"]]):format(direction))
 end
 
 return M
