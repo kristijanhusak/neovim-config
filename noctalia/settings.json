@@ -94,11 +94,6 @@
                     "id": "plugin:submap"
                 },
                 {
-                    "defaultSettings": {
-                    },
-                    "id": "plugin:scrolling-windows"
-                },
-                {
                     "compactMode": false,
                     "hideMode": "hidden",
                     "hideWhenIdle": false,
