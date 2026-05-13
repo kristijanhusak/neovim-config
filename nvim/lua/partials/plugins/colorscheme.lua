@@ -115,7 +115,16 @@ colorscheme.base16 = function()
 end
 
 colorscheme.kape = function()
-  vim.cmd.colorscheme('kape')
+  require('kape').setup({
+    styles = {
+      type = {
+        italic = false,
+      },
+    },
+  })
+  local kape = require('kape')
+  if not kape then return end
+  kape.load()
   local palette = require('kape.palette.kape')
 
   local custom_highlights = {
