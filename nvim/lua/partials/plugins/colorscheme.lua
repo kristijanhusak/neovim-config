@@ -101,7 +101,6 @@ colorscheme.base16 = function()
     DiagnosticUnderlineWarn = { undercurl = true },
     WarningMsg = { fg = pallete.base0A },
     Comment = { italic = true },
-    BlinkCmpSource = { link = 'Comment' },
   }
 
   require('mini.base16').setup({
@@ -151,7 +150,6 @@ colorscheme.kape = function()
     BlinkCmpKindUnit = { link = 'Special' },
     BlinkCmpKindValue = { link = 'Identifier' },
     BlinkCmpKindVariable = { link = 'Delimiter' },
-    BlinkCmpSource = { link = 'Comment' },
   }
 
   for group, colors in pairs(custom_highlights) do

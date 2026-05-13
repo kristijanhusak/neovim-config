@@ -57,7 +57,7 @@ return {
             columns = { { 'kind_icon' }, { 'label' }, { 'kind', 'source_name', gap = 1 } },
             components = {
               kind = {
-                highlight = 'BlinkCmpSource',
+                highlight = 'Comment',
               },
               source_name = {
                 text = function(ctx)
