@@ -225,6 +225,9 @@ function setup.servers()
       {
         path = '/usr/share/hypr/stubs',
       },
+      {
+        path = '~/.config/hypr',
+      },
     },
   })
 
