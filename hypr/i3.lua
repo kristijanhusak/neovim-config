@@ -1,6 +1,7 @@
 local M = {}
 
 local DEFAULT_WORKSPACE_KEY = '__default'
+local is_setup = false
 
 ---@class I3WorkspaceState
 ---@field layout_columns string[][]
@@ -83,6 +84,16 @@ local function target_window_id(target)
   return window_id(target.window)
 end
 
+local function active_window_id_from_targets(targets)
+  for _, target in ipairs(targets) do
+    if target.window and target.window.active then
+      return target_window_id(target)
+    end
+  end
+
+  return nil
+end
+
 local function find_window_in_columns(state, target_window_id)
   for column_index, column in ipairs(state.layout_columns) do
     for row_index, id in ipairs(column) do
@@ -110,6 +121,16 @@ local function flatten_columns(state)
   end
 
   return ordered
+end
+
+local function find_window_in_order(window_order, target_window_id)
+  for index, current_window_id in ipairs(window_order) do
+    if current_window_id == target_window_id then
+      return index
+    end
+  end
+
+  return nil
 end
 
 local function same_order(lhs, rhs)
@@ -170,7 +191,114 @@ local function insert_window(state, new_window_id, anchor_window_id, mode)
   table.insert(state.layout_columns[column_index], row_index + 1, new_window_id)
 end
 
-function M.set_active_window(window)
+local function set_split(state, direction)
+  if state.split == direction then
+    return true
+  end
+
+  state.split = direction
+  hl.exec_cmd(([[hyprctl notify 0 2000 "rgb(ffffff)" "Split %s"]]):format(direction))
+  return true
+end
+
+local function focus(state, direction)
+  if direction == 'u' or direction == 'd' then
+    hl.dispatch(hl.dsp.focus({ direction = direction }))
+    return true
+  end
+
+  for i, win in ipairs(state.windows) do
+    if win.address == state.active_window_id then
+      local idx = direction == 'l' and i - 1 or i + 1
+      local target_win = state.windows[idx]
+
+      if idx > 0 and idx <= #state.windows and target_win then
+        local is_fullscreen = win.fullscreen == 1
+        hl.dispatch(hl.dsp.focus({ window = target_win }))
+
+        if is_fullscreen then
+          hl.dispatch(hl.dsp.window.fullscreen_state({ internal = 1, client = 1, window = target_win }))
+        end
+
+        return true
+      end
+    end
+  end
+
+  return true
+end
+
+local function toggle_active_split(state, active_window_id, targets)
+  local window_order = flatten_columns(state)
+
+  if #window_order == 0 then
+    for _, target in ipairs(targets) do
+      local current_window_id = target_window_id(target)
+
+      if current_window_id then
+        table.insert(window_order, current_window_id)
+      end
+    end
+  end
+
+  if #window_order < 2 or not active_window_id then
+    return true
+  end
+
+  local active_index = find_window_in_order(window_order, active_window_id)
+
+  if not active_index then
+    return true
+  end
+
+  local split_window_id = active_index == 1 and window_order[2] or active_window_id
+
+  if not split_window_id then
+    return true
+  end
+
+  local direction = state.window_split_modes[split_window_id] == 'horizontal' and 'vertical' or 'horizontal'
+  state.window_split_modes[split_window_id] = direction
+  rebuild_columns(state, window_order)
+  hl.exec_cmd(([[hyprctl notify 0 2000 "rgb(ffffff)" "Split %s"]]):format(direction))
+  return true
+end
+
+local VALID_LAYOUT_COMMANDS = {
+  focus = {
+    d = function(command_ctx)
+      return focus(command_ctx.state, 'd')
+    end,
+    l = function(command_ctx)
+      return focus(command_ctx.state, 'l')
+    end,
+    r = function(command_ctx)
+      return focus(command_ctx.state, 'r')
+    end,
+    u = function(command_ctx)
+      return focus(command_ctx.state, 'u')
+    end,
+  },
+  split = {
+    h = function(command_ctx)
+      return set_split(command_ctx.state, 'horizontal')
+    end,
+    horizontal = function(command_ctx)
+      return set_split(command_ctx.state, 'horizontal')
+    end,
+    toggle = function(command_ctx)
+      return toggle_active_split(command_ctx.state, command_ctx.active_window_id, command_ctx.ctx.targets)
+    end,
+    v = function(command_ctx)
+      return set_split(command_ctx.state, 'vertical')
+    end,
+    vertical = function(command_ctx)
+      return set_split(command_ctx.state, 'vertical')
+    end,
+  },
+}
+
+local function set_active_window(window)
   local workspace_key = workspace_key_from_window(window)
   local state = get_workspace_state(workspace_key)
   local new_active_window_id = window_id(window)
@@ -184,7 +312,7 @@ function M.set_active_window(window)
 end
 
 ---@param ctx HL.LayoutContext
-function M.recalculate(ctx)
+local function recalculate(ctx)
   if #ctx.targets == 0 then
     return
   end
@@ -312,42 +440,63 @@ function M.recalculate(ctx)
   end
 end
 
----@param direction 'vertical' | 'horizontal'
-function M.split(direction)
-  local state = get_workspace_state(current_workspace_key)
+local function layout_msg(ctx, msg)
+  local command, argument = msg:match('^(%S+)%s*(.-)%s*$')
+  local command_arguments = command and VALID_LAYOUT_COMMANDS[command]
 
-  if state.split == direction then
+  if not command or not command_arguments then
+    return nil
+  end
+
+  local workspace_key = #ctx.targets > 0 and workspace_key_from_target(ctx.targets[1]) or current_workspace_key
+  local state = get_workspace_state(workspace_key)
+  local active_window_id = active_window_id_from_targets(ctx.targets)
+    or state.active_window_id
+    or state.last_active_window
+
+  current_workspace_key = workspace_key
+
+  if active_window_id then
+    state.active_window_id = active_window_id
+    state.last_active_window = active_window_id
+  end
+
+  local command_handler = command_arguments[argument]
+
+  if not command_handler then
+    if command == 'focus' then
+      return 'i3: expected "focus l", "focus r", "focus u", or "focus d"'
+    end
+
+    return 'i3: expected "split vertical", "split horizontal", or "split toggle"'
+  end
+
+  return command_handler({
+    active_window_id = active_window_id,
+    ctx = ctx,
+    state = state,
+  })
+end
+
+function M.setup()
+  if is_setup then
     return
   end
 
-  state.split = direction
-  hl.exec_cmd(([[hyprctl notify 0 2000 "rgb(ffffff)" "Split %s"]]):format(direction))
-end
+  is_setup = true
 
-function M.focus(direction)
-  local state = get_workspace_state(current_workspace_key)
+  hl.on('window.active', function(window)
+    set_active_window(window)
+  end)
 
-  if direction == 'u' or direction == 'd' then
-    return hl.dispatch(hl.dsp.focus({ direction = direction }))
-  end
-
-  for i, win in ipairs(state.windows) do
-    if win.address == state.active_window_id then
-      local idx = direction == 'l' and i - 1 or i + 1
-      local target_win = state.windows[idx]
-
-      if idx > 0 and idx <= #state.windows and target_win then
-        local is_fullscreen = win.fullscreen == 1
-        hl.dispatch(hl.dsp.focus({ window = target_win }))
-
-        if is_fullscreen then
-          hl.dispatch(hl.dsp.window.fullscreen_state({ internal = 1, client = 1, window = target_win }))
-        end
-
-        return
-      end
-    end
-  end
+  hl.layout.register('i3', {
+    recalculate = function(ctx)
+      recalculate(ctx)
+    end,
+    layout_msg = function(ctx, msg)
+      return layout_msg(ctx, msg)
+    end,
+  })
 end
 
 return M

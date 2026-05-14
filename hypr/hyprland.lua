@@ -1,13 +1,15 @@
 local mod = 'ALT'
 local ipc = 'qs -c noctalia-shell ipc call'
-local i3_layout = require('i3_layout')
+local i3 = require('i3')
+
+i3.setup()
 
 hl.config({
   general = {
     border_size = 2,
     gaps_in = 4,
     gaps_out = 4,
-    layout = 'lua:i3_layout',
+    layout = 'lua:i3',
     col = {
       active_border = 'rgba(00ffffff)',
     },
@@ -29,8 +31,8 @@ hl.config({
   },
 
   animations = {
-    enabled = false
-  }
+    enabled = false,
+  },
 })
 
 hl.monitor({
@@ -74,10 +76,6 @@ hl.on('hyprland.start', function()
   end
 end)
 
-hl.on('window.active', function(window)
-  i3_layout.set_active_window(window)
-end)
-
 hl.bind(mod .. ' + Return', hl.dsp.exec_cmd('kitty'))
 hl.bind(mod .. ' + b', hl.dsp.exec_cmd('google-chrome-stable'))
 hl.bind(mod .. ' + d', hl.dsp.exec_cmd(ipc .. ' launcher toggle'))
@@ -91,30 +89,14 @@ hl.bind(mod .. ' + SHIFT + c', hl.dsp.exec_cmd('hyprctl reload'))
 
 hl.bind(mod .. ' + q', hl.dsp.window.close())
 hl.bind(mod .. ' + f', hl.dsp.window.fullscreen_state({ internal = 1, client = 1, action = 'toggle' }))
-hl.bind(mod .. ' + h', function()
-  i3_layout.focus('l')
-end)
-hl.bind(mod .. ' + j', function()
-  i3_layout.focus('d')
-end)
-hl.bind(mod .. ' + k', function()
-  i3_layout.focus('u')
-end)
-hl.bind(mod .. ' + l', function()
-  i3_layout.focus('r')
-end)
-hl.bind(mod .. ' + left', function()
-  i3_layout.focus('l')
-end)
-hl.bind(mod .. ' + down', function()
-  i3_layout.focus('d')
-end)
-hl.bind(mod .. ' + up', function()
-  i3_layout.focus('u')
-end)
-hl.bind(mod .. ' + right', function()
-  i3_layout.focus('r')
-end)
+hl.bind(mod .. ' + h', hl.dsp.layout('focus l'))
+hl.bind(mod .. ' + j', hl.dsp.layout('focus d'))
+hl.bind(mod .. ' + k', hl.dsp.layout('focus u'))
+hl.bind(mod .. ' + l', hl.dsp.layout('focus r'))
+hl.bind(mod .. ' + left', hl.dsp.layout('focus l'))
+hl.bind(mod .. ' + down', hl.dsp.layout('focus d'))
+hl.bind(mod .. ' + up', hl.dsp.layout('focus u'))
+hl.bind(mod .. ' + right', hl.dsp.layout('focus r'))
 
 hl.bind(mod .. ' + SHIFT + h', hl.dsp.window.move({ direction = 'l' }))
 hl.bind(mod .. ' + SHIFT + j', hl.dsp.window.move({ direction = 'd' }))
@@ -125,13 +107,9 @@ hl.bind(mod .. ' + SHIFT + down', hl.dsp.window.move({ direction = 'd' }))
 hl.bind(mod .. ' + SHIFT + up', hl.dsp.window.move({ direction = 'u' }))
 hl.bind(mod .. ' + SHIFT + right', hl.dsp.window.move({ direction = 'r' }))
 
-hl.bind(mod .. ' + n', function()
-  i3_layout.split('vertical')
-end)
-
-hl.bind(mod .. ' + o', function()
-  i3_layout.split('horizontal')
-end)
+hl.bind(mod .. ' + n', hl.dsp.layout('split vertical'))
+hl.bind(mod .. ' + o', hl.dsp.layout('split horizontal'))
+hl.bind(mod .. ' + t', hl.dsp.layout('split toggle'))
 
 for i = 1, 9 do
   hl.bind(mod .. ' + ' .. i, hl.dsp.focus({ workspace = i }))
@@ -309,10 +287,4 @@ hl.window_rule({
     workspace = 'f[1]',
   },
   rounding = 0,
-})
-
-hl.layout.register('i3_layout', {
-  recalculate = function(ctx)
-    i3_layout.recalculate(ctx)
-  end,
 })
