@@ -1,10 +1,14 @@
 local M = {}
 
 local DEFAULT_WORKSPACE_KEY = '__default'
+local DEFAULT_RESIZE_STEP = 0.05
+local MIN_LAYOUT_WEIGHT = 0.1
 local is_setup = false
 
 ---@class I3WorkspaceState
 ---@field layout_columns string[][]
+---@field column_weights number[]
+---@field row_weights number[][]
 ---@field window_split_modes table<string, 'vertical' | 'horizontal'>
 ---@field last_active_window string|nil
 ---@field active_window_id string|nil
@@ -19,6 +23,8 @@ local current_workspace_key = DEFAULT_WORKSPACE_KEY
 local function new_workspace_state()
   return {
     layout_columns = {},
+    column_weights = {},
+    row_weights = {},
     window_split_modes = {},
     last_active_window = nil,
     active_window_id = nil,
@@ -147,6 +153,37 @@ local function same_order(lhs, rhs)
   return true
 end
 
+local function normalized_weight(weight)
+  return math.max(weight or 1, MIN_LAYOUT_WEIGHT)
+end
+
+local function total_weights(weights)
+  local total = 0
+
+  for _, weight in ipairs(weights) do
+    total = total + normalized_weight(weight)
+  end
+
+  return total
+end
+
+local function sync_layout_weights(state)
+  local column_weights = {}
+  local row_weights = {}
+
+  for column_index, column in ipairs(state.layout_columns) do
+    column_weights[column_index] = normalized_weight(state.column_weights[column_index])
+    row_weights[column_index] = {}
+
+    for row_index = 1, #column do
+      row_weights[column_index][row_index] = normalized_weight((state.row_weights[column_index] or {})[row_index])
+    end
+  end
+
+  state.column_weights = column_weights
+  state.row_weights = row_weights
+end
+
 local function rebuild_columns(state, window_order)
   local rebuilt = {}
   local current_column = nil
@@ -264,19 +301,111 @@ local function toggle_active_split(state, active_window_id, targets)
   return true
 end
 
+local function transfer_weight(weights, grow_index, shrink_index, amount)
+  local shrink_weight = normalized_weight(weights[shrink_index])
+  local actual_amount = math.min(amount, shrink_weight - MIN_LAYOUT_WEIGHT)
+
+  if actual_amount <= 0 then
+    return true
+  end
+
+  weights[grow_index] = normalized_weight(weights[grow_index]) + actual_amount
+  weights[shrink_index] = shrink_weight - actual_amount
+  return true
+end
+
+local function resize_columns(state, active_window_id, direction)
+  local column_index = find_window_in_columns(state, active_window_id)
+
+  if not column_index or #state.layout_columns < 2 then
+    return true
+  end
+
+  sync_layout_weights(state)
+
+  if direction == 'left' then
+    if column_index > 1 then
+      return transfer_weight(state.column_weights, column_index - 1, column_index, DEFAULT_RESIZE_STEP)
+    end
+
+    return transfer_weight(state.column_weights, column_index + 1, column_index, DEFAULT_RESIZE_STEP)
+  end
+
+  if column_index < #state.layout_columns then
+    return transfer_weight(state.column_weights, column_index, column_index + 1, DEFAULT_RESIZE_STEP)
+  end
+
+  return transfer_weight(state.column_weights, column_index, column_index - 1, DEFAULT_RESIZE_STEP)
+end
+
+local function resize_rows(state, active_window_id, direction)
+  local column_index, row_index = find_window_in_columns(state, active_window_id)
+
+  if not column_index or not row_index or #state.layout_columns[column_index] < 2 then
+    return true
+  end
+
+  sync_layout_weights(state)
+
+  local row_weights = state.row_weights[column_index]
+
+  if direction == 'up' then
+    if row_index > 1 then
+      return transfer_weight(row_weights, row_index - 1, row_index, DEFAULT_RESIZE_STEP)
+    end
+
+    return transfer_weight(row_weights, row_index + 1, row_index, DEFAULT_RESIZE_STEP)
+  end
+
+  if row_index < #state.layout_columns[column_index] then
+    return transfer_weight(row_weights, row_index, row_index + 1, DEFAULT_RESIZE_STEP)
+  end
+
+  return transfer_weight(row_weights, row_index, row_index - 1, DEFAULT_RESIZE_STEP)
+end
+
+local function fit_all(state)
+  sync_layout_weights(state)
+
+  for column_index = 1, #state.layout_columns do
+    state.column_weights[column_index] = 1
+  end
+
+  return true
+end
+
 local VALID_LAYOUT_COMMANDS = {
+  fit = {
+    all = function(command_ctx)
+      return fit_all(command_ctx.state)
+    end,
+  },
   focus = {
-    d = function(command_ctx)
+    down = function(command_ctx)
       return focus(command_ctx.state, 'd')
     end,
-    l = function(command_ctx)
+    left = function(command_ctx)
       return focus(command_ctx.state, 'l')
     end,
-    r = function(command_ctx)
+    right = function(command_ctx)
       return focus(command_ctx.state, 'r')
     end,
-    u = function(command_ctx)
+    up = function(command_ctx)
       return focus(command_ctx.state, 'u')
+    end,
+  },
+  resize = {
+    down = function(command_ctx)
+      return resize_rows(command_ctx.state, command_ctx.active_window_id, 'down')
+    end,
+    left = function(command_ctx)
+      return resize_columns(command_ctx.state, command_ctx.active_window_id, 'left')
+    end,
+    right = function(command_ctx)
+      return resize_columns(command_ctx.state, command_ctx.active_window_id, 'right')
+    end,
+    up = function(command_ctx)
+      return resize_rows(command_ctx.state, command_ctx.active_window_id, 'up')
     end,
   },
   split = {
@@ -416,21 +545,45 @@ local function recalculate(ctx)
     rebuild_columns(state, current_order)
   end
 
+  sync_layout_weights(state)
+
+  local remaining_x = ctx.area.x
+  local remaining_width = ctx.area.w
+  local remaining_column_weight = total_weights(state.column_weights)
+
   for column_index, column in ipairs(state.layout_columns) do
-    local column_box = ctx:column(column_index, #state.layout_columns)
+    local column_weight = normalized_weight(state.column_weights[column_index])
+    local column_width = column_index == #state.layout_columns and remaining_width
+      or math.floor(remaining_width * column_weight / remaining_column_weight + 0.5)
+    local remaining_y = ctx.area.y
+    local remaining_height = ctx.area.h
+    local row_weights = state.row_weights[column_index]
+    local remaining_row_weight = total_weights(row_weights)
 
     for row_index, current_window_id in ipairs(column) do
       local target = current_targets[current_window_id]
 
       if target then
+        local row_weight = normalized_weight(row_weights[row_index])
+        local row_height = row_index == #column and remaining_height
+          or math.floor(remaining_height * row_weight / remaining_row_weight + 0.5)
+
         target:place({
-          x = column_box.x,
-          y = column_box.y + column_box.h * (row_index - 1) / #column,
-          w = column_box.w,
-          h = column_box.h / #column,
+          x = remaining_x,
+          y = remaining_y,
+          w = column_width,
+          h = row_height,
         })
+
+        remaining_y = remaining_y + row_height
+        remaining_height = remaining_height - row_height
+        remaining_row_weight = remaining_row_weight - row_weight
       end
     end
+
+    remaining_x = remaining_x + column_width
+    remaining_width = remaining_width - column_width
+    remaining_column_weight = remaining_column_weight - column_weight
   end
 
   if active_window then
@@ -464,8 +617,16 @@ local function layout_msg(ctx, msg)
   local command_handler = command_arguments[argument]
 
   if not command_handler then
+    if command == 'fit' then
+      return 'i3: expected "fit all"'
+    end
+
     if command == 'focus' then
-      return 'i3: expected "focus l", "focus r", "focus u", or "focus d"'
+      return 'i3: expected "focus left", "focus right", "focus up", or "focus down"'
+    end
+
+    if command == 'resize' then
+      return 'i3: expected "resize left", "resize right", "resize up", or "resize down"'
     end
 
     return 'i3: expected "split vertical", "split horizontal", or "split toggle"'
