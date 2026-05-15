@@ -135,7 +135,7 @@ vim.keymap.set('c', '<C-k>', '<up>')
 vim.keymap.set('n', 'gs', ':%s/')
 vim.keymap.set('x', 'gs', ':s/')
 
-vim.keymap.set('n', '<leader>M', ':Make<CR>', { silent = true, desc = 'Make' })
+vim.keymap.set('n', '<leader>M', ':make<CR>', { silent = true, desc = 'Make' })
 
 -- Taken from https://gist.github.com/romainl/c0a8b57a36aec71a986f1120e1931f20
 for _, char in ipairs({ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '-', '#' }) do

@@ -13,7 +13,9 @@ function handlers.setup_buffer()
   vim.keymap.set('n', '<F1>', handlers.setup_imports, { buffer = true, silent = true })
   vim.keymap.set('n', '<F2>', handlers.setup_imports_and_lsp_format, { buffer = true, silent = true })
   vim.opt_local.isfname:append('@-@')
+  vim.b.tsc_makeprg = 'tsc --noEmit'
   vim.cmd('compiler tsc')
+
 end
 
 function handlers.console_log()
