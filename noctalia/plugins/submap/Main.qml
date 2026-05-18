@@ -11,17 +11,37 @@ Item {
   property var pluginApi: null
   property string submapName: "default"
 
+  function refreshSubmap() {
+    submapProcess.running = true
+  }
+
   IpcHandler {
     target: "plugin:submap"
     function refresh() {
-      submapProcess.running = true
+      refreshSubmap()
     }
+  }
+
+  Component.onCompleted: {
+    refreshSubmap()
   }
 
   Process {
     id: submapProcess
 
-    command: ['/usr/bin/hyprctl', 'submap']
+    command: [
+      '/bin/sh',
+      '-c',
+      `
+        if [ -n "$SWAYSOCK" ]; then
+          swaymsg -r -t get_binding_state | jq -r '.name // "default"'
+        elif [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+          hyprctl submap
+        else
+          printf 'default\n'
+        fi
+      `
+    ]
     running: false
 
     stdout: StdioCollector {
@@ -34,7 +54,7 @@ Item {
       }
 
       try {
-        submapName = stdout.text.trim();
+        submapName = stdout.text.trim() || "default";
       } catch (e) {
         Logger.e("Submap", "Failed to get submap:", e);
       }

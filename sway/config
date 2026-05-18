@@ -90,6 +90,7 @@ bindsym $mod+f fullscreen toggle
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
+bindsym $mod+Shift+w exec ~/.config/sway/equalize_widths.sh
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
@@ -187,7 +188,8 @@ for_window [window_type="popup_menu"] $float
 for_window [window_type="tooltip"] $float
 for_window [window_type="notification"] $float
 for_window [title="(?:Open|Save) (?:File|Folder|As)"] $float
-for_window [app_id="com.viber.Viber" floating] move position 90ppt 90ppt, border none
+# Float windows that does not haev app id or title, these are chrome notifications
+for_window [app_id="^$" title="^$"] floating enable, border none, move position 89ppt 1ppt
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
@@ -232,8 +234,7 @@ exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec dropbox
 exec google-chrome-stable
 exec swaymsg workspace 1; exec kitty
-exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec ~/.config/sway/auto_exit_fullscreen.sh
+exec ~/.config/sway/events.sh
 exec_always qs -c noctalia-shell
 
 # Theme colors
@@ -249,6 +250,7 @@ client.background       #2B2C2B
 assign [app_id="google-chrome"] 2
 assign [class="firefox"] 2
 assign [app_id="slack"] 4
+assign [class="ViberPC"] 6
 
 
 gaps inner 8
