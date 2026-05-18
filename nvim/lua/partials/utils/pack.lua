@@ -364,12 +364,20 @@ end
 
 vim.pack.clean = function()
   local all_plugins = vim.fs.dir(M.get_plug_dir())
+  local has_plugins_to_delete = false
   for plugin in all_plugins do
     if not plugins[plugin] then
       if vim.fn.confirm('Delete plugin ' .. plugin .. '?', '&Yes\n&No') == 1 then
         vim.pack.del({ plugin })
+        has_plugins_to_delete = true
       end
     end
+  end
+
+  if not has_plugins_to_delete then
+    vim.notify('No plugins to clean', vim.log.levels.INFO, {
+      title = 'Pack Clean',
+    })
   end
 end
 
