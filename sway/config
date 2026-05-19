@@ -35,20 +35,12 @@ output DP-1 {
     mode 3440x1440@144Hz
 }
 
-################################################################################################
-## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
-################################################################################################
-
-# Screen brightness controls
-# bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
-# bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
-
 # Screenshot
-bindsym Print exec "sleep 0.2 && grim -g \"$(slurp)\" ~/Pictures/screenshots/screenshot_$(date +%Y_%m_%d_%H_%M_%S).png"
+bindsym Print exec "~/neovim-config/scripts/screenshot.sh"
 
 # Record screen
-bindsym $mod+Ctrl+r exec "~/.config/hypr/record_screen.sh --start"
-bindsym $mod+Ctrl+s exec "~/.config/hypr/record_screen.sh --stop"
+bindsym $mod+Ctrl+r exec "~/neovim-config/scripts/record_screen.sh --start"
+bindsym $mod+Ctrl+s exec "~/neovim-config/scripts/record_screen.sh --stop"
 
 
 # Volume control

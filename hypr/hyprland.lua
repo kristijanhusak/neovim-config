@@ -123,12 +123,7 @@ hl.bind(mod .. ' + SHIFT + w', hl.dsp.layout('fit all'))
 hl.bind(mod .. ' + mouse:272', hl.dsp.window.drag(), { mouse = true })
 hl.bind(mod .. ' + mouse:273', hl.dsp.window.resize(), { mouse = true })
 
-hl.bind(
-  'Print',
-  hl.dsp.exec_cmd(
-    [[sh -c 'sleep 0.2 && grim -g "$(slurp)" ~/Pictures/screenshots/screenshot_$(date +%Y_%m_%d_%H_%M_%S).png']]
-  )
-)
+hl.bind('Print', hl.dsp.exec_cmd('~/neovim-config/scripts/screenshot.sh'))
 
 hl.bind(mod .. ' + r', hl.dsp.submap('resize'))
 
@@ -148,8 +143,8 @@ hl.bind('XF86AudioLowerVolume', hl.dsp.exec_cmd(ipc .. ' volume decrease'))
 hl.bind('XF86AudioMute', hl.dsp.exec_cmd(ipc .. ' volume muteOutput'))
 hl.bind('XF86AudioPlay', hl.dsp.exec_cmd(ipc .. ' media playPause'))
 
-hl.bind(mod .. ' + CTRL + r', hl.dsp.exec_cmd('~/.config/hypr/record_screen.sh --start'))
-hl.bind(mod .. ' + CTRL + s', hl.dsp.exec_cmd('~/.config/hypr/record_screen.sh --stop'))
+hl.bind(mod .. ' + CTRL + r', hl.dsp.exec_cmd('~/neovim-config/scripts/record_screen.sh --start'))
+hl.bind(mod .. ' + CTRL + s', hl.dsp.exec_cmd('~/neovim-config/scripts/record_screen.sh --stop'))
 
 hl.window_rule({
   name = 'calculator',
