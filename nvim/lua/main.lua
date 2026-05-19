@@ -15,6 +15,7 @@ end
 require('partials.statusline')
 require('partials.mappings')
 require('partials.picker')
+require('partials.ai')
 
 local ok, ui2 = pcall(require, 'vim._core.ui2')
 

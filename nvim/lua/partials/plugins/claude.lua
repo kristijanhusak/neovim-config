@@ -1,6 +1,7 @@
 return {
   'coder/claudecode.nvim',
   event = 'VeryLazy',
+  enabled = false,
   config = function()
     require('claudecode').setup({
       terminal = {
