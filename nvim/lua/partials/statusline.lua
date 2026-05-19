@@ -409,7 +409,7 @@ local function statusline_active(win_id)
     winwidth > 200,
     winwidth > 250,
   }
-  local mode = mode_statusline(not priority[4])
+  local mode = mode_statusline(not priority[3])
   local git_status = git_statusline()
   local search = statusline.search_result()
   local db_ui = vim.g.loaded_dbui and vim.fn['db_ui#statusline']() or ''
@@ -432,7 +432,7 @@ local function statusline_active(win_id)
     sep(db_ui, section_b, db_ui ~= ''),
     '%=',
     sep(statusline.lsp_progress, section_b_right, statusline.lsp_progress ~= '' and priority[4]),
-    sep(search, section_b_right, search ~= '' and priority[4]),
+    sep(search, section_b_right, search ~= '' and priority[3]),
     filetype(),
     sep(' ' .. statusline.cwd_folder, section_b_right, statusline.cwd_folder ~= '' and priority[4]),
     sep(' ' .. clock(), section_a_right, priority[5]),
