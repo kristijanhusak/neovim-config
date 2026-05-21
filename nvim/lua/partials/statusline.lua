@@ -198,6 +198,10 @@ local function sep(item, opts, show)
   return sep_color .. sep_before .. color .. item .. sep_color .. sep_after .. '%*'
 end
 
+local function statusline_escape(text)
+  return vim.fn.substitute(vim.fn.strtrans(text), '%%', '%%%%', 'g')
+end
+
 local section_a = { color = '%#StSectionA#', sep_color = '%#StSectionASep#', no_before = true }
 local section_a_right = vim.tbl_extend('force', section_a, { side = 'right', no_before = false })
 local section_b = { color = '%#StSectionB#', sep_color = '%#StSectionBSep#' }
@@ -298,7 +302,7 @@ function statusline.search_result()
   if not ok then
     return 'Invalid search'
   end
-  return last_search .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
+  return statusline_escape(last_search) .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
 end
 
 local function lsp_diagnostics()
