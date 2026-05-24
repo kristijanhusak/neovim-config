@@ -3,9 +3,6 @@ return {
   event = 'InsertEnter',
   enabled = not vim.g.builtin_autocompletion,
   version = vim.g.lazy_did_setup and 'v1.*' or vim.version.range('v1.*'),
-  dependencies = {
-    'mikavilpas/blink-ripgrep.nvim',
-  },
   config = function()
     require('blink.cmp').setup({
       cmdline = {
@@ -25,18 +22,6 @@ return {
           orgmode = {
             name = 'Orgmode',
             module = 'orgmode.org.autocompletion.blink',
-          },
-          ripgrep = {
-            name = 'RG',
-            module = 'blink-ripgrep',
-            score_offset = -10,
-            opts = {
-              prefix_min_len = 4,
-              project_root_marker = { 'package.json', '.git' },
-              backend = {
-                use = 'gitgrep-or-ripgrep',
-              },
-            },
           },
           snippets = {
             score_offset = -5,
@@ -105,7 +90,7 @@ return {
               return cmp.select_next()
             end
 
-            return cmp.show({ providers = { 'ripgrep' } })
+            return cmp.show()
           end,
         },
       },
