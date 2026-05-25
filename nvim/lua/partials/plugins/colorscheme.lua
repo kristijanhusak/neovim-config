@@ -123,7 +123,9 @@ colorscheme.kape = function()
     },
   })
   local kape = require('kape')
-  if not kape then return end
+  if not kape then
+    return
+  end
   kape.load()
   local palette = require('kape.palette.kape')
 

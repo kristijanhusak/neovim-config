@@ -35,6 +35,12 @@ local SnacksPicker = {
   lsp_references = function()
     return Snacks.picker.lsp_references()
   end,
+  org_files = function(path)
+    Snacks.picker.files.files({
+      cwd = path,
+      ft = 'org',
+    })
+  end,
   workspaces = function()
     local items = {}
     local longest_name = 0

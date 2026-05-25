@@ -11,24 +11,21 @@ return {
       function()
         return Org.agenda()
       end,
-      desc = 'Org agenda'
+      desc = 'Org agenda',
     },
     {
       '<leader>oc',
       function()
         return Org.capture()
       end,
-      desc = 'Org capture'
+      desc = 'Org capture',
     },
     {
       '<leader>op',
       function()
-        Snacks.picker.files({
-          cwd = '~/orgfiles',
-          ft = 'org',
-        })
+        require('partials.picker').org_files('~/orgfiles')
       end,
-      desc = 'Org pick files'
+      desc = 'Org pick files',
     },
   },
   config = function()
