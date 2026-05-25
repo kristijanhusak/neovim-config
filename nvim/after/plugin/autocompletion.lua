@@ -109,16 +109,3 @@ vim.keymap.set('i', '<C-n>', function()
 
   vim.lsp.completion.get()
 end)
-
-vim.keymap.set('i', '<CR>', function()
-  local npairs = require('nvim-autopairs')
-
-  if vim.fn.pumvisible() == 0 then
-    return npairs.autopairs_cr()
-  end
-
-  if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
-    return npairs.esc('<c-y>')
-  end
-  return npairs.esc('<c-e>') .. npairs.autopairs_cr()
-end, { expr = true, noremap = true, replace_keycodes = false })
