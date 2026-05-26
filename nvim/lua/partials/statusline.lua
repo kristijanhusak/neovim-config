@@ -4,7 +4,7 @@ local statusline = {
 }
 local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
 vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
-local devicons = require('nvim-web-devicons')
+local devicons_loaded, devicons = pcall(require, 'nvim-web-devicons')
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'qf',
@@ -382,6 +382,10 @@ local function filetype()
 
   if filetype_icon_cache[ft] then
     return filetype_icon_cache[ft]
+  end
+
+  if not devicons_loaded then
+    return ft
   end
 
   local parts = { ft }
