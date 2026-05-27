@@ -1,20 +1,19 @@
 local rest = {
-  'rest-nvim/rest.nvim',
+  'mistweaverco/kulala.nvim',
   ft = { 'http' },
   config = function()
+    require('kulala').setup({
+      ui = {
+        show_request_summary = false
+      }
+    })
     vim.api.nvim_create_autocmd('BufWritePost', {
       pattern = '*.http',
-      command = 'Rest run',
+      callback = function()
+        require('kulala').run()
+      end,
     })
   end,
 }
-
-if not vim.g.lazy_did_setup then
-  rest.build = function(data)
-    vim.system({ 'luarocks', 'install', 'rest.nvim-scm-1.rockspec', '--local', '--lua-version=5.1', '--force' }, {
-      cwd = data.dir or data.path,
-    })
-  end
-end
 
 return rest
