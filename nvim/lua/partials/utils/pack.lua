@@ -37,14 +37,6 @@ vim.g.loaded_tarPlugin = 1
 vim.g.loaded_tutor_mode_plugin = 1
 vim.g.loaded_zipPlugin = 1
 
-local home = os.getenv('HOME')
-package.path = ('%s;%s/.luarocks/share/lua/5.1/?.lua;%s/.luarocks/share/lua/5.1/?/init.lua'):format(
-  package.path,
-  home,
-  home
-)
-package.cpath = ('%s;%s/.luarocks/lib/lua/5.1/?.so'):format(package.cpath, home)
-
 vim.api.nvim_create_autocmd('PackChanged', {
   callback = function(event)
     local data = event.data
