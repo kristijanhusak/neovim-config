@@ -102,10 +102,13 @@ vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
   return utils.feedkeys('<S-Tab>', 'n')
 end, { silent = true })
 
-vim.keymap.set('i', '<C-n>', function()
-  if vim.fn.pumvisible() > 0 then
-    return utils.feedkeys('<C-n>', 'n')
-  end
-
+vim.keymap.set('i', '<C-space>', function()
   vim.lsp.completion.get()
 end)
+
+vim.keymap.set('i', '<CR>', function()
+  if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
+    return utils.esc('<C-y>')
+  end
+  return require('mini.pairs').cr()
+end, { expr = true, noremap = true, replace_keycodes = false })
