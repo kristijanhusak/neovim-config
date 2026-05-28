@@ -6,7 +6,6 @@ local utils = require('partials.utils')
 local augroup = vim.api.nvim_create_augroup('custom_lsp_completion', { clear = true })
 local icons = utils.lsp_kind_icons()
 local protocol = vim.lsp.protocol
-local counters = {}
 vim.opt.complete = 'o,.,w,b'
 
 vim.api.nvim_create_autocmd('InsertEnter', {
@@ -38,36 +37,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
           kind_hlgroup = ('CmpItemKind%s'):format(kind),
           menu = menu,
         }
-      end,
-    })
-
-    counters[bufnr] = counters[bufnr] or 0
-
-    vim.api.nvim_create_autocmd('InsertCharPre', {
-      buffer = bufnr,
-      group = augroup,
-      callback = function()
-        if vim.fn.pumvisible() == 0 and vim.v.char ~= ' ' then
-          counters[bufnr] = counters[bufnr] + 1
-        else
-          counters[bufnr] = 0
-          vim.bo[bufnr].complete = 'o'
-        end
-
-        if counters[bufnr] > 3 then
-          vim.bo[bufnr].complete = '.,w,b'
-        end
-      end,
-    })
-
-    vim.api.nvim_create_autocmd({ 'InsertLeave', 'CompleteDone' }, {
-      buffer = bufnr,
-      group = augroup,
-      callback = function(e)
-        if e.event == 'InsertLeave' or vim.v.completed_item.word then
-          counters[bufnr] = 0
-          vim.bo[bufnr].complete = 'o'
-        end
       end,
     })
   end,
@@ -104,6 +73,18 @@ end, { silent = true })
 
 vim.keymap.set('i', '<C-space>', function()
   vim.lsp.completion.get()
+end)
+
+vim.keymap.set('i', '<C-n>', function()
+  if vim.fn.pumvisible() == 1 then
+    return utils.feedkeys('<C-n>', 'n')
+  end
+  local old_complete = vim.opt.complete:get()
+  vim.opt.complete = '.,w,b,u'
+  utils.feedkeys('<C-g><C-g><C-n>', 'n')
+  vim.schedule(function()
+    vim.opt.complete = old_complete
+  end)
 end)
 
 vim.keymap.set('i', '<CR>', function()
