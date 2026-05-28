@@ -45,12 +45,6 @@ install_kitty() {
     && ln -s $(pwd)/kitty ~/.config/kitty
 }
 
-install_i3() {
-  rm -rf ~/.config/i3 \
-    && yay -S rofi polybar ttf-twemoji ttf-nerd-fonts-symbols-mono ttf-jetbrains-mono \
-    && ln -s $(pwd)/i3 ~/.config/i3
-}
-
 install_sway() {
   yay -S sway swaybg swaylock swaync swayidle xorg-wayland waybar grim slurp wl-clipboard rofi \
   && rm -rf ~/.config/sway ~/.config/waybar \
@@ -59,22 +53,12 @@ install_sway() {
 }
 
 install_hyprland() {
-  yay -S cmake meson cpio pkg-config g++ gcc zenity socat hyprlock swaync swaybg hypridle xorg-wayland waybar grim slurp wl-clipboard rofi-wayland hyprland wf-recorder \
-  && rm -rf ~/.config/hypr ~/.config/waybar ~/.config/hyprpanel \
+  yay -S cmake meson cpio pkg-config g++ gcc zenity socat xorg-wayland grim slurp wl-clipboard hyprland wf-recorder noctalia-shell \
+  && rm -rf ~/.config/hypr ~/.config/noctalia \
     && ln -s $(pwd)/hypr ~/.config/hypr \
-    && ln -s $(pwd)/waybar ~/.config/waybar \
-    && ln -s $(pwd)/hyprpanel ~/.config/hyprpanel \
+    && ln -s $(pwd)/noctalia ~/.config/noctalia \
+    && ln -s $(pdw)/scripts/toggle_theme /usr/local/bin/toggle_theme
     && hyprpm update
-}
-
-install_rofi() {
-  yay -S rofi \
-    && rm -rf ~/.config/rofi \
-    && ln -s $(pwd)/rofi ~/.config/rofi
-}
-
-install_mutt() {
-  yay -S neomutt mutt-wizard cyrus-sasl-xoauth2-git abook lynx
 }
 
 if [[ -z $1 ]]; then
