@@ -65,8 +65,6 @@ hl.window_rule({
 
 hl.on('hyprland.start', function()
   local startup = {
-    'hyprpm reload -n',
-    '/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1',
     'google-chrome-stable',
     'kitty',
     'noctalia',
