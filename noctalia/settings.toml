@@ -1,0 +1,121 @@
+[bar.default]
+capsule = true
+capsule_groups = [ "sysmonitor" ]
+center = [ "lock_keys", "media" ]
+end = [
+    "weather",
+    "separator",
+    "keyboard_layout",
+    "separator",
+    "cpu",
+    "ram",
+    "sysmon",
+    "separator",
+    "network",
+    "bluetooth",
+    "separator",
+    "volume",
+    "clock",
+    "separator",
+    "notifications",
+    "tray"
+]
+margin_edge = 0.0
+margin_ends = 0.0
+padding = 4
+position = "bottom"
+radius = 0
+scale = 1.05
+start = [ "workspaces", "active_window" ]
+thickness = 34
+widget_spacing = 10
+
+[desktop_widgets]
+enabled = false
+
+[idle]
+behavior_order = [ "lock", "screen-off", "suspend" ]
+
+    [idle.behavior.lock]
+    action = "lock"
+    enabled = true
+    timeout = 600
+
+    [idle.behavior.screen-off]
+    action = "screen_off"
+    enabled = true
+    timeout = 660
+
+    [idle.behavior.suspend]
+    action = "suspend"
+    enabled = false
+    lock_before_suspend = true
+    timeout = 900
+
+[shell]
+clipboard_enabled = false
+font_family = "JetBrains Mono"
+polkit_agent = true
+ui_scale = 1.05
+
+    [shell.panel]
+    open_near_click_control_center = true
+
+[theme]
+community_palette = "One"
+source = "community"
+
+[wallpaper]
+directory = "/home/kristijan/Pictures/Wallpapers"
+
+[weather]
+auto_locate = true
+
+[widget.clock]
+capsule = true
+capsule_padding = 10.0
+format = "{:%H:%M %a}, {:%b %d}"
+
+[widget.cpu]
+capsule = true
+capsule_group = "sysmonitor"
+capsule_padding = 10.0
+
+[widget.keyboard_layout]
+capsule = true
+capsule_padding = 10.0
+
+[widget.lock_keys]
+hide_when_off = true
+
+[widget.media]
+hide_when_no_media = true
+
+[widget.network]
+show_label = false
+
+[widget.ram]
+capsule = true
+capsule_group = "sysmonitor"
+display = "text"
+
+[widget.separator]
+type = "spacer"
+
+[widget.sysmon]
+capsule = true
+capsule_group = "sysmonitor"
+display = "text"
+stat = "ram_used"
+
+[widget.weather]
+capsule = true
+capsule_padding = 10.0
+
+[widget.workspaces]
+capsule = true
+hide_when_empty = true
+scale = 1.2
+
+[widget.active_window]
+max_length = 400.0

@@ -1,6 +1,9 @@
 local mod = 'ALT'
-local ipc = 'qs -c noctalia-shell ipc call'
 local i3 = require('i3')
+
+local noctalia = function(cmd)
+  return 'noctalia msg ' .. cmd
+end
 
 i3.setup()
 
@@ -66,8 +69,8 @@ hl.on('hyprland.start', function()
     '/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1',
     'google-chrome-stable',
     'kitty',
+    'noctalia',
     'dropbox',
-    'qs -c noctalia-shell',
     '~/.config/hypr/events.sh',
   }
 
@@ -78,7 +81,7 @@ end)
 
 hl.bind(mod .. ' + Return', hl.dsp.exec_cmd('kitty'))
 hl.bind(mod .. ' + b', hl.dsp.exec_cmd('google-chrome-stable'))
-hl.bind(mod .. ' + d', hl.dsp.exec_cmd(ipc .. ' launcher toggle'))
+hl.bind(mod .. ' + d', hl.dsp.exec_cmd(noctalia('panel-toggle launcher')))
 hl.bind(mod .. ' + SHIFT + i', hl.dsp.window.float({ action = 'toggle' }))
 
 hl.bind(
@@ -136,12 +139,12 @@ hl.define_submap('resize', function()
   hl.bind('Escape', hl.dsp.submap('reset'))
 end)
 
-hl.bind('CTRL + ' .. mod .. ' + l', hl.dsp.exec_cmd(ipc .. ' lockScreen lock'))
+hl.bind('CTRL + ' .. mod .. ' + l', hl.dsp.exec_cmd(noctalia('screen-lock')))
 
-hl.bind('XF86AudioRaiseVolume', hl.dsp.exec_cmd(ipc .. ' volume increase'))
-hl.bind('XF86AudioLowerVolume', hl.dsp.exec_cmd(ipc .. ' volume decrease'))
-hl.bind('XF86AudioMute', hl.dsp.exec_cmd(ipc .. ' volume muteOutput'))
-hl.bind('XF86AudioPlay', hl.dsp.exec_cmd(ipc .. ' media playPause'))
+hl.bind('XF86AudioRaiseVolume', hl.dsp.exec_cmd(noctalia('volume-up 1')))
+hl.bind('XF86AudioLowerVolume', hl.dsp.exec_cmd(noctalia('volume-down 1')))
+hl.bind('XF86AudioMute', hl.dsp.exec_cmd(noctalia('volume-mute')))
+hl.bind('XF86AudioPlay', hl.dsp.exec_cmd(noctalia('media toggle')))
 
 hl.bind(mod .. ' + CTRL + r', hl.dsp.exec_cmd('~/neovim-config/scripts/record_screen.sh --start'))
 hl.bind(mod .. ' + CTRL + s', hl.dsp.exec_cmd('~/neovim-config/scripts/record_screen.sh --stop'))

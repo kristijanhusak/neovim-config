@@ -73,6 +73,5 @@ file = open(color_file, 'w')
 file.write('\n'.join(command))
 file.close()
 
-noctalia_method = 'setLight' if bg == 'light' else 'setDark'
-os.system('qs -c noctalia-shell ipc call darkMode ' + noctalia_method)
+os.system('noctalia msg theme-mode-set ' + bg)
 os.system('~/neovim-config/scripts/reload_kitty_colors.sh')
