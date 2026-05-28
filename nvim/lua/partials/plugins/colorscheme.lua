@@ -9,6 +9,30 @@ local colorscheme = {
   priority = 1000,
 }
 
+local w = vim.uv.new_fs_event()
+local kitty_colorscheme = vim.fs.normalize('~/.cache/main_colorscheme.conf')
+local augroup = vim.api.nvim_create_augroup('CustomColorscheme', { clear = true })
+
+colorscheme.watch_for_changes = function()
+  if not w then
+    return
+  end
+
+  w:start(
+    kitty_colorscheme,
+    {},
+    vim.schedule_wrap(function()
+      local file = vim.fn.readfile(kitty_colorscheme)
+      local parts = vim.split(file[1] or '', '=')
+      vim.env.NVIM_COLORSCHEME_BG = parts[2] or 'dark'
+      colorscheme.set()
+      vim.api.nvim_exec_autocmds('ColorScheme', { pattern = '*' })
+      w:stop()
+      colorscheme.watch_for_changes()
+    end)
+  )
+end
+
 colorscheme.catppuccin = function()
   local flavor = vim.env.NVIM_COLORSCHEME_BG == 'light' and 'latte' or 'mocha'
   local palette = require('catppuccin.palettes').get_palette(flavor)
@@ -169,18 +193,32 @@ colorscheme.kape = function()
   end
 end
 
-colorscheme.config = function()
-  require('todo-comments').setup()
+colorscheme.set = function()
   local bg = vim.env.NVIM_COLORSCHEME_BG or 'dark'
   vim.opt.background = bg
 
-  vim.cmd.filetype('plugin indent on')
-  vim.cmd.syntax('on')
   if bg == 'light' then
     colorscheme.base16()
   else
     colorscheme.kape()
   end
+end
+
+colorscheme.config = function()
+  require('todo-comments').setup()
+
+  vim.cmd.filetype('plugin indent on')
+  vim.cmd.syntax('on')
+  colorscheme.set()
+  colorscheme.watch_for_changes()
+  vim.api.nvim_create_autocmd('VimLeavePre', {
+    group = augroup,
+    callback = function()
+      if w then
+        w:stop()
+      end
+    end,
+  })
 end
 
 return colorscheme

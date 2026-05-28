@@ -422,12 +422,7 @@ local function statusline_active(win_id)
   local statusline_sections = {
     sep(mode, section_a),
     sep(git_status, section_b, git_status ~= '' and priority[3]),
-    sep(
-      get_path(not priority[3]),
-      vim.tbl_extend('keep', vim.bo.modified and section_err or section_b, {
-        no_before = not priority[3],
-      })
-    ),
+    sep(get_path(not priority[3]), vim.bo.modified and section_err or section_b),
     sep(('+%d'):format(modified_count), section_err, modified_count > 0),
     sep(' - ', section_err, not vim.bo.modifiable),
     sep('%w', section_b, vim.wo.previewwindow),

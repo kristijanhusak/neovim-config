@@ -1,0 +1,14 @@
+#!/bin/sh
+
+case "$1" in
+  true)  arg="dark" ;;
+  false) arg="light" ;;
+  *)     arg="toggle" ;;
+esac
+
+# Set PATH in case the script is ran from env where PATH is not set
+if ! command -v nvim >/dev/null 2>&1; then
+  export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+fi
+
+exec /home/kristijan/neovim-config/scripts/colors "$arg"

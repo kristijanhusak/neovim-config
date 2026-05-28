@@ -51,8 +51,7 @@ alias l="ls -l"
 alias c="clear"
 alias code="cd ~/code"
 alias lg="lazygit"
-alias resetbg="colors"
-alias togglebg="colors toggle"
+alias togglebg="toggle_theme"
 alias cdroot='cd $(git rev-parse --show-toplevel)'
 alias ggf=ggfl
 alias cpuavailablemodes='cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_available_governors'
@@ -70,6 +69,25 @@ export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=magenta,bold,underline"
 export GOPATH=$HOME/go
 setopt HIST_IGNORE_ALL_DUPS
 
+sync_nvim_colorscheme_bg() {
+  local color_file="$HOME/.cache/main_colorscheme.conf"
+  local first_line bg
+
+  [[ -r "$color_file" ]] || return
+  IFS= read -r first_line < "$color_file" || return
+  bg="${first_line#env NVIM_COLORSCHEME_BG=}"
+
+  [[ "$bg" = "$first_line" || -z "$bg" ]] && return
+  [[ "${NVIM_COLORSCHEME_BG:-}" = "$bg" ]] && return
+
+  export NVIM_COLORSCHEME_BG="$bg"
+  NVIM_BG="$bg"
+
+  if [[ -n "${functions[p10k]:-}" && -r ~/.p10k.zsh ]]; then
+    source ~/.p10k.zsh
+  fi
+}
+
 # use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
 # zsh-autosuggestions is designed to be unobtrusive)
 NVIM_BG=${NVIM_COLORSCHEME_BG:-'light'}
@@ -82,6 +100,10 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=248'
 eval "$(fnm env)"
 
 eval $(keychain --eval --quiet ~/.ssh/id_rsa)
+
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd sync_nvim_colorscheme_bg
+sync_nvim_colorscheme_bg
 
 bindkey '^[[Z' reverse-menu-complete # Use shift tab for backward autocompletion
 
@@ -142,11 +164,6 @@ fst() {
   file=$(echo "$files" |
            fzf -d $(( 2 + $(wc -l <<< "$files") )) +m) &&
   nvim $(echo $file | sed "s/^...//")
-}
-
-colors() {
-  color_vars=$(~/neovim-config/colors $1)
-  eval ${color_vars}
 }
 
 git_patch() {

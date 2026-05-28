@@ -16,14 +16,6 @@ args = parser.parse_args()
 bg = args.bg
 current_bg = os.getenv('NVIM_COLORSCHEME_BG')
 
-
-def set_env(background):
-    os.system('kitty @ set-colors --all --configured ' + color_file)
-    cmd = ['export NVIM_COLORSCHEME_BG=' + background]
-    cmd += ['python ~/neovim-config/kitty/reload_colors.py']
-    return cmd
-
-
 if Path(color_file).exists():
     cfile = open(color_file, 'r')
     first_line = cfile.readline().rstrip()
@@ -33,7 +25,6 @@ elif not bg:
     exit()
 
 if not bg:
-    print(';'.join(set_env(current_bg)))
     exit()
 
 if bg == 'toggle':
@@ -82,18 +73,6 @@ file = open(color_file, 'w')
 file.write('\n'.join(command))
 file.close()
 
-cmd = set_env(bg)
-is_bg_changed = bg != current_bg
-if is_bg_changed:
-    waybar_file = open('/home/kristijan/.config/waybar/local.css', 'w')
-    waybar_file.write(
-        '@define-color bg ' + normal_bg + ';\n'
-        + '@define-color fg ' + normal_fg + ';')
-    waybar_file.close()
-
-    noctalia_method = 'setLight' if bg == 'light' else 'setDark'
-
-    cmd += ['qs -c noctalia-shell ipc call darkMode ' + noctalia_method]
-    cmd += ['source ~/.zshrc']
-
-print(';'.join(cmd))
+noctalia_method = 'setLight' if bg == 'light' else 'setDark'
+os.system('qs -c noctalia-shell ipc call darkMode ' + noctalia_method)
+os.system('~/neovim-config/scripts/reload_kitty_colors.sh')
