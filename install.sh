@@ -46,10 +46,9 @@ install_kitty() {
 }
 
 install_sway() {
-  yay -S sway swaybg swaylock swaync swayidle xorg-wayland waybar grim slurp wl-clipboard rofi \
-  && rm -rf ~/.config/sway ~/.config/waybar \
+  yay -S sway swaybg swaylock swaync swayidle xorg-wayland grim slurp wl-clipboard rofi \
+  && rm -rf ~/.config/sway \
     && ln -s $(pwd)/sway ~/.config/sway \
-    && ln -s $(pwd)/waybar ~/.config/waybar
 }
 
 install_hyprland() {
