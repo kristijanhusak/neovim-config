@@ -46,7 +46,7 @@ install_kitty() {
 }
 
 install_sway() {
-  yay -S sway swaybg swaylock swaync swayidle xorg-wayland grim slurp wl-clipboard rofi \
+  yay -S sway swaybg swaylock swaync swayidle xorg-wayland grim slurp wl-clipboard \
   && rm -rf ~/.config/sway \
     && ln -s $(pwd)/sway ~/.config/sway \
 }

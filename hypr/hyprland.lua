@@ -206,14 +206,6 @@ hl.window_rule({
 })
 
 hl.window_rule({
-  name = 'rofi-focus',
-  match = {
-    class = '^(rofi)$',
-  },
-  stay_focused = true,
-})
-
-hl.window_rule({
   name = 'workspace-2',
   match = {
     class = '^(google-chrome|firefox|Brave-browser)$',
