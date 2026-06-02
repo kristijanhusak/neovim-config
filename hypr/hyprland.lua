@@ -137,7 +137,7 @@ hl.define_submap('resize', function()
   hl.bind('Escape', hl.dsp.submap('reset'))
 end)
 
-hl.bind('CTRL + ' .. mod .. ' + l', hl.dsp.exec_cmd(noctalia('screen-lock')))
+hl.bind('CTRL + ' .. mod .. ' + l', hl.dsp.exec_cmd(noctalia('session lock')))
 
 hl.bind('XF86AudioRaiseVolume', hl.dsp.exec_cmd(noctalia('volume-up 1')))
 hl.bind('XF86AudioLowerVolume', hl.dsp.exec_cmd(noctalia('volume-down 1')))
