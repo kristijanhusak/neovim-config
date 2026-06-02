@@ -5,7 +5,7 @@ return {
   },
   config = function()
     require('arborist').setup({
-      ignore = {'orgagenda', 'org'}
+      ignore = {'orgagenda', 'org', 'snacks_input'}
     })
     require('nvim-treesitter-textobjects').setup()
 
