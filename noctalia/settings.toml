@@ -53,6 +53,9 @@ behavior_order = [ "lock", "screen-off", "suspend" ]
     lock_before_suspend = true
     timeout = 900
 
+[location]
+auto_locate = true
+
 [shell]
 clipboard_enabled = false
 font_family = "Cascadia Code"
