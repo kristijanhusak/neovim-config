@@ -1,6 +1,6 @@
 return {
   'nvim-mini/mini.pairs',
-  event = 'InsertEnter',
+  event = 'VeryLazy',
   config = function()
     require('mini.pairs').setup()
   end,
