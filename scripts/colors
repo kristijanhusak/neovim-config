@@ -74,4 +74,5 @@ file.write('\n'.join(command))
 file.close()
 
 os.system('noctalia msg theme-mode-set ' + bg)
+os.system('gsettings set org.gnome.desktop.interface color-scheme prefer-' + bg)
 os.system('~/neovim-config/scripts/reload_kitty_colors.sh')
