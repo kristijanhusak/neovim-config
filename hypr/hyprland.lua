@@ -143,6 +143,8 @@ hl.bind('XF86AudioRaiseVolume', hl.dsp.exec_cmd(noctalia('volume-up 1')))
 hl.bind('XF86AudioLowerVolume', hl.dsp.exec_cmd(noctalia('volume-down 1')))
 hl.bind('XF86AudioMute', hl.dsp.exec_cmd(noctalia('volume-mute')))
 hl.bind('XF86AudioPlay', hl.dsp.exec_cmd(noctalia('media toggle')))
+hl.bind('XF86AudioNext', hl.dsp.exec_cmd(noctalia('media next')))
+hl.bind('XF86AudioPrev', hl.dsp.exec_cmd(noctalia('media previous')))
 
 hl.bind(mod .. ' + CTRL + r', hl.dsp.exec_cmd('~/neovim-config/scripts/record_screen.sh --start'))
 hl.bind(mod .. ' + CTRL + s', hl.dsp.exec_cmd('~/neovim-config/scripts/record_screen.sh --stop'))
