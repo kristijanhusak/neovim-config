@@ -5,7 +5,10 @@ return {
   },
   config = function()
     require('arborist').setup({
-      ignore = {'orgagenda', 'org', 'snacks_input'}
+      ignore = {'orgagenda', 'org', 'snacks_input'},
+      disable = {
+        indent = {'tsx'}
+      }
     })
     require('nvim-treesitter-textobjects').setup()
 
