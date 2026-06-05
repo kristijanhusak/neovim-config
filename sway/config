@@ -1,6 +1,6 @@
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
 set $mod Mod1
-set $ipc qs -c noctalia-shell ipc call
+set $ipc noctalia msg
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 default_border pixel 2
@@ -29,7 +29,7 @@ bindsym $mod+minus resize shrink width 1 px or 1 ppt
 bindsym $mod+q kill
 
 # start program launcher
-bindsym $mod+d exec $ipc launcher toggle
+bindsym $mod+d exec $ipc panel-toggle launcher
 
 output DP-1 {
     mode 3440x1440@144Hz
@@ -44,10 +44,12 @@ bindsym $mod+Ctrl+s exec "~/neovim-config/scripts/record_screen.sh --stop"
 
 
 # Volume control
-bindsym XF86AudioRaiseVolume exec $ipc volume increase
-bindsym XF86AudioLowerVolume exec $ipc volume decrease
-bindsym XF86AudioMute exec $ipc volume muteOutput
-bindsym XF86AudioPlay exec $ipc media playPause
+bindsym XF86AudioRaiseVolume exec $ipc volume-up 1
+bindsym XF86AudioLowerVolume exec $ipc volume-down 1
+bindsym XF86AudioMute exec $ipc volume-mute
+bindsym XF86AudioPlay exec $ipc media toggle
+bindsym XF86AudioNext exec $ipc media next
+bindsym XF86AudioPrev exec $ipc media previous
 
 focus_follows_mouse no
 
@@ -66,11 +68,6 @@ bindsym $mod+Shift+left move left
 bindsym $mod+Shift+down move down
 bindsym $mod+Shift+up move up
 bindsym $mod+Shift+right move right
-
-# workspace back and forth (with/without active container)
-# workspace_auto_back_and_forth yes
-# bindsym $mod+b workspace back_and_forth
-# bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
 # split orientation
 bindsym $mod+n split h;exec notify-send 'tile horizontally'
@@ -126,26 +123,6 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 
-workspace $ws1 output $output1
-workspace $ws2 output $output2
-workspace $ws3 output $output1
-workspace $ws4 output $output2
-workspace $ws5 output $output1
-workspace $ws6 output $output2
-workspace $ws7 output $output1
-workspace $ws8 output $output2
-workspace $ws9 output $output1
-
-# Move focused container to workspace
-bindsym $mod+Ctrl+1 move container to workspace $ws1
-bindsym $mod+Ctrl+2 move container to workspace $ws2
-bindsym $mod+Ctrl+3 move container to workspace $ws3
-bindsym $mod+Ctrl+4 move container to workspace $ws4
-bindsym $mod+Ctrl+5 move container to workspace $ws5
-bindsym $mod+Ctrl+6 move container to workspace $ws6
-bindsym $mod+Ctrl+7 move container to workspace $ws7
-bindsym $mod+Ctrl+8 move container to workspace $ws8
-
 # Move to workspace with focused container
 bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
 bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
@@ -179,7 +156,7 @@ for_window [window_type="dropdown_menu"] $float
 for_window [window_type="popup_menu"] $float
 for_window [window_type="tooltip"] $float
 for_window [window_type="notification"] $float
-for_window [title="(?:Open|Save) (?:File|Folder|As)"] $float
+for_window [title="(?:Open|Save|Rename) (?:File|Folder|As)"] $float
 # Float windows that does not haev app id or title, these are chrome notifications
 for_window [app_id="^$" title="^$"] floating enable, border none, move position 89ppt 1ppt
 
@@ -219,15 +196,14 @@ mode "resize" {
 }
 
 # Lock screen
-bindsym Control+$mod+l exec $ipc lockScreen lock
+bindsym Control+$mod+l exec $ipc session lock
 
 # Autostart applications
-exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec dropbox
 exec google-chrome-stable
 exec swaymsg workspace 1; exec kitty
 exec ~/.config/sway/events.sh
-exec_always qs -c noctalia-shell
+exec_always noctalia
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
