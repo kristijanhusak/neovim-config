@@ -56,6 +56,9 @@ behavior_order = [ "lock", "screen-off", "suspend" ]
 [location]
 auto_locate = true
 
+[notification]
+scale = 1.1
+
 [shell]
 clipboard_enabled = false
 font_family = "Cascadia Code"
@@ -71,6 +74,10 @@ source = "community"
 
 [wallpaper]
 directory = "/home/kristijan/Pictures/Wallpapers"
+
+    [wallpaper.automation]
+    enabled = true
+    interval_minutes = 60
 
 [weather]
 auto_locate = true
