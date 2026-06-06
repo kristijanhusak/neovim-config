@@ -49,6 +49,7 @@ hl.window_rule({
   name = 'hide_solo_border',
   match = {
     workspace = 'w[t1]',
+    float = false,
   },
   border_size = 0,
   rounding = 0,
@@ -58,6 +59,7 @@ hl.window_rule({
   name = 'hide_fullscreen_border',
   match = {
     workspace = 'f[1]',
+    float = false,
   },
   border_size = 0,
   rounding = 0,
@@ -124,10 +126,7 @@ hl.bind(mod .. ' + SHIFT + w', hl.dsp.layout('fit all'))
 hl.bind(mod .. ' + mouse:272', hl.dsp.window.drag(), { mouse = true })
 hl.bind(mod .. ' + mouse:273', hl.dsp.window.resize(), { mouse = true })
 
-hl.bind('Print', hl.dsp.exec_cmd('~/neovim-config/scripts/screenshot.sh'))
-
 hl.bind(mod .. ' + r', hl.dsp.submap('resize'))
-
 hl.define_submap('resize', function()
   hl.bind('h', hl.dsp.layout('resize left'))
   hl.bind('j', hl.dsp.layout('resize down'))
@@ -146,6 +145,7 @@ hl.bind('XF86AudioPlay', hl.dsp.exec_cmd(noctalia('media toggle')))
 hl.bind('XF86AudioNext', hl.dsp.exec_cmd(noctalia('media next')))
 hl.bind('XF86AudioPrev', hl.dsp.exec_cmd(noctalia('media previous')))
 
+hl.bind('Print', hl.dsp.exec_cmd('~/neovim-config/scripts/screenshot.sh'))
 hl.bind(mod .. ' + CTRL + r', hl.dsp.exec_cmd('~/neovim-config/scripts/record_screen.sh --start'))
 hl.bind(mod .. ' + CTRL + s', hl.dsp.exec_cmd('~/neovim-config/scripts/record_screen.sh --stop'))
 
@@ -236,7 +236,7 @@ hl.workspace_rule({
   gaps_out = 0,
   gaps_in = 0,
 })
-
+--
 hl.workspace_rule({
   workspace = 'f[1]',
   gaps_out = 0,
@@ -278,3 +278,37 @@ hl.window_rule({
   },
   rounding = 0,
 })
+
+hl.window_rule({
+  match = {
+    float = true,
+  },
+  center = true,
+  max_size = { 'monitor_w * 0.6', 'monitor_h * 0.6' },
+})
+
+hl.window_rule({
+  match = {
+    title = '^(_crx_.*)$',
+  },
+  tag = '+bitwarden',
+  float = true,
+  focus_on_activate = true,
+  stay_focused = true,
+  dim_around = true,
+})
+
+---@param window HL.Window
+hl.on('window.open', function(window)
+  if not window.tags[1] == 'bitwarden*' then
+    return
+  end
+  local last_window = hl.get_last_window()
+  if not last_window then
+    return
+  end
+
+  local x = last_window.at.x + last_window.size.x - window.size.x * 1.5
+  local y = last_window.at.y + 90
+  hl.dispatch(hl.dsp.window.move({ window = window, x = x, y = y }))
+end)
