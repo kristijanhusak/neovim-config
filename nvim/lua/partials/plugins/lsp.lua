@@ -29,6 +29,80 @@ local preview_opts = {
   silent = true,
 }
 
+local progress = vim.defaulttable()
+local buf = nil
+local win = nil
+local open_win = function(width)
+  local opts = {
+    relative = 'editor',
+    row = vim.o.lines - 3,
+    col = vim.o.columns - width,
+    width = width,
+    height = 1,
+    style = 'minimal',
+    border = 'none',
+    focusable = false
+  }
+  if win then
+    return vim.api.nvim_win_set_config(win, opts)
+  end
+  buf = vim.api.nvim_create_buf(false, true)
+  win = vim.api.nvim_open_win(buf, false, opts)
+  vim.api.nvim_set_option_value('winhl', 'Normal:Normal', { win = win })
+end
+vim.api.nvim_create_autocmd('LspProgress', {
+  group = lsp_group,
+  ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    local value = ev.data.params.value --[[@as {percentage?: number, title?: string, message?: string, kind: "begin" | "report" | "end"}]]
+    if not client or type(value) ~= 'table' then
+      return
+    end
+    local p = progress[client.id]
+
+    for i = 1, #p + 1 do
+      if i == #p + 1 or p[i].token == ev.data.params.token then
+        p[i] = {
+          token = ev.data.params.token,
+          msg = ('[%d%%%%] %s%s'):format(
+            value.kind == 'end' and 100 or value.percentage or 100,
+            value.title or '',
+            value.message and (' %s'):format(value.message) or ''
+          ),
+          done = value.kind == 'end',
+        }
+        break
+      end
+    end
+
+    local msg = {} ---@type string[]
+    progress[client.id] = vim.tbl_filter(function(v)
+      return table.insert(msg, v.msg) or not v.done
+    end, p)
+
+    local spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
+    local icon = #progress[client.id] == 0 and ' '
+      or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+
+    local content = table.concat({ icon, msg[#msg] }, ' ')
+
+    open_win(#content)
+    if buf then
+      vim.api.nvim_buf_set_lines(buf, 0, -1, false, { content })
+    end
+    if #progress[client.id] == 0 then
+      vim.defer_fn(function()
+        if win then
+          vim.api.nvim_win_close(win, true)
+          win = nil
+          buf = nil
+        end
+      end, 500)
+    end
+  end,
+})
+
 lsp.config = function()
   require('mason').setup({
     ui = {
