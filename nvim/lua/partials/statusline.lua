@@ -353,10 +353,6 @@ local function filetype()
   return filetype_icon_cache[ft]
 end
 
-local function clock()
-  return os.date('%H:%M', os.time())
-end
-
 local function statusline_active(win_id)
   local winwidth = vim.api.nvim_win_get_width(win_id)
   local priority = {
@@ -364,7 +360,6 @@ local function statusline_active(win_id)
     winwidth > 100,
     winwidth > 150,
     winwidth > 200,
-    winwidth > 250,
   }
   local mode = mode_statusline(not priority[3])
   local git_status = git_statusline()
@@ -386,7 +381,6 @@ local function statusline_active(win_id)
     sep(search, section_b_right, search ~= '' and priority[3]),
     filetype(),
     sep(' ' .. statusline.cwd_folder, section_b_right, statusline.cwd_folder ~= '' and priority[4]),
-    sep(' ' .. clock(), section_a_right, priority[5]),
     sep('%4l:%-3c', vim.tbl_extend('keep', { no_after = diagnostics == '' }, section_a_right), priority[1]),
     diagnostics,
     '%<',
