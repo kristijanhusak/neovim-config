@@ -15,7 +15,6 @@ function handlers.setup_buffer()
   vim.opt_local.isfname:append('@-@')
   vim.b.tsc_makeprg = 'tsc --noEmit'
   vim.cmd('compiler tsc')
-
 end
 
 function handlers.console_log()
@@ -53,9 +52,7 @@ function handlers.goto_file()
   end
 end
 
-function handlers.setup_imports_and_lsp_format()
-  handlers.setup_imports()
-
+local function wait_for_finish()
   vim.wait(500, function()
     local client = vim.lsp.get_clients({
       name = 'ts_ls',
@@ -65,6 +62,12 @@ function handlers.setup_imports_and_lsp_format()
     end
     return true
   end)
+end
+
+function handlers.setup_imports_and_lsp_format()
+  handlers.setup_imports()
+
+  wait_for_finish()
 
   vim.lsp.buf.format()
 end
@@ -83,6 +86,7 @@ function handlers.setup_imports(organize)
         triggerKind = vim.lsp.protocol.CodeActionTriggerKind.Invoked,
       },
     })
+    wait_for_finish()
   end
 end
 
