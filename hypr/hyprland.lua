@@ -294,7 +294,6 @@ hl.window_rule({
   tag = '+bitwarden',
   float = true,
   focus_on_activate = true,
-  stay_focused = true,
   dim_around = true,
 })
 
