@@ -94,7 +94,7 @@ vim.api.nvim_create_autocmd('LspProgress', {
     if #progress[client.id] == 0 then
       vim.defer_fn(function()
         if win then
-          vim.api.nvim_win_close(win, true)
+          pcall(vim.api.nvim_win_close, win, true)
           win = nil
           buf = nil
         end
