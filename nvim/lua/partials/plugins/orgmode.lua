@@ -5,6 +5,7 @@ return {
     'nvim-orgmode/org-bullets.nvim',
   },
   ft = { 'org' },
+  cmd = { 'Org' },
   keys = {
     {
       '<leader>oa',
