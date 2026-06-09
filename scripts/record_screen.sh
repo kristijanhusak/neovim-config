@@ -19,7 +19,7 @@ if [ "$1" = "--start" ]; then
   notify-send -i dialog-information "Recording $FULL_FILENAME" "Recording in 1..." --replace-id=$nid
   sleep 0.8
   notify-send -i dialog-information "Recording $FULL_FILENAME" "Recording!" --replace-id=$nid -t 150
-  sleep 0.2
+  sleep 0.5
   wf-recorder -g "$REGION" -f "$RECORDINGS_DIR/${FILENAME}_$(date +%Y-%m-%d_%H-%M-%S).mp4"
 elif [ "$1" = "--stop" ]; then
     pkill wf-recorder \
