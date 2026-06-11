@@ -30,6 +30,26 @@ local preview_opts = {
 }
 
 local progress = vim.defaulttable()
+local buf = nil
+local win = nil
+local open_win = function(width)
+  local opts = {
+    relative = 'editor',
+    row = vim.o.lines - 3,
+    col = vim.o.columns - width,
+    width = width,
+    height = 1,
+    style = 'minimal',
+    border = 'none',
+    focusable = false
+  }
+  if win then
+    return vim.api.nvim_win_set_config(win, opts)
+  end
+  buf = vim.api.nvim_create_buf(false, true)
+  win = vim.api.nvim_open_win(buf, false, opts)
+  vim.api.nvim_set_option_value('winhl', 'Normal:Normal', { win = win })
+end
 vim.api.nvim_create_autocmd('LspProgress', {
   group = lsp_group,
   ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
@@ -39,13 +59,17 @@ vim.api.nvim_create_autocmd('LspProgress', {
     if not client or type(value) ~= 'table' then
       return
     end
-    local p = progress[client.id].items
+    local p = progress[client.id]
 
     for i = 1, #p + 1 do
       if i == #p + 1 or p[i].token == ev.data.params.token then
         p[i] = {
           token = ev.data.params.token,
-          msg = ('%s%s'):format(value.title or '', value.message and (' %s'):format(value.message) or ''),
+          msg = ('[%d%%%%] %s%s'):format(
+            value.kind == 'end' and 100 or value.percentage or 100,
+            value.title or '',
+            value.message and (' %s'):format(value.message) or ''
+          ),
           done = value.kind == 'end',
         }
         break
@@ -53,42 +77,29 @@ vim.api.nvim_create_autocmd('LspProgress', {
     end
 
     local msg = {} ---@type string[]
-    progress[client.id].items = vim.tbl_filter(function(v)
+    progress[client.id] = vim.tbl_filter(function(v)
       return table.insert(msg, v.msg) or not v.done
     end, p)
 
     local spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
-    local icon = #progress[client.id].items == 0 and ' '
+    local icon = #progress[client.id] == 0 and ' '
       or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
 
     local content = table.concat({ icon, msg[#msg] }, ' ')
 
-    progress[client.id].echo_opts = vim.tbl_extend('force', progress[client.id].echo_opts or {}, {
-      kind = 'progress',
-      percent = value.percentage,
-      source = 'LSP',
-      status = (value.kind == 'end' and (value.percentage or 0) == 100) and 'success' or 'running',
-      title = 'LSP',
-    })
-
-    progress[client.id].echo_opts.id = vim.api.nvim_echo({ { content } }, false, progress[client.id].echo_opts)
-    vim.defer_fn(function()
-      if #progress[client.id].items == 0 then
-        progress[client.id].echo_opts = vim.tbl_extend('force', progress[client.id].echo_opts or {}, {
-          kind = 'progress',
-          percent = 100,
-          source = 'LSP',
-          status = 'cancel',
-          title = 'LSP',
-        })
-        progress[client.id].echo_opts.id = vim.api.nvim_echo({ { content } }, false, progress[client.id].echo_opts)
-        vim.defer_fn(function()
-          if progress[client.id].echo_opts and progress[client.id].echo_opts.id then
-            vim.api.nvim_echo({ { '' } }, false, { id = progress[client.id].echo_opts.id, kind = 'empty' })
-          end
-        end, 500)
-      end
-    end, 500)
+    open_win(#content)
+    if buf then
+      vim.api.nvim_buf_set_lines(buf, 0, -1, false, { content })
+    end
+    if #progress[client.id] == 0 then
+      vim.defer_fn(function()
+        if win then
+          pcall(vim.api.nvim_win_close, win, true)
+          win = nil
+          buf = nil
+        end
+      end, 500)
+    end
   end,
 })
 
