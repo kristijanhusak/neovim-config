@@ -36,7 +36,7 @@ local SnacksPicker = {
     return Snacks.picker.lsp_references()
   end,
   org_files = function(path)
-    Snacks.picker.files.files({
+    Snacks.picker.files({
       cwd = path,
       ft = 'org',
     })
