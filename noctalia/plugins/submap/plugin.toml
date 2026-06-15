@@ -1,0 +1,10 @@
+id           = "me/submap"     # "<author>/<plugin>" — globally unique
+name         = "Submap"
+version      = "1.0.0"
+min_noctalia = "5.0.0"        # mandatory: minimum Noctalia version
+author       = "me"
+description  = "Track hyprland submaps"
+
+[[widget]]
+id = 'submap'
+entry = 'widget.luau'

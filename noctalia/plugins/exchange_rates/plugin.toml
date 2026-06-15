@@ -1,0 +1,10 @@
+id           = "me/exchange_rates"     # "<author>/<plugin>" — globally unique
+name         = "Exchange rates"
+version      = "1.0.0"
+min_noctalia = "5.0.0"        # mandatory: minimum Noctalia version
+author       = "me"
+description  = "Show exchange rates"
+
+[[widget]]
+id = 'exchange_rates'
+entry = 'widget.luau'

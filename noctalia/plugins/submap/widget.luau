@@ -1,8 +1,3 @@
-barWidget.define({
-  label = 'Submap',
-  version = '1.0',
-})
-
 local is_sway = noctalia.getenv('SWAYSOCK') or false
 local cmd = 'hyprctl submap'
 if is_sway then

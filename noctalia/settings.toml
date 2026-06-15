@@ -8,9 +8,7 @@ end = [
     "separator",
     "keyboard_layout",
     "separator",
-    "cpu",
-    "ram",
-    "sysmon",
+    "group:g1",
     "separator",
     "network",
     "bluetooth",
@@ -30,6 +28,13 @@ scale = 1.0
 start = [ "workspaces", "active_window" ]
 thickness = 34
 widget_spacing = 12
+
+    [[bar.default.capsule_group]]
+    fill = "surface_variant"
+    id = "g1"
+    members = [ "ram", "cpu", "sysmon" ]
+    opacity = 1.0
+    padding = 6.0
 
 [desktop_widgets]
 enabled = false
@@ -108,6 +113,14 @@ widget_order = [ "lockscreen-login-box@DP-1", "lockscreen-widget-000000000000000
 [notification]
 scale = 1.1
 
+[plugins]
+enabled = [ "me/exchange_rates", "me/submap" ]
+
+    [[plugins.source]]
+    kind = "path"
+    location = "/home/kristijan/.config/noctalia/plugins"
+    name = "my-dev"
+
 [shell]
 clipboard_enabled = false
 font_family = "Cascadia Code"
@@ -146,11 +159,7 @@ capsule_padding = 10.0
 display = "text"
 
 [widget.exchange_rates]
-capsule = true
-capsule_padding = 10.0
-scope = "shared"
-script = "~/.config/noctalia/scripts/exchange_rates.lua"
-type = "scripted"
+type = "me/exchange_rates:exchange_rates"
 
 [widget.keyboard_layout]
 capsule = true
@@ -174,9 +183,7 @@ display = "text"
 type = "spacer"
 
 [widget.submap]
-scope = "shared"
-script = "~/.config/noctalia/scripts/submap.lua"
-type = "scripted"
+type = "me/submap:submap"
 
 [widget.sysmon]
 capsule = true

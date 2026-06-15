@@ -1,8 +1,3 @@
-barWidget.define({
-  label = 'Exchange Rates',
-  version = '1.0',
-})
-
 local separator = '>>>>>'
 
 local function run(force)
