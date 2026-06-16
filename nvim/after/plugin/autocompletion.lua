@@ -34,7 +34,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         local menu = ('[%s]'):format(kind)
         return {
           kind = icons[kind],
-          kind_hlgroup = ('CmpItemKind%s'):format(kind),
+          kind_hlgroup = ('BlinkCmpKind%s'):format(kind),
           menu = menu,
         }
       end,
