@@ -41,7 +41,7 @@ local open_win = function(width)
     height = 1,
     style = 'minimal',
     border = 'none',
-    focusable = false
+    focusable = false,
   }
   if win then
     return vim.api.nvim_win_set_config(win, opts)

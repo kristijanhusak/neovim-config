@@ -5,10 +5,10 @@ return {
   },
   config = function()
     require('arborist').setup({
-      ignore = {'orgagenda', 'org', 'snacks_input'},
+      ignore = { 'orgagenda', 'org', 'snacks_input' },
       disable = {
-        indent = {'tsx'}
-      }
+        indent = { 'tsx' },
+      },
     })
     require('nvim-treesitter-textobjects').setup()
 
@@ -27,5 +27,5 @@ return {
     vim.keymap.set('n', '<leader>aK', function()
       require('nvim-treesitter-textobjects.swap').swap_previous('@parameter.inner')
     end)
-  end
+  end,
 }

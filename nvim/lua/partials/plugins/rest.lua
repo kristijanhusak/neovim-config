@@ -4,8 +4,8 @@ local rest = {
   config = function()
     require('kulala').setup({
       ui = {
-        show_request_summary = false
-      }
+        show_request_summary = false,
+      },
     })
     vim.api.nvim_create_autocmd('BufWritePost', {
       pattern = '*.http',

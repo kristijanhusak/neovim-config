@@ -69,7 +69,7 @@ vim.api.nvim_create_autocmd('CmdlineLeavePre', {
   pattern = '*',
   callback = function(ev)
     last_cmd = vim.fn.getcmdline()
-  end
+  end,
 })
 
 function M.get_plug_dir()

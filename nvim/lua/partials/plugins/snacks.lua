@@ -216,18 +216,18 @@ return {
             keys = {
               ['<Esc>'] = { 'close', mode = { 'n', 'i' } },
               ['<c-d>'] = { 'preview_scroll_down', mode = { 'i', 'n' } },
-              ["<c-l>"] = { "cycle_win", mode = { "i", "n" } },
+              ['<c-l>'] = { 'cycle_win', mode = { 'i', 'n' } },
               ['<c-u>'] = { 'preview_scroll_up', mode = { 'i', 'n' } },
             },
           },
           list = {
             keys = {
-              ["<c-l>"] = { "cycle_win", mode = { "i", "n" } },
+              ['<c-l>'] = { 'cycle_win', mode = { 'i', 'n' } },
             },
           },
           preview = {
             keys = {
-              ["<c-l>"] = { "cycle_win", mode = { "i", "n" } },
+              ['<c-l>'] = { 'cycle_win', mode = { 'i', 'n' } },
             },
           },
         },
