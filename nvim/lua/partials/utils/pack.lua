@@ -64,6 +64,14 @@ vim.api.nvim_create_autocmd('PackChanged', {
   end,
 })
 
+local last_cmd = ''
+vim.api.nvim_create_autocmd('CmdlineLeavePre', {
+  pattern = '*',
+  callback = function(ev)
+    last_cmd = vim.fn.getcmdline()
+  end
+})
+
 function M.get_plug_dir()
   return vim.fs.joinpath(vim.fn.stdpath('data'), 'site', 'pack', 'core', 'opt')
 end
@@ -167,34 +175,10 @@ function M.on_cmd(opts)
   end
 
   for _, cmd in ipairs(cmds) do
-    vim.api.nvim_create_user_command(cmd, function(event)
+    vim.api.nvim_create_user_command(cmd, function()
       del_cmds()
       M.load_plugin(plugin)
-
-      local command = {
-        cmd = cmd,
-        bang = event.bang or nil,
-        mods = event.smods,
-        args = event.fargs,
-        count = event.count >= 0 and event.range == 0 and event.count or nil,
-      }
-
-      if event.range == 1 then
-        command.range = { event.line1 }
-      elseif event.range == 2 then
-        command.range = { event.line1, event.line2 }
-      end
-
-      local info = vim.api.nvim_get_commands({})[cmd] or vim.api.nvim_buf_get_commands(0, {})[cmd]
-      if not info then
-        return
-      end
-
-      command.nargs = info.nargs
-      if event.args and event.args ~= '' and info.nargs and info.nargs:find('[1?]') then
-        command.args = { event.args }
-      end
-      vim.cmd(command)
+      vim.cmd(last_cmd)
     end, {
       bang = true,
       range = true,
