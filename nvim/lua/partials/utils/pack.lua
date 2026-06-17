@@ -1,5 +1,4 @@
 vim.loader.enable(true)
-local cur_file_dir = vim.fs.dirname(debug.getinfo(1, 'S').source:sub(2))
 
 ---@class PackOpts
 ---@field ft? string | string[] The filetype(s) to trigger loading the plugin (e.g., 'python', {'python', 'lua'})
@@ -14,6 +13,8 @@ local cur_file_dir = vim.fs.dirname(debug.getinfo(1, 'S').source:sub(2))
 ---@field local_package? boolean is given path a local package
 ---@field loaded? boolean is plugin loaded
 ---@field enabled? boolean is plugin enabled
+---@field priority? number The priority of the plugin (higher numbers load first)
+---@field src? string The source URL of the plugin
 
 local augroup = vim.api.nvim_create_augroup('kris_neovim_config', { clear = true })
 local lazydev_workspace = nil
@@ -373,23 +374,7 @@ vim.pack.clean = function()
   end
 end
 
----@param dir string
-vim.pack.dir = function(dir)
-  local full_path = vim.fs.joinpath(cur_file_dir, '../', dir)
-  local handle = vim.loop.fs_scandir(full_path)
-
-  if not handle then
-    error(('Could not scan %s directory'):format(dir))
-  end
-
-  while true do
-    local name = vim.loop.fs_scandir_next(handle)
-    if not name then
-      break
-    end
-    local config = require(('partials.plugins.%s'):format(name:gsub('%.lua$', '')))
-    vim.pack.load(config)
-  end
+vim.pack.init = function()
   vim.pack.add(install_plugins, {
     -- Do packadd manually
     load = function() end,

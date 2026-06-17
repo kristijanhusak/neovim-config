@@ -1,7 +1,6 @@
 return {
   'folke/snacks.nvim',
   priority = 1000,
-  lazy = false,
   config = function()
     vim.keymap.set('n', '<leader>gl', function()
       return Snacks.lazygit()

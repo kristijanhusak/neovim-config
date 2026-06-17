@@ -5,7 +5,6 @@ local colorscheme = {
     'nvim-mini/mini.base16',
     'gabiuz/kape-nvim',
   },
-  lazy = false,
   priority = 1000,
 }
 
