@@ -1,8 +1,9 @@
 local statusline = {
   cwd_folder = '',
+  actual_curwin = nil,
 }
 local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
-vim.o.statusline = '%!v:lua.require("partials.statusline").setup()'
+vim.o.statusline = '%{%v:lua.require("partials.statusline").setup()%}'
 local devicons_loaded, devicons = pcall(require, 'nvim-web-devicons')
 
 vim.api.nvim_create_autocmd('FileType', {
@@ -396,13 +397,22 @@ local function statusline_inactive()
 end
 
 function statusline.setup()
-  local win_id = vim.fn.win_getid()
-  local focus = vim.g.statusline_winid == win_id
+  local win_id = vim.api.nvim_get_current_win()
+  local focus = statusline.actual_curwin == win_id
   if focus then
     return statusline_active(win_id)
   end
   return statusline_inactive()
 end
+
+vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter' }, {
+  group = statusline_group,
+  pattern = '*',
+  callback = function()
+    statusline.actual_curwin = vim.api.nvim_get_current_win()
+    vim.api.nvim__redraw({ statusline = true })
+  end,
+})
 
 _G.kris.get_workspace_name = get_workspace_name
 
