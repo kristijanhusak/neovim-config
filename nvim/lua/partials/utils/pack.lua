@@ -278,7 +278,7 @@ vim.pack.status = function()
   table.insert(not_loaded, '')
   table.insert(disabled, 1, ('# Disabled (%d)'):format(#disabled))
   local all_lines = vim.list_extend(
-    { 'Press "u" to update, "q" to close', '' },
+    { 'Press "u" to update, "c" to clean, "q" to close', '' },
     vim.list_extend(vim.list_extend(loaded, not_loaded), disabled)
   )
 
@@ -298,11 +298,16 @@ vim.pack.status = function()
   })
   vim.keymap.set('n', 'q', function()
     vim.api.nvim_win_close(win, true)
-  end, { buffer = buf, silent = true, desc = 'Close pack status window' })
+  end, { buffer = buf, silent = true, desc = 'Close pack status window', nowait = true })
   vim.keymap.set('n', 'u', function()
     vim.api.nvim_win_close(win, true)
     vim.pack.update()
-  end, { buffer = buf, silent = true, desc = 'Close pack status window and run update' })
+  end, { buffer = buf, silent = true, desc = 'Close pack status window and run update', nowait = true })
+
+  vim.keymap.set('n', 'c', function()
+    vim.api.nvim_win_close(win, true)
+    vim.pack.clean()
+  end, { buffer = buf, silent = true, desc = 'Close pack status window and run clean', nowait = true })
 
   vim.api.nvim_create_autocmd('BufLeave', {
     group = augroup,
