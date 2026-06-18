@@ -409,8 +409,10 @@ vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter' }, {
   group = statusline_group,
   pattern = '*',
   callback = function()
-    statusline.actual_curwin = vim.api.nvim_get_current_win()
-    vim.api.nvim__redraw({ statusline = true })
+    vim.schedule(function()
+      statusline.actual_curwin = vim.api.nvim_get_current_win()
+      vim.api.nvim__redraw({ statusline = true })
+    end)
   end,
 })
 
