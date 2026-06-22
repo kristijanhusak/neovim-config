@@ -6,13 +6,13 @@ local statusline_group = vim.api.nvim_create_augroup('custom_statusline', { clea
 vim.o.statusline = '%{%v:lua.require("partials.statusline").setup()%}'
 local devicons_loaded, devicons = pcall(require, 'nvim-web-devicons')
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'qf',
-  group = statusline_group,
-  callback = function()
-    vim.opt_local.statusline = '%!v:lua.require("partials.statusline").setup()'
-  end,
-})
+-- vim.api.nvim_create_autocmd('FileType', {
+--   pattern = 'qf',
+--   group = statusline_group,
+--   callback = function()
+--     vim.opt_local.statusline = '%!v:lua.require("partials.statusline").setup()'
+--   end,
+-- })
 
 local c = {}
 
@@ -405,7 +405,7 @@ function statusline.setup()
   return statusline_inactive()
 end
 
-vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter' }, {
+vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter', 'TermClose' }, {
   group = statusline_group,
   pattern = '*',
   callback = function()

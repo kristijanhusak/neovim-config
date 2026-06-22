@@ -1,7 +1,7 @@
 return {
   'saghen/blink.cmp',
   event = 'InsertEnter',
-  enabled = not vim.g.builtin_autocompletion,
+  enabled = not vim.g.builtin_autocompletion and not vim.g.custom_autocompletion,
   version = vim.version.range('v1.*'),
   config = function()
     require('blink.cmp').setup({
@@ -18,10 +18,6 @@ return {
           dadbod = {
             name = 'Dadbod',
             module = 'vim_dadbod_completion.blink',
-          },
-          orgmode = {
-            name = 'Orgmode',
-            module = 'orgmode.org.autocompletion.blink',
           },
           snippets = {
             score_offset = -5,
