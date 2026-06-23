@@ -15,7 +15,7 @@ vim.keymap.set(
 
 vim.keymap.set('n', '<leader>gd', function()
   vim.cmd.tabnew(vim.api.nvim_buf_get_name(0))
-  vim.cmd('0Gclog')
+  vim.cmd('Gclog --follow %')
 end, { silent = true, desc = 'Show file git history' })
 
 local git_group = vim.api.nvim_create_augroup('custom_fugitive', { clear = true })
