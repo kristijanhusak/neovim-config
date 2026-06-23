@@ -13,7 +13,7 @@ local function collect_buf_words(bufnr)
   local words, seen = {}, {}
   for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)) do
     for w in line:gmatch('[%w_]+') do
-      if #w > 1 and not seen[w] then
+      if #w >= 3 and #w < 50 and not seen[w] then
         seen[w] = true
         words[#words + 1] = w
       end
