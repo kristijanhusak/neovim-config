@@ -287,19 +287,9 @@ hl.window_rule({
   max_size = { 'monitor_w * 0.6', 'monitor_h * 0.6' },
 })
 
-hl.window_rule({
-  match = {
-    title = '^(_crx_.*)$',
-  },
-  tag = '+bitwarden',
-  float = true,
-  focus_on_activate = true,
-  dim_around = true,
-})
-
 ---@param window HL.Window
-hl.on('window.open', function(window)
-  if not window.tags[1] == 'bitwarden*' then
+hl.on('window.title', function(window)
+  if not window.title:match('Bitwarden') then
     return
   end
   local last_window = hl.get_last_window()
@@ -307,7 +297,12 @@ hl.on('window.open', function(window)
     return
   end
 
-  local x = last_window.at.x + last_window.size.x - window.size.x * 1.5
+  local width = 480
+  local height = 600
+
+  local x = last_window.at.x + last_window.size.x - width * 1.5
   local y = last_window.at.y + 90
+  hl.dispatch(hl.dsp.window.resize({ window = window, x = width, y = height }))
+  hl.dispatch(hl.dsp.window.float({ window = window, action = 'enable' }))
   hl.dispatch(hl.dsp.window.move({ window = window, x = x, y = y }))
 end)
