@@ -6,7 +6,7 @@ local utils = require('partials.utils')
 local augroup = vim.api.nvim_create_augroup('custom_lsp_completion', { clear = true })
 local icons = utils.lsp_kind_icons()
 local protocol = vim.lsp.protocol
-vim.opt.complete = 'o,.,w,b'
+vim.opt.complete = 'o'
 
 vim.api.nvim_create_autocmd('InsertEnter', {
   pattern = '*',
@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
     local bufnr = ev.buf
 
-    vim.bo[bufnr].complete = 'o'
+    vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
     vim.lsp.completion.enable(true, client.id, bufnr, {
       convert = function(item)
@@ -73,18 +73,6 @@ end, { silent = true })
 
 vim.keymap.set('i', '<C-space>', function()
   vim.lsp.completion.get()
-end)
-
-vim.keymap.set('i', '<C-n>', function()
-  if vim.fn.pumvisible() == 1 then
-    return utils.feedkeys('<C-n>', 'n')
-  end
-  local old_complete = vim.opt.complete:get()
-  vim.opt.complete = '.,w,b,u'
-  utils.feedkeys('<C-g><C-g><C-n>', 'n')
-  vim.schedule(function()
-    vim.opt.complete = old_complete
-  end)
 end)
 
 vim.keymap.set('i', '<CR>', function()
