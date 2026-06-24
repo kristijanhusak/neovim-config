@@ -128,6 +128,7 @@ polkit_agent = true
 ui_scale = 1.0
 
     [shell.panel]
+    launcher_session_search = true
     open_near_click_control_center = true
 
 [theme]
