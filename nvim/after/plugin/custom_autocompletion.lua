@@ -60,8 +60,8 @@ local function completefunc(findstart, base)
 
   if #clients == 0 then
     local items = buf.omni_candidates(base)
-    if #items == 0 and base ~= '' then
-      items = buf.candidates(base)
+    if #items <= 3 and base ~= '' then
+      items = vim.list_extend(items, buf.candidates(base))
     end
     return { words = items, refresh = 'always' }
   end
@@ -93,8 +93,8 @@ local function completefunc(findstart, base)
       end
     end
     local items = lsp.candidates(all_items, base)
-    if #items == 0 and base ~= '' then
-      items = buf.candidates(base)
+    if #items <= 3 and base ~= '' then
+      items = vim.list_extend(items, buf.candidates(base))
     end
     vim.schedule(function()
       if vim.fn.mode() ~= 'i' or #items == 0 then

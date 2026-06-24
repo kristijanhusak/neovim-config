@@ -1,14 +1,22 @@
 local M = {}
 
-function M.update_popup_window(winid, bufnr, kind)
-  if winid and vim.api.nvim_win_is_valid(winid) and bufnr and vim.api.nvim_buf_is_valid(bufnr) then
+function M.update_popup_doc(info, opts)
+  if not info or info == '' then
+    return
+  end
+  opts = opts or {}
+  local selected = opts.selected or vim.fn.complete_info({ 'selected' }).selected
+  local c = vim.api.nvim__complete_set(selected, { info = info })
+  local kind = opts.kind or vim.lsp.protocol.MarkupKind.Markdown
+
+  if c.winid and vim.api.nvim_win_is_valid(c.winid) and c.bufnr and vim.api.nvim_buf_is_valid(c.bufnr) then
     if kind == vim.lsp.protocol.MarkupKind.Markdown then
-      vim.wo[winid].conceallevel = 2
-      vim.treesitter.start(bufnr, kind)
+      vim.wo[c.winid].conceallevel = 2
+      vim.treesitter.start(c.bufnr, kind)
     end
-    local all = vim.api.nvim_win_text_height(winid, {}).all
-    vim.api.nvim_win_set_height(winid, all)
-    vim.api.nvim_win_set_config(winid, { border = 'rounded' })
+    local all = vim.api.nvim_win_text_height(c.winid, {}).all
+    vim.api.nvim_win_set_height(c.winid, all)
+    vim.api.nvim_win_set_config(c.winid, { border = 'rounded' })
   end
 end
 
@@ -66,10 +74,12 @@ function M.setup(augroup)
       local completed_item = vim.v.event.completed_item or {}
       local lsp_data = vim.tbl_get(completed_item, 'user_data', 'nvim', 'lsp')
       if not lsp_data then
+        M.update_popup_doc(completed_item.info)
         return
       end
       local client = vim.lsp.get_client_by_id(lsp_data.client_id)
       if not client or not client:supports_method('completionItem/resolve') then
+        M.update_popup_doc(completed_item.info)
         return
       end
       local bufnr = vim.api.nvim_get_current_buf()
@@ -89,8 +99,7 @@ function M.setup(augroup)
           end
           local cur = vim.fn.complete_info({ 'selected' })
           if cur.selected == sel then
-            local windata = vim.api.nvim__complete_set(cur.selected, { info = info })
-            M.update_popup_window(windata.winid, windata.bufnr, doc_kind)
+            M.update_popup_doc(info, { kind = doc_kind, selected = cur.selected })
           end
         end)
       end, bufnr)

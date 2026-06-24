@@ -1,6 +1,7 @@
 local M = {}
 
 local match = require('partials.custom_plugins.autocompletion.match')
+local icons = require('partials.utils').lsp_kind_icons()
 
 local buf_cache = {} -- [bufnr] = { tick = N, words = {...} }
 
@@ -10,6 +11,7 @@ local function collect_buf_words(bufnr)
   if c and c.tick == tick then
     return c.words
   end
+  local name = vim.api.nvim_buf_get_name(bufnr)
   local words, seen = {}, {}
   for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)) do
     for w in line:gmatch('[%w_]+') do
@@ -19,18 +21,23 @@ local function collect_buf_words(bufnr)
       end
     end
   end
-  buf_cache[bufnr] = { tick = tick, words = words }
+  buf_cache[bufnr] = { tick = tick, words = words, name = name }
   return words
 end
 
 --- Returns complete-items matching `prefix` from all loaded buffers.
 function M.candidates(prefix)
-  local icons = require('partials.utils').lsp_kind_icons()
   local seen, items = {}, {}
+  local current_bufnr = vim.api.nvim_get_current_buf()
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_is_loaded(bufnr) then
       for _, w in ipairs(collect_buf_words(bufnr)) do
         local matched, score = match.match(w, prefix)
+        local info = ''
+        if bufnr ~= current_bufnr then
+          info = buf_cache[bufnr] and buf_cache[bufnr].name or ''
+          info = info ~= '' and vim.fn.fnamemodify(info, ':.') or ''
+        end
         if matched and not seen[w] and w ~= prefix then
           seen[w] = true
           items[#items + 1] = {
@@ -39,6 +46,7 @@ function M.candidates(prefix)
             kind = icons.Text,
             kind_hlgroup = 'BlinkCmpKindText',
             icase = 1,
+            info = info,
             dup = 0,
             empty = 1,
             _fuzzy_score = score,
@@ -73,7 +81,7 @@ function M.omni_candidates(base)
     if type(item) == 'string' then
       items[#items + 1] = { word = item, menu = '[omni]', icase = 1, dup = 0, empty = 1 }
     elseif type(item) == 'table' and item.word then
-      items[#items + 1] = vim.tbl_extend('keep', item, { menu = item.menu or '[omni]', icase = 1, dup = 0, empty = 1 })
+      items[#items + 1] = vim.tbl_extend('keep', item, { menu = item.menu or '[omni]', icase = 1, dup = 0, empty = 1, info = item.info })
     end
   end
   return items
