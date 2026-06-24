@@ -113,11 +113,7 @@ colorscheme.kape = function()
       },
     },
   })
-  local kape = require('kape')
-  if not kape then
-    return
-  end
-  kape.load()
+  vim.cmd.colorscheme('kape')
   local palette = require('kape.palette.kape')
 
   local custom_highlights = {
@@ -127,31 +123,6 @@ colorscheme.kape = function()
     FloatBorder = { bg = palette.dark1 },
     ['@lsp.type.function'] = { link = 'Function' },
     ['@lsp.typemod.function.defaultLibrary.lua'] = { link = 'Function' },
-    BlinkCmpKindClass = { link = 'Type' },
-    BlinkCmpKindColor = { link = 'Special' },
-    BlinkCmpKindConstant = { link = 'Constant' },
-    BlinkCmpKindConstructor = { link = 'Type' },
-    BlinkCmpKindEnum = { link = 'Structure' },
-    BlinkCmpKindEnumMember = { link = 'Structure' },
-    BlinkCmpKindEvent = { link = 'Exception' },
-    BlinkCmpKindField = { link = 'Structure' },
-    BlinkCmpKindFile = { link = 'Tag' },
-    BlinkCmpKindFolder = { link = 'Directory' },
-    BlinkCmpKindFunction = { link = 'Function' },
-    BlinkCmpKindInterface = { link = 'Structure' },
-    BlinkCmpKindKeyword = { link = 'Keyword' },
-    BlinkCmpKindMethod = { link = 'Function' },
-    BlinkCmpKindModule = { link = 'Structure' },
-    BlinkCmpKindOperator = { link = 'Operator' },
-    BlinkCmpKindProperty = { link = 'Structure' },
-    BlinkCmpKindReference = { link = 'Tag' },
-    BlinkCmpKindSnippet = { link = 'Special' },
-    BlinkCmpKindStruct = { link = 'Structure' },
-    BlinkCmpKindText = { link = 'Statement' },
-    BlinkCmpKindTypeParameter = { link = 'Type' },
-    BlinkCmpKindUnit = { link = 'Special' },
-    BlinkCmpKindValue = { link = 'Identifier' },
-    BlinkCmpKindVariable = { link = 'Delimiter' },
   }
 
   for group, colors in pairs(custom_highlights) do
