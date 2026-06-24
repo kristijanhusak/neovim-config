@@ -12,6 +12,45 @@ function M.update_popup_window(winid, bufnr, kind)
   end
 end
 
+---Returns an item's documentation value and its markup kind.
+---@param item lsp.CompletionItem
+---@return string
+---@return lsp.MarkupKind
+local function get_doc(item)
+  local doc = item.documentation
+  local default_kind = vim.lsp.protocol.MarkupKind.Markdown
+  if not doc then
+    return '', default_kind
+  end
+  if type(doc) == 'string' then
+    return doc, default_kind
+  end
+  if type(doc) == 'table' and type(doc.value) == 'string' then
+    return doc.value, doc.kind
+  end
+
+  vim.notify('invalid documentation value: ' .. vim.inspect(doc), vim.log.levels.WARN)
+  return '', default_kind
+end
+
+---@param item lsp.CompletionItem
+---@return string
+---@return lsp.MarkupKind
+function M.complete_item_info(item)
+  local info, kind = get_doc(item)
+
+  if item.detail and item.detail ~= '' then
+    local detail_block = ('```%s\n%s\n```'):format(vim.bo.filetype, item.detail)
+    if info == '' then
+      info = detail_block
+    elseif not info:find(item.detail, 1, true) then
+      info = detail_block .. '\n' .. info
+    end
+  end
+
+  return info, kind
+end
+
 --- Registers CompleteChanged (completionItem/resolve for docs) and
 --- CompleteDone (additionalTextEdits, snippet expansion, commands).
 function M.setup(augroup)
@@ -40,21 +79,9 @@ function M.setup(augroup)
         if err or not result or vim.fn.pumvisible() == 0 then
           return
         end
-        local info = ''
-        if result.detail and result.detail ~= '' then
-          info = ('```%s\n%s\n```'):format(vim.bo.filetype, result.detail)
-        end
-        local doc = result.documentation
-        local doc_kind = vim.lsp.protocol.MarkupKind.Markdown
-        if doc then
-          local doc_str = type(doc) == 'string' and doc or (type(doc) == 'table' and doc.value or '')
-          info = info ~= '' and (info .. '\n' .. doc_str) or doc_str
-        end
+        local info, doc_kind = M.complete_item_info(result)
         if info == '' then
           return
-        end
-        if type(doc) == 'table' and doc.kind then
-          doc_kind = doc.kind
         end
         vim.schedule(function()
           if vim.fn.pumvisible() == 0 then

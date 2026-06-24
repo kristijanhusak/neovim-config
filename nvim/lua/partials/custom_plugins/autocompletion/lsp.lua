@@ -2,6 +2,8 @@ local M = {}
 
 local protocol = vim.lsp.protocol
 local match = require('partials.custom_plugins.autocompletion.match')
+local resolve = require('partials.custom_plugins.autocompletion.resolve')
+local icons = require('partials.utils').lsp_kind_icons()
 
 --- Extracts items from a CompletionList or CompletionItem[], applying itemDefaults.
 function M.get_items(result)
@@ -44,21 +46,30 @@ end
 
 --- Converts LSP items to vim complete-items, filtered and sorted by sortText.
 function M.candidates(items, prefix)
-  local icons = require('partials.utils').lsp_kind_icons()
   local candidates = {}
   for _, item in ipairs(items) do
     local word = item_word(item)
     local matched, score = match.match(word, prefix)
     if matched then
       local kind = protocol.CompletionItemKind[item.kind] or 'Text'
+
+      local hl_group = ''
+      if item.deprecated or vim.list_contains((item.tags or {}), protocol.CompletionTag.Deprecated) then
+        hl_group = 'DiagnosticDeprecated'
+      end
+
+      local info = resolve.complete_item_info(item)
+
       candidates[#candidates + 1] = {
         word = word,
-        abbr = item.label,
+        abbr = ('%s%s'):format(item.label, vim.tbl_get(item, 'labelDetails', 'detail') or ''),
+        abbr_hlgroup = hl_group,
         kind = icons[kind],
         kind_hlgroup = ('BlinkCmpKind%s'):format(kind),
         menu = ('[%s]'):format(kind),
+        info = info,
         icase = 1,
-        dup = 0,
+        dup = 1,
         empty = 1,
         user_data = { nvim = { lsp = { completion_item = item, client_id = item._client_id } } },
         _fuzzy_score = score,
