@@ -67,8 +67,6 @@ hl.window_rule({
 
 hl.on('hyprland.start', function()
   local startup = {
-    'google-chrome-stable',
-    'kitty',
     'noctalia',
     'dropbox',
     '~/.config/hypr/events.sh',
@@ -80,7 +78,7 @@ hl.on('hyprland.start', function()
 end)
 
 hl.bind(mod .. ' + Return', hl.dsp.exec_cmd('kitty'))
-hl.bind(mod .. ' + b', hl.dsp.exec_cmd('google-chrome-stable'))
+hl.bind(mod .. ' + b', hl.dsp.exec_cmd('firefox'))
 hl.bind(mod .. ' + d', hl.dsp.exec_cmd(noctalia('panel-toggle launcher')))
 hl.bind(mod .. ' + SHIFT + i', hl.dsp.window.float({ action = 'toggle' }))
 
