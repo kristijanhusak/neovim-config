@@ -1,5 +1,5 @@
-vim.g.builtin_autocompletion = true
-vim.g.custom_autocompletion = false
+vim.g.builtin_autocompletion = false
+vim.g.custom_autocompletion = true
 
 require('partials.abbreviations')
 require('partials.settings')
