@@ -195,8 +195,14 @@ vim.keymap.set('i', '<C-space>', function()
 end, { silent = true })
 
 vim.keymap.set('i', '<CR>', function()
-  if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
-    return utils.esc('<C-y>')
+  local npairs = require('nvim-autopairs')
+
+  if vim.fn.pumvisible() == 0 then
+    return npairs.autopairs_cr()
   end
-  return require('mini.pairs').cr()
+
+  if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
+    return npairs.esc('<c-y>')
+  end
+  return npairs.esc('<c-e>') .. npairs.autopairs_cr()
 end, { expr = true, noremap = true, replace_keycodes = false })
