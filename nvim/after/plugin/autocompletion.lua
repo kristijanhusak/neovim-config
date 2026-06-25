@@ -43,8 +43,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
     local bufnr = ev.buf
 
-    vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
     vim.lsp.completion.enable(true, client.id, bufnr, {
       cmp = function(a, b)
         local is_a_buf = a.user_data.nvim.lsp.completion_item.buf
