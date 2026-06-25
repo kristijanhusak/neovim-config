@@ -4,25 +4,6 @@ local lsp_group = vim.api.nvim_create_augroup('vimrc_lsp', { clear = true })
 local lsp = {}
 local setup = {}
 
-local filetypes = {
-  'c',
-  'cpp',
-  'dockerfile',
-  'go',
-  'javascript',
-  'javascriptreact',
-  'lua',
-  'php',
-  'python',
-  'ruby',
-  'terraform',
-  'typescript',
-  'typescriptreact',
-  'vim',
-  'yaml',
-  'org',
-}
-
 local preview_opts = {
   border = 'rounded',
   focusable = false,
@@ -134,8 +115,12 @@ lsp.config = function()
     },
   })
 
-  if vim.g.builtin_autocompletion then
+  if vim.g.builtin_autocompletion or vim.g.custom_autocompletion then
     vim.lsp.enable('filepaths_ls')
+  end
+
+  if vim.g.builtin_autocompletion then
+    vim.lsp.enable('buffer_lsp')
   end
 
   return lsp
@@ -442,7 +427,7 @@ return {
     'folke/lazydev.nvim',
     'antonk52/filepaths_ls.nvim',
   },
-  ft = filetypes,
+  event = 'VeryLazy',
   config = function()
     lsp.config()
   end,

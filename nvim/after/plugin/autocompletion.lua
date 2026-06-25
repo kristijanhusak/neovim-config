@@ -17,6 +17,23 @@ vim.api.nvim_create_autocmd('InsertEnter', {
   end,
 })
 
+local compare_by_sortText_and_label = function(a, b)
+  ---@type lsp.CompletionItem
+  local itema = a.user_data.nvim.lsp.completion_item
+  ---@type lsp.CompletionItem
+  local itemb = b.user_data.nvim.lsp.completion_item
+  return (itema.sortText or itema.label) < (itemb.sortText or itemb.label)
+end
+
+local compare_fn = function(a, b)
+  local score_a = a._fuzzy_score or 0
+  local score_b = b._fuzzy_score or 0
+  if score_a ~= score_b then
+    return score_a > score_b
+  end
+  return compare_by_sortText_and_label(a, b)
+end
+
 vim.api.nvim_create_autocmd('LspAttach', {
   group = augroup,
   callback = function(ev)
@@ -29,6 +46,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
     vim.lsp.completion.enable(true, client.id, bufnr, {
+      cmp = function(a, b)
+        local is_a_buf = a.user_data.nvim.lsp.completion_item.buf
+        local is_b_buf = b.user_data.nvim.lsp.completion_item.buf
+
+        if is_a_buf and not is_b_buf then
+          return false
+        end
+        if not is_a_buf and is_b_buf then
+          return true
+        end
+
+        return compare_fn(a, b)
+      end,
       convert = function(item)
         local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or 'Text'
         local menu = ('[%s]'):format(kind)

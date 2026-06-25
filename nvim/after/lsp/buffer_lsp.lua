@@ -116,8 +116,6 @@ local function buffer_results(params)
     return client:supports_method(methods.textDocument_completion)
   end, clients)
 
-  print('clients', vim.inspect(#clients))
-
   local base = line:match('[%w_]+$') or ''
 
   local items = {}
@@ -135,6 +133,7 @@ local function buffer_results(params)
       label = item.word,
       labelDetails = item.menu and { description = item.menu } or nil,
       documentation = item.info,
+      buf = true
     }
   end, items)
 
