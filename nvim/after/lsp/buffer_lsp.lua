@@ -111,10 +111,7 @@ local function buffer_results(params)
     .nvim_buf_get_lines(bufnr, params.position.line, params.position.line + 1, false)[1]
     :sub(1, params.position.character)
 
-  local clients = vim.lsp.get_clients({ bufnr = bufnr })
-  clients = vim.tbl_filter(function(client)
-    return client:supports_method(methods.textDocument_completion)
-  end, clients)
+  local clients = vim.lsp.get_clients({ bufnr = bufnr, method = methods.textDocument_completion })
 
   local base = line:match('[%w_]+$') or ''
 
@@ -125,7 +122,7 @@ local function buffer_results(params)
   end
 
   if #items < 3 and vim.trim(line) ~= '' then
-    items = candidates(base)
+    items = vim.list_extend(items, candidates(base))
   end
 
   local results = vim.tbl_map(function(item)
