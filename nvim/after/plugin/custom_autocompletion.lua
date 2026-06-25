@@ -55,12 +55,13 @@ local function completefunc(findstart, base)
     return start and (start - 1) or col
   end
 
+  local is_empty_line = #vim.trim(vim.api.nvim_get_current_line()) == 0
   local bufnr = vim.api.nvim_get_current_buf()
   local clients = vim.lsp.get_clients({ bufnr = bufnr, method = 'textDocument/completion' })
 
   if #clients == 0 then
     local items = buf.omni_candidates(base)
-    if #items <= 3 and base ~= '' then
+    if #items < 3 and not is_empty_line then
       items = vim.list_extend(items, buf.candidates(base))
     end
     return { words = items, refresh = 'always' }
@@ -93,7 +94,7 @@ local function completefunc(findstart, base)
       end
     end
     local items = lsp.candidates(all_items, base)
-    if #items <= 3 and base ~= '' then
+    if #items < 3 and not is_empty_line then
       items = vim.list_extend(items, buf.candidates(base))
     end
     vim.schedule(function()

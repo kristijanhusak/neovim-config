@@ -124,7 +124,7 @@ local function buffer_results(params)
     items = omni_candidates(base)
   end
 
-  if #items == 0 and base ~= '' then
+  if #items < 3 and vim.trim(line) ~= '' then
     items = candidates(base)
   end
 
