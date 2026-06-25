@@ -4,7 +4,7 @@ vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>', { silent = true, desc
 return {
   'nvim-tree/nvim-tree.lua',
   dependencies = {
-    'antosha417/nvim-lsp-file-operations',
+    'DrKJeff16/nvim-lsp-file-operations',
   },
   cmd = { 'NvimTreeToggle', 'NvimTreeFindFile', 'NvimTreeOpen' },
   config = function()
