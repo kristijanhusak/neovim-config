@@ -52,6 +52,13 @@ function M.candidates(items, prefix)
     local matched, score = match.match(word, prefix)
     if matched then
       local kind = protocol.CompletionItemKind[item.kind] or 'Text'
+      local menu = protocol.CompletionItemKind[item.kind]
+      if menu then
+        menu = ('[' .. menu .. ']')
+      else
+        menu = vim.tbl_get(item, 'labelDetails', 'detail') or vim.tbl_get(item, 'labelDetails', 'description')
+      end
+      menu = menu or '[Text]'
 
       local hl_group = ''
       if item.deprecated or vim.list_contains((item.tags or {}), protocol.CompletionTag.Deprecated) then
@@ -66,7 +73,7 @@ function M.candidates(items, prefix)
         abbr_hlgroup = hl_group,
         kind = icons[kind],
         kind_hlgroup = ('BlinkCmpKind%s'):format(kind),
-        menu = ('[%s]'):format(kind),
+        menu = menu,
         info = info,
         icase = 1,
         dup = 1,

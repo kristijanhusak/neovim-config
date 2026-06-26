@@ -58,6 +58,9 @@ local function completefunc(findstart, base)
   local is_empty_line = #vim.trim(vim.api.nvim_get_current_line()) == 0
   local bufnr = vim.api.nvim_get_current_buf()
   local clients = vim.lsp.get_clients({ bufnr = bufnr, method = 'textDocument/completion' })
+  clients = vim.tbl_filter(function(client)
+    return client.name ~= 'filepaths_ls'
+  end, clients)
 
   if #clients == 0 then
     local items = buf.omni_candidates(base)

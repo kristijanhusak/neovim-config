@@ -42,7 +42,7 @@ function M.candidates(prefix)
           seen[w] = true
           items[#items + 1] = {
             word = w,
-            menu = '[buf]',
+            menu = '[Buf]',
             kind = icons.Text,
             kind_hlgroup = 'BlinkCmpKindText',
             icase = 1,
