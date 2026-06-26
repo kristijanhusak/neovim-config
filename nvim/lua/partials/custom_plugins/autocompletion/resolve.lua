@@ -114,6 +114,10 @@ function M.setup(augroup)
   vim.api.nvim_create_autocmd('CompleteDone', {
     group = augroup,
     callback = function()
+      local reason = vim.v.event.reason
+      if reason ~= 'accept' then
+        return
+      end
       local completed_item = vim.v.completed_item
       if not completed_item or not completed_item.word then
         return
