@@ -4,7 +4,7 @@ return {
   { 'tpope/vim-abolish', event = 'VeryLazy' },
   { 'tpope/vim-surround', event = 'VeryLazy' },
   { 'nvim-tree/nvim-web-devicons' },
-  { 'nvim-lua/plenary.nvim' , priority = 800 },
+  { 'nvim-lua/plenary.nvim', priority = 800 },
   {
     'folke/which-key.nvim',
     event = 'VeryLazy',
@@ -17,6 +17,12 @@ return {
           },
         },
       })
+    end,
+  },
+  {
+    'CoreyKaylor/diffbandit.nvim',
+    config = function()
+      require('diffbandit').setup()
     end,
   },
 }
