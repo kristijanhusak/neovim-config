@@ -1,11 +1,16 @@
-vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>', { silent = true, desc = 'Toggle NvimTree' })
-vim.keymap.set('n', '<Leader>hf', ':NvimTreeFindFile<CR>', { silent = true, desc = 'Toggle NvimTree on current file' })
+if not vim.g.builtin_dir then
+  vim.keymap.set('n', '<Leader>n', ':NvimTreeToggle<CR>', { silent = true, desc = 'Toggle NvimTree' })
+  vim.keymap.set(
+    'n',
+    '<Leader>hf',
+    ':NvimTreeFindFile<CR>',
+    { silent = true, desc = 'Toggle NvimTree on current file' }
+  )
+end
 
 return {
   'nvim-tree/nvim-tree.lua',
-  dependencies = {
-    'DrKJeff16/nvim-lsp-file-operations',
-  },
+  enabled = not vim.g.builtin_dir,
   cmd = { 'NvimTreeToggle', 'NvimTreeFindFile', 'NvimTreeOpen' },
   config = function()
     require('nvim-tree').setup({
@@ -50,6 +55,5 @@ return {
         },
       },
     })
-    require('lsp-file-operations').setup()
   end,
 }
