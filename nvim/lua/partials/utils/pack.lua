@@ -67,7 +67,7 @@ vim.api.nvim_create_autocmd('PackChanged', {
 local last_cmd = ''
 vim.api.nvim_create_autocmd('CmdlineLeavePre', {
   pattern = '*',
-  callback = function(ev)
+  callback = function()
     last_cmd = vim.fn.getcmdline()
   end,
 })
