@@ -42,13 +42,21 @@ local function collect_buf_words(bufnr)
   return words
 end
 
+vim.api.nvim_create_autocmd({ 'BufWritePost', 'BufEnter' }, {
+  group = vim.api.nvim_create_augroup('BufferLspCache', { clear = true }),
+  callback = function(args)
+    collect_buf_words(args.buf)
+  end,
+})
+
 --- Returns complete-items matching `prefix` from all loaded buffers.
 local function candidates(prefix)
   local seen, items = {}, {}
   local current_bufnr = vim.api.nvim_get_current_buf()
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_is_loaded(bufnr) then
-      for _, w in ipairs(collect_buf_words(bufnr)) do
+      local words = buf_cache[bufnr] and buf_cache[bufnr].words or {}
+      for _, w in ipairs(words) do
         local matched, score = matcher(w, prefix)
         local info = ''
         if bufnr ~= current_bufnr then
