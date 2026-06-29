@@ -75,6 +75,7 @@ local function candidates(prefix)
             dup = 0,
             empty = 1,
             _fuzzy_score = score,
+            _bufnr = bufnr,
           }
         end
       end
@@ -82,6 +83,9 @@ local function candidates(prefix)
   end
   if enable_fuzzy and prefix ~= '' then
     table.sort(items, function(a, b)
+      if a._bufnr ~= b._bufnr then
+        return a._bufnr == current_bufnr
+      end
       return (a._fuzzy_score or 0) > (b._fuzzy_score or 0)
     end)
   end
