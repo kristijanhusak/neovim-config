@@ -8,14 +8,14 @@ local icons = utils.lsp_kind_icons()
 local protocol = vim.lsp.protocol
 vim.opt.complete = 'o'
 
-vim.api.nvim_create_autocmd('InsertEnter', {
-  pattern = '*',
-  group = augroup,
-  callback = function(ev)
-    local is_valid_buffer = vim.bo[ev.buf].buftype ~= 'prompt' and vim.bo[ev.buf].filetype ~= 'snacks_input'
-    vim.opt_local.autocomplete = is_valid_buffer
-  end,
-})
+-- vim.api.nvim_create_autocmd('InsertEnter', {
+--   pattern = '*',
+--   group = augroup,
+--   callback = function(ev)
+--     local is_valid_buffer = vim.bo[ev.buf].buftype ~= 'prompt' and vim.bo[ev.buf].filetype ~= 'snacks_input'
+--     vim.opt_local.autocomplete = is_valid_buffer
+--   end,
+-- })
 
 local compare_by_sortText_and_label = function(a, b)
   ---@type lsp.CompletionItem
@@ -34,6 +34,23 @@ local compare_fn = function(a, b)
   return compare_by_sortText_and_label(a, b)
 end
 
+--- @type uv.uv_timer_t?
+local completion_timer = nil
+
+--- @return uv.uv_timer_t
+local function new_timer()
+  return (assert(vim.uv.new_timer()))
+end
+
+local function reset_timer()
+  if completion_timer then
+    completion_timer:stop()
+    completion_timer:close()
+  end
+
+  completion_timer = nil
+end
+
 vim.api.nvim_create_autocmd('LspAttach', {
   group = augroup,
   callback = function(ev)
@@ -42,6 +59,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
       return
     end
     local bufnr = ev.buf
+
+    if vim.bo[bufnr].omnifunc ~= 'v:lua.vim.lsp.omnifunc' then
+      vim.b[bufnr].old_omnifunc = vim.bo[bufnr].omnifunc
+    end
+    vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
     vim.lsp.completion.enable(true, client.id, bufnr, {
       cmp = function(a, b)
@@ -59,12 +81,27 @@ vim.api.nvim_create_autocmd('LspAttach', {
       end,
       convert = function(item)
         local kind = vim.lsp.protocol.CompletionItemKind[item.kind] or 'Text'
-        local menu = ('[%s]'):format(kind)
+        local menu = item.labelDetails and item.labelDetails.description or ('[%s]'):format(kind)
         return {
           kind = icons[kind],
           kind_hlgroup = ('BlinkCmpKind%s'):format(kind),
           menu = menu,
         }
+      end,
+    })
+
+    vim.api.nvim_create_autocmd('InsertCharPre', {
+      buf = bufnr,
+      callback = function()
+        reset_timer()
+        completion_timer = new_timer()
+        completion_timer:start(
+          120,
+          0,
+          vim.schedule_wrap(function()
+            vim.lsp.completion.get()
+          end)
+        )
       end,
     })
   end,

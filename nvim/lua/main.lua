@@ -1,5 +1,5 @@
-vim.g.builtin_autocompletion = false
-vim.g.custom_autocompletion = true
+vim.g.builtin_autocompletion = true
+vim.g.custom_autocompletion = false
 vim.g.builtin_dir = vim.fn.has('nvim-0.13') == 1 and true
 
 require('partials.abbreviations')

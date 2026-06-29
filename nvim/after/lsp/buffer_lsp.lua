@@ -83,7 +83,7 @@ end
 --- Returns complete-items from the buffer's omnifunc (if set).
 --- Falls back to empty list if omnifunc is absent, errors, or returns nothing.
 local function omni_candidates(base)
-  local omnifunc = vim.bo.omnifunc
+  local omnifunc = vim.b.old_omnifunc or vim.bo.omnifunc or ''
   if omnifunc == '' or omnifunc == 'v:lua.vim.lsp.omnifunc' then
     return {}
   end
@@ -107,13 +107,18 @@ end
 
 local function buffer_results(params)
   local bufnr = vim.uri_to_bufnr(params.textDocument.uri)
-  local line = vim.api
-    .nvim_buf_get_lines(bufnr, params.position.line, params.position.line + 1, false)[1]
-    :sub(1, params.position.character)
+  local line = vim.api.nvim_buf_get_lines(bufnr, params.position.line, params.position.line + 1, false)[1] or ''
+  line = line:sub(1, params.position.character)
 
   local clients = vim.lsp.get_clients({ bufnr = bufnr, method = methods.textDocument_completion })
+  clients = vim
+    .iter(clients)
+    :filter(function(client)
+      return client.name ~= 'buffer_lsp' and client.name ~= 'filepaths_ls'
+    end)
+    :totable()
 
-  local base = line:match('[%w_]+$') or ''
+  local base = line and line:match('[%w_]+$') or ''
 
   local items = {}
 
@@ -130,7 +135,7 @@ local function buffer_results(params)
       label = item.word,
       labelDetails = item.menu and { description = item.menu } or nil,
       documentation = item.info,
-      buf = true
+      buf = true,
     }
   end, items)
 
