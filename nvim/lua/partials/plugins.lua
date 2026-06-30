@@ -1,12 +1,21 @@
 return {
   { 'tpope/vim-repeat', event = 'VeryLazy' },
-  { 'tpope/vim-sleuth', event = 'VeryLazy' },
-  { 'tpope/vim-abolish', event = 'VeryLazy' },
+  {
+    'tpope/vim-sleuth',
+    event = 'VeryLazy',
+    enabled = false,
+  },
+  {
+    'tpope/vim-abolish',
+    event = 'VeryLazy',
+    enabled = false,
+  },
   { 'tpope/vim-surround', event = 'VeryLazy' },
   { 'nvim-tree/nvim-web-devicons' },
   { 'nvim-lua/plenary.nvim', priority = 800 },
   {
     'folke/which-key.nvim',
+    enabled = false,
     event = 'VeryLazy',
     config = function()
       require('which-key').setup({
@@ -17,12 +26,6 @@ return {
           },
         },
       })
-    end,
-  },
-  {
-    'CoreyKaylor/diffbandit.nvim',
-    config = function()
-      require('diffbandit').setup()
     end,
   },
 }
