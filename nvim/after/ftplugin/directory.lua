@@ -4,6 +4,7 @@ end
 
 vim.bo.bufhidden = 'wipe'
 
+local utils = require('partials.utils')
 local ns_id = vim.api.nvim_create_namespace('directory_browser')
 local sep = (vim.fn.exists('+shellslash') == 1 and not vim.o.shellslash) and '\\' or '/'
 local escape_chars = '.#~' .. sep
@@ -158,7 +159,7 @@ local function attach()
 end
 
 local function reload()
-  vim.api.nvim_feedkeys(require('partials.utils').esc('<Plug>(nvim-dir-reload)'), 'n', false)
+  vim.api.nvim_feedkeys(utils.esc('<Plug>(nvim-dir-reload)'), 'n', false)
 end
 
 local function current_entry()
@@ -338,9 +339,20 @@ vim.keymap.set('n', 'q', function()
   vim.cmd('bw!')
 end, { buffer = true, nowait = true, desc = 'Quit' })
 
-vim.keymap.set('n', 'o', '<Plug>(nvim-dir-open)', { buffer = true, nowait = true, desc = 'Open file/dir' })
-vim.keymap.set('n', 'L', '<Plug>(nvim-dir-open)', { buffer = true, nowait = true, desc = 'Open file/dir' })
-vim.keymap.set('n', 'H', '<Plug>(nvim-dir-up)', { buffer = true, nowait = true, desc = 'Go up dir' })
+local function keymap(key)
+  return function()
+    local view = vim.fn.winsaveview()
+    vim.api.nvim_feedkeys(utils.esc(key), 'n', false)
+    vim.schedule(function()
+      vim.fn.winrestview(view)
+    end)
+  end
+end
+
+vim.keymap.set('n', 'o', keymap('<Plug>(nvim-dir-open)'), { buffer = true, nowait = true, desc = 'Open file/dir' })
+vim.keymap.set('n', 'L', keymap('<Plug>(nvim-dir-open)'), { buffer = true, nowait = true, desc = 'Open file/dir' })
+vim.keymap.set('n', 'H', keymap('<Plug>(nvim-dir-up)'), { buffer = true, nowait = true, desc = 'Go up dir' })
+vim.keymap.set('n', '-', keymap('<Plug>(nvim-dir-up)'), { buffer = true, nowait = true, desc = 'Go up dir' })
 vim.keymap.set('n', 's', function()
   local full_path, _, _, _ = current_entry()
   vim.cmd.vnew(full_path)

@@ -9,10 +9,14 @@ vim.keymap.set('n', '<Leader>n', function()
   end
   vim.cmd.edit(vim.fn.getcwd())
 end, { silent = true, desc = 'Toggle dir browser' })
-vim.keymap.set('n', '<Leader>hf', function()
+
+local function dir_at_current_file()
   local filename = vim.fn.expand('%:t')
   vim.api.nvim_feedkeys(require('partials.utils').esc('<Plug>(nvim-dir-up)'), 'n', false)
   vim.schedule(function()
     vim.fn.search(vim.fn.escape(filename, '.#~/'), 'cw')
   end)
-end, { silent = true, desc = 'Current file in dir browser' })
+end
+
+vim.keymap.set('n', '<Leader>hf', dir_at_current_file, { silent = true, desc = 'Current file in dir browser' })
+vim.keymap.set('n', '-', dir_at_current_file, { silent = true, desc = 'Current file in dir browser' })
