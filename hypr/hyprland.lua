@@ -156,6 +156,14 @@ hl.window_rule({
 })
 
 hl.window_rule({
+  name = 'junction',
+  match = {
+    title = '^(Junction)$',
+  },
+  float = true,
+})
+
+hl.window_rule({
   name = 'chrome-save-file',
   match = {
     class = '^(google-chrome)$',
