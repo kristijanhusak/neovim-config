@@ -116,6 +116,13 @@ local function add_git()
         vim.api.nvim_buf_set_extmark(0, ns_id, linenr - 1, 0, {
           virt_text = { { indicator_icon .. ' ', git_higlights[indicator_name] or 'Normal' } },
         })
+        local hl = git_higlights[indicator_name]
+        if hl then
+          vim.api.nvim_buf_set_extmark(0, ns_id, linenr - 1, 0, {
+            end_col = #vim.api.nvim_buf_get_lines(0, linenr - 1, linenr, false)[1],
+            hl_group = hl
+          })
+        end
         lines_processed[linenr] = true
       end
     end
