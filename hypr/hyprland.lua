@@ -161,6 +161,7 @@ hl.window_rule({
     title = '^(Junction)$',
   },
   float = true,
+  focus_on_activate = true
 })
 
 hl.window_rule({
