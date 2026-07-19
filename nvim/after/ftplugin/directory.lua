@@ -104,7 +104,7 @@ local function add_git()
       end
 
       file = vim.fn.fnamemodify(git_root .. sep .. file, ':p')
-      local filepath = file:gsub('^' .. vim.pesc(path .. sep), '')
+      local filepath = file:gsub('^' .. vim.pesc(path), '')
       local filename = filepath and filepath:match('^[^' .. esc_sep .. ']+' .. esc_sep .. '?')
       if not filename then
         goto continue
