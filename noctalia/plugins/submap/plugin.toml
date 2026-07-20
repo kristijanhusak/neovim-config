@@ -2,6 +2,7 @@ id           = "me/submap"     # "<author>/<plugin>" — globally unique
 name         = "Submap"
 version      = "1.0.0"
 min_noctalia = "5.0.0"        # mandatory: minimum Noctalia version
+plugin_api   = 3
 author       = "me"
 description  = "Track hyprland submaps"
 

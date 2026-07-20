@@ -58,6 +58,10 @@ behavior_order = [ "lock", "screen-off", "suspend" ]
     lock_before_suspend = true
     timeout = 900
 
+[keybinds]
+down = [ "Down", "Ctrl+j" ]
+up = [ "Up", "Ctrl+k" ]
+
 [location]
 auto_locate = true
 
@@ -167,6 +171,8 @@ capsule = true
 capsule_padding = 10.0
 
 [widget.lock_keys]
+capsule = true
+display = "full"
 hide_when_off = true
 
 [widget.media]

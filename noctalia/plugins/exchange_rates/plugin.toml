@@ -2,6 +2,7 @@ id           = "me/exchange_rates"     # "<author>/<plugin>" — globally unique
 name         = "Exchange rates"
 version      = "1.0.0"
 min_noctalia = "5.0.0"        # mandatory: minimum Noctalia version
+plugin_api   = 3
 author       = "me"
 description  = "Show exchange rates"
 
