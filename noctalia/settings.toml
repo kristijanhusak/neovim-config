@@ -131,6 +131,12 @@ font_family = "Cascadia Code"
 polkit_agent = true
 ui_scale = 1.0
 
+    [shell.launcher.providers.session]
+    global = true
+
+    [shell.launcher.providers.windows]
+    global = true
+
     [shell.panel]
     launcher_session_search = true
     open_near_click_control_center = true
