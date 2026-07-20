@@ -158,6 +158,7 @@ end
 
 local function attach()
   local ok, devicons = pcall(require, 'nvim-web-devicons')
+  vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
   if ok then
     add_icons(devicons)
   end
