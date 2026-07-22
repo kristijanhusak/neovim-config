@@ -15,7 +15,7 @@ return {
       pattern = '*',
       group = vim.api.nvim_create_augroup('nvim-treesitter-fts', { clear = true }),
       callback = function(args)
-        local parser = vim.treesitter.get_parser(args.buf, vim.bo[args.buf].filetype)
+        local parser = vim.treesitter.get_parser(args.buf)
         if parser then
           vim.treesitter.start(args.buf)
         end
