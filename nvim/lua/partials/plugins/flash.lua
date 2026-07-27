@@ -1,5 +1,6 @@
 return {
   'folke/flash.nvim',
+  enabled = false,
   event = 'VeryLazy',
   config = function()
     vim.keymap.set({ 'n', 'x', 'o' }, 's', function()
