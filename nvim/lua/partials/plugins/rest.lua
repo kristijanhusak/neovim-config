@@ -13,6 +13,10 @@ local rest = {
         require('kulala').run()
       end,
     })
+
+    vim.api.nvim_create_user_command('RestCopyCurl', function()
+      require('kulala').copy()
+    end)
   end,
 }
 
