@@ -69,6 +69,7 @@ hl.on('hyprland.start', function()
   local startup = {
     'noctalia',
     'dropbox',
+    'kanata',
     '~/.config/hypr/events.sh',
   }
 
