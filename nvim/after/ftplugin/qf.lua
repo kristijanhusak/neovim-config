@@ -6,3 +6,13 @@ vim.keymap.set('n', 'X', function()
   vim.fn.setqflist(items, 'u')
   vim.fn.winrestview(view)
 end, { desc = 'Remove item from qflist' })
+
+vim.keymap.set('n', '<Leader>fc', function()
+  vim.api.nvim_feedkeys(':Cfilter', 'i', false)
+end, { desc = 'Start filter' })
+
+vim.keymap.set('n', '<Leader>ft', function()
+  vim.cmd(':Cfilter! test')
+  vim.cmd(':Cfilter! spec')
+  vim.cmd(':Cfilter! mock')
+end, { desc = 'Filter out test entries' })
