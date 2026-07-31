@@ -28,7 +28,7 @@ install_emacs() {
 }
 
 install_packages() {
-  ehco"Installing packages..." \
+  echo "Installing packages..." \
     && yay -S keychain go dropbox dropbox-cli meld cronie jq
 }
 
@@ -48,15 +48,15 @@ install_kitty() {
 install_sway() {
   yay -S sway swaybg swaylock swaync swayidle xorg-wayland grim slurp wl-clipboard \
   && rm -rf ~/.config/sway \
-    && ln -s $(pwd)/sway ~/.config/sway \
+    && ln -s $(pwd)/sway ~/.config/sway
 }
 
 install_hyprland() {
-  yay -S cmake meson cpio pkg-config g++ gcc zenity socat xorg-wayland grim slurp wl-clipboard hyprland wf-recorder noctalia-shell \
+  yay -S cmake meson cpio pkg-config gcc zenity socat grim slurp wl-clipboard hyprland wf-recorder noctalia-shell \
   && rm -rf ~/.config/hypr ~/.config/noctalia \
     && ln -s $(pwd)/hypr ~/.config/hypr \
     && ln -s $(pwd)/noctalia ~/.config/noctalia \
-    && ln -s $(pdw)/scripts/toggle_theme /usr/local/bin/toggle_theme
+    && ln -s $(pwd)/scripts/toggle_theme /usr/local/bin/toggle_theme \
     && hyprpm update
 }
 
