@@ -39,9 +39,9 @@ hl.config({
 })
 
 hl.monitor({
-  output = 'DP-1',
-  mode = '3440x1440@144',
-  position = '0x0',
+  output = '',
+  mode = 'highrr',
+  position = 'auto',
   scale = 1,
 })
 
@@ -162,7 +162,7 @@ hl.window_rule({
     title = '^(Junction)$',
   },
   float = true,
-  focus_on_activate = true
+  focus_on_activate = true,
 })
 
 hl.window_rule({
