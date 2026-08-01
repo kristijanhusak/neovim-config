@@ -1,9 +1,16 @@
 #!/usr/bin/env bash
 
 install_oh_my_zsh() {
+  if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+    echo "Error: ~/.oh-my-zsh directory does not exist."
+    return 1
+  fi
+
   echo "Setting up zsh..." \
   && rm -rf ~/.zshrc \
   && ln -s $(pwd)/zsh/zshrc ~/.zshrc \
+  && rm -rf ~/.p10k.zsh \
+  && ln -s $(pwd)/zsh/.p10k.zsh ~/.p10k.zsh \
   && git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
   && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
   && git clone https://github.com/Aloxaf/fzf-tab ~/.oh-my-zsh/custom/plugins/fzf-tab \
@@ -17,7 +24,7 @@ install_neovim() {
   echo "Setting up neovim..." \
   && rm -rf ~/.config/nvim ~/.fzf \
   && ln -s $(pwd)/nvim ~/.config/nvim \
-  && yay -S ripgrep
+  && yay -S ripgrep bob python-pynvim tree-sitter-cli
 }
 
 install_emacs() {
@@ -29,7 +36,7 @@ install_emacs() {
 
 install_packages() {
   echo "Installing packages..." \
-    && yay -S keychain go dropbox dropbox-cli meld cronie jq
+    && yay -S keychain go dropbox dropbox-cli meld cronie jq fnm-bin thunar thunar-archive-plugin xarchiver libappindicator
 }
 
 install_diff_so_fancy() {
@@ -41,7 +48,7 @@ install_diff_so_fancy() {
 install_kitty() {
   echo "Installing kitty..." \
     && rm -rf ~/.local/kitty.app ~/.config/kitty \
-    && yay -S kitty \
+    && yay -S kitty ttf-cascadia-code \
     && ln -s $(pwd)/kitty ~/.config/kitty
 }
 
@@ -52,7 +59,7 @@ install_sway() {
 }
 
 install_hyprland() {
-  yay -S cmake meson cpio pkg-config gcc zenity socat grim slurp wl-clipboard hyprland wf-recorder noctalia-shell \
+  yay -S cmake meson cpio pkg-config gcc zenity socat grim slurp wl-clipboard hyprland wf-recorder noctalia \
   && rm -rf ~/.config/hypr ~/.config/noctalia \
     && ln -s $(pwd)/hypr ~/.config/hypr \
     && ln -s $(pwd)/noctalia ~/.config/noctalia \
