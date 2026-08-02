@@ -7,6 +7,7 @@ vim.api.nvim_set_hl(0, 'DirectoryCopy', { underline = true })
 
 local cut_state = {}
 local copy_state = {}
+local position_state = {}
 
 local function render_state(bufnr)
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
@@ -157,9 +158,11 @@ local function add_mappings(bufnr)
   local function keymap(key)
     return function()
       local view = vim.fn.winsaveview()
+      position_state[vim.api.nvim_buf_get_name(0)] = view
       vim.api.nvim_feedkeys(utils.esc(key), 'n', false)
       vim.schedule(function()
-        vim.fn.winrestview(view)
+        local restview = position_state[vim.api.nvim_buf_get_name(0)] or view
+        vim.fn.winrestview(restview)
       end)
     end
   end
