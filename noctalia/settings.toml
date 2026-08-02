@@ -5,17 +5,12 @@ center = [ "submap", "lock_keys", "media" ]
 end = [
     "exchange_rates",
     "weather",
-    "separator",
-    "keyboard_layout",
-    "separator",
     "group:g1",
-    "separator",
-    "network",
-    "bluetooth",
-    "separator",
+    "group:g2",
+    "battery",
     "volume",
+    "keyboard_layout",
     "clock",
-    "separator",
     "notifications",
     "tray"
 ]
@@ -30,9 +25,18 @@ thickness = 34
 widget_spacing = 12
 
     [[bar.default.capsule_group]]
+    enabled = true
     fill = "surface_variant"
     id = "g1"
     members = [ "ram", "cpu", "sysmon" ]
+    opacity = 1.0
+    padding = 6.0
+
+    [[bar.default.capsule_group]]
+    enabled = true
+    fill = "surface_variant"
+    id = "g2"
+    members = [ "network", "bluetooth" ]
     opacity = 1.0
     padding = 6.0
 
@@ -92,42 +96,6 @@ widget_order = [
     rotation = 0.0
     type = "login_box"
 
-        [lockscreen_widgets.widget."lockscreen-login-box@DP-1".settings]
-        center_password_text = false
-        layout = "regular"
-        show_caps_lock = true
-        show_keyboard_layout = true
-        show_login_button = true
-        show_media = true
-        show_session_buttons = true
-        show_unlock_hint = true
-        show_weather = true
-
-    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
-    box_height = 196.0
-    box_width = 810.0
-    cx = 960.0
-    cy = 898.0
-    output = "eDP-1"
-    rotation = 0.0
-    type = "login_box"
-
-        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
-        background_color = "surface_variant"
-        background_opacity = 0.88
-        background_radius = 12.0
-        center_password_text = false
-        input_opacity = 1.0
-        input_radius = 6.0
-        layout = "regular"
-        show_caps_lock = true
-        show_keyboard_layout = true
-        show_login_button = true
-        show_media = true
-        show_session_buttons = true
-        show_unlock_hint = true
-        show_weather = true
-
     [lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
     box_height = 256.0
     box_width = 592.0
@@ -159,7 +127,7 @@ widget_order = [
 scale = 1.1
 
 [plugins]
-enabled = [ "me/exchange_rates", "me/submap" ]
+enabled = [ "me/submap", "me/exchange_rates" ]
 
     [[plugins.source]]
     kind = "path"
@@ -197,7 +165,8 @@ directory = "/home/kristijan/Pictures/Wallpapers"
 auto_locate = true
 
 [widget.active_window]
-max_length = 400.0
+max_length = 300
+title_scroll = "on_hover"
 
 [widget.clock]
 capsule = true
@@ -243,7 +212,7 @@ type = "me/submap:submap"
 capsule = true
 capsule_group = "sysmonitor"
 display = "text"
-stat = "disk_pct"
+stat = "disk_free_pct"
 
 [widget.tray]
 drawer = true

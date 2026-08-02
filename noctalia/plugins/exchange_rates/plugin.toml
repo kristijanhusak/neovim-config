@@ -1,11 +1,24 @@
 id           = "me/exchange_rates"     # "<author>/<plugin>" — globally unique
 name         = "Exchange rates"
-version      = "1.0.0"
+version      = "2.0.0"
 min_noctalia = "5.0.0"        # mandatory: minimum Noctalia version
-plugin_api   = 3
+plugin_api   = 20
 author       = "me"
-description  = "Show exchange rates"
+description  = "Show cached USD and EUR exchange rates"
 
 [[widget]]
 id = 'exchange_rates'
 entry = 'widget.luau'
+
+[[panel]]
+id = 'panel'
+entry = 'panel.luau'
+width = 460
+height = 480
+placement = 'attached'
+position = 'auto'
+open_near_click = true
+
+[[service]]
+id = 'rates'
+entry = 'service.luau'
