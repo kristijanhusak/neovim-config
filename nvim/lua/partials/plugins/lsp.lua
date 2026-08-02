@@ -105,6 +105,7 @@ lsp.config = function()
       'gopls',
       'intelephense',
       'lua_ls',
+      'luau_lsp',
       'pylsp',
       'ruby_lsp',
       'rust_analyzer',
@@ -271,6 +272,16 @@ function setup.servers()
         },
         hint = {
           enable = true,
+        },
+      },
+    },
+  })
+
+  vim.lsp.config('luau_lsp', {
+    settings = {
+      ['luau-lsp'] = {
+        sourcemap = {
+          enabled = false,
         },
       },
     },
