@@ -99,7 +99,7 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=248'
 
 eval "$(fnm env)"
 
-eval $(keychain --eval --quiet ~/.ssh/id_rsa)
+eval $(keychain --eval --quiet --immediate ~/.ssh/id_rsa)
 
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd sync_nvim_colorscheme_bg
