@@ -81,6 +81,7 @@ end)
 hl.bind(mod .. ' + Return', hl.dsp.exec_cmd('kitty'))
 hl.bind(mod .. ' + b', hl.dsp.exec_cmd('firefox'))
 hl.bind(mod .. ' + d', hl.dsp.exec_cmd(noctalia('panel-toggle launcher')))
+hl.bind(mod .. ' + w', hl.dsp.exec_cmd(noctalia('panel-toggle launcher /win')))
 hl.bind(mod .. ' + SHIFT + i', hl.dsp.window.float({ action = 'toggle' }))
 
 hl.bind(
