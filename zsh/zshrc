@@ -22,7 +22,6 @@ plugins=(
   copyfile
   vi-mode
   dircycle
-  jira
 )
 
 ENABLE_CORRECTION="true"
