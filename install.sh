@@ -36,7 +36,7 @@ install_emacs() {
 
 install_packages() {
   echo "Installing packages..." \
-    && yay -S keychain go dropbox dropbox-cli meld cronie jq fnm-bin thunar thunar-archive-plugin xarchiver libappindicator gvfs
+    && yay -S keychain go dropbox dropbox-cli meld cronie jq fnm-bin thunar thunar-archive-plugin xarchiver libappindicator gvfs loupe
 }
 
 install_diff_so_fancy() {

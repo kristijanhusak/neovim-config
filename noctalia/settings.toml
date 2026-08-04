@@ -150,6 +150,10 @@ ui_scale = 1.0
     launcher_session_search = true
     open_near_click_control_center = true
 
+    [shell.screenshot]
+    directory = "/home/kristijan/Pictures/screenshots"
+    filename_pattern = "screenshot_%Y_%m_%d_%H_%M_%S"
+
 [theme]
 community_palette = "One"
 source = "community"
