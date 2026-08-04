@@ -206,17 +206,6 @@ hl.window_rule({
 })
 
 hl.window_rule({
-  name = 'viber-notifications',
-  match = {
-    title = '^(ViberPC)$',
-  },
-  float = true,
-  no_initial_focus = true,
-  pin = true,
-  move = '((monitor_w*1)) ((monitor_h*1))',
-})
-
-hl.window_rule({
   name = 'workspace-2',
   match = {
     class = '^(google-chrome|firefox|Brave-browser)$',
