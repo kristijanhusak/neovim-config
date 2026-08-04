@@ -146,8 +146,8 @@ hl.bind('XF86AudioNext', hl.dsp.exec_cmd(noctalia('media next')))
 hl.bind('XF86AudioPrev', hl.dsp.exec_cmd(noctalia('media previous')))
 
 hl.bind('Print', hl.dsp.exec_cmd(noctalia('screenshot-region')))
-hl.bind(mod .. ' + CTRL + r', hl.dsp.exec_cmd('~/neovim-config/scripts/record_screen.sh --start'))
-hl.bind(mod .. ' + CTRL + s', hl.dsp.exec_cmd('~/neovim-config/scripts/record_screen.sh --stop'))
+hl.bind(mod .. ' + CTRL + r', hl.dsp.exec_cmd(noctalia('plugin noctalia/screen_recorder:service all start')))
+hl.bind(mod .. ' + CTRL + s', hl.dsp.exec_cmd(noctalia('plugin noctalia/screen_recorder:service all stop')))
 
 hl.window_rule({
   name = 'calculator',

@@ -127,12 +127,22 @@ widget_order = [
 scale = 1.1
 
 [plugins]
-enabled = [ "me/submap", "me/exchange_rates" ]
+enabled = [ "me/submap", "me/exchange_rates", "noctalia/screen_recorder" ]
 
     [[plugins.source]]
     kind = "path"
     location = "/home/kristijan/.config/noctalia/plugins"
     name = "my-dev"
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/official-plugins"
+    name = "official-plugins"
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/community-plugins"
+    name = "community-plugins"
 
 [shell]
 clipboard_enabled = false

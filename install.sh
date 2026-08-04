@@ -36,7 +36,7 @@ install_emacs() {
 
 install_packages() {
   echo "Installing packages..." \
-    && yay -S keychain go dropbox dropbox-cli meld cronie jq fnm-bin thunar thunar-archive-plugin xarchiver libappindicator gvfs loupe
+    && yay -S keychain go dropbox dropbox-cli meld cronie jq fnm-bin thunar thunar-archive-plugin xarchiver libappindicator gvfs loupe vlc
 }
 
 install_diff_so_fancy() {
@@ -59,7 +59,7 @@ install_sway() {
 }
 
 install_hyprland() {
-  yay -S cmake meson cpio pkg-config gcc zenity socat grim slurp wl-clipboard hyprland wf-recorder noctalia \
+  yay -S cmake meson cpio pkg-config gcc zenity socat grim slurp wl-clipboard hyprland gpu-screen-recorder noctalia \
   && rm -rf ~/.config/hypr ~/.config/noctalia \
     && ln -s $(pwd)/hypr ~/.config/hypr \
     && ln -s $(pwd)/noctalia ~/.config/noctalia \
