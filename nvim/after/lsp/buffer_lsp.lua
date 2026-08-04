@@ -42,7 +42,7 @@ local function collect_buf_words(bufnr)
   return words
 end
 
-vim.api.nvim_create_autocmd({ 'BufWritePost', 'BufEnter' }, {
+vim.api.nvim_create_autocmd({ 'BufWritePost', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
   group = vim.api.nvim_create_augroup('BufferLspCache', { clear = true }),
   callback = function(args)
     collect_buf_words(args.buf)
