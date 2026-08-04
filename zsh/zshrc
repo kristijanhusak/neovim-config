@@ -20,8 +20,8 @@ plugins=(
   command-not-found
   copypath
   copyfile
-  dircycle
   vi-mode
+  dircycle
   jira
 )
 
