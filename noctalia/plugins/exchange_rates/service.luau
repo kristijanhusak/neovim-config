@@ -48,6 +48,9 @@ local function history()
   for index = first, #previousRates do
     table.insert(recent, previousRates[index])
   end
+  table.sort(recent, function(a, b)
+    return a.date > b.date
+  end)
   return recent
 end
 
