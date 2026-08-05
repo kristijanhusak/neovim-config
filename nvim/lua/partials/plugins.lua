@@ -15,7 +15,6 @@ return {
   { 'nvim-lua/plenary.nvim', priority = 800 },
   {
     'folke/which-key.nvim',
-    enabled = false,
     event = 'VeryLazy',
     config = function()
       require('which-key').setup({

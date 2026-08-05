@@ -92,6 +92,7 @@ colorscheme.base16 = function()
     DiagnosticUnderlineWarn = { undercurl = true },
     WarningMsg = { fg = pallete.base0A },
     Comment = { italic = true },
+    SimpleF = { fg = pallete.base08, undercurl = true, bold = true },
   }
 
   require('mini.base16').setup({
@@ -121,6 +122,7 @@ colorscheme.kape = function()
     IndentLineCurrent = { fg = palette.text },
     NormalFloat = { bg = palette.dark1 },
     FloatBorder = { bg = palette.dark1 },
+    SimpleF = { fg = palette.bright_red, undercurl = true, bold = true },
     ['@lsp.type.function'] = { link = 'Function' },
     ['@lsp.typemod.function.defaultLibrary.lua'] = { link = 'Function' },
   }
