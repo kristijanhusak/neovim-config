@@ -23,6 +23,9 @@ local function matcher(value, prefix)
 end
 
 local function collect_buf_words(bufnr)
+  if not vim.api.nvim_buf_is_valid(bufnr) then
+    return
+  end
   local tick = vim.api.nvim_buf_get_changedtick(bufnr)
   local c = buf_cache[bufnr]
   if c and c.tick == tick then
