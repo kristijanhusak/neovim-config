@@ -13,7 +13,7 @@
 
 (deflayer nav
   _
-  lctl lsft left down up rght caps (layer-while-held nav-space)
+  lctl lsft left down up rght caps (tap-hold 200 200 bspc (layer-while-held nav-space))
 )
 
 (deflayer nav-space
