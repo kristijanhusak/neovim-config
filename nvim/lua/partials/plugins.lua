@@ -1,3 +1,4 @@
+local is_nightly = vim.fn.has('nvim-0.13') == 1
 return {
   { 'tpope/vim-repeat', event = 'VeryLazy' },
   {
@@ -16,12 +17,13 @@ return {
   {
     'folke/which-key.nvim',
     event = 'VeryLazy',
+    enabled = not is_nightly,
     config = function()
       require('which-key').setup({
         preset = 'helix',
         plugins = {
           spelling = {
-            enabled = vim.fn.has('nvim-0.13') == 0,
+            enabled = not is_nightly,
           },
         },
       })

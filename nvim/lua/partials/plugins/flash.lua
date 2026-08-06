@@ -1,6 +1,6 @@
 return {
   'folke/flash.nvim',
-  enabled = false,
+  enabled = vim.fn.has('nvim-0.13') == 0,
   event = 'VeryLazy',
   config = function()
     vim.keymap.set({ 'n', 'x', 'o' }, 's', function()
