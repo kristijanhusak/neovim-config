@@ -41,7 +41,8 @@ local function get_indicator_name(us, them)
   end
 end
 
-local function add_git(bufnr)
+local function add_git()
+  local bufnr = vim.api.nvim_get_current_buf()
   local path = vim.api.nvim_buf_get_name(bufnr)
   local git_root_result = vim.system({ 'git', 'rev-parse', '--show-toplevel', path }, {}):wait()
   if git_root_result.code ~= 0 then
@@ -129,7 +130,5 @@ local function add_git(bufnr)
 end
 
 return {
-  attach = function(bufnr)
-    add_git(bufnr)
-  end
+  attach = add_git
 }

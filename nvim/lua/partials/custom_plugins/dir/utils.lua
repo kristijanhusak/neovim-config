@@ -14,8 +14,8 @@ function M.trim_sep(path)
   return path
 end
 
-function M.current_entry(bufnr)
-  local current_dir = vim.api.nvim_buf_get_name(bufnr)
+function M.current_entry()
+  local current_dir = vim.api.nvim_buf_get_name(0)
   local line = vim.api.nvim_get_current_line()
 
   local full_path = vim.fs.joinpath(current_dir, line)
@@ -87,8 +87,8 @@ end
 
 function M.lsp_rename(old_path, new_path)
   local payload = {
-    old_fname = M.trim_sep(old_path),
-    new_fname = M.trim_sep(new_path),
+    old_name = M.trim_sep(old_path),
+    new_name = M.trim_sep(new_path),
   }
   return {
     before = function()

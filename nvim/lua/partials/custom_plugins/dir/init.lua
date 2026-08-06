@@ -26,9 +26,11 @@ local function attach(bufnr)
   local git = require('partials.custom_plugins.dir.git')
   local icons = require('partials.custom_plugins.dir.icons')
   local actions = require('partials.custom_plugins.dir.actions')
-  icons.attach(bufnr)
-  git.attach(bufnr)
-  actions.attach(bufnr)
+  vim.api.nvim_buf_call(bufnr, function()
+    icons.attach()
+    git.attach()
+    actions.attach()
+  end)
 end
 
 return {

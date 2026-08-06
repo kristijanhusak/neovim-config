@@ -1,6 +1,7 @@
 local ns_id = vim.api.nvim_create_namespace('directory_browser_icons')
 
-local function add_icons(icons, bufnr)
+local function add_icons(icons)
+  local bufnr = vim.api.nvim_get_current_buf()
   vim.api.nvim_buf_clear_namespace(bufnr, ns_id, 0, -1)
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 
@@ -27,10 +28,10 @@ local function add_icons(icons, bufnr)
 end
 
 return {
-  attach = function(bufnr)
+  attach = function()
     local ok, devicons = pcall(require, 'nvim-web-devicons')
     if ok then
-      add_icons(devicons, bufnr)
+      add_icons(devicons)
     end
   end
 }
