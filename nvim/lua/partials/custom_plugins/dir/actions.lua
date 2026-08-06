@@ -76,7 +76,7 @@ local function add_mappings()
   vim.keymap.set('n', '-', keymap('<Plug>(nvim-dir-up)'), { buffer = true, nowait = true, desc = 'Go up dir' })
 
   vim.keymap.set('n', 'q', function()
-    vim.cmd('bw!')
+    vim.cmd('bp!')
   end, { buffer = true, nowait = true, desc = 'Quit' })
 
   vim.keymap.set('n', 's', function()
