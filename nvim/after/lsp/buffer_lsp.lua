@@ -165,6 +165,7 @@ return {
   cmd = function(dispatchers)
     local closing = false
     local srv = {}
+    local request_id = 0
 
     function srv.request(method, params, callback)
       if method == 'initialize' then
@@ -180,7 +181,8 @@ return {
           callback(nil, buffer_results(params))
         end)
       end
-      return true, 1
+      request_id = request_id + 1
+      return true, request_id
     end
 
     function srv.notify(method)
