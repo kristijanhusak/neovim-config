@@ -37,6 +37,11 @@ hl.config({
   animations = {
     enabled = false,
   },
+
+  misc = {
+    enable_swallow = true,
+    swallow_regex = '^(kitty)$',
+  }
 })
 
 hl.monitor({
@@ -73,6 +78,7 @@ hl.on('hyprland.start', function()
     'dropbox',
     'kanata',
     '~/.config/hypr/events.sh',
+    'xhost +SI:localuser:root'
   }
 
   for _, cmd in ipairs(startup) do
