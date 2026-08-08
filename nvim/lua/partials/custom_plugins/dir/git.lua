@@ -9,7 +9,7 @@ local git_icons = {
   Untracked = '✭',
   Renamed = '➜',
   Unmerged = '═',
-  Ignored = '☒',
+  Ignored = '◌',
   Unknown = '?',
 }
 
@@ -19,7 +19,7 @@ local git_higlights = {
   Untracked = 'GitSignsUntrackedNr',
   Renamed = 'GitSignsStagedAddNr',
   Unmerged = 'GitSignsDelete',
-  Ignored = 'Normal',
+  Ignored = 'NonText',
   Unknown = 'Normal',
 }
 
@@ -49,7 +49,7 @@ local function add_git()
     return
   end
   local git_root = vim.trim(vim.split(git_root_result.stdout, '\n')[1])
-  local git_status_result = vim.system({ 'git', 'status', '--porcelain', path }, {}):wait()
+  local git_status_result = vim.system({ 'git', 'status', '--porcelain', '--ignored', path }, {}):wait()
   if git_status_result.code ~= 0 then
     return
   end
@@ -84,6 +84,12 @@ local function add_git()
       if linenr > 0 and not lines_processed[linenr] then
         local indicator_name = get_indicator_name(us, them)
         local indicator_icon = git_icons[indicator_name] or '?'
+        local is_ignored_dir = indicator_name == 'Ignored' and vim.endswith(filename, sep)
+        -- Do not show icons on dirs where ignored files live
+        if is_ignored_dir then
+          lines_processed[linenr] = true
+          goto continue
+        end
         vim.api.nvim_buf_set_extmark(bufnr, ns_id, linenr - 1, 0, {
           virt_text = { { indicator_icon .. ' ', git_higlights[indicator_name] or 'Normal' } },
           hl_mode = 'combine',
