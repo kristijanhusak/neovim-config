@@ -3,4 +3,4 @@ if not vim.g.builtin_dir then
 end
 
 local dir = require('partials.custom_plugins.dir')
-dir.global_mappings()
+dir.setup()

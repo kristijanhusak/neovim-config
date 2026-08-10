@@ -2,6 +2,9 @@ local sep = (vim.fn.exists('+shellslash') == 1 and not vim.o.shellslash) and '\\
 local escape_chars = '.#~' .. sep
 local esc_sep = vim.pesc(sep)
 local ns_id = vim.api.nvim_create_namespace('directory_browser_git')
+local git_root = nil
+local is_git_repo = false
+local last_git_status = nil
 
 local git_icons = {
   Modified = '✹',
@@ -41,15 +44,7 @@ local function get_indicator_name(us, them)
   end
 end
 
-local function add_git()
-  local bufnr = vim.api.nvim_get_current_buf()
-  local path = vim.api.nvim_buf_get_name(bufnr)
-  local git_root_result = vim.system({ 'git', 'rev-parse', '--show-toplevel', path }, {}):wait()
-  if git_root_result.code ~= 0 then
-    return
-  end
-  local git_root = vim.trim(vim.split(git_root_result.stdout, '\n')[1])
-  local git_status_result = vim.system({ 'git', 'status', '--porcelain', '--ignored', path }, {}):wait()
+local function process_results(git_status_result, bufnr, path)
   if git_status_result.code ~= 0 then
     return
   end
@@ -135,6 +130,40 @@ local function add_git()
   end)
 end
 
+local function add_git(cwd)
+  local bufnr = vim.api.nvim_get_current_buf()
+  local path = vim.api.nvim_buf_get_name(bufnr)
+  if git_root == nil then
+    local git_root_result = vim.system({ 'git', 'rev-parse', '--show-toplevel', path }, {}):wait()
+    if git_root_result.code ~= 0 then
+      git_root = false
+      return
+    end
+    git_root = vim.trim(vim.split(git_root_result.stdout, '\n')[1])
+    is_git_repo = true
+  end
+
+  if not is_git_repo or not git_root then
+    return
+  end
+
+  if last_git_status then
+    process_results(last_git_status, bufnr, path)
+  end
+
+  vim.system(
+    { 'git', 'status', '--porcelain', '--ignored', cwd },
+    {},
+    vim.schedule_wrap(function(result)
+      if not last_git_status or result.stdout ~= last_git_status.stdout then
+        vim.api.nvim_buf_clear_namespace(bufnr, ns_id, 0, -1)
+        process_results(result, bufnr, path)
+        last_git_status = result
+      end
+    end)
+  )
+end
+
 return {
-  attach = add_git
+  attach = add_git,
 }

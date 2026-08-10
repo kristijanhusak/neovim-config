@@ -1,5 +1,16 @@
 vim.bo.bufhidden = 'wipe'
 
+local cwd = nil
+
+vim.api.nvim_create_autocmd('DirChanged', {
+  group = vim.api.nvim_create_augroup('DirChangedPlugin', { clear = true }),
+  callback = function(ev)
+    if ev.match == 'global' then
+      cwd = vim.fn.getcwd(-1, -1, -1)
+    end
+  end,
+})
+
 local function global_mappings()
   vim.keymap.set('n', '<Leader>n', function()
     if vim.bo.filetype == 'directory' then
@@ -21,6 +32,13 @@ local function global_mappings()
   vim.keymap.set('n', '-', dir_at_current_file, { silent = true, desc = 'Current file in dir browser' })
 end
 
+local function setup()
+  global_mappings()
+  if not cwd then
+    cwd = vim.fn.getcwd(-1, -1, -1)
+  end
+end
+
 local function attach(bufnr)
   vim.bo[bufnr].bufhidden = 'wipe'
   local git = require('partials.custom_plugins.dir.git')
@@ -28,12 +46,12 @@ local function attach(bufnr)
   local actions = require('partials.custom_plugins.dir.actions')
   vim.api.nvim_buf_call(bufnr, function()
     icons.attach()
-    git.attach()
+    git.attach(cwd)
     actions.attach()
   end)
 end
 
 return {
   attach = attach,
-  global_mappings = global_mappings,
+  setup = setup,
 }
