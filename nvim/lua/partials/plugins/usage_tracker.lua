@@ -1,5 +1,4 @@
 return {
-  '~/github/usage-tracker.nvim',
-  dir = '~/github/usage-tracker.nvim',
+  'kristijanhusak/usage-tracker.nvim',
   event = 'VeryLazy',
 }
