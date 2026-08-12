@@ -45,5 +45,19 @@ return {
     vim.keymap.set('n', '<leader>aK', function()
       require('nvim-treesitter-textobjects.swap').swap_previous('@parameter.inner')
     end)
+
+    -- Move
+    vim.keymap.set({ 'n', 'x', 'o' }, ']]', function()
+      require('nvim-treesitter-textobjects.move').goto_next_start({'@function.outer', '@class.outer'}, 'textobjects')
+    end)
+    vim.keymap.set({ 'n', 'x', 'o' }, '[[', function()
+      require('nvim-treesitter-textobjects.move').goto_previous_start({'@function.outer', '@class.outer'}, 'textobjects')
+    end)
+    vim.keymap.set({ 'n', 'x', 'o' }, ']a', function()
+      require('nvim-treesitter-textobjects.move').goto_next_start('@parameter.inner', 'textobjects')
+    end)
+    vim.keymap.set({ 'n', 'x', 'o' }, '[a', function()
+      require('nvim-treesitter-textobjects.move').goto_previous_start('@parameter.inner', 'textobjects')
+    end)
   end,
 }
