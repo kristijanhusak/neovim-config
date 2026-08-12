@@ -55,8 +55,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = augroup,
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    local is_valid_buffer = vim.bo[ev.buf].buftype ~= 'prompt' and vim.bo[ev.buf].filetype ~= 'snacks_input'
-    if not client or not is_valid_buffer or not client:supports_method(protocol.Methods.textDocument_completion) then
+    if not client or not client:supports_method(protocol.Methods.textDocument_completion) then
       return
     end
     local bufnr = ev.buf
@@ -93,8 +92,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     vim.api.nvim_create_autocmd('InsertCharPre', {
       buf = bufnr,
-      callback = function()
+      callback = function(event)
         reset_timer()
+        local is_valid_buffer = vim.bo[event.buf].buftype ~= 'prompt' and vim.bo[event.buf].filetype ~= 'snacks_input'
+        if not is_valid_buffer then
+          return
+        end
         completion_timer = new_timer()
         completion_timer:start(
           120,
