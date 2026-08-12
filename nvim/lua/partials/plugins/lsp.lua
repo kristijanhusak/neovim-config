@@ -116,7 +116,7 @@ lsp.config = function()
     },
   })
 
-  if vim.g.builtin_autocompletion or vim.g.custom_autocompletion then
+  if vim.g.builtin_autocompletion then
     vim.lsp.enable('filepaths_ls')
   end
 

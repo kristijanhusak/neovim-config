@@ -1,7 +1,7 @@
 return {
   'saghen/blink.cmp',
   event = 'InsertEnter',
-  enabled = not vim.g.builtin_autocompletion and not vim.g.custom_autocompletion,
+  enabled = not vim.g.builtin_autocompletion,
   version = vim.version.range('v1.*'),
   config = function()
     require('blink.cmp').setup({
