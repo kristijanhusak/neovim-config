@@ -225,8 +225,9 @@ type = "me/submap:submap"
 [widget.sysmon]
 capsule = true
 capsule_group = "sysmonitor"
-display = "text"
+show_value = true
 stat = "disk_free_pct"
+visualization = "none"
 
 [widget.tray]
 drawer = true
