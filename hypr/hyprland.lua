@@ -41,7 +41,15 @@ hl.config({
   misc = {
     enable_swallow = true,
     swallow_regex = '^(kitty)$',
+    vrr = 2,
   },
+})
+
+hl.window_rule({
+  match = {
+    class = '^(cs2)$',
+  },
+  immediate = true,
 })
 
 hl.monitor({
@@ -100,6 +108,7 @@ hl.bind(mod .. ' + SHIFT + c', hl.dsp.exec_cmd('hyprctl reload'))
 
 hl.bind(mod .. ' + q', hl.dsp.window.close())
 hl.bind(mod .. ' + f', hl.dsp.window.fullscreen_state({ internal = 1, client = 1, action = 'toggle' }))
+hl.bind(mod .. ' + SHIFT + f', hl.dsp.window.fullscreen_state({ internal = 2, client = 2, action = 'toggle' }))
 hl.bind(mod .. ' + h', hy3.move_focus('l'))
 hl.bind(mod .. ' + j', hy3.move_focus('d'))
 hl.bind(mod .. ' + k', hy3.move_focus('u'))
