@@ -54,13 +54,23 @@ end
 vim.api.nvim_create_autocmd('LspAttach', {
   group = augroup,
   callback = function(ev)
+    local bufnr = ev.buf
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     if not client or not client:supports_method(protocol.Methods.textDocument_completion) then
       return
     end
-    local bufnr = ev.buf
 
-    if vim.bo[bufnr].omnifunc ~= 'v:lua.vim.lsp.omnifunc' then
+    local old_omnifunc = vim.bo[bufnr].omnifunc
+    local is_already_lsp_omnifunc = old_omnifunc == 'v:lua.vim.lsp.omnifunc'
+
+    if not is_already_lsp_omnifunc and type(old_omnifunc) == 'function' then
+      local info = debug.getinfo(old_omnifunc, 'S')
+      if vim.endswith(info.source, '/nvim/runtime/lua/vim/lsp.lua') then
+        is_already_lsp_omnifunc = true
+      end
+    end
+
+    if not is_already_lsp_omnifunc then
       vim.b[bufnr].old_omnifunc = vim.bo[bufnr].omnifunc
     end
     vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
