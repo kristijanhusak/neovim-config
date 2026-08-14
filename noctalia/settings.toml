@@ -192,6 +192,7 @@ capsule = true
 capsule_group = "sysmonitor"
 capsule_padding = 10.0
 display = "text"
+visualization = "none"
 
 [widget.exchange_rates]
 type = "me/exchange_rates:exchange_rates"
@@ -215,6 +216,7 @@ show_label = false
 capsule = true
 capsule_group = "sysmonitor"
 display = "text"
+visualization = "none"
 
 [widget.separator]
 type = "spacer"
@@ -226,7 +228,7 @@ type = "me/submap:submap"
 capsule = true
 capsule_group = "sysmonitor"
 show_value = true
-stat = "disk_free_pct"
+stat = "disk_free"
 visualization = "none"
 
 [widget.tray]
