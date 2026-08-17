@@ -252,7 +252,7 @@ hl.window_rule({
 hl.window_rule({
   name = 'workspace-6',
   match = {
-    class = '^(viber)$',
+    class = '^(ViberPC)$',
   },
   workspace = '6',
 })
