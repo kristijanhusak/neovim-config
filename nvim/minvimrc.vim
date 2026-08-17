@@ -75,11 +75,7 @@ if !has('nvim')
   set undodir=~/.cache/vim/undo
 endif
 
-try
-  colorscheme sorbet
-catch /^Vim\%((\a\+)\)\=:E185/
-  colorscheme slate
-endtry
+colorscheme default
 
 " Map save to Ctrl + S
 map <c-s> :w<CR>
