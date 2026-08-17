@@ -233,7 +233,7 @@ visualization = "none"
 
 [widget.tray]
 drawer = true
-pinned = [ "slack" ]
+pinned = [ "slack", "ViberPC" ]
 
 [widget.weather]
 capsule = true
