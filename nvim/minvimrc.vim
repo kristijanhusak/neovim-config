@@ -2,6 +2,7 @@
 " curl https://raw.githubusercontent.com/kristijanhusak/neovim-config/refs/heads/master/nvim/minvimrc.vim -o $HOME/.vimrc
 " wget https://raw.githubusercontent.com/kristijanhusak/neovim-config/refs/heads/master/nvim/minvimrc.vim -O $HOME/.vimrc
 set nocompatible
+set termguicolors
 let g:mapleader = ','
 
 filetype plugin indent on
@@ -73,9 +74,12 @@ set path=**/*
 if !has('nvim')
   set wildmode=list:full
   set undodir=~/.cache/vim/undo
+  try
+    colorscheme sorbet
+  catch /^Vim\%((\a\+)\)\=:E185/
+    colorscheme slate
+  endtry
 endif
-
-colorscheme default
 
 " Map save to Ctrl + S
 map <c-s> :w<CR>
