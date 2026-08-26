@@ -82,7 +82,7 @@ local function process_results(git_status_result, bufnr, path)
         local is_ignored_dir = indicator_name == 'Ignored' and vim.endswith(filename, sep)
         -- Do not show icons on dirs where ignored files live
         if is_ignored_dir then
-          lines_processed[linenr] = true
+          lines_processed[linenr] = indicator_name
           goto continue
         end
         vim.api.nvim_buf_set_extmark(bufnr, ns_id, linenr - 1, 0, {
@@ -97,7 +97,7 @@ local function process_results(git_status_result, bufnr, path)
             hl_mode = 'combine',
           })
         end
-        lines_processed[linenr] = true
+        lines_processed[linenr] = indicator_name
       end
     end
 
@@ -107,27 +107,44 @@ local function process_results(git_status_result, bufnr, path)
   local line_numbers = vim.tbl_keys(lines_processed)
   table.sort(line_numbers)
 
+  local function is_valid_git_line(line)
+    return lines_processed[line] ~= 'Ignored'
+  end
+
+  local goto_line = function(getter)
+    local line = getter()
+    if line then
+      vim.api.nvim_win_set_cursor(0, { line, 0 })
+    end
+  end
+
   vim.keymap.set('n', ']c', function()
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
-    for _, line in ipairs(line_numbers) do
-      if line > current_line then
-        vim.api.nvim_win_set_cursor(0, { line, 0 })
-        return
+    goto_line(function()
+      for _, line in ipairs(line_numbers) do
+        if line > current_line and is_valid_git_line(line) then
+          return line
+        end
       end
-    end
-    vim.api.nvim_win_set_cursor(0, { line_numbers[1], 0 })
-  end)
+      if #line_numbers > 0 and is_valid_git_line(line_numbers[1]) then
+        return line_numbers[1]
+      end
+    end)
+  end, { buffer = bufnr })
 
   vim.keymap.set('n', '[c', function()
     local current_line = vim.api.nvim_win_get_cursor(0)[1]
-    for i = #line_numbers, 1, -1 do
-      if line_numbers[i] < current_line then
-        vim.api.nvim_win_set_cursor(0, { line_numbers[i], 0 })
-        return
+    goto_line(function()
+      for i = #line_numbers, 1, -1 do
+        if line_numbers[i] < current_line and is_valid_git_line(line_numbers[i]) then
+          return line_numbers[i]
+        end
       end
-    end
-    vim.api.nvim_win_set_cursor(0, { line_numbers[#line_numbers], 0 })
-  end)
+      if #line_numbers > 0 and is_valid_git_line(line_numbers[#line_numbers]) then
+        return line_numbers[#line_numbers]
+      end
+    end)
+  end, { buffer = bufnr })
 end
 
 local function add_git(cwd)
