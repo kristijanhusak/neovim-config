@@ -1,6 +1,5 @@
 local mod = 'ALT'
 local i3 = require('i3')
-local hy3 = hl.plugin.hy3
 
 local noctalia = function(cmd)
   return 'noctalia msg ' .. cmd
@@ -13,7 +12,7 @@ hl.config({
     border_size = 2,
     gaps_in = 4,
     gaps_out = 4,
-    layout = 'hy3',
+    layout = 'lua:i3',
     col = {
       active_border = 'rgba(00ffffff)',
     },
@@ -109,57 +108,50 @@ hl.bind(mod .. ' + SHIFT + c', hl.dsp.exec_cmd('hyprctl reload'))
 hl.bind(mod .. ' + q', hl.dsp.window.close())
 hl.bind(mod .. ' + f', hl.dsp.window.fullscreen_state({ internal = 1, client = 1, action = 'toggle' }))
 hl.bind(mod .. ' + SHIFT + f', hl.dsp.window.fullscreen_state({ internal = 2, client = 2, action = 'toggle' }))
-hl.bind(mod .. ' + h', hy3.move_focus('l'))
-hl.bind(mod .. ' + j', hy3.move_focus('d'))
-hl.bind(mod .. ' + k', hy3.move_focus('u'))
-hl.bind(mod .. ' + l', hy3.move_focus('r'))
+hl.bind(mod .. ' + h', hl.dsp.layout('focus left'))
+hl.bind(mod .. ' + j', hl.dsp.layout('focus down'))
+hl.bind(mod .. ' + k', hl.dsp.layout('focus up'))
+hl.bind(mod .. ' + l', hl.dsp.layout('focus right'))
 hl.bind(mod .. ' + p', function()
   hl.dispatch(hl.dsp.window.float())
   hl.dispatch(hl.dsp.window.pin())
 end)
-hl.bind(mod .. ' + left', hy3.move_focus('l'))
-hl.bind(mod .. ' + down', hy3.move_focus('d'))
-hl.bind(mod .. ' + up', hy3.move_focus('u'))
-hl.bind(mod .. ' + right', hy3.move_focus('r'))
+hl.bind(mod .. ' + left', hl.dsp.layout('focus left'))
+hl.bind(mod .. ' + down', hl.dsp.layout('focus down'))
+hl.bind(mod .. ' + up', hl.dsp.layout('focus up'))
+hl.bind(mod .. ' + right', hl.dsp.layout('focus right'))
 
-hl.bind(mod .. ' + SHIFT + h', hy3.move_window('l'))
-hl.bind(mod .. ' + SHIFT + j', hy3.move_window('d'))
-hl.bind(mod .. ' + SHIFT + k', hy3.move_window('u'))
-hl.bind(mod .. ' + SHIFT + l', hy3.move_window('r'))
-hl.bind(mod .. ' + SHIFT + left', hy3.move_window('l'))
-hl.bind(mod .. ' + SHIFT + down', hy3.move_window('d'))
-hl.bind(mod .. ' + SHIFT + up', hy3.move_window('u'))
-hl.bind(mod .. ' + SHIFT + right', hy3.move_window('r'))
+hl.bind(mod .. ' + SHIFT + h', hl.dsp.window.move({ direction = 'l' }))
+hl.bind(mod .. ' + SHIFT + j', hl.dsp.window.move({ direction = 'd' }))
+hl.bind(mod .. ' + SHIFT + k', hl.dsp.window.move({ direction = 'u' }))
+hl.bind(mod .. ' + SHIFT + l', hl.dsp.window.move({ direction = 'r' }))
+hl.bind(mod .. ' + SHIFT + left', hl.dsp.window.move({ direction = 'l' }))
+hl.bind(mod .. ' + SHIFT + down', hl.dsp.window.move({ direction = 'd' }))
+hl.bind(mod .. ' + SHIFT + up', hl.dsp.window.move({ direction = 'u' }))
+hl.bind(mod .. ' + SHIFT + right', hl.dsp.window.move({ direction = 'r' }))
 
-hl.bind(mod .. ' + n', function()
-  hl.dispatch(hy3.make_group('h', { toggle = true, ephemeral = true }))
-  hl.exec_cmd([[hyprctl notify 0 2000 "rgb(ffffff)" "Split vertical"]])
-end)
-hl.bind(mod .. ' + o', function()
-  hl.dispatch(hy3.make_group('v', { toggle = true, ephemeral = true }))
-  hl.exec_cmd([[hyprctl notify 0 2000 "rgb(ffffff)" "Split horizontal"]])
-end)
-hl.bind(mod .. ' + w', hy3.change_group('tab'))
-hl.bind(mod .. ' + e', hy3.change_group('untab'))
+hl.bind(mod .. ' + n', hl.dsp.layout('split vertical'))
+hl.bind(mod .. ' + o', hl.dsp.layout('split horizontal'))
+hl.bind(mod .. ' + w', hl.dsp.layout('split toggle'))
 
 for i = 1, 9 do
   hl.bind(mod .. ' + ' .. i, hl.dsp.focus({ workspace = i }))
-  hl.bind(mod .. ' + SHIFT + ' .. i, hy3.move_to_workspace(i))
+  hl.bind(mod .. ' + SHIFT + ' .. i, hl.dsp.window.move({ workspace = i }))
 end
 
-hl.bind(mod .. ' + EQUAL', hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
-hl.bind(mod .. ' + minus', hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
-hl.bind(mod .. ' + SHIFT + w', hy3.equalize({ scope = 'workspace' }))
+hl.bind(mod .. ' + EQUAL', hl.dsp.layout('resize right'), { repeating = true })
+hl.bind(mod .. ' + minus', hl.dsp.layout('resize left'), { repeating = true })
+hl.bind(mod .. ' + SHIFT + w', hl.dsp.layout('fit all'))
 
 hl.bind(mod .. ' + mouse:272', hl.dsp.window.drag(), { mouse = true })
 hl.bind(mod .. ' + mouse:273', hl.dsp.window.resize(), { mouse = true })
 
 hl.bind(mod .. ' + r', hl.dsp.submap('resize'))
 hl.define_submap('resize', function()
-  hl.bind('h', hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
-  hl.bind('j', hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
-  hl.bind('k', hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
-  hl.bind('l', hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
+  hl.bind('h', hl.dsp.layout('resize left'), { repeating = true })
+  hl.bind('j', hl.dsp.layout('resize down'), { repeating = true })
+  hl.bind('k', hl.dsp.layout('resize up'), { repeating = true })
+  hl.bind('l', hl.dsp.layout('resize right'), { repeating = true })
   hl.bind('Return', hl.dsp.submap('reset'))
   hl.bind('Escape', hl.dsp.submap('reset'))
 end)
