@@ -8,21 +8,16 @@ local icons = utils.lsp_kind_icons()
 local protocol = vim.lsp.protocol
 vim.opt.complete = 'o'
 
--- vim.api.nvim_create_autocmd('InsertEnter', {
---   pattern = '*',
---   group = augroup,
---   callback = function(ev)
---     local is_valid_buffer = vim.bo[ev.buf].buftype ~= 'prompt' and vim.bo[ev.buf].filetype ~= 'snacks_input'
---     vim.opt_local.autocomplete = is_valid_buffer
---   end,
--- })
+local function nonempty(s)
+  return s ~= '' and s or nil
+end
 
 local compare_by_sortText_and_label = function(a, b)
   ---@type lsp.CompletionItem
   local itema = a.user_data.nvim.lsp.completion_item
   ---@type lsp.CompletionItem
   local itemb = b.user_data.nvim.lsp.completion_item
-  return (itema.sortText or itema.label) < (itemb.sortText or itemb.label)
+  return (nonempty(itema.sortText) or itema.label) < (nonempty(itemb.sortText) or itemb.label)
 end
 
 local compare_fn = function(a, b)
