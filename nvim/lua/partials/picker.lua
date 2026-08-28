@@ -20,6 +20,19 @@ local SnacksPicker = {
   git_status = function()
     return Snacks.picker.git_status()
   end,
+  git_status_cwd = function()
+    local cwd = vim.fs.normalize(vim.fn.getcwd())
+    local git_root = Snacks.git.get_root(cwd)
+
+    if not git_root or git_root == cwd or not vim.startswith(cwd, git_root .. '/') then
+      return Snacks.picker.git_status()
+    end
+
+    return Snacks.picker.git_status({
+      title = ('Git status (%s)'):format(vim.fn.fnamemodify(cwd, ':~')),
+      cmd_args = { '--', cwd:sub(#git_root + 2) },
+    })
+  end,
   lsp_implementations = function()
     return Snacks.picker.lsp_implementations()
   end,
@@ -104,6 +117,9 @@ end, { desc = 'Smart picker' })
 vim.keymap.set('n', '<Leader>gs', function()
   return Picker.git_status()
 end, { desc = 'Git status' })
+vim.keymap.set('n', '<Leader>gS', function()
+  return Picker.git_status_cwd()
+end, { desc = 'Git status (cwd)' })
 vim.keymap.set('n', '<Leader>R', function()
   return Picker.rest()
 end, { desc = 'Requests' })
