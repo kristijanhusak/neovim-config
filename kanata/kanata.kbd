@@ -1,22 +1,25 @@
 (defcfg
   process-unmapped-keys yes
+  concurrent-tap-hold yes
 )
 
 (defsrc
-  caps d f h j k l p spc
+  caps d f h j k l u i n m p spc
 )
 
 (deflayer base
   (tap-hold 200 200 esc (layer-while-held nav))
-  d    f    h    j    k    l    p    spc
+  d    f    h    j    k    l    u    i    n    m    p    spc
 )
 
 (deflayer nav
   _
-  lctl lsft left down up rght caps (tap-hold 200 200 bspc (layer-while-held nav-space))
+  lctl lsft left down up rght XX   XX   XX   XX   caps bspc
 )
 
-(deflayer nav-space
-  _
-  _    _    home pgdn pgup end  _    _
+(defchordsv2
+  (h j) home 75 first-release (base)
+  (k l) end 75 first-release (base)
+  (u i) pgup 75 first-release (base)
+  (n m) pgdn 75 first-release (base)
 )
