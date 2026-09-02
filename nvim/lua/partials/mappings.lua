@@ -8,6 +8,9 @@ vim.keymap.set('n', '<Leader>s', ':w<CR>', { silent = true, desc = 'Save' })
 -- Open vertical split
 vim.keymap.set('n', '<Leader>v', '<C-w>v', { desc = 'Vertical split' })
 
+-- Clear search highlights
+vim.keymap.set('n', '<Leader><space>', vim.fn.maparg('<C-l>', 'n'), { silent = true, desc = 'Clear search highlights' })
+
 -- Move between slits
 vim.keymap.set('n', '<c-h>', '<C-w>h')
 vim.keymap.set('n', '<c-j>', '<C-w>j')
@@ -89,9 +92,6 @@ vim.keymap.set('n', '<C-up>', '<c-w>+')
 vim.keymap.set('n', '<C-down>', '<c-w>-')
 vim.keymap.set('n', '<C-left>', '<c-w><')
 vim.keymap.set('n', '<C-right>', '<c-w>>')
-
--- Use Q to take nvim to background
-vim.keymap.set('', 'Q', '<c-z>', { remap = true })
 
 -- Jump to definition in vertical split
 vim.keymap.set('n', '<Leader>]', '<C-W>v<C-]>')
