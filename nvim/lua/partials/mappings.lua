@@ -19,18 +19,23 @@ vim.keymap.set('n', '<c-l>', '<C-w>l')
 
 vim.keymap.set('i', '<c-l>', '<c-g>u<Esc>1z=`]a<c-g>u')
 
+vim.keymap.set('n', '<C-n>', function()
+  local word = vim.fn.expand('<cword>')
+  vim.api.nvim_feedkeys('wb', 'n', false)
+
+  vim.schedule(function()
+    vim.cmd('normal! Q')
+    local pattern = [[\V]] .. vim.fn.escape(word, [[\]]):gsub('\n', [[\n]])
+    vim.fn.search(pattern, 'z')
+  end)
+end, { desc = 'Select next match of visual selection' })
+
 -- Down is really the next line
 vim.keymap.set('n', 'j', 'gj')
 vim.keymap.set('n', 'k', 'gk')
 
 -- Map for Escape key in terminal
 vim.keymap.set('t', '<Leader>jj', '<C-\\><C-n>')
-
--- Clear search highlights
-vim.keymap.set('n', '<Leader><space>', function()
-  vim.cmd('noh')
-  vim.api.nvim__redraw({ statusline = true })
-end, { silent = true, desc = 'Clear search highlights' })
 
 -- Stay on same position when searching word under cursor
 vim.keymap.set('n', '*', '*N')
