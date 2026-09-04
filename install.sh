@@ -48,7 +48,7 @@ install_diff_so_fancy() {
 install_kitty() {
   echo "Installing kitty..." \
     && rm -rf ~/.local/kitty.app ~/.config/kitty \
-    && yay -S kitty ttf-cascadia-code \
+    && yay -S kitty ttf-cascadia-code ttf-ioskeley-mono \
     && ln -s $(pwd)/kitty ~/.config/kitty
 }
 
