@@ -13,9 +13,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
   git
   zsh-autosuggestions
+  fzf-tab
   docker-compose
-  z
-  zsh-syntax-highlighting
   history-substring-search
   command-not-found
   copypath
@@ -26,11 +25,11 @@ plugins=(
 
 ENABLE_CORRECTION="true"
 
-autoload -U compinit; compinit
-source ~/.oh-my-zsh/custom/plugins/fzf-tab/fzf-tab.plugin.zsh
-
 source $ZSH/oh-my-zsh.sh
-. ~/z.sh
+
+if [[ -r ~/z.sh ]]; then
+  . ~/z.sh
+fi
 
 if [[ -r ~/.phpbrew/bashrc ]]; then
   source ~/.phpbrew/bashrc
@@ -64,7 +63,6 @@ export LESS=R
 export EDITOR=nvim
 export MANPAGER="nvim +Man!"
 export FZF_DEFAULT_COMMAND='fd --type f --follow'
-export LESS=R
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=magenta,bold,underline"
 export GOPATH=$HOME/go
 setopt HIST_IGNORE_ALL_DUPS
@@ -186,7 +184,7 @@ z() {
 }
 
 [[ $- == *i* ]] && source "/usr/share/fzf/completion.zsh" 2> /dev/null
-source "/usr/share/fzf/key-bindings.zsh"
+[[ $- == *i* ]] && source "/usr/share/fzf/key-bindings.zsh" 2> /dev/null
 
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.p10k.zsh
