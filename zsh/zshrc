@@ -5,6 +5,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_DETACHED=true
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
@@ -21,6 +24,7 @@ plugins=(
   copyfile
   vi-mode
   dircycle
+  tmux
 )
 
 ENABLE_CORRECTION="true"
