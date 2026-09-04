@@ -68,6 +68,10 @@ if vim.fn.exists('&completeitemalign') > 0 then
   vim.opt.completeitemalign = { 'kind', 'abbr', 'menu' }
 end
 
+if vim.fn.has('nvim-0.13') > 0 then
+  vim.opt.completeopt:append('preselect')
+end
+
 function settings.strip_trailing_whitespace()
   local editorconfig = vim.b.editorconfig or {}
   -- Handled by editorconfig
