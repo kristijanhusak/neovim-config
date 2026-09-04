@@ -14,6 +14,8 @@ end = [
     "notifications",
     "tray"
 ]
+font_family = "Ioskeley Mono Semibold"
+font_weight = 600
 margin_edge = 0.0
 margin_ends = 0.0
 padding = 4
@@ -75,12 +77,7 @@ blur_intensity = 0.3
 [lockscreen_widgets]
 enabled = true
 schema_version = 2
-widget_order = [
-    "lockscreen-login-box@eDP-1",
-    "lockscreen-login-box@DP-1",
-    "lockscreen-widget-0000000000000001",
-    "lockscreen-widget-0000000000000002"
-]
+widget_order = [ "lockscreen-login-box@DP-1", "lockscreen-widget-0000000000000001", "lockscreen-widget-0000000000000002" ]
 
     [lockscreen_widgets.grid]
     cell_size = 16
@@ -93,8 +90,21 @@ widget_order = [
     cx = 1700.0
     cy = 1129.0
     output = "DP-1"
+    placement_height = 1440.0
+    placement_width = 3440.0
     rotation = 0.0
     type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-1".settings]
+        center_password_text = false
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
 
     [lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
     box_height = 256.0
@@ -102,6 +112,8 @@ widget_order = [
     cx = 1704.0
     cy = 304.0
     output = "DP-1"
+    placement_height = 1440.0
+    placement_width = 3440.0
     rotation = 0.0
     type = "clock"
 
@@ -115,6 +127,8 @@ widget_order = [
     cx = 1704.0
     cy = 736.0
     output = "DP-1"
+    placement_height = 1440.0
+    placement_width = 3440.0
     rotation = 0.0
     type = "weather"
 
@@ -146,7 +160,7 @@ enabled = [ "me/submap", "me/exchange_rates", "noctalia/screen_recorder" ]
 
 [shell]
 clipboard_enabled = false
-font_family = "Cascadia Code"
+font_family = "Ioskeley Mono Semibold"
 polkit_agent = true
 ui_scale = 1.0
 
@@ -179,7 +193,7 @@ directory = "/home/kristijan/Pictures/Wallpapers"
 auto_locate = true
 
 [widget.active_window]
-max_length = 300
+max_length = 400
 title_scroll = "on_hover"
 
 [widget.clock]
