@@ -52,8 +52,17 @@ local function process_results(git_status_result, bufnr, path)
 
   -- Sort so that unmerged entries (starting with U or .U) come first,
   -- ensuring directories get the correct status when they contain conflicts.
-  table.sort(lines, function(a, _)
-    return a:match('^U') or a:match('^.U') and true or false
+  table.sort(lines, function(a, b)
+    if a:match('^U') or a:match('^.U') then
+      return true
+    end
+    if a:match('^!') then
+      return false
+    end
+    if b:match('^!') then
+      return true
+    end
+    return false
   end)
   local lines_processed = {}
 
