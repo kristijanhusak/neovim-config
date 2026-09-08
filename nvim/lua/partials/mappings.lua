@@ -1,8 +1,7 @@
 local mappings = {}
 
 -- Map save to Ctrl + S
-vim.keymap.set('', '<c-s>', ':w<CR>', { remap = true, silent = true })
-vim.keymap.set('i', '<c-s>', '<C-o>:w<CR>', { remap = true, silent = true })
+vim.keymap.set({'', 'n'}, '<c-s>', ':w<CR>', { remap = true, silent = true })
 vim.keymap.set('n', '<Leader>s', ':w<CR>', { silent = true, desc = 'Save' })
 
 -- Open vertical split
