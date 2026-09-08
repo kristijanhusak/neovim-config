@@ -171,7 +171,10 @@ return {
       if method == 'initialize' then
         callback(nil, {
           capabilities = {
-            completionProvider = true,
+            completionProvider = {
+              triggerCharacters = {},
+              resolveProvider = true
+            },
           },
         })
       elseif method == 'shutdown' then
