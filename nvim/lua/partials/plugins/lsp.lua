@@ -129,7 +129,12 @@ end
 
 function setup.mappings()
   vim.diagnostic.config({
-    virtual_text = false,
+    virtual_text = {
+      current_line = true,
+      prefix = function(diagnostic)
+        return _G.kris.diagnostic_icons[diagnostic.severity] or ''
+      end,
+    },
     float = {
       border = 'rounded',
       header = '',
@@ -329,34 +334,8 @@ function setup.servers()
   })
 end
 
-local function show_diagnostics()
-  vim.schedule(function()
-    local cursor = vim.api.nvim_win_get_cursor(0)
-    local line = cursor[1] - 1
-    local col = cursor[2]
-    local bufnr = vim.api.nvim_get_current_buf()
-    local line_diagnostics = vim.diagnostic.get(bufnr, { lnum = line })
-    local view_diagnostics = vim.tbl_filter(function(item)
-      return col >= item.col and col < item.end_col
-    end, line_diagnostics)
-
-    if #view_diagnostics == 0 then
-      view_diagnostics = line_diagnostics
-    end
-
-    vim.diagnostic.show(diagnostic_ns, bufnr, view_diagnostics, {
-      virtual_text = {
-        prefix = function(diagnostic)
-          return _G.kris.diagnostic_icons[diagnostic.severity] or ''
-        end,
-      },
-    })
-  end)
-end
-
 local function refresh_diagnostics(event)
   vim.diagnostic.setloclist({ open = false, namespace = diagnostic_ns })
-  show_diagnostics()
   vim.api.nvim__redraw({ buf = event.buf, statusline = true })
   local loclist = vim.fn.getloclist(0, { items = 0, winid = 0 })
   if vim.tbl_isempty(loclist.items) and loclist.winid > 0 then
@@ -365,11 +344,6 @@ local function refresh_diagnostics(event)
 end
 
 function setup.attach_to_buffer(client, bufnr)
-  vim.api.nvim_create_autocmd({ 'CursorHold' }, {
-    buffer = bufnr,
-    callback = show_diagnostics,
-    group = lsp_group,
-  })
   vim.api.nvim_create_autocmd('DiagnosticChanged', {
     buffer = bufnr,
     callback = refresh_diagnostics,
