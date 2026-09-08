@@ -80,10 +80,8 @@ hl.window_rule({
 
 hl.on('hyprland.start', function()
   local startup = {
-    'hyprpm reload -n',
     'noctalia',
     'dropbox',
-    'kanata',
     '~/.config/hypr/events.sh',
     'xhost +SI:localuser:root',
   }
