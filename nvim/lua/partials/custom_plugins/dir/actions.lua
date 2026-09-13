@@ -87,7 +87,7 @@ local function add_mappings()
   vim.keymap.set('n', 'X', function()
     local full_path, _, _, _ = dir_utils.current_entry()
     vim.fn.execute(('silent !xdg-open %s'):format(vim.fn.shellescape(full_path)))
-  end, { buffer = true, nowait = true, desc = 'Open file/dir in vert split' })
+  end, { buffer = true, nowait = true, desc = 'Execute file with default app' })
 
   vim.keymap.set('n', 'c', function()
     clipboard_action.mark_copy()
