@@ -3,6 +3,7 @@ local colorscheme = {
   dependencies = {
     'folke/todo-comments.nvim',
     'nvim-mini/mini.base16',
+    'sainnhe/everforest',
   },
   priority = 1000,
 }
@@ -133,15 +134,24 @@ colorscheme.kape = function()
   end
 end
 
+colorscheme.everforest = function()
+  vim.g.everforest_background = 'hard'
+  vim.g.everforest_float_style = 'blend'
+  vim.cmd.colorscheme('everforest')
+  local pallete = vim.fn['everforest#get_palette']('hard', vim.empty_dict())
+  vim.fn['everforest#highlight']('SimpleF', pallete.red, pallete.none, 'undercurl,bold', pallete.red)
+end
+
 colorscheme.set = function()
   local bg = vim.env.NVIM_COLORSCHEME_BG or 'dark'
   vim.opt.background = bg
 
-  if bg == 'light' then
-    colorscheme.base16()
-  else
-    colorscheme.kape()
-  end
+  colorscheme.everforest()
+  -- if bg == 'light' then
+  --   colorscheme.base16()
+  -- else
+  --   colorscheme.kape()
+  -- end
 end
 
 colorscheme.config = function()

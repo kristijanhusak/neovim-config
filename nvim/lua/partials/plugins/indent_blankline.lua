@@ -3,10 +3,9 @@ return {
   event = 'VeryLazy',
   config = function()
     require('ibl').setup({
-      indent = { char = '▏', highlight = 'IndentLine' },
+      indent = { char = '▏' },
       debounce = 50,
       scope = {
-        highlight = { 'IndentLineCurrent' },
         enabled = true,
         show_start = false,
         show_end = false,

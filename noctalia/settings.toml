@@ -179,7 +179,7 @@ ui_scale = 1.0
     filename_pattern = "screenshot_%Y_%m_%d_%H_%M_%S"
 
 [theme]
-community_palette = "One"
+community_palette = "Everforest Alt"
 source = "community"
 
 [wallpaper]
