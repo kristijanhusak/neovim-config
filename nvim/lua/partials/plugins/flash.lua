@@ -1,13 +1,12 @@
 return {
   'folke/flash.nvim',
-  enabled = vim.fn.has('nvim-0.13') == 0,
   event = 'VeryLazy',
   config = function()
     vim.keymap.set({ 'n', 'x', 'o' }, 's', function()
       require('flash').jump()
     end, { desc = 'Flash' })
 
-    vim.keymap.set({ 'n', 'o' }, 'S', function()
+    vim.keymap.set({ 'n', 'x', 'o' }, 'S', function()
       require('flash').treesitter()
     end, { desc = 'Flash Treesitter' })
 
