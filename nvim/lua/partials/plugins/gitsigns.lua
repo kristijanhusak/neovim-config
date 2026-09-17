@@ -55,5 +55,7 @@ return {
         map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
       end,
     })
+
+    vim.api.nvim_create_user_command('BlameToggle', ':Gitsigns blame<CR>')
   end,
 }
