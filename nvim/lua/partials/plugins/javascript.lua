@@ -91,15 +91,9 @@ function handlers.setup_imports(organize)
 end
 
 return {
-  'dmmulroy/tsc.nvim',
-  dependencies = {
-    'kristijanhusak/vim-js-file-import',
-  },
+  'kristijanhusak/vim-js-file-import',
   ft = filetypes,
   config = function()
-    require('tsc').setup({
-      auto_close_qflist = true,
-    })
     vim.keymap.set('n', '<Plug>(JsConsoleLog)', handlers.console_log)
     vim.keymap.set('n', '<Plug>(JsGotoFile)', handlers.goto_file)
 
@@ -112,14 +106,5 @@ return {
     if vim.tbl_contains(filetypes, vim.bo.filetype) then
       vim.cmd('doautocmd FileType ' .. vim.bo.filetype)
     end
-
-    vim.api.nvim_create_autocmd('DirChanged', {
-      callback = function()
-        require('tsc').setup({
-          auto_close_qflist = true,
-          bin_path = require('tsc.utils').find_tsc_bin(),
-        })
-      end,
-    })
   end,
 }
