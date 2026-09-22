@@ -1,9 +1,9 @@
 local colorscheme = {
-  'gabiuz/kape-nvim',
+  'sainnhe/everforest',
   dependencies = {
     'folke/todo-comments.nvim',
-    'nvim-mini/mini.base16',
-    'sainnhe/everforest',
+    { 'gabiuz/kape-nvim', enabled = false },
+    { 'nvim-mini/mini.base16', enabled = false },
   },
   priority = 1000,
 }
@@ -137,6 +137,7 @@ end
 colorscheme.everforest = function()
   vim.g.everforest_background = 'hard'
   vim.g.everforest_float_style = 'blend'
+  vim.g.everforest_diagnostic_virtual_text = 'colored'
   vim.cmd.colorscheme('everforest')
   local pallete = vim.fn['everforest#get_palette']('hard', vim.empty_dict())
   vim.fn['everforest#highlight']('SimpleF', pallete.red, pallete.none, 'undercurl,bold', pallete.red)
