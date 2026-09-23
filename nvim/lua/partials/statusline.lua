@@ -28,7 +28,9 @@ local function get_workspace_name()
 end
 
 local function get_colors()
-  local ok, lualine_colors = pcall(require, 'lualine.themes.' .. (vim.g.colors_name or 'none'))
+  local lualine_theme_path = 'lualine.themes.' .. (vim.g.colors_name or 'none')
+  package.loaded[lualine_theme_path] = nil
+  local ok, lualine_colors = pcall(require, lualine_theme_path)
   if ok then
     local convert_gui = function(color)
       if color.gui then
