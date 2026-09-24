@@ -88,9 +88,9 @@ local function process_results(git_status_result, bufnr, path)
       if linenr > 0 and not lines_processed[linenr] then
         local indicator_name = get_indicator_name(us, them)
         local indicator_icon = git_icons[indicator_name] or '?'
-        local is_ignored_dir = indicator_name == 'Ignored' and vim.endswith(filename, sep)
-        -- Do not show icons on dirs where ignored files live
-        if is_ignored_dir then
+        local is_ignored_in_dir = indicator_name == 'Ignored' and vim.endswith(filename, sep) and filename ~= filepath
+        -- Do not show ignore icons on dirs where ignored files live. Show only if the dir itself is ignored.
+        if is_ignored_in_dir then
           lines_processed[linenr] = indicator_name
           goto continue
         end
