@@ -58,6 +58,11 @@ command = [
     'background ' + normal_bg,
     'cursor ' + (cursor_bg.startswith('#') and cursor_bg or normal_fg),
     'cursor_text_color background',
+    'active_tab_foreground ' + normal_bg,
+    'active_tab_background ' + nvim.eval('g:terminal_color_4'),
+    'inactive_tab_foreground ' + normal_fg,
+    'inactive_tab_background ' +
+    nvim.eval('g:terminal_color_' + (bg == 'dark' and '0' or '7')),
     'selection_foreground ' +
     (selection_fg.startswith('#') and selection_fg or 'none'),
     'selection_background ' +
