@@ -1,5 +1,7 @@
 local mod = 'ALT'
 local i3 = require('i3')
+local primary_monitor = 'DP-1'
+local secondary_monitor = 'HDMI-A-2'
 
 local noctalia = function(cmd)
   return 'noctalia msg ' .. cmd
@@ -10,8 +12,8 @@ i3.setup()
 hl.config({
   general = {
     border_size = 2,
-    gaps_in = 4,
-    gaps_out = 4,
+    gaps_in = 0,
+    gaps_out = 0,
     layout = 'lua:i3',
     col = {
       active_border = 'rgba(00ffffff)',
@@ -27,7 +29,7 @@ hl.config({
   },
 
   decoration = {
-    rounding = 6,
+    rounding = 0,
     active_opacity = 1.0,
     inactive_opacity = 1.0,
     fullscreen_opacity = 1.0,
@@ -52,11 +54,32 @@ hl.window_rule({
 })
 
 hl.monitor({
-  output = '',
+  output = primary_monitor,
   mode = 'highrr',
-  position = 'auto',
+  position = '0x0',
   scale = 1,
 })
+
+hl.monitor({
+  output = secondary_monitor,
+  mode = 'preferred',
+  position = '1920x0',
+  scale = 1,
+})
+
+for i = 1, 2 do
+  hl.workspace_rule({
+    workspace = tostring(i),
+    monitor = primary_monitor,
+  })
+end
+
+for j = 3, 7 do
+  hl.workspace_rule({
+    workspace = tostring(j),
+    monitor = secondary_monitor,
+  })
+end
 
 hl.window_rule({
   name = 'hide_solo_border',
