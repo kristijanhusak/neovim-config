@@ -5,6 +5,7 @@ emacs --batch -Q \
   --eval "(require 'ox-icalendar)" \
   --eval "(progn \
     (setq org-agenda-files '(\"~/orgfiles\") \
+          org-icalendar-deadline-summary-prefix \"\" \
           org-icalendar-use-deadline '(event-if-todo event-if-not-todo) \
           org-icalendar-use-scheduled '(event-if-todo event-if-not-todo) \
           org-icalendar-include-todo t \
