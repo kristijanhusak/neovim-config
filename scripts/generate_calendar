@@ -1,0 +1,14 @@
+#!/bin/sh
+
+emacs --batch -Q \
+  --eval "(require 'org)" \
+  --eval "(require 'ox-icalendar)" \
+  --eval "(progn \
+    (setq org-agenda-files '(\"~/orgfiles\") \
+          org-icalendar-use-deadline '(event-if-todo event-if-not-todo) \
+          org-icalendar-use-scheduled '(event-if-todo event-if-not-todo) \
+          org-icalendar-include-todo t \
+          org-icalendar-with-timestamps t \
+          org-icalendar-combined-agenda-file \"~/.local/share/calendars/org.ics\") \
+    (make-directory (file-name-directory org-icalendar-combined-agenda-file) t) \
+    (org-icalendar-combine-agenda-files))"
