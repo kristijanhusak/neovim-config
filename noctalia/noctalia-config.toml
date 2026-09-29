@@ -15,14 +15,14 @@ end = [
     "tray"
 ]
 font_family = "Ioskeley Mono Semibold"
-font_scale = 0.95
+font_scale = 0.9499999862164259
 font_weight = 600
 margin_edge = 0.0
 margin_ends = 0.0
 padding = 4
 position = "bottom"
 radius = 0
-scale = 0.95
+scale = 0.95000000670552254
 start = [ "workspaces", "active_window" ]
 thickness = 30
 widget_spacing = 12
@@ -81,13 +81,17 @@ up = [ "Up", "Ctrl+k" ]
 auto_locate = true
 
 [lockscreen]
-blur_intensity = 0.3
+blur_intensity = 0.29999999999999999
+monitors = [ "DP-1" ]
+transition = []
 
 [lockscreen_widgets]
 enabled = true
 schema_version = 2
 widget_order = [
+    "lockscreen-login-box@HDMI-A-2",
     "lockscreen-login-box@FALLBACK",
+    "lockscreen-login-box@DP-2",
     "lockscreen-login-box@DP-1",
     "lockscreen-widget-0000000000000001",
     "lockscreen-widget-0000000000000002"
@@ -120,6 +124,33 @@ widget_order = [
         show_unlock_hint = true
         show_weather = true
 
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-2"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.00006103515625
+    cy = 943.5
+    output = "DP-2"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-2".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
     [lockscreen_widgets.widget."lockscreen-login-box@FALLBACK"]
     box_height = 196.0
     box_width = 810.0
@@ -132,6 +163,33 @@ widget_order = [
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@FALLBACK".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-2"]
+    box_height = 196.0
+    box_width = 720.0
+    cx = 960.0
+    cy = 588.60003662109375
+    output = "HDMI-A-2"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-2".settings]
         background_color = "surface_variant"
         background_opacity = 0.88
         background_radius = 12.0
@@ -180,7 +238,7 @@ widget_order = [
         shadow = false
 
 [notification]
-scale = 1.1
+scale = 1.1000000000000001
 
 [plugins]
 enabled = [ "me/submap", "me/exchange_rates", "noctalia/screen_recorder" ]
@@ -222,6 +280,7 @@ ui_scale = 1.0
 
 [theme]
 community_palette = "Everforest Alt"
+mode = "dark"
 source = "community"
 
 [wallpaper]
@@ -230,6 +289,21 @@ directory = "/home/kristijan/Pictures/Wallpapers"
     [wallpaper.automation]
     enabled = true
     interval_minutes = 60
+
+    [wallpaper.default]
+    path = "/home/kristijan/Pictures/Wallpapers/white-flowers.jpg"
+
+    [wallpaper.last]
+    path = "/home/kristijan/Pictures/Wallpapers/white-flowers.jpg"
+
+    [wallpaper.monitors.DP-1]
+    path = "/home/kristijan/Pictures/Wallpapers/white-flowers.jpg"
+
+    [wallpaper.monitors.DP-2]
+    path = "/home/kristijan/Pictures/Wallpapers/car.png"
+
+    [wallpaper.monitors.HDMI-A-2]
+    path = "/home/kristijan/Pictures/Wallpapers/white-flowers.jpg"
 
 [weather]
 auto_locate = true
