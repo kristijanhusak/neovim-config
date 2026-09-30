@@ -12,8 +12,8 @@ i3.setup()
 hl.config({
   general = {
     border_size = 2,
-    gaps_in = 0,
-    gaps_out = 0,
+    gaps_in = 2,
+    gaps_out = 2,
     layout = 'lua:i3',
     col = {
       active_border = 'rgba(00ffffff)',
@@ -29,7 +29,7 @@ hl.config({
   },
 
   decoration = {
-    rounding = 0,
+    rounding = 2,
     active_opacity = 1.0,
     inactive_opacity = 1.0,
     fullscreen_opacity = 1.0,
