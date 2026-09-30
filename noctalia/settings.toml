@@ -23,7 +23,7 @@ padding = 4
 position = "bottom"
 radius = 0
 scale = 0.95
-start = [ "workspaces", "active_window" ]
+start = [ "taskbar", "active_window" ]
 thickness = 30
 widget_spacing = 12
 
@@ -264,6 +264,8 @@ hide_when_off = true
 
 [widget.media]
 hide_when_no_media = true
+show_progress = true
+title_scroll = "on_hover"
 
 [widget.network]
 show_label = false
@@ -286,6 +288,11 @@ capsule_group = "sysmonitor"
 show_value = true
 stat = "disk_free"
 visualization = "none"
+
+[widget.taskbar]
+font_scale = 1.4
+group_by_workspace = true
+hide_empty_workspaces = true
 
 [widget.tray]
 drawer = true
