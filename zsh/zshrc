@@ -57,6 +57,8 @@ alias cpuavailablemodes='cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_availa
 alias cpucurrentmode='cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 alias cpusetperformance='echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 alias cpusetpowersave='echo powersave | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
+alias csm='CLAUDE_CONFIG_DIR="$HOME/.claude-work" command claude'
+alias cl='CLAUDE_CONFIG_DIR="$HOME/.claude" command claude'
 
 export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin:~/.cargo/bin:~/.local/share/bob/nvim-bin:~/.local/share/neovim/bin:/home/kristijan/.meteor:~/.yarn/bin:~/.luarocks/bin:~/.config/composer/vendor/bin
 export NODE_PATH=$NODE_PATH:~/.config/yarn/global/node_modules
@@ -161,6 +163,26 @@ nt() {
 
 remove_gone_branches() {
   git clear
+}
+
+# Plain `claude` asks which account to use
+claude() {
+  # No terminal to ask on (piped input/output): refuse, so you choose explicitly
+  if [[ ! -t 0 || ! -t 1 ]]; then
+    print -u2 "claude: no terminal to ask which account; use csm or cl"
+    return 1
+  fi
+
+  local choice
+  print -n "Claude account: [1] work (csm)  [2] private (cl) > "
+  read -k1 choice
+  print
+
+  case $choice in
+    1|c) CLAUDE_CONFIG_DIR="$HOME/.claude-work" command claude "$@" ;;
+    2|p) CLAUDE_CONFIG_DIR="$HOME/.claude"      command claude "$@" ;;
+    *)   print "Cancelled."; return 1 ;;
+  esac
 }
 
 # Autocomplete Z items
