@@ -1,7 +1,7 @@
 #!/bin/sh
 
 handle_submap() {
-  qs -c noctalia-shell ipc call plugin:submap refresh
+  noctalia msg plugin me/submap:submap all refresh
 }
 
 swaymsg -t subscribe -m '[ "mode" ]' | while read -r _; do

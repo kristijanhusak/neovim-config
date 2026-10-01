@@ -2,6 +2,10 @@
 set $mod Mod1
 set $ipc noctalia msg
 
+# Monitors
+set $primary_monitor DP-1
+set $secondary_monitor HDMI-A-2
+
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 default_border pixel 2
 default_floating_border normal
@@ -20,7 +24,7 @@ floating_modifier $mod
 bindsym $mod+Return exec kitty
 
 # open a browser
-bindsym $mod+b exec google-chrome-stable
+bindsym $mod+b exec firefox
 
 bindsym $mod+equal resize grow width 1 px or 1 ppt
 bindsym $mod+minus resize shrink width 1 px or 1 ppt
@@ -30,24 +34,44 @@ bindsym $mod+q kill
 
 # start program launcher
 bindsym $mod+d exec $ipc panel-toggle launcher
+bindsym $mod+t exec $ipc panel-toggle launcher /win
 
-output DP-1 {
-    mode 3440x1440@144Hz
+output $primary_monitor {
+    mode 1920x1080@165Hz
+    pos 0 0
+    scale 1
 }
 
+output $secondary_monitor {
+    pos 1920 0
+    scale 1
+}
+
+workspace 1 output $primary_monitor
+workspace 2 output $primary_monitor
+workspace 3 output $secondary_monitor
+workspace 4 output $secondary_monitor
+workspace 5 output $secondary_monitor
+workspace 6 output $secondary_monitor
+workspace 7 output $secondary_monitor
+
 # Screenshot
-bindsym Print exec "~/neovim-config/scripts/screenshot.sh"
+bindsym Print exec $ipc screenshot-region
 
 # Record screen
-bindsym $mod+Ctrl+r exec "~/neovim-config/scripts/record_screen.sh --start"
-bindsym $mod+Ctrl+s exec "~/neovim-config/scripts/record_screen.sh --stop"
+bindsym $mod+Ctrl+r exec $ipc plugin noctalia/screen_recorder:service all start
+bindsym $mod+Ctrl+s exec $ipc plugin noctalia/screen_recorder:service all stop
 
 
 # Volume control
 bindsym XF86AudioRaiseVolume exec $ipc volume-up 1
 bindsym XF86AudioLowerVolume exec $ipc volume-down 1
 bindsym XF86AudioMute exec $ipc volume-mute
+bindsym XF86AudioMicMute exec $ipc mic-mute
 bindsym XF86AudioPlay exec $ipc media toggle
+bindsym XF86AudioPause exec $ipc media toggle
+bindsym XF86MonBrightnessUp exec $ipc brightness-up
+bindsym XF86MonBrightnessDown exec $ipc brightness-down
 bindsym XF86AudioNext exec $ipc media next
 bindsym XF86AudioPrev exec $ipc media previous
 
@@ -58,6 +82,10 @@ bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
+bindsym $mod+left focus left
+bindsym $mod+down focus down
+bindsym $mod+up focus up
+bindsym $mod+right focus right
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -70,8 +98,8 @@ bindsym $mod+Shift+up move up
 bindsym $mod+Shift+right move right
 
 # split orientation
-bindsym $mod+n split h;exec notify-send 'tile horizontally'
 bindsym $mod+o split v;exec notify-send 'tile vertically'
+bindsym $mod+n split h;exec notify-send 'tile horizontally'
 
 # toggle fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -84,6 +112,10 @@ bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+i floating toggle
+
+# float and pin (sticky) focused window
+bindsym $mod+p floating enable, sticky enable
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -141,6 +173,11 @@ set {
 for_window [class="^.*"] border pixel 2
 for_window [app_id="org.gnome.Calculator"] $float
 for_window [title="File Transfer*"] $float
+for_window [title="^Junction$"] floating enable, focus
+for_window [app_id="google-chrome" title="^Save File$"] floating enable
+for_window [app_id="thunar" title="^Rename.*"] floating enable
+for_window [app_id="thunar" title="^File Operation Progress$"] floating enable
+for_window [class="cs2"] allow_tearing yes
 for_window [window_role="pop-up"] $float
 for_window [window_role="bubble"] $float
 for_window [window_role="dialog"] $float
@@ -199,11 +236,10 @@ mode "resize" {
 bindsym Control+$mod+l exec $ipc session lock
 
 # Autostart applications
-exec dropbox
-exec google-chrome-stable
-exec swaymsg workspace 1; exec kitty
-exec ~/.config/sway/events.sh
 exec_always noctalia
+exec dropbox
+exec ~/.config/sway/events.sh
+exec xhost +SI:localuser:root
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
@@ -216,13 +252,15 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000
 client.background       #2B2C2B
 
 assign [app_id="google-chrome"] 2
+assign [app_id="firefox"] 2
+assign [app_id="Brave-browser"] 2
 assign [class="firefox"] 2
 assign [app_id="slack"] 4
 assign [class="ViberPC"] 6
 
 
-gaps inner 8
-gaps outer 0
+gaps inner 2
+gaps outer 2
 smart_gaps on
 smart_borders on
 
