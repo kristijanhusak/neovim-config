@@ -1,7 +1,7 @@
 [bar.default]
 capsule = true
 capsule_groups = [ "sysmonitor" ]
-center = [ "submap", "lock_keys", "media" ]
+center = [ "submap", "lock_keys" ]
 end = [
     "exchange_rates",
     "weather",
@@ -23,7 +23,7 @@ padding = 4
 position = "bottom"
 radius = 0
 scale = 0.95
-start = [ "taskbar", "active_window" ]
+start = [ "taskbar", "active_window", "media" ]
 thickness = 30
 widget_spacing = 12
 
