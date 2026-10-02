@@ -449,7 +449,21 @@ local function recalculate(ctx)
     return
   end
 
-  place(root, ctx.area, sync_tree(root, ctx.targets))
+  local present = sync_tree(root, ctx.targets)
+
+  -- Windows hidden behind a maximized one are kept at the maximized size, so
+  -- focusing them while maximized doesn't make them resize.
+  for _, target in ipairs(ctx.targets) do
+    if target.window and target.window.fullscreen == 1 then
+      for _, other in pairs(present) do
+        other:place(ctx.area)
+      end
+
+      return
+    end
+  end
+
+  place(root, ctx.area, present)
 end
 
 ---Groupbar orientation is a global option, so every tab group follows it.
@@ -583,13 +597,18 @@ local function focus(leaf, direction)
   end
 
   local target = most_recent_leaf(sibling)
-  local is_fullscreen = leaf.window.fullscreen == 1
 
-  hl.dispatch(hl.dsp.focus({ window = target.window }))
-
-  if is_fullscreen then
-    hl.dispatch(hl.dsp.window.fullscreen_state({ internal = 1, client = 1, window = target.window }))
+  if leaf.window.fullscreen ~= 1 then
+    hl.dispatch(hl.dsp.focus({ window = target.window }))
+    return
   end
+
+  -- Hand the maximized state straight to the newly focused window instead of
+  -- restoring the layout first, only for this focus change.
+  local previous = hl.get_config('misc.on_focus_under_fullscreen')
+  hl.config({ misc = { on_focus_under_fullscreen = 1 } })
+  hl.dispatch(hl.dsp.focus({ window = target.window }))
+  hl.config({ misc = { on_focus_under_fullscreen = previous } })
 end
 
 local function move(leaf, direction)
