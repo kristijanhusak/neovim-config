@@ -1,642 +1,665 @@
 local M = {}
 
-local DEFAULT_WORKSPACE_KEY = '__default'
-local DEFAULT_RESIZE_STEP = 0.05
-local MIN_LAYOUT_WEIGHT = 0.1
+local RESIZE_STEP = 0.05
+local MIN_WEIGHT = 0.1
 local is_setup = false
 
----@class I3WorkspaceState
----@field layout_columns string[][]
----@field column_weights number[]
----@field row_weights number[][]
----@field window_split_modes table<string, 'vertical' | 'horizontal'>
----@field last_active_window string|nil
----@field active_window_id string|nil
----@field previous_active_window_id string|nil
----@field windows HL.Window[]
----@field split 'vertical' | 'horizontal'
+---@alias I3Axis 'x' | 'y'
 
----@type table<string, I3WorkspaceState>
-local workspace_states = {}
-local current_workspace_key = DEFAULT_WORKSPACE_KEY
+---@class I3Node
+---@field parent I3Container|nil
+---@field weight number
 
-local function new_workspace_state()
-  return {
-    layout_columns = {},
-    column_weights = {},
-    row_weights = {},
-    window_split_modes = {},
-    last_active_window = nil,
-    active_window_id = nil,
-    previous_active_window_id = nil,
-    windows = {},
-    split = 'vertical',
-  }
+---@class I3Container: I3Node
+---@field dir I3Axis
+---@field children I3Node[]
+---@field key string|nil
+
+---@class I3Leaf: I3Node
+---@field address string
+---@field window HL.Window
+
+---@type table<string, I3Container>
+local roots = {}
+---@type table<string, I3Leaf>
+local leaves = {}
+---@type table<string, integer>
+local focus_stamps = {}
+local focus_counter = 0
+
+local DIRECTIONS = {
+  left = { char = 'l', axis = 'x', delta = -1 },
+  right = { char = 'r', axis = 'x', delta = 1 },
+  up = { char = 'u', axis = 'y', delta = -1 },
+  down = { char = 'd', axis = 'y', delta = 1 },
+}
+
+local SPLIT_NAMES = { x = 'vertical', y = 'horizontal' }
+
+local function notify(text)
+  hl.exec_cmd(([[hyprctl notify 0 2000 "rgb(ffffff)" "%s"]]):format(text))
 end
 
-local function get_workspace_state(workspace_key)
-  local key = workspace_key or DEFAULT_WORKSPACE_KEY
-  local state = workspace_states[key]
-
-  if not state then
-    state = new_workspace_state()
-    workspace_states[key] = state
-  end
-
-  return state
-end
-
-local function workspace_key_from_workspace(workspace)
+local function workspace_key(workspace)
   if not workspace then
-    return DEFAULT_WORKSPACE_KEY
+    return '__default'
   end
 
   if workspace.name and workspace.name ~= '' then
     return workspace.name
   end
 
-  if workspace.id ~= nil then
-    return tostring(workspace.id)
-  end
-
-  return DEFAULT_WORKSPACE_KEY
+  return tostring(workspace.id)
 end
 
-local function workspace_key_from_window(window)
-  if not window then
-    return DEFAULT_WORKSPACE_KEY
+local function get_root(key)
+  if not roots[key] then
+    roots[key] = { dir = 'x', children = {}, weight = 1, key = key }
   end
 
-  return workspace_key_from_workspace(window.workspace)
+  return roots[key]
 end
 
-local function workspace_key_from_target(target)
-  if not target then
-    return DEFAULT_WORKSPACE_KEY
+local function is_leaf(node)
+  return node.address ~= nil
+end
+
+local function root_of(node)
+  while node.parent do
+    node = node.parent
   end
 
-  return workspace_key_from_window(target.window)
+  return node
 end
 
-local function window_id(window)
-  if not window then
+local function index_of(parent, node)
+  for i, child in ipairs(parent.children) do
+    if child == node then
+      return i
+    end
+  end
+end
+
+local function each_leaf(node, fn)
+  if is_leaf(node) then
+    return fn(node)
+  end
+
+  for _, child in ipairs(node.children) do
+    each_leaf(child, fn)
+  end
+end
+
+local function most_recent_leaf(node)
+  local best, best_stamp = nil, -1
+
+  each_leaf(node, function(leaf)
+    local stamp = focus_stamps[leaf.address] or 0
+
+    if stamp > best_stamp then
+      best, best_stamp = leaf, stamp
+    end
+  end)
+
+  return best
+end
+
+local function stamp_focus(window)
+  if window and window.address then
+    focus_counter = focus_counter + 1
+    focus_stamps[window.address] = focus_counter
+  end
+end
+
+local function average_weight(children)
+  if #children == 0 then
+    return 1
+  end
+
+  local total = 0
+
+  for _, child in ipairs(children) do
+    total = total + child.weight
+  end
+
+  return total / #children
+end
+
+local function insert_child(parent, index, node)
+  node.weight = average_weight(parent.children)
+  node.parent = parent
+  table.insert(parent.children, index, node)
+end
+
+local function replace_child(parent, old, new)
+  parent.children[index_of(parent, old)] = new
+  new.parent = parent
+  new.weight = old.weight
+end
+
+---Collapses empty and single-child containers and merges containers that
+---split the same way as their parent, walking up from `container`.
+local function normalize(container)
+  local root = container and root_of(container)
+
+  while container and container.parent do
+    local parent = container.parent
+    local next_node = parent
+
+    if #container.children == 0 then
+      table.remove(parent.children, index_of(parent, container))
+    elseif #container.children == 1 then
+      local only = container.children[1]
+      replace_child(parent, container, only)
+
+      if not is_leaf(only) then
+        next_node = only
+      end
+    elseif container.dir == parent.dir then
+      local index = index_of(parent, container)
+      local total = 0
+
+      table.remove(parent.children, index)
+
+      for _, child in ipairs(container.children) do
+        total = total + child.weight
+      end
+
+      for offset, child in ipairs(container.children) do
+        child.parent = parent
+        child.weight = child.weight * container.weight / total
+        table.insert(parent.children, index + offset - 1, child)
+      end
+    else
+      break
+    end
+
+    container = next_node
+  end
+
+  if root and #root.children == 1 and not is_leaf(root.children[1]) then
+    local only = root.children[1]
+    root.dir = only.dir
+    root.children = only.children
+
+    for _, child in ipairs(root.children) do
+      child.parent = root
+    end
+  end
+end
+
+local function detach(node)
+  local parent = node.parent
+
+  if parent then
+    table.remove(parent.children, index_of(parent, node))
+    node.parent = nil
+  end
+
+  return parent
+end
+
+local function remove_leaf(leaf)
+  normalize(detach(leaf))
+
+  if leaves[leaf.address] == leaf then
+    leaves[leaf.address] = nil
+  end
+end
+
+local function insert_leaf(root, leaf, anchor)
+  if anchor and anchor.parent then
+    insert_child(anchor.parent, index_of(anchor.parent, anchor) + 1, leaf)
+  else
+    insert_child(root, #root.children + 1, leaf)
+  end
+end
+
+local function is_tiled_on(leaf, key)
+  local window = leaf.window
+
+  return window.address ~= nil
+    and window.mapped
+    and not window.hidden
+    and not window.floating
+    and workspace_key(window.workspace) == key
+end
+
+---Every Lua layout instance shares this module, so the workspace is inferred
+---from the targets. Windows mid-move can report their new workspace while
+---still being laid out on the old one, so the majority wins and ties go to
+---the tree that already owns most of the targets.
+local function pick_root(targets)
+  local votes, owned = {}, {}
+  local best = nil
+
+  for _, target in ipairs(targets) do
+    local window = target.window
+
+    if window then
+      local key = workspace_key(window.workspace)
+      votes[key] = (votes[key] or 0) + 1
+      best = best or key
+
+      local leaf = leaves[window.address]
+
+      if leaf then
+        local owner = root_of(leaf).key
+        owned[owner] = (owned[owner] or 0) + 1
+      end
+    end
+  end
+
+  if not best then
     return nil
   end
 
-  return window.address
+  for key, count in pairs(votes) do
+    if count > votes[best] or (count == votes[best] and (owned[key] or 0) > (owned[best] or 0)) then
+      best = key
+    end
+  end
+
+  return get_root(best)
 end
 
-local function target_window_id(target)
-  return window_id(target.window)
-end
-
-local function active_window_id_from_targets(targets)
+local function active_leaf(targets)
   for _, target in ipairs(targets) do
-    if target.window and target.window.active then
-      return target_window_id(target)
+    local window = target.window
+
+    if window and window.active then
+      return leaves[window.address]
     end
   end
-
-  return nil
 end
 
-local function find_window_in_columns(state, target_window_id)
-  for column_index, column in ipairs(state.layout_columns) do
-    for row_index, id in ipairs(column) do
-      if id == target_window_id then
-        return column_index, row_index
-      end
-    end
-  end
+---A group is a single target whose window is the current tab, so switching
+---tabs hands the group's leaf over to the newly shown window.
+local function adopt_group_leaf(window, root)
+  local current = leaves[window.address]
 
-  return nil, nil
-end
-
-local function has_window(state, target_window_id)
-  local column_index = find_window_in_columns(state, target_window_id)
-  return column_index ~= nil
-end
-
-local function flatten_columns(state)
-  local ordered = {}
-
-  for _, column in ipairs(state.layout_columns) do
-    for _, target_window_id in ipairs(column) do
-      table.insert(ordered, target_window_id)
-    end
-  end
-
-  return ordered
-end
-
-local function find_window_in_order(window_order, target_window_id)
-  for index, current_window_id in ipairs(window_order) do
-    if current_window_id == target_window_id then
-      return index
-    end
-  end
-
-  return nil
-end
-
-local function same_order(lhs, rhs)
-  if #lhs ~= #rhs then
-    return false
-  end
-
-  for i = 1, #lhs do
-    if lhs[i] ~= rhs[i] then
-      return false
-    end
-  end
-
-  return true
-end
-
-local function normalized_weight(weight)
-  return math.max(weight or 1, MIN_LAYOUT_WEIGHT)
-end
-
-local function total_weights(weights)
-  local total = 0
-
-  for _, weight in ipairs(weights) do
-    total = total + normalized_weight(weight)
-  end
-
-  return total
-end
-
-local function sync_layout_weights(state)
-  local column_weights = {}
-  local row_weights = {}
-
-  for column_index, column in ipairs(state.layout_columns) do
-    column_weights[column_index] = normalized_weight(state.column_weights[column_index])
-    row_weights[column_index] = {}
-
-    for row_index = 1, #column do
-      row_weights[column_index][row_index] = normalized_weight((state.row_weights[column_index] or {})[row_index])
-    end
-  end
-
-  state.column_weights = column_weights
-  state.row_weights = row_weights
-end
-
-local function rebuild_columns(state, window_order)
-  local rebuilt = {}
-  local current_column = nil
-
-  for index, target_window_id in ipairs(window_order) do
-    local mode = state.window_split_modes[target_window_id] or 'vertical'
-
-    if index == 1 or mode == 'vertical' or current_column == nil then
-      current_column = { target_window_id }
-      table.insert(rebuilt, current_column)
-    else
-      table.insert(current_column, target_window_id)
-    end
-  end
-
-  state.layout_columns = rebuilt
-end
-
-local function insert_window(state, new_window_id, anchor_window_id, mode)
-  if #state.layout_columns == 0 then
-    state.layout_columns = { { new_window_id } }
+  if (current and root_of(current) == root) or not window.group then
     return
   end
 
-  local column_index, row_index = find_window_in_columns(state, anchor_window_id)
+  for _, member in ipairs(window.group.members or {}) do
+    local leaf = leaves[member.address]
 
-  if mode == 'vertical' then
-    if not column_index then
-      table.insert(state.layout_columns, { new_window_id })
+    if leaf and root_of(leaf) == root then
+      leaves[leaf.address] = nil
+      leaf.address = window.address
+      leaves[window.address] = leaf
       return
     end
-
-    table.insert(state.layout_columns, column_index + 1, { new_window_id })
-    return
   end
-
-  if not column_index then
-    table.insert(state.layout_columns[#state.layout_columns], new_window_id)
-    return
-  end
-
-  table.insert(state.layout_columns[column_index], row_index + 1, new_window_id)
 end
 
-local function set_split(state, direction)
-  if state.split == direction then
-    return true
-  end
+local function sync_tree(root, targets)
+  local present = {}
+  local disjoint = true
 
-  state.split = direction
-  hl.exec_cmd(([[hyprctl notify 0 2000 "rgb(ffffff)" "Split %s"]]):format(direction))
-  return true
-end
+  for _, target in ipairs(targets) do
+    local window = target.window
 
-local function focus(state, direction)
-  if direction == 'u' or direction == 'd' then
-    hl.dispatch(hl.dsp.focus({ direction = direction }))
-    return true
-  end
+    if window then
+      adopt_group_leaf(window, root)
+      present[window.address] = target
 
-  for i, win in ipairs(state.windows) do
-    if win.address == state.active_window_id then
-      local idx = direction == 'l' and i - 1 or i + 1
-      local target_win = state.windows[idx]
+      if window.active then
+        stamp_focus(window)
+      end
 
-      if idx > 0 and idx <= #state.windows and target_win then
-        local is_fullscreen = win.fullscreen == 1
-        hl.dispatch(hl.dsp.focus({ window = target_win }))
+      local leaf = leaves[window.address]
 
-        if is_fullscreen then
-          hl.dispatch(hl.dsp.window.fullscreen_state({ internal = 1, client = 1, window = target_win }))
-        end
-
-        return true
+      if leaf and root_of(leaf) == root then
+        disjoint = false
+        leaf.window = window
       end
     end
   end
 
-  return true
-end
+  local stale = {}
 
-local function toggle_active_split(state, active_window_id, targets)
-  local window_order = flatten_columns(state)
+  each_leaf(root, function(leaf)
+    -- A recalculate that shares no windows with the tree is either a fresh
+    -- start or a transient call during a move, only drop windows that are
+    -- really gone in that case.
+    if not present[leaf.address] and (not disjoint or not is_tiled_on(leaf, root.key)) then
+      table.insert(stale, leaf)
+    end
+  end)
 
-  if #window_order == 0 then
-    for _, target in ipairs(targets) do
-      local current_window_id = target_window_id(target)
+  for _, leaf in ipairs(stale) do
+    remove_leaf(leaf)
+  end
 
-      if current_window_id then
-        table.insert(window_order, current_window_id)
+  local anchor = most_recent_leaf(root)
+
+  for _, target in ipairs(targets) do
+    local window = target.window
+
+    if window and not (leaves[window.address] and root_of(leaves[window.address]) == root) then
+      if leaves[window.address] then
+        remove_leaf(leaves[window.address])
       end
+
+      local leaf = { address = window.address, window = window, weight = 1 }
+      leaves[window.address] = leaf
+      insert_leaf(root, leaf, anchor)
+      anchor = leaf
     end
   end
 
-  if #window_order < 2 or not active_window_id then
-    return true
-  end
-
-  local active_index = find_window_in_order(window_order, active_window_id)
-
-  if not active_index then
-    return true
-  end
-
-  local split_window_id = active_index == 1 and window_order[2] or active_window_id
-
-  if not split_window_id then
-    return true
-  end
-
-  local direction = state.window_split_modes[split_window_id] == 'horizontal' and 'vertical' or 'horizontal'
-  state.window_split_modes[split_window_id] = direction
-  rebuild_columns(state, window_order)
-  hl.exec_cmd(([[hyprctl notify 0 2000 "rgb(ffffff)" "Split %s"]]):format(direction))
-  return true
+  return present
 end
 
-local function transfer_weight(weights, grow_index, shrink_index, amount)
-  local shrink_weight = normalized_weight(weights[shrink_index])
-  local actual_amount = math.min(amount, shrink_weight - MIN_LAYOUT_WEIGHT)
+local function place(node, box, present)
+  if is_leaf(node) then
+    local target = present[node.address]
 
-  if actual_amount <= 0 then
-    return true
-  end
-
-  weights[grow_index] = normalized_weight(weights[grow_index]) + actual_amount
-  weights[shrink_index] = shrink_weight - actual_amount
-  return true
-end
-
-local function resize_columns(state, active_window_id, direction)
-  local column_index = find_window_in_columns(state, active_window_id)
-
-  if not column_index or #state.layout_columns < 2 then
-    return true
-  end
-
-  sync_layout_weights(state)
-
-  if direction == 'left' then
-    if column_index > 1 then
-      return transfer_weight(state.column_weights, column_index - 1, column_index, DEFAULT_RESIZE_STEP)
+    if target then
+      target:place(box)
     end
 
-    return transfer_weight(state.column_weights, column_index + 1, column_index, DEFAULT_RESIZE_STEP)
+    return
   end
 
-  if column_index < #state.layout_columns then
-    return transfer_weight(state.column_weights, column_index, column_index + 1, DEFAULT_RESIZE_STEP)
+  local total = 0
+
+  for _, child in ipairs(node.children) do
+    total = total + child.weight
   end
 
-  return transfer_weight(state.column_weights, column_index, column_index - 1, DEFAULT_RESIZE_STEP)
-end
+  local horizontal = node.dir == 'x'
+  local offset = horizontal and box.x or box.y
+  local remaining = horizontal and box.w or box.h
 
-local function resize_rows(state, active_window_id, direction)
-  local column_index, row_index = find_window_in_columns(state, active_window_id)
+  for i, child in ipairs(node.children) do
+    local size = i == #node.children and remaining or math.floor(remaining * child.weight / total + 0.5)
 
-  if not column_index or not row_index or #state.layout_columns[column_index] < 2 then
-    return true
-  end
-
-  sync_layout_weights(state)
-
-  local row_weights = state.row_weights[column_index]
-
-  if direction == 'up' then
-    if row_index > 1 then
-      return transfer_weight(row_weights, row_index - 1, row_index, DEFAULT_RESIZE_STEP)
+    if horizontal then
+      place(child, { x = offset, y = box.y, w = size, h = box.h }, present)
+    else
+      place(child, { x = box.x, y = offset, w = box.w, h = size }, present)
     end
 
-    return transfer_weight(row_weights, row_index + 1, row_index, DEFAULT_RESIZE_STEP)
-  end
-
-  if row_index < #state.layout_columns[column_index] then
-    return transfer_weight(row_weights, row_index, row_index + 1, DEFAULT_RESIZE_STEP)
-  end
-
-  return transfer_weight(row_weights, row_index, row_index - 1, DEFAULT_RESIZE_STEP)
-end
-
-local function fit_all(state)
-  sync_layout_weights(state)
-
-  for column_index = 1, #state.layout_columns do
-    state.column_weights[column_index] = 1
-  end
-
-  return true
-end
-
-local VALID_LAYOUT_COMMANDS = {
-  fit = {
-    all = function(command_ctx)
-      return fit_all(command_ctx.state)
-    end,
-  },
-  focus = {
-    down = function(command_ctx)
-      return focus(command_ctx.state, 'd')
-    end,
-    left = function(command_ctx)
-      return focus(command_ctx.state, 'l')
-    end,
-    right = function(command_ctx)
-      return focus(command_ctx.state, 'r')
-    end,
-    up = function(command_ctx)
-      return focus(command_ctx.state, 'u')
-    end,
-  },
-  resize = {
-    down = function(command_ctx)
-      return resize_rows(command_ctx.state, command_ctx.active_window_id, 'down')
-    end,
-    left = function(command_ctx)
-      return resize_columns(command_ctx.state, command_ctx.active_window_id, 'left')
-    end,
-    right = function(command_ctx)
-      return resize_columns(command_ctx.state, command_ctx.active_window_id, 'right')
-    end,
-    up = function(command_ctx)
-      return resize_rows(command_ctx.state, command_ctx.active_window_id, 'up')
-    end,
-  },
-  split = {
-    h = function(command_ctx)
-      return set_split(command_ctx.state, 'horizontal')
-    end,
-    horizontal = function(command_ctx)
-      return set_split(command_ctx.state, 'horizontal')
-    end,
-    toggle = function(command_ctx)
-      return toggle_active_split(command_ctx.state, command_ctx.active_window_id, command_ctx.ctx.targets)
-    end,
-    v = function(command_ctx)
-      return set_split(command_ctx.state, 'vertical')
-    end,
-    vertical = function(command_ctx)
-      return set_split(command_ctx.state, 'vertical')
-    end,
-  },
-}
-
-local function set_active_window(window)
-  local workspace_key = workspace_key_from_window(window)
-  local state = get_workspace_state(workspace_key)
-  local new_active_window_id = window_id(window)
-
-  current_workspace_key = workspace_key
-
-  if new_active_window_id ~= state.active_window_id then
-    state.previous_active_window_id = state.active_window_id
-    state.active_window_id = new_active_window_id
+    offset = offset + size
+    remaining = remaining - size
+    total = total - child.weight
   end
 end
 
 ---@param ctx HL.LayoutContext
 local function recalculate(ctx)
-  if #ctx.targets == 0 then
+  local root = pick_root(ctx.targets)
+
+  if not root then
     return
   end
 
-  local workspace_key = workspace_key_from_target(ctx.targets[1])
-  local state = get_workspace_state(workspace_key)
-  local current_targets = {}
-  local current_order = {}
-  local current_windows = {}
-  local active_window = nil
-  local removed_windows = false
+  place(root, ctx.area, sync_tree(root, ctx.targets))
+end
 
-  state.windows = {}
+---Finds the closest node next to `leaf` in `direction`, along with the
+---container and index where that neighbor lives.
+local function neighbor(leaf, direction)
+  local node = leaf
 
-  for _, target in ipairs(ctx.targets) do
-    local current_window_id = target_window_id(target)
+  while node.parent do
+    local parent = node.parent
 
-    if current_window_id then
-      current_targets[current_window_id] = target
-      current_windows[current_window_id] = true
-      table.insert(current_order, current_window_id)
+    if parent.dir == direction.axis then
+      local sibling = parent.children[index_of(parent, node) + direction.delta]
 
-      if target.window.active then
-        active_window = current_window_id
-      end
-
-      table.insert(state.windows, target.window)
-    end
-  end
-
-  if active_window and active_window ~= state.active_window_id then
-    current_workspace_key = workspace_key
-    state.previous_active_window_id = state.active_window_id
-    state.active_window_id = active_window
-  end
-
-  for current_window_id in pairs(state.window_split_modes) do
-    if not current_windows[current_window_id] then
-      state.window_split_modes[current_window_id] = nil
-      removed_windows = true
-    end
-  end
-
-  for column_index = #state.layout_columns, 1, -1 do
-    local column = state.layout_columns[column_index]
-
-    for row_index = #column, 1, -1 do
-      if not current_windows[column[row_index]] then
-        table.remove(column, row_index)
-        removed_windows = true
+      if sibling then
+        return sibling
       end
     end
 
-    if #column == 0 then
-      table.remove(state.layout_columns, column_index)
-      removed_windows = true
-    end
-  end
-
-  if state.last_active_window and not current_windows[state.last_active_window] then
-    state.last_active_window = nil
-  end
-
-  if state.active_window_id and not current_windows[state.active_window_id] then
-    state.active_window_id = nil
-  end
-
-  if state.previous_active_window_id and not current_windows[state.previous_active_window_id] then
-    state.previous_active_window_id = nil
-  end
-
-  local new_windows = {}
-
-  for _, current_window_id in ipairs(current_order) do
-    if not state.window_split_modes[current_window_id] then
-      table.insert(new_windows, current_window_id)
-    end
-  end
-
-  if #new_windows > 0 then
-    local anchor_window = nil
-
-    if has_window(state, state.active_window_id) then
-      anchor_window = state.active_window_id
-    elseif has_window(state, state.previous_active_window_id) then
-      anchor_window = state.previous_active_window_id
-    else
-      anchor_window = state.last_active_window
-    end
-
-    for _, current_window_id in ipairs(new_windows) do
-      state.window_split_modes[current_window_id] = state.split
-      insert_window(state, current_window_id, anchor_window, state.split)
-      anchor_window = current_window_id
-    end
-  elseif not removed_windows and not same_order(flatten_columns(state), current_order) then
-    rebuild_columns(state, current_order)
-  end
-
-  if #state.layout_columns == 0 then
-    rebuild_columns(state, current_order)
-  end
-
-  sync_layout_weights(state)
-
-  local remaining_x = ctx.area.x
-  local remaining_width = ctx.area.w
-  local remaining_column_weight = total_weights(state.column_weights)
-
-  for column_index, column in ipairs(state.layout_columns) do
-    local column_weight = normalized_weight(state.column_weights[column_index])
-    local column_width = column_index == #state.layout_columns and remaining_width
-      or math.floor(remaining_width * column_weight / remaining_column_weight + 0.5)
-    local remaining_y = ctx.area.y
-    local remaining_height = ctx.area.h
-    local row_weights = state.row_weights[column_index]
-    local remaining_row_weight = total_weights(row_weights)
-
-    for row_index, current_window_id in ipairs(column) do
-      local target = current_targets[current_window_id]
-
-      if target then
-        local row_weight = normalized_weight(row_weights[row_index])
-        local row_height = row_index == #column and remaining_height
-          or math.floor(remaining_height * row_weight / remaining_row_weight + 0.5)
-
-        target:place({
-          x = remaining_x,
-          y = remaining_y,
-          w = column_width,
-          h = row_height,
-        })
-
-        remaining_y = remaining_y + row_height
-        remaining_height = remaining_height - row_height
-        remaining_row_weight = remaining_row_weight - row_weight
-      end
-    end
-
-    remaining_x = remaining_x + column_width
-    remaining_width = remaining_width - column_width
-    remaining_column_weight = remaining_column_weight - column_weight
-  end
-
-  if active_window then
-    state.last_active_window = active_window
-  elseif state.active_window_id and current_windows[state.active_window_id] then
-    state.last_active_window = state.active_window_id
+    node = parent
   end
 end
 
+local function focus(leaf, direction)
+  local sibling = leaf and neighbor(leaf, direction)
+
+  if not sibling then
+    if not leaf or leaf.window.fullscreen == 0 then
+      hl.dispatch(hl.dsp.focus({ direction = direction.char }))
+    end
+
+    return
+  end
+
+  local target = most_recent_leaf(sibling)
+  local is_fullscreen = leaf.window.fullscreen == 1
+
+  hl.dispatch(hl.dsp.focus({ window = target.window }))
+
+  if is_fullscreen then
+    hl.dispatch(hl.dsp.window.fullscreen_state({ internal = 1, client = 1, window = target.window }))
+  end
+end
+
+local function move(leaf, direction)
+  if not leaf then
+    hl.dispatch(hl.dsp.window.move({ direction = direction.char }))
+    return
+  end
+
+  if leaf.window.fullscreen ~= 0 then
+    return
+  end
+
+  local parent = leaf.parent
+
+  if parent.dir == direction.axis then
+    local index = index_of(parent, leaf)
+    local sibling = parent.children[index + direction.delta]
+
+    if sibling and is_leaf(sibling) then
+      local target_index = index + direction.delta
+      parent.children[index], parent.children[target_index] = sibling, leaf
+      leaf.weight, sibling.weight = sibling.weight, leaf.weight
+      return
+    end
+
+    if sibling then
+      detach(leaf)
+
+      if sibling.dir == direction.axis then
+        insert_child(sibling, direction.delta > 0 and 1 or #sibling.children + 1, leaf)
+      else
+        local focused = most_recent_leaf(sibling)
+
+        while focused.parent ~= sibling do
+          focused = focused.parent
+        end
+
+        insert_child(sibling, index_of(sibling, focused) + 1, leaf)
+      end
+
+      normalize(parent)
+      return
+    end
+  end
+
+  local branch = parent
+  local ancestor = parent.parent
+
+  while ancestor and ancestor.dir ~= direction.axis do
+    branch = ancestor
+    ancestor = ancestor.parent
+  end
+
+  if ancestor then
+    detach(leaf)
+    insert_child(ancestor, index_of(ancestor, branch) + (direction.delta > 0 and 1 or 0), leaf)
+    normalize(parent)
+    return
+  end
+
+  local root = root_of(leaf)
+
+  if root.dir == direction.axis or #root.children == 1 then
+    pcall(function()
+      hl.dispatch(hl.dsp.window.move({ monitor = direction.char }))
+    end)
+    return
+  end
+
+  detach(leaf)
+
+  local rest = { dir = root.dir, children = root.children, weight = 1 }
+
+  for _, child in ipairs(rest.children) do
+    child.parent = rest
+  end
+
+  root.dir = direction.axis
+  root.children = { rest }
+  rest.parent = root
+  insert_child(root, direction.delta > 0 and 2 or 1, leaf)
+  normalize(parent == root and rest or parent)
+end
+
+local function split(leaf, axis)
+  if not leaf then
+    return
+  end
+
+  local parent = leaf.parent
+
+  if parent.dir == axis then
+    return
+  end
+
+  if #parent.children == 1 then
+    parent.dir = axis
+    normalize(parent)
+  else
+    local container = { dir = axis, children = { leaf } }
+    replace_child(parent, leaf, container)
+    leaf.parent = container
+    leaf.weight = 1
+  end
+
+  notify('Split ' .. SPLIT_NAMES[axis])
+end
+
+local function toggle_split(leaf)
+  if not leaf then
+    return
+  end
+
+  local parent = leaf.parent
+  parent.dir = parent.dir == 'x' and 'y' or 'x'
+  notify('Split ' .. SPLIT_NAMES[parent.dir])
+  normalize(parent)
+end
+
+local function transfer_weight(children, grow, shrink)
+  local amount = math.min(RESIZE_STEP, children[shrink].weight - MIN_WEIGHT)
+
+  if amount > 0 then
+    children[grow].weight = children[grow].weight + amount
+    children[shrink].weight = children[shrink].weight - amount
+  end
+end
+
+---Shrinks the focused window towards left/up and grows it towards right/down.
+local function resize(leaf, direction)
+  local node = leaf
+
+  while node and node.parent do
+    local parent = node.parent
+
+    if parent.dir == direction.axis and #parent.children > 1 then
+      local index = index_of(parent, node)
+      local other = parent.children[index + direction.delta] and index + direction.delta or index - direction.delta
+
+      if direction.delta < 0 then
+        transfer_weight(parent.children, other, index)
+      else
+        transfer_weight(parent.children, index, other)
+      end
+
+      return
+    end
+
+    node = parent
+  end
+end
+
+local function fit_all(root)
+  local function reset(node)
+    node.weight = 1
+
+    for _, child in ipairs(node.children or {}) do
+      reset(child)
+    end
+  end
+
+  reset(root)
+end
+
+local COMMANDS = {
+  focus = function(leaf, arg)
+    return DIRECTIONS[arg] and function()
+      focus(leaf, DIRECTIONS[arg])
+    end
+  end,
+  move = function(leaf, arg)
+    return DIRECTIONS[arg] and function()
+      move(leaf, DIRECTIONS[arg])
+    end
+  end,
+  resize = function(leaf, arg)
+    return DIRECTIONS[arg] and function()
+      resize(leaf, DIRECTIONS[arg])
+    end
+  end,
+  split = function(leaf, arg)
+    local axis = ({ v = 'x', vertical = 'x', h = 'y', horizontal = 'y' })[arg]
+
+    if axis then
+      return function()
+        split(leaf, axis)
+      end
+    end
+
+    return arg == 'toggle' and function()
+      toggle_split(leaf)
+    end
+  end,
+  fit = function(_, arg, root)
+    return arg == 'all' and function()
+      if root then
+        fit_all(root)
+      end
+    end
+  end,
+}
+
+local USAGE = 'i3: expected "focus|move|resize <left|right|up|down>", "split <vertical|horizontal|toggle>", or "fit all"'
+
 local function layout_msg(ctx, msg)
-  local command, argument = msg:match('^(%S+)%s*(.-)%s*$')
-  local command_arguments = command and VALID_LAYOUT_COMMANDS[command]
+  local command, arg = msg:match('^(%S+)%s*(.-)%s*$')
+  local root = pick_root(ctx.targets)
 
-  if not command or not command_arguments then
-    return nil
+  if root then
+    sync_tree(root, ctx.targets)
   end
 
-  local workspace_key = #ctx.targets > 0 and workspace_key_from_target(ctx.targets[1]) or current_workspace_key
-  local state = get_workspace_state(workspace_key)
-  local active_window_id = active_window_id_from_targets(ctx.targets)
-    or state.active_window_id
-    or state.last_active_window
+  local handler = command and COMMANDS[command]
+  local run = handler and handler(active_leaf(ctx.targets), arg, root)
 
-  current_workspace_key = workspace_key
-
-  if active_window_id then
-    state.active_window_id = active_window_id
-    state.last_active_window = active_window_id
+  if not run then
+    return USAGE
   end
 
-  local command_handler = command_arguments[argument]
-
-  if not command_handler then
-    if command == 'fit' then
-      return 'i3: expected "fit all"'
-    end
-
-    if command == 'focus' then
-      return 'i3: expected "focus left", "focus right", "focus up", or "focus down"'
-    end
-
-    if command == 'resize' then
-      return 'i3: expected "resize left", "resize right", "resize up", or "resize down"'
-    end
-
-    return 'i3: expected "split vertical", "split horizontal", or "split toggle"'
-  end
-
-  return command_handler({
-    active_window_id = active_window_id,
-    ctx = ctx,
-    state = state,
-  })
+  run()
+  return true
 end
 
 function M.setup()
@@ -646,17 +669,17 @@ function M.setup()
 
   is_setup = true
 
-  hl.on('window.active', function(window)
-    set_active_window(window)
+  hl.on('window.active', stamp_focus)
+
+  hl.on('window.destroy', function(window)
+    if window and window.address then
+      focus_stamps[window.address] = nil
+    end
   end)
 
   hl.layout.register('i3', {
-    recalculate = function(ctx)
-      recalculate(ctx)
-    end,
-    layout_msg = function(ctx, msg)
-      return layout_msg(ctx, msg)
-    end,
+    recalculate = recalculate,
+    layout_msg = layout_msg,
   })
 end
 
