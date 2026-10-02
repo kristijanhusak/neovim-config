@@ -273,36 +273,80 @@ local function active_leaf(targets)
   end
 end
 
----A group is a single target whose window is the current tab, so switching
----tabs hands the group's leaf over to the newly shown window.
-local function adopt_group_leaf(window, root)
-  local current = leaves[window.address]
+local function is_live_group(group)
+  return group ~= nil and group.size ~= nil
+end
 
-  if (current and root_of(current) == root) or not window.group then
-    return
-  end
+---A group is a single target whose window is the current tab, so its leaf is
+---tracked by group and handed to whichever tab is shown. Runs before anything
+---else so a tab that just left the group doesn't keep the group's leaf.
+local function adopt_group_leaves(root, targets)
+  for _, target in ipairs(targets) do
+    local window = target.window
+    local group = window and window.group
 
-  for _, member in ipairs(window.group.members or {}) do
-    local leaf = leaves[member.address]
+    if is_live_group(group) then
+      local owner = nil
 
-    if leaf and root_of(leaf) == root then
-      leaves[leaf.address] = nil
-      leaf.address = window.address
-      leaves[window.address] = leaf
-      return
+      each_leaf(root, function(leaf)
+        if not owner and is_live_group(leaf.group) and leaf.group == group then
+          owner = leaf
+        end
+      end)
+
+      if owner and owner.address ~= window.address then
+        local existing = leaves[window.address]
+
+        if existing and existing ~= owner then
+          remove_leaf(existing)
+        end
+
+        leaves[owner.address] = nil
+        owner.address = window.address
+        leaves[window.address] = owner
+      end
     end
   end
 end
+
+---Puts `node` in a new container that splits along `axis`.
+local function wrap(node, axis)
+  local container = { dir = axis, children = { node } }
+  replace_child(node.parent, node, container)
+  node.parent = container
+  node.weight = 1
+  return container
+end
+
+---Inserts `leaf` right next to `node` in `direction`, splitting `node` when
+---its container runs the other way.
+local function insert_beside(node, leaf, direction)
+  local parent = node.parent
+
+  if parent.dir ~= direction.axis then
+    if #parent.children == 1 then
+      parent.dir = direction.axis
+    else
+      parent = wrap(node, direction.axis)
+    end
+  end
+
+  insert_child(parent, index_of(parent, node) + (direction.delta > 0 and 1 or 0), leaf)
+end
+
+---@type table<string, { anchor: I3Leaf, direction: table }>
+local pending_placements = {}
 
 local function sync_tree(root, targets)
   local present = {}
   local disjoint = true
 
+  adopt_group_leaves(root, targets)
+
   for _, target in ipairs(targets) do
     local window = target.window
 
     if window then
-      adopt_group_leaf(window, root)
       present[window.address] = target
 
       if window.active then
@@ -314,6 +358,7 @@ local function sync_tree(root, targets)
       if leaf and root_of(leaf) == root then
         disjoint = false
         leaf.window = window
+        leaf.group = window.group
       end
     end
   end
@@ -343,10 +388,17 @@ local function sync_tree(root, targets)
         remove_leaf(leaves[window.address])
       end
 
-      local leaf = { address = window.address, window = window, weight = 1 }
+      local leaf = { address = window.address, window = window, group = window.group, weight = 1 }
+      local placement = pending_placements[window.address]
+      pending_placements[window.address] = nil
       leaves[window.address] = leaf
-      insert_leaf(root, leaf, anchor)
-      anchor = leaf
+
+      if placement and leaves[placement.anchor.address] == placement.anchor and root_of(placement.anchor) == root then
+        insert_beside(placement.anchor, leaf, placement.direction)
+      else
+        insert_leaf(root, leaf, anchor)
+        anchor = leaf
+      end
     end
   end
 
@@ -400,8 +452,100 @@ local function recalculate(ctx)
   place(root, ctx.area, sync_tree(root, ctx.targets))
 end
 
----Finds the closest node next to `leaf` in `direction`, along with the
----container and index where that neighbor lives.
+---Groupbar orientation is a global option, so every tab group follows it.
+local stacked = false
+
+---Returns the focused window's group when there are tabs to move between.
+local function tab_group(leaf)
+  local group = leaf and leaf.window.group
+
+  if is_live_group(group) and group.size > 1 then
+    return group
+  end
+end
+
+---Returns the tab index one step in `direction`, or nil when leaving the group.
+local function next_tab(group, direction)
+  local index = group.current_index + direction.delta
+
+  if direction.axis == (stacked and 'y' or 'x') and index >= 1 and index <= group.size then
+    return index
+  end
+end
+
+---Takes `window` out of its group and lays it out next to the group's tile.
+local function ungroup(anchor, group, window, direction)
+  pending_placements[window.address] = { anchor = anchor, direction = direction }
+  pcall(group.remove, group, window)
+end
+
+local function make_tabbed(leaf, stack)
+  if stacked ~= stack then
+    stacked = stack
+    hl.config({ group = { groupbar = { stacked = stack } } })
+  end
+
+  if not leaf or is_live_group(leaf.window.group) then
+    return
+  end
+
+  local window = leaf.window
+  local before, after = {}, {}
+  local list = before
+
+  for _, sibling in ipairs(leaf.parent.children) do
+    if sibling == leaf then
+      list = after
+    elseif is_leaf(sibling) and not is_live_group(sibling.window.group) then
+      table.insert(list, sibling.window)
+    end
+  end
+
+  hl.dispatch(hl.dsp.group.toggle())
+
+  local group = window.group
+
+  if not is_live_group(group) then
+    return
+  end
+
+  for i, sibling in ipairs(before) do
+    pcall(group.add, group, sibling, i)
+  end
+
+  for _, sibling in ipairs(after) do
+    pcall(group.add, group, sibling, group.size + 1)
+  end
+
+  -- Adding tabs makes each new one current, so bring back the window the
+  -- layout was toggled from and give it focus again.
+  for i, member in ipairs(group.members) do
+    if member.address == window.address then
+      hl.dispatch(hl.dsp.group.active({ index = i, window = window }))
+    end
+  end
+
+  hl.dispatch(hl.dsp.focus({ window = window }))
+end
+
+local function untab(leaf, group)
+  local before = stacked and DIRECTIONS.up or DIRECTIONS.left
+  local after = stacked and DIRECTIONS.down or DIRECTIONS.right
+  local members, current = group.members, group.current_index
+
+  for i = 1, current - 1 do
+    ungroup(leaf, group, members[i], before)
+  end
+
+  for i = #members, current + 1, -1 do
+    ungroup(leaf, group, members[i], after)
+  end
+
+  pcall(group.remove, group, members[current])
+  hl.dispatch(hl.dsp.focus({ window = members[current] }))
+end
+
+---Finds the closest node next to `leaf` in `direction`.
 local function neighbor(leaf, direction)
   local node = leaf
 
@@ -421,6 +565,13 @@ local function neighbor(leaf, direction)
 end
 
 local function focus(leaf, direction)
+  local group = tab_group(leaf)
+
+  if group and next_tab(group, direction) then
+    hl.dispatch(direction.delta > 0 and hl.dsp.group.next() or hl.dsp.group.prev())
+    return
+  end
+
   local sibling = leaf and neighbor(leaf, direction)
 
   if not sibling then
@@ -451,11 +602,30 @@ local function move(leaf, direction)
     return
   end
 
+  local group = tab_group(leaf)
+
+  if group then
+    if next_tab(group, direction) then
+      hl.dispatch(hl.dsp.group.move_window({ forward = direction.delta > 0 }))
+    else
+      local window = leaf.window
+      ungroup(leaf, group, window, direction)
+      hl.dispatch(hl.dsp.focus({ window = window }))
+    end
+
+    return
+  end
+
   local parent = leaf.parent
 
   if parent.dir == direction.axis then
     local index = index_of(parent, leaf)
     local sibling = parent.children[index + direction.delta]
+
+    if sibling and is_leaf(sibling) and is_live_group(sibling.window.group) then
+      pcall(sibling.window.group.add, sibling.window.group, leaf.window)
+      return
+    end
 
     if sibling and is_leaf(sibling) then
       local target_index = index + direction.delta
@@ -538,10 +708,7 @@ local function split(leaf, axis)
     parent.dir = axis
     normalize(parent)
   else
-    local container = { dir = axis, children = { leaf } }
-    replace_child(parent, leaf, container)
-    leaf.parent = container
-    leaf.weight = 1
+    wrap(leaf, axis)
   end
 
   notify('Split ' .. SPLIT_NAMES[axis])
@@ -632,6 +799,23 @@ local COMMANDS = {
       toggle_split(leaf)
     end
   end,
+  layout = function(leaf, arg)
+    if arg == 'tabbed' or arg == 'stacking' then
+      return function()
+        make_tabbed(leaf, arg == 'stacking')
+      end
+    end
+
+    return arg == 'toggle split' and function()
+      local group = leaf and leaf.window.group
+
+      if is_live_group(group) then
+        untab(leaf, group)
+      else
+        toggle_split(leaf)
+      end
+    end
+  end,
   fit = function(_, arg, root)
     return arg == 'all' and function()
       if root then
@@ -641,7 +825,8 @@ local COMMANDS = {
   end,
 }
 
-local USAGE = 'i3: expected "focus|move|resize <left|right|up|down>", "split <vertical|horizontal|toggle>", or "fit all"'
+local USAGE =
+  'i3: expected "focus|move|resize <left|right|up|down>", "split <vertical|horizontal|toggle>", "layout <tabbed|stacking|toggle split>", or "fit all"'
 
 local function layout_msg(ctx, msg)
   local command, arg = msg:match('^(%S+)%s*(.-)%s*$')

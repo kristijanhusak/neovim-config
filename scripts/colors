@@ -7,6 +7,7 @@ import os
 import argparse
 import pynvim
 color_file = '/home/kristijan/.cache/main_colorscheme.conf'
+hyprland_color_file = '/home/kristijan/.cache/hyprland_colorscheme.lua'
 
 parser = argparse.ArgumentParser()
 parser.add_argument('bg', nargs='?', default=None,
@@ -52,6 +53,10 @@ normal_fg, normal_bg = get_hl_color('Normal')
 cursor_fg, cursor_bg = get_hl_color('Cursor')
 selection_fg, selection_bg = get_hl_color('Visual')
 
+active_tab_bg = nvim.eval('g:terminal_color_4')
+inactive_tab_bg = nvim.eval('g:terminal_color_' + (bg == 'dark' and '0' or '7'))
+locked_tab_bg = nvim.eval('g:terminal_color_1')
+
 command = [
     'env NVIM_COLORSCHEME_BG=' + bg,
     'foreground ' + normal_fg,
@@ -59,10 +64,9 @@ command = [
     'cursor ' + (cursor_bg.startswith('#') and cursor_bg or normal_fg),
     'cursor_text_color background',
     'active_tab_foreground ' + normal_bg,
-    'active_tab_background ' + nvim.eval('g:terminal_color_4'),
+    'active_tab_background ' + active_tab_bg,
     'inactive_tab_foreground ' + normal_fg,
-    'inactive_tab_background ' +
-    nvim.eval('g:terminal_color_' + (bg == 'dark' and '0' or '7')),
+    'inactive_tab_background ' + inactive_tab_bg,
     'selection_foreground ' +
     (selection_fg.startswith('#') and selection_fg or 'none'),
     'selection_background ' +
@@ -78,6 +82,37 @@ file = open(color_file, 'w')
 file.write('\n'.join(command))
 file.close()
 
+
+def rgb(color):
+    return "'rgb(" + color.lstrip('#') + ")'"
+
+
+file = open(hyprland_color_file, 'w')
+file.write(f'''hl.config({{
+  group = {{
+    col = {{
+      border_inactive = {rgb(inactive_tab_bg)},
+      border_locked_active = {rgb(locked_tab_bg)},
+      border_locked_inactive = {rgb(inactive_tab_bg)},
+    }},
+    groupbar = {{
+      col = {{
+        active = {rgb(active_tab_bg)},
+        inactive = {rgb(inactive_tab_bg)},
+        locked_active = {rgb(locked_tab_bg)},
+        locked_inactive = {rgb(inactive_tab_bg)},
+      }},
+      text_color = {rgb(normal_bg)},
+      text_color_inactive = {rgb(normal_fg)},
+      text_color_locked_active = {rgb(normal_bg)},
+      text_color_locked_inactive = {rgb(normal_fg)},
+    }},
+  }},
+}})
+''')
+file.close()
+
 os.system('noctalia msg theme-mode-set ' + bg)
 os.system('gsettings set org.gnome.desktop.interface color-scheme prefer-' + bg)
 os.system('~/neovim-config/scripts/reload_kitty_colors.sh')
+os.system(f"hyprctl eval \"dofile('{hyprland_color_file}')\" >/dev/null 2>&1")
