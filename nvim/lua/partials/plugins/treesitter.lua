@@ -18,6 +18,7 @@ return {
         local parser = vim.treesitter.get_parser(args.buf)
         if parser then
           vim.treesitter.start(args.buf)
+          vim.opt.foldexpr = vim.treesitter.foldexpr
         end
       end,
     })

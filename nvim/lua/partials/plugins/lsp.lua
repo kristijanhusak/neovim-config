@@ -392,7 +392,9 @@ function setup.attach_to_buffer(client, bufnr)
 
   vim.opt.foldmethod = 'expr'
   vim.opt.foldtext = ''
-  vim.opt.foldexpr = vim.lsp.foldexpr
+  if client:supports_method('textDocument/foldingRange') then
+    vim.opt.foldexpr = vim.lsp.foldexpr
+  end
   setup.mappings()
 end
 
