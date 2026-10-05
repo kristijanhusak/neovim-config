@@ -391,13 +391,8 @@ function setup.attach_to_buffer(client, bufnr)
   end
 
   vim.opt.foldmethod = 'expr'
-  if vim.treesitter.foldexpr then
-    vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-    vim.opt.foldtext = ''
-  else
-    vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-    vim.opt.foldtext = ''
-  end
+  vim.opt.foldtext = ''
+  vim.opt.foldexpr = vim.lsp.foldexpr
   setup.mappings()
 end
 
