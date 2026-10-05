@@ -58,29 +58,25 @@ M.rename_loaded_buffers = function(old_path, new_path)
 end
 
 function M.lsp_create(path)
-  local fname = M.trim_sep(path)
+  local payload = { fname = M.trim_sep(path) }
   return {
     before = function()
-      local will_create = require('lsp-file-operations.will-create')
-      will_create({ fname = fname })
+      require('lsp-file-operations').will_create(payload)
     end,
     after = function()
-      local did_create = require('lsp-file-operations.did-create')
-      did_create({ fname = fname })
+      require('lsp-file-operations').did_create(payload)
     end,
   }
 end
 
 function M.lsp_delete(path)
-  local fname = M.trim_sep(path)
+  local payload = { fname = M.trim_sep(path) }
   return {
     before = function()
-      local will_delete = require('lsp-file-operations.will-delete')
-      will_delete({ fname = fname })
+      require('lsp-file-operations').will_delete(payload)
     end,
     after = function()
-      local did_delete = require('lsp-file-operations.did-delete')
-      did_delete({ fname = fname })
+      require('lsp-file-operations').did_delete(payload)
     end,
   }
 end
@@ -92,13 +88,11 @@ function M.lsp_rename(old_path, new_path)
   }
   return {
     before = function()
-      local will_rename = require('lsp-file-operations.will-rename')
-      will_rename(payload)
+      require('lsp-file-operations').will_rename(payload)
     end,
     after = function()
       M.rename_loaded_buffers(old_path, old_path)
-      local did_rename = require('lsp-file-operations.did-rename')
-      did_rename(payload)
+      require('lsp-file-operations').did_rename(payload)
     end,
   }
 end
