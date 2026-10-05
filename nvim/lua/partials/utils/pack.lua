@@ -213,6 +213,9 @@ end
 ---@param opts PackOpts
 vim.pack.load = function(opts)
   local plugin = M.queue_for_install(opts)
+  if not plugin.enabled then
+    return
+  end
   local very_lazy = false
   if opts.event and opts.event == 'VeryLazy' then
     very_lazy = true
