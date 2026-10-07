@@ -114,6 +114,7 @@ lsp.config = function()
       'vimls',
       'copilot',
     },
+    automatic_enable = { exclude = { 'copilot' } },
   })
 
   if vim.g.builtin_autocompletion then
