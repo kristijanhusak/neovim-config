@@ -1,5 +1,6 @@
 vim.g.builtin_autocompletion = true
 vim.g.builtin_dir = vim.fn.has('nvim-0.13') == 1 and true
+vim.g.enable_org_lsp = true
 
 require('partials.abbreviations')
 require('partials.settings')

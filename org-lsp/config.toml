@@ -1,0 +1,81 @@
+org_agenda_files = ["~/orgfiles"]
+org_todo_keywords = ["TODO(t)", "PROGRESS(p)", "|", "DONE(d)", "REJECTED(r@)"]
+org_log_done = true
+org_default_notes_file = "~/orgfiles/refile.org"
+org_directory = "~/orgfiles"
+org_log_into_drawer = true
+org_complete_tags_always_offer_all_agenda_tags= true
+org_hide_emphasis_markers = true
+org_pretty_entities = true
+org_startup_indented = true
+org_agenda_start_on_weekday = false
+org_agenda_block_separator = '—'
+agenda_hide_empty_blocks = true
+org_agenda_text_search_extra_files = ['agenda-archives']
+org_refile_targets = [{ files = "agenda", maxlevel = 3 }]
+org_refile_use_outline_path = "title"
+calendar_week_start_day = 1
+
+org_super_agenda_mode = true
+
+[[org_agenda_custom_commands]]
+key = "a"
+description = "Agenda"
+blocks = [
+  { type = "tags-todo", header = "Overdue", match = "DEADLINE<\"<-7d>\"|SCHEDULED<\"<-7d>\"" },
+  { type = "agenda", header = "Today", settings = {
+      org_agenda_span = "day",
+      org_deadline_warning_days = 0,
+      org_super_agenda_groups = [
+        { discard = { deadline = "past", scheduled = "past" } },
+        { name = false, anything = true },
+      ] } },
+  { type = "agenda", header = "Agenda", settings = {
+      org_agenda_span = "day",
+      org_agenda_use_time_grid = false,
+      org_deadline_warning_days = 7,
+      org_scheduled_past_days = 7,
+      org_deadline_past_days = 7,
+      org_super_agenda_groups = [
+        { discard = { deadline = "today", scheduled = "today", date = "today" } },
+        { name = false, anything = true },
+      ] } },
+  { type = "agenda", header = "Rest", settings = {
+      org_agenda_span = 7,
+      org_agenda_start_on_weekday = false,
+      org_agenda_start_day = "+1d",
+      org_agenda_use_time_grid = false,
+  } },
+]
+
+[[org_agenda_custom_commands]]
+key = "b"
+description = "Agenda"
+blocks = [
+  { type = "tags", match = "REVISIT", header = "Tasks to revisit" },
+  { type = "tags-todo",  match = "DEADLINE>=\"<+1d>\"&DEADLINE<\"<+2d>\"", header ="Tomorrow" },
+  { type = "agenda",  match = "-REVISIT" },
+  { type = "tags-todo",  match = "DEADLINE<\"<today>\"&DEADLINE>\"<-7d>\"|SCHEDULED<\"<today>\"&SCHEDULED>\"<-7d>\"", header = "Overdue" },
+]
+
+[[org_capture_templates]]
+key = "t"
+description = "Refile"
+template = "* TODO %?\nDEADLINE: %T"
+
+[[org_capture_templates]]
+key = "T"
+description = "Todo"
+template = "* TODO %?\nDEADLINE: %T"
+target = ["file", "~/orgfiles/todos.org"]
+
+[[org_capture_templates]]
+key = "r"
+description = "Quick note"
+template = "* TODO %? :REVISIT:"
+
+[[org_capture_templates]]
+key = "w"
+description = "Work todo"
+template = "* TODO %?\nDEADLINE: %T"
+target = ["file", "~/orgfiles/work.org"]

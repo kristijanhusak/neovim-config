@@ -1,6 +1,7 @@
 return {
   '~/github/orgmode',
   dir = '~/github/orgmode',
+  enabled = not vim.g.enable_org_lsp,
   dependencies = {
     'nvim-orgmode/org-bullets.nvim',
   },
