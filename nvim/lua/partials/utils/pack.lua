@@ -1,11 +1,17 @@
 vim.loader.enable(true)
 
+---@class PackKey
+---@field [1] string The lhs of the mapping
+---@field [2] string|fun(): any The rhs of the mapping
+---@field mode? string|string[] Mode(s) for the mapping (default: 'n')
+---@field [string] any Any other option accepted by vim.keymap.set (desc, silent, expr, ...)
+
 ---@class PackOpts
 ---@field ft? string | string[] The filetype(s) to trigger loading the plugin (e.g., 'python', {'python', 'lua'})
----@field keys? [string|string[],string,fun(),table][] The keys to Trigger loading the plugin
----@field cmd? string | string[] The GitHub path of the plugin (e.g., 'user/repo' or full URL)
+---@field keys? PackKey[] The keys to trigger loading the plugin
+---@field cmd? string | string[] The command(s) to trigger loading the plugin
 ---@field event? string | string[]  The autocommand event to trigger loading the plugin (e.g., 'InsertEnter')
----@field name? string The GitHub path of the plugin (e.g., 'user/repo' or full URL)
+---@field name? string The name of the plugin directory (defaults to the last part of the source)
 ---@field dependencies? (string | PackOpts)[] List of plugin dependencies
 ---@field config? fun(opts: PackOpts) Optional configuration function to run after loading the plugin
 ---@field version? string|vim.VersionRange
@@ -17,7 +23,6 @@ vim.loader.enable(true)
 ---@field src? string The source URL of the plugin
 
 local augroup = vim.api.nvim_create_augroup('kris_neovim_config', { clear = true })
-local lazydev_workspace = nil
 
 local M = {}
 
@@ -29,6 +34,13 @@ local install_plugins = {}
 local load_on_start_plugins = {}
 ---@type PackOpts[]
 local lazy_load_on_start_plugins = {}
+--- Loaded plugins that are not yet added to the lazydev workspace
+---@type string[]
+local lazydev_pending = {}
+local lazydev_loaded = false
+
+-- Builtin FileType groups that source ftplugin/indent/syntax files from the runtimepath
+local builtin_filetype_groups = { filetypeplugin = true, filetypeindent = true, syntaxset = true }
 
 vim.g.loaded_gzip = 1
 vim.g.loaded_matchit = 1
@@ -39,36 +51,38 @@ vim.g.loaded_tutor_mode_plugin = 1
 vim.g.loaded_zipPlugin = 1
 
 vim.api.nvim_create_autocmd('PackChanged', {
+  group = augroup,
   callback = function(event)
     local data = event.data
     if (data.kind == 'install' or data.kind == 'update') and data.spec.name then
       local plugin = plugins[data.spec.name]
-      if plugin and plugin.build then
+      if plugin and plugin.build and plugin.enabled then
         M.load_plugin(plugin)
         local id = ('build_%s'):format(plugin.name)
         vim.notify(('Building %s...'):format(data.spec.name), vim.log.levels.INFO, {
           title = plugin.name,
           id = id,
         })
-        if type(plugin.build) == 'string' then
-          vim.cmd(plugin.build)
-        elseif type(plugin.build) == 'function' then
-          plugin.build(data)
+        local ok, err = pcall(function()
+          if type(plugin.build) == 'string' then
+            vim.cmd(plugin.build)
+          elseif type(plugin.build) == 'function' then
+            plugin.build(data)
+          end
+        end)
+        if ok then
+          vim.notify(('Finished building %s.'):format(data.spec.name), vim.log.levels.INFO, {
+            title = plugin.name,
+            id = id,
+          })
+        else
+          vim.notify(('Failed building %s: %s'):format(data.spec.name, err), vim.log.levels.ERROR, {
+            title = plugin.name,
+            id = id,
+          })
         end
-        vim.notify(('Finished building %s.'):format(data.spec.name), vim.log.levels.INFO, {
-          title = plugin.name,
-          id = id,
-        })
       end
     end
-  end,
-})
-
-local last_cmd = ''
-vim.api.nvim_create_autocmd('CmdlineLeavePre', {
-  pattern = '*',
-  callback = function()
-    last_cmd = vim.fn.getcmdline()
   end,
 })
 
@@ -80,6 +94,45 @@ function M.get_local_plug_dir()
   return vim.fs.joinpath(vim.fn.stdpath('data'), 'site', 'pack', 'local', 'opt')
 end
 
+---@param value? string | string[]
+---@return string[]
+local function to_list(value)
+  if not value then
+    return {}
+  end
+  return type(value) == 'string' and { value } or value --[[@as string[] ]]
+end
+
+---@param a PackOpts
+---@param b PackOpts
+local function by_priority(a, b)
+  return (a.priority or 0) > (b.priority or 0)
+end
+
+---@param name string
+local function add_to_lazydev(name)
+  table.insert(lazydev_pending, name)
+  if not lazydev_loaded then
+    return
+  end
+  local ok, workspace = pcall(require, 'lazydev.workspace')
+  if ok then
+    workspace.global():add(lazydev_pending)
+    lazydev_pending = {}
+  end
+end
+
+---@return table<integer, true>
+local function get_filetype_augroups()
+  local groups = {}
+  for _, autocmd in ipairs(vim.api.nvim_get_autocmds({ event = 'FileType' })) do
+    if autocmd.group then
+      groups[autocmd.group] = true
+    end
+  end
+  return groups
+end
+
 ---@param opts PackOpts
 ---@return PackOpts
 function M.queue_for_install(opts)
@@ -87,8 +140,9 @@ function M.queue_for_install(opts)
     opts.enabled = true
   end
   local src = opts[1]
-  local stat = vim.uv.fs_stat(vim.fs.normalize(src))
-  opts.local_package = stat and stat.type == 'directory'
+  -- Only stat things that look like paths, to avoid matching 'user/repo' relative to cwd
+  local stat = src:match('^[/~.]') and vim.uv.fs_stat(vim.fs.normalize(src))
+  opts.local_package = stat and stat.type == 'directory' or false
 
   if not opts.local_package and not vim.startswith(src, 'http') then
     src = ('https://github.com/%s'):format(src)
@@ -114,6 +168,19 @@ function M.queue_for_install(opts)
     opts.dependencies = deps
   end
   opts.src = src
+
+  -- Same plugin registered multiple times (e.g. shared dependency), merge into the first registration
+  local existing = plugins[opts.name]
+  if existing then
+    existing.enabled = existing.enabled or opts.enabled
+    existing.config = existing.config or opts.config
+    existing.build = existing.build or opts.build
+    if opts.dependencies then
+      existing.dependencies = vim.list_extend(existing.dependencies or {}, opts.dependencies)
+    end
+    return existing
+  end
+
   plugins[opts.name] = opts
 
   if not opts.local_package then
@@ -126,9 +193,13 @@ end
 function M.load_plugin(opts)
   local plugin = plugins[opts.name]
 
-  if plugin.loaded or not plugin.enabled then
+  if not plugin or plugin.loaded or not plugin.enabled then
     return
   end
+
+  -- Mark early to avoid infinite recursion on circular dependencies
+  -- and to not retry the whole load if config throws
+  plugin.loaded = true
 
   if plugin.dependencies then
     for _, dep in ipairs(plugin.dependencies) do
@@ -139,7 +210,7 @@ function M.load_plugin(opts)
 
   if plugin.local_package then
     local plugin_path = vim.fs.joinpath(M.get_local_plug_dir(), plugin.name)
-    if not vim.uv.fs_stat(plugin_path) then
+    if not vim.uv.fs_lstat(plugin_path) then
       vim.fn.mkdir(M.get_local_plug_dir(), 'p')
       vim.uv.fs_symlink(plugin.src, plugin_path, { symbolic = true })
     end
@@ -147,65 +218,77 @@ function M.load_plugin(opts)
 
   vim.cmd.packadd(plugin.name)
 
-  if not lazydev_workspace then
-    local ok, workspace = pcall(require, 'lazydev.workspace')
-    if ok then
-      lazydev_workspace = workspace
-    end
+  if plugin.name == 'lazydev.nvim' then
+    lazydev_loaded = true
   end
-
-  if lazydev_workspace then
-    lazydev_workspace:global():add(plugin.name)
-  end
+  add_to_lazydev(plugin.name)
 
   if plugin.config then
-    opts.config(plugin)
+    plugin.config(plugin)
   end
-  plugins[opts.name].loaded = true
 end
 
-function M.on_cmd(opts)
-  local plugin = M.queue_for_install(opts)
-  local cmds = type(opts.cmd) == 'string' and { opts.cmd } or opts.cmd
+---@param opts PackOpts
+---@param plugin PackOpts
+function M.on_cmd(opts, plugin)
+  local cmds = to_list(opts.cmd)
 
-  local del_cmds = function()
-    for _, cmd in ipairs(cmds) do
-      vim.api.nvim_del_user_command(cmd)
+  ---@param current_cmd string
+  local load = function(current_cmd)
+    if plugins[plugin.name].loaded then
+      -- Plugin was loaded through another trigger, other stubs might already be replaced by real commands
+      pcall(vim.api.nvim_del_user_command, current_cmd)
+      return
     end
+    for _, cmd in ipairs(cmds) do
+      pcall(vim.api.nvim_del_user_command, cmd)
+    end
+    M.load_plugin(plugin)
   end
 
   for _, cmd in ipairs(cmds) do
-    vim.api.nvim_create_user_command(cmd, function()
-      del_cmds()
-      M.load_plugin(plugin)
-      vim.cmd(last_cmd)
+    vim.api.nvim_create_user_command(cmd, function(args)
+      load(cmd)
+      local range = ''
+      if args.range == 1 then
+        range = tostring(args.line1)
+      elseif args.range == 2 then
+        range = ('%d,%d'):format(args.line1, args.line2)
+      end
+      vim.cmd(('%s %s%s%s %s'):format(args.mods or '', range, cmd, args.bang and '!' or '', args.args))
     end, {
       bang = true,
       range = true,
       nargs = '*',
       complete = function(_, line)
-        del_cmds()
-        M.load_plugin(plugin)
+        load(cmd)
         return vim.fn.getcompletion(line, 'cmdline')
       end,
     })
   end
 end
 
-function M.on_keys(opts)
-  local plugin = M.queue_for_install(opts)
-  local keys = opts.keys
-  for _, keymap in ipairs(keys) do
+---@param opts PackOpts
+---@param plugin PackOpts
+function M.on_keys(opts, plugin)
+  for _, keymap in ipairs(opts.keys) do
     local lhs = keymap[1]
-    local mode = keymap.mode or 'n'
     local rhs = keymap[2]
     local key_opts = {}
-    if keymap.desc then
-      key_opts.desc = keymap.desc
+    for key, value in pairs(keymap) do
+      if type(key) == 'string' and key ~= 'mode' then
+        key_opts[key] = value
+      end
     end
-    vim.keymap.set(mode, lhs, function()
+    vim.keymap.set(keymap.mode or 'n', lhs, function()
       M.load_plugin(plugin)
-      rhs()
+      if type(rhs) == 'function' then
+        return rhs()
+      end
+      if key_opts.expr then
+        return rhs
+      end
+      vim.api.nvim_feedkeys(vim.keycode(rhs), key_opts.remap and 'm' or 'n', false)
     end, key_opts)
   end
 end
@@ -213,15 +296,15 @@ end
 ---@param opts PackOpts
 vim.pack.load = function(opts)
   local plugin = M.queue_for_install(opts)
-  if not plugin.enabled then
+  if not opts.enabled then
     return
   end
-  local very_lazy = false
-  if opts.event and opts.event == 'VeryLazy' then
-    very_lazy = true
-    opts.event = nil
-  end
-  local load_on_start = not (opts.ft or opts.event or opts.keys or opts.cmd)
+  local events = vim.tbl_filter(function(event)
+    return event ~= 'VeryLazy'
+  end, to_list(opts.event))
+  local very_lazy = #events ~= #to_list(opts.event)
+  local load_on_start = not (opts.ft or #events > 0 or opts.keys or opts.cmd)
+
   if opts.ft then
     vim.api.nvim_create_autocmd('FileType', {
       group = augroup,
@@ -229,13 +312,29 @@ vim.pack.load = function(opts)
       nested = true,
       once = true,
       callback = function(event)
+        local groups_before = get_filetype_augroups()
         M.load_plugin(plugin)
-        vim.api.nvim_exec_autocmds('FileType', { pattern = event.match, modeline = false })
+        -- Re-trigger only the FileType autocmds added by the plugin, plus the builtin ones
+        -- that source ftplugin/indent/syntax files from the newly added runtimepath entry
+        local groups = {}
+        for _, autocmd in ipairs(vim.api.nvim_get_autocmds({ event = 'FileType' })) do
+          if autocmd.group and (not groups_before[autocmd.group] or builtin_filetype_groups[autocmd.group_name]) then
+            groups[autocmd.group] = true
+          end
+        end
+        if not vim.api.nvim_buf_is_valid(event.buf) then
+          return
+        end
+        vim.api.nvim_buf_call(event.buf, function()
+          for group in pairs(groups) do
+            vim.api.nvim_exec_autocmds('FileType', { group = group, pattern = event.match, modeline = false })
+          end
+        end)
       end,
     })
   end
-  if opts.event then
-    vim.api.nvim_create_autocmd(opts.event, {
+  if #events > 0 then
+    vim.api.nvim_create_autocmd(events, {
       group = augroup,
       nested = true,
       once = true,
@@ -246,19 +345,17 @@ vim.pack.load = function(opts)
   end
 
   if opts.cmd then
-    M.on_cmd(opts)
+    M.on_cmd(opts, plugin)
   end
 
   if opts.keys then
-    M.on_keys(opts)
+    M.on_keys(opts, plugin)
   end
 
-  if load_on_start then
-    if very_lazy then
-      table.insert(lazy_load_on_start_plugins, plugin)
-    else
-      table.insert(load_on_start_plugins, plugin)
-    end
+  if very_lazy then
+    table.insert(lazy_load_on_start_plugins, plugin)
+  elseif load_on_start then
+    table.insert(load_on_start_plugins, plugin)
   end
 end
 
@@ -288,6 +385,7 @@ vim.pack.status = function()
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, all_lines)
   vim.api.nvim_set_option_value('modifiable', false, { buf = buf })
+  vim.api.nvim_set_option_value('bufhidden', 'wipe', { buf = buf })
   vim.api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
   local win = vim.api.nvim_open_win(buf, true, {
     relative = 'editor',
@@ -299,16 +397,19 @@ vim.pack.status = function()
     title = 'Pack Status',
     title_pos = 'center',
   })
-  vim.keymap.set('n', 'q', function()
-    vim.api.nvim_win_close(win, true)
-  end, { buffer = buf, silent = true, desc = 'Close pack status window', nowait = true })
+  local close = function()
+    if vim.api.nvim_win_is_valid(win) then
+      vim.api.nvim_win_close(win, true)
+    end
+  end
+  vim.keymap.set('n', 'q', close, { buffer = buf, silent = true, desc = 'Close pack status window', nowait = true })
   vim.keymap.set('n', 'u', function()
-    vim.api.nvim_win_close(win, true)
+    close()
     vim.pack.update()
   end, { buffer = buf, silent = true, desc = 'Close pack status window and run update', nowait = true })
 
   vim.keymap.set('n', 'c', function()
-    vim.api.nvim_win_close(win, true)
+    close()
     vim.pack.clean()
   end, { buffer = buf, silent = true, desc = 'Close pack status window and run clean', nowait = true })
 
@@ -317,7 +418,8 @@ vim.pack.status = function()
     buffer = buf,
     once = true,
     callback = function()
-      vim.api.nvim_win_close(win, true)
+      -- Defer so it doesn't run while the window is already being closed
+      vim.schedule(close)
     end,
   })
 end
@@ -372,11 +474,8 @@ vim.pack.init = function()
     load = function() end,
   })
 
-  table.sort(load_on_start_plugins, function(a, b)
-    local a_priority = a.priority or 0
-    local b_priority = b.priority or 0
-    return a_priority > b_priority
-  end)
+  table.sort(load_on_start_plugins, by_priority)
+  table.sort(lazy_load_on_start_plugins, by_priority)
 
   for _, plugin in ipairs(load_on_start_plugins) do
     M.load_plugin(plugin)
