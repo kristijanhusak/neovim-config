@@ -17,24 +17,35 @@ org_refile_use_outline_path = "title"
 calendar_week_start_day = 1
 calendar_months = 1
 org_agenda_time_grid = [["daily", "today", "require-timed", "remove-match"], [800, 1200, 1600, 2000], "......", "----------------"]
+org_bullets_mode = true
 
 [[org_agenda_custom_commands]]
 key = "a"
 description = "Agenda"
 blocks = [
-  { type = "tags-todo", header = "Overdue", match = "DEADLINE<\"<-7d>\"|SCHEDULED<\"<-7d>\"" },
-  { type = "agenda", header = "Agenda", settings = {
+  {
+    type = "tags-todo",
+    header = "Overdue",
+    match = "DEADLINE<\"<-7d>\"|SCHEDULED<\"<-7d>\""
+  },
+  { type = "agenda",
+    header = "Agenda",
+    settings = {
       org_agenda_span = "day",
       org_scheduled_past_days = 7,
       org_deadline_past_days = 7,
-      },
     },
-  { type = "agenda", header = "Week", settings = {
+  },
+  {
+    type = "agenda",
+    header = "Week",
+    settings = {
       org_agenda_span = "week",
       org_agenda_start_on_weekday = false,
       org_agenda_start_day = "+1d",
       org_agenda_use_time_grid = false,
-  } },
+    }
+  },
 ]
 
 [[org_agenda_custom_commands]]
