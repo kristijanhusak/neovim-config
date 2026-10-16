@@ -10,6 +10,7 @@ org_pretty_entities = true
 org_startup_indented = true
 org_agenda_start_on_weekday = false
 org_agenda_block_separator = '—'
+org_agenda_show_outline_path = false
 agenda_hide_empty_blocks = true
 org_agenda_text_search_extra_files = ['agenda-archives']
 org_refile_targets = [{ files = "agenda", maxlevel = 3 }]
