@@ -48,7 +48,7 @@ local function get_colors()
         insert = convert_gui(lualine_colors.insert.a),
         command = convert_gui(lualine_colors.command.a),
         visual = convert_gui(lualine_colors.visual.a),
-        replace = convert_gui(lualine_colors.visual.a),
+        replace = convert_gui((lualine_colors.replace or lualine_colors.visual).a),
       },
       static = convert_gui(lualine_colors.normal.b),
     }

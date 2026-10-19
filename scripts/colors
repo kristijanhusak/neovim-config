@@ -5,9 +5,11 @@ import time
 import sys
 import os
 import argparse
+import json
 import pynvim
 color_file = '/home/kristijan/.cache/main_colorscheme.conf'
 hyprland_color_file = '/home/kristijan/.cache/hyprland_colorscheme.lua'
+noctalia_palette_file = '/home/kristijan/neovim-config/noctalia/palettes/Neovim.json'
 
 parser = argparse.ArgumentParser()
 parser.add_argument('bg', nargs='?', default=None,
@@ -38,15 +40,11 @@ nvim = pynvim.attach(
 
 
 def get_hl_color(name):
-    hl_output = nvim.call('execute', 'hi ' + name)
-    bgcolor = None
-    fgcolor = None
-    for item in hl_output.split('\n')[1].split():
-        if item.startswith('guifg'):
-            fgcolor = item.split('=')[1]
-        if item.startswith('guibg'):
-            bgcolor = item.split('=')[1]
-    return fgcolor or '', bgcolor or ''
+    hl = nvim.api.get_hl(0, {'name': name, 'link': False})
+
+    def hex(key):
+        return '#%06x' % hl[key] if key in hl else ''
+    return hex('fg'), hex('bg')
 
 
 normal_fg, normal_bg = get_hl_color('Normal')
@@ -75,6 +73,54 @@ command = [
 for i in range(0, 16):
     command.append('color' + str(i) + ' ' +
                    nvim.eval('g:terminal_color_' + str(i)))
+
+
+
+def noctalia_variant(variant):
+    nvim.command('set background=' + variant)
+    p = nvim.exec_lua('return require("partials.plugins.colorscheme").default_palette()')
+    tone, on = ('Dark', 'Light') if variant == 'light' else ('Light', 'Dark')
+    fg, bg = get_hl_color('Normal')
+    sel_fg, sel_bg = get_hl_color('Visual')
+    term = [nvim.eval('g:terminal_color_' + str(i)) for i in range(16)]
+    names = ['black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white']
+    on_accent = p[on + 'Grey1']
+    return {
+        'mPrimary': p[tone + 'Blue'],
+        'mOnPrimary': on_accent,
+        'mSecondary': p[tone + 'Cyan'],
+        'mOnSecondary': on_accent,
+        'mTertiary': p[tone + 'Green'],
+        'mOnTertiary': on_accent,
+        'mError': p[tone + 'Red'],
+        'mOnError': on_accent,
+        'mSurface': bg,
+        'mOnSurface': fg,
+        'mHover': p[tone + 'Cyan'],
+        'mOnHover': on_accent,
+        'mSurfaceVariant': p[on + 'Grey3'],
+        'mOnSurfaceVariant': p[tone + 'Grey3'],
+        'mOutline': p[on + 'Grey4'],
+        'mShadow': p['DarkGrey1'] if variant == 'dark' else p['LightGrey4'],
+        'terminal': {
+            'background': bg,
+            'foreground': fg,
+            'cursor': fg,
+            'cursorText': bg,
+            'selectionBg': sel_bg.startswith('#') and sel_bg or fg,
+            'selectionFg': sel_fg.startswith('#') and sel_fg or fg,
+            'normal': dict(zip(names, term[:8])),
+            'bright': dict(zip(names, term[8:])),
+        },
+    }
+
+
+if nvim.eval('g:colors_name') == 'default':
+    palette = {v: noctalia_variant(v) for v in ['dark', 'light']}
+    os.makedirs(os.path.dirname(noctalia_palette_file), exist_ok=True)
+    with open(noctalia_palette_file, 'w') as f:
+        json.dump(palette, f, indent=4)
+        f.write('\n')
 
 nvim.close()
 

@@ -143,11 +143,60 @@ colorscheme.everforest = function()
   vim.fn['everforest#highlight']('SimpleF', pallete.red, pallete.none, 'undercurl,bold', pallete.red)
 end
 
+colorscheme.default_palette = function()
+  local palette = {}
+  for name, value in pairs(vim.api.nvim_get_color_map()) do
+    local color = name:match('^Nvim(.+)$')
+    if color then
+      palette[color] = ('#%06x'):format(value)
+    end
+  end
+  return palette
+end
+
+colorscheme.default_highlights = function()
+  local p = colorscheme.default_palette()
+  local tone = vim.o.background == 'light' and 'Dark' or 'Light'
+  local accents = { 'Red', 'Green', 'Yellow', 'Blue', 'Magenta', 'Cyan' }
+  local terminal_colors = vim.o.background == 'light'
+      and { [0] = p.DarkGrey2, [7] = p.LightGrey3, [8] = p.DarkGrey4, [15] = p.LightGrey1 }
+    or { [0] = p.DarkGrey3, [7] = p.LightGrey2, [8] = p.DarkGrey4, [15] = p.LightGrey1 }
+
+  for i, accent in ipairs(accents) do
+    terminal_colors[i] = p[tone .. accent]
+    terminal_colors[i + 8] = p[tone .. accent]
+  end
+
+  for i = 0, 15 do
+    vim.g['terminal_color_' .. i] = terminal_colors[i]
+  end
+
+  vim.api.nvim_set_hl(0, 'SimpleF', { fg = p[tone .. 'Red'], undercurl = true, bold = true })
+
+  -- Halfway between Normal bg and the default CursorLine bg (Grey3)
+  local bg = vim.api.nvim_get_hl(0, { name = 'Normal' }).bg
+  local cursorline = vim.o.background == 'light' and p.LightGrey3 or p.DarkGrey3
+  local mixed = 0
+  for shift = 0, 16, 8 do
+    local a = bit.band(bit.rshift(bg, shift), 0xff)
+    local b = bit.band(bit.rshift(tonumber(cursorline:sub(2), 16), shift), 0xff)
+    mixed = mixed + bit.lshift(math.floor((a + b) / 2), shift)
+  end
+  vim.api.nvim_set_hl(0, 'CursorLine', { bg = mixed })
+  vim.api.nvim_set_hl(0, 'CursorColumn', { bg = mixed })
+  vim.api.nvim_set_hl(0, 'SnacksPickerListCursorLine', { link = 'CursorLine' })
+end
+
+colorscheme.default = function()
+  vim.cmd.colorscheme('default')
+end
+
 colorscheme.set = function()
   local bg = vim.env.NVIM_COLORSCHEME_BG or 'dark'
   vim.opt.background = bg
 
-  colorscheme.everforest()
+  colorscheme.default()
+  -- colorscheme.everforest()
   -- if bg == 'light' then
   --   colorscheme.base16()
   -- else
@@ -160,6 +209,11 @@ colorscheme.config = function()
 
   vim.cmd.filetype('plugin indent on')
   vim.cmd.syntax('on')
+  vim.api.nvim_create_autocmd('ColorScheme', {
+    group = augroup,
+    pattern = 'default',
+    callback = colorscheme.default_highlights,
+  })
   colorscheme.set()
   colorscheme.watch_for_changes()
   vim.api.nvim_create_autocmd('VimLeavePre', {
