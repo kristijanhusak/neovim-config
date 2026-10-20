@@ -181,7 +181,7 @@ local function add_git(cwd)
     { 'git', 'status', '--porcelain', '--ignored', cwd },
     {},
     vim.schedule_wrap(function(result)
-      if not last_git_status or result.stdout ~= last_git_status.stdout then
+      if not last_git_status or result.stdout ~= last_git_status.stdout and vim.api.nvim_buf_is_valid(bufnr) then
         vim.api.nvim_buf_clear_namespace(bufnr, ns_id, 0, -1)
         process_results(result, bufnr, path)
         last_git_status = result
