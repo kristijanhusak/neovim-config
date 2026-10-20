@@ -91,8 +91,8 @@ colorscheme.set = function()
   local bg = vim.env.NVIM_COLORSCHEME_BG or 'dark'
   vim.opt.background = bg
 
-  colorscheme.default()
-  -- colorscheme.everforest()
+  -- colorscheme.default()
+  colorscheme.everforest()
 end
 
 colorscheme.config = function()
