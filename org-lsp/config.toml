@@ -25,6 +25,11 @@ key = "a"
 description = "Agenda"
 blocks = [
   {
+    type = "tags",
+    match = "REVISIT",
+    header = "Tasks to revisit"
+  },
+  {
     type = "tags-todo",
     header = "Overdue",
     match = "DEADLINE<\"<-7d>\"|SCHEDULED<\"<-7d>\""
