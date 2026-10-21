@@ -19,6 +19,7 @@ calendar_week_start_day = 1
 calendar_months = 1
 org_agenda_time_grid = [["daily", "today", "require-timed", "remove-match"], [800, 1200, 1600, 2000], "......", "----------------"]
 org_bullets_mode = true
+mcp_edits = true
 
 [[org_agenda_custom_commands]]
 key = "a"
