@@ -165,6 +165,57 @@ remove_gone_branches() {
   git clear
 }
 
+# Notify whether a command passed.
+#   `dt yarn test`   runs the command and notifies
+#   `dt` on its own  arms it, the next command you run gets notified
+typeset -g _last_cmd _dt_armed _dt_pending _dt_cmd
+_dt_notify() {
+  local code=$1 cmd=$2
+  if (( code == 0 )); then
+    notify-send -i dialog-ok "✅ Passed" "$cmd"
+  else
+    notify-send -u critical -i dialog-error "❌ Failed (exit $code)" "$cmd"
+  fi
+}
+
+_dt_preexec() {
+  setopt local_options extended_glob
+  _last_cmd=${${1##[[:space:]]#}%%[[:space:]]#}
+  if [[ -n $_dt_armed && $_last_cmd != dt ]]; then
+    _dt_armed=
+    _dt_pending=1
+    _dt_cmd=$_last_cmd
+  fi
+}
+add-zsh-hook preexec _dt_preexec
+
+_dt_precmd() {
+  local code=$?
+  if [[ -n $_dt_pending ]]; then
+    _dt_pending=
+    _dt_notify $code "$_dt_cmd"
+  fi
+}
+# Prepend so $? is still the exit code of the command that just ran
+precmd_functions=(_dt_precmd $precmd_functions)
+
+dt() {
+  local code
+  if (( $# )); then
+    # "$@" doesn't expand aliases (e.g. dc), so do it for the first word
+    if (( $+aliases[$1] )); then
+      eval "${aliases[$1]} ${(j: :)${(@q)argv[2,-1]}}"
+    else
+      "$@"
+    fi
+    code=$?
+    _dt_notify $code "$*"
+    return $code
+  fi
+  _dt_armed=1
+  print "dt: armed, next command will notify"
+}
+
 # Plain `claude` asks which account to use
 claude() {
   # No terminal to ask on (piped input/output): refuse, so you choose explicitly
