@@ -20,6 +20,8 @@ calendar_months = 1
 org_agenda_time_grid = [["daily", "today", "require-timed", "remove-match"], [800, 1200, 1600, 2000], "......", "----------------"]
 org_bullets_mode = true
 mcp_edits = true
+appt_message_warning_time = [10, 5, 1, 0]
+notification_use_timestamp_warning = true
 
 [[org_agenda_custom_commands]]
 key = "a"
