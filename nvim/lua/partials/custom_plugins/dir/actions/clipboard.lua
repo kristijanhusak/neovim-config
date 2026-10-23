@@ -25,25 +25,52 @@ local function mark_cut_action()
   dir_utils.reload()
 end
 
-local function process_copy(path)
-  local current_dir = vim.api.nvim_buf_get_name(0)
-  local new_path = vim.fs.joinpath(current_dir, vim.fn.fnamemodify(path, ':t'))
-  local stat = vim.uv.fs_stat(new_path)
-
-  if stat then
-    local choice =
-      vim.fn.confirm(('%s already exists: %s. Overwrite?'):format(stat.type, new_path), '&Yes\n&No\n&Cancel', 3)
-    if choice ~= 1 then
-      local msg = 'Cancelling copy operation for ' .. path .. '.'
-      if choice == 2 then
-        msg = msg .. '\nRemoving from clipboard.'
-        copy_state[path] = nil
-      end
-      vim.notify(msg, vim.log.levels.INFO, { title = 'Directory Browser' })
-      return
+-- Resolves the destination path, asking the user what to do when it already exists.
+-- Calls `callback` with the final path, or nil when the operation should be cancelled.
+local function resolve_new_path(path, dir, state, operation, callback)
+  local function cancel(remove_from_clipboard)
+    local msg = ('Cancelling %s operation for %s.'):format(operation, path)
+    if remove_from_clipboard then
+      msg = msg .. '\nRemoving from clipboard.'
+      state[path] = nil
     end
+    vim.notify(msg, vim.log.levels.INFO, { title = 'Directory Browser' })
+    callback(nil)
   end
 
+  local function check(new_path)
+    local stat = vim.uv.fs_stat(new_path)
+    if not stat then
+      return callback(new_path)
+    end
+
+    local choice = vim.fn.confirm(
+      ('%s already exists: %s. Overwrite?'):format(stat.type, new_path),
+      '&Overwrite\n&Rename\n&No\n&Cancel',
+      4
+    )
+
+    if choice == 1 then
+      return callback(new_path)
+    end
+
+    if choice == 2 then
+      return vim.ui.input({ prompt = 'New name: ', default = vim.fn.fnamemodify(new_path, ':t') }, function(name)
+        if name and name ~= '' then
+          check(vim.fs.joinpath(dir, name))
+        else
+          cancel(false)
+        end
+      end)
+    end
+
+    cancel(choice == 3)
+  end
+
+  check(vim.fs.joinpath(dir, vim.fn.fnamemodify(path, ':t')))
+end
+
+local function copy_to(path, new_path)
   local has_file = vim.fn.fnamemodify(new_path, ':t') ~= ''
   if has_file then
     local dir = vim.fn.fnamemodify(new_path, ':p:h')
@@ -69,25 +96,16 @@ local function process_copy(path)
   copy_state[path] = nil
 end
 
-local function process_cut(path)
-  local current_dir = vim.api.nvim_buf_get_name(0)
-  local new_path = vim.fs.joinpath(current_dir, vim.fn.fnamemodify(path, ':t'))
-  local stat = vim.uv.fs_stat(new_path)
-
-  if stat then
-    local choice =
-      vim.fn.confirm(('%s already exists: %s. Overwrite?'):format(stat.type, new_path), '&Yes\n&No\n&Cancel', 3)
-    if choice ~= 1 then
-      local msg = 'Cancelling cut operation for ' .. path .. '.'
-      if choice == 2 then
-        msg = msg .. '\nRemoving from clipboard.'
-        cut_state[path] = nil
-      end
-      vim.notify(msg, vim.log.levels.INFO, { title = 'Directory Browser' })
-      return
+local function process_copy(path, dir, done)
+  resolve_new_path(path, dir, copy_state, 'copy', function(new_path)
+    if new_path then
+      copy_to(path, new_path)
     end
-  end
+    done()
+  end)
+end
 
+local function cut_to(path, new_path)
   local has_file = vim.fn.fnamemodify(new_path, ':t') ~= ''
   if has_file then
     local dir = vim.fn.fnamemodify(new_path, ':p:h')
@@ -113,16 +131,38 @@ local function process_cut(path)
   cut_state[path] = nil
 end
 
+local function process_cut(path, dir, done)
+  resolve_new_path(path, dir, cut_state, 'cut', function(new_path)
+    if new_path then
+      cut_to(path, new_path)
+    end
+    done()
+  end)
+end
+
 local function paste_action()
+  local dir = vim.api.nvim_buf_get_name(0)
+  local queue = {}
   for path, _ in pairs(copy_state) do
-    process_copy(path)
+    table.insert(queue, function(done)
+      process_copy(path, dir, done)
+    end)
   end
-
   for path, _ in pairs(cut_state) do
-    process_cut(path)
+    table.insert(queue, function(done)
+      process_cut(path, dir, done)
+    end)
   end
 
-  dir_utils.reload()
+  -- Items run one at a time since each one may wait on a prompt.
+  local function next_item()
+    local item = table.remove(queue, 1)
+    if not item then
+      return dir_utils.reload()
+    end
+    item(next_item)
+  end
+  next_item()
 end
 
 return {
