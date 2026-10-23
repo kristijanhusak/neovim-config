@@ -189,6 +189,16 @@ function M.queue_for_install(opts)
   return opts
 end
 
+--- `:packadd` after startup adds `after/` to the runtimepath, but never sources `after/plugin`.
+--- During startup Neovim does that itself for everything already on the runtimepath.
+---@param plugin PackOpts
+local function source_after_plugin(plugin)
+  if vim.v.vim_did_enter == 0 then
+    return
+  end
+  vim.cmd.runtime({ ('pack/*/opt/%s/after/plugin/**/*.{vim,lua}'):format(plugin.name), bang = true })
+end
+
 ---@param opts PackOpts
 function M.load_plugin(opts)
   local plugin = plugins[opts.name]
@@ -217,6 +227,7 @@ function M.load_plugin(opts)
   end
 
   vim.cmd.packadd(plugin.name)
+  source_after_plugin(plugin)
 
   if plugin.name == 'lazydev.nvim' then
     lazydev_loaded = true
