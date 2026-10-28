@@ -135,7 +135,39 @@ xnoremap <tab> >gv
 nnoremap n nzz
 nnoremap N Nzz
 
-nnoremap <C-p> :find<space>
+" Fuzzy file finder in the quickfix list. Type to filter ("file:12" jumps to line),
+" <C-n>/<C-p> or arrows to move, <CR> to open, <Esc> to cancel.
+function! s:find() abort
+  let files = executable('rg') ? systemlist('rg --files --hidden -g "!.git"') : filter(glob('**/*', 0, 1), '!isdirectory(v:val)')
+  let [q, sel, mode] = ['', 1, ' ']
+  while 1
+    let [pat, lnum] = matchlist(q, '^\(.\{-}\)\%(:\(\d\+\)\)\?$')[1:2]
+    let found = (empty(pat) ? files : matchfuzzy(files, pat))[:199]
+    " Text-only items: items with a filename would create a buffer for each result
+    call setqflist([], mode, {'title': 'Find ' . len(found), 'items': map(copy(found), {_, f -> {'text': f}}),
+          \ 'quickfixtextfunc': {d -> map(getqflist({'id': d.id, 'items': 1}).items[d.start_idx - 1 : d.end_idx - 1], 'v:val.text')}})
+    if mode ==# ' ' | botright copen 15 | endif
+    let mode = 'r'
+    let sel = max([1, min([sel, len(found)])])
+    call cursor(sel, 1)
+    redraw | echo '> ' . q
+    try | let c = getcharstr() | catch | let c = "\<Esc>" | endtry
+    if c ==# "\<CR>" || c ==# "\<Esc>" || c ==# "\<C-c>"
+      cclose | redraw | echo ''
+      if c ==# "\<CR>" && !empty(found)
+        execute 'edit' fnameescape(found[sel - 1])
+        if !empty(lnum) | execute lnum | endif
+      endif
+      return
+    elseif c ==# "\<C-n>" || c ==# "\<Down>" | let sel += 1
+    elseif c ==# "\<C-p>" || c ==# "\<Up>" | let sel -= 1
+    elseif c ==# "\<BS>" | let q = q[:-2] | let sel = 1
+    elseif c ==# "\<C-u>" | let q = '' | let sel = 1
+    elseif c[0] !=# "\x80" && c >=# ' ' | let q .= c | let sel = 1
+    endif
+  endwhile
+endfunction
+nnoremap <silent> <C-p> :call <SID>find()<CR>
 nnoremap <leader>m :find<space>
 nnoremap <leader>f :vimgrep  **/*<left><left><left><left><left>
 nnoremap <silent> ]q :cnext<CR>
