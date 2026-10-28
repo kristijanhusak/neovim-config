@@ -94,9 +94,7 @@ local SnacksPicker = {
   end,
 }
 
--- Swap in QFPicker to use the quickfix list as the picker.
-local QFPicker = require('partials.qf_picker')
-local Picker = QFPicker
+local Picker = SnacksPicker
 
 vim.keymap.set('n', '<C-p>', function()
   return Picker.files()
