@@ -188,6 +188,13 @@ vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'WinLeave'
   command = [[if &nu | set nornu | endif]],
   group = vimrc_group,
 })
+vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+  pattern = '*',
+  callback = function(event)
+    vim.api.nvim__redraw({ buf = event.buf, statusline = true })
+  end,
+  group = vimrc_group,
+})
 
 vim.api.nvim_create_user_command('TermHl', function()
   vim.api.nvim_open_term(0, {})
