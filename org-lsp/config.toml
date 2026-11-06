@@ -41,6 +41,7 @@ blocks = [
     header = "Agenda",
     settings = {
       org_agenda_span = "day",
+      agenda_hide_empty_blocks = false,
       org_scheduled_past_days = 7,
       org_deadline_past_days = 7,
     },
